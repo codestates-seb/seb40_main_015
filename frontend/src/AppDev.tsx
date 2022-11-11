@@ -1,12 +1,12 @@
 import GlobalStyle from './styles/globalStyles';
 
-function App() {
+const AppDev = () => {
 	return (
 		<>
 			<GlobalStyle />
 			<div>시작</div>
 		</>
 	);
-}
+};
 
-export default App;
+export default AppDev;
