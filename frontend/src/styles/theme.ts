@@ -22,7 +22,10 @@ const colors = {
 	grey: '#EAEAEA',
 	main: '#26795D',
 	background: '#FBFBFB',
-	border: '#EAEAEA',
+	logoGreen: '#016241',
+	buttonGreen: '#26795D',
+	buttonGrey: '#D9D9D9',
+	headerBorder: '#A7A7A7'
 };
 
 const radius = {
