@@ -1,4 +1,4 @@
-package java.com.dongnebook.domain.helloSample.ui;
-
-public class HelloControllerTest {
-}
+// package java.com.dongnebook.domain.helloSample.ui;
+//
+// public class HelloControllerTest {
+// }
