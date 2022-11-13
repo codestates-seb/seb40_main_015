@@ -55,12 +55,11 @@ public class Book {
 
 	@Enumerated(EnumType.STRING)
 	@Column(name = "bookState")
-	@Builder.Default
-	private BookState bookState = BookState.RENTABLE;
+	private BookState bookState;
 
 	@Builder
 	public Book(String title, String author, String publisher, String imgUrl, String description, Money rentalFee,
-		Location location) {
+		Location location,BookState bookState) {
 		this.title = title;
 		this.author = author;
 		this.publisher = publisher;
@@ -68,6 +67,7 @@ public class Book {
 		this.description = description;
 		this.rentalFee = rentalFee;
 		this.location = location;
+		this.bookState=bookState;
 	}
 
 	public static Book create(BookRegisterRequest bookRegisterRequest, Location location, Member memberId) {
@@ -79,6 +79,7 @@ public class Book {
 			.description(bookRegisterRequest.getDescription())
 			.rentalFee(Money.of(bookRegisterRequest.getRentalFee()))
 			.location(location)
+			.bookState(BookState.RENTABLE)
 			//.member(memberId)
 			.build();
 	}
