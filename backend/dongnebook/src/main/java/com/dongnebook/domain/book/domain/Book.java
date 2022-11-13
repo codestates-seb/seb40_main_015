@@ -11,6 +11,8 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Lob;
 
+import com.dongnebook.domain.book.dto.Request.BookRegisterRequest;
+import com.dongnebook.domain.member.domain.Member;
 import com.dongnebook.domain.model.Location;
 
 import lombok.AccessLevel;
@@ -53,7 +55,8 @@ public class Book {
 
 	@Enumerated(EnumType.STRING)
 	@Column(name = "bookState")
-	private BookState bookState;
+	@Builder.Default
+	private BookState bookState = BookState.RENTABLE;
 
 	@Builder
 	public Book(String title, String author, String publisher, String imgUrl, String description, Money rentalFee,
@@ -61,10 +64,24 @@ public class Book {
 		this.title = title;
 		this.author = author;
 		this.publisher = publisher;
-		ImgUrl = imgUrl;
+		this.ImgUrl = imgUrl;
 		this.description = description;
 		this.rentalFee = rentalFee;
 		this.location = location;
 	}
 
+	public static Book create(BookRegisterRequest bookRegisterRequest, Location location, Member memberId) {
+		return Book.builder()
+			.title(bookRegisterRequest.getTitle())
+			.author(bookRegisterRequest.getAuthor())
+			.imgUrl(bookRegisterRequest.getImageUrl())
+			.publisher(bookRegisterRequest.getPublisher())
+			.description(bookRegisterRequest.getDescription())
+			.rentalFee(Money.of(bookRegisterRequest.getRentalFee()))
+			.location(location)
+			//.member(memberId)
+			.build();
+	}
 }
+
+
