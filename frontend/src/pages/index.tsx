@@ -1,6 +1,7 @@
 import { lazy } from 'react';
 
-// export const LoginOnly = lazy(() => import('./LoginOnly'));
+export const MainPage = lazy(() => import('./MainPage'));
+export const LoginOnly = lazy(() => import('../components/LoginOnly'));
 export const BookingListPage = lazy(() => import('./BookingListPage'));
 export const BooksBookingPage = lazy(() => import('./BooksBookingPage'));
 export const BooksCreatePage = lazy(() => import('./BooksCreatePage'));

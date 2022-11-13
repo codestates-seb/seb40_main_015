@@ -7,7 +7,7 @@ function MerchantPage() {
 			<h1>MerchantPage</h1>
 			<ul>
 				<li>
-					<Link to={'books-list'}>
+					<Link to={''}>
 						<span>BooksListPage</span>
 					</Link>
 				</li>

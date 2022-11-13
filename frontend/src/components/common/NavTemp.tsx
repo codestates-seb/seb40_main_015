@@ -85,7 +85,8 @@ export default NavTemp;
 
 const Container = styled.div`
 	position: fixed;
-	width: 100%;
+	/* width: 100vw; */
+	min-width: 425px;
 	display: flex;
 	justify-content: space-around;
 	align-items: center;

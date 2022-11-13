@@ -13,6 +13,10 @@ interface MenuProps {
 	selected: boolean;
 }
 
+interface BoxProps {
+	selected?: boolean;
+}
+
 const NavBar = () => {
 	const [menus, setMenus] = useState<MenuProps[]>([
 		{
@@ -74,8 +78,6 @@ const NavBar = () => {
 	);
 };
 
-export default NavBar;
-
 const Container = styled.div`
 	position: fixed;
 	width: 100%;
@@ -88,10 +90,8 @@ const Container = styled.div`
 	border-top: 1px solid #a7a7a7;
 `;
 
-interface BoxProps {
-	selected?: boolean;
-}
-
 const Box = styled.div<BoxProps>`
 	color: ${props => (props.selected ? '#26795D' : '#000000')};
 `;
+
+export default NavBar;

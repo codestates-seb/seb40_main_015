@@ -7,7 +7,7 @@ function HistoryPage() {
 			<h1>HistoryPage</h1>
 			<ul>
 				<li>
-					<Link to={'rent'}>
+					<Link to={''}>
 						<span>RentHistoryPage</span>
 					</Link>
 				</li>

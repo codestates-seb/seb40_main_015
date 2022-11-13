@@ -6,7 +6,7 @@ function ProfilePage() {
 			<h1>ProfilePage</h1>
 			<ul>
 				<li>
-					<Link to={'wish-list'}>
+					<Link to={''}>
 						<span>WishListPage</span>
 					</Link>
 				</li>

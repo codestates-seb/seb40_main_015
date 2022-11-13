@@ -1,5 +1,7 @@
 import { Outlet } from 'react-router-dom';
 
+// Login checking
+
 function LoginOnly() {
 	return (
 		<div>
