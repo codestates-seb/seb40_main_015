@@ -39,7 +39,7 @@ public class Book {
 	@Column(name = "Img_Url")
 	private String ImgUrl;
 
-	@Column(name = "description")
+	@Column(name = "description", columnDefinition = "TEXT")
 	private String description;
 
 	@Embedded
