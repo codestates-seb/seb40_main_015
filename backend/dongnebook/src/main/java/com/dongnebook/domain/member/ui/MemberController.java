@@ -1,4 +1,4 @@
 package com.dongnebook.domain.member.ui;
 
-public class member {
+public class MemberController {
 }
