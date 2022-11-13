@@ -8,9 +8,9 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+import com.dongnebook.domain.member.dto.Request.MemberRegisterRequest;
 import com.dongnebook.domain.model.Location;
 
-import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -18,7 +18,7 @@ import lombok.NoArgsConstructor;
 @Entity
 @Getter
 @Table(name = "member")
-@NoArgsConstructor(access = AccessLevel.PROTECTED)
+@NoArgsConstructor
 public class Member {
 
 	@Id
@@ -57,5 +57,13 @@ public class Member {
 		this.location = location;
 		this.AvgGrade = avgGrade;
 		this.totalBookCount = totalBookCount;
+	}
+
+	public static Member create(MemberRegisterRequest memberRegisterRequest) {
+		return Member.builder()
+			.id(memberRegisterRequest.getId())
+			.name(memberRegisterRequest.getName())
+			.password(memberRegisterRequest.getPassword())
+			.build();
 	}
 }
