@@ -6,6 +6,7 @@ import org.springframework.stereotype.Service;
 
 import com.dongnebook.domain.book.domain.Book;
 import com.dongnebook.domain.book.dto.Request.BookRegisterRequest;
+import com.dongnebook.domain.book.exception.BookNotFoundException;
 import com.dongnebook.domain.book.repository.BookRepository;
 import com.dongnebook.domain.member.domain.Member;
 import com.dongnebook.domain.member.exception.LocationNotCreatedYetException;
@@ -29,17 +30,28 @@ public class BookService {
 		Location location = ifDtoHasNoLocationGetMemberLocation(bookRegisterRequest, member);
 		Book book = Book.create(bookRegisterRequest, location, member);
 		return bookRepository.save(book).getId();
+	}
 
+	public Long delete(Long bookId, Long memberId) {
+
+		//자기가 쓴 글인지 확인하는 로직
+
+		Book book = getByBookId(bookId);
+		book.delete();
+
+		return bookId;
 	}
 
 	private Location ifDtoHasNoLocationGetMemberLocation(BookRegisterRequest bookRegisterRequest, Member member) {
-		Location location = Optional.ofNullable(bookRegisterRequest.getLocation())
+		return Optional.ofNullable(bookRegisterRequest.getLocation())
 			.orElse(Optional.ofNullable(member.getLocation()).orElseThrow(LocationNotCreatedYetException::new));
-		return location;
 	}
 
 	private Member getMember() {
-		Member member = new Member();
-		return member;
+		return new Member();
+	}
+
+	private Book getByBookId(Long bookId) {
+		return bookRepository.findById(bookId).orElseThrow(BookNotFoundException::new);
 	}
 }

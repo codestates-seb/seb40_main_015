@@ -5,6 +5,8 @@ import java.net.URI;
 import javax.validation.Valid;
 
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -26,8 +28,13 @@ public class BookController {
 	public ResponseEntity<Long> create(@Valid BookRegisterRequest bookRegisterRequest){
 
 		Long bookId = bookService.create(bookRegisterRequest, 1L);
-
 		URI createdUri = ServletUriComponentsBuilder.fromCurrentRequestUri().path("/{id}").buildAndExpand(bookId).toUri();
+
 		return ResponseEntity.created(createdUri).build();
+	}
+
+	@DeleteMapping("/{id}")
+	public ResponseEntity<Long> delete(@PathVariable Long id) {
+		return ResponseEntity.ok(bookService.delete(id, 1L));
 	}
 }
