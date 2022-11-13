@@ -1,6 +1,6 @@
 import { createGlobalStyle } from 'styled-components';
-import gangwon from '../fonts/gangwon.woff';
-import kotra from '../fonts/kotra.ttf';
+import gangwon from '../assets/fonts/gangwon.woff';
+import kotra from '../assets/fonts/kotra.ttf';
 
 const GlobalStyle = createGlobalStyle`
   @font-face {
