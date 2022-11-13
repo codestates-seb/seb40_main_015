@@ -1,4 +1,5 @@
 import React from 'react';
+import { Outlet } from 'react-router-dom';
 import styled from 'styled-components';
 import NavBar from '../components/common/NavBar';
 import LenderInfoPage from './LenderInfoPage';
@@ -8,8 +9,8 @@ const Layout = () => {
 		<div>
 			<Main>
 				<LenderInfoPage />
+				<NavBar />
 			</Main>
-			<NavBar />
 		</div>
 	);
 };

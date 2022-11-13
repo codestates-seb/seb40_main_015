@@ -1,14 +1,15 @@
 import styled from 'styled-components';
-import NavBar from './components/common/NavBar';
-import Layout from './pages/Layout';
-import LenderInfoPage from './pages/LenderInfoPage';
 import GlobalStyle from './styles/globalStyles';
+import Router from './router/Router';
+import Layout from './pages/Layout';
+// import Layout from './pages/Layout';
 
 const AppDev = () => {
 	return (
 		<Container>
 			<GlobalStyle />
-			<Layout />
+			<Router />
+			{/* <Layout /> */}
 		</Container>
 	);
 };
