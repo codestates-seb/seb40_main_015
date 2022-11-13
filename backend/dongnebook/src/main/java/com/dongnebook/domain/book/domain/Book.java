@@ -9,6 +9,7 @@ import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.Lob;
 
 import com.dongnebook.domain.model.Location;
 
@@ -39,7 +40,8 @@ public class Book {
 	@Column(name = "Img_Url")
 	private String ImgUrl;
 
-	@Column(name = "description", columnDefinition = "TEXT")
+	@Lob
+	@Column(name = "description")
 	private String description;
 
 	@Embedded
