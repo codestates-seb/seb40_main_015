@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import logo from '../../assets/image/동네북 로고 1.png';
+import logo from '../../assets/image/logo1.png';
 
 const Title = ({ text, isLogo }: { text: string; isLogo?: boolean }) => {
 	return (
@@ -21,7 +21,6 @@ export default Title;
 const Logo = styled.img`
 	width: 50px;
 	height: 50px;
-
 	margin-right: 10px;
 `;
 
