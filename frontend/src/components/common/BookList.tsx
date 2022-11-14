@@ -15,11 +15,9 @@ const BookList = () => {
 									<img src={dummyImage} alt="" width={50} height={70} />
 									<InfoWrapped>
 										<p>모던 자바스크립트</p>
-										{/* <p>상인 이름</p>
-										<p>저자 / 출판사</p> */}
+										<Button fontSize="small">대여 가능</Button>
 									</InfoWrapped>
 								</FlexBox>
-								<Button fontSize="small">대여 가능</Button>
 							</Container>
 						);
 				  })
@@ -42,14 +40,15 @@ const Container = styled.div`
 
 const FlexBox = styled.div`
 	display: flex;
+	width: 100%;
 `;
 
 const InfoWrapped = styled.div`
 	display: flex;
+	width: 100%;
 	margin-left: 0.3rem;
-	flex-direction: column;
-	justify-content: center;
-	justify-items: stretch;
+	justify-content: space-between;
+	align-items: center;
 	p {
 		font-size: 1.2rem;
 		margin-left: 1rem;
