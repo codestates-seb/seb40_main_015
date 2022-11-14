@@ -4,7 +4,7 @@ import { AiOutlineSearch } from 'react-icons/ai';
 import { TbBook } from 'react-icons/tb';
 import { BsChatDots } from 'react-icons/bs';
 import { FiUser } from 'react-icons/fi';
-import home from '../../assets/image/home.png';
+import home from '../../assets/image/logo4.png';
 
 interface MenuProps {
 	id: number;
