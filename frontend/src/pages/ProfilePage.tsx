@@ -6,9 +6,17 @@ import TabLists from '../components/common/TabLists';
 import Title from '../components/common/Title';
 import { HiOutlinePencilAlt } from 'react-icons/hi';
 import ProfileEditPage from './ProfileEditPage';
+import useTabs from '../hooks/useTabs';
+import { useNavigate } from 'react-router-dom';
 
 function ProfilePage() {
-	const [tab, setTab] = useState(['찜 목록', '예약 목록']);
+	const [tab, curTab, handleChange] = useTabs(['찜 목록', '예약 목록']);
+
+	const navigate = useNavigate();
+	const handleEditPage = () => {
+		navigate('/profile/edit');
+	};
+
 	return (
 		<Layout>
 			<Title text="마이페이지" />
@@ -18,10 +26,10 @@ function ProfilePage() {
 					<p>닉네임: 안지수</p>
 					<p>주거래 동네: 강남</p>
 					<p>빌려준 도서 수: 11</p>
-					<HiOutlinePencilAlt className="edit" onClick={ProfileEditPage} />
+					<HiOutlinePencilAlt className="edit" onClick={handleEditPage} />
 				</UserInfoBox>
 			</ProfileBox>
-			<TabLists tabs={tab} />
+			<TabLists tabs={tab} handleChange={handleChange} />
 			<MyList />
 		</Layout>
 	);
