@@ -7,10 +7,10 @@ const Title = ({ text, isLogo }: { text: string; isLogo?: boolean }) => {
 			{isLogo ? (
 				<>
 					<Logo src={logo} />
-					{text}
+					<span>{text}</span>
 				</>
 			) : (
-				text
+				<span>{text}</span>
 			)}
 		</Text>
 	);
@@ -25,10 +25,10 @@ const Logo = styled.img`
 	margin-right: 10px;
 `;
 
-const Text = styled.p`
+const Text = styled.div`
 	width: 100%;
 	font-size: 2.5rem;
-	text-align: center;
+	/* text-align: center; */
 	padding: 1rem 0;
 	margin-bottom: 1rem;
 	border-bottom: 1px solid #a7a7a7;

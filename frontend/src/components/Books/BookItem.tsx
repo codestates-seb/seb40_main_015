@@ -26,6 +26,7 @@ const BookContainer = styled.div`
 	justify-content: space-between;
 
 	padding: 14px;
+	margin: 10px 0;
 
 	border: 1px solid rgba(1, 1, 1, 0.1);
 `;
