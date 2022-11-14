@@ -33,6 +33,8 @@ const LayoutTemp = () => {
 };
 const Main = styled.div`
 	display: flex;
+	height: 100%;
+	width: 100%;
 	justify-content: center;
 	width: 100%;
 	height: 100%;

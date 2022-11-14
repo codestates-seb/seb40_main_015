@@ -41,7 +41,6 @@ const TitleWrapper = styled.div``;
 const BtnWrapper = styled.div`
 	display: flex;
 	flex-direction: column;
-	width: 70vh;
 	padding: 10px 20px;
 `;
 
