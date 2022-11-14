@@ -7,7 +7,7 @@ import {
 	HiOutlineUser,
 	HiHome,
 } from 'react-icons/hi';
-import home from '../../assets/image/home.png';
+import home from '../../assets/image/logo4.png';
 import { Link } from 'react-router-dom';
 
 interface MenuProps {
