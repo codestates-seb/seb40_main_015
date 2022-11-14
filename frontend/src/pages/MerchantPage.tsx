@@ -1,12 +1,15 @@
-import { Link } from 'react-router-dom';
-import { Outlet } from 'react-router-dom';
+import { useState } from 'react';
 import styled from 'styled-components';
 import dummyImage from '../assets/image/dummy.png';
+import BookList from '../components/common/BookList';
+import TabLists from '../components/common/TabLists';
+import Title from '../components/common/Title';
 
 function MerchantPage() {
+	const [tab, setTab] = useState(['책 목록', '리뷰보기']);
 	return (
 		<Layout>
-			<Title>상인 정보</Title>
+			<Title text="상인 정보" />
 			<ProfileBox>
 				<img src={dummyImage} alt="dummy" width={80} height={100} />
 				<UserInfoBox>
@@ -16,7 +19,8 @@ function MerchantPage() {
 					<p>평점(평균): 별별별별별</p>
 				</UserInfoBox>
 			</ProfileBox>
-			<h2>책목록</h2>
+			<TabLists tabs={tab} />
+			<BookList />
 		</Layout>
 	);
 }
@@ -31,14 +35,6 @@ const Layout = styled.div`
 		font-size: 2rem;
 		margin-bottom: 1rem;
 	}
-`;
-
-const Title = styled.p`
-	width: 100%;
-	font-size: 2.5rem;
-	text-align: center;
-	padding-bottom: 1rem;
-	border-bottom: 1px solid #a7a7a7;
 `;
 
 const ProfileBox = styled.div`
