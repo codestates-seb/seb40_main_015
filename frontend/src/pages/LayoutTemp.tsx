@@ -38,7 +38,7 @@ const Main = styled.div`
 
 const Body = styled.div`
 	width: 100%;
-	padding-bottom: 40px;
+	padding-bottom: 50px;
 `;
 
 const Nav = styled.ul`
