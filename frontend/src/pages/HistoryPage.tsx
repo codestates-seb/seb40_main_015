@@ -1,22 +1,14 @@
-import { Link } from 'react-router-dom';
-import { Outlet } from 'react-router-dom';
-import React from 'react';
+import { useState } from 'react';
 import styled from 'styled-components';
+import TabLists from '../components/common/TabLists';
+import Title from '../components/common/Title';
 
 const HistoryPage = () => {
+	const [tab, setTab] = useState(['빌린 책', '빌려준 책']);
 	return (
 		<Layout>
-			<Title>대여 목록</Title>
-			<div
-				style={{
-					display: 'flex',
-					width: '100%',
-					justifyContent: 'space-evenly',
-					marginTop: '1rem',
-				}}>
-				<Tab>빌린 책</Tab>
-				<Tab>빌려준 책</Tab>
-			</div>
+			<Title text="대여 목록" />
+			<TabLists tabs={tab} />
 		</Layout>
 	);
 };
@@ -32,21 +24,13 @@ const Layout = styled.div`
 	}
 `;
 
-const Title = styled.p`
-	width: 100%;
-	font-size: 2.5rem;
-	text-align: center;
-	padding-bottom: 1rem;
-	border-bottom: 1px solid #a7a7a7;
-`;
-
 const Tab = styled.button`
 	padding: 0.8rem 3rem;
 	background-color: ${props => props.theme.colors.main};
 	border: none;
 	border-radius: 5px;
 	box-shadow: nonoe;
-	/* color: white; */
+	color: white;
 	cursor: pointer;
 	/* display: flex;
 	flex-direction: row;
