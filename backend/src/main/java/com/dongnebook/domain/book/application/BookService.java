@@ -3,6 +3,7 @@ package com.dongnebook.domain.book.application;
 import java.util.Optional;
 
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.dongnebook.domain.book.domain.Book;
 import com.dongnebook.domain.book.dto.request.BookRegisterRequest;
@@ -23,12 +24,14 @@ import lombok.extern.slf4j.Slf4j;
 @Getter
 @Service
 @RequiredArgsConstructor
+@Transactional(readOnly = true)
 public class BookService {
 
 	private final BookCommandRepository bookCommandRepository;
 	private final BookQueryRepository bookQueryRepository;
 	private final MemberRepository memberRepository;
 
+	@Transactional
 	public Long create(BookRegisterRequest bookRegisterRequest, Long memberId){
 
 		Member member = getMember();
@@ -37,6 +40,7 @@ public class BookService {
 		return bookCommandRepository.save(book).getId();
 	}
 
+	@Transactional
 	public Long delete(Long bookId, Long memberId) {
 
 		//자기가 쓴 글인지 확인하는 로직
@@ -47,6 +51,10 @@ public class BookService {
 		book.delete();
 
 		return bookId;
+	}
+
+	public BookDetailResponse getDetail(Long id) {
+		return bookQueryRepository.getDetail(id);
 	}
 
 	private Location ifDtoHasNoLocationGetMemberLocation(BookRegisterRequest bookRegisterRequest, Member member) {
@@ -62,8 +70,5 @@ public class BookService {
 		return bookCommandRepository.findById(bookId).orElseThrow(BookNotFoundException::new);
 	}
 
-	public BookDetailResponse getDetail(Long id) {
-		return bookQueryRepository.getDetail(id);
 
-	}
 }
