@@ -2,8 +2,8 @@ import styled from 'styled-components';
 
 type InputProps = {
 	label: string;
-	state: string;
-	setState: Function;
+	state?: string;
+	setState?: Function;
 	type?: string;
 };
 
@@ -11,7 +11,7 @@ const Input = (props: InputProps) => {
 	const { label, state, setState, type } = props;
 
 	const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-		setState(e.target.value);
+		setState?.(e.target.value);
 	};
 
 	return (
