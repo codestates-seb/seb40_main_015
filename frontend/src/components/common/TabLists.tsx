@@ -1,14 +1,32 @@
 import styled from 'styled-components';
 
 interface TabListsProps {
-	tabs: string[];
+	id: number;
+	name: string;
+	selected: boolean;
 }
 
-const TabLists = ({ tabs }: TabListsProps) => {
+const TabLists = ({
+	tabs,
+	handleChange,
+}: {
+	tabs: TabListsProps[];
+	handleChange: (id: number) => void;
+}) => {
 	return (
 		<Container>
 			{tabs.map(tab => {
-				return <Tab key={tab}>{tab}</Tab>;
+				const { id, name, selected } = tab;
+				return (
+					<Tab
+						key={id}
+						selected={selected}
+						onClick={() => {
+							handleChange(id);
+						}}>
+						{name}
+					</Tab>
+				);
 			})}
 		</Container>
 	);
@@ -23,13 +41,20 @@ const Container = styled.div`
 	margin: 1rem 0;
 `;
 
-const Tab = styled.button`
+interface TabProps {
+	selected: boolean;
+}
+
+const Tab = styled.button<TabProps>`
 	padding: 0.8rem 3rem;
-	background-color: ${props => props.theme.colors.buttonGreen};
+	background-color: ${props =>
+		props.selected
+			? props.theme.colors.buttonGreen
+			: props.theme.colors.buttonGrey};
 	border: none;
 	border-radius: 5px;
 	box-shadow: nonoe;
-	color: white;
+	color: ${props => (props.selected ? '#FFFFFF' : '#000000')};
 	cursor: pointer;
 	font-size: 0.8rem;
 `;
