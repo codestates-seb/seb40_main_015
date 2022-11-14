@@ -7,6 +7,7 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.LastModifiedDate;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
@@ -29,11 +30,15 @@ public class Rental {
     @Column(name = "rental_deadLine", nullable = false)
     private LocalDateTime rentalDeadLine;
 
+    @LastModifiedDate
     @Column(name = "rental_returned_at")
     private LocalDateTime rentalReturnedAt;
 
     @Column(name = "canceled_at")
     private LocalDateTime canceledAt;
+
+    @Column(name = "modified_at")
+    private LocalDateTime modifiedAt;
 
     @Column(name = "is_returned", nullable = false)
     private boolean isReturned;
