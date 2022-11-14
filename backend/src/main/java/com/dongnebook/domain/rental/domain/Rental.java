@@ -37,7 +37,7 @@ public class Rental {
     @Column(name = "canceled_at")
     private LocalDateTime canceledAt;
 
-    @Column(name = "modified_at")
+    @Column(name = "last_modified_at")
     private LocalDateTime modifiedAt;
 
     @Column(name = "is_returned", nullable = false)
