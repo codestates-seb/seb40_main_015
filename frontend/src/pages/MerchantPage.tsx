@@ -1,26 +1,60 @@
 import { Link } from 'react-router-dom';
 import { Outlet } from 'react-router-dom';
+import styled from 'styled-components';
+import dummyImage from '../assets/image/dummy.png';
 
 function MerchantPage() {
 	return (
-		<>
-			<h1>MerchantPage</h1>
-			<ul>
-				<li>
-					<Link to={''}>
-						<span>BooksListPage</span>
-					</Link>
-				</li>
-				<li>
-					<Link to={'review-list'}>
-						<span>ReviewListPage</span>
-					</Link>
-				</li>
-			</ul>
-			<span>현재 탭: </span>
+		<Layout>
+			<Title>상인 정보</Title>
+			<ProfileBox>
+				<img src={dummyImage} alt="dummy" width={80} height={100} />
+				<UserInfoBox>
+					<p>닉네임: 홍길동</p>
+					<p>주거래 동네: 강남</p>
+					<p>빌려주는 도서 수: 3</p>
+					<p>평점(평균): 별별별별별</p>
+				</UserInfoBox>
+			</ProfileBox>
+			<h2>책목록</h2>
 			<Outlet />
-		</>
+		</Layout>
 	);
 }
+
+const Layout = styled.div`
+	display: flex;
+	align-items: center;
+	flex-direction: column;
+	padding: 1rem;
+	min-width: 90%;
+	h2 {
+		font-size: 2rem;
+		margin-bottom: 1rem;
+	}
+`;
+
+const Title = styled.p`
+	width: 100%;
+	font-size: 2.5rem;
+	text-align: center;
+	padding-bottom: 1rem;
+	border-bottom: 1px solid #a7a7a7;
+`;
+
+const ProfileBox = styled.div`
+	width: 80%;
+	display: flex;
+	padding: 1.2rem;
+	border: 1px solid #eaeaea;
+	margin: 1rem 0;
+`;
+
+const UserInfoBox = styled.div`
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+	margin-left: 2rem;
+`;
 
 export default MerchantPage;
