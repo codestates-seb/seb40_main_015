@@ -36,8 +36,14 @@ const StyledLabel = styled.label`
 `;
 
 const StyledInput = styled.input`
-	padding: 5px 15px;
+	padding: 10px 15px;
 	font-size: ${props => props.theme.fontSizes.paragraph};
+	border-radius: 5px;
+	border: ${props => props.theme.colors.grey + ' 1px solid'};
+	:focus {
+		outline: none;
+		border-color: ${props => props.theme.colors.buttonGreen};
+	}
 `;
 
 export default Input;
