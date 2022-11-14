@@ -36,7 +36,9 @@ public class BookService {
 
 		//자기가 쓴 글인지 확인하는 로직
 
+
 		Book book = getByBookId(bookId);
+
 		book.delete();
 
 		return bookId;

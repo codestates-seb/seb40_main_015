@@ -16,7 +16,7 @@ public enum ErrorCode {
 	LOCATION_NOT_CREATED_YET(404,"아직 주거래 동네를 설정하지 않았습니다."),
 
 	/* Book */
-	BOOK_NOT_FOUND(404, "해당 책을 찾지1 못했습니다."),
+	BOOK_NOT_FOUND(404, "해당 책을 찾지 못했습니다."),
 	NOT_RENTABLE(404,"대여 가능 상태가 아닙니다");
 
 	private final String message;

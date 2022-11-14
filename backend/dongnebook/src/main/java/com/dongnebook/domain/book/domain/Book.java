@@ -42,7 +42,7 @@ public class Book {
 	@Column(name = "publisher", nullable = false)
 	private String publisher;
 
-	@Column(name = "Img_Url")
+	@Column(name = "img_url")
 	private String ImgUrl;
 
 	@Lob
@@ -57,7 +57,7 @@ public class Book {
 	private Location location;
 
 	@Enumerated(EnumType.STRING)
-	@Column(name = "bookState")
+	@Column(name = "book_state")
 	private BookState bookState;
 
 	@Builder
