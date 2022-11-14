@@ -20,6 +20,7 @@ const Container = styled.div`
 	width: 100%;
 	display: flex;
 	justify-content: space-evenly;
+	margin: 1rem 0;
 `;
 
 const Tab = styled.button`
@@ -30,6 +31,5 @@ const Tab = styled.button`
 	box-shadow: nonoe;
 	color: white;
 	cursor: pointer;
-	margin: 1rem 0;
 	font-size: 0.8rem;
 `;
