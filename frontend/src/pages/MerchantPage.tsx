@@ -31,10 +31,6 @@ const Layout = styled.div`
 	flex-direction: column;
 	padding: 1rem;
 	min-width: 90%;
-	h2 {
-		font-size: 2rem;
-		margin-bottom: 1rem;
-	}
 `;
 
 const ProfileBox = styled.div`
@@ -42,7 +38,6 @@ const ProfileBox = styled.div`
 	display: flex;
 	padding: 1.2rem;
 	border: 1px solid #eaeaea;
-	margin: 1rem 0;
 `;
 
 const UserInfoBox = styled.div`
