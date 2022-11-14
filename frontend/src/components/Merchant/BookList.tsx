@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import styled from 'styled-components';
 import dummyImage from '../../assets/image/dummy.png';
-import Button from './Button';
+import Button from '../common/Button';
 
 const BookList = () => {
 	const [test, setTest] = useState<number[]>([1, 2, 3, 4, 5, 6, 7, 8]);
@@ -18,7 +18,6 @@ const BookList = () => {
 										<Button fontSize="small">대여 가능</Button>
 									</InfoWrapped>
 								</FlexBox>
-								<Button fontSize="small">대여 가능</Button>
 							</Container>
 						);
 				  })

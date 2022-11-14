@@ -1,12 +1,15 @@
-import { useState } from 'react';
 import styled from 'styled-components';
 import dummyImage from '../assets/image/dummy.png';
-import BookList from '../components/common/BookList';
+import BookList from '../components/Merchant/BookList';
 import TabLists from '../components/common/TabLists';
 import Title from '../components/common/Title';
+import useTabs from '../hooks/useTabs';
+import { useState } from 'react';
 
 function MerchantPage() {
-	const [tab, setTab] = useState(['책 목록', '리뷰보기']);
+	// const [tab, setTab] = useState(['책 목록', '리뷰 보기']);
+	const [tab, handleChange] = useTabs(['책 목록', '리뷰 보기']);
+	console.log(tab);
 	return (
 		<Layout>
 			<Title text="상인 정보" />
