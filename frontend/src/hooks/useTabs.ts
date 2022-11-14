@@ -1,18 +1,16 @@
 import { useEffect, useState } from 'react';
 
 interface Props {
-	id?: number;
-	name?: string;
-	selected?: boolean;
+	id: number;
+	name: string;
+	selected: boolean;
 }
 
-const initialValue = [
-	{ id: 0, name: '책 ', selected: true },
-	{ id: 1, name: '리뷰 보기', selected: false },
-];
+type ReturnTypes = [Props[], Props, (id: number) => void];
 
-function useTabs(values: string[]) {
-	const [items, setItems] = useState<Props[]>(initialValue);
+function useTabs(values: string[]): ReturnTypes {
+	const [items, setItems] = useState<any[]>([]);
+	const [curTab, setCurTab] = useState(items[0]);
 
 	useEffect(() => {
 		const newItems = values.map((value, i) => {
@@ -27,6 +25,11 @@ function useTabs(values: string[]) {
 		setItems(newItems);
 	}, []);
 
+	useEffect(() => {
+		const filterTab = items.filter(item => item.selected === true);
+		setCurTab(filterTab[0]);
+	}, [items]);
+
 	const handleTabChange = (id: number) => {
 		const newItems = items?.map(item =>
 			item.id === id
@@ -36,7 +39,7 @@ function useTabs(values: string[]) {
 		setItems(newItems);
 	};
 
-	return [items, handleTabChange];
+	return [items, curTab, handleTabChange];
 }
 
 export default useTabs;
