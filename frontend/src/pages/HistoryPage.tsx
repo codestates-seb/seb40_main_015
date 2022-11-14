@@ -2,6 +2,8 @@ import { Link } from 'react-router-dom';
 import { Outlet } from 'react-router-dom';
 import React from 'react';
 import styled from 'styled-components';
+import RentBookLists from '../components/History/RentBookLists';
+import Button from '../components/common/Button';
 
 const HistoryPage = () => {
 	return (
@@ -9,14 +11,17 @@ const HistoryPage = () => {
 			<Title>대여 목록</Title>
 			<div
 				style={{
-					display: 'flex',
+					display: 'grid',
 					width: '100%',
 					justifyContent: 'space-evenly',
-					marginTop: '1rem',
+					margin: '1rem 0',
+					gap: '10px',
+					gridTemplateColumns: 'auto auto',
 				}}>
-				<Tab>빌린 책</Tab>
-				<Tab>빌려준 책</Tab>
+				<Button fontSize="small">빌린 책</Button>
+				<Button fontSize="small">빌려준 책</Button>
 			</div>
+			<RentBookLists />
 			<Outlet />
 		</Layout>
 	);
