@@ -17,7 +17,6 @@ const HistoryPage = () => {
 				<Tab>빌린 책</Tab>
 				<Tab>빌려준 책</Tab>
 			</div>
-			<Outlet />
 		</Layout>
 	);
 };
@@ -47,7 +46,7 @@ const Tab = styled.button`
 	border: none;
 	border-radius: 5px;
 	box-shadow: nonoe;
-	color: white;
+	/* color: white; */
 	cursor: pointer;
 	/* display: flex;
 	flex-direction: row;
