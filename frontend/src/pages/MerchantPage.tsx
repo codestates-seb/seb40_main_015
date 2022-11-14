@@ -17,7 +17,6 @@ function MerchantPage() {
 				</UserInfoBox>
 			</ProfileBox>
 			<h2>책목록</h2>
-			<Outlet />
 		</Layout>
 	);
 }

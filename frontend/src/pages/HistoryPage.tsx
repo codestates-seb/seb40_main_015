@@ -21,8 +21,11 @@ const HistoryPage = () => {
 				<Button fontSize="small">빌린 책</Button>
 				<Button fontSize="small">빌려준 책</Button>
 			</div>
+<<<<<<< HEAD
 			<RentBookLists />
 			<Outlet />
+=======
+>>>>>>> dev
 		</Layout>
 	);
 };
@@ -52,7 +55,7 @@ const Tab = styled.button`
 	border: none;
 	border-radius: 5px;
 	box-shadow: nonoe;
-	color: white;
+	/* color: white; */
 	cursor: pointer;
 	/* display: flex;
 	flex-direction: row;
