@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 import dummyImage from '../assets/image/dummy.png';
-import BookList from '../components/common/BookList';
+import BookList from '../components/Merchant/BookList';
 
 const LenderInfoPage = () => {
 	return (

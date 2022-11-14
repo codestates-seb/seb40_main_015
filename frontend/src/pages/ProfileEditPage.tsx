@@ -9,9 +9,9 @@ function ProfileEditPage() {
 			<Title text="내 정보 수정하기" />
 			<ProfileBox>
 				<img src={userImage} alt="dummy" width={260} height={300} />
-				<p>닉네임</p>
+				<p className="username">닉네임</p>
 				<input placeholder="닉네임을 작성하세요" />
-				<p>내 동네</p>
+				<p className="place">내 동네 설정</p>
 				<input placeholder="주거래 지역 설정을 하세요" />
 				<Button className="Button" fontSize={'small'}>
 					정보 수정
@@ -30,19 +30,26 @@ const Layout = styled.div`
 	min-width: 90%;
 	text-align: center;
 
-	.Button {
-		display: flex;
-		align-items: center;
-		flex-direction: column;
-		align-items: center;
-		text-align: center;
+	.username {
+		padding-top: 1.25rem;
+	}
+
+	.place {
+		padding-top: 1.25rem;
 	}
 `;
 
 const ProfileBox = styled.div`
+	display: flex;
+	align-items: center;
+	flex-direction: column;
 	width: 80%;
 	padding: 1.2rem;
 	border: 1px solid #eaeaea;
+
+	.Button {
+		margin-top: 1.25rem;
+	}
 `;
 
 export default ProfileEditPage;
