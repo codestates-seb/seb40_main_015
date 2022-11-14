@@ -8,7 +8,7 @@ const HistoryPage = () => {
 	return (
 		<Layout>
 			<Title text="대여 목록" />
-			<TabLists tabs={tab} />
+			{/* <TabLists tabs={tab} /> */}
 		</Layout>
 	);
 };
