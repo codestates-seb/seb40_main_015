@@ -32,16 +32,13 @@ const LayoutTemp = () => {
 	);
 };
 const Main = styled.div`
-	height: 100%;
-	width: 100%;
-
 	display: flex;
 	justify-content: center;
 `;
 
 const Body = styled.div`
 	width: 100%;
-	padding-bottom: 40px;
+	padding-bottom: 50px;
 `;
 
 const Nav = styled.ul`

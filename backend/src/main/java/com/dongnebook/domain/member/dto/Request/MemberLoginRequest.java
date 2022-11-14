@@ -9,14 +9,14 @@ import lombok.Getter;
 public class MemberLoginRequest {
 
 	@NotBlank
-	private String id;
+	private String userId;
 
 	@NotBlank
 	private String password;
 
 	@Builder
-	public MemberLoginRequest(String id, String password) {
-		this.id = id;
+	public MemberLoginRequest(String userId, String password) {
+		this.userId = userId;
 		this.password = password;
 	}
 }
