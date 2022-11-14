@@ -18,6 +18,7 @@ const BookList = () => {
 										<Button fontSize="small">대여 가능</Button>
 									</InfoWrapped>
 								</FlexBox>
+								<Button fontSize="small">대여 가능</Button>
 							</Container>
 						);
 				  })
