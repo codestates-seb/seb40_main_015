@@ -6,6 +6,7 @@ import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.springframework.data.annotation.CreatedDate;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
@@ -21,6 +22,7 @@ public class Rental {
     @Column(name = "id", updatable = false)
     private Long id;
 
+    @CreatedDate
     @Column(name = "rental_started_at", nullable = false)
     private LocalDateTime rentalStartedAt;
 
@@ -51,13 +53,9 @@ public class Rental {
     private Member member;
 
     @Builder
-    public Rental(LocalDateTime rentalStartedAt, LocalDateTime rentalDeadLine, LocalDateTime rentalReturnedAt,
-                  LocalDateTime canceledAt, boolean isReturned, boolean isCanceled, boolean isReviewed,
+    public Rental(boolean isReturned, boolean isCanceled, boolean isReviewed,
                   Book book, Member member) {
-        this.rentalStartedAt = rentalStartedAt;
-        this.rentalDeadLine = rentalDeadLine;
-        this.rentalReturnedAt = rentalReturnedAt;
-        this.canceledAt = canceledAt;
+        this.rentalDeadLine = LocalDateTime.now().plusDays(9).withHour(23).withMinute(59).withSecond(59);
         this.isReturned = isReturned;
         this.isCanceled = isCanceled;
         this.isReviewed = isReviewed;
