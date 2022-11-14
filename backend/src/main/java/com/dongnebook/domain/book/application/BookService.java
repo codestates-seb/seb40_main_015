@@ -5,11 +5,14 @@ import java.util.Optional;
 import org.springframework.stereotype.Service;
 
 import com.dongnebook.domain.book.domain.Book;
-import com.dongnebook.domain.book.dto.Request.BookRegisterRequest;
+import com.dongnebook.domain.book.dto.request.BookRegisterRequest;
+import com.dongnebook.domain.book.dto.response.BookDetailResponse;
 import com.dongnebook.domain.book.exception.BookNotFoundException;
-import com.dongnebook.domain.book.repository.BookRepository;
+import com.dongnebook.domain.book.repository.BookCommandRepository;
+import com.dongnebook.domain.book.repository.BookQueryRepository;
 import com.dongnebook.domain.member.domain.Member;
 import com.dongnebook.domain.member.exception.LocationNotCreatedYetException;
+import com.dongnebook.domain.member.repository.MemberRepository;
 import com.dongnebook.domain.model.Location;
 
 import lombok.Getter;
@@ -22,14 +25,16 @@ import lombok.extern.slf4j.Slf4j;
 @RequiredArgsConstructor
 public class BookService {
 
-	private final BookRepository bookRepository;
+	private final BookCommandRepository bookCommandRepository;
+	private final BookQueryRepository bookQueryRepository;
+	private final MemberRepository memberRepository;
 
 	public Long create(BookRegisterRequest bookRegisterRequest, Long memberId){
 
 		Member member = getMember();
 		Location location = ifDtoHasNoLocationGetMemberLocation(bookRegisterRequest, member);
 		Book book = Book.create(bookRegisterRequest, location, member);
-		return bookRepository.save(book).getId();
+		return bookCommandRepository.save(book).getId();
 	}
 
 	public Long delete(Long bookId, Long memberId) {
@@ -50,10 +55,15 @@ public class BookService {
 	}
 
 	private Member getMember() {
-		return new Member();
+		return memberRepository.findById(1L).orElseThrow(IllegalStateException::new);
 	}
 
 	private Book getByBookId(Long bookId) {
-		return bookRepository.findById(bookId).orElseThrow(BookNotFoundException::new);
+		return bookCommandRepository.findById(bookId).orElseThrow(BookNotFoundException::new);
+	}
+
+	public BookDetailResponse getDetail(Long id) {
+		return bookQueryRepository.getDetail(id);
+
 	}
 }

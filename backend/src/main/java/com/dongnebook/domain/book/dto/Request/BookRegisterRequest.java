@@ -1,4 +1,4 @@
-package com.dongnebook.domain.book.dto.Request;
+package com.dongnebook.domain.book.dto.request;
 
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotEmpty;
