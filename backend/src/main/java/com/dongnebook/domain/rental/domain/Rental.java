@@ -18,8 +18,8 @@ public class Rental {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name = "rental_id", updatable = false)
-    private Long rentalId;
+    @Column(name = "id", updatable = false)
+    private Long id;
 
     @Column(name = "rental_started_at", nullable = false)
     private LocalDateTime rentalStartedAt;
