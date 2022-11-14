@@ -48,6 +48,7 @@ const BookDetail = styled.div`
 	display: flex;
 	flex-direction: column;
 	justify-content: space-between;
+	padding: 5px 0;
 	div {
 		margin-bottom: 10px;
 	}

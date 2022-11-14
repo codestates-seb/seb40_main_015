@@ -1,13 +1,15 @@
 import styled from 'styled-components';
 import BookItem from '../components/Books/BookItem';
-import LongButton from '../components/Buttons/LongButton';
 import Button from '../components/common/Button';
+import HeaderApp from '../components/Header/HeaderApp';
 
 const BooksPage = () => {
 	return (
 		<Main>
+			<HeaderApp />
 			<BtnWrapper>
-				<LongButton />
+				{/* <LongButton /> */}
+				<Button>책 등록하기</Button>
 			</BtnWrapper>
 
 			<Books>
@@ -23,8 +25,9 @@ const Main = styled.div`
 `;
 
 const BtnWrapper = styled.div`
+	display: flex;
 	width: 100vh;
-	padding: 10px 20px;
+	/* padding: 10px 20px; */
 `;
 
 const Books = styled.div``;

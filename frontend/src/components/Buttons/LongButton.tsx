@@ -2,7 +2,7 @@ import styled from 'styled-components';
 import Button from '../common/Button';
 
 const LongButton = () => {
-	return <Button width={100}>책 등록하기</Button>;
+	return <Button>책 등록하기</Button>;
 };
 
 // const createButton = styled(Button)``;
