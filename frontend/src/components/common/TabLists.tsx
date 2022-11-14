@@ -1,45 +1,28 @@
-import { useEffect, useState } from 'react';
 import styled from 'styled-components';
 
 interface TabListsProps {
-	tabs: any[];
+	id: number;
+	name: string;
+	selected: boolean;
 }
 
-const TabLists = ({ tabs }: TabListsProps) => {
-	const [items, setItems] = useState<any[]>([]);
-
-	useEffect(() => {
-		const newItems = tabs.map((tab, i) => {
-			let item = {};
-			if (i === 0) {
-				item = { id: i, name: tab, selected: true };
-			} else {
-				item = { id: i, name: tab, selected: false };
-			}
-			return item;
-		});
-		setItems(newItems);
-	}, [tabs]);
-
-	const handleTabChange = (id: number) => {
-		const newItems = items.map(item =>
-			item.id === id
-				? { ...item, selected: true }
-				: { ...item, selected: false },
-		);
-		setItems(newItems);
-	};
-
+const TabLists = ({
+	tabs,
+	handleChange,
+}: {
+	tabs: TabListsProps[];
+	handleChange: (id: number) => void;
+}) => {
 	return (
 		<Container>
-			{items.map(item => {
-				const { id, name, selected } = item;
+			{tabs.map(tab => {
+				const { id, name, selected } = tab;
 				return (
 					<Tab
 						key={id}
 						selected={selected}
 						onClick={() => {
-							handleTabChange(id);
+							handleChange(id);
 						}}>
 						{name}
 					</Tab>
