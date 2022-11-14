@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import styled from 'styled-components';
 import dummyImage from '../../assets/image/dummy.png';
+import Button from './Button';
 
 const BookList = () => {
 	const [test, setTest] = useState<number[]>([1, 2, 3, 4, 5, 6, 7, 8]);
@@ -18,7 +19,7 @@ const BookList = () => {
 										<p>저자 / 출판사</p> */}
 									</InfoWrapped>
 								</FlexBox>
-								<Button>대여 가능</Button>
+								<Button fontSize="small">대여 가능</Button>
 							</Container>
 						);
 				  })
@@ -55,16 +56,16 @@ const InfoWrapped = styled.div`
 	}
 `;
 
-const Button = styled.button`
-	background-color: ${props => props.theme.colors.main};
-	width: 4rem;
-	height: 2rem;
-	font-size: 0.8rem;
-	border: none;
-	border-radius: 3px;
-	color: white;
-	margin: auto 0;
-	:hover {
-		background-color: #009539;
-	}
-`;
+// const Button = styled.button`
+// 	background-color: ${props => props.theme.colors.main};
+// 	width: 4rem;
+// 	height: 2rem;
+// 	font-size: 0.8rem;
+// 	border: none;
+// 	border-radius: 3px;
+// 	color: white;
+// 	margin: auto 0;
+// 	:hover {
+// 		background-color: #009539;
+// 	}
+// `;
