@@ -1,5 +1,7 @@
 package com.dongnebook.domain.book.domain;
 
+import java.util.Objects;
+
 import javax.persistence.AttributeOverride;
 import javax.persistence.Column;
 import javax.persistence.Embedded;
@@ -12,6 +14,7 @@ import javax.persistence.Id;
 import javax.persistence.Lob;
 
 import com.dongnebook.domain.book.dto.Request.BookRegisterRequest;
+import com.dongnebook.domain.book.exception.NotRentableException;
 import com.dongnebook.domain.member.domain.Member;
 import com.dongnebook.domain.model.Location;
 
@@ -39,7 +42,7 @@ public class Book {
 	@Column(name = "publisher", nullable = false)
 	private String publisher;
 
-	@Column(name = "Img_Url")
+	@Column(name = "img_url")
 	private String ImgUrl;
 
 	@Lob
@@ -54,12 +57,12 @@ public class Book {
 	private Location location;
 
 	@Enumerated(EnumType.STRING)
-	@Column(name = "bookState")
+	@Column(name = "book_state")
 	private BookState bookState;
 
 	@Builder
 	public Book(String title, String author, String publisher, String imgUrl, String description, Money rentalFee,
-		Location location,BookState bookState) {
+		Location location, BookState bookState) {
 		this.title = title;
 		this.author = author;
 		this.publisher = publisher;
@@ -67,7 +70,7 @@ public class Book {
 		this.description = description;
 		this.rentalFee = rentalFee;
 		this.location = location;
-		this.bookState=bookState;
+		this.bookState = bookState;
 	}
 
 	public static Book create(BookRegisterRequest bookRegisterRequest, Location location, Member memberId) {
@@ -82,6 +85,15 @@ public class Book {
 			.bookState(BookState.RENTABLE)
 			//.member(memberId)
 			.build();
+	}
+
+	public void delete() {
+
+		if (Objects.equals(this.bookState, BookState.RENTABLE)) {
+			this.bookState = BookState.DELETED;
+			return;
+		}
+		throw new NotRentableException();
 	}
 }
 
