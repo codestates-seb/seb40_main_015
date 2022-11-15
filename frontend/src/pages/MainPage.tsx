@@ -1,5 +1,4 @@
 import styled from 'styled-components';
-import Layout from './Layout';
 
 function MainPage() {
 	return (
