@@ -32,4 +32,16 @@ public class MemberService {
 		Long id = memberRepository.save(member).getId();
 		return id;
 	}
+
+	@Transactional(readOnly = true)
+	public boolean checkUserIdDuplication(String userId) {
+		boolean userIdDuplicate = memberRepository.existsByUserId(userId);
+		return userIdDuplicate;
+	}
+
+	@Transactional(readOnly = true)
+	public boolean checkNicknameDuplication(String nickname) {
+		boolean nicknameDuplicate = memberRepository.existsByNickname(nickname);
+		return nicknameDuplicate;
+	}
 }
