@@ -35,11 +35,11 @@ const GlobalStyle = createGlobalStyle`
     font-size: 10px;
     font: inherit;
     vertical-align: baseline;
-    font-family: 'gangwon', 'kotra';
+    font-family:  'gangwon', 'kotra', sans-serif ;
     background-color: #FBFBFB;
-    overflow-y: auto;
+    /* overflow-y: auto; */
     /* overflow: overlay; */
-    overflow-x: hidden;
+    /* overflow-x: hidden; */
   }
   a {
     text-decoration: none;
