@@ -12,14 +12,13 @@ import com.dongnebook.domain.member.dto.Request.MemberRegisterRequest;
 import com.dongnebook.domain.model.Location;
 
 import lombok.*;
-import org.springframework.security.core.userdetails.UserDetails;
 
 @Entity
 @Getter
 @Setter
 @Table(name = "member")
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class Member {
+public class Member extends BaseTimeEntity {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
