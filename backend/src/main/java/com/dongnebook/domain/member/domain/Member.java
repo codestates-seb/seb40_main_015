@@ -47,14 +47,18 @@ public class Member extends BaseTimeEntity {
 	@Column(name = "avg_grade")
 	private Long avgGrade;
 
+	@Column(name = "role")
+	private String role;
+
 	@Builder
-	public Member(String userId, String password, String nickname, Location location, String avatarUrl, Long avgGrade) {
+	public Member(String userId, String password, String nickname, Location location, String avatarUrl, Long avgGrade, String role) {
 		this.userId = userId;
 		this.password = password;
 		this.nickname = nickname;
 		this.avatarUrl = avatarUrl;
 		this.location = location;
 		this.avgGrade = avgGrade;
+		this.role = role;
 	}
 
 	public static Member create(MemberRegisterRequest memberRegisterRequest) {
