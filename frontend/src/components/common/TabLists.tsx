@@ -1,18 +1,12 @@
 import styled from 'styled-components';
 
 interface TabListsProps {
-	id: number;
-	name: string;
-	selected: boolean;
+	tabs: { id: number; name: string; selected: boolean }[];
+	handleChange: (id: number) => void;
 }
 
-const TabLists = ({
-	tabs,
-	handleChange,
-}: {
-	tabs: TabListsProps[];
-	handleChange: (id: number) => void;
-}) => {
+const TabLists = (props: TabListsProps) => {
+	const { tabs, handleChange } = props;
 	return (
 		<Container>
 			{tabs.map(tab => {
