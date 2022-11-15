@@ -1,5 +1,7 @@
 package com.dongnebook.domain.member.application;
 
+import com.dongnebook.domain.member.exception.MemberExistsException;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.dongnebook.domain.member.domain.Member;
@@ -25,6 +27,12 @@ public class MemberService {
 
 	public Long create(MemberRegisterRequest memberRegisterRequest) {
 		Member member = Member.create(memberRegisterRequest);
+
+		verifyExistMemberByUserId(member.getUserId());
+		verifyExistMemberByNickName(member.getNickname());
+
+		member.setPassword(passwordEncoder.encode(member.getPassword()));
+
 		return memberRepository.save(member).getId();
 	}
 

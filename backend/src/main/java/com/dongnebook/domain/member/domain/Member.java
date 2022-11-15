@@ -14,13 +14,11 @@ import com.dongnebook.domain.member.dto.request.MemberRegisterRequest;
 import com.dongnebook.domain.model.BaseTimeEntity;
 import com.dongnebook.domain.model.Location;
 
-import lombok.AccessLevel;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 @Entity
 @Getter
+@Setter
 @Table(name = "member")
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Member extends BaseTimeEntity {
