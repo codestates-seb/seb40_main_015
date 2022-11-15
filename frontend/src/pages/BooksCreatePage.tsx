@@ -129,5 +129,29 @@ const Photicon = styled(HiPhotograph)`
 	height: 4rem;
 	cursor: pointer;
 `;
+const TitleWrapper = styled.div``;
+
+const BodyContainer = styled.div`
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+	margin-bottom: 2rem;
+`;
+const SearchIcon = styled(HiOutlineSearch)`
+	width: 1.4rem;
+	height: 1.4rem;
+	position: absolute;
+	top: 0;
+	right: 0;
+	cursor: pointer;
+`;
+
+const Photicon = styled(HiPhotograph)`
+	color: ${props => props.theme.colors.logoGreen};
+	width: 4rem;
+	height: 4rem;
+	cursor: pointer;
+`;
 
 export default BooksCreatePage;
