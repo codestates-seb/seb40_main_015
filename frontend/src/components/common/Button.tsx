@@ -21,6 +21,12 @@ const Button = styled.button<ButtonInterface>`
 	width: ${props => props.newLine && 3.1}rem;
 	cursor: ${props =>
 		props.backgroundColor === 'grey' ? 'default' : 'pointer'};
+	:hover {
+		background-color: ${props =>
+			props.backgroundColor === 'grey'
+				? props => props.theme.colors.buttonGrey
+				: props.theme.colors.buttonHoverGreen};
+	}
 `;
 
 export default Button;

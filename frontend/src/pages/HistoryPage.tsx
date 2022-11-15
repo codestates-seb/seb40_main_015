@@ -1,8 +1,9 @@
 import styled from 'styled-components';
 import TabLists from '../components/common/TabLists';
 import Title from '../components/common/Title';
-import LentBookLists from '../components/History/LendBookLists';
+import LendBookLists from '../components/History/LendBookLists';
 import RentBookLists from '../components/History/RentBookLists';
+import SortButton from '../components/History/SortButton';
 import useTabs from '../hooks/useTabs';
 
 const HistoryPage = () => {
@@ -12,8 +13,9 @@ const HistoryPage = () => {
 		<Layout>
 			<Title text="대여 목록" />
 			<TabLists tabs={tab} handleChange={handleChange} />
+			<SortButton />
 			{curTab === '빌린 책' && <RentBookLists />}
-			{curTab === '빌려준 책' && <LentBookLists />}
+			{curTab === '빌려준 책' && <LendBookLists />}
 		</Layout>
 	);
 };
@@ -27,19 +29,6 @@ const Layout = styled.div`
 		font-size: 2rem;
 		margin-bottom: 1rem;
 	}
-`;
-
-const Tab = styled.button`
-	padding: 0.8rem 3rem;
-	background-color: ${props => props.theme.colors.main};
-	border: none;
-	border-radius: 5px;
-	box-shadow: nonoe;
-	color: white;
-	cursor: pointer;
-	/* display: flex;
-	flex-direction: row;
-	flex-wrap: nowrap; */
 `;
 
 export default HistoryPage;
