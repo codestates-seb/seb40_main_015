@@ -1,13 +1,22 @@
 import { useState } from 'react';
 import styled from 'styled-components';
 import dummyImage from '../../assets/image/dummy.png';
+import RentStatusButton from './RentStatusButton';
 
 const RentBookLists = () => {
-	const [test, setTest] = useState<number[]>([1, 2]);
+	const [test, setTest] = useState<number[]>([1, 2, 3, 4, 5]);
+	const [state, setState] = useState([
+		'TRADING',
+		'Rented',
+		'ReviewComplete',
+		'ReviewNotComplete',
+		'Canceled',
+	]);
+	const status = 'TRADING';
 	return (
 		<>
 			{test
-				? test.map(item => {
+				? test.map((item, i) => {
 						return (
 							<Container key={item}>
 								<FlexBox>
@@ -17,10 +26,10 @@ const RentBookLists = () => {
 										<p>상인 이름</p>
 										<p>저자 / 출판사</p>
 										<p>대여기간</p>
-										<p>날짜</p>
+										<p>2022.11.09 수 ~ 2022.11.16 수</p>
 									</InfoWrapped>
 								</FlexBox>
-								<Button>대여 가능</Button>
+								<RentStatusButton status={state[i]} />
 							</Container>
 						);
 				  })
@@ -52,21 +61,7 @@ const InfoWrapped = styled.div`
 	justify-content: center;
 	justify-items: stretch;
 	p {
-		font-size: 1.1rem;
+		font-size: 0.9rem;
 		margin-left: 1rem;
-	}
-`;
-
-const Button = styled.button`
-	background-color: ${props => props.theme.colors.main};
-	width: 4rem;
-	height: 2rem;
-	font-size: 0.8rem;
-	border: none;
-	border-radius: 3px;
-	color: white;
-	margin: auto 0;
-	:hover {
-		background-color: #009539;
 	}
 `;
