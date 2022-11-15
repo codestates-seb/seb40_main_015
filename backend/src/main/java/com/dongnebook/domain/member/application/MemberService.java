@@ -1,14 +1,9 @@
 package com.dongnebook.domain.member.application;
 
-import com.dongnebook.domain.member.exception.MemberExistsException;
-import com.dongnebook.global.error.exception.BusinessException;
-import com.dongnebook.global.error.exception.ErrorCode;
-import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.dongnebook.domain.member.domain.Member;
-import com.dongnebook.domain.member.dto.Request.MemberRegisterRequest;
+import com.dongnebook.domain.member.dto.request.MemberRegisterRequest;
 import com.dongnebook.domain.member.repository.MemberRepository;
 
 import lombok.Getter;
@@ -45,4 +40,3 @@ public class MemberService {
 			throw new MemberExistsException();
 	}
 }
-
