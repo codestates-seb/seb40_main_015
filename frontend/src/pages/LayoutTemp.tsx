@@ -36,6 +36,8 @@ const Main = styled.div`
 	height: 100%;
 	width: 100%;
 	justify-content: center;
+	width: 100%;
+	height: 100%;
 `;
 
 const Body = styled.div`
