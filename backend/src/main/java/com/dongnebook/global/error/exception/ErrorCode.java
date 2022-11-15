@@ -14,7 +14,6 @@ public enum ErrorCode {
 
 	/* Member */
 	LOCATION_NOT_CREATED_YET(404,"아직 주거래 동네를 설정하지 않았습니다."),
-	MEMBER_EXISTS(409, "이미 회원가입한 회원입니다"),
 
 	/* Book */
 	BOOK_NOT_FOUND(404, "해당 책을 찾지 못했습니다."),

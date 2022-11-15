@@ -1,7 +1,5 @@
 package com.dongnebook.domain.member.application;
 
-import com.dongnebook.domain.member.dto.response.MemberIdResponse;
-import com.dongnebook.domain.member.exception.MemberExistsException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -13,8 +11,6 @@ import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.transaction.annotation.Transactional;
-
-import java.util.Optional;
 
 @Slf4j
 @Getter
