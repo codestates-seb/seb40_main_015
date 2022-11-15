@@ -24,8 +24,10 @@ const LoginForm = () => {
 };
 
 const StyledLoginForm = styled.form`
-	display: flex;
-	flex-direction: column;
+	width: 100%;
+	min-width: 250px;
+	height: 250px;
+	display: grid;
 `;
 
 const ButtonWrapper = styled.div`
