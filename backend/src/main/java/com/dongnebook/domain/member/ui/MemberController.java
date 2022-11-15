@@ -38,11 +38,11 @@ public class MemberController {
                     .success(false)
                     .message("중복된 ID입니다. 다른 ID를 입력해 주세요.")
                     .build();
+            return ResponseEntity.ok(memberExistsCheckResponse);
         }
         MemberExistsCheckResponse memberExistsCheckResponse = MemberExistsCheckResponse.builder()
                     .success(true)
                     .build();
-        System.out.println(memberExistsCheckResponse);
         return ResponseEntity.ok(memberExistsCheckResponse);
     }
 
@@ -55,6 +55,7 @@ public class MemberController {
                     .success(false)
                     .message("중복된 닉네임입니다. 다른 닉네임을 사용해주세요.")
                     .build();
+            return ResponseEntity.ok(memberExistsCheckResponse);
         }
         MemberExistsCheckResponse memberExistsCheckResponse = MemberExistsCheckResponse.builder()
                 .success(true)
