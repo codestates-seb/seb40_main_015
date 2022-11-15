@@ -3,7 +3,7 @@ package com.dongnebook.global.error.exception;
 import lombok.Getter;
 
 @Getter
-public enum ErrorCode {
+public abstract enum ErrorCode {
 
 	INVALID_INPUT_VALUE(400, "잘못된 입력입니다."),
 	ENTITY_NOT_FOUND(400, "엔티티를 찾을 수 없습니다."),

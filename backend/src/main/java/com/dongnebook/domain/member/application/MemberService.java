@@ -1,5 +1,6 @@
 package com.dongnebook.domain.member.application;
 
+import com.dongnebook.domain.member.exception.MemberExistsException;
 import com.dongnebook.global.error.exception.BusinessException;
 import com.dongnebook.global.error.exception.ErrorCode;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -31,9 +32,15 @@ public class MemberService {
 		return memberRepository.save(member).getId();
 	}
 
-	private void verifyExistsEmail(String userId) {
+	private void verifyExistMemberByUserId(String userId) {
 		Optional<Member> member = memberRepository.findByUserId(userId);
 		if (member.isPresent())
-			throw new BusinessException(ErrorCode.MEMBER_EXISTS);
+			throw new MemberExistsException();
+	}
+
+	private void verifyExistMemberByNickName(String nickname) {
+		Optional<Member> member = memberRepository.findByUserId(nickname);
+		if (member.isPresent())
+			throw new MemberExistsException();
 	}
 }
