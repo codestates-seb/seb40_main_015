@@ -55,6 +55,12 @@ const BookInfo = styled(Div)`
 		}
 	}
 
+	.book--info__fee {
+		&::-webkit-inner-spin-button {
+			-webkit-appearance: none;
+		}
+	}
+
 	label {
 		font-size: 30px;
 		margin-left: 1rem;
@@ -117,15 +123,14 @@ const BookRentalFee = styled(Div)`
 		padding: 0 0.4rem;
 		background-color: inherit;
 		border: none;
+		outline: none;
 		border-bottom: 1px solid rgba(1, 1, 1, 0.3);
 		&:focus {
 			border-bottom: 1px solid rgba(1, 1, 1, 0.7);
-			outline: none;
 		}
 	}
 	input::-webkit-inner-spin-button {
 		-webkit-appearance: none;
-		margin: 0;
 	}
 `;
 

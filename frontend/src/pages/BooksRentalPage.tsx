@@ -1,5 +1,4 @@
 import styled from 'styled-components';
-import { Calendar } from 'react-calendar';
 
 // components
 import Title from '../components/common/Title';
@@ -10,6 +9,7 @@ import {
 	TitleWrapper,
 	BookInfo,
 } from '../components/Books/BookElements';
+import BookCalendar from '../components/Books/BookCalendar';
 
 const BooksRentalPage = () => {
 	return (
@@ -20,22 +20,12 @@ const BooksRentalPage = () => {
 
 			<BodyContainer>
 				<CalendarWrapper>
-					<div>달력</div>
-					<Calendar />
+					<BookCalendar />
+					<p>* 대여 가능 기간은 10일 입니다.</p>
 				</CalendarWrapper>
-
 				<RentalInfo>
-					<h1>대여 신청하기</h1>
-					<p>대여 가능 기간은 10일 입니다.</p>
+					<label>✅ 2022.11.09~2022.11.19</label>
 				</RentalInfo>
-				<BookInfo>
-					<h1>대여 신청하기</h1>
-					<p>대여 가능 기간은 10일 입니다.</p>
-				</BookInfo>
-				<BookInfo>
-					<input type="checkbox" />
-					<label>2022.11.09~2022.11.19</label>
-				</BookInfo>
 			</BodyContainer>
 
 			<Button>대여 신청</Button>
@@ -43,7 +33,16 @@ const BooksRentalPage = () => {
 	);
 };
 
-const CalendarWrapper = styled.div``;
-const RentalInfo = styled.div``;
+const CalendarWrapper = styled.div`
+	p {
+		margin: 0.6rem 0;
+		font-size: 14px;
+
+		margin-bottom: 3rem;
+	}
+`;
+const RentalInfo = styled(BookInfo)`
+	margin-bottom: 6rem;
+`;
 
 export default BooksRentalPage;

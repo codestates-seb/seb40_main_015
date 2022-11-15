@@ -32,7 +32,12 @@ const BooksCreatePage = () => {
 					</div>
 				</BookInfo>
 				<BookInfo>
-					<input type="number" placeholder="대여료" />
+					<input
+						className="book--info__fee"
+						type="number"
+						placeholder="대여료"
+						step={100}
+					/>
 					<span>원 </span>
 				</BookInfo>
 				<BookInfo>

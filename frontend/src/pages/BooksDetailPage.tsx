@@ -74,9 +74,11 @@ const BooksDetailPage = () => {
 
 			<LinkStyled to={`rental`}>
 				<Button>책 대여하기</Button>
-				<Button>책 예약하기</Button>
-				<Button backgroundColor={'grey'}>예약 불가</Button>
 			</LinkStyled>
+			<LinkStyled to={`booking`}>
+				<Button>책 예약하기</Button>
+			</LinkStyled>
+			<Button backgroundColor={'grey'}>예약 불가</Button>
 		</Main>
 	);
 };
