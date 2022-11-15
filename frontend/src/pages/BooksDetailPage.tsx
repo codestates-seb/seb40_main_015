@@ -20,6 +20,7 @@ function BooksDetailPage() {
 						<span>이미 누가 대여중이에요 😭</span>
 						<span>2022/1104~2022/11/18</span>
 						<span>예약 가능</span>
+						<span>예약중</span>
 					</BookNotAvailable>
 					<WishiconOn />
 					<WishiconOff />
@@ -48,7 +49,7 @@ function BooksDetailPage() {
 				</MerchantInfo>
 				<BookRentalFee>
 					<label htmlFor="fee">대여료</label>
-					<input id="fee" type="number" step="100" />
+					<input id="fee" type="number" step="100" value={'1000'} />
 					<span>원</span>
 				</BookRentalFee>
 				<BookDsc>
@@ -61,9 +62,10 @@ function BooksDetailPage() {
 				</BookDsc>
 			</BodyContainer>
 
-			<LinkStyled to={`books/1/booking`}>
+			<LinkStyled to={`booking`}>
 				<Button>책 대여하기</Button>
 				<Button>책 예약하기</Button>
+				<Button backgroundColor={'grey'}>예약 불가</Button>
 			</LinkStyled>
 		</Main>
 	);
