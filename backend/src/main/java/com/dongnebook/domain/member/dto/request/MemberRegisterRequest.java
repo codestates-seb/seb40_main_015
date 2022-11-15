@@ -26,4 +26,5 @@ public class MemberRegisterRequest {
 		this.nickname = nickname;
 		this.password = password;
 	}
+
 }
