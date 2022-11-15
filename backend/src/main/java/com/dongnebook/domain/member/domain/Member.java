@@ -31,7 +31,6 @@ public class Member {
 	@Column(name = "user_id", nullable = false, unique = true)
 	private String userId;
 
-	@Min(value = 8)
 	@Column(name = "password", nullable = false)
 	private String password;
 
