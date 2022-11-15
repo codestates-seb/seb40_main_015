@@ -1,11 +1,18 @@
 import styled from 'styled-components';
+import { Link } from 'react-router-dom';
+
+//components
 import Button from '../common/Button';
+//data
+import BookImageDummy from '../../assets/image/dummy.png';
 
 const BookItem = () => {
 	return (
-		<BookContainer>
+		<BookContainer to={'1'}>
 			<BookInfo>
-				<BookImage>IMG</BookImage>
+				<BookImage>
+					<img src={BookImageDummy} />
+				</BookImage>
 				<BookDetail>
 					<div>책 제목</div>
 					<div>저자 / 출판사</div>
@@ -21,7 +28,7 @@ const BookItem = () => {
 	);
 };
 
-const BookContainer = styled.div`
+const BookContainer = styled(Link)`
 	display: flex;
 	justify-content: space-between;
 
@@ -29,13 +36,17 @@ const BookContainer = styled.div`
 	margin: 10px 0;
 
 	border: 1px solid rgba(1, 1, 1, 0.1);
+
+	cursor: pointer;
 `;
 const BookImage = styled.div`
-	width: 100px;
-	height: 100px;
 	background-color: pink;
-
 	margin-right: 20px;
+
+	img {
+		width: 100px;
+		height: 100px;
+	}
 `;
 const BookInfo = styled.div`
 	display: flex;

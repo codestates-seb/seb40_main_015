@@ -1,12 +1,11 @@
 import styled from 'styled-components';
-import logo from '../../assets/image/logo1.png';
 
 const Title = ({ text, isLogo }: { text: string; isLogo?: boolean }) => {
 	return (
 		<Text>
 			{isLogo ? (
 				<>
-					{/* <Logo src={logo} /> */}
+					<Logo src={logo} />
 					<span>{text}</span>
 				</>
 			) : (
@@ -26,7 +25,6 @@ const Logo = styled.img`
 
 const Text = styled.div`
 	width: 100%;
-	font-size: 2.5rem;
 	/* text-align: center; */
 	padding: 1rem 0;
 	margin-bottom: 1rem;
@@ -35,4 +33,8 @@ const Text = styled.div`
 	display: flex;
 	justify-content: center;
 	align-items: center;
+	span {
+		font-size: ${props => props.theme.fontSizes.title};
+		font-family: 'kotra';
+	}
 `;

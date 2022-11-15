@@ -40,12 +40,11 @@ const GlobalStyle = createGlobalStyle`
     margin: 0;
     padding: 0;
     border: 0;
-    font-size: 10px;
-    font: inherit;
+    font-size: calc( 10px + 0.4vw );
     vertical-align: baseline;
     font-family: 'Apple SD', 'kotra';
     background-color: #FBFBFB;
-    /* overflow-y: auto; */
+    /* overflow-y: auto;  */
     /* overflow: overlay; */
     /* overflow-x: hidden; */
   }

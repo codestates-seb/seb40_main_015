@@ -50,7 +50,7 @@ const InfoWrapped = styled.div`
 	justify-content: space-between;
 	align-items: center;
 	p {
-		font-size: 1.2rem;
+		font-size: ${props => props.theme.fontSizes.paragraph};
 		margin-left: 1rem;
 	}
 `;

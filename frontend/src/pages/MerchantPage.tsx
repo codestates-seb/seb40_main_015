@@ -46,8 +46,9 @@ const ProfileBox = styled.div`
 const UserInfoBox = styled.div`
 	display: flex;
 	flex-direction: column;
-	justify-content: space-between;
+	justify-content: space-around;
 	margin-left: 2rem;
+	font-size: ${props => props.theme.fontSizes.paragraph};
 `;
 
 export default MerchantPage;
