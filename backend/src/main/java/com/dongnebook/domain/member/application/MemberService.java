@@ -3,6 +3,7 @@ package com.dongnebook.domain.member.application;
 import com.dongnebook.domain.member.exception.MemberExistsException;
 import com.dongnebook.global.error.exception.BusinessException;
 import com.dongnebook.global.error.exception.ErrorCode;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -29,6 +30,8 @@ public class MemberService {
 
 	public Long create(MemberRegisterRequest memberRegisterRequest) {
 		Member member = Member.create(memberRegisterRequest);
+
+
 		return memberRepository.save(member).getId();
 	}
 
