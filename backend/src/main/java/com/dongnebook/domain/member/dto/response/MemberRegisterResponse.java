@@ -1,4 +1,4 @@
-package com.dongnebook.domain.member.dto.Response;
+package com.dongnebook.domain.member.dto.response;
 
 import lombok.Getter;
 

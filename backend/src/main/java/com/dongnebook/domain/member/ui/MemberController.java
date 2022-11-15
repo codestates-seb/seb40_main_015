@@ -4,6 +4,7 @@ import com.dongnebook.domain.member.application.MemberService;
 
 import com.dongnebook.domain.member.domain.Member;
 import com.dongnebook.domain.member.dto.request.MemberRegisterRequest;
+import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -23,11 +24,8 @@ import java.net.URI;
 public class MemberController {
     private final MemberService memberService;
 
-    public MemberController(MemberService memberService) {
-        this.memberService = memberService;
-    }
     @PostMapping("/signup")
-    public ResponseEntity<Long> create(@Valid @RequestBody MemberRegisterRequest memberRegisterRequest){
+    public ResponseEntity<Long> create(@Valid @RequestBody MemberRegisterRequest memberRegisterRequest) {
         Long createdMemberId = memberService.create(memberRegisterRequest);
         URI createdMemberUri = ServletUriComponentsBuilder.fromPath("/member").path("/{id}").buildAndExpand(createdMemberId).toUri();
         return ResponseEntity.created(createdMemberUri).build();
