@@ -1,22 +1,19 @@
 import { useState } from 'react';
 import styled from 'styled-components';
 import dummyImage from '../../assets/image/dummy.png';
-import RentStatusButton from './RentStatusButton';
+import Button from '../common/Button';
 
-const RentBookLists = () => {
-	const [test, setTest] = useState<number[]>([1, 2, 3, 4, 5]);
+const LentBookLists = () => {
+	const [test, setTest] = useState<number[]>([1, 2, 3, 4]);
 	const [state, setState] = useState([
-		'TRADING',
-		'Rented',
-		'ReviewComplete',
-		'ReviewNotComplete',
-		'Canceled',
+		'ON_TRADING',
+		'BEING_RENTED_&_RESERVE_AVAILABLE',
+		'BEING_RENTED_&_RESERVE_UNAVAILABLE',
 	]);
-	const status = 'TRADING';
 	return (
 		<>
 			{test
-				? test.map((item, i) => {
+				? test.map(item => {
 						return (
 							<Container key={item}>
 								<FlexBox>
@@ -29,7 +26,17 @@ const RentBookLists = () => {
 										<p>2022.11.09 수 ~ 2022.11.16 수</p>
 									</InfoWrapped>
 								</FlexBox>
-								<RentStatusButton status={state[i]} />
+								<div
+									style={{
+										display: 'flex',
+										flexDirection: 'column',
+										justifyContent: 'space-between',
+										flexWrap: 'wrap',
+										width: '4.5rem',
+									}}>
+									<Button fontSize="small">대여 가능</Button>
+									<Button fontSize="small">대여 가능대여 가능</Button>
+								</div>
 							</Container>
 						);
 				  })
@@ -38,7 +45,7 @@ const RentBookLists = () => {
 	);
 };
 
-export default RentBookLists;
+export default LentBookLists;
 
 const Container = styled.div`
 	width: 90%;
