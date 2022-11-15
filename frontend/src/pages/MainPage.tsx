@@ -1,14 +1,7 @@
-import styled from 'styled-components';
+import React from 'react';
 
-function MainPage() {
-	return (
-		<Layout>
-			<h1>main page</h1>;
-		</Layout>
-	);
-}
-const Layout = styled.div`
-	background-color: #016241;
-`;
+const MainPage = () => {
+	return <div></div>;
+};
 
 export default MainPage;
