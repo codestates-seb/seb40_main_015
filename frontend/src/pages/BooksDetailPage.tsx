@@ -77,6 +77,7 @@ const BooksDetailPage = () => {
 			</LinkStyled>
 			<LinkStyled to={`booking`}>
 				<Button>책 예약하기</Button>
+				<Button backgroundColor={'grey'}>예약 불가</Button>
 			</LinkStyled>
 			<Button backgroundColor={'grey'}>예약 불가</Button>
 		</Main>

@@ -25,6 +25,7 @@ const colors = {
 	logoGreen: '#016241',
 	buttonGreen: '#26795D',
 	buttonGrey: '#D9D9D9',
+	buttonHoverGreen: '#1f966e',
 	headerBorder: '#A7A7A7',
 };
 
