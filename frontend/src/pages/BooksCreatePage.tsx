@@ -3,7 +3,12 @@ import { HiOutlineSearch, HiPhotograph } from 'react-icons/hi';
 
 // components
 import Title from '../components/common/Title';
-import { BookInfo } from '../components/Books/BookElements';
+import {
+	BookInfo,
+	Main,
+	BodyContainer,
+	TitleWrapper,
+} from '../components/Books/BookElements';
 import Button from '../components/common/Button';
 
 const BooksCreatePage = () => {
@@ -55,19 +60,7 @@ const BooksCreatePage = () => {
 		</Main>
 	);
 };
-const Main = styled.div`
-	display: flex;
-	flex-direction: column;
-`;
-const TitleWrapper = styled.div``;
 
-const BodyContainer = styled.div`
-	display: flex;
-	flex-direction: column;
-	justify-content: center;
-	align-items: center;
-	margin-bottom: 2rem;
-`;
 const SearchIcon = styled(HiOutlineSearch)`
 	width: 1.4rem;
 	height: 1.4rem;

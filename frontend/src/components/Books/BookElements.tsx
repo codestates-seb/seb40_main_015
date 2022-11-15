@@ -1,6 +1,25 @@
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 
+// 현재 책상세, 책등록 페이지에서 사용중
+
+const Main = styled.div`
+	display: flex;
+	flex-direction: column;
+
+	font-size: 20px;
+	padding-bottom: 30px;
+`;
+const TitleWrapper = styled.div``;
+
+const BodyContainer = styled.div`
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+	margin-bottom: 2rem;
+`;
+
 const Div = styled.fieldset`
 	width: 40vh;
 	border-radius: 4px;
@@ -150,4 +169,14 @@ const LinkStyled = styled(Link)`
 	flex-direction: column;
 `;
 
-export { Div, BookInfo, BookRentalFee, MerchantInfo, BookDsc, LinkStyled };
+export {
+	Main,
+	BodyContainer,
+	TitleWrapper,
+	Div,
+	BookInfo,
+	BookRentalFee,
+	MerchantInfo,
+	BookDsc,
+	LinkStyled,
+};
