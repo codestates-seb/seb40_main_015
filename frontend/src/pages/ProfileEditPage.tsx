@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import userImage from '../assets/image/user.png';
 import Title from '../components/common/Title';
 import Button from '../components/common/Button';
+<<<<<<< HEAD
 import { HiOutlineCheckCircle } from 'react-icons/hi';
 import { useNavigate } from 'react-router-dom';
 
@@ -12,17 +13,28 @@ function ProfileEditPage() {
 		navigate('/profile/edit');
 	};
 
+=======
+function ProfileEditPage() {
+>>>>>>> 83a9941d6f356d8717beb4a5f09273f60f86e0ca
 	return (
 		<Layout>
 			<Title text="내 정보 수정하기" />
 			<ProfileBox>
 				<img src={userImage} alt="dummy" width={260} height={300} />
 				<p className="username">닉네임</p>
+<<<<<<< HEAD
 				<input placeholder="프론트엔드" />
 				<p className="place">내 동네 설정</p>
 				<input placeholder="서울시 강남구" disabled={true} />
 				<Button className="Button" fontSize={'small'}>
 					완료
+=======
+				<input placeholder="닉네임을 작성하세요" />
+				<p className="place">내 동네 설정</p>
+				<input placeholder="주거래 지역 설정을 하세요" />
+				<Button className="Button" fontSize={'small'}>
+					정보 수정
+>>>>>>> 83a9941d6f356d8717beb4a5f09273f60f86e0ca
 				</Button>
 			</ProfileBox>
 		</Layout>

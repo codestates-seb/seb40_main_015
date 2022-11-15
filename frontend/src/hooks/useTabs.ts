@@ -6,11 +6,11 @@ interface Props {
 	selected: boolean;
 }
 
-type ReturnTypes = [Props[], Props, (id: number) => void];
+type ReturnTypes = [Props[], string, (id: number) => void];
 
 function useTabs(values: string[]): ReturnTypes {
 	const [items, setItems] = useState<any[]>([]);
-	const [curTab, setCurTab] = useState(items[0]);
+	const [curTab, setCurTab] = useState(items[0]?.name);
 
 	useEffect(() => {
 		const newItems = values.map((value, i) => {
@@ -39,7 +39,7 @@ function useTabs(values: string[]): ReturnTypes {
 		setItems(newItems);
 	};
 
-	return [items, curTab, handleTabChange];
+	return [items, curTab?.name, handleTabChange];
 }
 
 export default useTabs;

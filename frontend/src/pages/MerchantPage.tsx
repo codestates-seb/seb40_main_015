@@ -4,6 +4,7 @@ import BookList from '../components/Merchant/BookList';
 import TabLists from '../components/common/TabLists';
 import Title from '../components/common/Title';
 import useTabs from '../hooks/useTabs';
+import Review from '../components/Merchant/Review';
 
 function MerchantPage() {
 	const [tab, curTab, handleChange] = useTabs(['책 목록', '리뷰 보기']);
@@ -21,7 +22,8 @@ function MerchantPage() {
 				</UserInfoBox>
 			</ProfileBox>
 			<TabLists tabs={tab} handleChange={handleChange} />
-			{curTab && curTab.name === '책 목록' ? <BookList /> : null}
+			{curTab === '책 목록' && <BookList />}
+			{curTab === '리뷰 보기' && <Review />}
 		</Layout>
 	);
 }
