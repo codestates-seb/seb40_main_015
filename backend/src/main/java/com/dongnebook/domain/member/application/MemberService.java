@@ -30,8 +30,6 @@ public class MemberService {
 
 	public Long create(MemberRegisterRequest memberRegisterRequest) {
 		Member member = Member.create(memberRegisterRequest);
-
-
 		return memberRepository.save(member).getId();
 	}
 
@@ -47,3 +45,4 @@ public class MemberService {
 			throw new MemberExistsException();
 	}
 }
+
