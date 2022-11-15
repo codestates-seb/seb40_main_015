@@ -8,6 +8,7 @@ import { HiOutlinePencilAlt } from 'react-icons/hi';
 import ProfileEditPage from './ProfileEditPage';
 import useTabs from '../hooks/useTabs';
 import { useNavigate } from 'react-router-dom';
+import Button from '../components/common/Button';
 
 function ProfilePage() {
 	const [tab, curTab, handleChange] = useTabs(['찜 목록', '예약 목록']);
@@ -31,6 +32,9 @@ function ProfilePage() {
 			</ProfileBox>
 			<TabLists tabs={tab} handleChange={handleChange} />
 			<MyList />
+			<Button fontSize={'small'} className="logout">
+				로그아웃
+			</Button>
 		</Layout>
 	);
 }
@@ -41,6 +45,13 @@ const Layout = styled.div`
 	flex-direction: column;
 	padding: 1rem;
 	min-width: 90%;
+
+	.logout {
+		margin-top: 20px;
+		margin-bottom: 20px;
+		background-color: #a4a4a4;
+		padding: 10px 48px;
+	}
 `;
 
 const ProfileBox = styled.div`

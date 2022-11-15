@@ -8,8 +8,10 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.validation.constraints.Min;
+import javax.validation.constraints.Size;
 
-import com.dongnebook.domain.member.dto.Request.MemberRegisterRequest;
+import com.dongnebook.domain.member.dto.request.MemberRegisterRequest;
+import com.dongnebook.domain.model.BaseTimeEntity;
 import com.dongnebook.domain.model.Location;
 
 import lombok.AccessLevel;
@@ -21,7 +23,7 @@ import lombok.NoArgsConstructor;
 @Getter
 @Table(name = "member")
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class Member {
+public class Member extends BaseTimeEntity {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -31,7 +33,7 @@ public class Member {
 	@Column(name = "user_id", nullable = false, unique = true)
 	private String userId;
 
-	@Min(value = 8)
+	@Size(min = 8)
 	@Column(name = "password", nullable = false)
 	private String password;
 
@@ -47,19 +49,17 @@ public class Member {
 	@Column(name = "avg_grade")
 	private Long avgGrade;
 
-	@Column(name = "total_book_count")
-	private Long totalBookCount;
 
 	@Builder
-	public Member(String userId, String password, String nickname, Location location, String avatarUrl, Long avgGrade,
-				  Long totalBookCount) {
+	public Member(String userId, String password, String nickname, Location location, String avatarUrl, Long avgGrade
+				 ) {
 		this.userId = userId;
 		this.password = password;
 		this.nickname = nickname;
 		this.avatarUrl = avatarUrl;
 		this.location = location;
 		this.avgGrade = avgGrade;
-		this.totalBookCount = totalBookCount;
+
 	}
 
 	public static Member create(MemberRegisterRequest memberRegisterRequest) {

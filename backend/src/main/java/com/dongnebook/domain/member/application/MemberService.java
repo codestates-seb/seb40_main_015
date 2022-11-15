@@ -3,7 +3,7 @@ package com.dongnebook.domain.member.application;
 import org.springframework.stereotype.Service;
 
 import com.dongnebook.domain.member.domain.Member;
-import com.dongnebook.domain.member.dto.Request.MemberRegisterRequest;
+import com.dongnebook.domain.member.dto.request.MemberRegisterRequest;
 import com.dongnebook.domain.member.repository.MemberRepository;
 
 import lombok.Getter;
@@ -20,6 +20,6 @@ public class MemberService {
 
 	public Long create(MemberRegisterRequest memberRegisterRequest) {
 		Member member = Member.create(memberRegisterRequest);
-		return memberRepository.save(member).getMemberId();
+		return memberRepository.save(member).getId();
 	}
 }
