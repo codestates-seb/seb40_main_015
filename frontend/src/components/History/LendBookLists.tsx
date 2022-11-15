@@ -50,6 +50,7 @@ const LentBookLists = () => {
 	);
 };
 
+
 const Wrapper = styled.div`
 	width: 100%;
 	display: flex;
@@ -65,6 +66,7 @@ const Container = styled.div`
 	padding: 1rem;
 	margin-bottom: 0.5rem;
 	background-color: white;
+
 `;
 
 const FlexBox = styled.div`

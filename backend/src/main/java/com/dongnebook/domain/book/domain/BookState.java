@@ -1,5 +1,8 @@
 package com.dongnebook.domain.book.domain;
 
+import lombok.Getter;
+
+@Getter
 public enum BookState {
 	RENTABLE("대여가능"),
 	TRADING("거래중"),

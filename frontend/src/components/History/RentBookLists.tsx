@@ -15,7 +15,6 @@ const RentBookLists = () => {
 	]);
 	const from = '2022-11-15T00:17:34.045376400';
 	const to = '2022-11-21T00:17:34.045376400';
-
 	return (
 		<>
 			{test
