@@ -1,7 +1,5 @@
 package com.dongnebook.domain.member.application;
 
-import com.dongnebook.global.utils.CustomAuthorityUtils;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.dongnebook.domain.member.domain.Member;
@@ -13,28 +11,31 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.List;
-
 @Slf4j
 @Getter
 @Service
 @RequiredArgsConstructor
 public class MemberService {
 	private final MemberRepository memberRepository;
-	private final PasswordEncoder passwordEncoder;
-	private final CustomAuthorityUtils authorityUtils;
+	private PasswordEncoder passwordEncoder = PasswordEncoderFactories.createDelegatingPasswordEncoder();
 
 	@Transactional
 	public Long create(MemberRegisterRequest memberRegisterRequest) {
-		Member member = Member.create(memberRegisterRequest);
-
-		member.setPassword(passwordEncoder.encode(member.getPassword()));
-
-		List<String> roles = authorityUtils.createRoles(member.getUserId());
-		member.setRoles(roles);
-
+		Member member = Member.builder()
+					.userId(memberRegisterRequest.getUserId())
+					.nickname(memberRegisterRequest.getNickname())
+					.password(passwordEncoder.encode(memberRegisterRequest.getPassword()))
+					.build();
 		Long id = memberRepository.save(member).getId();
+
 		return id;
+	}
+	@Transactional
+	public String encodePassword(String password){
+		System.out.println(password);
+		String encodedPassword = passwordEncoder.encode(password);
+		System.out.println(encodedPassword);
+		return encodedPassword;
 	}
 
 	@Transactional(readOnly = true)

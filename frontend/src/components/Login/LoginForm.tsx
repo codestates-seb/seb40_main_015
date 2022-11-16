@@ -7,8 +7,12 @@ const LoginForm = () => {
 	const [id, setId] = useState('');
 	const [password, setPassword] = useState('');
 
+	const handleSubmit = (e: React.SyntheticEvent) => {
+		e.preventDefault();
+	};
+
 	return (
-		<StyledLoginForm>
+		<StyledLoginForm onSubmit={handleSubmit}>
 			<Input label="아이디" state={id} setState={setId} />
 			<Input
 				label="비밀번호"
@@ -24,8 +28,10 @@ const LoginForm = () => {
 };
 
 const StyledLoginForm = styled.form`
-	display: flex;
-	flex-direction: column;
+	width: 100%;
+	min-width: 250px;
+	height: 250px;
+	display: grid;
 `;
 
 const ButtonWrapper = styled.div`
