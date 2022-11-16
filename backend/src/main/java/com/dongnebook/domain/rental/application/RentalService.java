@@ -11,10 +11,7 @@ import com.dongnebook.domain.member.repository.MemberRepository;
 import com.dongnebook.domain.rental.domain.Rental;
 import com.dongnebook.domain.rental.domain.RentalState;
 import com.dongnebook.domain.rental.dto.Request.RentalRegisterRequest;
-import com.dongnebook.domain.rental.exception.CanNotRentMyBookException;
-import com.dongnebook.domain.rental.exception.NotCancelableException;
-import com.dongnebook.domain.rental.exception.RentalNotFoundException;
-
+import com.dongnebook.domain.rental.exception.*;
 import com.dongnebook.domain.rental.repository.RentalRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -22,7 +19,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
-import java.util.Optional;
 
 @Slf4j
 @Service
@@ -42,12 +38,16 @@ public class RentalService {
         Book book = bookCommandRepository.findById(rentalRegisterRequest.getBookId())
                 .orElseThrow(BookNotFoundException::new);
 
-        if(rentalRegisterRequest.getMemberId().equals(book.getMember().getId()))
+        // 상인이 본인 책을 대여하는 경우 예외 처리
+        if(rentalRegisterRequest.getMemberId().equals(book.getMember().getId())){
             throw new CanNotRentMyBookException();
+        }
 
-        if(!book.getBookState().equals(BookState.RENTABLE))
+        if(!book.getBookState().equals(BookState.RENTABLE)) {
             throw new NotRentableException();
-        else book.changeBookState(BookState.TRADING);
+        } else {
+            book.changeBookState(BookState.TRADING);
+        }
 
         Rental rental = Rental.create(book, member);
         rentalRepository.save(rental);
@@ -60,19 +60,56 @@ public class RentalService {
     public void cancelRental(Long rentalId) {
         Rental rental = rentalRepository.findById(rentalId).
                 orElseThrow(RentalNotFoundException::new);
-        if(!rental.getRentalState().equals(RentalState.TRADING))
+        Book book = bookCommandRepository.findById(rental.getBook().getId())
+                .orElseThrow(BookNotFoundException::new);
+
+//        // 해당 주민이 취소하는 경우
+//        if(!rental.getMember().getId().equals("cancel하는 주체"))
+//            throw new CanNotCancelRentalException();
+//        // 해당 상인이 취소하는 경우
+//        if(!book.getMember().getId().equals("cancel하는 주체"))
+//            throw new CanNotCancelRentalException();
+
+        if(!rental.getRentalState().equals(RentalState.TRADING)){
             throw new NotCancelableException();
-        else {
+        } else {
             rental.changeRentalState(RentalState.CANCELED);
             rental.setCanceledAt(LocalDateTime.now());
         }
 
-        Book book = bookCommandRepository.findById(rental.getBook().getId())
-                .orElseThrow(BookNotFoundException::new);
-        if(!book.getBookState().equals(BookState.TRADING))
+        if(!book.getBookState().equals(BookState.TRADING)) {
             throw new NotCancelableException();
-        else book.changeBookState(BookState.RENTABLE);
+        } else {
+            book.changeBookState(BookState.RENTABLE);
+        }
 
     }
+
+    @Transactional
+    public void receiveRental(Long rentalId){
+        Rental rental = rentalRepository.findById(rentalId)
+                .orElseThrow(RentalNotFoundException::new);
+        Book book = bookCommandRepository.findById(rental.getBook().getId())
+                .orElseThrow(BookNotFoundException::new);
+
+        // 해당 주민만 수령 가능
+//        if(!rental.getMember().getId().equals("receive하는 추제"))
+//            throw new CanNotReceiveRentalException();
+
+        if(!rental.getRentalState().equals(RentalState.TRADING)) {
+            throw new NotReceivableException();
+        } else {
+            rental.changeRentalState(RentalState.BEING_RENTED);
+        }
+
+        if(!book.getBookState().equals(BookState.TRADING)) {
+            throw new NotReceivableException();
+        } else {
+            book.changeBookState(BookState.UNRENTABLE_RESERVABLE);
+        }
+
+    }
+
+
 
 }
