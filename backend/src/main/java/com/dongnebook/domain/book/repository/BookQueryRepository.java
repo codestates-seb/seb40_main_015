@@ -4,14 +4,20 @@ import static com.dongnebook.domain.book.domain.QBook.*;
 
 import java.util.List;
 
+import org.springframework.data.domain.SliceImpl;
 import org.springframework.stereotype.Repository;
 
 import com.dongnebook.domain.book.dto.request.SectorBookCountRequest;
 import com.dongnebook.domain.book.dto.response.BookDetailResponse;
+
+import com.dongnebook.domain.book.dto.response.BookSimpleResponse;
 import com.dongnebook.domain.book.dto.response.QBookDetailResponse;
 import com.dongnebook.domain.book.dto.response.QBookResponse;
+import com.dongnebook.domain.book.dto.response.QBookSimpleResponse;
 import com.dongnebook.domain.member.dto.response.QBookDetailMemberResponse;
 import com.dongnebook.domain.model.Location;
+import com.dongnebook.global.dto.request.PageRequest;
+import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 
 import lombok.RequiredArgsConstructor;
@@ -40,7 +46,7 @@ public class BookQueryRepository {
 				)
 			)
 			.from(book)
-			.leftJoin(book.member)
+			.innerJoin(book.member)
 			.fetchOne();
 
 	}
@@ -65,9 +71,34 @@ public class BookQueryRepository {
 				.and(book.location.longitude.between(LonRange.get(0), LonRange.get(3))
 					.and(book.title.contains(bookTitle))))
 			.fetch();
+	}
 
+	public SliceImpl<BookSimpleResponse> noOffsetPagingList(PageRequest pageRequest) {
+		List<BookSimpleResponse> result = jpaQueryFactory.select(
+				new QBookSimpleResponse(book.id, book.title, book.bookState, book.ImgUrl, book.member.nickname))
+			.from(book)
+			.innerJoin(book.member)
+			.where(ltBookId((long)pageRequest.getIndex()))
+			.orderBy(book.id.desc())
+			.limit(pageRequest.getSize() + 1)
+			.fetch();
+
+		boolean hasNext = false;
+
+		if (result.size() > pageRequest.getSize()) {
+			result.remove(pageRequest.getSize());
+			hasNext = true;
+		}
+
+		return new SliceImpl<>(result, pageRequest.of(), hasNext);
 
 	}
 
+	private BooleanExpression ltBookId(Long bookId) {
+		if(bookId == -1){
+			return null;
+		}
+		return book.id.lt(bookId);
+	}
 
 }

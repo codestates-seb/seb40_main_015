@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 
+import org.springframework.data.domain.SliceImpl;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -13,6 +14,7 @@ import com.dongnebook.domain.book.dto.request.BookRegisterRequest;
 import com.dongnebook.domain.book.dto.request.SectorBookCountRequest;
 import com.dongnebook.domain.book.dto.response.BookDetailResponse;
 import com.dongnebook.domain.book.dto.response.BookSectorCountResponse;
+import com.dongnebook.domain.book.dto.response.BookSimpleResponse;
 import com.dongnebook.domain.book.exception.BookNotFoundException;
 import com.dongnebook.domain.book.repository.BookCommandRepository;
 import com.dongnebook.domain.book.repository.BookQueryRepository;
@@ -20,7 +22,7 @@ import com.dongnebook.domain.member.domain.Member;
 import com.dongnebook.domain.member.exception.LocationNotCreatedYetException;
 import com.dongnebook.domain.member.repository.MemberRepository;
 import com.dongnebook.domain.model.Location;
-import com.fasterxml.jackson.annotation.JsonInclude;
+import com.dongnebook.global.dto.request.PageRequest;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -122,5 +124,9 @@ public class BookService {
 			bookSectorCountResponse.initLocation(location);
 			bookSectorCountResponse.initSector(index+1L);
 		}
+	}
+
+	public SliceImpl<BookSimpleResponse> getList(PageRequest pageRequest) {
+		return bookQueryRepository.noOffsetPagingList(pageRequest);
 	}
 }

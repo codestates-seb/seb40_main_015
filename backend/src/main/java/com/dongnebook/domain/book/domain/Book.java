@@ -86,6 +86,7 @@ public class Book extends BaseTimeEntity {
 		this.member = member;
 	}
 
+
 	public static Book create(BookRegisterRequest bookRegisterRequest, Location location, Member member) {
 		return Book.builder()
 			.title(bookRegisterRequest.getTitle())
