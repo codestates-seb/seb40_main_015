@@ -9,7 +9,7 @@ const LoginPage = () => {
 		<StyledLoginPage>
 			<Logo />
 			<LoginForm />
-			<StyledOauth />
+			<StyledStyledOauth />
 			<LinkToSign
 				message="회원이 아니신가요?"
 				link="/signup"

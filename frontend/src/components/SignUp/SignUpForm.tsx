@@ -79,7 +79,6 @@ const StyledSignUpForm = styled.form`
 const IdWrapper = styled.div`
 	min-width: 117.5%;
 	display: grid;
-	/* align-items: flex-end; */
 	grid-template-columns: 22rem 1px;
 	.overlapCheck {
 		width: 4.1rem;
@@ -93,7 +92,6 @@ const IdWrapper = styled.div`
 `;
 
 const PasswordWrapper = styled.div<{ error: boolean }>`
-	/* min-width: ${props => (props.error ? '138.3%' : '100%')}; */
 	display: grid;
 	align-items: flex-end;
 	grid-template-columns: 22rem 1px;
@@ -106,7 +104,6 @@ const PasswordWrapper = styled.div<{ error: boolean }>`
 `;
 
 const AlertSection = styled.div<{ error: boolean }>`
-	/* width: 10rem; */
 	position: relative;
 	left: 1rem;
 	top: 2.3rem;

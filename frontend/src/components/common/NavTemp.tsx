@@ -96,6 +96,7 @@ const Container = styled.div`
 	bottom: 0;
 	padding: 10px 0;
 	border-top: 1px solid #a7a7a7;
+	background-color: #fbfbfb;
 `;
 
 interface BoxProps {
