@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import styled from 'styled-components';
 import { HiOutlineSearch, HiPhotograph } from 'react-icons/hi';
 
@@ -10,16 +11,15 @@ import {
 	TitleWrapper,
 } from '../components/Books/BookElements';
 import Button from '../components/common/Button';
-import { useState } from 'react';
 
-interface PayloadType {
-	title: string;
-	author: string;
-	publisher: string;
-	rentalFee: string;
-	description: string;
-	imageUrl: string;
-}
+// interface PayloadType {
+// 	title: string;
+// 	author: string;
+// 	publisher: string;
+// 	rentalFee: string;
+// 	description: string;
+// 	imageUrl: string;
+// }
 
 const BooksCreatePage = () => {
 	const [title, setTitle] = useState('modern');

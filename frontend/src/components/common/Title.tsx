@@ -1,4 +1,5 @@
 import styled from 'styled-components';
+import logo from '../../assets/image/logo1.png';
 
 const Title = ({ text, isLogo }: { text: string; isLogo?: boolean }) => {
 	return (

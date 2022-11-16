@@ -3,12 +3,27 @@ import styled from 'styled-components';
 import Calendar from 'react-calendar';
 import 'react-calendar/dist/Calendar.css';
 
+const mark: { rentalStatedAt: string; rentalDeadline: string } = {
+	rentalStatedAt: '2022-10-31T00:17:34.045376400',
+	rentalDeadline: '2022-11-09T23:59:59.045376400',
+};
+
+const monthSame: boolean =
+	mark.rentalStatedAt.slice(5, 7) === mark.rentalDeadline.slice(5, 7);
+
 const BookCalendar = () => {
 	const [value, setValue] = useState(new Date());
 
 	return (
 		<CalendarWrapper>
-			<Calendar onChange={setValue} value={value} minDetail="month" />
+			<Calendar
+				onChange={setValue}
+				value={value}
+				minDetail="month"
+				formatDay={(_, date) => {
+					return `${date.getDate()}`;
+				}}
+			/>
 		</CalendarWrapper>
 	);
 };
@@ -28,6 +43,7 @@ const CalendarWrapper = styled.div`
 		background: none;
 		font-size: 16px;
 		margin-top: 8px;
+		color: black;
 	}
 
 	.react-calendar__navigation button[disabled] {
@@ -70,6 +86,10 @@ const CalendarWrapper = styled.div`
 	.react-calendar__tile--active {
 		color: inherit;
 		background: transparent;
+	}
+
+	.highlight {
+		background: #f3a95f;
 	}
 `;
 
