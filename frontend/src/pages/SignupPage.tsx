@@ -8,15 +8,15 @@ function SignupPage() {
 	return (
 		<StyledSignupPage>
 			<Title text="회원가입" />
-			<SignUpForm />
-			<OauthWrapper>
-				<Oauth />
-			</OauthWrapper>
-			<LinkToSign
-				message="이미 회원이신가요?"
-				link="/login"
-				linkText="로그인"
-			/>
+			<Main>
+				<SignUpForm />
+				<StyledOauth />
+				<LinkToSign
+					message="이미 회원이신가요?"
+					link="/login"
+					linkText="로그인"
+				/>
+			</Main>
 		</StyledSignupPage>
 	);
 }
@@ -30,9 +30,13 @@ const StyledSignupPage = styled.div`
 	align-items: center;
 `;
 
-const OauthWrapper = styled.div`
+const StyledOauth = styled(Oauth)`
+	width: 70%;
+	max-width: 270px;
 	margin: 1rem 0;
 	padding: 0 1rem;
 `;
+
+const Main = styled.div``;
 
 export default SignupPage;
