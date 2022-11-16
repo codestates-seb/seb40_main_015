@@ -11,6 +11,81 @@ declare global {
 }
 const { kakao } = window;
 
+const data = [
+	{
+		totalBookCount: 3,
+		sector: 1,
+		representativeLocation: {
+			lat: '37.15163546132',
+			lon: '129.2132451321',
+		},
+	},
+	{
+		totalBookCount: 241,
+		sector: 2,
+		representativeLocation: {
+			lat: '37.15163546132',
+			lon: '125.2132451321',
+		},
+	},
+	{
+		totalBookCount: 412431,
+		sector: 3,
+		representativeLocation: {
+			lat: '57.15163546132',
+			lon: '128.2132451321',
+		},
+	},
+	{
+		totalBookCount: 34636345345,
+		sector: 4,
+		representativeLocation: {
+			lat: '67.15163546132',
+			lon: '128.2132451321',
+		},
+	},
+	{
+		totalBookCount: 111,
+		sector: 5,
+		representativeLocation: {
+			lat: '17.15163546132',
+			lon: '128.2132451321',
+		},
+	},
+	{
+		totalBookCount: 544,
+		sector: 6,
+		representativeLocation: {
+			lat: '27.15163546132',
+			lon: '128.2132451321',
+		},
+	},
+	{
+		totalBookCount: 0,
+		sector: 7,
+		representativeLocation: {
+			lat: '26.15163546132',
+			lon: '128.2132451321',
+		},
+	},
+	{
+		totalBookCount: 4,
+		sector: 8,
+		representativeLocation: {
+			lat: '17.15163546132',
+			lon: '128.2132451321',
+		},
+	},
+	{
+		totalBookCount: 5254234,
+		sector: 9,
+		representativeLocation: {
+			lat: '37.15163546132',
+			lon: '168.2132451321',
+		},
+	},
+];
+
 const BooksSearchPage = () => {
 	//카카오맵을 띄웁니다
 	useEffect(() => {
@@ -32,7 +107,6 @@ const BooksSearchPage = () => {
 				'지도의 중심 좌표는 ' +
 				map.getCenter().toString() +
 				' 입니다.';
-			console.log(message);
 		});
 
 		//확대 축소 기능을 막습니다
@@ -91,13 +165,24 @@ const BooksSearchPage = () => {
 		return () => {};
 	}, []);
 
+	// const handleLocationChange = () => {
+	// 	navigator.geolocation.getCurrentPosition(function (position) {
+	// 		var lat = position.coords.latitude, // 위도
+	// 			lon = position.coords.longitude; // 경도
+
+	// 		var locPosition = new kakao.maps.LatLng(lat, lon); // 마커가 표시될 위치를 geolocation으로 얻어온 좌표로 생성합니다
+	// 	});
+	// };
+
 	return (
 		<Box>
-			<SearchBox>
-				<HiSearch size={30} color="#a7a7a7" />
-				<SearchInput placeholder="책 검색" />
-			</SearchBox>
-
+			<FlexBox>
+				<SearchBox>
+					<HiSearch size={30} color="#a7a7a7" />
+					<SearchInput placeholder="책 검색" />
+				</SearchBox>
+				<TbCurrentLocation className="location" size={40} />
+			</FlexBox>
 			<Container id="map" />
 			<div
 				style={{
@@ -111,9 +196,7 @@ const BooksSearchPage = () => {
 					justifyContent: 'center',
 					alignItems: 'center',
 					backgroundColor: '#Fbfbfb',
-				}}>
-				<TbCurrentLocation className="location" size={40} />
-			</div>
+				}}></div>
 		</Box>
 	);
 };
@@ -127,9 +210,29 @@ const Box = styled.div`
 const Container = styled.div`
 	width: 100vw;
 	height: 93.5vh;
+`;
+
+const FlexBox = styled.div`
+	position: fixed;
+	top: 20px;
+	margin: 0 auto;
+	left: 0;
+	right: 0;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	z-index: 90;
+	padding: 0 20px;
 
 	.location {
-		color: #26795d;
+		background-color: white;
+		z-index: 100;
+		margin-left: 1.25rem;
+		height: 3rem;
+		color: #016241;
+		cursor: pointer;
+		padding: 5px;
+		border-radius: 5px;
 	}
 `;
 
@@ -138,13 +241,20 @@ const SearchBox = styled.div`
 	height: 3rem;
 	display: flex;
 	align-items: center;
-	border: 1px solid #a7a7a7;
+	border: 1px solid white;
 	border-radius: 5px;
+	background-color: white;
+	width: 90vw;
+	padding: 5px;
+	box-shadow: 2px 2px 2px 2px rgba(108, 122, 137, 0.2);
 `;
 
 const SearchInput = styled.input`
 	border: none;
-	padding: 10px;
+	width: 100%;
+	outline: none;
+	padding-left: 10px;
+	font-size: ${props => props.theme.fontSizes.paragraph};
 	// height: 5rem;
 `;
 
