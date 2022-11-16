@@ -2,7 +2,7 @@ import styled from 'styled-components';
 import { RiKakaoTalkFill } from 'react-icons/ri';
 import { SiNaver } from 'react-icons/si';
 import { FcGoogle } from 'react-icons/fc';
-import ThirdPartyIcon from './ThirdPartyIcon';
+import ThirdPartyIcon from '../Login/ThirdPartyIcon';
 
 const Oauth = () => {
 	return (
@@ -10,9 +10,9 @@ const Oauth = () => {
 			<StyledDiv>SNS 간편 로그인</StyledDiv>
 			<ThirdPartyContainer>
 				{companies.map(el => (
-					<div key={el.name}>
+					<span key={el.name}>
 						<ThirdPartyIcon company={el} />
-					</div>
+					</span>
 				))}
 			</ThirdPartyContainer>
 		</StyledOauth>
@@ -52,6 +52,9 @@ const ThirdPartyContainer = styled.div`
 	padding: 10px;
 	display: flex;
 	justify-content: space-between;
+	span {
+		cursor: pointer;
+	}
 `;
 
 export default Oauth;
