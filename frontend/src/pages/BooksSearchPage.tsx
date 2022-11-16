@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import { TbCurrentLocation } from 'react-icons/tb';
 import { HiSearch } from 'react-icons/hi';
 import { redirect } from 'react-router-dom';
+
 declare global {
 	interface Window {
 		kakao: any;

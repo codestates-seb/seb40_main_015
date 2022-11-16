@@ -160,7 +160,7 @@ const MerchantInfo = styled(Div)`
 			justify-content: space-between;
 			align-items: center;
 
-			width: 30;
+			width: 30vw;
 			height: 2rem;
 			border-radius: 4px;
 			border: 1px solid rgba(1, 1, 1, 0.4);
