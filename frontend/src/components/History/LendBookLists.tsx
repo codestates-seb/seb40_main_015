@@ -2,7 +2,6 @@ import { useState } from 'react';
 import styled from 'styled-components';
 import dummyImage from '../../assets/image/dummy.png';
 import convertDate from '../../utils/convertDate';
-import Button from '../common/Button';
 import LendStatusButton from './LendStatusButton';
 
 const LentBookLists = () => {
@@ -50,9 +49,9 @@ const LentBookLists = () => {
 	);
 };
 
-
 const Wrapper = styled.div`
 	width: 100%;
+	max-width: 850px;
 	display: flex;
 	flex-direction: column;
 	margin-bottom: 1rem;
@@ -66,7 +65,6 @@ const Container = styled.div`
 	padding: 1rem;
 	margin-bottom: 0.5rem;
 	background-color: white;
-
 `;
 
 const FlexBox = styled.div`
@@ -87,6 +85,7 @@ const InfoWrapped = styled.div`
 
 const BottomContainer = styled.div`
 	width: 90vw;
+	max-width: 800px;
 	display: flex;
 	justify-content: center;
 	flex-direction: column;
@@ -97,10 +96,8 @@ const BottomContainer = styled.div`
 const UserInfoBox = styled.div`
 	border: 1px solid #eaeaea;
 	border-radius: 5px;
-	width: 90vw;
 	display: flex;
 	justify-content: space-evenly;
-	margin: auto;
 	margin-bottom: 1rem;
 	padding: 1rem 0;
 	background-color: white;
