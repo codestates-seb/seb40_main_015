@@ -10,11 +10,11 @@ import lombok.Getter;
 public class MemberRegisterRequest {
 
 	@NotBlank(message = "아이디는 필수 입력 값입니다.")
-	@Pattern(regexp = "^(?=.*[A-Za-z])(?=.*\\d)[A-Za-z\\d]$", message = "아이디는 영문과 숫자의 조합입니다.")
+	@Pattern(regexp = "^[a-zA-Z0-9]*$", message = "아이디는 영문과 숫자의 조합입니다.")
 	private String userId;
 
 	@NotBlank(message = "비밀번호는 필수 입력 값입니다.")
-	@Pattern(regexp = "^(?=.*[A-Za-z])(?=.*?[#?!@$%^&*-])[A-Za-z\\d#?!@$%^&*-]{8,}$", message = "비밀번호는 영문과 특수문자를 포함한 8자리 이상이어야 합니다.")
+	@Pattern(regexp = "^(?=.*[A-Za-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$", message = "비밀번호는 영문과 숫자, 특수문자를 포함해 8자리 이상이어야 합니다.")
 	private String password;
 
 	@NotBlank(message = "닉네임은 필수 입력 값입니다.")
@@ -26,4 +26,5 @@ public class MemberRegisterRequest {
 		this.nickname = nickname;
 		this.password = password;
 	}
+
 }

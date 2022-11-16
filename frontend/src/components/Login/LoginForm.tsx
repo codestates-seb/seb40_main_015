@@ -20,23 +20,20 @@ const LoginForm = () => {
 				setState={setPassword}
 				type="password"
 			/>
-			<ButtonWrapper>
-				<Button>로그인</Button>
-			</ButtonWrapper>
+			<StyledButton>로그인</StyledButton>
 		</StyledLoginForm>
 	);
 };
 
 const StyledLoginForm = styled.form`
 	width: 100%;
-	min-width: 250px;
-	height: 250px;
+	min-width: 22rem;
+	height: 300px;
 	display: grid;
 `;
 
-const ButtonWrapper = styled.div`
-	display: flex;
-	flex-direction: column;
+const StyledButton = styled(Button)`
+	height: 3.5rem;
 	margin: 2rem 0;
 `;
 
