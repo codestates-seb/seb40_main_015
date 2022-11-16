@@ -38,16 +38,9 @@ public class RentalService {
         Book book = bookCommandRepository.findById(rentalRegisterRequest.getBookId())
                 .orElseThrow(BookNotFoundException::new);
 
-        // 상인이 본인 책을 대여하는 경우 예외 처리
-        if(rentalRegisterRequest.getMemberId().equals(book.getMember().getId())){
-            throw new CanNotRentMyBookException();
-        }
+        blockRentMyBook(rentalRegisterRequest, book);
 
-        if(!book.getBookState().equals(BookState.RENTABLE)) {
-            throw new NotRentableException();
-        } else {
-            book.changeBookState(BookState.TRADING);
-        }
+        changeToTradingBookStateWhenRentableBookState(book);
 
         Rental rental = Rental.create(book, member);
         rentalRepository.save(rental);
@@ -55,13 +48,12 @@ public class RentalService {
         return rental.getId();
     }
 
+
     // 추후 cancel 추체에 따른 알림 대상이 달라지기에 cancel 주체별로 메서드 분리가 필요함
     @Transactional
     public void cancelRental(Long rentalId) {
-        Rental rental = rentalRepository.findById(rentalId).
-                orElseThrow(RentalNotFoundException::new);
-        Book book = bookCommandRepository.findById(rental.getBook().getId())
-                .orElseThrow(BookNotFoundException::new);
+        Rental rental = getRental(rentalId);
+        Book book = getBookFromRental(rental);
 
 //        // 해당 주민이 취소하는 경우
 //        if(!rental.getMember().getId().equals("cancel하는 주체"))
@@ -70,46 +62,86 @@ public class RentalService {
 //        if(!book.getMember().getId().equals("cancel하는 주체"))
 //            throw new CanNotCancelRentalException();
 
+        changeToCanceledRentalStateWhenTradingRentalState(rental);
+        changeToRentableBookStateWhenTradingBookState(book);
+    }
+
+    @Transactional
+    public void receiveBook(Long rentalId){
+        Rental rental = getRental(rentalId);
+        Book book = getBookFromRental(rental);
+
+        // 해당 주민만 수령 가능
+//        if(!rental.getMember().getId().equals("receive하는 추제"))
+//            throw new CanNotReceiveRentalException();
+
+        changeToBeingRentedRentalStateWhenTradingRentalState(rental);
+        changeToUnrentalbeReservableBookStateWhenTradingBookState(book);
+    }
+
+
+
+    public Rental getRental(Long rentalId) {
+        return rentalRepository.findById(rentalId)
+                .orElseThrow(RentalNotFoundException::new);
+    }
+
+    public Book getBookFromRental(Rental rental) {
+        return bookCommandRepository.findById(rental.getBook().getId())
+                .orElseThrow(BookNotFoundException::new);
+    }
+
+    // 상인이 본인 책을 대여하는 경우 예외 처리
+    private static void blockRentMyBook(RentalRegisterRequest rentalRegisterRequest, Book book) {
+        if(rentalRegisterRequest.getMemberId().equals(book.getMember().getId())){
+            throw new CanNotRentMyBookException();
+        }
+    }
+
+    // 도서상태가 대여가능인 경우, 거래가능으로 변경
+    private static void changeToTradingBookStateWhenRentableBookState(Book book) {
+        if(!book.getBookState().equals(BookState.RENTABLE)) {
+            throw new NotRentableException();
+        } else {
+            book.changeBookState(BookState.TRADING);
+        }
+    }
+
+    // 대여상태가 거래중인 경우, 취소된 대여로 변경
+    private static void changeToCanceledRentalStateWhenTradingRentalState(Rental rental) {
         if(!rental.getRentalState().equals(RentalState.TRADING)){
             throw new NotCancelableException();
         } else {
             rental.changeRentalState(RentalState.CANCELED);
             rental.setCanceledAt(LocalDateTime.now());
         }
+    }
 
+    // 도서상태가 거래중인 경우, 대여가능으로 변경
+    private static void changeToRentableBookStateWhenTradingBookState(Book book) {
         if(!book.getBookState().equals(BookState.TRADING)) {
             throw new NotCancelableException();
         } else {
             book.changeBookState(BookState.RENTABLE);
         }
-
     }
 
-    @Transactional
-    public void receiveRental(Long rentalId){
-        Rental rental = rentalRepository.findById(rentalId)
-                .orElseThrow(RentalNotFoundException::new);
-        Book book = bookCommandRepository.findById(rental.getBook().getId())
-                .orElseThrow(BookNotFoundException::new);
-
-        // 해당 주민만 수령 가능
-//        if(!rental.getMember().getId().equals("receive하는 추제"))
-//            throw new CanNotReceiveRentalException();
-
+    // 대여상태가 거래중인 경우, 대여중으로 변경
+    private static void changeToBeingRentedRentalStateWhenTradingRentalState(Rental rental) {
         if(!rental.getRentalState().equals(RentalState.TRADING)) {
             throw new NotReceivableException();
         } else {
             rental.changeRentalState(RentalState.BEING_RENTED);
         }
+    }
 
+    // 도서상태가 거래중인 경우, 거래중&예약가능으로 변경
+    private static void changeToUnrentalbeReservableBookStateWhenTradingBookState(Book book) {
         if(!book.getBookState().equals(BookState.TRADING)) {
             throw new NotReceivableException();
         } else {
             book.changeBookState(BookState.UNRENTABLE_RESERVABLE);
         }
-
     }
-
-
 
 }
