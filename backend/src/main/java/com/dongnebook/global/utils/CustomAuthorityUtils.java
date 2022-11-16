@@ -1,4 +1,4 @@
-package com.dongnebook.global.util;
+package com.dongnebook.global.utils;
 
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.AuthorityUtils;

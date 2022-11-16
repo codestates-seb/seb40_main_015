@@ -27,3 +27,8 @@ Spring:
     servlet:
       encoding:
         force-response: true
+
+  jwt:
+    secret-key: ${JWT_SECRET_KEY}
+    access-token-expiration-minutes: 30
+    refresh-token-expiration-minutes: 420

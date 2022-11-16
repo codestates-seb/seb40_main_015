@@ -2,7 +2,12 @@ package com.dongnebook.global.config.security.auth;
 
 import java.util.Arrays;
 
-import com.dongnebook.global.util.CustomAuthorityUtils;
+import com.dongnebook.global.config.security.auth.filter.JwtAuthenticationFilter;
+import com.dongnebook.global.config.security.auth.filter.JwtVerificationFilter;
+import com.dongnebook.global.config.security.auth.handler.MemberAuthenticationFailureHandler;
+import com.dongnebook.global.config.security.auth.handler.MemberAuthenticationSuccessHandler;
+import com.dongnebook.global.config.security.auth.jwtTokenizer.JwtTokenizer;
+import com.dongnebook.global.utils.CustomAuthorityUtils;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -17,27 +22,34 @@ import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
 @Configuration
 public class SecurityConfiguration {
-
 	private final JwtTokenizer jwtTokenizer;
+	private final CustomAuthorityUtils authorityUtils;
+
+	public SecurityConfiguration(JwtTokenizer jwtTokenizer, CustomAuthorityUtils authorityUtils) {
+		this.jwtTokenizer = jwtTokenizer;
+		this.authorityUtils = authorityUtils;
+	}
 
 	@Bean
 	public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
 		http
-			.headers().frameOptions().sameOrigin()
-			.and()
-			.csrf().disable()
-			.cors().configurationSource(corsConfigurationSource())
-			.and()
-			.formLogin().disable()
-			.httpBasic().disable()
-			.authorizeHttpRequests(authorize -> authorize
-				.anyRequest().permitAll()
-			);
+				.headers().frameOptions().sameOrigin()
+				.and()
+				.csrf().disable()
+				.cors().configurationSource(corsConfigurationSource())
+				.and()
+				.formLogin().disable()
+				.httpBasic().disable()
+				.authorizeHttpRequests(authorize -> authorize
+						.anyRequest().permitAll()
+				);
 		return http.build();
 	}
 
 	@Bean
-	public PasswordEncoder passwordEncoder() { return PasswordEncoderFactories.createDelegatingPasswordEncoder();}
+	public PasswordEncoder passwordEncoder() {
+		return PasswordEncoderFactories.createDelegatingPasswordEncoder();
+	}
 
 	@Bean
 	CorsConfigurationSource corsConfigurationSource() {
@@ -49,23 +61,24 @@ public class SecurityConfiguration {
 		source.registerCorsConfiguration("/**", configuration);
 		return source;
 	}
-}
 
-public class CustomFilterConfigurer extends AbstractHttpConfigurer<CustomFilterConfigurer, HttpSecurity> {
-	@Override
-	public void configure(HttpSecurity builder) throws Exception {
-		AuthenticationManager authenticationManager
-				= builder.getSharedObject(AuthenticationManager.class);
-		JwtAuthenticationFilter jwtAuthenticationFilter
-				= new JwtAuthenticationFilter(authenticationManager, jwtTokenizer);
-		jwtAuthenticationFilter.setFilterProcessesUrl("/auth/login"); // Login url
-		jwtAuthenticationFilter.setAuthenticationSuccessHandler(new MemberAuthenticationSuccessHandler());
-		jwtAuthenticationFilter.setAuthenticationFailureHandler(new MemberAuthenticationFailureHandler());
+	public class CustomFilterConfigurer extends AbstractHttpConfigurer<CustomFilterConfigurer, HttpSecurity> {
+		@Override
+		public void configure(HttpSecurity builder) throws Exception {
+			AuthenticationManager authenticationManager
+					= builder.getSharedObject(AuthenticationManager.class);
+			JwtAuthenticationFilter jwtAuthenticationFilter
+					= new JwtAuthenticationFilter(authenticationManager, );
+			jwtAuthenticationFilter.setFilterProcessesUrl("/auth/login"); // Login url
+			jwtAuthenticationFilter.setAuthenticationSuccessHandler(new MemberAuthenticationSuccessHandler());
+			jwtAuthenticationFilter.setAuthenticationFailureHandler(new MemberAuthenticationFailureHandler());
 
-		JwtVerificationFilter jwtVerificationFilter = new JwtVerificationFilter(jwtTokenizer, authorityUtils);
+			JwtVerificationFilter jwtVerificationFilter = new JwtVerificationFilter(jwtTokenizer, authorityUtils);
 
-		builder
-				.addFilter(jwtAuthenticationFilter)
-				.addFilterAfter(jwtVerificationFilter, JwtAuthenticationFilter.class);
+			builder
+					.addFilter(jwtAuthenticationFilter)
+					.addFilterAfter(jwtVerificationFilter, JwtAuthenticationFilter.class);
+		}
 	}
 }
+

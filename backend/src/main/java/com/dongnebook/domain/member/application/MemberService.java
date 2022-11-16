@@ -1,6 +1,6 @@
 package com.dongnebook.domain.member.application;
 
-import com.dongnebook.global.util.CustomAuthorityUtils;
+import com.dongnebook.global.utils.CustomAuthorityUtils;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
