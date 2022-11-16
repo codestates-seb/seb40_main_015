@@ -15,6 +15,8 @@ import com.dongnebook.domain.model.Location;
 
 import lombok.*;
 
+import java.util.List;
+
 
 @Entity
 @Getter

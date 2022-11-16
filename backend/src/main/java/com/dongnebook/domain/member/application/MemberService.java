@@ -1,5 +1,7 @@
 package com.dongnebook.domain.member.application;
 
+import org.springframework.security.crypto.factory.PasswordEncoderFactories;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.dongnebook.domain.member.domain.Member;
@@ -29,13 +31,6 @@ public class MemberService {
 		Long id = memberRepository.save(member).getId();
 
 		return id;
-	}
-	@Transactional
-	public String encodePassword(String password){
-		System.out.println(password);
-		String encodedPassword = passwordEncoder.encode(password);
-		System.out.println(encodedPassword);
-		return encodedPassword;
 	}
 
 	@Transactional(readOnly = true)
