@@ -10,8 +10,52 @@ import {
 	TitleWrapper,
 } from '../components/Books/BookElements';
 import Button from '../components/common/Button';
+import { useState } from 'react';
+
+interface PayloadType {
+	title: string;
+	author: string;
+	publisher: string;
+	rentalFee: string;
+	description: string;
+	imageUrl: string;
+}
 
 const BooksCreatePage = () => {
+	const [title, setTitle] = useState('modern');
+	const [author, setAuthor] = useState('woongmo');
+	const [publisher, setPublisher] = useState('wiki');
+	const [rentalFee, setRentalFee] = useState('');
+	const [description, setDescription] = useState('test1');
+	const [imageUrl, setImageUrl] = useState('notyet');
+
+	const payload = {
+		title,
+		author,
+		publisher,
+		rentalFee,
+		description,
+		imageUrl,
+	};
+
+	const handleCreate = () => {
+		console.log('click: ', payload);
+	};
+	/*
+  const handleChangeTitle = (e:React.ChangeEvent<HTMLInputElement>) => {
+    // 도서 api 조회 -> 제목, 저자, 출판사 상태 업데이트
+    
+  }
+  */
+	const handleChangeRentalFee = (e: React.ChangeEvent<HTMLInputElement>) => {
+		setRentalFee(e.target.value);
+	};
+	const handleChangeDescription = (
+		e: React.ChangeEvent<HTMLTextAreaElement>,
+	) => {
+		setDescription(e.target.value);
+	};
+
 	return (
 		<Main>
 			<TitleWrapper>
@@ -37,11 +81,15 @@ const BooksCreatePage = () => {
 						type="number"
 						placeholder="대여료"
 						step={100}
+						onChange={handleChangeRentalFee}
 					/>
 					<span>원 </span>
 				</BookInfo>
 				<BookInfo>
-					<textarea placeholder="등록하실 책과 관련된 내용을 입력해주세요" />
+					<textarea
+						placeholder="등록하실 책과 관련된 내용을 입력해주세요"
+						onChange={handleChangeDescription}
+					/>
 				</BookInfo>
 				<BookInfo>
 					<span>거래 위치 : 서울시 종로구</span>
@@ -61,7 +109,7 @@ const BooksCreatePage = () => {
 					</div>
 				</BookInfo>
 			</BodyContainer>
-			<Button>등록하기</Button>
+			<Button onClick={handleCreate}>등록하기</Button>
 		</Main>
 	);
 };
