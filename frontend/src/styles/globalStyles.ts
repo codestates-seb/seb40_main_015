@@ -43,7 +43,7 @@ const GlobalStyle = createGlobalStyle`
     font-size: calc( 10px + 0.4vw );
     vertical-align: baseline;
     font-family: 'Apple SD', 'kotra';
-    background-color: #FBFBFB;
+    /* background-color: #FBFBFB; */
     /* overflow-y: auto;  */
     /* overflow: overlay; */
     /* overflow-x: hidden; */

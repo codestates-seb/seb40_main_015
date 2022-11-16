@@ -6,7 +6,7 @@ const Title = ({ text, isLogo }: { text: string; isLogo?: boolean }) => {
 		<Text>
 			{isLogo ? (
 				<>
-					<Logo src={Logo} />
+					<Logo src={logo} />
 					<span>{text}</span>
 				</>
 			) : (
