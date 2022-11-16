@@ -33,13 +33,13 @@ const LayoutTemp = () => {
 };
 const Main = styled.div`
 	display: flex;
-	height: 100%;
+	height: 100%
 	width: 100%;
 	justify-content: center;
 `;
 
 const Body = styled.div`
-	width: 100%;
+	width: 100%
 	padding-bottom: 50px;
 `;
 
