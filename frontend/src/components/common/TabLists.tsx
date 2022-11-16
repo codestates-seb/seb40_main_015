@@ -41,6 +41,8 @@ interface TabProps {
 
 const Tab = styled.button<TabProps>`
 	padding: 0.8rem 5rem;
+	width: 40%;
+	max-width: 300px;
 	background-color: ${props =>
 		props.selected
 			? props.theme.colors.buttonGreen
