@@ -15,14 +15,13 @@ const StyledLogo = styled.div`
 `;
 
 const StyledImg = styled.img`
-	width: 5rem;
+	width: 9rem;
 	margin-bottom: 5px;
 `;
 
 const StyledDiv = styled.div`
-	height: 2.7rem;
 	font-family: 'kotra';
-	font-size: 1.8rem;
+	font-size: 2.8rem;
 	text-align: center;
 `;
 

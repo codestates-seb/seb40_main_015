@@ -1,8 +1,8 @@
 import styled from 'styled-components';
-import LinkToSignUp from '../components/Login/LinkToSignUp';
+import LinkToSign from '../components/common/LinkToSign';
 import LoginForm from '../components/Login/LoginForm';
 import Logo from '../components/Login/Logo';
-import Oauth from '../components/Login/Oauth';
+import Oauth from '../components/common/Oauth';
 
 const LoginPage = () => {
 	return (
@@ -10,7 +10,11 @@ const LoginPage = () => {
 			<Logo />
 			<LoginForm />
 			<Oauth />
-			<LinkToSignUp />
+			<LinkToSign
+				message="회원이 아니신가요?"
+				link="/signup"
+				linkText="회원가입"
+			/>
 		</StyledLoginPage>
 	);
 };
