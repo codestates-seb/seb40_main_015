@@ -16,14 +16,14 @@ Spring:
       hibernate:
         format_sql: true  # (3) SQL pretty print
 
-
-  logging:
-    level:
-      org:
-        springframework:
-          orm:
-            jpa: DEBUG
-  server:
-    servlet:
-      encoding:
-        force-response: true
+logging:
+  level:
+    org:
+      springframework:
+        orm:
+          jpa: DEBUG
+server:
+  servlet:
+    encoding:
+      force-response: true
+  port: 8181
