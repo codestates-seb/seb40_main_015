@@ -12,6 +12,8 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import javax.validation.Valid;
 import java.net.URI;
+import java.util.HashMap;
+import java.util.Map;
 
 @RestController
 @RequiredArgsConstructor
@@ -19,14 +21,18 @@ public class MemberController {
     private final MemberService memberService;
 
     @PostMapping("/auth/signup")
-    public ResponseEntity create(@Valid @RequestBody MemberRegisterRequest memberRegisterRequest) {
+    public ResponseEntity<Map<String, Long>> create(@Valid @RequestBody MemberRegisterRequest memberRegisterRequest) {
         Long createdMemberId = memberService.create(memberRegisterRequest);
 
+        Map<String, Long> createdResult = new HashMap<>();
+        createdResult.put("id", createdMemberId);
+
         URI createdMemberUri = ServletUriComponentsBuilder.fromPath("/member").path("/{id}").buildAndExpand(createdMemberId).toUri();
-        return ResponseEntity.created(createdMemberUri).body(createdMemberId);
+
+        return ResponseEntity.created(createdMemberUri).body(createdResult);
     } // /members/{id} 자원 생성
 
-    @GetMapping("/auth/signup/checkId") //API로 중복체크하는 로직memberIdResponse
+    @GetMapping("/auth/signup/checkId") //API로 중복체크하는 로직
     public ResponseEntity<MemberExistsCheckResponse> checkSameUserId(@RequestParam String id) {
         boolean userIdExists = memberService.checkUserIdDuplication(id);
 

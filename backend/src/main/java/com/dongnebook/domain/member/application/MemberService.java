@@ -1,5 +1,6 @@
 package com.dongnebook.domain.member.application;
 
+import org.springframework.security.crypto.factory.PasswordEncoderFactories;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -18,20 +19,24 @@ import org.springframework.transaction.annotation.Transactional;
 @RequiredArgsConstructor
 public class MemberService {
 	private final MemberRepository memberRepository;
-	private final PasswordEncoder passwordEncoder;
+	private PasswordEncoder passwordEncoder = PasswordEncoderFactories.createDelegatingPasswordEncoder();
 
 	@Transactional
 	public Long create(MemberRegisterRequest memberRegisterRequest) {
-		Member member = Member.create(memberRegisterRequest);
-//		member.setPassword(passwordEncoder.encode(member.getPassword()));
-		encodePassword(member.getPassword());
-
+		Member member = Member.builder()
+					.userId(memberRegisterRequest.getUserId())
+					.nickname(memberRegisterRequest.getNickname())
+					.password(passwordEncoder.encode(memberRegisterRequest.getPassword()))
+					.build();
 		Long id = memberRepository.save(member).getId();
+
 		return id;
 	}
 	@Transactional
 	public String encodePassword(String password){
+		System.out.println(password);
 		String encodedPassword = passwordEncoder.encode(password);
+		System.out.println(encodedPassword);
 		return encodedPassword;
 	}
 
