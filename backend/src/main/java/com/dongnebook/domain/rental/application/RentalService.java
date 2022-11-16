@@ -14,6 +14,7 @@ import com.dongnebook.domain.rental.dto.Request.RentalRegisterRequest;
 import com.dongnebook.domain.rental.exception.CanNotRentMyBookException;
 import com.dongnebook.domain.rental.exception.NotCancelableException;
 import com.dongnebook.domain.rental.exception.RentalNotFoundException;
+
 import com.dongnebook.domain.rental.repository.RentalRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
