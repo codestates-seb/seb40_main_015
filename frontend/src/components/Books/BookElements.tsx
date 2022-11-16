@@ -7,7 +7,8 @@ const Main = styled.div`
 	display: flex;
 	flex-direction: column;
 
-	font-size: 20px;
+	/* font-size: calc(12px + 0.4vw); */
+	/* font-size: ${props => [props.theme.fontSizes.subtitle]}; */
 	padding-bottom: 30px;
 `;
 const TitleWrapper = styled.div``;
@@ -36,7 +37,6 @@ const Div = styled.fieldset`
 const BookInfo = styled(Div)`
 	display: flex;
 	align-items: center;
-
 	.partition {
 		width: 2px;
 		height: 20px;
@@ -62,12 +62,15 @@ const BookInfo = styled(Div)`
 	}
 
 	label {
-		font-size: 30px;
+		/* font-size: calc(12px + 0.4vw); */
+		font-size: ${props => [props.theme.fontSizes.subtitle]};
+
 		margin-left: 1rem;
 	}
 
 	input {
-		font-size: 20px;
+		font-size: ${props => [props.theme.fontSizes.subtitle]};
+
 		width: 100%;
 		border: none;
 		background-color: transparent;
@@ -78,7 +81,8 @@ const BookInfo = styled(Div)`
 	}
 
 	textarea {
-		font-size: 20px;
+		/* font-size: 20px; */
+		font-size: ${props => [props.theme.fontSizes.paragraph]};
 		width: 100%;
 		height: 20vh;
 		background-color: transparent;

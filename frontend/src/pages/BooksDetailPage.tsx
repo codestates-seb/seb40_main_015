@@ -63,7 +63,7 @@ const BooksDetailPage = () => {
 					<span>원</span>
 				</BookRentalFee>
 				<BookDsc>
-					<div>재미있어요</div>
+					<span>재미있어요</span>
 					<div>재미있어요</div>
 					<div>재미있어요</div>
 					<div>재미있어요</div>
