@@ -2,12 +2,10 @@ package com.dongnebook.domain.rental.domain;
 
 import com.dongnebook.domain.book.domain.Book;
 import com.dongnebook.domain.member.domain.Member;
-import lombok.AccessLevel;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
@@ -15,6 +13,7 @@ import java.time.LocalDateTime;
 @Entity
 @Getter
 @Table(name = "rental")
+@EntityListeners(AuditingEntityListener.class)
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Rental {
 
@@ -30,42 +29,57 @@ public class Rental {
     @Column(name = "rental_deadLine", nullable = false)
     private LocalDateTime rentalDeadLine;
 
-    @LastModifiedDate
     @Column(name = "rental_returned_at")
     private LocalDateTime rentalReturnedAt;
 
     @Column(name = "canceled_at")
     private LocalDateTime canceledAt;
 
+    @LastModifiedDate
     @Column(name = "last_modified_at")
     private LocalDateTime modifiedAt;
 
-    @Column(name = "is_returned", nullable = false)
-    private boolean isReturned;
-
-    @Column(name = "is_canceled", nullable = false)
-    private boolean isCanceled;
-
-    @Column(name = "is_reviewed", nullable = false)
-    private boolean isReviewed;
+    @Convert(converter = RentalStateConverter.class)
+    @Column(name = "rental_state", nullable = false)
+    private RentalState rentalState;
 
     @OneToOne
     @JoinColumn(name = "book_id", nullable = false)
     private Book book;
 
     @ManyToOne
-    @JoinColumn(name = "member_id", nullable = false)
+    @JoinColumn(name = "customer_id", nullable = false)
     private Member member;
 
     @Builder
-    public Rental(boolean isReturned, boolean isCanceled, boolean isReviewed,
+    public Rental(LocalDateTime rentalDeadLine, RentalState rentalState,
                   Book book, Member member) {
-        this.rentalDeadLine = LocalDateTime.now().plusDays(9).withHour(23).withMinute(59).withSecond(59);
-        this.isReturned = isReturned;
-        this.isCanceled = isCanceled;
-        this.isReviewed = isReviewed;
+        this.rentalDeadLine = rentalDeadLine;
+        this.rentalState = rentalState;
         this.book = book;
         this.member = member;
     }
 
+    public static Rental create(Book book, Member member) {
+        return Rental.builder()
+                .rentalDeadLine(LocalDateTime.now().plusDays(9).withHour(23).withMinute(59).withSecond(59))
+                .rentalState(RentalState.TRADING)
+                .book(book)
+                .member(member)
+                .build();
+    }
+}
+
+@Converter
+class RentalStateConverter implements AttributeConverter<RentalState, String> {
+
+    @Override
+    public String convertToDatabaseColumn(RentalState attribute) {
+        return String.valueOf(attribute);
+    }
+
+    @Override
+    public RentalState convertToEntityAttribute(String dbDate){
+        return RentalState.valueOf(dbDate);
+    }
 }
