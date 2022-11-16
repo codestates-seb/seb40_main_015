@@ -60,6 +60,14 @@ public class Rental {
         this.member = member;
     }
 
+    public void changeRentalState(RentalState rentalState) {
+        this.rentalState = rentalState;
+    }
+
+    public void setCanceledAt(LocalDateTime canceledAt) {
+        this.canceledAt = canceledAt;
+    }
+
     public static Rental create(Book book, Member member) {
         return Rental.builder()
                 .rentalDeadLine(LocalDateTime.now().plusDays(9).withHour(23).withMinute(59).withSecond(59))

@@ -9,7 +9,7 @@ const LoginPage = () => {
 		<StyledLoginPage>
 			<Logo />
 			<LoginForm />
-			<Oauth />
+			<StyledOauth />
 			<LinkToSign
 				message="회원이 아니신가요?"
 				link="/signup"
@@ -22,8 +22,9 @@ const LoginPage = () => {
 export default LoginPage;
 
 const StyledLoginPage = styled.div`
-	padding: 70px 0;
+	height: 100vh;
 	display: flex;
 	flex-direction: column;
 	align-items: center;
+	justify-content: center;
 `;
