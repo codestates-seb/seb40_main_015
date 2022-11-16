@@ -40,7 +40,9 @@ interface TabProps {
 }
 
 const Tab = styled.button<TabProps>`
-	padding: 0.8rem 3rem;
+	padding: 0.8rem 5rem;
+	width: 40%;
+	max-width: 300px;
 	background-color: ${props =>
 		props.selected
 			? props.theme.colors.buttonGreen
@@ -50,5 +52,9 @@ const Tab = styled.button<TabProps>`
 	box-shadow: nonoe;
 	color: ${props => (props.selected ? '#FFFFFF' : '#000000')};
 	cursor: pointer;
-	font-size: 0.8rem;
+	font-size: ${props => props.theme.fontSizes.paragraph};
+	:hover {
+		background-color: ${props =>
+			props.selected ? props.theme.colors.buttonHoverGreen : '#CFCFCF'};
+	}
 `;

@@ -2,9 +2,9 @@ import { useState } from 'react';
 import styled from 'styled-components';
 import dummyImage from '../../assets/image/dummy.png';
 import convertDate from '../../utils/convertDate';
-import RentStatusButton from './RentStatusButton';
+import LendStatusButton from './LendStatusButton';
 
-const RentBookLists = () => {
+const LentBookLists = () => {
 	const [test, setTest] = useState<number[]>([1, 2, 3, 4, 5]);
 	const [state, setState] = useState([
 		'TRADING',
@@ -15,6 +15,7 @@ const RentBookLists = () => {
 	]);
 	const from = '2022-11-15T00:17:34.045376400';
 	const to = '2022-11-21T00:17:34.045376400';
+
 	return (
 		<>
 			{test
@@ -32,8 +33,14 @@ const RentBookLists = () => {
 											<p>{convertDate(from, to, true)}</p>
 										</InfoWrapped>
 									</FlexBox>
-									<RentStatusButton status={state[i]} />
 								</Container>
+								<BottomContainer>
+									<UserInfoBox>
+										<span>주민: 김주민</span>
+										<span>대여기간: {convertDate(from, to)}</span>
+									</UserInfoBox>
+									<LendStatusButton status={state[i]} />
+								</BottomContainer>
 							</Wrapper>
 						);
 				  })
@@ -44,21 +51,19 @@ const RentBookLists = () => {
 
 const Wrapper = styled.div`
 	width: 100%;
+	max-width: 850px;
 	display: flex;
 	flex-direction: column;
-	align-items: center;
 	margin-bottom: 1rem;
 `;
 
 const Container = styled.div`
-	width: 90vw;
-	max-width: 850px;
 	display: flex;
 	justify-content: space-between;
-	margin-bottom: 0.5rem;
 	border: 1px solid #eaeaea;
 	border-radius: 5px;
 	padding: 1rem;
+	margin-bottom: 0.5rem;
 	background-color: white;
 `;
 
@@ -72,12 +77,33 @@ const InfoWrapped = styled.div`
 	flex-direction: column;
 	justify-content: space-evenly;
 	justify-items: stretch;
-	background-color: white;
 	p {
 		font-size: ${props => props.theme.fontSizes.paragraph};
 		margin-left: 1rem;
-		background-color: white;
 	}
 `;
 
-export default RentBookLists;
+const BottomContainer = styled.div`
+	width: 90vw;
+	max-width: 800px;
+	display: flex;
+	justify-content: center;
+	flex-direction: column;
+	margin: auto;
+	margin-bottom: 1rem;
+`;
+
+const UserInfoBox = styled.div`
+	border: 1px solid #eaeaea;
+	border-radius: 5px;
+	display: flex;
+	justify-content: space-evenly;
+	margin-bottom: 1rem;
+	padding: 1rem 0;
+	background-color: white;
+	span {
+		font-size: ${props => props.theme.fontSizes.paragraph};
+	}
+`;
+
+export default LentBookLists;

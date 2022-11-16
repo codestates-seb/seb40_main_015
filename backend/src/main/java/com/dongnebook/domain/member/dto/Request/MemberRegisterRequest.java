@@ -1,4 +1,4 @@
-package com.dongnebook.domain.member.dto.Request;
+package com.dongnebook.domain.member.dto.request;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Pattern;

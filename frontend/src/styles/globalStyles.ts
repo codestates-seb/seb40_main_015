@@ -1,13 +1,21 @@
 import { createGlobalStyle } from 'styled-components';
-import gangwon from '../assets/fonts/gangwon.woff';
 import kotra from '../assets/fonts/kotra.ttf';
-
+import AppleNormal from '../assets/fonts/AppleSDGothicNeoL.ttf';
+import AppleBold from '../assets/fonts/AppleSDGothicNeoB.ttf';
 const GlobalStyle = createGlobalStyle`
   @font-face {
-        font-family: 'gangwon';
-        src: local('gangwon'), local('gangwon');
+        font-family: 'Apple SD';
+        font-weight: 500;
+        src: local('AppleNormal'), local('AppleNormal');
         font-style: normal;
-        src: url(${gangwon}) format('woff');
+        src: url(${AppleNormal}) format('truetype');
+  }
+  @font-face {
+        font-family: 'Apple SD';
+        font-weight: 600;
+        src: local('AppleBold'), local('AppleBold');
+        font-style: bold;
+        src: url(${AppleBold}) format('truetype');
   }
   @font-face {
         font-family: 'kotra';
@@ -32,14 +40,13 @@ const GlobalStyle = createGlobalStyle`
     margin: 0;
     padding: 0;
     border: 0;
-    font-size: 10px;
-    font: inherit;
+    font-size: calc( 10px + 0.4vw );
     vertical-align: baseline;
-    font-family: 'gangwon', 'kotra';
+    font-family: 'Apple SD', 'kotra';
     background-color: #FBFBFB;
-    overflow-y: auto;
+    /* overflow-y: auto;  */
     /* overflow: overlay; */
-    overflow-x: hidden;
+    /* overflow-x: hidden; */
   }
   a {
     text-decoration: none;
