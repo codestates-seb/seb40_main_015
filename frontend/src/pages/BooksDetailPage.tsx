@@ -1,12 +1,15 @@
 import styled from 'styled-components';
+import { HiOutlineHeart, HiHeart, HiOutlineTrash } from 'react-icons/hi';
+
+//conmponents
 import Title from '../components/common/Title';
 import BookImage from '../assets/image/dummy.png';
 import UserImage from '../assets/image/user.png';
 import Button from '../components/common/Button';
-import { Link } from 'react-router-dom';
-import { HiOutlineHeart, HiHeart, HiOutlineTrash } from 'react-icons/hi';
 import {
-	Div,
+	Main,
+	BodyContainer,
+	TitleWrapper,
 	BookInfo,
 	BookRentalFee,
 	MerchantInfo,
@@ -56,11 +59,11 @@ const BooksDetailPage = () => {
 				</MerchantInfo>
 				<BookRentalFee>
 					<label htmlFor="fee">대여료</label>
-					<input id="fee" type="number" step="100" value={'1000'} />
+					<input id="fee" type="number" step="100" defaultValue={'1000'} />
 					<span>원</span>
 				</BookRentalFee>
 				<BookDsc>
-					<div>재미있어요</div>
+					<span>재미있어요</span>
 					<div>재미있어요</div>
 					<div>재미있어요</div>
 					<div>재미있어요</div>
@@ -69,31 +72,18 @@ const BooksDetailPage = () => {
 				</BookDsc>
 			</BodyContainer>
 
-			<LinkStyled to={`booking`}>
+			<LinkStyled to={`rental`}>
 				<Button>책 대여하기</Button>
+			</LinkStyled>
+			<LinkStyled to={`booking`}>
 				<Button>책 예약하기</Button>
 				<Button backgroundColor={'grey'}>예약 불가</Button>
 			</LinkStyled>
+			<Button backgroundColor={'grey'}>예약 불가</Button>
 		</Main>
 	);
 };
 
-const Main = styled.div`
-	display: flex;
-	flex-direction: column;
-
-	font-size: 20px;
-
-	padding-bottom: 30px;
-`;
-const TitleWrapper = styled.div``;
-const BodyContainer = styled.div`
-	display: flex;
-	flex-direction: column;
-	justify-content: center;
-	align-items: center;
-	margin-bottom: 2rem;
-`;
 const BookImgWrapper = styled.div`
 	width: 40vh;
 	display: flex;
