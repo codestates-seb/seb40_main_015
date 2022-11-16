@@ -11,7 +11,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.dongnebook.domain.book.domain.Book;
 import com.dongnebook.domain.book.dto.request.BookRegisterRequest;
-import com.dongnebook.domain.book.dto.request.SectorBookCountRequest;
+import com.dongnebook.domain.book.dto.request.BookSearchCondition;
 import com.dongnebook.domain.book.dto.response.BookDetailResponse;
 import com.dongnebook.domain.book.dto.response.BookSectorCountResponse;
 import com.dongnebook.domain.book.dto.response.BookSimpleResponse;
@@ -76,11 +76,11 @@ public class BookService {
 		return bookCommandRepository.findById(bookId).orElseThrow(BookNotFoundException::new);
 	}
 
-	public ArrayList<BookSectorCountResponse> getSectorBookCounts(SectorBookCountRequest sectorBookCountRequest) {
+	public ArrayList<BookSectorCountResponse> getSectorBookCounts(BookSearchCondition bookSearchCondition) {
 
-		List<Double> latRangeList = sectorBookCountRequest.latRangeList();
-		List<Double> lonRangeList = sectorBookCountRequest.lonRangeList();
-		List<Location> sectorBookCounts = bookQueryRepository.getSectorBookCounts(sectorBookCountRequest);
+		List<Double> latRangeList = bookSearchCondition.latRangeList();
+		List<Double> lonRangeList = bookSearchCondition.lonRangeList();
+		List<Location> sectorBookCounts = bookQueryRepository.getSectorBookCounts(bookSearchCondition);
 		ArrayList<BookSectorCountResponse> bookSectorCountResponses = new ArrayList<>();
 
 		for (int i = 0; i < 9; i++) {
@@ -126,7 +126,7 @@ public class BookService {
 		}
 	}
 
-	public SliceImpl<BookSimpleResponse> getList(PageRequest pageRequest) {
-		return bookQueryRepository.noOffsetPagingList(pageRequest);
+	public SliceImpl<BookSimpleResponse> getList(BookSearchCondition bookSearchCondition, PageRequest pageRequest) {
+		return bookQueryRepository.noOffsetPagingList(bookSearchCondition,pageRequest);
 	}
 }

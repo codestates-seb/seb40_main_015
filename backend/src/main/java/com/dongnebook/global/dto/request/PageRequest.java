@@ -9,22 +9,22 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public final class PageRequest {
 
-	private static final int MAX_SIZE = 2000;
 
 
 
-	private int index;
-	private int size = 6;
+
+	private Long index;
+	private Long size = 6L;
 	private Sort.Direction sort= Sort.Direction.DESC;
 
-	public PageRequest(Integer index) {
-		this.index = index==null ? -1 : index;
+	public PageRequest(Long index) {
+		this.index = index;
 	}
 
 
 	// getter
 	public org.springframework.data.domain.PageRequest of() {
-		return org.springframework.data.domain.PageRequest.of(0,size);
+		return org.springframework.data.domain.PageRequest.of(0,size.intValue());
 	}
 
 

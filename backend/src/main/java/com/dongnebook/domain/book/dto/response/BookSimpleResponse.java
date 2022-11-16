@@ -3,7 +3,7 @@ package com.dongnebook.domain.book.dto.response;
 import com.dongnebook.domain.book.domain.BookState;
 import com.querydsl.core.annotations.QueryProjection;
 
-import lombok.Builder;
+
 import lombok.Getter;
 
 @Getter
