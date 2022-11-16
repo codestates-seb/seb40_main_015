@@ -19,11 +19,11 @@ public class BookSectorCountResponse {
 		this.totalBookCount++;
 	}
 
-	public void setLocation(Location location) {
+	public void initLocation(Location location) {
 		this.location = location;
 	}
 
-	public void setSector(Long sector) {
+	public void initSector(Long sector) {
 		this.sector = sector;
 	}
 }

@@ -41,6 +41,7 @@ public class BookService {
 		Member member = getMember();
 		Location location = ifDtoHasNoLocationGetMemberLocation(bookRegisterRequest, member);
 		Book book = Book.create(bookRegisterRequest, location, member);
+
 		return bookCommandRepository.save(book).getId();
 	}
 
@@ -86,6 +87,7 @@ public class BookService {
 
 		for (Location location : sectorBookCounts) {
 			log.info("location={}", location);
+
 			Double latitude = location.getLatitude();
 			Double longitude = location.getLongitude();
 			for (int i = 0; i < 2; i++) {
@@ -117,8 +119,8 @@ public class BookService {
 		BookSectorCountResponse bookSectorCountResponse = bookSectorCountResponses.get(index);
 		bookSectorCountResponse.plusBookCount();
 		if(Objects.isNull(bookSectorCountResponse.getLocation())){
-			bookSectorCountResponse.setLocation(location);
-			bookSectorCountResponse.setSector(index+1L);
+			bookSectorCountResponse.initLocation(location);
+			bookSectorCountResponse.initSector(index+1L);
 		}
 	}
 }
