@@ -12,16 +12,15 @@ type ThirdPartyIconProps = {
 const ThirdPartyIcon = ({ company }: ThirdPartyIconProps) => {
 	const { icon, iconColor, background } = company;
 	return (
-		<IconContext.Provider value={{ color: iconColor, size: '24px' }}>
-			{}
+		<IconContext.Provider value={{ color: iconColor, size: '2rem' }}>
 			<ThirdPartyWrapper background={background}>{icon}</ThirdPartyWrapper>
 		</IconContext.Provider>
 	);
 };
 
 const ThirdPartyWrapper = styled.div<{ background: string }>`
-	height: 35px;
-	width: 35px;
+	height: 3rem;
+	width: 3rem;
 	border-radius: 50%;
 	background-color: ${props => props.background};
 	box-shadow: 0 5px 10px -7px rgba(0, 0, 0, 1);

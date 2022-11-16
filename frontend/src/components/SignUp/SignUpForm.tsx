@@ -78,24 +78,23 @@ const StyledSignUpForm = styled.form`
 
 const IdWrapper = styled.div`
 	min-width: 117.5%;
-	display: flex;
-	align-items: flex-end;
-	grid-template-columns: 260px 1px;
+	display: grid;
+	grid-template-columns: 22rem 1px;
 	.overlapCheck {
+		width: 4.1rem;
+		background-color: transparent;
 		color: ${props => props.theme.colors.buttonGreen};
 		font-weight: bold;
-		width: 4.1rem;
 		position: relative;
-		bottom: 1rem;
+		top: 3.4rem;
 		right: 4.1rem;
 	}
 `;
 
 const PasswordWrapper = styled.div<{ error: boolean }>`
-	/* min-width: ${props => (props.error ? '138.3%' : '100%')}; */
 	display: grid;
 	align-items: flex-end;
-	grid-template-columns: 260px 1px;
+	grid-template-columns: 22rem 1px;
 	.icon {
 		font-size: 25px;
 		color: #ff6a00;
@@ -105,7 +104,6 @@ const PasswordWrapper = styled.div<{ error: boolean }>`
 `;
 
 const AlertSection = styled.div<{ error: boolean }>`
-	/* width: 10rem; */
 	position: relative;
 	left: 1rem;
 	top: 2.3rem;
