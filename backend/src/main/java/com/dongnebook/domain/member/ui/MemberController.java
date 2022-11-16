@@ -20,8 +20,8 @@ public class MemberController {
 		Member build = Member.builder().avatarUrl("ㄴㅇㄹㅁㄴㅇㄹ")
 			.avgGrade(5L)
 			.location(Location.builder().
-				latitude("37")
-				.longitude("15")
+				latitude(37.612415)
+				.longitude(128.123123)
 				.build())
 			.nickname("이성준")
 			.password("asdf123132")

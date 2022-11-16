@@ -63,10 +63,13 @@ public class Member extends BaseTimeEntity {
 	}
 
 	public static Member create(MemberRegisterRequest memberRegisterRequest) {
+
 		return Member.builder()
-				.userId(memberRegisterRequest.getUserId())
-				.nickname(memberRegisterRequest.getNickname())
-				.password(memberRegisterRequest.getPassword())
-				.build();
+			.userId(memberRegisterRequest.getUserId())
+			.nickname(memberRegisterRequest.getNickname())
+			.password(memberRegisterRequest.getPassword())
+			.build();
 	}
+
+
 }
