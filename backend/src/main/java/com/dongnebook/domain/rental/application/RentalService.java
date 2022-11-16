@@ -9,9 +9,8 @@ import com.dongnebook.domain.member.domain.Member;
 import com.dongnebook.domain.member.exception.MemberNotFoundException;
 import com.dongnebook.domain.member.repository.MemberRepository;
 import com.dongnebook.domain.rental.domain.Rental;
-import com.dongnebook.domain.rental.dto.RentalRegisterRequest;
+import com.dongnebook.domain.rental.dto.Request.RentalRegisterRequest;
 import com.dongnebook.domain.rental.repository.RentalRepository;
-import com.dongnebook.global.error.exception.ErrorCode;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -31,13 +30,13 @@ public class RentalService {
 
     @Transactional
     public Long createRental(RentalRegisterRequest rentalRegisterRequest) {
-        Optional<Member> optionalMember =  memberRepository.findById(rentalRegisterRequest.getMemberId());
-        Member member = optionalMember.orElseThrow(MemberNotFoundException::new);
+        Member member =  memberRepository.findById(rentalRegisterRequest.getMemberId())
+                .orElseThrow(MemberNotFoundException::new);
 
-        Optional<Book> optionalBook = bookCommandRepository.findById(rentalRegisterRequest.getBookId());
-        Book book = optionalBook.orElseThrow(BookNotFoundException::new);
+        Book book = bookCommandRepository.findById(rentalRegisterRequest.getBookId())
+                .orElseThrow(BookNotFoundException::new);
 
-        if(book.getBookState() != BookState.RENTABLE)
+        if(!book.getBookState().equals(BookState.RENTABLE))
             throw new NotRentableException();
 
         Rental rental = Rental.create(book, member);
