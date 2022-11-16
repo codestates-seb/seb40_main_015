@@ -39,6 +39,7 @@ const StyledOauth = styled.div`
 	display: flex;
 	flex-direction: column;
 	width: 100%;
+	max-width: 370px;
 	align-items: center;
 `;
 

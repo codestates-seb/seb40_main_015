@@ -27,7 +27,7 @@ const LoginForm = () => {
 
 const StyledLoginForm = styled.form`
 	width: 100%;
-	min-width: 250px;
+	min-width: 22rem;
 	height: 300px;
 	display: grid;
 `;
