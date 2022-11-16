@@ -7,7 +7,6 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
-import javax.validation.constraints.Min;
 import javax.validation.constraints.Size;
 
 import com.dongnebook.domain.member.dto.request.MemberRegisterRequest;
@@ -16,9 +15,9 @@ import com.dongnebook.domain.model.Location;
 
 import lombok.*;
 
+
 @Entity
 @Getter
-@Setter
 @Table(name = "member")
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Member extends BaseTimeEntity {

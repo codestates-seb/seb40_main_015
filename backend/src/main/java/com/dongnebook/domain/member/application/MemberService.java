@@ -23,10 +23,16 @@ public class MemberService {
 	@Transactional
 	public Long create(MemberRegisterRequest memberRegisterRequest) {
 		Member member = Member.create(memberRegisterRequest);
-		member.setPassword(passwordEncoder.encode(member.getPassword()));
+//		member.setPassword(passwordEncoder.encode(member.getPassword()));
+		encodePassword(member.getPassword());
 
 		Long id = memberRepository.save(member).getId();
 		return id;
+	}
+	@Transactional
+	public String encodePassword(String password){
+		String encodedPassword = passwordEncoder.encode(password);
+		return encodedPassword;
 	}
 
 	@Transactional(readOnly = true)

@@ -4,7 +4,6 @@ import com.dongnebook.domain.member.application.MemberService;
 
 import com.dongnebook.domain.member.dto.request.MemberRegisterRequest;
 import com.dongnebook.domain.member.dto.response.MemberExistsCheckResponse;
-import com.dongnebook.domain.member.dto.response.MemberIdResponse;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -20,16 +19,14 @@ public class MemberController {
     private final MemberService memberService;
 
     @PostMapping("/auth/signup")
-    public ResponseEntity<MemberIdResponse> create(@Valid @RequestBody MemberRegisterRequest memberRegisterRequest) {
+    public ResponseEntity create(@Valid @RequestBody MemberRegisterRequest memberRegisterRequest) {
         Long createdMemberId = memberService.create(memberRegisterRequest);
 
-        MemberIdResponse memberIdResponse = new MemberIdResponse(createdMemberId);
-
         URI createdMemberUri = ServletUriComponentsBuilder.fromPath("/member").path("/{id}").buildAndExpand(createdMemberId).toUri();
-        return ResponseEntity.created(createdMemberUri).body(memberIdResponse);
+        return ResponseEntity.created(createdMemberUri).body(createdMemberId);
     } // /members/{id} 자원 생성
 
-    @GetMapping("/auth/signup/checkId") //API로 중복체크하는 로직
+    @GetMapping("/auth/signup/checkId") //API로 중복체크하는 로직memberIdResponse
     public ResponseEntity<MemberExistsCheckResponse> checkSameUserId(@RequestParam String id) {
         boolean userIdExists = memberService.checkUserIdDuplication(id);
 
