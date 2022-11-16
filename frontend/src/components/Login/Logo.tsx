@@ -11,7 +11,7 @@ const Logo = () => {
 };
 
 const StyledLogo = styled.div`
-	margin-bottom: 20px;
+	margin-bottom: 3rem;
 `;
 
 const StyledImg = styled.img`
