@@ -37,6 +37,10 @@ const StyledOauth = styled(Oauth)`
 	padding: 0 1rem;
 `;
 
-const Main = styled.div``;
+const Main = styled.div`
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+`;
 
 export default SignupPage;
