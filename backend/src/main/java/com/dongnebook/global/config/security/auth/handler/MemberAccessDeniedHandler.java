@@ -1,5 +1,7 @@
 package com.dongnebook.global.config.security.auth.handler;
 
+import com.dongnebook.global.error.ErrorResponse;
+import com.dongnebook.global.error.exception.ErrorCode;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.access.AccessDeniedException;
@@ -14,9 +16,7 @@ import java.io.IOException;
 public class MemberAccessDeniedHandler implements AccessDeniedHandler {
     @Override
     public void handle(HttpServletRequest request, HttpServletResponse response, AccessDeniedException accessDeniedException) throws IOException, ServletException {
-        ErrorResponder.sendErrorResponse(response, HttpStatus.FORBIDDEN);
+        ErrorResponse.of(ErrorCode.HANDLE_ACCESS_DENIED);
         log.warn("Forbidden error happened: {}", accessDeniedException.getMessage());
-
-        // DaoAuthenticationProvider
     }
 }

@@ -1,6 +1,7 @@
 package com.dongnebook.global.config.security.auth.handler;
 
-import com.dongnebook.global.utils.ErrorResponder;
+import com.dongnebook.global.error.ErrorResponse;
+import com.dongnebook.global.error.exception.ErrorCode;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.core.AuthenticationException;
@@ -18,8 +19,7 @@ public class MemberAuthenticationEntryPoint implements AuthenticationEntryPoint 
     @Override
     public void commence(HttpServletRequest request, HttpServletResponse response, AuthenticationException authException) throws IOException, ServletException {
         Exception exception = (Exception) request.getAttribute("exception");
-        ErrorResponder.sendErrorResponse(response, HttpStatus.UNAUTHORIZED);
-
+        ErrorResponse.of(ErrorCode.UNAUTHORIZIZED_ACCESS);
         logExceptionMessage(authException, exception);
     }
 
