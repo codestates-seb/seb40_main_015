@@ -16,7 +16,12 @@ const SortButton = () => {
 			<Container>
 				<Box>
 					{OPTIONS.map(option => {
-						return <option value={option.value}>{option.name}</option>;
+						const { value, name } = option;
+						return (
+							<option key={value} value={value}>
+								{name}
+							</option>
+						);
 					})}
 				</Box>
 				<MdArrowDropDown size={25} />

@@ -20,19 +20,21 @@ const RentBookLists = () => {
 			{test
 				? test.map((item, i) => {
 						return (
-							<Container key={item}>
-								<FlexBox>
-									<img src={dummyImage} alt="" width={90} height={105} />
-									<InfoWrapped>
-										<p>모던 자바스크립트</p>
-										<p>상인 이름</p>
-										<p>저자 / 출판사</p>
-										<p>대여기간</p>
-										<p>{convertDate(from, to, true)}</p>
-									</InfoWrapped>
-								</FlexBox>
-								<RentStatusButton status={state[i]} />
-							</Container>
+							<Wrapper key={item}>
+								<Container>
+									<FlexBox>
+										<img src={dummyImage} alt="" width={90} height={105} />
+										<InfoWrapped>
+											<p>모던 자바스크립트</p>
+											<p>상인 이름</p>
+											<p>저자 / 출판사</p>
+											<p>대여기간</p>
+											<p>{convertDate(from, to, true)}</p>
+										</InfoWrapped>
+									</FlexBox>
+									<RentStatusButton status={state[i]} />
+								</Container>
+							</Wrapper>
 						);
 				  })
 				: null}
@@ -40,10 +42,17 @@ const RentBookLists = () => {
 	);
 };
 
-export default RentBookLists;
+const Wrapper = styled.div`
+	width: 100%;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	margin-bottom: 1rem;
+`;
 
 const Container = styled.div`
 	width: 90vw;
+	max-width: 850px;
 	display: flex;
 	justify-content: space-between;
 	margin-bottom: 0.5rem;
@@ -70,3 +79,5 @@ const InfoWrapped = styled.div`
 		background-color: white;
 	}
 `;
+
+export default RentBookLists;
