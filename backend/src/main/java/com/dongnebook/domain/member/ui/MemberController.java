@@ -18,6 +18,7 @@ import java.util.Map;
 @RestController
 @RequiredArgsConstructor
 public class MemberController {
+
     private final MemberService memberService;
 
     @PostMapping("/auth/signup")

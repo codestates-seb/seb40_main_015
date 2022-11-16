@@ -55,4 +55,15 @@ public class Member extends BaseTimeEntity {
 		this.location = location;
 		this.avgGrade = avgGrade;
 	}
+
+	public static Member create(MemberRegisterRequest memberRegisterRequest) {
+
+		return Member.builder()
+			.userId(memberRegisterRequest.getUserId())
+			.nickname(memberRegisterRequest.getNickname())
+			.password(memberRegisterRequest.getPassword())
+			.build();
+	}
+
+
 }

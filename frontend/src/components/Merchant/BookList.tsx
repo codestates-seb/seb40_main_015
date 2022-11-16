@@ -50,21 +50,7 @@ const InfoWrapped = styled.div`
 	justify-content: space-between;
 	align-items: center;
 	p {
-		font-size: 1.2rem;
+		font-size: ${props => props.theme.fontSizes.paragraph};
 		margin-left: 1rem;
 	}
 `;
-
-// const Button = styled.button`
-// 	background-color: ${props => props.theme.colors.main};
-// 	width: 4rem;
-// 	height: 2rem;
-// 	font-size: 0.8rem;
-// 	border: none;
-// 	border-radius: 3px;
-// 	color: white;
-// 	margin: auto 0;
-// 	:hover {
-// 		background-color: #009539;
-// 	}
-// `;
