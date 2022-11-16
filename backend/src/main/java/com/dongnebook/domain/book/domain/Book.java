@@ -36,7 +36,7 @@ import lombok.NoArgsConstructor;
 public class Book extends BaseTimeEntity {
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "id", updatable = false)
 	private Long id;
 
@@ -85,6 +85,11 @@ public class Book extends BaseTimeEntity {
 		this.bookState = bookState;
 		this.member = member;
 	}
+
+	public void changeBookState(BookState bookState) {
+		this.bookState = bookState;
+	}
+
 
 	public static Book create(BookRegisterRequest bookRegisterRequest, Location location, Member member) {
 		return Book.builder()

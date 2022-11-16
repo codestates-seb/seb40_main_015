@@ -28,10 +28,3 @@ const StyledLoginPage = styled.div`
 	align-items: center;
 	justify-content: center;
 `;
-
-const StyledOauth = styled(Oauth)`
-	width: 100%;
-	max-width: 270px;
-	margin: 1rem 0;
-	padding: 0 1rem;
-`;
