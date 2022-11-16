@@ -7,17 +7,14 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
-import javax.validation.constraints.Min;
 import javax.validation.constraints.Size;
 
 import com.dongnebook.domain.member.dto.request.MemberRegisterRequest;
 import com.dongnebook.domain.model.BaseTimeEntity;
 import com.dongnebook.domain.model.Location;
 
-import lombok.AccessLevel;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
+
 
 @Entity
 @Getter
@@ -49,17 +46,14 @@ public class Member extends BaseTimeEntity {
 	@Column(name = "avg_grade")
 	private Long avgGrade;
 
-
 	@Builder
-	public Member(String userId, String password, String nickname, Location location, String avatarUrl, Long avgGrade
-				 ) {
+	public Member(String userId, String password, String nickname, Location location, String avatarUrl, Long avgGrade) {
 		this.userId = userId;
 		this.password = password;
 		this.nickname = nickname;
 		this.avatarUrl = avatarUrl;
 		this.location = location;
 		this.avgGrade = avgGrade;
-
 	}
 
 	public static Member create(MemberRegisterRequest memberRegisterRequest) {
