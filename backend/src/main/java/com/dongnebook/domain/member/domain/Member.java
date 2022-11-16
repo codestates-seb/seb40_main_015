@@ -11,7 +11,8 @@ import javax.validation.constraints.Size;
 
 import com.dongnebook.domain.member.dto.request.MemberRegisterRequest;
 import com.dongnebook.domain.model.BaseTimeEntity;
-import com.dongnebook.domain.model.Location;
+//import com.dongnebook.domain.model.Location;
+
 
 import lombok.*;
 
@@ -39,8 +40,8 @@ public class Member extends BaseTimeEntity {
 	@Column(name = "nickname", nullable = false)
 	private String nickname;
 
-	@Embedded
-	private Location location;
+//	@Embedded
+//	private Location location;
 
 	@Column(name = "avatar_url")
 	private String avatarUrl;
@@ -52,12 +53,12 @@ public class Member extends BaseTimeEntity {
 	private List<String> roles;
 
 	@Builder
-	public Member(String userId, String password, String nickname, Location location, String avatarUrl, Long avgGrade, List<String> roles) {
+	public Member(String userId, String password, String nickname, String avatarUrl, Long avgGrade, List<String> roles) {
 		this.userId = userId;
 		this.password = password;
 		this.nickname = nickname;
 		this.avatarUrl = avatarUrl;
-		this.location = location;
+//		this.location = location;
 		this.avgGrade = avgGrade;
 		this.roles = roles;
 	}
