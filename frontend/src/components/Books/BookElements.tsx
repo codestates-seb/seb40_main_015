@@ -1,6 +1,26 @@
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 
+// 현재 책상세, 책등록 페이지에서 사용중
+
+const Main = styled.div`
+	display: flex;
+	flex-direction: column;
+
+	/* font-size: calc(12px + 0.4vw); */
+	/* font-size: ${props => [props.theme.fontSizes.subtitle]}; */
+	padding-bottom: 30px;
+`;
+const TitleWrapper = styled.div``;
+
+const BodyContainer = styled.div`
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+	margin-bottom: 2rem;
+`;
+
 const Div = styled.fieldset`
 	width: 40vh;
 	border-radius: 4px;
@@ -17,7 +37,6 @@ const Div = styled.fieldset`
 const BookInfo = styled(Div)`
 	display: flex;
 	align-items: center;
-
 	.partition {
 		width: 2px;
 		height: 20px;
@@ -36,13 +55,22 @@ const BookInfo = styled(Div)`
 		}
 	}
 
+	.book--info__fee {
+		&::-webkit-inner-spin-button {
+			-webkit-appearance: none;
+		}
+	}
+
 	label {
-		font-size: 30px;
+		/* font-size: calc(12px + 0.4vw); */
+		font-size: ${props => [props.theme.fontSizes.subtitle]};
+
 		margin-left: 1rem;
 	}
 
 	input {
-		font-size: 20px;
+		font-size: ${props => [props.theme.fontSizes.subtitle]};
+
 		width: 100%;
 		border: none;
 		background-color: transparent;
@@ -53,7 +81,8 @@ const BookInfo = styled(Div)`
 	}
 
 	textarea {
-		font-size: 20px;
+		/* font-size: 20px; */
+		font-size: ${props => [props.theme.fontSizes.paragraph]};
 		width: 100%;
 		height: 20vh;
 		background-color: transparent;
@@ -98,15 +127,14 @@ const BookRentalFee = styled(Div)`
 		padding: 0 0.4rem;
 		background-color: inherit;
 		border: none;
+		outline: none;
 		border-bottom: 1px solid rgba(1, 1, 1, 0.3);
 		&:focus {
 			border-bottom: 1px solid rgba(1, 1, 1, 0.7);
-			outline: none;
 		}
 	}
 	input::-webkit-inner-spin-button {
 		-webkit-appearance: none;
-		margin: 0;
 	}
 `;
 
@@ -150,4 +178,14 @@ const LinkStyled = styled(Link)`
 	flex-direction: column;
 `;
 
-export { Div, BookInfo, BookRentalFee, MerchantInfo, BookDsc, LinkStyled };
+export {
+	Main,
+	BodyContainer,
+	TitleWrapper,
+	Div,
+	BookInfo,
+	BookRentalFee,
+	MerchantInfo,
+	BookDsc,
+	LinkStyled,
+};

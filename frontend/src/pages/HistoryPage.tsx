@@ -22,8 +22,9 @@ const HistoryPage = () => {
 
 const Layout = styled.div`
 	display: flex;
-	align-items: center;
 	flex-direction: column;
+	align-items: center;
+	justify-content: center;
 	padding: 1rem;
 	h2 {
 		font-size: 2rem;
