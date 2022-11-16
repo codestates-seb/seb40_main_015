@@ -45,24 +45,26 @@ const CalendarWrapper = styled.div`
 
 	.react-calendar__tile:enabled:hover,
 	.react-calendar__tile:enabled:focus {
+		// 기본 타일
 		background: #f8f8fa;
 		color: #6f48eb;
 		border-radius: 6px;
 	}
 
 	.react-calendar__tile--now {
+		// 오늘 날짜 타일
 		/* background: #6f48eb33; */
 		background: transparent;
 		border-radius: 6px;
 		font-weight: bold;
-		color: #6f48eb;
+		/* color: #6f48eb; */
 	}
 	.react-calendar__tile--now:enabled:hover,
 	.react-calendar__tile--now:enabled:focus {
-		background: #6f48eb33;
+		/* background: #6f48eb33; */
 		border-radius: 6px;
 		font-weight: bold;
-		color: #6f48eb;
+		/* color: #6f48eb; */
 	}
 
 	.react-calendar__tile--active {
