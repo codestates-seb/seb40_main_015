@@ -7,7 +7,9 @@ import org.springframework.stereotype.Service;
 
 import com.dongnebook.domain.member.domain.Member;
 import com.dongnebook.domain.member.dto.request.MemberRegisterRequest;
+import com.dongnebook.domain.member.exception.MemberNotFoundException;
 import com.dongnebook.domain.member.repository.MemberRepository;
+import com.dongnebook.domain.model.Location;
 
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
@@ -50,5 +52,11 @@ public class MemberService {
 	public boolean checkNicknameDuplication(String nickname) {
 		boolean nicknameDuplicate = memberRepository.existsByNickname(nickname);
 		return nicknameDuplicate;
+	}
+
+	@Transactional
+	public void edit(Long memberId,Location location) {
+		Member member = memberRepository.findById(memberId).orElseThrow(MemberNotFoundException::new);
+		member.changeLocation(location);
 	}
 }

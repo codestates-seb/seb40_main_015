@@ -16,10 +16,28 @@ public enum ErrorCode {
 	LOCATION_NOT_CREATED_YET(404,"아직 주거래 동네를 설정하지 않았습니다."),
 	UNAUTHORIZIZED_ACCESS(401, "접근 권한 인증이 되지 않았습니다."),
 
+	MEMBER_NOT_FOUND(404, "해당 유저를 찾지 못했습니다."),
+
+
 	/* Book */
 	BOOK_NOT_FOUND(404, "해당 책을 찾지 못했습니다."),
-	NOT_RENTABLE(404,"대여 가능 상태가 아닙니다"),
-	MEMBER_NOT_FOUND(404, "해당 유저를 찾지 못했습니다.");
+
+	/* Rental */
+	CANNOT_RENT_MY_BOOK(404, "본인의 책은 대여할 수 없습니다."),
+	CANNOT_CANCEL_RENTAL(404, "대여 취소 가능 대상이 아닙니다."),
+	CANNOT_RECEIVE_RENTAL(404, "도서 수령 가능 대상이 아닙니다."),
+	CANNOT_RETURN_RENTAL(404, "도서 반납 가능 대상이 아닙니다."),
+	NOT_RENTABLE(404,"대여 가능 상태가 아닙니다."),
+	RENTAL_NOT_FOUND(404, "해당 대여 건을 찾지 못했습니다."),
+	NOT_CANCELABLE(404, "대여 취소 가능한 상태가 아닙니다."),
+  	NOT_RECEIVABLE(404, "도서 수령 가능 상태가 아닙니다."),
+	NOT_RETURNABLE(404, "도서 반납 가능 상태가 아닙니다."),
+
+	/* Dibs */
+	DIBS_NOT_FOUND(404, "이 책을 찜한적이 없습니다.");
+
+
+
 
 
 	private final String message;

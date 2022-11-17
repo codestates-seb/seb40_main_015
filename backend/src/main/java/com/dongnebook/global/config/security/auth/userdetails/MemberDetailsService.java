@@ -34,8 +34,7 @@ public class MemberDetailsService implements UserDetailsService {
     public UserDetails loadUserByUsername(String userId) throws UsernameNotFoundException {
         Member findMember = memberRepository.findByUserId(userId).orElseThrow(MemberNotFoundException::new);
         log.info(findMember.toString());
-        CustomUserDetails customUserDetails = new CustomUserDetails(findMember);
-        return customUserDetails;
+        return new CustomUserDetails(findMember);
     }
 
     //데이터베이스에서 조회한 회원 정보를 Spring Security의 User 정보로 변환하는 과정과 User의 권한 정보를 생성하는 과정을 캡슐화

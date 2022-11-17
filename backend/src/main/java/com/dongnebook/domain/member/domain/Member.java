@@ -3,6 +3,7 @@ package com.dongnebook.domain.member.domain;
 import javax.persistence.*;
 import javax.validation.constraints.Size;
 
+import com.dongnebook.domain.dibs.domain.Dibs;
 import com.dongnebook.domain.member.dto.request.MemberRegisterRequest;
 import com.dongnebook.domain.model.BaseTimeEntity;
 import com.dongnebook.domain.model.Location;
@@ -47,6 +48,11 @@ public class Member extends BaseTimeEntity {
 	@ElementCollection(fetch = FetchType.EAGER)
 	private List<String> roles;
 
+
+	@OneToMany(mappedBy = "member",cascade = CascadeType.REMOVE)
+	private List<Dibs> dibsList = new ArrayList<>();
+
+
 	@Builder
 	public Member(String userId, String password, String nickname, List<String> roles)  {
 		this.userId = userId;
@@ -61,6 +67,10 @@ public class Member extends BaseTimeEntity {
 			.nickname(memberRegisterRequest.getNickname())
 			.password(memberRegisterRequest.getPassword())
 			.build();
+	}
+
+	public void changeLocation(Location location){
+		this.location = location;
 	}
 
 	@Override
