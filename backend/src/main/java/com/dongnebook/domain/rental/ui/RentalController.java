@@ -32,4 +32,14 @@ public class RentalController {
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
+    @PatchMapping("{id}/receive")
+    public ResponseEntity<Void> receiveBook(@PathVariable("id") Long rentalId){
+
+        rentalService.receiveBook(rentalId);
+
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+
+
 }
