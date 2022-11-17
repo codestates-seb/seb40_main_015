@@ -7,9 +7,7 @@ function NoticePage() {
 		<div>
 			<Title text="알림" />
 			<Main>
-				{dummy.map(el => (
-					<NoticeItem key={el.id} type={el.type} title={el.title} />
-				))}
+				<NoticeItem noticeData={dummy} />
 			</Main>
 		</div>
 	);

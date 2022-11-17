@@ -1,31 +1,38 @@
 import styled from 'styled-components';
 import logo from '../../assets/image/logo1.png';
 
-type NoticeItemProps = {
-	type: string;
-	title: string;
+type NoticeItemType = {
+	noticeData: {
+		id: number;
+		type: string;
+		title: string;
+	}[];
 };
 
-const NoticeItem = ({ title, type }: NoticeItemProps) => {
+const NoticeItem = ({ noticeData }: NoticeItemType) => {
 	return (
-		<StyledNoticeItem>
-			<Logo src={logo} alt="로고" />
-			{type === 'reservation' && (
-				<Notice>
-					💌 예약하신 <span>{title}</span>의 대여가 가능합니다.
-				</Notice>
-			)}
-			{type === 'return' && (
-				<Notice>
-					⏰ 대여하신 <span>{title}</span>의 대여 반납이 하루 남았습니다.
-				</Notice>
-			)}
-			{type === 'rental' && (
-				<Notice>
-					📚 등록하신 <span>{title}</span>의 대여 신청이 접수되었습니다.
-				</Notice>
-			)}
-		</StyledNoticeItem>
+		<>
+			{noticeData.map(el => (
+				<StyledNoticeItem key={el.id}>
+					<Logo src={logo} alt="로고" />
+					{el.type === 'reservation' && (
+						<Notice>
+							💌 예약하신 <span>{el.title}</span>의 대여가 가능합니다.
+						</Notice>
+					)}
+					{el.type === 'return' && (
+						<Notice>
+							⏰ 대여하신 <span>{el.title}</span>의 대여 반납이 하루 남았습니다.
+						</Notice>
+					)}
+					{el.type === 'rental' && (
+						<Notice>
+							📚 등록하신 <span>{el.title}</span>의 대여 신청이 접수되었습니다.
+						</Notice>
+					)}
+				</StyledNoticeItem>
+			))}
+		</>
 	);
 };
 
