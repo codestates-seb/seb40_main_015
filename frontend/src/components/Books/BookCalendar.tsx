@@ -50,6 +50,9 @@ const CalendarWrapper = styled.div`
 		background-color: transparent;
 	}
 
+	abbr {
+		font-size: 1.4rem;
+	}
 	abbr[title] {
 		text-decoration: none;
 	}
