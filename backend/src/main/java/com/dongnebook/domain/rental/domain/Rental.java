@@ -18,7 +18,7 @@ import java.time.LocalDateTime;
 public class Rental {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", updatable = false)
     private Long id;
 
@@ -43,7 +43,7 @@ public class Rental {
     @Column(name = "rental_state", nullable = false)
     private RentalState rentalState;
 
-    @OneToOne
+    @ManyToOne
     @JoinColumn(name = "book_id", nullable = false)
     private Book book;
 

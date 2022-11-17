@@ -3,8 +3,11 @@ import LinkToSign from '../components/common/LinkToSign';
 import LoginForm from '../components/Login/LoginForm';
 import Logo from '../components/Login/Logo';
 import Oauth from '../components/common/Oauth';
+import useNotify from '../hooks/useNotify';
 
 const LoginPage = () => {
+	useNotify('되네...?');
+
 	return (
 		<StyledLoginPage>
 			<Logo />
@@ -18,8 +21,6 @@ const LoginPage = () => {
 		</StyledLoginPage>
 	);
 };
-
-export default LoginPage;
 
 const StyledLoginPage = styled.div`
 	height: 100vh;
@@ -35,3 +36,5 @@ const StyledOauth = styled(Oauth)`
 	margin: 1rem 0;
 	padding: 0 1rem;
 `;
+
+export default LoginPage;
