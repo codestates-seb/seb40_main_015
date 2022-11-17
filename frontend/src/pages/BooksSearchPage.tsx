@@ -92,9 +92,10 @@ const BooksSearchPage = () => {
 	//여러개의 마커 표시하기
 	const ShowMultipleMarkers = (map: any, data: any) => {
 		let imageSrc =
-			'https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/markerStar.png';
+			'https://velog.velcdn.com/images/fejigu/post/3917d7b1-130c-4bc8-88df-b665386adbdd/image.png';
 		for (let i = 0; i < data.length; i++) {
-			let imageSize = new kakao.maps.Size(24, 35);
+			let view = false;
+			let imageSize = new kakao.maps.Size(30, 35);
 			let markerImage = new kakao.maps.MarkerImage(imageSrc, imageSize);
 			let marker = new kakao.maps.Marker({
 				map: map,
@@ -106,13 +107,69 @@ const BooksSearchPage = () => {
 				image: markerImage,
 			});
 
+			kakao.maps.event.addListener(marker, 'click', function () {
+				alert('마커를 클릭했습니다!');
+			});
+
 			//커스텀 오버레이
+			//커스텀 오버레이 클릭 이벤트
+			let content = document.createElement('div');
+			content.style.width = '100px';
+			content.style.height = '100px';
+			content.style.backgroundColor = '#26795D';
+			content.style.opacity = '0.8';
+			content.style.borderRadius = '1000px';
+			content.style.fontSize = '3rem';
+			content.style.color = 'white';
+			content.style.display = 'flex';
+			content.style.alignItems = 'center';
+			content.style.justifyContent = 'center';
+			content.innerText = data[i].merchantCount;
+			content.onclick = () => {
+				console.log('클릭함');
+				view = !view;
+				console.log(view);
+				content.style.backgroundColor = !view ? '#26795D' : '#124B38';
+				if (view) {
+					content.style.width = '200px';
+					content.style.height = '100px';
+					content.style.backgroundColor = 'white';
+					content.style.opacity = '1';
+					content.style.borderRadius = '0';
+					content.style.fontSize = '1rem';
+					content.style.color = 'black';
+					content.style.display = 'flex';
+					content.style.flexDirection = 'column';
+					content.style.alignItems = 'space-between';
+					content.style.justifyContent = 'center';
+					content.style.borderRadius = '10px';
+					content.style.border = '0.5px solid grey';
+					content.innerText = data[i].merchantCount;
+				} else {
+					content.style.width = '100px';
+					content.style.height = '100px';
+					content.style.backgroundColor = '#26795D';
+					content.style.opacity = '0.8';
+					content.style.borderRadius = '1000px';
+					content.style.fontSize = '3rem';
+					content.style.color = 'white';
+					content.style.display = 'flex';
+					content.style.alignItems = 'center';
+					content.style.justifyContent = 'center';
+					content.innerText = data[i].merchantCount;
+				}
+			};
+			// if (view) {
+			// 	// content.appendChild(overlay);
+			// 	overlay.style.display = 'block';
+			// } else {
+			// 	overlay.style.display = 'none';
+			// }
+
 			let customOverlay = new kakao.maps.CustomOverlay({
 				map: map,
 				clickable: true, // 커스텀 오버레이 클릭 시 지도에 이벤트를 전파하지 않도록 설정한다
-				content: `<div style="width: 120px; height: 120px; display: flex; justify-content: center; align-items:center; background:#26795D; color: white; border-radius: 50%; opacity: 0.8; font-size: 2rem"; font-weight: 600;" onclick="handleSubmit()">
-				${data[i].merchantCount}
-				</div>`,
+				content: content,
 				position: new kakao.maps.LatLng(
 					data[i].representativeLocation.lat,
 					data[i].representativeLocation.lon,
@@ -120,7 +177,11 @@ const BooksSearchPage = () => {
 				// 커스텀 오버레이를 표시할 좌표
 				xAnchor: 0.5, // 컨텐츠의 x 위치
 				yAnchor: 0.7, // 컨텐츠의 y 위치
-				onClick: { i },
+				// onClick: `console.log('click')`,
+			});
+
+			kakao.maps.event.addListener(customOverlay, 'click', function () {
+				alert('오버레이를 클릭했습니다!');
 			});
 		}
 	};
@@ -165,12 +226,11 @@ const BooksSearchPage = () => {
 				let lat = position.coords.latitude; // 위도
 				let lon = position.coords.longitude; // 경도
 
-				let locPosition = new kakao.maps.LatLng(lat, lon), // 마커가 표시될 위치를 geolocation으로 얻어온 좌표로 생성합니다
-					message = '<div style="padding:5px;">현재 위치입니다</div>'; // 인포윈도우에 표시될 내용입니다
+				let locPosition = new kakao.maps.LatLng(lat, lon); // 마커가 표시될 위치를 geolocation으로 얻어온 좌표로 생성합니다
 				setCurrent(locPosition);
 
 				// 마커와 인포윈도우를 표시합니다
-				displayMarker(locPosition, message);
+				displayMarker(locPosition);
 			});
 		} else {
 			// HTML5의 GeoLocation을 사용할 수 없을때 마커 표시 위치와 인포윈도우 내용을 설정합니다
@@ -178,30 +238,27 @@ const BooksSearchPage = () => {
 			let locPosition = new kakao.maps.LatLng(37.498095, 127.02761),
 				message = 'geolocation을 사용할수 없어요..';
 
-			displayMarker(locPosition, message);
+			displayMarker(locPosition);
 		}
 
 		// // 지도에 마커와 인포윈도우를 표시하는 함수입니다
-		function displayMarker(locPosition: any, message?: any) {
+		function displayMarker(locPosition: any) {
 			// 마커를 생성합니다
+			let icon = new kakao.maps.MarkerImage(
+				'https://velog.velcdn.com/images/fejigu/post/ffa9fea3-b632-4d69-aac0-dc807ff55ea7/image.png',
+				new kakao.maps.Size(51, 55),
+				{
+					offset: new kakao.maps.Point(16, 34),
+					alt: '현재 위치 마커',
+					shape: 'poly',
+					coords: '1,20,1,9,5,2,10,0,21,0,27,3,30,9,30,20,17,33,14,33',
+				},
+			);
 			let marker = new kakao.maps.Marker({
 				map: map,
 				position: locPosition,
+				image: icon,
 			});
-
-			if (message) {
-				let iwContent = message, // 인포윈도우에 표시할 내용입니다
-					iwRemoveable = true;
-
-				// 인포윈도우를 생성합니다
-				let infowindow = new kakao.maps.InfoWindow({
-					content: iwContent,
-					removable: iwRemoveable,
-				});
-
-				// 인포윈도우를 마커위에 표시합니다
-				infowindow.open(map, marker);
-			}
 
 			// 지도 중심좌표를 접속위치로 변경합니다
 			map.setCenter(locPosition);
@@ -268,7 +325,7 @@ const BooksSearchPage = () => {
 			let locPosition = new kakao.maps.LatLng(current.Ma, current.La), // 마커가 표시될 위치를 geolocation으로 얻어온 좌표로 생성합니다
 				message = '<div style="padding:5px;">현재 위치입니다</div>'; // 인포윈도우에 표시될 내용입니다
 			// 마커와 인포윈도우를 표시합니다
-			displayMarker(locPosition, message);
+			displayMarker(locPosition);
 			navigator.geolocation.getCurrentPosition(function (position) {
 				let lat = position.coords.latitude; // 위도
 				let lon = position.coords.longitude; // 경도
@@ -280,7 +337,7 @@ const BooksSearchPage = () => {
 					console.log('다름');
 					setCurrent(locPosition);
 					// 마커와 인포윈도우를 표시합니다
-					displayMarker(locPosition, message);
+					displayMarker(locPosition);
 				}
 			});
 		} else {
