@@ -31,7 +31,7 @@ function Router() {
 			<Suspense fallback={<Loading />}>
 				<Routes>
 					{/* <Route element={<HeroSection />} /> */}
-					<Route path="/" element={<MainPage />} />
+					{/* <Route path="/" element={<MainPage />} /> */}
 					<Route path="/" element={<LayoutTemp />}>
 						{/* <Route index element={<MainPage />} /> */}
 						<Route element={<LoginOnly />}>
