@@ -10,6 +10,7 @@ import com.dongnebook.domain.model.Location;
 
 import lombok.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -43,14 +44,15 @@ public class Member extends BaseTimeEntity {
 	@Column(name = "avg_grade")
 	private Long avgGrade;
 
-	@Column(name = "role")
-	private String role;
+	@ElementCollection(fetch = FetchType.EAGER)
+	private List<String> roles;
 
 	@Builder
-	public Member(String userId, String password, String nickname) {
+	public Member(String userId, String password, String nickname, List<String> roles)  {
 		this.userId = userId;
 		this.password = password;
 		this.nickname = nickname;
+		this.roles = roles;
 	}
 
 	public static Member create(MemberRegisterRequest memberRegisterRequest) {
