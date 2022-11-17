@@ -32,5 +32,3 @@ server:
   servlet:
     encoding:
       force-response: true
-  port: 8181
-
