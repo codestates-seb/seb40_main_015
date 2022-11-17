@@ -23,9 +23,8 @@ logging:
       springframework:
         orm:
           jpa: DEBUG
-          
+
 server:
   servlet:
     encoding:
       force-response: true
-  port: 8181

@@ -1,4 +1,4 @@
-package com.dongnebook.domain.rental.dto;
+package com.dongnebook.domain.rental.dto.Request;
 
 import lombok.Builder;
 import lombok.Getter;

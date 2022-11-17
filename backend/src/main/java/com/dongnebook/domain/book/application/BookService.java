@@ -5,14 +5,16 @@ import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 
+import org.springframework.data.domain.SliceImpl;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.dongnebook.domain.book.domain.Book;
 import com.dongnebook.domain.book.dto.request.BookRegisterRequest;
-import com.dongnebook.domain.book.dto.request.SectorBookCountRequest;
+import com.dongnebook.domain.book.dto.request.BookSearchCondition;
 import com.dongnebook.domain.book.dto.response.BookDetailResponse;
 import com.dongnebook.domain.book.dto.response.BookSectorCountResponse;
+import com.dongnebook.domain.book.dto.response.BookSimpleResponse;
 import com.dongnebook.domain.book.exception.BookNotFoundException;
 import com.dongnebook.domain.book.repository.BookCommandRepository;
 import com.dongnebook.domain.book.repository.BookQueryRepository;
@@ -20,7 +22,7 @@ import com.dongnebook.domain.member.domain.Member;
 import com.dongnebook.domain.member.exception.LocationNotCreatedYetException;
 import com.dongnebook.domain.member.repository.MemberRepository;
 import com.dongnebook.domain.model.Location;
-import com.fasterxml.jackson.annotation.JsonInclude;
+import com.dongnebook.global.dto.request.PageRequest;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -74,11 +76,11 @@ public class BookService {
 		return bookCommandRepository.findById(bookId).orElseThrow(BookNotFoundException::new);
 	}
 
-	public ArrayList<BookSectorCountResponse> getSectorBookCounts(SectorBookCountRequest sectorBookCountRequest) {
+	public ArrayList<BookSectorCountResponse> getSectorBookCounts(BookSearchCondition bookSearchCondition) {
 
-		List<Double> latRangeList = sectorBookCountRequest.latRangeList();
-		List<Double> lonRangeList = sectorBookCountRequest.lonRangeList();
-		List<Location> sectorBookCounts = bookQueryRepository.getSectorBookCounts(sectorBookCountRequest);
+		List<Double> latRangeList = bookSearchCondition.latRangeList();
+		List<Double> lonRangeList = bookSearchCondition.lonRangeList();
+		List<Location> sectorBookCounts = bookQueryRepository.getSectorBookCounts(bookSearchCondition);
 		ArrayList<BookSectorCountResponse> bookSectorCountResponses = new ArrayList<>();
 
 		for (int i = 0; i < 9; i++) {
@@ -122,5 +124,9 @@ public class BookService {
 			bookSectorCountResponse.initLocation(location);
 			bookSectorCountResponse.initSector(index+1L);
 		}
+	}
+
+	public SliceImpl<BookSimpleResponse> getList(BookSearchCondition bookSearchCondition, PageRequest pageRequest) {
+		return bookQueryRepository.noOffsetPagingList(bookSearchCondition,pageRequest);
 	}
 }
