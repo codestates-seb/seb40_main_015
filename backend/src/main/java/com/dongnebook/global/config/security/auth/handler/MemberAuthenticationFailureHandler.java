@@ -29,6 +29,6 @@ public class MemberAuthenticationFailureHandler implements AuthenticationFailure
         ErrorResponse errorResponse = ErrorResponse.of(ErrorCode.UNAUTHORIZIZED_ACCESS);
         response.setContentType(MediaType.APPLICATION_JSON_VALUE);
         response.setStatus(HttpStatus.UNAUTHORIZED.value());
-        response.getWriter().write(gson.toJson(errorResponse, ErrorResponse.class));
+//        response.getWriter().write(gson.toJson(errorResponse, ErrorResponse.class));
     }
 }

@@ -5,8 +5,10 @@ import javax.validation.constraints.Pattern;
 
 import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 @Getter
+@NoArgsConstructor
 public class MemberRegisterRequest {
 
 	@NotBlank(message = "아이디는 필수 입력 값입니다.")

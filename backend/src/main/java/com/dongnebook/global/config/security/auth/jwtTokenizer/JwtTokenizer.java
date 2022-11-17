@@ -32,7 +32,6 @@ public class JwtTokenizer {
     @Value("${jwt.refresh-token-expiration-seconds}")
     private static int refreshTokenExpirationSeconds;
 
-    @PostConstruct
     protected void init() {
         secretKey = Base64.getEncoder().encodeToString(secretKey.getBytes());
     }
