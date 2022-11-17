@@ -1,8 +1,7 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useCallback } from 'react';
 import styled from 'styled-components';
 import { TbCurrentLocation } from 'react-icons/tb';
 import { HiSearch } from 'react-icons/hi';
-import { redirect } from 'react-router-dom';
 
 declare global {
 	interface Window {
@@ -13,7 +12,7 @@ const { kakao } = window;
 
 const data = [
 	{
-		totalBookCount: 3,
+		merchantCount: 3,
 		sector: 1,
 		representativeLocation: {
 			lat: '37.39277543968578',
@@ -21,7 +20,7 @@ const data = [
 		},
 	},
 	{
-		totalBookCount: 241,
+		merchantCount: 1,
 		sector: 2,
 		representativeLocation: {
 			lat: '37.39271348204709',
@@ -29,7 +28,7 @@ const data = [
 		},
 	},
 	{
-		totalBookCount: 121,
+		merchantCount: 3,
 		sector: 3,
 		representativeLocation: {
 			lat: '37.39356427430288',
@@ -37,7 +36,7 @@ const data = [
 		},
 	},
 	{
-		totalBookCount: 15,
+		merchantCount: 4,
 		sector: 4,
 		representativeLocation: {
 			lat: '37.39198970222246',
@@ -45,7 +44,7 @@ const data = [
 		},
 	},
 	{
-		totalBookCount: 9,
+		merchantCount: 9,
 		sector: 5,
 		representativeLocation: {
 			lat: '37.49511841048171',
@@ -53,7 +52,7 @@ const data = [
 		},
 	},
 	{
-		totalBookCount: 7,
+		merchantCount: 7,
 		sector: 6,
 		representativeLocation: {
 			lat: '37.49292835574315',
@@ -61,7 +60,7 @@ const data = [
 		},
 	},
 	{
-		totalBookCount: 0,
+		merchantCount: 0,
 		sector: 7,
 		representativeLocation: {
 			lat: '37.49189717824911',
@@ -69,7 +68,7 @@ const data = [
 		},
 	},
 	{
-		totalBookCount: 4,
+		merchantCount: 4,
 		sector: 8,
 		representativeLocation: {
 			lat: '37.49049786390108',
@@ -77,7 +76,7 @@ const data = [
 		},
 	},
 	{
-		totalBookCount: 5,
+		merchantCount: 5,
 		sector: 9,
 		representativeLocation: {
 			lat: '37.492893955476916',
@@ -87,8 +86,9 @@ const data = [
 ];
 
 const BooksSearchPage = () => {
-	const [current, setCurrent] = useState();
-	console.log(current);
+	const [current, setCurrent] = useState<any>();
+	const [centerCoord, setCenterCoord] = useState();
+
 	//여러개의 마커 표시하기
 	const ShowMultipleMarkers = (map: any, data: any) => {
 		let imageSrc =
@@ -102,19 +102,25 @@ const BooksSearchPage = () => {
 					data[i].representativeLocation.lat,
 					data[i].representativeLocation.lon,
 				),
-				title: data[i].totalBookCount,
+				title: data[i].merchantCount,
 				image: markerImage,
 			});
+
+			//커스텀 오버레이
 			let customOverlay = new kakao.maps.CustomOverlay({
 				map: map,
 				clickable: true, // 커스텀 오버레이 클릭 시 지도에 이벤트를 전파하지 않도록 설정한다
-				content: `<div style="width: 120px; height: 120px; display: flex; justify-content: center; align-items:center; background:#26795D; color: white; border-radius: 50%; opacity: 0.8; font-size: 2rem"; font-weight: 600;>${data[i].totalBookCount}</div>`,
+				content: `<div style="width: 120px; height: 120px; display: flex; justify-content: center; align-items:center; background:#26795D; color: white; border-radius: 50%; opacity: 0.8; font-size: 2rem"; font-weight: 600;" onclick="handleSubmit()">
+				${data[i].merchantCount}
+				</div>`,
 				position: new kakao.maps.LatLng(
 					data[i].representativeLocation.lat,
 					data[i].representativeLocation.lon,
-				), // 커스텀 오버레이를 표시할 좌표
+				),
+				// 커스텀 오버레이를 표시할 좌표
 				xAnchor: 0.5, // 컨텐츠의 x 위치
 				yAnchor: 0.7, // 컨텐츠의 y 위치
+				onClick: { i },
 			});
 		}
 	};
@@ -133,17 +139,19 @@ const BooksSearchPage = () => {
 		if (data) {
 			ShowMultipleMarkers(map, data);
 		}
+
 		// 지도 드래깅 이벤트를 등록한다 (드래그 시작 : dragstart, 드래그 종료 : dragend)
 		kakao.maps.event.addListener(map, 'dragend', function () {
+			let centerCoord = map.getCenter();
+			setCenterCoord(centerCoord);
 			let message =
 				'지도를 드래그 하고 있습니다. ' +
 				'지도의 중심 좌표는 ' +
-				map.getCenter().toString() +
+				centerCoord.toString() +
 				' 입니다.';
-			// console.log(message);
 		});
-		// map.setCenter(current);
 
+		// map.setCenter(current);
 		// 확대 축소 기능을 막습니다
 		function setZoomable(zoomable: any) {
 			map.setZoomable(zoomable);
@@ -203,7 +211,7 @@ const BooksSearchPage = () => {
 
 	// // 지도에 마커와 인포윈도우를 표시하는 함수입니다
 	function displayMarker(locPosition: any, message?: any) {
-		var mapContainer = document.getElementById('map'), // 지도를 표시할 div
+		let mapContainer = document.getElementById('map'), // 지도를 표시할 div
 			mapOption = {
 				center: new kakao.maps.LatLng(33.450701, 126.570667), // 지도의 중심좌표
 				level: 2, // 지도의 확대 레벨
@@ -211,7 +219,7 @@ const BooksSearchPage = () => {
 				disableDoubleClickZoom: true,
 			};
 
-		var map = new kakao.maps.Map(mapContainer, mapOption); // 지도를 생성합니다
+		let map = new kakao.maps.Map(mapContainer, mapOption); // 지도를 생성합니다
 		// 마커를 생성합니다
 		let marker = new kakao.maps.Marker({
 			map: map,
@@ -244,17 +252,56 @@ const BooksSearchPage = () => {
 
 	//버튼 클릭 시 현재 위치로 돌아갑니다(추후에 로딩 시간에 애니메이션 추가하기)
 	const handleCurrentLocationMove = () => {
-		navigator.geolocation.getCurrentPosition(function (position) {
-			let lat = position.coords.latitude; // 위도
-			let lon = position.coords.longitude; // 경도
+		let mapContainer = document.getElementById('map'), // 지도를 표시할 div
+			mapOption = {
+				center: new kakao.maps.LatLng(33.450701, 126.570667), // 지도의 중심좌표
+				level: 2, // 지도의 확대 레벨
+				// 두번 클릭시 확대 기능을 막습니다
+				disableDoubleClickZoom: true,
+			};
 
-			let locPosition = new kakao.maps.LatLng(lat, lon), // 마커가 표시될 위치를 geolocation으로 얻어온 좌표로 생성합니다
+		let map = new kakao.maps.Map(mapContainer, mapOption); // 지도를 생성합니다
+		if (data) {
+			ShowMultipleMarkers(map, data);
+		}
+		if (current) {
+			let locPosition = new kakao.maps.LatLng(current.Ma, current.La), // 마커가 표시될 위치를 geolocation으로 얻어온 좌표로 생성합니다
 				message = '<div style="padding:5px;">현재 위치입니다</div>'; // 인포윈도우에 표시될 내용입니다
-			setCurrent(locPosition);
 			// 마커와 인포윈도우를 표시합니다
 			displayMarker(locPosition, message);
-		});
+			navigator.geolocation.getCurrentPosition(function (position) {
+				let lat = position.coords.latitude; // 위도
+				let lon = position.coords.longitude; // 경도
+
+				let locPosition = new kakao.maps.LatLng(lat, lon), // 마커가 표시될 위치를 geolocation으로 얻어온 좌표로 생성합니다
+					message = '<div style="padding:5px;">현재 위치입니다</div>'; // 인포윈도우에 표시될 내용입니다
+				if (locPosition.La !== current.La && locPosition.Ma !== current.Ma) {
+					console.log(locPosition, current);
+					console.log('다름');
+					setCurrent(locPosition);
+					// 마커와 인포윈도우를 표시합니다
+					displayMarker(locPosition, message);
+				}
+			});
+		} else {
+			navigator.geolocation.getCurrentPosition(function (position) {
+				let lat = position.coords.latitude; // 위도
+				let lon = position.coords.longitude; // 경도
+
+				let locPosition = new kakao.maps.LatLng(lat, lon), // 마커가 표시될 위치를 geolocation으로 얻어온 좌표로 생성합니다
+					message = '<div style="padding:5px;">현재 위치입니다</div>'; // 인포윈도우에 표시될 내용입니다
+				setCurrent(locPosition);
+				// 마커와 인포윈도우를 표시합니다
+				displayMarker(locPosition, message);
+			});
+		}
 	};
+
+	// 현재위치 변경시 주변 상인정보 다시 받아오기
+	useEffect(() => {
+		// centerCoord 변경될때마다 주변상인 정보 api 호출하기
+		console.log('현재위치 변경됨 주변 상인정보 다시 요청');
+	}, [centerCoord]);
 
 	return (
 		<Box>
@@ -267,9 +314,11 @@ const BooksSearchPage = () => {
 					className="location"
 					size={40}
 					onClick={() => {
+						// onClickToggleModal();
 						handleCurrentLocationMove();
 					}}
 				/>
+				<div></div>
 			</FlexBox>
 			<Container id="map" />
 		</Box>
