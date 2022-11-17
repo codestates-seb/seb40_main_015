@@ -10,12 +10,15 @@ import Clause from './Clause';
 
 const SignUpForm = () => {
 	const [id, setId] = useState('');
+	const [isValidId, setIsValidId] = useState(false);
 	const [nickname, setNickname] = useState('');
+	const [isValidNickname, setIsValidNickname] = useState(false);
 	const [password, setPassword] = useState('');
-	const [passwordCheck, setPasswordCheck] = useState('');
-	const [isChecked, setIsChecked] = useState(false);
 	const [passwordError, setPasswordError] = useState(false);
+	const [passwordCheck, setPasswordCheck] = useState('');
 	const [passwordCheckError, setPasswordCheckError] = useState(false);
+	const [isChecked, setIsChecked] = useState(false);
+
 	const passwordRegExp = /^(?=.*?[a-z])(?=.*?[0-9])(?=.*?[~?!@#$%^&*_-]).{8,}$/;
 	const dispatch = useAppDispatch();
 
@@ -31,15 +34,37 @@ const SignUpForm = () => {
 		validateInput();
 	}, [password, passwordCheck]);
 
-	// 중복확인 로직 추가 필요
 	const handleSubmit = (e: React.SyntheticEvent) => {
 		e.preventDefault();
 		validateInput();
-		if (!isChecked) notify(dispatch, '약관에 동의해주세요 ☺️');
-		else if (!password || passwordError)
-			notify(dispatch, '올바른 비밀번호를 입력해주세요');
-		else if (!passwordCheck || passwordCheckError)
-			notify(dispatch, '비밀번호 확인을 맞게 입력해주세요');
+		switch (true) {
+			case !id:
+				notify(dispatch, '아이디를 입력해 주세요');
+				break;
+			case !nickname:
+				notify(dispatch, '닉네임을 입력해 주세요');
+				break;
+			case !password:
+				notify(dispatch, '비밀번호를 입력해 주세요');
+				break;
+			case !isValidId:
+				notify(dispatch, '아이디 중복여부를 확인해주세요');
+				break;
+			case !isValidNickname:
+				notify(dispatch, '닉네임 중복여부를 확인해주세요');
+				break;
+			case !password || passwordError:
+				notify(dispatch, '올바른 비밀번호를 입력해주세요');
+				break;
+			case !passwordCheck || passwordCheckError:
+				notify(dispatch, '비밀번호 확인을 맞게 입력해주세요');
+				break;
+			case !isChecked:
+				notify(dispatch, '약관에 동의해주세요 ☺️');
+				break;
+			default:
+				notify(dispatch, '전부완료!');
+		}
 	};
 
 	return (
