@@ -4,10 +4,14 @@ import com.dongnebook.domain.member.application.MemberService;
 
 import com.dongnebook.domain.member.dto.request.MemberRegisterRequest;
 import com.dongnebook.domain.member.dto.response.MemberExistsCheckResponse;
+import com.dongnebook.domain.model.Location;
+
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import javax.validation.Valid;
@@ -15,6 +19,7 @@ import java.net.URI;
 import java.util.HashMap;
 import java.util.Map;
 
+@Slf4j
 @RestController
 @RequiredArgsConstructor
 public class MemberController {
@@ -64,5 +69,13 @@ public class MemberController {
                 .success(true)
                 .build();
         return ResponseEntity.ok(memberExistsCheckResponse);
+    }
+
+    @PatchMapping("/member/{id}/edit")
+    public void edit(@PathVariable Long id, @RequestBody Location location){
+        log.info("location = {}", location.getLatitude());
+        log.info("location = {}", location.getLongitude());
+        memberService.edit(id,location);
+
     }
 }

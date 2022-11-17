@@ -1,9 +1,12 @@
 package com.dongnebook.domain.book.domain;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 import javax.persistence.AttributeConverter;
 import javax.persistence.AttributeOverride;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Convert;
 import javax.persistence.Converter;
@@ -18,9 +21,11 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 
 import com.dongnebook.domain.book.dto.request.BookRegisterRequest;
 import com.dongnebook.domain.book.exception.NotRentableException;
+import com.dongnebook.domain.dibs.domain.Dibs;
 import com.dongnebook.domain.member.domain.Member;
 import com.dongnebook.domain.model.BaseTimeEntity;
 import com.dongnebook.domain.model.Location;
@@ -36,7 +41,7 @@ import lombok.NoArgsConstructor;
 public class Book extends BaseTimeEntity {
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "id", updatable = false)
 	private Long id;
 
@@ -72,6 +77,9 @@ public class Book extends BaseTimeEntity {
 	@JoinColumn(name = "member_id")
 	private Member member;
 
+	@OneToMany(mappedBy = "book",cascade = CascadeType.REMOVE)
+	private List<Dibs> dibsList = new ArrayList<>();
+
 	@Builder
 	public Book(String title, String author, String publisher, String imgUrl, String description, Money rentalFee,
 		Location location, BookState bookState, Member member) {
@@ -85,6 +93,11 @@ public class Book extends BaseTimeEntity {
 		this.bookState = bookState;
 		this.member = member;
 	}
+
+	public void changeBookState(BookState bookState) {
+		this.bookState = bookState;
+	}
+
 
 	public static Book create(BookRegisterRequest bookRegisterRequest, Location location, Member member) {
 		return Book.builder()
