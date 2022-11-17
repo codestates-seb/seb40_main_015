@@ -1,28 +1,32 @@
 package com.dongnebook.domain.book.repository;
 
 
-import com.dongnebook.domain.book.dto.request.SectorBookCountRequest;
+import com.dongnebook.domain.book.dto.request.BookSearchCondition;
+
 
 import static com.dongnebook.domain.book.domain.QBook.*;
 
 import java.util.List;
-import java.util.Objects;
+
+
 
 import org.springframework.data.domain.SliceImpl;
 import org.springframework.stereotype.Repository;
 
 
 
-import com.dongnebook.domain.book.dto.request.SectorBookCountRequest;
+
 import com.dongnebook.domain.book.dto.response.BookDetailResponse;
 
-
+import com.dongnebook.domain.book.dto.response.BookSimpleResponse;
 import com.dongnebook.domain.book.dto.response.QBookDetailResponse;
 import com.dongnebook.domain.book.dto.response.QBookResponse;
 
+import com.dongnebook.domain.book.dto.response.QBookSimpleResponse;
 import com.dongnebook.domain.member.dto.response.QBookDetailMemberResponse;
 import com.dongnebook.domain.model.Location;
 
+import com.dongnebook.global.dto.request.PageRequest;
 import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
