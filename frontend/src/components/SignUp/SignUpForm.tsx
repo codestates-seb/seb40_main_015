@@ -19,17 +19,27 @@ const SignUpForm = () => {
 	const passwordRegExp = /^(?=.*?[a-z])(?=.*?[0-9])(?=.*?[~?!@#$%^&*_-]).{8,}$/;
 	const dispatch = useAppDispatch();
 
-	useEffect(() => {
+	const validateInput = () => {
 		if (password && !passwordRegExp.test(password)) setPasswordError(true);
 		else if (passwordRegExp.test(password)) setPasswordError(false);
 
 		if (password !== passwordCheck) setPasswordCheckError(true);
 		else if (password === passwordCheck) setPasswordCheckError(false);
+	};
+
+	useEffect(() => {
+		validateInput();
 	}, [password, passwordCheck]);
 
+	// 중복확인 로직 추가 필요
 	const handleSubmit = (e: React.SyntheticEvent) => {
 		e.preventDefault();
-		if (!isChecked) notify(dispatch, '가입불가');
+		validateInput();
+		if (!isChecked) notify(dispatch, '약관에 동의해주세요 ☺️');
+		else if (!password || passwordError)
+			notify(dispatch, '올바른 비밀번호를 입력해주세요');
+		else if (!passwordCheck || passwordCheckError)
+			notify(dispatch, '비밀번호 확인을 맞게 입력해주세요');
 	};
 
 	return (
@@ -86,12 +96,14 @@ const IdWrapper = styled.div`
 	grid-template-columns: 22rem 1px;
 	.overlapCheck {
 		width: 4.1rem;
+		height: 1rem;
 		background-color: transparent;
 		color: ${props => props.theme.colors.buttonGreen};
 		font-weight: bold;
 		position: relative;
 		top: 3.4rem;
 		right: 4.1rem;
+		cursor: pointer;
 	}
 `;
 
