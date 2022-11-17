@@ -21,8 +21,10 @@ public enum ErrorCode {
 
 	/* Book */
 	BOOK_NOT_FOUND(404, "해당 책을 찾지 못했습니다."),
+	CANNOT_CHANGE_BOOK_STATE(404, "도서 상태를 변경할 수 없습니다."),
 
 	/* Rental */
+	CANNOT_CHANGE_RENTAL_STATE(404, "대여상태를 변경할 수 없습니다."),
 	CANNOT_RENT_MY_BOOK(404, "본인의 책은 대여할 수 없습니다."),
 	CANNOT_CANCEL_RENTAL(404, "대여 취소 가능 대상이 아닙니다."),
 	CANNOT_RECEIVE_RENTAL(404, "도서 수령 가능 대상이 아닙니다."),

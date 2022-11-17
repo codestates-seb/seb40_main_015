@@ -3,7 +3,7 @@ package com.dongnebook.domain.rental.application;
 import com.dongnebook.domain.book.domain.Book;
 import com.dongnebook.domain.book.domain.BookState;
 import com.dongnebook.domain.book.exception.BookNotFoundException;
-import com.dongnebook.domain.book.exception.NotRentableException;
+import com.dongnebook.domain.book.exception.CanNotChangeBookStateException;
 import com.dongnebook.domain.book.repository.BookCommandRepository;
 import com.dongnebook.domain.member.domain.Member;
 import com.dongnebook.domain.member.exception.MemberNotFoundException;
@@ -45,7 +45,7 @@ public class RentalService {
 
         blockRentMyBook(rentalRegisterRequest, book);
 
-        changeToTradingBookStateWhenRentableBookState(book);
+        canChangeBookState(book, BookState.RENTABLE, BookState.TRADING);
 
         Rental rental = Rental.create(book, member);
         rentalRepository.save(rental);
@@ -67,8 +67,9 @@ public class RentalService {
 //        if(!book.getMember().getId().equals("cancel하는 주체"))
 //            throw new CanNotCancelRentalException();
 
-        changeToCanceledRentalStateWhenTradingRentalState(rental);
-        changeToRentableBookStateWhenTradingBookState(book);
+        canChangeRentalState(rental, RentalState.TRADING, RentalState.CANCELED);
+        rental.setCanceledAt(LocalDateTime.now());
+        canChangeBookState(book, BookState.TRADING, BookState.RENTABLE);
     }
 
     @Transactional
@@ -80,8 +81,23 @@ public class RentalService {
 //        if(!rental.getMember().getId().equals("receive하는 추제"))
 //            throw new CanNotReceiveRentalException();
 
-        changeToBeingRentedRentalStateWhenTradingRentalState(rental);
-        changeToUnrentalbeReservableBookStateWhenTradingBookState(book);
+        canChangeRentalState(rental, RentalState.TRADING, RentalState.BEING_RENTED);
+        canChangeBookState(book, BookState.TRADING, BookState.UNRENTABLE_RESERVABLE);
+    }
+
+    // 예약이 없을 경우에 대한 반납 case (예약이 있을 경우에 대한 반납 case 또한 만들어줘야 함)
+    @Transactional
+    public void returnRental(Long rentalId){
+        Rental rental = getRental(rentalId);
+        Book book = getBookFromRental(rental);
+
+        // 해당 상인만 반납 가능
+//        if(!book.getMember().getId().equals("cancel하는 주체"))
+//            throw new CanNotReturnRentalException();
+
+        //예약이 없을 경우
+        canChangeRentalState(rental, RentalState.BEING_RENTED, RentalState.RETURN_UNREVIEWED);
+        canChangeBookState(book, BookState.UNRENTABLE_RESERVABLE, BookState.RENTABLE);
     }
 
 
@@ -103,49 +119,19 @@ public class RentalService {
         }
     }
 
-    // 도서상태가 대여가능인 경우, 거래가능으로 변경
-    private static void changeToTradingBookStateWhenRentableBookState(Book book) {
-        if(!book.getBookState().equals(BookState.RENTABLE)) {
-            throw new NotRentableException();
+    public void canChangeBookState(Book book, BookState from, BookState to) {
+        if(!book.getBookState().equals(from)){
+            throw new CanNotChangeBookStateException();
         } else {
-            book.changeBookState(BookState.TRADING);
+            book.changeBookState(to);
         }
     }
 
-    // 대여상태가 거래중인 경우, 취소된 대여로 변경
-    private static void changeToCanceledRentalStateWhenTradingRentalState(Rental rental) {
-        if(!rental.getRentalState().equals(RentalState.TRADING)){
-            throw new NotCancelableException();
+    public void canChangeRentalState(Rental rental, RentalState from, RentalState to){
+        if(!rental.getRentalState().equals(from)){
+            throw new CanNotChangeRentalStateException();
         } else {
-            rental.changeRentalState(RentalState.CANCELED);
-            rental.setCanceledAt(LocalDateTime.now());
-        }
-    }
-
-    // 도서상태가 거래중인 경우, 대여가능으로 변경
-    private static void changeToRentableBookStateWhenTradingBookState(Book book) {
-        if(!book.getBookState().equals(BookState.TRADING)) {
-            throw new NotCancelableException();
-        } else {
-            book.changeBookState(BookState.RENTABLE);
-        }
-    }
-
-    // 대여상태가 거래중인 경우, 대여중으로 변경
-    private static void changeToBeingRentedRentalStateWhenTradingRentalState(Rental rental) {
-        if(!rental.getRentalState().equals(RentalState.TRADING)) {
-            throw new NotReceivableException();
-        } else {
-            rental.changeRentalState(RentalState.BEING_RENTED);
-        }
-    }
-
-    // 도서상태가 거래중인 경우, 거래중&예약가능으로 변경
-    private static void changeToUnrentalbeReservableBookStateWhenTradingBookState(Book book) {
-        if(!book.getBookState().equals(BookState.TRADING)) {
-            throw new NotReceivableException();
-        } else {
-            book.changeBookState(BookState.UNRENTABLE_RESERVABLE);
+            rental.changeRentalState(to);
         }
     }
 
