@@ -19,6 +19,7 @@ const Bubble = ({ type }: BubbleProps) => {
 
 const StyledBubble = styled.div`
 	max-width: 10rem;
+	width: 10rem;
 	height: 4rem;
 	text-align: center;
 	line-height: 1.15rem;
@@ -28,7 +29,7 @@ const StyledBubble = styled.div`
 	border-radius: 5px;
 	position: relative;
 	top: 3rem;
-	right: 3.5rem;
+	right: 8rem;
 	display: flex;
 	justify-content: center;
 	align-items: center;
