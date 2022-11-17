@@ -5,7 +5,7 @@ package com.dongnebook.global.error.exception;
 import lombok.Getter;
 
 @Getter
-public abstract class BusinessException extends RuntimeException{
+public class BusinessException extends RuntimeException{
 
 	private ErrorCode errorCode;
 

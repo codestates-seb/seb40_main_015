@@ -14,7 +14,9 @@ public enum ErrorCode {
 
 	/* Member */
 	LOCATION_NOT_CREATED_YET(404,"아직 주거래 동네를 설정하지 않았습니다."),
+	UNAUTHORIZIZED_ACCESS(401, "접근 권한 인증이 되지 않았습니다."),
 	MEMBER_NOT_FOUND(404, "해당 유저를 찾지 못했습니다."),
+
 
 	/* Book */
 	BOOK_NOT_FOUND(404, "해당 책을 찾지 못했습니다."),

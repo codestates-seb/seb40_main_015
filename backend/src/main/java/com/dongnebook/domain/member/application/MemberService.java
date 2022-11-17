@@ -34,13 +34,6 @@ public class MemberService {
 
 		return id;
 	}
-	@Transactional
-	public String encodePassword(String password){
-		System.out.println(password);
-		String encodedPassword = passwordEncoder.encode(password);
-		System.out.println(encodedPassword);
-		return encodedPassword;
-	}
 
 	@Transactional(readOnly = true)
 	public boolean checkUserIdDuplication(String userId) {
