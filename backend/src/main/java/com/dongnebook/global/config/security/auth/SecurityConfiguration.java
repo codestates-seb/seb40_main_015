@@ -4,6 +4,8 @@ import java.util.Arrays;
 
 import com.dongnebook.global.config.security.auth.filter.JwtAuthenticationFilter;
 import com.dongnebook.global.config.security.auth.filter.JwtVerificationFilter;
+import com.dongnebook.global.config.security.auth.handler.MemberAccessDeniedHandler;
+import com.dongnebook.global.config.security.auth.handler.MemberAuthenticationEntryPoint;
 import com.dongnebook.global.config.security.auth.handler.MemberAuthenticationFailureHandler;
 import com.dongnebook.global.config.security.auth.handler.MemberAuthenticationSuccessHandler;
 import com.dongnebook.global.config.security.auth.jwtTokenizer.JwtTokenizer;
@@ -43,6 +45,10 @@ public class SecurityConfiguration {
 				.formLogin().disable()
 				.httpBasic().disable()
 				.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+				.and()
+				.exceptionHandling()
+				.authenticationEntryPoint(new MemberAuthenticationEntryPoint())
+				.accessDeniedHandler(new MemberAccessDeniedHandler())
 				.and()
 				.apply(new CustomFilterConfigurer())
 				.and()
