@@ -23,9 +23,5 @@ public class DibsController {
 		dibsService.doDibs(id,memberId);
 	}
 
-	@DeleteMapping("/dibs/{id}")
-	public void cancelDibs(@PathVariable Long id,@RequestBody Long memberId){
-		//멤버 가져오는 로직
-		dibsService.cancelDibs(id,memberId);
-	}
+
 }
