@@ -6,6 +6,7 @@ import com.dongnebook.domain.member.repository.MemberRepository;
 import com.dongnebook.global.utils.CustomAuthorityUtils;
 
 import lombok.Getter;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -16,6 +17,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Optional;
 
+@Slf4j
 @Component
 public class MemberDetailsService implements UserDetailsService {
     private final MemberRepository memberRepository;

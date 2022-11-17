@@ -5,6 +5,7 @@ import com.dongnebook.domain.member.dto.request.MemberLoginRequest;
 import com.dongnebook.global.config.security.auth.jwtTokenizer.JwtTokenizer;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.SneakyThrows;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -19,6 +20,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
+@Slf4j
 public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilter {
     private final AuthenticationManager authenticationManager;
     private final JwtTokenizer jwtTokenizer;
@@ -35,6 +37,8 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
         ObjectMapper objectMapper = new ObjectMapper();
         MemberLoginRequest loginDto
                 = objectMapper.readValue(request.getInputStream(), MemberLoginRequest.class);
+        log.info(loginDto.getUserId());
+        log.info(loginDto.getPassword());
         UsernamePasswordAuthenticationToken authenticationToken =
                 new UsernamePasswordAuthenticationToken(loginDto.getUserId(), loginDto.getPassword());
 

@@ -22,7 +22,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class MemberService {
 	private final MemberRepository memberRepository;
-	private PasswordEncoder passwordEncoder = PasswordEncoderFactories.createDelegatingPasswordEncoder();
+	private final PasswordEncoder passwordEncoder;
 	private final CustomAuthorityUtils authorityUtils;
 
 	@Transactional
