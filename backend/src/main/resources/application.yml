@@ -17,7 +17,7 @@ Spring:
       hibernate:
         format_sql: true  # (3) SQL pretty print
 jwt:
-  secret-key: ${JWT_SECRET_KEY}
+  secret-key: "asdf1asdf321a3sdf2as6d5f43sdfsdfasd"
   access-token-expiration-minutes: 30
   refresh-token-expiration-minutes: 420
 

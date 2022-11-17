@@ -62,4 +62,14 @@ public class Member extends BaseTimeEntity {
 			.password(memberRegisterRequest.getPassword())
 			.build();
 	}
+
+	@Override
+	public String toString() {
+		return "Member{" +
+			"userId='" + userId + '\'' +
+			", password='" + password + '\'' +
+			", nickname='" + nickname + '\'' +
+			", roles=" + roles +
+			'}';
+	}
 }

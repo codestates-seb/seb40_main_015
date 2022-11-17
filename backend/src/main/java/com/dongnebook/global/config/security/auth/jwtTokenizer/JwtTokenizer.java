@@ -19,17 +19,18 @@ import java.util.Map;
 
 @Component
 public class JwtTokenizer {
-    @Getter
-    @Value("${jwt.secret}")
-    private static String secretKey;
 
     @Getter
-    @Value("${jwt.access-token-expiration-seconds}")
-    private static int accessTokenExpiriationSeconds;
+    @Value("${jwt.secret-key}")
+    private String secretKey;
 
     @Getter
-    @Value("${jwt.refresh-token-expiration-seconds}")
-    private static int refreshTokenExpirationSeconds;
+    @Value("${jwt.access-token-expiration-minutes}")
+    private int accessTokenExpirationMinutes;
+
+    @Getter
+    @Value("${jwt.refresh-token-expiration-minutes}")
+    private int refreshTokenExpirationMinutes;
 
     protected void init() {
         secretKey = Base64.getEncoder().encodeToString(secretKey.getBytes());
