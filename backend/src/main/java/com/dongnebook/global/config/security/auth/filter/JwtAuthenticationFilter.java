@@ -60,8 +60,6 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
         Map<String, Object> claims = new HashMap<>();
         claims.put("id", member.getId());
         claims.put("userId", member.getUserId());
-        claims.put("location", member.getLocation());
-        claims.put("roles", member.getRoles());
         //payload 작성하는 부분
 
         String subject = member.getUserId();
@@ -79,8 +77,6 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
         Map<String, Object> claims = new HashMap<>();
         claims.put("id", member.getId());
         claims.put("userId", member.getUserId());
-        claims.put("location", member.getLocation());
-        claims.put("roles", member.getRoles());
 
         String subject = member.getUserId();
         Date expiration = jwtTokenizer.getTokenExpiration(jwtTokenizer.getRefreshTokenExpirationSeconds());

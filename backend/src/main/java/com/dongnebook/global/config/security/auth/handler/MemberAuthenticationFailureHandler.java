@@ -3,6 +3,7 @@ package com.dongnebook.global.config.security.auth.handler;
 import com.dongnebook.global.error.ErrorResponse;
 import com.dongnebook.global.error.exception.ErrorCode;
 import lombok.extern.slf4j.Slf4j;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.security.core.AuthenticationException;
@@ -24,7 +25,7 @@ public class MemberAuthenticationFailureHandler implements AuthenticationFailure
     }
 
     private void sendErrorResponse(HttpServletResponse response) throws IOException {
-        Gson gson = new Gson();
+
         ErrorResponse errorResponse = ErrorResponse.of(ErrorCode.UNAUTHORIZIZED_ACCESS);
         response.setContentType(MediaType.APPLICATION_JSON_VALUE);
         response.setStatus(HttpStatus.UNAUTHORIZED.value());
