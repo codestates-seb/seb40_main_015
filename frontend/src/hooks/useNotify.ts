@@ -4,17 +4,17 @@ import {
 	dequeueNotification,
 	enqueueNotification,
 } from '../redux/slice/notificationSlice';
+import getNotificationPayload from '../utils/getNotificationPayload';
 
 const useNotify = (message: string) => {
 	const dispatch = useAppDispatch();
 
 	useEffect(() => {
-		const uuid = Math.random();
-		const dismissTime = 3000;
-		dispatch(enqueueNotification({ uuid, message, dismissTime }));
+		const payload = getNotificationPayload(message);
+		dispatch(enqueueNotification(payload));
 		setTimeout(() => {
 			dispatch(dequeueNotification());
-		}, dismissTime);
+		}, payload.dismissTime);
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, []);
 };
