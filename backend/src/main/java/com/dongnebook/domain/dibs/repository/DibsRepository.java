@@ -7,7 +7,9 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import com.dongnebook.domain.book.domain.Book;
 import com.dongnebook.domain.dibs.domain.Dibs;
 import com.dongnebook.domain.member.domain.Member;
+import com.querydsl.jpa.impl.JPAQueryFactory;
 
 public interface DibsRepository extends JpaRepository<Dibs,Long> {
 	Optional<Dibs> findByBookAndMember(Book book, Member member);
+
 }

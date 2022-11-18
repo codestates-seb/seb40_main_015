@@ -45,20 +45,19 @@ public class Member extends BaseTimeEntity {
 	@Column(name = "avg_grade")
 	private Long avgGrade;
 
-	@ElementCollection(fetch = FetchType.EAGER)
-	private List<String> roles;
-
+	@Enumerated(EnumType.STRING)
+	private Authority authority;
 
 	@OneToMany(mappedBy = "member",cascade = CascadeType.REMOVE)
 	private List<Dibs> dibsList = new ArrayList<>();
 
 
 	@Builder
-	public Member(String userId, String password, String nickname, List<String> roles)  {
+	public Member(String userId, String password, String nickname)  {
 		this.userId = userId;
 		this.password = password;
 		this.nickname = nickname;
-		this.roles = roles;
+		this.authority = Authority.ROLE_USER;
 	}
 
 	public static Member create(MemberRegisterRequest memberRegisterRequest) {
@@ -73,13 +72,4 @@ public class Member extends BaseTimeEntity {
 		this.location = location;
 	}
 
-	@Override
-	public String toString() {
-		return "Member{" +
-			"userId='" + userId + '\'' +
-			", password='" + password + '\'' +
-			", nickname='" + nickname + '\'' +
-			", roles=" + roles +
-			'}';
-	}
 }

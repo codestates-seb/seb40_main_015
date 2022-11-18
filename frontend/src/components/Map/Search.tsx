@@ -1,11 +1,42 @@
 import styled from 'styled-components';
 import { HiSearch } from 'react-icons/hi';
+import { Dispatch, SetStateAction } from 'react';
 
-const Search = () => {
+interface SearchProps {
+	searchInput: string;
+	setSearchInput: Dispatch<SetStateAction<string>>;
+	setReset: Dispatch<SetStateAction<boolean>>;
+}
+
+const Search = (props: SearchProps) => {
+	const { searchInput, setSearchInput, setReset } = props;
+
+	const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+		setSearchInput(e.target.value);
+	};
+
+	const handleSearchInput = (e: React.KeyboardEvent) => {
+		console.log(e.key);
+		if (e.key === 'Enter') {
+			if (searchInput === '') {
+				// 현재위치 기준 상인정보 데이터 읽어오기
+			}
+			// 책검색 api 요청 -> 데이터가 잇으면?
+			setReset(true);
+			// 없으면 ?
+			// 리셋안하고 toast 팝업;
+		}
+	};
+
 	return (
 		<SearchBox>
 			<HiSearch size={30} color="#a7a7a7" />
-			<SearchInput placeholder="책 검색" />
+			<SearchInput
+				placeholder="책 검색"
+				value={searchInput}
+				onChange={handleInputChange}
+				onKeyPress={handleSearchInput}
+			/>
 		</SearchBox>
 	);
 };

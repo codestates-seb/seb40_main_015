@@ -32,6 +32,7 @@ public enum ErrorCode {
 	NOT_CANCELABLE(404, "대여 취소 가능한 상태가 아닙니다."),
   	NOT_RECEIVABLE(404, "도서 수령 가능 상태가 아닙니다."),
 	NOT_RETURNABLE(404, "도서 반납 가능 상태가 아닙니다."),
+	NOT_CHANGEABLE(404,"상태를 바꿀수 없습니다."),
 
 	/* Dibs */
 	DIBS_NOT_FOUND(404, "이 책을 찜한적이 없습니다.");

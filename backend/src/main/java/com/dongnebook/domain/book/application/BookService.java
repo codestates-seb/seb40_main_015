@@ -65,7 +65,8 @@ public class BookService {
 
 	private Location ifDtoHasNoLocationGetMemberLocation(BookRegisterRequest bookRegisterRequest, Member member) {
 		return Optional.ofNullable(bookRegisterRequest.getLocation())
-			.orElse(Optional.ofNullable(member.getLocation()).orElseThrow(LocationNotCreatedYetException::new));
+				.orElseGet(
+						() -> Optional.ofNullable(member.getLocation()).orElseThrow(LocationNotCreatedYetException::new));
 	}
 
 	private Member getMember() {
@@ -127,6 +128,6 @@ public class BookService {
 	}
 
 	public SliceImpl<BookSimpleResponse> getList(BookSearchCondition bookSearchCondition, PageRequest pageRequest) {
-		return bookQueryRepository.noOffsetPagingList(bookSearchCondition,pageRequest);
+		return bookQueryRepository.getAll(bookSearchCondition,pageRequest);
 	}
 }

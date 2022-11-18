@@ -25,17 +25,16 @@ import java.util.List;
 public class MemberService {
 	private final MemberRepository memberRepository;
 	private final PasswordEncoder passwordEncoder;
-	private final CustomAuthorityUtils authorityUtils;
+
 
 	@Transactional
 	public Long create(MemberRegisterRequest memberRegisterRequest) {
-		List<String> roles = authorityUtils.createRoles(memberRegisterRequest.getUserId());
+
 
 		Member member = Member.builder()
 					.userId(memberRegisterRequest.getUserId())
 					.nickname(memberRegisterRequest.getNickname())
 					.password(passwordEncoder.encode(memberRegisterRequest.getPassword()))
-					.roles(roles)
 					.build();
 		Long id = memberRepository.save(member).getId();
 
