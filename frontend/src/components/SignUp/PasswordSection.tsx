@@ -17,7 +17,7 @@ const PasswordSection = ({ passwordSectionData }: PasswordSectionDataProps) => {
 	return (
 		<div>
 			{passwordSectionData.map(el => (
-				<PasswordWrapper error={el.error}>
+				<PasswordWrapper error={el.error} key={el.label}>
 					<Input
 						label={el.label}
 						state={el.state}
