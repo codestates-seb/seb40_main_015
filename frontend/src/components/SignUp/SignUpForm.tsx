@@ -64,9 +64,6 @@ const SignUpForm = () => {
 			case !nickname:
 				notify(dispatch, '닉네임을 입력해 주세요');
 				break;
-			case !password:
-				notify(dispatch, '비밀번호를 입력해 주세요');
-				break;
 			case !isValidId:
 				notify(dispatch, '아이디 중복여부를 확인해주세요');
 				break;
