@@ -30,6 +30,8 @@ import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
 import lombok.RequiredArgsConstructor;
 
+import static org.springframework.security.config.Customizer.withDefaults;
+
 @Configuration
 @RequiredArgsConstructor
 public class SecurityConfiguration {
@@ -58,12 +60,9 @@ public class SecurityConfiguration {
 				.apply(new CustomFilterConfigurer())
 				.and()
 				.authorizeHttpRequests(authorize -> authorize
-						.anyRequest().permitAll()
+						.anyRequest().authenticated() // 테스트 위해 모든 리퀘스트에 대한 권한 인증 필요로 바꿈
 				)
-//				.oauth2Login()
-//					.defaultSuccessUrl("/hello-oauth2")
-//					.userInfoEndpoint()
-//					.userService(OAuth2UserService)
+				.oauth2Login(withDefaults());
 		return http.build();
 	}
 
@@ -92,8 +91,8 @@ public class SecurityConfiguration {
 			JwtAuthenticationFilter jwtAuthenticationFilter = new JwtAuthenticationFilter(tokenProvider, authenticationManager);
 			jwtAuthenticationFilter.setFilterProcessesUrl("/auth/login");
 			jwtAuthenticationFilter.setAuthenticationSuccessHandler(new MemberAuthenticationSuccessHandler());
-			           // jwtAuthenticationFilter.setAuthenticationFailureHandler(new UserAuthenticationFailureHandler());
-			//
+			jwtAuthenticationFilter.setAuthenticationFailureHandler(new MemberAuthenticationFailureHandler());
+
 			JwtVerificationFilter jwtVerificationFilter = new JwtVerificationFilter(tokenProvider);
 
 			builder
