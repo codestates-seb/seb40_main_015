@@ -6,35 +6,49 @@ import Map from '../components/Map/Map';
 
 const BooksSearchPage = () => {
 	const [current, setCurrent] = useState<any>();
-	const [centerCoord, setCenterCoord] = useState();
+	const [searchInput, setSearchInput] = useState('');
+	const [reset, setReset] = useState(false);
 
+	const handleCurrentLocationMove = () => {
+		let lat = 0;
+		let lon = 0;
+		var options = {
+			enableHighAccuracy: true,
+		};
+		navigator.geolocation.getCurrentPosition(
+			position => {
+				lat = position.coords.latitude; // 위도
+				lon = position.coords.longitude; // 경도
+				setCurrent({ La: lon, Ma: lat });
+			},
+			null,
+			options,
+		);
+	};
 	return (
-		<Box>
+		<Container>
 			<FlexBox>
-				<Search />
+				<Search
+					searchInput={searchInput}
+					setSearchInput={setSearchInput}
+					setReset={setReset}
+				/>
 				<TbCurrentLocation
 					className="location"
 					size={40}
-					onClick={() => {
-						// onClickToggleModal();
-						// handleCurrentLocationMove();
-					}}
+					onClick={handleCurrentLocationMove}
 				/>
 			</FlexBox>
-			<Map />
-		</Box>
+			<Map current={current} setCurrent={setCurrent} reset={reset} />
+		</Container>
 	);
 };
 
-const Box = styled.div`
-	width: 100vw;
+const Container = styled.div`
+	width: 100%;
 	height: 93.5vh;
 	position: absolute;
-`;
-
-const Container = styled.div`
-	width: 100vw;
-	height: 93.5vh;
+	overflow-x: hidden;
 `;
 
 const FlexBox = styled.div`
