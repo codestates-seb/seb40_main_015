@@ -20,8 +20,13 @@ const SignUpForm = () => {
 	const [isChecked, setIsChecked] = useState(false);
 	const dispatch = useAppDispatch();
 	const idSectionData = [
-		{ label: '아이디', state: id, setState: setId },
-		{ label: '닉네임', state: nickname, setState: setNickname },
+		{ label: '아이디', state: id, setState: setId, validate: setIsValidId },
+		{
+			label: '닉네임',
+			state: nickname,
+			setState: setNickname,
+			validate: setIsValidNickname,
+		},
 	];
 	const passwordSectionData = [
 		{
@@ -74,7 +79,7 @@ const SignUpForm = () => {
 
 	return (
 		<StyledSignUpForm onSubmit={handleSubmit}>
-			<IdSection idSectionData={idSectionData} />
+			<IdSection idSectionData={idSectionData} notify={goNotify} />
 			<PasswordSection passwordSectionData={passwordSectionData} />
 			<Clause isChecked={isChecked} setIsChecked={setIsChecked} />
 			<StyledButton>회원가입</StyledButton>
