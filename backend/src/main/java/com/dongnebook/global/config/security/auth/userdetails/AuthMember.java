@@ -18,14 +18,14 @@ import lombok.Getter;
 public class AuthMember extends Member implements UserDetails {
 
 	private Long memberId;
-	private String email;
+	private String userId;
 	private String password;
 	private List<String> roles;
 	private String nickname;
 
 	private AuthMember(Member member) {
 		this.memberId = member.getId();
-		this.email = member.getUserId();
+		this.userId = member.getUserId();
 		this.password = member.getPassword();
 		this.roles = List.of(member.getAuthority().toString());
 		this.nickname = member.getNickname();
@@ -54,7 +54,7 @@ public class AuthMember extends Member implements UserDetails {
 
 	@Override
 	public String getUsername() {
-		return email;
+		return userId;
 	}
 
 	@Override

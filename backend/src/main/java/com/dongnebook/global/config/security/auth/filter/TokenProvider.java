@@ -71,7 +71,7 @@ public class TokenProvider {
 
 		// Access Token 생성
 		String accessToken = Jwts.builder()
-			.setSubject(authMember.getEmail())                  // payload "sub": "name"
+			.setSubject(authMember.getUserId())                  // payload "sub": "name"
 			.setClaims(claims)      // payload "auth": "ROLE_USER"
 			.setExpiration(accessTokenExpiresIn)                   // payload "exp": 1516239022 (예시)
 			.signWith(key, SignatureAlgorithm.HS512)          // header "alg": "HS512"
