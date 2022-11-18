@@ -10,9 +10,9 @@ import PasswordSection from './PasswordSection';
 
 const SignUpForm = () => {
 	const [id, setId] = useState('');
-	const [isValidId, setIsValidId] = useState(true);
+	const [isValidId, setIsValidId] = useState(false);
 	const [nickname, setNickname] = useState('');
-	const [isValidNickname, setIsValidNickname] = useState(true);
+	const [isValidNickname, setIsValidNickname] = useState(false);
 	const [password, setPassword] = useState('');
 	const [passwordError, setPasswordError] = useState(false);
 	const [passwordCheck, setPasswordCheck] = useState('');
