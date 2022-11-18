@@ -1,22 +1,22 @@
-package com.dongnebook.domain.book.dto.response;
+package com.dongnebook.domain.member.dto.response;
 
 import com.dongnebook.domain.model.Location;
 import com.fasterxml.jackson.annotation.JsonInclude;
 
 import lombok.Getter;
-
 @Getter
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class BookSectorCountResponse {
-	private Long bookCount;
+public class MerchantSectorCountResponse {
+
+	private Long merchantCount;
 	private Long sector;
 	private Location location;
 
 	public void plusBookCount(){
-		if(bookCount ==null){
-			this.bookCount = 0L;
+		if(merchantCount ==null){
+			this.merchantCount = 0L;
 		}
-		this.bookCount++;
+		this.merchantCount++;
 	}
 
 	public void initLocation(Location location) {

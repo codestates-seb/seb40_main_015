@@ -23,6 +23,8 @@ import com.dongnebook.domain.book.dto.request.BookSearchCondition;
 import com.dongnebook.domain.book.dto.response.BookDetailResponse;
 import com.dongnebook.domain.book.dto.response.BookSectorCountResponse;
 import com.dongnebook.domain.book.dto.response.BookSimpleResponse;
+import com.dongnebook.global.Login;
+import com.dongnebook.global.config.security.auth.userdetails.AuthMember;
 import com.dongnebook.global.dto.request.PageRequest;
 
 import lombok.RequiredArgsConstructor;
@@ -37,9 +39,9 @@ public class BookController {
 	private final BookService bookService;
 
 	@PostMapping
-	public ResponseEntity<Long> create(@Valid @RequestBody BookRegisterRequest bookRegisterRequest){
+	public ResponseEntity<Long> create(@Valid @RequestBody BookRegisterRequest bookRegisterRequest, @Login AuthMember authMember){
 
-		Long bookId = bookService.create(bookRegisterRequest, 1L);
+		Long bookId = bookService.create(bookRegisterRequest, authMember.getMemberId());
 		URI createdUri = ServletUriComponentsBuilder.fromCurrentRequestUri().path("/{id}").buildAndExpand(bookId).toUri();
 
 		return ResponseEntity.created(createdUri).build();
@@ -69,8 +71,8 @@ public class BookController {
 	}
 
 	@DeleteMapping("/{id}")
-	public ResponseEntity<Long> delete(@PathVariable Long id) {
-		return ResponseEntity.ok(bookService.delete(id, 1L));
+	public ResponseEntity<Long> delete(@PathVariable Long id,@Login AuthMember authMember) {
+		return ResponseEntity.ok(bookService.delete(id, authMember.getMemberId()));
 	}
 
 
