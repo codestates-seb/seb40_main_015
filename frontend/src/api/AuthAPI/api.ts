@@ -2,6 +2,15 @@
 
 import axios from 'axios';
 
-export const getBooks = async () => {
-	return axios.get('/auth/login');
+interface loginFormShape {
+	id: string;
+	password: string;
+}
+
+export const getAccessToken = async (payload: loginFormShape) => {
+	try {
+		const data = await axios.post('/auth/login', JSON.stringify(payload));
+		console.log('login fetch data: ', data);
+		return;
+	} catch {}
 };
