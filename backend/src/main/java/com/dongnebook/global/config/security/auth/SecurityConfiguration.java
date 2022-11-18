@@ -15,6 +15,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
@@ -49,6 +50,7 @@ public class SecurityConfiguration {
 				.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
 				.and()
 				.exceptionHandling()
+
 				.authenticationEntryPoint(new MemberAuthenticationEntryPoint())
 				.accessDeniedHandler(new MemberAccessDeniedHandler())
 				.and()
@@ -56,7 +58,8 @@ public class SecurityConfiguration {
 				.and()
 				.authorizeHttpRequests(authorize -> authorize
 						.anyRequest().permitAll()
-				);
+				)
+				.oauth2Login(Customizer.withDefaults());
 		return http.build();
 	}
 

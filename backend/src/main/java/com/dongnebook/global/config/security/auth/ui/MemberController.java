@@ -1,4 +1,4 @@
-package com.dongnebook.global.config.security.auth.filter.ui;
+package com.dongnebook.global.config.security.auth.ui;
 
 import com.dongnebook.domain.member.application.MemberService;
 
