@@ -10,14 +10,15 @@ import PasswordSection from './PasswordSection';
 
 const SignUpForm = () => {
 	const [id, setId] = useState('');
-	const [isValidId, setIsValidId] = useState(false);
+	const [isValidId, setIsValidId] = useState(true);
 	const [nickname, setNickname] = useState('');
-	const [isValidNickname, setIsValidNickname] = useState(false);
+	const [isValidNickname, setIsValidNickname] = useState(true);
 	const [password, setPassword] = useState('');
 	const [passwordError, setPasswordError] = useState(false);
 	const [passwordCheck, setPasswordCheck] = useState('');
 	const [passwordCheckError, setPasswordCheckError] = useState(false);
 	const [isChecked, setIsChecked] = useState(false);
+	const dispatch = useAppDispatch();
 	const idSectionData = [
 		{ label: '아이디', state: id, setState: setId },
 		{ label: '닉네임', state: nickname, setState: setNickname },
@@ -38,8 +39,15 @@ const SignUpForm = () => {
 			type: 'passwordCheck',
 		},
 	];
-
-	const dispatch = useAppDispatch();
+	const notifyMessages = new Map([
+		[!isChecked, '약관에 동의해주세요 ☺️'],
+		[!passwordCheck || passwordCheckError, '비밀번호 확인을 맞게 입력해주세요'],
+		[!password || passwordError, '올바른 비밀번호를 입력해주세요'],
+		[!isValidNickname, '닉네임 중복여부를 확인해주세요'],
+		[!isValidId, '아이디 중복여부를 확인해주세요'],
+		[!nickname, '닉네임을 입력해 주세요'],
+		[!id, '아이디를 입력해 주세요'],
+	]);
 
 	const validateInput = () => {
 		if (password && !PASSWORD_REGEX.test(password)) setPasswordError(true);
@@ -54,34 +62,14 @@ const SignUpForm = () => {
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [password, passwordCheck]);
 
+	const goNotify = (message: string) => notify(dispatch, message);
+
 	const handleSubmit = (e: React.SyntheticEvent) => {
 		e.preventDefault();
 		validateInput();
-		switch (true) {
-			case !id:
-				notify(dispatch, '아이디를 입력해 주세요');
-				break;
-			case !nickname:
-				notify(dispatch, '닉네임을 입력해 주세요');
-				break;
-			case !isValidId:
-				notify(dispatch, '아이디 중복여부를 확인해주세요');
-				break;
-			case !isValidNickname:
-				notify(dispatch, '닉네임 중복여부를 확인해주세요');
-				break;
-			case !password || passwordError:
-				notify(dispatch, '올바른 비밀번호를 입력해주세요');
-				break;
-			case !passwordCheck || passwordCheckError:
-				notify(dispatch, '비밀번호 확인을 맞게 입력해주세요');
-				break;
-			case !isChecked:
-				notify(dispatch, '약관에 동의해주세요 ☺️');
-				break;
-			default:
-				notify(dispatch, '전부완료!');
-		}
+		notifyMessages.forEach((message, notifyCase) => {
+			if (notifyCase) goNotify(message);
+		});
 	};
 
 	return (
