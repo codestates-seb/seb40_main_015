@@ -1,29 +1,43 @@
 package com.dongnebook.domain.book.repository;
 
+
+import com.dongnebook.domain.book.dto.request.BookSearchCondition;
+
+
 import static com.dongnebook.domain.book.domain.QBook.*;
+import static com.dongnebook.domain.dibs.domain.QDibs.*;
 
 import java.util.List;
-import java.util.Objects;
+
+
 
 import org.springframework.data.domain.SliceImpl;
 import org.springframework.stereotype.Repository;
 
-import com.dongnebook.domain.book.dto.request.BookSearchCondition;
+
+
+
 import com.dongnebook.domain.book.dto.response.BookDetailResponse;
 
 import com.dongnebook.domain.book.dto.response.BookSimpleResponse;
 import com.dongnebook.domain.book.dto.response.QBookDetailResponse;
 import com.dongnebook.domain.book.dto.response.QBookResponse;
+
 import com.dongnebook.domain.book.dto.response.QBookSimpleResponse;
+import com.dongnebook.domain.dibs.domain.Dibs;
+import com.dongnebook.domain.dibs.domain.QDibs;
 import com.dongnebook.domain.member.dto.response.QBookDetailMemberResponse;
 import com.dongnebook.domain.model.Location;
-import com.dongnebook.domain.model.Sector;
+
 import com.dongnebook.global.dto.request.PageRequest;
 import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.impl.JPAQueryFactory;
-
 import lombok.RequiredArgsConstructor;
+
+
+
 import lombok.extern.slf4j.Slf4j;
+
 
 @Slf4j
 @Repository
@@ -50,7 +64,7 @@ public class BookQueryRepository {
 				)
 			)
 			.from(book)
-			.innerJoin(book.member)
+			.leftJoin(book.member)
 			.fetchOne();
 
 	}
@@ -77,7 +91,7 @@ public class BookQueryRepository {
 			.fetch();
 	}
 
-	public SliceImpl<BookSimpleResponse> noOffsetPagingList(BookSearchCondition bookSearchCondition,
+	public SliceImpl<BookSimpleResponse> getAll(BookSearchCondition bookSearchCondition,
 		PageRequest pageRequest) {
 
 		String bookTitle = bookSearchCondition.getBookTitle();
@@ -88,12 +102,35 @@ public class BookQueryRepository {
 
 
 		List<BookSimpleResponse> result = jpaQueryFactory.select(
-				new QBookSimpleResponse(book.id, book.title, book.bookState, book.ImgUrl, book.member.nickname))
+				new QBookSimpleResponse(book.id, book.title, book.bookState, book.ImgUrl, book.rentalFee, book.member.nickname))
 			.from(book)
 			.innerJoin(book.member)
 			.where(ltBookId(pageRequest.getIndex())
 				,(contains(bookTitle))
 				,(sectorBetween(LatRange,LonRange,sector)))
+			.orderBy(book.id.desc())
+			.limit(pageRequest.getSize() + 1)
+			.fetch();
+
+		boolean hasNext = false;
+
+		if (result.size() > pageRequest.getSize()) {
+			hasNext = true;
+			result.remove(pageRequest.getSize().intValue());
+		}
+
+		return new SliceImpl<>(result, pageRequest.of(), hasNext);
+	}
+
+	public SliceImpl<BookSimpleResponse> getAllDibsBook(Long memberId,
+		PageRequest pageRequest) {
+
+		List<BookSimpleResponse> result = jpaQueryFactory.select(
+				new QBookSimpleResponse(book.id, book.title, book.bookState, book.ImgUrl, book.rentalFee, book.member.nickname))
+			.from(dibs)
+			.innerJoin(book)
+			.innerJoin(book.member)
+			.where(ltBookId(pageRequest.getIndex()))
 			.orderBy(book.id.desc())
 			.limit(pageRequest.getSize() + 1)
 			.fetch();

@@ -9,10 +9,6 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public final class PageRequest {
 
-
-
-
-
 	private Long index;
 	private Long size = 6L;
 	private Sort.Direction sort= Sort.Direction.DESC;

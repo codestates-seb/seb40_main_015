@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import styled from 'styled-components';
 import { HiOutlineSearch, HiPhotograph } from 'react-icons/hi';
 
@@ -11,7 +12,50 @@ import {
 } from '../components/Books/BookElements';
 import Button from '../components/common/Button';
 
+// interface PayloadType {
+// 	title: string;
+// 	author: string;
+// 	publisher: string;
+// 	rentalFee: string;
+// 	description: string;
+// 	imageUrl: string;
+// }
+
 const BooksCreatePage = () => {
+	// const [title, setTitle] = useState('modern');
+	// const [author, setAuthor] = useState('woongmo');
+	// const [publisher, setPublisher] = useState('wiki');
+	// const [rentalFee, setRentalFee] = useState('');
+	// const [description, setDescription] = useState('test1');
+	// const [imageUrl, setImageUrl] = useState('notyet');
+
+	// const payload = {
+	// 	title,
+	// 	author,
+	// 	publisher,
+	// 	rentalFee,
+	// 	description,
+	// 	imageUrl,
+	// };
+
+	// const handleCreate = () => {
+	// 	console.log('click: ', payload);
+	// };
+	/*
+  const handleChangeTitle = (e:React.ChangeEvent<HTMLInputElement>) => {
+    // 도서 api 조회 -> 제목, 저자, 출판사 상태 업데이트
+    
+  }
+  */
+	// const handleChangeRentalFee = (e: React.ChangeEvent<HTMLInputElement>) => {
+	// 	setRentalFee(e.target.value);
+	// };
+	// const handleChangeDescription = (
+	// 	e: React.ChangeEvent<HTMLTextAreaElement>,
+	// ) => {
+	// 	setDescription(e.target.value);
+	// };
+
 	return (
 		<Main>
 			<TitleWrapper>

@@ -2,6 +2,8 @@ package com.dongnebook.domain.rental.domain;
 
 import com.dongnebook.domain.book.domain.Book;
 import com.dongnebook.domain.member.domain.Member;
+import com.dongnebook.domain.rental.exception.CanNotChangeStateException;
+
 import lombok.*;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
@@ -60,9 +62,17 @@ public class Rental {
         this.member = member;
     }
 
-    public void changeRentalState(RentalState rentalState) {
-        this.rentalState = rentalState;
+    public void changeRentalStateFromTo(RentalState from, RentalState to) {
+        if(to.equals(RentalState.CANCELED)){
+            this.canceledAt=LocalDateTime.now();
+        }
+        if (this.rentalState.equals(from)) { // 대여가능 , 거래중, 반납완료, 취소
+            this.rentalState=to;
+            return;
+        }
+        throw new CanNotChangeStateException();
     }
+
 
     public void setCanceledAt(LocalDateTime canceledAt) {
         this.canceledAt = canceledAt;
