@@ -127,6 +127,6 @@ public class BookService {
 	}
 
 	public SliceImpl<BookSimpleResponse> getList(BookSearchCondition bookSearchCondition, PageRequest pageRequest) {
-		return bookQueryRepository.noOffsetPagingList(bookSearchCondition,pageRequest);
+		return bookQueryRepository.getAll(bookSearchCondition,pageRequest);
 	}
 }

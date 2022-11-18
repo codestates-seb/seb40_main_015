@@ -29,6 +29,7 @@ import com.dongnebook.domain.dibs.domain.Dibs;
 import com.dongnebook.domain.member.domain.Member;
 import com.dongnebook.domain.model.BaseTimeEntity;
 import com.dongnebook.domain.model.Location;
+import com.dongnebook.domain.rental.exception.CanNotChangeStateException;
 
 import lombok.AccessLevel;
 import lombok.Builder;
@@ -94,9 +95,14 @@ public class Book extends BaseTimeEntity {
 		this.member = member;
 	}
 
-	public void changeBookState(BookState bookState) {
-		this.bookState = bookState;
+	public void changeBookStateFromTo(BookState from, BookState to) {
+		if (this.bookState.equals(from)) {
+			this.bookState=to;
+			return;
+		}
+		throw new CanNotChangeStateException();
 	}
+
 
 
 	public static Book create(BookRegisterRequest bookRegisterRequest, Location location, Member member) {
