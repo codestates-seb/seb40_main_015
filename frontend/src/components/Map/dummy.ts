@@ -48,7 +48,7 @@ const data = [
 		},
 	},
 	{
-		merchantCount: 0,
+		merchantCount: 10,
 		sector: 7,
 		representativeLocation: {
 			lat: '37.49189717824911',
