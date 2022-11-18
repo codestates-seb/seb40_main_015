@@ -37,7 +37,6 @@ public class RentalService {
 	@Transactional
 	public Long createRental(RentalRegisterRequest rentalRegisterRequest) {
 		Member member = getMemberById(rentalRegisterRequest.getMemberId());
-
 		Book book = getBookById(rentalRegisterRequest.getBookId());
 
 		blockRentMyBook(rentalRegisterRequest, book);
@@ -64,7 +63,6 @@ public class RentalService {
 
 		rental.changeRentalStateFromTo(RentalState.TRADING, RentalState.CANCELED);
 		book.changeBookStateFromTo(BookState.TRADING, BookState.RENTABLE);
-
 	}
 
 	@Transactional
@@ -79,6 +77,22 @@ public class RentalService {
 		rental.changeRentalStateFromTo(RentalState.TRADING, RentalState.BEING_RENTED);
 		book.changeBookStateFromTo(BookState.TRADING, BookState.UNRENTABLE_RESERVABLE);
 	}
+
+	// 예약이 없을 경우에 대한 반납 case (예약이 있을 경우에 대한 반납 case 또한 만들어줘야 함)
+	@Transactional
+	public void returnRental(Long rentalId){
+		Rental rental = getRental(rentalId);
+		Book book = getBookFromRental(rental);
+
+		// 해당 상인만 반납 가능
+//        if(!book.getMember().getId().equals("cancel하는 주체"))
+//            throw new CanNotReturnRentalException();
+
+		//예약이 없을 경우
+		rental.changeRentalStateFromTo(RentalState.BEING_RENTED, RentalState.RETURN_UNREVIEWED);
+		book.changeBookStateFromTo(BookState.UNRENTABLE_RESERVABLE, BookState.RENTABLE);
+	}
+
 
 	private Book getBookById(Long rentalRegisterRequest) {
 		return bookCommandRepository.findById(rentalRegisterRequest)
