@@ -22,6 +22,7 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.factory.PasswordEncoderFactories;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.oauth2.client.userinfo.OAuth2UserService;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
@@ -59,7 +60,10 @@ public class SecurityConfiguration {
 				.authorizeHttpRequests(authorize -> authorize
 						.anyRequest().permitAll()
 				)
-				.oauth2Login(Customizer.withDefaults());
+//				.oauth2Login()
+//					.defaultSuccessUrl("/hello-oauth2")
+//					.userInfoEndpoint()
+//					.userService(OAuth2UserService)
 		return http.build();
 	}
 
