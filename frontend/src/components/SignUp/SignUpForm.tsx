@@ -1,6 +1,8 @@
 import { useEffect, useState } from 'react';
 import { IoAlertCircle } from 'react-icons/io5';
 import styled from 'styled-components';
+import { useAppDispatch } from '../../redux/hooks';
+import notify from '../../utils/notify';
 import Button from '../common/Button';
 import Input from '../common/Input';
 import Bubble from './Bubble';
@@ -15,6 +17,7 @@ const SignUpForm = () => {
 	const [passwordError, setPasswordError] = useState(false);
 	const [passwordCheckError, setPasswordCheckError] = useState(false);
 	const passwordRegExp = /^(?=.*?[a-z])(?=.*?[0-9])(?=.*?[~?!@#$%^&*_-]).{8,}$/;
+	const dispatch = useAppDispatch();
 
 	useEffect(() => {
 		if (password && !passwordRegExp.test(password)) setPasswordError(true);
@@ -26,6 +29,7 @@ const SignUpForm = () => {
 
 	const handleSubmit = (e: React.SyntheticEvent) => {
 		e.preventDefault();
+		if (!isChecked) notify(dispatch, '가입불가');
 	};
 
 	return (
