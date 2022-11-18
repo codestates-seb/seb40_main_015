@@ -11,6 +11,7 @@ import javax.persistence.Table;
 
 import com.dongnebook.domain.book.domain.Book;
 import com.dongnebook.domain.member.domain.Member;
+import com.dongnebook.domain.model.BaseTimeEntity;
 
 import lombok.AccessLevel;
 import lombok.Getter;
@@ -20,7 +21,7 @@ import lombok.NoArgsConstructor;
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Table(name = "dibs")
-public class Dibs {
+public class Dibs extends BaseTimeEntity {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)

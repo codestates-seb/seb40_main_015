@@ -14,6 +14,7 @@ import com.dongnebook.domain.dibs.repository.DibsRepository;
 import com.dongnebook.domain.member.domain.Member;
 import com.dongnebook.domain.member.exception.MemberNotFoundException;
 import com.dongnebook.domain.member.repository.MemberRepository;
+import com.dongnebook.global.dto.request.PageRequest;
 import com.dongnebook.global.error.exception.BusinessException;
 
 import lombok.RequiredArgsConstructor;
@@ -57,5 +58,9 @@ public class DibsService {
 
 	private Book getBookById(Long bookId) {
 		return bookCommandRepository.findById(bookId).orElseThrow(BookNotFoundException::new);
+	}
+
+	public void findAll(PageRequest pageRequest, Long memberId) {
+
 	}
 }
