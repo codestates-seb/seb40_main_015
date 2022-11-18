@@ -65,7 +65,7 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
 
         // response body에 member의 id, username을 담아서 보내준다.
         response.getWriter().write(
-            "{" + "\"id\":\"" + authMember.getId() + "\"" +","
+            "{" + "\"id\":\"" + authMember.getMemberId() + "\"" +"," +
                 "\"userId\":\"" + authMember.getUserId() + "\"" +"," +
                 "\"nickname\":\"" + authMember.getNickname() + "\"" + "}"
         );
