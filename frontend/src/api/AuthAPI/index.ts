@@ -1,6 +1,8 @@
 import { AxiosResponse } from 'axios';
 import { useQuery } from 'react-query';
-import { getBooks } from './api';
+// import { getAccessToken } from './api';
 
-export const useGetBooks = () =>
-	useQuery<AxiosResponse<string>>('booksPage', getBooks);
+// export const useGetBooks = () =>
+// 	useQuery<>('booksPage', () =>
+// 		getAccessToken({ id: '1', password: '2' }),
+// 	);
