@@ -22,6 +22,7 @@ const BooksRentalPage = () => {
 				<CalendarWrapper>
 					<BookCalendar />
 					<p>* 대여 가능 기간은 10일 입니다.</p>
+					<p>대여일 , 반납일</p>
 				</CalendarWrapper>
 				<RentalInfo>
 					<label>✅ 2022.11.09~2022.11.19</label>
