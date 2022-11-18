@@ -1,6 +1,8 @@
 package com.dongnebook.domain.member.application;
 
+import com.dongnebook.domain.member.dto.request.MemberEditRequest;
 import com.dongnebook.domain.member.dto.request.MerchantSearchRequest;
+import com.dongnebook.domain.member.dto.response.MemberDetailResponse;
 import com.dongnebook.domain.member.dto.response.MemberResponse;
 import com.dongnebook.domain.member.dto.response.MerchantSectorCountResponse;
 import com.dongnebook.domain.member.repository.MemberQueryRepository;
@@ -25,6 +27,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+import java.util.Optional;
 
 @Slf4j
 @Getter
@@ -59,9 +62,9 @@ public class MemberService {
 	}
 
 	@Transactional
-	public void edit(Long memberId, Location location) {
+	public void edit(Long memberId, MemberEditRequest memberEditRequest) {
 		Member member = memberRepository.findById(memberId).orElseThrow(MemberNotFoundException::new);
-		member.changeLocation(location);
+		member.edit(memberEditRequest);
 	}
 
 	public ArrayList<MerchantSectorCountResponse> getSectorMerchantCounts(MerchantSearchRequest merchantSearchRequest) {
@@ -109,5 +112,9 @@ public class MemberService {
 		return memberQueryRepository.getAll(merchantSearchRequest,pageRequest);
 	}
 
+	public MemberDetailResponse getMemberInfo(Long memberId) {
+		return Optional.ofNullable(memberQueryRepository.getMyInfo(memberId))
+			.orElseThrow(MemberNotFoundException::new);
+	}
 }
 
