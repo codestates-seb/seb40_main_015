@@ -16,7 +16,7 @@ const RentBookLists = () => {
 	const from = '2022-11-15T00:17:34.045376400';
 	const to = '2022-11-21T00:17:34.045376400';
 	return (
-		<>
+		<Box>
 			{test
 				? test.map((item, i) => {
 						return (
@@ -38,12 +38,17 @@ const RentBookLists = () => {
 						);
 				  })
 				: null}
-		</>
+		</Box>
 	);
 };
 
+const Box = styled.div`
+	/* padding: 0 1rem; */
+`;
+
 const Wrapper = styled.div`
 	width: 100%;
+	max-width: 850px;
 	display: flex;
 	flex-direction: column;
 	align-items: center;
@@ -52,7 +57,6 @@ const Wrapper = styled.div`
 
 const Container = styled.div`
 	width: 90vw;
-	max-width: 850px;
 	display: flex;
 	justify-content: space-between;
 	margin-bottom: 0.5rem;
