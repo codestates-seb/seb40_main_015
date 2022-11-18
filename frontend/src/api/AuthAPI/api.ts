@@ -3,5 +3,5 @@
 import axios from 'axios';
 
 export const getBooks = async () => {
-	return axios.get('/');
+	return axios.get('/auth/login');
 };
