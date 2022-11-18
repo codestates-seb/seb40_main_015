@@ -17,7 +17,7 @@ const LentBookLists = () => {
 	const to = '2022-11-21T00:17:34.045376400';
 
 	return (
-		<>
+		<Box>
 			{test
 				? test.map((item, i) => {
 						return (
@@ -45,9 +45,13 @@ const LentBookLists = () => {
 						);
 				  })
 				: null}
-		</>
+		</Box>
 	);
 };
+
+const Box = styled.div`
+	/* padding: 0 1rem; */
+`;
 
 const Wrapper = styled.div`
 	width: 100%;
@@ -58,6 +62,7 @@ const Wrapper = styled.div`
 `;
 
 const Container = styled.div`
+	width: 90vw;
 	display: flex;
 	justify-content: space-between;
 	border: 1px solid #eaeaea;
@@ -85,7 +90,6 @@ const InfoWrapped = styled.div`
 
 const BottomContainer = styled.div`
 	width: 90vw;
-	max-width: 800px;
 	display: flex;
 	justify-content: center;
 	flex-direction: column;
