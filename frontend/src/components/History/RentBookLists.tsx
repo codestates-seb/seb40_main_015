@@ -3,36 +3,96 @@ import styled from 'styled-components';
 import dummyImage from '../../assets/image/dummy.png';
 import convertDate from '../../utils/convertDate';
 import RentStatusButton from './RentStatusButton';
+import { rentalDummy } from './dummy';
+import { axiosCancleByCustomer } from '../../api/history';
+
+interface ListProps {
+	bookInfo: {
+		bookId: string;
+		bookUrl: string;
+		title: string;
+		author: string;
+		publisher: string;
+		rental_fee: string;
+		bookDescription: string;
+		location: {
+			latitude: string;
+			longitude: string;
+		};
+		bookStatus: string;
+		merchantName: string;
+	};
+	rentalInfo: {
+		rentalId: string;
+		customerName: string;
+		rentalState: string;
+		rentalStartedAt: string;
+		rentalDeadline: string;
+		rentalReturnedAt: string;
+		rentalCanceledAt: string;
+	};
+}
 
 const RentBookLists = () => {
-	const [test, setTest] = useState<number[]>([1, 2, 3, 4, 5]);
-	const [state, setState] = useState([
-		'TRADING',
-		'BEING_RENTED',
-		'RETURN_UNREVIEWED',
-		'RETURN_REVIEWED',
-		'CANCELED',
-	]);
-	const from = '2022-11-15T00:17:34.045376400';
-	const to = '2022-11-21T00:17:34.045376400';
+	const [test, setTest] = useState<ListProps[]>(rentalDummy);
+
 	return (
 		<Box>
 			{test
 				? test.map((item, i) => {
+						const { bookInfo, rentalInfo } = item;
+						const {
+							bookId,
+							bookUrl,
+							title,
+							author,
+							publisher,
+							bookStatus,
+							merchantName,
+						} = bookInfo;
+						const {
+							rentalId,
+							rentalState,
+							rentalStartedAt,
+							rentalDeadline,
+							rentalReturnedAt,
+							rentalCanceledAt,
+						} = rentalInfo;
 						return (
-							<Wrapper key={item}>
+							<Wrapper key={Number(bookId)}>
 								<Container>
 									<FlexBox>
 										<img src={dummyImage} alt="" width={90} height={105} />
 										<InfoWrapped>
-											<p>모던 자바스크립트</p>
-											<p>상인 이름</p>
-											<p>저자 / 출판사</p>
-											<p>대여기간</p>
-											<p>{convertDate(from, to, true)}</p>
+											<p>{title}</p>
+											<p>{merchantName}</p>
+											<p>
+												{author} / {publisher}
+											</p>
+											{/* <p>대여기간</p> */}
+											{(rentalState === 'TRADING' ||
+												rentalState === 'BEING_RENTED') && (
+												<p>
+													{convertDate(rentalStartedAt, rentalDeadline, true)}
+												</p>
+											)}
+											{(rentalState === 'RETURN_UNREVIEWED' ||
+												rentalState === 'RETURN_REVIEWED') && (
+												<p>
+													{convertDate(rentalStartedAt, rentalReturnedAt, true)}
+												</p>
+											)}
+											{rentalState === 'CANCELED' && (
+												<p>
+													{convertDate(rentalStartedAt, rentalCanceledAt, true)}
+												</p>
+											)}
 										</InfoWrapped>
 									</FlexBox>
-									<RentStatusButton status={state[i]} />
+									<RentStatusButton
+										status={rentalState}
+										merchantName={merchantName}
+									/>
 								</Container>
 							</Wrapper>
 						);
