@@ -1,4 +1,5 @@
 import styled from 'styled-components';
+import { Link } from 'react-router-dom';
 import { HiOutlineHeart, HiHeart, HiOutlineTrash } from 'react-icons/hi';
 
 //conmponents
@@ -49,8 +50,10 @@ const BooksDetailPage = () => {
 
 				<MerchantInfo>
 					<div>
-						<UserImg src={UserImage} />
-						<span>자바북스</span>
+						<Link to={'/profile/merchant'}>
+							<UserImg src={UserImage} />
+							<span>자바북스</span>
+						</Link>
 					</div>
 					<div>
 						<span>평점</span>
