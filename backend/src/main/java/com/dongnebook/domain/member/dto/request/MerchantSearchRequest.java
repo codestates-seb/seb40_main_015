@@ -1,11 +1,9 @@
 package com.dongnebook.domain.member.dto.request;
 
-import static com.dongnebook.domain.book.domain.QBook.*;
+
 import static com.dongnebook.domain.member.domain.QMember.*;
 
-import java.util.List;
 
-import com.dongnebook.domain.member.domain.QMember;
 import com.dongnebook.domain.model.Location;
 import com.querydsl.core.types.dsl.BooleanExpression;
 
