@@ -65,7 +65,8 @@ public class BookService {
 
 	private Location ifDtoHasNoLocationGetMemberLocation(BookRegisterRequest bookRegisterRequest, Member member) {
 		return Optional.ofNullable(bookRegisterRequest.getLocation())
-			.orElse(Optional.ofNullable(member.getLocation()).orElseThrow(LocationNotCreatedYetException::new));
+				.orElseGet(
+						() -> Optional.ofNullable(member.getLocation()).orElseThrow(LocationNotCreatedYetException::new));
 	}
 
 	private Member getMember() {
