@@ -1,6 +1,9 @@
 import { useEffect, useState, useRef, Dispatch, SetStateAction } from 'react';
 import styled, { keyframes } from 'styled-components';
-import data from './dummy';
+import BookLists from './BookLists';
+import { data, bookLists, merchantList } from './dummy';
+import MerchantLists from './MerchantLists';
+import { getTotalMerchant } from '../../api/test';
 
 const MoveLists = keyframes`
 0% {
@@ -56,7 +59,7 @@ const Map = (props: MapProps) => {
 	let mapContainer = useRef(null); // 지도를 표시할 div
 	let mapOption = {
 		center: new kakao.maps.LatLng(33.450701, 126.570667), // 지도의 중심좌표
-		level: 2, // 지도의 확대 레벨
+		level: 4, // 지도의 확대 레벨
 		// 두번 클릭시 확대 기능을 막습니다
 		disableDoubleClickZoom: true,
 	};
@@ -156,11 +159,11 @@ const Map = (props: MapProps) => {
 		});
 
 		// map.setCenter(current);
-		// 확대 축소 기능을 막습니다
-		function setZoomable(zoomable: any) {
-			map.setZoomable(zoomable);
-		}
-		setZoomable(false);
+		// 확대 축소 기능을 막습니다 -> 해당 부분 확대 기능만 추가하기(setLevel 메소드)
+		// function setZoomable(zoomable: any) {
+		// 	map.setZoomable(zoomable);
+		// }
+		// setZoomable(false);
 
 		// HTML5의 geolocation으로 사용할 수 있는지 확인합니다
 		if (data) {
@@ -209,7 +212,7 @@ const Map = (props: MapProps) => {
 				options,
 			);
 		}
-		// // 지도에 마커와 인포윈도우를 표시하는 함수입니다
+		// // 지도에 마커를 표시하는 함수입니다
 		function displayMarker(locPosition: any) {
 			// 마커를 생성합니다
 
@@ -236,7 +239,9 @@ const Map = (props: MapProps) => {
 
 	useEffect(() => {
 		// centerCoord 변경될때마다 주변상인 정보 api 호출하기
+
 		console.log('현재위치 변경됨 주변 상인정보 다시 요청');
+		getTotalMerchant().then(res => console.log(res));
 		console.log(centerCoord);
 	}, [centerCoord]);
 
@@ -244,12 +249,8 @@ const Map = (props: MapProps) => {
 		<div style={{ width: '100vw', height: '100%' }}>
 			<Container id="map" ref={mapContainer} />
 			<Search>
-				{listItem?.map((item, i) => (
-					<List key={i}>
-						<div className="metchant">상인명 : </div>
-						<div className="book"> 상헌북스</div>
-					</List>
-				))}
+				<MerchantLists merchantList={merchantList} />
+				<BookLists bookLists={bookLists} />
 			</Search>
 		</div>
 	);

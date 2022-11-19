@@ -3,7 +3,6 @@ import styled from 'styled-components';
 import { TbCurrentLocation } from 'react-icons/tb';
 import Search from '../components/Map/Search';
 import Map from '../components/Map/Map';
-
 const BooksSearchPage = () => {
 	const [current, setCurrent] = useState<any>();
 	const [searchInput, setSearchInput] = useState('');
