@@ -1,9 +1,10 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
-import { store } from './redux/store';
+import { store, persistor } from './redux/store';
 import { Provider } from 'react-redux';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { ThemeProvider } from 'styled-components';
+import { PersistGate } from 'redux-persist/integration/react';
 
 //components
 // import App from './App';
@@ -19,12 +20,14 @@ const root = ReactDOM.createRoot(
 root.render(
 	// <React.StrictMode>
 	<Provider store={store}>
-		<QueryClientProvider client={queryClient}>
-			<ThemeProvider theme={theme}>
-				<DevApp />
-				<NotificationCenter />
-			</ThemeProvider>
-		</QueryClientProvider>
+		<PersistGate loading={null} persistor={persistor}>
+			<QueryClientProvider client={queryClient}>
+				<ThemeProvider theme={theme}>
+					<DevApp />
+					<NotificationCenter />
+				</ThemeProvider>
+			</QueryClientProvider>
+		</PersistGate>
 	</Provider>,
 	// </React.StrictMode>,
 );
