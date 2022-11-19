@@ -12,18 +12,21 @@ Spring:
     hibernate:
       ddl-auto: create  # (1) 스키마 자동 생성
       type: trace
+
     show-sql: true      # (2) SQL 쿼리 출력
     properties:
       hibernate:
         format_sql: true  # (3) SQL pretty print
 jwt:
   secret-key: ${JWT_SECRET_KEY}
-  access-token-expiration-minutes: 30
+  access-token-expiration-minutes: 3500
   refresh-token-expiration-minutes: 420
 
 logging:
   level:
     org:
+      hibernate:
+        type : trace
       springframework:
         orm:
           jpa: DEBUG
