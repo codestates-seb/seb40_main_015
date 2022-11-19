@@ -25,9 +25,11 @@ public class MerchantSearchRequest {
 	}
 
 	public BooleanExpression sectorBetween() {
-		for (int i = 0; i < 2; i++) {
-			for (int j = 0; j < 2; j++) {
-				if (sector == (i*j)+1) {
+		int count = 0;
+		for (int i = 0; i < 3; i++) {
+			for (int j = 0; j < 3; j++) {
+				count++;
+				if (sector == count) {
 					return member.location.latitude.between(Location.latRangeList(latitude).get(i + 1), Location.latRangeList(latitude).get(i))
 						.and(member.location.longitude.between(Location.lonRangeList(longitude).get(j), Location.lonRangeList(longitude).get(j + 1)));
 				}

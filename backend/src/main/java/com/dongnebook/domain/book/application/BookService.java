@@ -72,7 +72,6 @@ public class BookService {
 			.orElseGet(
 				() -> Optional.ofNullable(member.getLocation()).orElseThrow(LocationNotCreatedYetException::new));
 	}
-
 	private Member getMember(Long memberId) {
 		return memberRepository.findById(memberId).orElseThrow(IllegalStateException::new);
 	}
