@@ -9,6 +9,7 @@ import {
 } from 'react-icons/hi';
 import home from '../../assets/image/logo4.png';
 import { Link } from 'react-router-dom';
+import theme from '../../styles/theme';
 
 interface MenuProps {
 	id: number;
@@ -95,8 +96,8 @@ const Container = styled.div`
 	text-align: center;
 	bottom: 0;
 	padding: 10px 0;
-	border-top: 1px solid #a7a7a7;
-	background-color: #fbfbfb;
+	border-top: 1px solid ${props => props.theme.colors.headerBorder};
+	background-color: ${props => props.theme.colors.background};
 `;
 
 interface BoxProps {
@@ -107,5 +108,5 @@ const Box = styled.div<BoxProps>`
 	display: flex;
 	flex-direction: column;
 	align-items: center;
-	color: ${props => (props.selected ? '#26795D' : '#000000')};
+	color: ${props => (props.selected ? theme.colors.main : theme.colors.black)};
 `;
