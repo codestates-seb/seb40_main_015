@@ -8,7 +8,7 @@ const MerchantLists = (props: Props) => {
 	const { merchantList } = props;
 	return (
 		<>
-			{merchantList?.map((item: any) => {
+			{merchantList?.content.map((item: any) => {
 				const { merchantName, merchantId } = item;
 				return (
 					<List key={merchantId}>
