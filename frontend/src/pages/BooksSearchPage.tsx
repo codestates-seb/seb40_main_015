@@ -3,13 +3,12 @@ import styled from 'styled-components';
 import { TbCurrentLocation } from 'react-icons/tb';
 import Search from '../components/Map/Search';
 import Map from '../components/Map/Map';
+import { getMerchantList } from '../api/test';
 const BooksSearchPage = () => {
 	const [current, setCurrent] = useState<any>();
 	const [searchInput, setSearchInput] = useState('');
 	const [reset, setReset] = useState(false);
 	const [selectOverlay, setSelectOverlay] = useState(null);
-
-	console.log(selectOverlay);
 
 	const handleCurrentLocationMove = () => {
 		let lat = 0;
@@ -27,6 +26,23 @@ const BooksSearchPage = () => {
 			options,
 		);
 	};
+
+	console.log(selectOverlay);
+
+	useEffect(() => {
+		if (selectOverlay) {
+			const {
+				sector,
+				representativeLocation,
+			}: {
+				sector: number;
+				representativeLocation: { lat: string; lon: string };
+			} = selectOverlay;
+			const latitude = representativeLocation.lat;
+			const longitude = representativeLocation.lon;
+			getMerchantList(latitude, longitude, sector);
+		}
+	}, [selectOverlay]);
 	return (
 		<Container>
 			<FlexBox>
