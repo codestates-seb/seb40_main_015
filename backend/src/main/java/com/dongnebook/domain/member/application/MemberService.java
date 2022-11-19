@@ -1,8 +1,12 @@
 package com.dongnebook.domain.member.application;
 
+
+import com.dongnebook.domain.member.dto.request.MerchantSearchRequest;
+
 import com.dongnebook.domain.member.dto.request.MemberEditRequest;
 import com.dongnebook.domain.member.dto.request.MerchantSearchRequest;
 import com.dongnebook.domain.member.dto.response.MemberDetailResponse;
+
 import com.dongnebook.domain.member.dto.response.MemberResponse;
 import com.dongnebook.domain.member.dto.response.MerchantSectorCountResponse;
 import com.dongnebook.domain.member.repository.MemberQueryRepository;
@@ -27,7 +31,9 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+
 import java.util.Optional;
+
 
 @Slf4j
 @Getter
@@ -116,5 +122,51 @@ public class MemberService {
 		return Optional.ofNullable(memberQueryRepository.getMyInfo(memberId))
 			.orElseThrow(MemberNotFoundException::new);
 	}
+
+	public ArrayList<MerchantSectorCountResponse> getSectorMerchantCounts(MerchantSearchRequest merchantSearchRequest) {
+
+		List<Double> latRangeList =	Location.latRangeList(merchantSearchRequest.getLatitude());
+		List<Double> lonRangeList = Location.lonRangeList(merchantSearchRequest.getLongitude());
+		List<Location> sectorBookCounts = memberQueryRepository.getSectorMerchantCounts(merchantSearchRequest);
+		ArrayList<MerchantSectorCountResponse> merchantSectorCountResponses = new ArrayList<>();
+
+		for (int i = 0; i < 9; i++) {
+			merchantSectorCountResponses.add(new MerchantSectorCountResponse());
+		}
+
+		for (Location location : sectorBookCounts) {
+
+			Double latitude = location.getLatitude();
+			Double longitude = location.getLongitude();
+			int count = 0;
+			for (int i = 0; i < 3; i++) {
+				for (int j = 0; j < 3; j++) {
+					count++;
+					if (latRangeList.get(i + 1) <= latitude && latitude <= latRangeList.get(i)
+						&& lonRangeList.get(j) <= longitude && longitude <= lonRangeList.get(j + 1)) {
+						makeMerchantCountResponse(merchantSectorCountResponses, count, location);
+					}
+				}
+			}
+		}
+		return merchantSectorCountResponses;
+	}
+
+	private void makeMerchantCountResponse(ArrayList<MerchantSectorCountResponse> merchantSectorCountResponses,
+		int index, Location location) {
+
+		MerchantSectorCountResponse merchantSectorCountResponse = merchantSectorCountResponses.get(index-1);
+		merchantSectorCountResponse.plusBookCount();
+
+		if (Objects.isNull(merchantSectorCountResponse.getLocation())) {
+			merchantSectorCountResponse.initLocation(location);
+			merchantSectorCountResponse.initSector((long)index);
+		}
+	}
+
+	public SliceImpl<MemberResponse> getList(MerchantSearchRequest merchantSearchRequest, PageRequest pageRequest) {
+		return memberQueryRepository.getAll(merchantSearchRequest,pageRequest);
+	}
+
 }
 

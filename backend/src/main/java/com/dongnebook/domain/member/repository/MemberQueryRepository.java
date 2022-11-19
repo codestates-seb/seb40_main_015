@@ -1,5 +1,9 @@
 package com.dongnebook.domain.member.repository;
 
+
+import static com.dongnebook.domain.book.domain.QBook.*;
+
+
 import static com.dongnebook.domain.member.domain.QMember.*;
 
 import java.util.List;
@@ -8,9 +12,13 @@ import org.springframework.data.domain.SliceImpl;
 import org.springframework.stereotype.Repository;
 
 import com.dongnebook.domain.member.dto.request.MerchantSearchRequest;
+
+import com.dongnebook.domain.member.dto.response.MemberResponse;
+
 import com.dongnebook.domain.member.dto.response.MemberDetailResponse;
 import com.dongnebook.domain.member.dto.response.MemberResponse;
 import com.dongnebook.domain.member.dto.response.QMemberDetailResponse;
+
 import com.dongnebook.domain.member.dto.response.QMemberResponse;
 import com.dongnebook.domain.model.Location;
 import com.dongnebook.global.dto.request.PageRequest;
@@ -62,6 +70,7 @@ public class MemberQueryRepository {
 		return new SliceImpl<>(result, pageRequest.of(), hasNext);
 	}
 
+
 	public  MemberDetailResponse getMyInfo(Long memberId){
 
 		return jpaQueryFactory.select(
@@ -71,6 +80,7 @@ public class MemberQueryRepository {
 			.where(member.id.eq(memberId))
 			.fetchOne();
 	}
+
 
 	private BooleanExpression ltMemberId(Long memberId) {
 		if (memberId == null) {
