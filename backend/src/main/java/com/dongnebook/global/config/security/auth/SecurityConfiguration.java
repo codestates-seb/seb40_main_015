@@ -17,6 +17,7 @@ import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -60,7 +61,7 @@ public class SecurityConfiguration {
 				.apply(new CustomFilterConfigurer())
 				.and()
 				.authorizeHttpRequests(authorize -> authorize
-						.anyRequest().authenticated() // 테스트 위해 모든 리퀘스트에 대한 권한 인증 필요로 바꿈
+						.anyRequest().authenticated()
 				)
 				.oauth2Login(withDefaults());
 		return http.build();
