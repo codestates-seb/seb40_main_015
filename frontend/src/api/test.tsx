@@ -1,5 +1,5 @@
 import axios, { AxiosResponse } from 'axios';
-const BASE_URL = process.env.REACT_APP_HOST;
+import { BASE_URL } from '../constants/constants';
 
 const axiosConfig = {
 	headers: { 'Content-Type': 'application/json; charset=UTF-8' },
@@ -12,12 +12,15 @@ instance.defaults.withCredentials = true; // withCredentials 전역 설정
 // 섹터당 상인의 총 갯수
 //location 형식
 // localhost:8080/member/count?latitude=37.4974939&longitude=127.0270229
-export const getTotalMerchant = async () => {
+export const getTotalMerchant = async (
+	latitude: string | number,
+	longitude: string | number,
+) => {
 	try {
 		const result = await instance.get(`/member/count`, {
 			params: {
-				latitude: '37.39252645331443',
-				longitude: '126.93573269749179',
+				latitude,
+				longitude,
 			},
 		});
 		console.log(result);
@@ -28,9 +31,20 @@ export const getTotalMerchant = async () => {
 };
 
 // 섹터당 상인 목록
-export const getMerchantList = async () => {
+export const getMerchantList = async (
+	latitude: string,
+	longitude: string,
+	sector: number,
+) => {
 	try {
-		const result = await instance.get(`/member/sector`);
+		const result = await instance.get(`/member/sector`, {
+			params: {
+				latitude,
+				longitude,
+				sector,
+			},
+		});
+		console.log(result.data);
 		return result.data;
 	} catch (err) {
 		return err;
