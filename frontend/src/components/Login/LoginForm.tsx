@@ -1,37 +1,78 @@
 import axios, { AxiosPromise } from 'axios';
 import { useState } from 'react';
 import styled from 'styled-components';
+import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
+//components
 import Button from '../common/Button';
 import Input from '../common/Input';
+import { useNavigate } from 'react-router-dom';
 
+//type
+interface loginProps {
+	userId: string;
+	password: string;
+}
+interface userInfo {
+	id: string;
+	userId: string;
+	nickname: string;
+}
+
+// constant
+const BASE_URL = process.env.REACT_APP_HOST;
+
+//axios
+const axiosInstance = axios.create({
+	baseURL: BASE_URL,
+	withCredentials: true,
+	timeout: 3000,
+});
+
+// login fetch post api
+const fetchLogin = async (payload: loginProps) => {
+	return await axiosInstance.post<userInfo>('/auth/login', payload);
+};
 const LoginForm = () => {
 	const [id, setId] = useState('');
 	const [password, setPassword] = useState('');
+	const navigate = useNavigate();
+	const payload = {
+		userId: id,
+		password: password,
+	};
+
+	const { mutate, data, isLoading, isSuccess, isError } = useMutation({
+		mutationFn: () => fetchLogin(payload),
+		onSettled: res => {
+			console.log('settled?: ', res);
+		},
+		onSuccess: res => {
+			console.log('success data: ', res);
+			navigate('/books');
+			//
+		},
+		onError: res => {
+			console.log('error : ', res);
+		},
+	});
 
 	const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
 		e.preventDefault();
 
 		console.log('id:', id, 'pw:', password);
-		const payload = {
-			userId: id,
-			password: password,
-		};
-
+		mutate();
+		/*
 		axios({
 			method: 'post',
-			url: 'http://13.124.11.174:8080/auth/login',
+			url: BASE_URL + '/auth/login',
 			withCredentials: true,
 			data: payload,
 			timeout: 5000,
 			headers: { ContentType: 'application/json' },
 		})
-			// axios
-			// 	.post('http://13.124.11.174:8080/auth/login', payload, {
-			// 		headers: { ContentType: 'application/json' },
-			// 		withCredentials: true,
-			// 	})
 			.then(data => console.log('res: ', data))
 			.then(err => console.error(err));
+      */
 	};
 
 	return (
