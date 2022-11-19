@@ -20,10 +20,7 @@ const loginInfoSlice = createSlice({
 	initialState,
 	reducers: {
 		login: (_, action: PayloadAction<InitProps>) => action.payload,
-		logout: () => {},
-	},
-	extraReducers: builder => {
-		builder.addCase(PURGE, () => initialState);
+		logout: () => initialState,
 	},
 });
 
