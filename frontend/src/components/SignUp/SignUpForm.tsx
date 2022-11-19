@@ -1,71 +1,86 @@
 import { useEffect, useState } from 'react';
-import { IoAlertCircle } from 'react-icons/io5';
 import styled from 'styled-components';
+import { PASSWORD_REGEX } from '../../constants/constants';
 import { useAppDispatch } from '../../redux/hooks';
 import notify from '../../utils/notify';
 import Button from '../common/Button';
-import Input from '../common/Input';
-import Bubble from './Bubble';
 import Clause from './Clause';
+import IdSection from './IdSection';
+import PasswordSection from './PasswordSection';
 
 const SignUpForm = () => {
 	const [id, setId] = useState('');
+	const [isValidId, setIsValidId] = useState(false);
 	const [nickname, setNickname] = useState('');
+	const [isValidNickname, setIsValidNickname] = useState(false);
 	const [password, setPassword] = useState('');
-	const [passwordCheck, setPasswordCheck] = useState('');
-	const [isChecked, setIsChecked] = useState(false);
 	const [passwordError, setPasswordError] = useState(false);
+	const [passwordCheck, setPasswordCheck] = useState('');
 	const [passwordCheckError, setPasswordCheckError] = useState(false);
-	const passwordRegExp = /^(?=.*?[a-z])(?=.*?[0-9])(?=.*?[~?!@#$%^&*_-]).{8,}$/;
+	const [isChecked, setIsChecked] = useState(false);
 	const dispatch = useAppDispatch();
+	const idSectionData = [
+		{ label: '아이디', state: id, setState: setId, validate: setIsValidId },
+		{
+			label: '닉네임',
+			state: nickname,
+			setState: setNickname,
+			validate: setIsValidNickname,
+		},
+	];
+	const passwordSectionData = [
+		{
+			label: '비밀번호',
+			state: password,
+			setState: setPassword,
+			error: passwordError,
+			type: 'password',
+		},
+		{
+			label: '비밀번호 확인',
+			state: passwordCheck,
+			setState: setPasswordCheck,
+			error: passwordCheckError,
+			type: 'passwordCheck',
+		},
+	];
+	const notifyMessages = new Map([
+		[!isChecked, '약관에 동의해주세요 ☺️'],
+		[!passwordCheck || passwordCheckError, '비밀번호 확인을 맞게 입력해주세요'],
+		[!password || passwordError, '올바른 비밀번호를 입력해주세요'],
+		[!isValidNickname, '닉네임 중복여부를 확인해주세요'],
+		[!isValidId, '아이디 중복여부를 확인해주세요'],
+		[!nickname, '닉네임을 입력해 주세요'],
+		[!id, '아이디를 입력해 주세요'],
+	]);
 
-	useEffect(() => {
-		if (password && !passwordRegExp.test(password)) setPasswordError(true);
-		else if (passwordRegExp.test(password)) setPasswordError(false);
+	const validateInput = () => {
+		if (password && !PASSWORD_REGEX.test(password)) setPasswordError(true);
+		else if (PASSWORD_REGEX.test(password)) setPasswordError(false);
 
 		if (password !== passwordCheck) setPasswordCheckError(true);
 		else if (password === passwordCheck) setPasswordCheckError(false);
+	};
+
+	useEffect(() => {
+		validateInput();
+		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [password, passwordCheck]);
+
+	const goNotify = (message: string) => notify(dispatch, message);
 
 	const handleSubmit = (e: React.SyntheticEvent) => {
 		e.preventDefault();
-		if (!isChecked) notify(dispatch, '가입불가');
+		validateInput();
+		notifyMessages.forEach((message, notifyCase) => {
+			if (notifyCase) goNotify(message);
+		});
 	};
 
 	return (
 		<StyledSignUpForm onSubmit={handleSubmit}>
-			<IdWrapper>
-				<Input label="아이디" state={id} setState={setId} />
-				<div className="overlapCheck">중복확인</div>
-			</IdWrapper>
-			<IdWrapper>
-				<Input label="닉네임" state={nickname} setState={setNickname} />
-				<div className="overlapCheck">중복확인</div>
-			</IdWrapper>
-			<PasswordWrapper error={passwordError}>
-				<Input
-					label="비밀번호"
-					state={password}
-					setState={setPassword}
-					type="password"
-				/>
-				<AlertSection error={passwordError}>
-					<IoAlertCircle className="icon" />
-					<Bubble type="password" />
-				</AlertSection>
-			</PasswordWrapper>
-			<PasswordWrapper error={passwordCheckError}>
-				<Input
-					label="비밀번호 확인"
-					state={passwordCheck}
-					setState={setPasswordCheck}
-					type="password"
-				/>
-				<AlertSection error={passwordCheckError}>
-					<IoAlertCircle className="icon" />
-					<Bubble type="passwordCheck" />
-				</AlertSection>
-			</PasswordWrapper>
+			<IdSection idSectionData={idSectionData} notify={goNotify} />
+			<PasswordSection passwordSectionData={passwordSectionData} />
 			<Clause isChecked={isChecked} setIsChecked={setIsChecked} />
 			<StyledButton>회원가입</StyledButton>
 		</StyledSignUpForm>
@@ -78,49 +93,6 @@ const StyledSignUpForm = styled.form`
 	margin-top: 2rem;
 	display: flex;
 	flex-direction: column;
-`;
-
-const IdWrapper = styled.div`
-	min-width: 117.5%;
-	display: grid;
-	grid-template-columns: 22rem 1px;
-	.overlapCheck {
-		width: 4.1rem;
-		background-color: transparent;
-		color: ${props => props.theme.colors.buttonGreen};
-		font-weight: bold;
-		position: relative;
-		top: 3.4rem;
-		right: 4.1rem;
-	}
-`;
-
-const PasswordWrapper = styled.div<{ error: boolean }>`
-	display: grid;
-	align-items: flex-end;
-	grid-template-columns: 22rem 1px;
-	.icon {
-		font-size: 25px;
-		color: #ff6a00;
-		position: absolute;
-		cursor: pointer;
-	}
-`;
-
-const AlertSection = styled.div<{ error: boolean }>`
-	position: relative;
-	left: 1rem;
-	top: 2.3rem;
-	display: ${props => (props.error ? 'flex' : 'none')};
-	flex-direction: ${props => props.error && 'column'};
-	.bubble {
-		visibility: hidden;
-	}
-	:hover {
-		.bubble {
-			visibility: visible;
-		}
-	}
 `;
 
 const StyledButton = styled(Button)`
