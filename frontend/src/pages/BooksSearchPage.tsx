@@ -9,6 +9,19 @@ const BooksSearchPage = () => {
 	const [searchInput, setSearchInput] = useState('');
 	const [reset, setReset] = useState(false);
 	const [selectOverlay, setSelectOverlay] = useState(null);
+	const [merchantSector, setMerchantSector] = useState<MerchantSectorProps>();
+	const [merchantLists, setMerchantLists] = useState();
+	const [bookSector, setBookSector] = useState();
+	const [bookLists, setBookLists] = useState();
+
+	interface MerchantSectorProps {
+		merchantCount: number;
+		sector: number;
+		representativeLocation: {
+			lat: string;
+			lon: string;
+		};
+	}
 
 	const handleCurrentLocationMove = () => {
 		let lat = 0;
@@ -40,9 +53,14 @@ const BooksSearchPage = () => {
 			} = selectOverlay;
 			const latitude = representativeLocation.lat;
 			const longitude = representativeLocation.lon;
-			getMerchantList(latitude, longitude, sector);
+			getMerchantList(latitude, longitude, sector).then(res => {
+				if (res) {
+					setMerchantLists(res);
+				}
+			});
 		}
 	}, [selectOverlay]);
+
 	return (
 		<Container>
 			<FlexBox>
@@ -50,6 +68,9 @@ const BooksSearchPage = () => {
 					searchInput={searchInput}
 					setSearchInput={setSearchInput}
 					setReset={setReset}
+					current={current}
+					setMerchantSector={setMerchantSector}
+					setBookSector={setBookSector}
 				/>
 				<TbCurrentLocation
 					className="location"
