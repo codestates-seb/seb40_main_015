@@ -26,6 +26,7 @@ import com.dongnebook.domain.book.dto.response.BookSimpleResponse;
 import com.dongnebook.global.Login;
 import com.dongnebook.global.config.security.auth.userdetails.AuthMember;
 import com.dongnebook.global.dto.request.PageRequest;
+import com.dongnebook.global.dto.response.MultiResponse;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -64,10 +65,10 @@ public class BookController {
 	}
 
 	@GetMapping("/count")
-	public ResponseEntity<ArrayList<BookSectorCountResponse>> getSectorBookCounts(@ModelAttribute BookSearchCondition bookSearchCondition){
+	public ResponseEntity<MultiResponse<ArrayList<BookSectorCountResponse>>> getSectorBookCounts(@ModelAttribute BookSearchCondition bookSearchCondition){
 		ArrayList<BookSectorCountResponse> sectorBookCounts = bookService.getSectorBookCounts(bookSearchCondition);
 
-		return ResponseEntity.ok(sectorBookCounts);
+		return ResponseEntity.ok(MultiResponse.of(sectorBookCounts));
 	}
 
 	@DeleteMapping("/{id}")

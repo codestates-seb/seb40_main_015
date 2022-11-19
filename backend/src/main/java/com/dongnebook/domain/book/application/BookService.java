@@ -1,6 +1,7 @@
 package com.dongnebook.domain.book.application;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
@@ -19,6 +20,7 @@ import com.dongnebook.domain.book.exception.BookNotFoundException;
 import com.dongnebook.domain.book.repository.BookCommandRepository;
 import com.dongnebook.domain.book.repository.BookQueryRepository;
 import com.dongnebook.domain.member.domain.Member;
+import com.dongnebook.domain.member.dto.response.MerchantSectorCountResponse;
 import com.dongnebook.domain.member.exception.LocationNotCreatedYetException;
 import com.dongnebook.domain.member.repository.MemberRepository;
 import com.dongnebook.domain.model.Location;
@@ -86,52 +88,60 @@ public class BookService {
 		List<Double> lonRangeList = bookSearchCondition.lonRangeList();
 		List<Location> sectorBookCounts = bookQueryRepository.getSectorBookCounts(bookSearchCondition);
 		ArrayList<BookSectorCountResponse> bookSectorCountResponses = new ArrayList<>();
+		HashMap<Integer,Integer> indexMap = new HashMap<>();
+		int arrIndex = 0;
 
-		for (int i = 0; i < 9; i++) {
-			bookSectorCountResponses.add(new BookSectorCountResponse());
-		}
+
 
 		for (Location location : sectorBookCounts) {
-			log.info("location={}", location);
-			int count = 0;
+			int sector = 0;
 			Double latitude = location.getLatitude();
 			Double longitude = location.getLongitude();
 			for (int i = 0; i < 3; i++) {
 				for (int j = 0; j < 3; j++) {
-					count++;
+					sector++;
 					if (latRangeList.get(i+1) <= latitude && latitude <= latRangeList.get(i) && lonRangeList.get(j) <= longitude
 						&& longitude <= lonRangeList.get(j+1)) {
-						makeBookCountResponse(bookSectorCountResponses, count, location);
+						if (makeBookCountResponse(bookSectorCountResponses, sector, arrIndex,location,indexMap)) {
+							arrIndex += 1;
+						}
 					}
 				}
 			}
-
 		}
-
 		return bookSectorCountResponses;
-
-		// 섹터 1 :  LatRange 1~0,LonRange 0~1,  00 1
-		// 섹터 2 :  LatRange 1~0,LonRange 1~2,  01 2
-		// 섹터 3 :  LatRange 1~0,LonRange 2~3,  02 3
-		// 섹터 4 : LatRange 2~1,LonRange 0~1,   10 4
-		// 섹터 5 :  LatRange 2~1,LonRange 1~2,  11
-		// 섹터 6 :  LatRange 2~1,LonRange 2~3,  12
-		// 섹터 7 :  LatRange 3~2,LonRange 0~1,  20
-		// 섹터 8 :  LatRange 3~2,LonRange 1~2,  21
-		// 섹터 9 :  LatRange 3~2,LonRange 2~3,  22
-	}
-
-	private void makeBookCountResponse(ArrayList<BookSectorCountResponse> bookSectorCountResponses, int index,
-		Location location) {
-		BookSectorCountResponse bookSectorCountResponse = bookSectorCountResponses.get(index-1);
-		bookSectorCountResponse.plusBookCount();
-		if(Objects.isNull(bookSectorCountResponse.getLocation())){
-			bookSectorCountResponse.initLocation(location);
-			bookSectorCountResponse.initSector((long)index);
-		}
 	}
 
 	public SliceImpl<BookSimpleResponse> getList(BookSearchCondition bookSearchCondition, PageRequest pageRequest) {
 		return bookQueryRepository.getAll(bookSearchCondition,pageRequest);
 	}
+
+	private boolean makeBookCountResponse(ArrayList<BookSectorCountResponse> bookSectorCountResponses, int sector,
+		int arrIndex, Location location, HashMap<Integer, Integer> indexMap) {
+		boolean newResponse = false;
+
+		if (Optional.ofNullable(indexMap.get(sector)).isEmpty()) {
+			bookSectorCountResponses.add(new BookSectorCountResponse());
+			indexMap.put(sector, arrIndex);
+			newResponse = true;
+		}
+
+		BookSectorCountResponse bookSectorCountResponse = bookSectorCountResponses.get(indexMap.get(sector));
+		bookSectorCountResponse.plusBookCount();
+
+		if(Objects.isNull(bookSectorCountResponse.getLocation())){
+			bookSectorCountResponse.initLocation(location);
+			bookSectorCountResponse.initSector(sector);
+		}
+		return newResponse;
+	}
+	// 섹터 1 :  LatRange 1~0,LonRange 0~1,  00 1
+	// 섹터 2 :  LatRange 1~0,LonRange 1~2,  01 2
+	// 섹터 3 :  LatRange 1~0,LonRange 2~3,  02 3
+	// 섹터 4 : LatRange 2~1,LonRange 0~1,   10 4
+	// 섹터 5 :  LatRange 2~1,LonRange 1~2,  11
+	// 섹터 6 :  LatRange 2~1,LonRange 2~3,  12
+	// 섹터 7 :  LatRange 3~2,LonRange 0~1,  20
+	// 섹터 8 :  LatRange 3~2,LonRange 1~2,  21
+	// 섹터 9 :  LatRange 3~2,LonRange 2~3,  22
 }

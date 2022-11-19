@@ -65,6 +65,7 @@ public class BookQueryRepository {
 			)
 			.from(book)
 			.leftJoin(book.member)
+			.where(book.id.eq(id))
 			.fetchOne();
 
 	}

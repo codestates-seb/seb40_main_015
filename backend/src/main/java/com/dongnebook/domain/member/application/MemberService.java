@@ -29,6 +29,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Objects;
 
@@ -79,22 +80,21 @@ public class MemberService {
 		List<Double> lonRangeList = Location.lonRangeList(merchantSearchRequest.getLongitude());
 		List<Location> sectorBookCounts = memberQueryRepository.getSectorMerchantCounts(merchantSearchRequest);
 		ArrayList<MerchantSectorCountResponse> merchantSectorCountResponses = new ArrayList<>();
-
-		for (int i = 0; i < 9; i++) {
-			merchantSectorCountResponses.add(new MerchantSectorCountResponse());
-		}
+		HashMap<Integer,Integer> indexMap = new HashMap<>();
+		int arrIndex = 0;
 
 		for (Location location : sectorBookCounts) {
-
 			Double latitude = location.getLatitude();
 			Double longitude = location.getLongitude();
-			int count = 0;
+			int sector = 0;
 			for (int i = 0; i < 3; i++) {
 				for (int j = 0; j < 3; j++) {
-					count++;
+					sector++;
 					if (latRangeList.get(i + 1) <= latitude && latitude <= latRangeList.get(i)
 						&& lonRangeList.get(j) <= longitude && longitude <= lonRangeList.get(j + 1)) {
-						makeMerchantCountResponse(merchantSectorCountResponses, count, location);
+						if (makeMerchantCountResponse(merchantSectorCountResponses, sector, arrIndex,location,indexMap)) {
+							arrIndex += 1;
+						}
 					}
 				}
 			}
@@ -102,16 +102,25 @@ public class MemberService {
 		return merchantSectorCountResponses;
 	}
 
-	private void makeMerchantCountResponse(ArrayList<MerchantSectorCountResponse> merchantSectorCountResponses,
-		int index, Location location) {
+	private boolean makeMerchantCountResponse(ArrayList<MerchantSectorCountResponse> merchantSectorCountResponses,
+		int sector, int arrIndex,Location location, HashMap<Integer,Integer> indexMap) {
+		boolean newResponse = false;
 
-		MerchantSectorCountResponse merchantSectorCountResponse = merchantSectorCountResponses.get(index-1);
+		if (Optional.ofNullable(indexMap.get(sector)).isEmpty()) {
+			merchantSectorCountResponses.add(new MerchantSectorCountResponse());
+			indexMap.put(sector, arrIndex);
+			newResponse = true;
+		}
+
+		MerchantSectorCountResponse merchantSectorCountResponse = merchantSectorCountResponses.get(indexMap.get(sector));
 		merchantSectorCountResponse.plusBookCount();
 
 		if (Objects.isNull(merchantSectorCountResponse.getLocation())) {
 			merchantSectorCountResponse.initLocation(location);
-			merchantSectorCountResponse.initSector((long)index);
+			merchantSectorCountResponse.initSector(sector);
 		}
+
+		return newResponse;
 	}
 
 
