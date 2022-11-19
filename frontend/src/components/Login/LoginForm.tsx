@@ -1,3 +1,4 @@
+import axios, { AxiosPromise } from 'axios';
 import { useState } from 'react';
 import styled from 'styled-components';
 import Button from '../common/Button';
@@ -7,8 +8,30 @@ const LoginForm = () => {
 	const [id, setId] = useState('');
 	const [password, setPassword] = useState('');
 
-	const handleSubmit = (e: React.SyntheticEvent) => {
+	const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
 		e.preventDefault();
+
+		console.log('id:', id, 'pw:', password);
+		const payload = {
+			userId: id,
+			password: password,
+		};
+
+		axios({
+			method: 'post',
+			url: 'http://13.124.11.174:8080/auth/login',
+			withCredentials: true,
+			data: payload,
+			timeout: 5000,
+			headers: { ContentType: 'application/json' },
+		})
+			// axios
+			// 	.post('http://13.124.11.174:8080/auth/login', payload, {
+			// 		headers: { ContentType: 'application/json' },
+			// 		withCredentials: true,
+			// 	})
+			.then(data => console.log('res: ', data))
+			.then(err => console.error(err));
 	};
 
 	return (
