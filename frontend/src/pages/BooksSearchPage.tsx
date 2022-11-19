@@ -7,6 +7,9 @@ const BooksSearchPage = () => {
 	const [current, setCurrent] = useState<any>();
 	const [searchInput, setSearchInput] = useState('');
 	const [reset, setReset] = useState(false);
+	const [selectOverlay, setSelectOverlay] = useState(null);
+
+	console.log(selectOverlay);
 
 	const handleCurrentLocationMove = () => {
 		let lat = 0;
@@ -38,7 +41,12 @@ const BooksSearchPage = () => {
 					onClick={handleCurrentLocationMove}
 				/>
 			</FlexBox>
-			<Map current={current} setCurrent={setCurrent} reset={reset} />
+			<Map
+				current={current}
+				setCurrent={setCurrent}
+				reset={reset}
+				setSelectOverlay={setSelectOverlay}
+			/>
 		</Container>
 	);
 };
