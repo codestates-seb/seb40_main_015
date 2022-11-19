@@ -20,10 +20,6 @@ interface userInfo {
 	nickname: string;
 	headers?: { authorization: string };
 }
-// interface TokenProps {
-
-// }
-
 // constant
 const BASE_URL = process.env.REACT_APP_HOST;
 
@@ -67,8 +63,6 @@ const LoginForm = () => {
 
 	const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
 		e.preventDefault();
-
-		console.log('id:', id, 'pw:', password);
 		mutate();
 		/*
 		axios({
