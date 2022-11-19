@@ -30,7 +30,7 @@ interface MapProps {
 const { kakao } = window;
 const Map = (props: MapProps) => {
 	const { current, setCurrent, reset, setSelectOverlay } = props;
-	const [centerCoord, setCenterCoord] = useState();
+	const [centerCoord, setCenterCoord] = useState({ La: '0', Ma: '0' });
 
 	let mapContainer = useRef(null); // 지도를 표시할 div
 	let mapOption = {
@@ -222,8 +222,9 @@ const Map = (props: MapProps) => {
 		// centerCoord 변경될때마다 주변상인 정보 api 호출하기
 
 		console.log('현재위치 변경됨 주변 상인정보 다시 요청');
-		getTotalMerchant().then(res => console.log(res));
-		console.log(centerCoord);
+		getTotalMerchant(centerCoord?.Ma, centerCoord?.La).then(res =>
+			console.log(res),
+		);
 	}, [centerCoord]);
 
 	return (
