@@ -6,6 +6,8 @@ import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import Button from '../common/Button';
 import Input from '../common/Input';
 import { useNavigate } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
+import { login } from '../../redux/slice/userSlice';
 
 //type
 interface loginProps {
@@ -16,7 +18,11 @@ interface userInfo {
 	id: string;
 	userId: string;
 	nickname: string;
+	headers?: { authorization: string };
 }
+// interface TokenProps {
+
+// }
 
 // constant
 const BASE_URL = process.env.REACT_APP_HOST;
@@ -36,21 +42,23 @@ const LoginForm = () => {
 	const [id, setId] = useState('');
 	const [password, setPassword] = useState('');
 
+	const distpatch = useDispatch();
+
 	const navigate = useNavigate();
-	const payload = {
-		userId: id,
-		password: password,
-	};
 
 	const { mutate, data, isLoading, isSuccess, isError } = useMutation({
-		mutationFn: () => fetchLogin(payload),
-		onSettled: res => {
-			console.log('settled?: ', res);
-		},
+		mutationFn: () =>
+			fetchLogin({
+				userId: id,
+				password: password,
+			}),
 		onSuccess: res => {
-			console.log('success data: ', res);
+			const {
+				data,
+				headers: { authorization },
+			} = res;
+			distpatch(login({ ...data, accessToken: authorization, isLogin: true }));
 			navigate('/books');
-			//
 		},
 		onError: res => {
 			console.log('error : ', res);
