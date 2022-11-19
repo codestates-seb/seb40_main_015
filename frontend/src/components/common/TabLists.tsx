@@ -49,7 +49,7 @@ const Tab = styled.button<TabProps>`
 			: props.theme.colors.buttonGrey};
 	border: none;
 	border-radius: 5px;
-	box-shadow: nonoe;
+	box-shadow: none;
 	color: ${props => (props.selected ? '#FFFFFF' : '#000000')};
 	cursor: pointer;
 	font-size: ${props => props.theme.fontSizes.paragraph};

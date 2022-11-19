@@ -3,9 +3,11 @@ package com.dongnebook.domain.rental.ui;
 
 import com.dongnebook.domain.rental.application.RentalService;
 import com.dongnebook.domain.rental.dto.Request.RentalRegisterRequest;
+import com.dongnebook.global.config.security.auth.userdetails.AuthMember;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -15,35 +17,46 @@ public class RentalController {
 
     private final RentalService rentalService;
 
-    @PostMapping
-    public ResponseEntity<Long> postRental(@RequestBody RentalRegisterRequest rentalRegisterRequest){
+    @PostMapping("/{bookId}")
+    public ResponseEntity<Long> postRental(@PathVariable Long bookId, @AuthenticationPrincipal AuthMember merchant){
 
-        Long rentalId = rentalService.createRental(rentalRegisterRequest);
+        rentalService.createRental(bookId, merchant.getMemberId());
 
-        return new ResponseEntity<>(rentalId, HttpStatus.ACCEPTED);
+        return new ResponseEntity<>(HttpStatus.ACCEPTED);
     }
 
-    // 추후 cancel 추체에 따른 알림 대상이 달라지기에 cancel 주체별로 메서드 분리가 필요함
-    @PatchMapping("{id}/cancel")
-    public ResponseEntity<Void> cancelRental(@PathVariable("id") Long rentalId){
+    @PatchMapping("/{rentalId}/cancelByCustomer")
+    public ResponseEntity<Void> cancelRentalByCustomer(@PathVariable Long rentalId,
+                                                       @AuthenticationPrincipal AuthMember customer){
 
-        rentalService.cancelRental(rentalId);
+        rentalService.cancelRentalByCustomer(rentalId, customer.getMemberId());
 
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
-    @PatchMapping("{id}/receive")
-    public ResponseEntity<Void> receiveBook(@PathVariable("id") Long rentalId){
+    @PatchMapping("/{rentalId}/cancelByMerchant")
+    public ResponseEntity<Void> cancelRentalByMerchant(@PathVariable Long rentalId,
+                                                       @AuthenticationPrincipal AuthMember merchant){
 
-        rentalService.receiveBook(rentalId);
+        rentalService.cancelRentalByMerchant(rentalId, merchant.getMemberId());
 
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
-    @PatchMapping("{id}/return")
-    public ResponseEntity<Void> returnRental(@PathVariable("id") Long rentalId) {
+    @PatchMapping("/{rentalId}/receive")
+    public ResponseEntity<Void> receiveBook(@PathVariable Long rentalId,
+                                            @AuthenticationPrincipal AuthMember customer){
 
-        rentalService.returnRental(rentalId);
+        rentalService.receiveBook(rentalId, customer.getMemberId());
+
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    @PatchMapping("{rentalId}/return")
+    public ResponseEntity<Void> returnRental(@PathVariable Long rentalId,
+                                             @AuthenticationPrincipal AuthMember merchant){
+
+        rentalService.returnRental(rentalId, merchant.getMemberId());
 
         return new ResponseEntity<>(HttpStatus.OK);
     }
