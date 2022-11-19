@@ -8,8 +8,7 @@ import static com.dongnebook.domain.book.domain.QBook.*;
 import static com.dongnebook.domain.dibs.domain.QDibs.*;
 
 import java.util.List;
-
-
+import java.util.Objects;
 
 import org.springframework.data.domain.SliceImpl;
 import org.springframework.stereotype.Repository;
@@ -159,12 +158,17 @@ public class BookQueryRepository {
 		return book.id.lt(bookId);
 	}
 
-	private BooleanExpression sectorBetween(List<Double> latRangeList, List<Double> lonRangeList,Integer sector) {
-		int count =0;
+	private BooleanExpression sectorBetween(List<Double> latRangeList, List<Double> lonRangeList,Integer givenSector) {
+
+		if (Objects.isNull(latRangeList)||Objects.isNull(lonRangeList)||Objects.isNull(givenSector)) {
+			return null;
+		}
+
+		int sector = 0;
 		for (int i = 0; i < 3; i++) {
 			for (int j = 0; j < 3; j++) {
-				count++;
-				if (sector == count) {
+				sector++;
+				if (givenSector == sector) {
 					return book.location.latitude.between(latRangeList.get(i + 1), latRangeList.get(i))
 						.and(book.location.longitude.between(lonRangeList.get(j), lonRangeList.get(j + 1)));
 				}

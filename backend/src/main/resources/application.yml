@@ -11,7 +11,7 @@ Spring:
     defer-datasource-initialization: true
     open-in-view: false
     hibernate:
-      ddl-auto: none  # (1) 스키마 자동 생성
+      ddl-auto: create  # (1) 스키마 자동 생성
       type: trace
 
 
