@@ -63,13 +63,12 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
 
         response.setHeader("Authorization", "Bearer " + tokenDto.getAccessToken());
 
-        // response body에 member의 emial, username, ImageUrl을 담아서 보내준다.
+        // response body에 member의 id, username을 담아서 보내준다.
         response.getWriter().write(
-            "{" +
-                "\"email\":\"" + authMember.getNickname() + "\","
-
+            "{" + "\"id\":\"" + authMember.getMemberId() + "\"" +"," +
+                "\"userId\":\"" + authMember.getUserId() + "\"" +"," +
+                "\"nickname\":\"" + authMember.getNickname() + "\"" + "}"
         );
-
 
         this.getSuccessHandler().onAuthenticationSuccess(request, response, authResult);
     }

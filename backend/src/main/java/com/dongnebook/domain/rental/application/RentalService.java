@@ -35,44 +35,50 @@ public class RentalService {
 	private final MemberRepository memberRepository;
 
 	@Transactional
-	public Long createRental(RentalRegisterRequest rentalRegisterRequest) {
-		Member member = getMemberById(rentalRegisterRequest.getMemberId());
-		Book book = getBookById(rentalRegisterRequest.getBookId());
+	public void createRental(Long bookId, Long merchantId) {
+		Member merchant = getMemberById(merchantId);
+		Book book = getBookById(bookId);
 
-		blockRentMyBook(rentalRegisterRequest, book);
+		blockRentMyBook(merchantId, book);
 		book.changeBookStateFromTo(BookState.RENTABLE, BookState.TRADING);
 
-		Rental rental = Rental.create(book, member);
+		Rental rental = Rental.create(book, merchant);
 		rentalRepository.save(rental);
-
-		return rental.getId();
 	}
 
-	// 추후 cancel 추체에 따른 알림 대상이 달라지기에 cancel 주체별로 메서드 분리가 필요함
+	// 해당 주민이 취소하는 경우
 	@Transactional
-	public void cancelRental(Long rentalId) {
+	public void cancelRentalByCustomer(Long rentalId, Long customerId) {
 		Rental rental = getRental(rentalId);
 		Book book = getBookFromRental(rental);
 
-		//        // 해당 주민이 취소하는 경우
-		//        if(!rental.getMember().getId().equals("cancel하는 주체"))
-		//            throw new CanNotCancelRentalException();
-		//        // 해당 상인이 취소하는 경우
-		//        if(!book.getMember().getId().equals("cancel하는 주체"))
-		//            throw new CanNotCancelRentalException();
+		// 책을 빌린 주민 본인이 아닌 경우 예외 처리
+		canNotChangeRental(rental.getMember(), customerId);
+
+		rental.changeRentalStateFromTo(RentalState.TRADING, RentalState.CANCELED);
+		book.changeBookStateFromTo(BookState.TRADING, BookState.RENTABLE);
+	}
+
+	// 해당 상인이 취소하는 경우
+	@Transactional
+	public void cancelRentalByMerchant(Long rentalId, Long merchantId) {
+		Rental rental = getRental(rentalId);
+		Book book = getBookFromRental(rental);
+
+		// 대여를 올린 상인 본인이 아닌 경우 예외 처리
+		canNotChangeRental(book.getMember(), merchantId);
 
 		rental.changeRentalStateFromTo(RentalState.TRADING, RentalState.CANCELED);
 		book.changeBookStateFromTo(BookState.TRADING, BookState.RENTABLE);
 	}
 
 	@Transactional
-	public void receiveBook(Long rentalId) {
+	public void receiveBook(Long rentalId, Long customerId) {
 		Rental rental = getRental(rentalId);
 		Book book = getBookFromRental(rental);
 
-		// 해당 주민만 수령 가능
-		//        if(!rental.getMember().getId().equals("receive하는 추제"))
-		//            throw new CanNotReceiveRentalException();
+		// 책을 빌린 주민 본인이 아닌 경우 예외 처리
+		canNotChangeRental(rental.getMember(), customerId);
 
 		rental.changeRentalStateFromTo(RentalState.TRADING, RentalState.BEING_RENTED);
 		book.changeBookStateFromTo(BookState.TRADING, BookState.UNRENTABLE_RESERVABLE);
@@ -80,13 +86,12 @@ public class RentalService {
 
 	// 예약이 없을 경우에 대한 반납 case (예약이 있을 경우에 대한 반납 case 또한 만들어줘야 함)
 	@Transactional
-	public void returnRental(Long rentalId){
+	public void returnRental(Long rentalId, Long merchantId){
 		Rental rental = getRental(rentalId);
 		Book book = getBookFromRental(rental);
 
-		// 해당 상인만 반납 가능
-//        if(!book.getMember().getId().equals("cancel하는 주체"))
-//            throw new CanNotReturnRentalException();
+		// 대여를 올린 상인 본인이 아닌 경우 예외 처리
+		canNotChangeRental(book.getMember(), merchantId);
 
 		//예약이 없을 경우
 		rental.changeRentalStateFromTo(RentalState.BEING_RENTED, RentalState.RETURN_UNREVIEWED);
@@ -94,13 +99,13 @@ public class RentalService {
 	}
 
 
-	private Book getBookById(Long rentalRegisterRequest) {
-		return bookCommandRepository.findById(rentalRegisterRequest)
+	private Book getBookById(Long bookId) {
+		return bookCommandRepository.findById(bookId)
 			.orElseThrow(BookNotFoundException::new);
 	}
 
-	private Member getMemberById(Long id) {
-		return memberRepository.findById(id)
+	private Member getMemberById(Long memberId) {
+		return memberRepository.findById(memberId)
 			.orElseThrow(MemberNotFoundException::new);
 	}
 
@@ -114,9 +119,15 @@ public class RentalService {
 	}
 
 	// 상인이 본인 책을 대여하는 경우 예외 처리
-	private void blockRentMyBook(RentalRegisterRequest rentalRegisterRequest, Book book) {
-		if (rentalRegisterRequest.getMemberId().equals(book.getMember().getId())) {
+	private void blockRentMyBook(Long memberId, Book book) {
+		if (memberId.equals(book.getMember().getId())) {
 			throw new CanNotRentMyBookException();
+		}
+	}
+
+	public void canNotChangeRental(Member member, Long memberId){
+		if(!member.getId().equals(memberId)){
+			throw new CanNotChangeStateException();
 		}
 	}
 }

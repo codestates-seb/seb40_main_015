@@ -1,11 +1,19 @@
-package com.dongnebook.global.config.security.auth.filter.ui;
+package com.dongnebook.domain.member.ui;
 
 import com.dongnebook.domain.member.application.MemberService;
 
+import com.dongnebook.domain.member.dto.request.MemberEditRequest;
 import com.dongnebook.domain.member.dto.request.MemberRegisterRequest;
+import com.dongnebook.domain.member.dto.request.MerchantSearchRequest;
+import com.dongnebook.domain.member.dto.response.MemberDetailResponse;
 import com.dongnebook.domain.member.dto.response.MemberExistsCheckResponse;
+import com.dongnebook.domain.member.dto.response.MemberResponse;
+import com.dongnebook.domain.member.dto.response.MerchantSectorCountResponse;
 import com.dongnebook.domain.model.Location;
 
+import com.dongnebook.global.dto.request.PageRequest;
+
+import org.springframework.data.domain.SliceImpl;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -16,6 +24,7 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import javax.validation.Valid;
 import java.net.URI;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -72,10 +81,28 @@ public class MemberController {
     }
 
     @PatchMapping("/member/{id}/edit")
-    public void edit(@PathVariable Long id, @RequestBody Location location){
-        log.info("location = {}", location.getLatitude());
-        log.info("location = {}", location.getLongitude());
-        memberService.edit(id,location);
+    public void edit(@PathVariable Long id, @RequestBody MemberEditRequest memberEditRequest){
+
+        memberService.edit(id,memberEditRequest);
 
     }
+
+    @GetMapping("/member/count")
+    public ResponseEntity<ArrayList<MerchantSectorCountResponse>> getSectorMerchantCount(@ModelAttribute MerchantSearchRequest merchantSearchRequest){
+        return ResponseEntity.ok(memberService.getSectorMerchantCounts(merchantSearchRequest));
+    }
+
+    @GetMapping("/member/sector")
+    public ResponseEntity<SliceImpl<MemberResponse>> getLists(@ModelAttribute MerchantSearchRequest merchantSearchRequest,
+        PageRequest pageRequest){
+        return ResponseEntity.ok(memberService.getList(merchantSearchRequest,pageRequest));
+    }
+
+
+    @GetMapping("/member/{id}")
+    public ResponseEntity<MemberDetailResponse> getMyInfo(@PathVariable Long id){
+        return ResponseEntity.ok(memberService.getMemberInfo(id));
+
+    }
+
 }

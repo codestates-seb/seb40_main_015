@@ -1,20 +1,71 @@
-import { useEffect, useState } from 'react';
-import styled from 'styled-components';
-import data from './dummy';
+import { useEffect, useState, useRef, Dispatch, SetStateAction } from 'react';
+import styled, { keyframes } from 'styled-components';
+import BookLists from './BookLists';
+import { data, bookLists, merchantList } from './dummy';
+import MerchantLists from './MerchantLists';
+import { getTotalMerchant } from '../../api/test';
+
+const MoveLists = keyframes`
+0% {
+	opacity: 0;
+	transform: translateY(220px);
+	bottom: -20px;
+}
+
+80% {
+	opacity: 3;
+	transform: none;
+	bottom: 230px;
+	max-height: 230px;
+}
+
+100% {
+	opacity: 3;
+	transform: none;
+	bottom: 220px;
+	max-height: 220px;
+}
+`;
 
 declare global {
 	interface Window {
 		kakao: any;
 	}
 }
-const { kakao } = window;
 
-const Map = () => {
-	const [current, setCurrent] = useState<any>();
+interface MarkerProps {
+	merchantCount: number;
+	sector: number;
+	representativeLocation: {
+		lat: string;
+		lon: string;
+	};
+}
+
+interface MapProps {
+	current: { La: number; Ma: number };
+	setCurrent: Dispatch<SetStateAction<{ La: number; Ma: number }>>;
+	reset: boolean;
+}
+
+const { kakao } = window;
+const Map = (props: MapProps) => {
+	const { current, setCurrent, reset } = props;
 	const [centerCoord, setCenterCoord] = useState();
+	const [listItem, setListItem] = useState([1, 2, 3, 4, 5, 6]);
+	const [A, setA] = useState<any>();
+	console.log(A);
+
+	let mapContainer = useRef(null); // 지도를 표시할 div
+	let mapOption = {
+		center: new kakao.maps.LatLng(33.450701, 126.570667), // 지도의 중심좌표
+		level: 4, // 지도의 확대 레벨
+		// 두번 클릭시 확대 기능을 막습니다
+		disableDoubleClickZoom: true,
+	};
 
 	//여러개의 마커 표시하기
-	const ShowMultipleMarkers = (map: any, data: any) => {
+	const ShowMultipleMarkers = (map: any, data: MarkerProps[]) => {
 		let imageSrc =
 			'https://velog.velcdn.com/images/fejigu/post/3917d7b1-130c-4bc8-88df-b665386adbdd/image.png';
 		for (let i = 0; i < data.length; i++) {
@@ -30,10 +81,18 @@ const Map = () => {
 				title: data[i].merchantCount,
 				image: markerImage,
 			});
+			if (reset) {
+				marker.setMap(null);
+			}
 
 			kakao.maps.event.addListener(marker, 'click', function () {
 				alert('마커를 클릭했습니다!');
 			});
+
+			// let list = document.createElement('div');
+			// list.style.width = '100%';
+			// list.style.height = '30%';
+			// list.style.backgroundColor = 'grey';
 
 			//커스텀 오버레이
 			//커스텀 오버레이 클릭 이벤트
@@ -48,47 +107,17 @@ const Map = () => {
 			content.style.display = 'flex';
 			content.style.alignItems = 'center';
 			content.style.justifyContent = 'center';
-			content.innerText = data[i].merchantCount;
+			content.innerText = String(data[i].merchantCount);
 			content.onclick = () => {
-				console.log('클릭함');
+				console.log('click');
 				view = !view;
 				console.log(view);
-				content.style.backgroundColor = !view ? '#26795D' : '#124B38';
-				if (view) {
-					content.style.width = '200px';
-					content.style.height = '100px';
-					content.style.backgroundColor = 'white';
-					content.style.opacity = '1';
-					content.style.borderRadius = '0';
-					content.style.fontSize = '1rem';
-					content.style.color = 'black';
-					content.style.display = 'flex';
-					content.style.flexDirection = 'column';
-					content.style.alignItems = 'space-between';
-					content.style.justifyContent = 'center';
-					content.style.borderRadius = '10px';
-					content.style.border = '0.5px solid grey';
-					content.innerText = data[i].merchantCount;
-				} else {
-					content.style.width = '100px';
-					content.style.height = '100px';
-					content.style.backgroundColor = '#26795D';
-					content.style.opacity = '0.8';
-					content.style.borderRadius = '1000px';
-					content.style.fontSize = '3rem';
-					content.style.color = 'white';
-					content.style.display = 'flex';
-					content.style.alignItems = 'center';
-					content.style.justifyContent = 'center';
-					content.innerText = data[i].merchantCount;
-				}
+				setA(data[i]);
+				//클릭시 색상 변경 일부만 안 되는 중
+				content.style.backgroundColor =
+					data[i].sector === A?.sector ? '#26795D' : '#124B38';
+				// content.style.backgroundColor = !view ? '#124B38' : '#26795D';
 			};
-			// if (view) {
-			// 	// content.appendChild(overlay);
-			// 	overlay.style.display = 'block';
-			// } else {
-			// 	overlay.style.display = 'none';
-			// }
 
 			let customOverlay = new kakao.maps.CustomOverlay({
 				map: map,
@@ -101,9 +130,10 @@ const Map = () => {
 				// 커스텀 오버레이를 표시할 좌표
 				xAnchor: 0.5, // 컨텐츠의 x 위치
 				yAnchor: 0.7, // 컨텐츠의 y 위치
-				// onClick: `console.log('click')`,
 			});
-
+			if (reset) {
+				customOverlay.setMap(null);
+			}
 			kakao.maps.event.addListener(customOverlay, 'click', function () {
 				alert('오버레이를 클릭했습니다!');
 			});
@@ -112,15 +142,7 @@ const Map = () => {
 
 	//카카오맵을 띄웁니다
 	useEffect(() => {
-		let mapContainer = document.getElementById('map'), // 지도를 표시할 div
-			mapOption = {
-				center: new kakao.maps.LatLng(33.450701, 126.570667), // 지도의 중심좌표
-				level: 2, // 지도의 확대 레벨
-				// 두번 클릭시 확대 기능을 막습니다
-				disableDoubleClickZoom: true,
-			};
-
-		let map = new kakao.maps.Map(mapContainer, mapOption); // 지도를 생성합니다
+		let map = new kakao.maps.Map(mapContainer.current, mapOption); // 지도를 생성합니다
 		if (data) {
 			ShowMultipleMarkers(map, data);
 		}
@@ -137,11 +159,11 @@ const Map = () => {
 		});
 
 		// map.setCenter(current);
-		// 확대 축소 기능을 막습니다
-		function setZoomable(zoomable: any) {
-			map.setZoomable(zoomable);
-		}
-		setZoomable(false);
+		// 확대 축소 기능을 막습니다 -> 해당 부분 확대 기능만 추가하기(setLevel 메소드)
+		// function setZoomable(zoomable: any) {
+		// 	map.setZoomable(zoomable);
+		// }
+		// setZoomable(false);
 
 		// HTML5의 geolocation으로 사용할 수 있는지 확인합니다
 		if (data) {
@@ -151,33 +173,49 @@ const Map = () => {
 			let locPosition = new kakao.maps.LatLng(current.Ma, current.La); // 마커가 표시될 위치를 geolocation으로 얻어온 좌표로 생성합니다
 			// 마커를 표시합니다
 			displayMarker(locPosition);
-			navigator.geolocation.getCurrentPosition(function (position) {
-				let lat = position.coords.latitude; // 위도
-				let lon = position.coords.longitude; // 경도
+			let options = {
+				enableHighAccuracy: false,
+			};
+			navigator.geolocation.getCurrentPosition(
+				function (position) {
+					let lat = position.coords.latitude; // 위도
+					let lon = position.coords.longitude; // 경도
 
-				let locPosition = new kakao.maps.LatLng(lat, lon); // 마커가 표시될 위치를 geolocation으로 얻어온 좌표로 생성합니다
-				if (locPosition.La !== current.La && locPosition.Ma !== current.Ma) {
-					console.log(locPosition, current);
-					console.log('다름');
+					let locPosition = new kakao.maps.LatLng(lat, lon); // 마커가 표시될 위치를 geolocation으로 얻어온 좌표로 생성합니다
+
+					if (locPosition.La !== current.La && locPosition.Ma !== current.Ma) {
+						console.log(locPosition, current);
+						console.log('다름');
+						setCurrent(locPosition);
+						// 마커를 표시합니다
+						displayMarker(locPosition);
+					}
+				},
+				null,
+				options,
+			);
+		} else {
+			let options = {
+				enableHighAccuracy: false,
+			};
+			navigator.geolocation.getCurrentPosition(
+				function (position) {
+					let lat = position.coords.latitude; // 위도
+					let lon = position.coords.longitude; // 경도
+
+					let locPosition = new kakao.maps.LatLng(lat, lon); // 마커가 표시될 위치를 geolocation으로 얻어온 좌표로 생성합니다
 					setCurrent(locPosition);
 					// 마커를 표시합니다
 					displayMarker(locPosition);
-				}
-			});
-		} else {
-			navigator.geolocation.getCurrentPosition(function (position) {
-				let lat = position.coords.latitude; // 위도
-				let lon = position.coords.longitude; // 경도
-
-				let locPosition = new kakao.maps.LatLng(lat, lon); // 마커가 표시될 위치를 geolocation으로 얻어온 좌표로 생성합니다
-				setCurrent(locPosition);
-				// 마커를 표시합니다
-				displayMarker(locPosition);
-			});
+				},
+				null,
+				options,
+			);
 		}
-		// // 지도에 마커와 인포윈도우를 표시하는 함수입니다
+		// // 지도에 마커를 표시하는 함수입니다
 		function displayMarker(locPosition: any) {
 			// 마커를 생성합니다
+
 			let icon = new kakao.maps.MarkerImage(
 				'https://velog.velcdn.com/images/fejigu/post/ffa9fea3-b632-4d69-aac0-dc807ff55ea7/image.png',
 				new kakao.maps.Size(51, 55),
@@ -197,107 +235,53 @@ const Map = () => {
 			// 지도 중심좌표를 접속위치로 변경합니다
 			map.setCenter(locPosition);
 		}
-	}, []);
+	}, [current, reset]);
 
-	//버튼 클릭 시 현재 위치로 돌아갑니다(추후에 로딩 시간에 애니메이션 추가하기)
-	// const handleCurrentLocationMove = () => {
-	// 	// let mapContainer = document.getElementById('map'), // 지도를 표시할 div
-	// 	// 	mapOption = {
-	// 	// 		center: new kakao.maps.LatLng(33.450701, 126.570667), // 지도의 중심좌표
-	// 	// 		level: 2, // 지도의 확대 레벨
-	// 	// 		// 두번 클릭시 확대 기능을 막습니다
-	// 	// 		disableDoubleClickZoom: true,
-	// 	// 	};
-
-	// 	// let map = new kakao.maps.Map(mapContainer, mapOption); // 지도를 생성합니다
-	// 	if (data) {
-	// 		ShowMultipleMarkers(map, data);
-	// 	}
-	// 	if (current) {
-	// 		let locPosition = new kakao.maps.LatLng(current.Ma, current.La), // 마커가 표시될 위치를 geolocation으로 얻어온 좌표로 생성합니다
-	// 			message = '<div style="padding:5px;">현재 위치입니다</div>'; // 인포윈도우에 표시될 내용입니다
-	// 		// 마커와 인포윈도우를 표시합니다
-	// 		displayMarker(locPosition);
-	// 		navigator.geolocation.getCurrentPosition(function (position) {
-	// 			let lat = position.coords.latitude; // 위도
-	// 			let lon = position.coords.longitude; // 경도
-
-	// 			let locPosition = new kakao.maps.LatLng(lat, lon), // 마커가 표시될 위치를 geolocation으로 얻어온 좌표로 생성합니다
-	// 				message = '<div style="padding:5px;">현재 위치입니다</div>'; // 인포윈도우에 표시될 내용입니다
-	// 			if (locPosition.La !== current.La && locPosition.Ma !== current.Ma) {
-	// 				console.log(locPosition, current);
-	// 				console.log('다름');
-	// 				setCurrent(locPosition);
-	// 				// 마커와 인포윈도우를 표시합니다
-	// 				displayMarker(locPosition);
-	// 			}
-	// 		});
-	// 	} else {
-	// 		navigator.geolocation.getCurrentPosition(function (position) {
-	// 			let lat = position.coords.latitude; // 위도
-	// 			let lon = position.coords.longitude; // 경도
-
-	// 			let locPosition = new kakao.maps.LatLng(lat, lon), // 마커가 표시될 위치를 geolocation으로 얻어온 좌표로 생성합니다
-	// 				message = '<div style="padding:5px;">현재 위치입니다</div>'; // 인포윈도우에 표시될 내용입니다
-	// 			setCurrent(locPosition);
-	// 			// 마커와 인포윈도우를 표시합니다
-	// 			displayMarker(locPosition, message);
-	// 		});
-	// 	}
-	// };
-
-	// // // 지도에 마커와 인포윈도우를 표시하는 함수입니다
-	// function displayMarker(locPosition: any, message?: any) {
-	// 	let mapContainer = document.getElementById('map'), // 지도를 표시할 div
-	// 		mapOption = {
-	// 			center: new kakao.maps.LatLng(33.450701, 126.570667), // 지도의 중심좌표
-	// 			level: 2, // 지도의 확대 레벨
-	// 			// 두번 클릭시 확대 기능을 막습니다
-	// 			disableDoubleClickZoom: true,
-	// 		};
-
-	// 	let map = new kakao.maps.Map(mapContainer, mapOption); // 지도를 생성합니다
-	// 	// 마커를 생성합니다
-	// 	let marker = new kakao.maps.Marker({
-	// 		map: map,
-	// 		position: locPosition,
-	// 	});
-
-	// 	//확대 축소 기능을 막습니다
-	// 	function setZoomable(zoomable: any) {
-	// 		map.setZoomable(zoomable);
-	// 	}
-	// 	setZoomable(false);
-
-	// 	if (message) {
-	// 		let iwContent = message, // 인포윈도우에 표시할 내용입니다
-	// 			iwRemoveable = true;
-
-	// 		// 인포윈도우를 생성합니다
-	// 		let infowindow = new kakao.maps.InfoWindow({
-	// 			content: iwContent,
-	// 			removable: iwRemoveable,
-	// 		});
-
-	// 		// 인포윈도우를 마커위에 표시합니다
-	// 		infowindow.open(map, marker);
-	// 	}
-
-	// 	// 지도 중심좌표를 접속위치로 변경합니다
-	// 	map.setCenter(locPosition);
-	// }
-
-	// 현재위치 변경시 주변 상인정보 다시 받아오기
 	useEffect(() => {
 		// centerCoord 변경될때마다 주변상인 정보 api 호출하기
+
 		console.log('현재위치 변경됨 주변 상인정보 다시 요청');
+		getTotalMerchant().then(res => console.log(res));
+		console.log(centerCoord);
 	}, [centerCoord]);
-	return <Container id="map" />;
+
+	return (
+		<div style={{ width: '100vw', height: '100%' }}>
+			<Container id="map" ref={mapContainer} />
+			<Search>
+				<MerchantLists merchantList={merchantList} />
+				<BookLists bookLists={bookLists} />
+			</Search>
+		</div>
+	);
 };
 
 const Container = styled.div`
-	width: 100vw;
+	width: 100%;
 	height: 100%;
+`;
+
+const Search = styled.div`
+	border-radius: 30px 30px 0px 0px;
+	box-shadow: 20px 20px 20px 20px grey;
+	max-height: 220px;
+	overflow-y: scroll;
+	position: relative;
+	bottom: 220px;
+	z-index: 1000;
+	opacity: 0.9;
+	transform: translateY(px);
+	animation: ${MoveLists} 1s;
+`;
+
+const List = styled.div`
+	padding-top: 30px;
+	padding-bottom: 30px;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	background-color: white;
+	border-bottom: 0.5px solid rgb(196, 182, 186);
 `;
 
 export default Map;
