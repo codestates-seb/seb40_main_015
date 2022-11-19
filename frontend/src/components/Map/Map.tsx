@@ -5,28 +5,6 @@ import { data, bookLists, merchantList } from './dummy';
 import MerchantLists from './MerchantLists';
 import { getTotalMerchant } from '../../api/test';
 
-const MoveLists = keyframes`
-0% {
-	opacity: 0.9;
-	transform: translateY(220px);
-	bottom: -20px;
-}
-
-80% {
-	opacity: 0.9;
-	transform: none;
-	bottom: 230px;
-	max-height: 230px;
-}
-
-100% {
-	opacity: 0.9;
-	transform: none;
-	bottom: 220px;
-	max-height: 220px;
-}
-`;
-
 declare global {
 	interface Window {
 		kakao: any;
@@ -46,11 +24,12 @@ interface MapProps {
 	current: { La: number; Ma: number };
 	setCurrent: Dispatch<SetStateAction<{ La: number; Ma: number }>>;
 	reset: boolean;
+	setSelectOverlay: Dispatch<SetStateAction<any>>;
 }
 
 const { kakao } = window;
 const Map = (props: MapProps) => {
-	const { current, setCurrent, reset } = props;
+	const { current, setCurrent, reset, setSelectOverlay } = props;
 	const [centerCoord, setCenterCoord] = useState();
 
 	let mapContainer = useRef(null); // 지도를 표시할 div
@@ -104,11 +83,17 @@ const Map = (props: MapProps) => {
 			content.innerText = String(data[i].merchantCount);
 			//커스텀 오버레이 클릭 이벤트
 			content.onclick = () => {
+				setSelectOverlay(data[i]);
 				let selectSector = content;
 				document.querySelectorAll('.overlay').forEach(el => {
 					const ele = el as HTMLElement;
 					if (ele === selectSector) {
-						ele.style.backgroundColor = '#124B38';
+						if (ele.style.backgroundColor === 'rgb(18, 75, 56)') {
+							ele.style.backgroundColor = '#26795D';
+							setSelectOverlay(null);
+						} else {
+							ele.style.backgroundColor = '#124B38';
+						}
 					} else {
 						ele.style.backgroundColor = '#26795D';
 					}
@@ -255,6 +240,28 @@ const Map = (props: MapProps) => {
 const Container = styled.div`
 	width: 100%;
 	height: 100%;
+`;
+
+const MoveLists = keyframes`
+0% {
+	opacity: 0.9;
+	transform: translateY(220px);
+	bottom: -20px;
+}
+
+80% {
+	opacity: 0.9;
+	transform: none;
+	bottom: 230px;
+	max-height: 230px;
+}
+
+100% {
+	opacity: 0.9;
+	transform: none;
+	bottom: 220px;
+	max-height: 220px;
+}
 `;
 
 const Search = styled.div`
