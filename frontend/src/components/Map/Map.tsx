@@ -7,20 +7,20 @@ import { getTotalMerchant } from '../../api/test';
 
 const MoveLists = keyframes`
 0% {
-	opacity: 0;
+	opacity: 0.9;
 	transform: translateY(220px);
 	bottom: -20px;
 }
 
 80% {
-	opacity: 3;
+	opacity: 0.9;
 	transform: none;
 	bottom: 230px;
 	max-height: 230px;
 }
 
 100% {
-	opacity: 3;
+	opacity: 0.9;
 	transform: none;
 	bottom: 220px;
 	max-height: 220px;
@@ -52,14 +52,11 @@ const { kakao } = window;
 const Map = (props: MapProps) => {
 	const { current, setCurrent, reset } = props;
 	const [centerCoord, setCenterCoord] = useState();
-	const [listItem, setListItem] = useState([1, 2, 3, 4, 5, 6]);
-	const [A, setA] = useState<any>();
-	console.log(A);
 
 	let mapContainer = useRef(null); // 지도를 표시할 div
 	let mapOption = {
 		center: new kakao.maps.LatLng(33.450701, 126.570667), // 지도의 중심좌표
-		level: 4, // 지도의 확대 레벨
+		level: 3, // 지도의 확대 레벨
 		// 두번 클릭시 확대 기능을 막습니다
 		disableDoubleClickZoom: true,
 	};
@@ -89,17 +86,14 @@ const Map = (props: MapProps) => {
 				alert('마커를 클릭했습니다!');
 			});
 
-			// let list = document.createElement('div');
-			// list.style.width = '100%';
-			// list.style.height = '30%';
-			// list.style.backgroundColor = 'grey';
-
 			//커스텀 오버레이
-			//커스텀 오버레이 클릭 이벤트
 			let content = document.createElement('div');
-			content.style.width = '100px';
-			content.style.height = '100px';
-			content.style.backgroundColor = '#26795D';
+			content.setAttribute('class', 'overlay');
+			content.style.width = '10rem';
+			content.style.height = '10rem';
+			content.style.backgroundColor = content.getAttribute('view')
+				? '#124B38'
+				: '#26795D';
 			content.style.opacity = '0.8';
 			content.style.borderRadius = '1000px';
 			content.style.fontSize = '3rem';
@@ -108,15 +102,17 @@ const Map = (props: MapProps) => {
 			content.style.alignItems = 'center';
 			content.style.justifyContent = 'center';
 			content.innerText = String(data[i].merchantCount);
+			//커스텀 오버레이 클릭 이벤트
 			content.onclick = () => {
-				console.log('click');
-				view = !view;
-				console.log(view);
-				setA(data[i]);
-				//클릭시 색상 변경 일부만 안 되는 중
-				content.style.backgroundColor =
-					data[i].sector === A?.sector ? '#26795D' : '#124B38';
-				// content.style.backgroundColor = !view ? '#124B38' : '#26795D';
+				let selectSector = content;
+				document.querySelectorAll('.overlay').forEach(el => {
+					const ele = el as HTMLElement;
+					if (ele === selectSector) {
+						ele.style.backgroundColor = '#124B38';
+					} else {
+						ele.style.backgroundColor = '#26795D';
+					}
+				});
 			};
 
 			let customOverlay = new kakao.maps.CustomOverlay({
@@ -160,10 +156,10 @@ const Map = (props: MapProps) => {
 
 		// map.setCenter(current);
 		// 확대 축소 기능을 막습니다 -> 해당 부분 확대 기능만 추가하기(setLevel 메소드)
-		// function setZoomable(zoomable: any) {
-		// 	map.setZoomable(zoomable);
-		// }
-		// setZoomable(false);
+		function setZoomable(zoomable: any) {
+			map.setZoomable(zoomable);
+		}
+		setZoomable(false);
 
 		// HTML5의 geolocation으로 사용할 수 있는지 확인합니다
 		if (data) {
