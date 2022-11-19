@@ -23,16 +23,13 @@ public class BookSearchCondition {
 
 	public List<Double> latRangeList(){
 		Double centralLat = this.latitude;
-		return Arrays.asList(centralLat + 0.00227, centralLat + 0.00075, centralLat - 0.00075,
+		return Arrays.asList(centralLat + 0.00454, centralLat + 0.00151, centralLat - 0.00151,
 			centralLat - 0.00227);
 	}
 
 	public List<Double> lonRangeList(){
 		Double centralLon = this.longitude;
-		return Arrays.asList(centralLon - 0.00277, centralLon - 0.00093, centralLon + 0.00093,
-			centralLon + 0.00277);
+		return Arrays.asList(centralLon - 0.00554, centralLon - 0.00186, centralLon + 0.00186,
+			centralLon + 0.00554);
 	}
-
-
-
 }

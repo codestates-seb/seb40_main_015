@@ -1,6 +1,8 @@
 package com.dongnebook.global.config.security.auth;
 
 import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
 
 import com.dongnebook.global.config.security.auth.filter.JwtAuthenticationFilter;
 import com.dongnebook.global.config.security.auth.filter.JwtVerificationFilter;
@@ -68,7 +70,10 @@ public class SecurityConfiguration {
 	@Bean
 	CorsConfigurationSource corsConfigurationSource() {
 		CorsConfiguration configuration = new CorsConfiguration();
-		configuration.setAllowedOrigins(Arrays.asList("*"));
+		configuration.setAllowedOrigins(List.of("http://localhost:3000"));
+		configuration.setAllowCredentials(true);
+		configuration.addExposedHeader("Authorization");
+		configuration.addAllowedHeader("*");
 		configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PATCH", "DELETE"));
 
 		UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
