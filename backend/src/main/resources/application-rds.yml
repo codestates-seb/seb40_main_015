@@ -10,7 +10,7 @@ Spring:
     driver-class-name: com.mysql.cj.jdbc.Driver
     url: jdbc:mysql://codestates-mainpj-mysql.clwvdgya13lr.ap-northeast-2.rds.amazonaws.com:3306/dongnebook
     username: admin
-    password: '02020202'
+    password: ${RDS_PASSWORD}
   jpa:
     defer-datasource-initialization: true
     hibernate:
