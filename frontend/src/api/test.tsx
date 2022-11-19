@@ -51,11 +51,46 @@ export const getMerchantList = async (
 	}
 };
 
-// // 회원정보 수정
-// export const patchUserInfo = async (id: string) =>
-// 	try {
-// 		const result = await instance.patch(`/member/${id}/edit`);
-// 		return result.data;
-// 	} catch (err) {
-// 		return err;
-// 	};
+// // 섹터당 책의 총 갯수
+export const getTotalBook = async (
+	bookTitle: string,
+	latitude: string | number,
+	longitude: string | number,
+) => {
+	try {
+		const result = await instance.get(`/books/count`, {
+			params: {
+				bookTitle,
+				latitude,
+				longitude,
+			},
+		});
+		console.log(result);
+		return result.data;
+	} catch (err) {
+		return err;
+	}
+};
+
+// // 섹터당 책 목록
+export const getBookList = async (
+	name: string,
+	latitude: string,
+	longitude: string,
+	sector: number,
+) => {
+	try {
+		const result = await instance.get(`/books/sector`, {
+			params: {
+				name,
+				latitude,
+				longitude,
+				sector,
+			},
+		});
+		console.log(result.data);
+		return result.data;
+	} catch (err) {
+		return err;
+	}
+};
