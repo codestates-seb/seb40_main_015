@@ -41,7 +41,6 @@
 		"react-calendar": "^4.0.0",
 		"react-dom": "^18.2.0",
 		"react-icons": "^4.6.0",
-		"react-query": "^3.39.2",
 		"react-redux": "^8.0.5",
 		"react-router-dom": "^6.4.3",
 		"react-scripts": "5.0.1",
