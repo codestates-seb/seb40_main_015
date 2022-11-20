@@ -37,18 +37,7 @@ public class Location {
 			", 경도='" + longitude + '\'' +
 			"입니다}";
 	}
-
-
-	// public static List<Double> latRangeList(Double latitude){
-	// 	return Arrays.asList(latitude + 0.00454, latitude + 0.00151, latitude - 0.00151,
-	// 		latitude - 0.00454);
-	// }
-	//
-	// public static List<Double> lonRangeList(Double longitude){
-	// 	return Arrays.asList(longitude - 0.00554, longitude - 0.00186, longitude + 0.00186,
-	// 		longitude + 0.00554);
-	// }
-
+  
 	public static List<Double> latRangeList(Double latitude,Integer length) {
 
 		if (Objects.isNull(latitude)) {
@@ -71,11 +60,7 @@ public class Location {
 
 		return Arrays.asList(longitude - (range * 3), longitude - range, longitude + range,
 			longitude + range * 3);
+
 	}
-
-
-
-
-
 }
 

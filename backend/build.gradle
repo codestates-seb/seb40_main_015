@@ -24,12 +24,13 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-web'
     implementation 'org.springframework.boot:spring-boot-starter-validation'
     implementation 'org.springframework.boot:spring-boot-starter-data-jdbc'
+    runtimeOnly 'mysql:mysql-connector-java'
 
     compileOnly 'org.projectlombok:lombok'
     annotationProcessor 'org.projectlombok:lombok'
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
     testImplementation 'org.springframework.security:spring-security-test'
-    runtimeOnly 'com.h2database:h2'
+//    runtimeOnly 'com.h2database:h2'
     implementation "com.h2database:h2"
     testCompileOnly 'org.projectlombok:lombok:1.18.12' // 테스트 의존성 추가
     testAnnotationProcessor 'org.projectlombok:lombok:1.18.12' // 테스트 의존성 추가

@@ -1,4 +1,5 @@
 import styled from 'styled-components';
+import { useNavigate } from 'react-router-dom';
 
 interface Props {
 	merchantList: any;
@@ -6,9 +7,13 @@ interface Props {
 
 const MerchantLists = (props: Props) => {
 	const { merchantList } = props;
+	const navigate = useNavigate();
+	// const handleSearchMerchantInfo = (id: string) => {
+	// 	navigate(`/profile/${id}`);
+	// };
 	return (
 		<>
-			{merchantList?.map((item: any) => {
+			{merchantList?.content.map((item: any) => {
 				const { merchantName, merchantId } = item;
 				return (
 					<List key={merchantId}>

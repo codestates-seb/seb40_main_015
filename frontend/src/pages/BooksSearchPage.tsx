@@ -3,10 +3,28 @@ import styled from 'styled-components';
 import { TbCurrentLocation } from 'react-icons/tb';
 import Search from '../components/Map/Search';
 import Map from '../components/Map/Map';
+import { getMerchantList } from '../api/test';
+import { data } from '../components/Map/dummy';
+
 const BooksSearchPage = () => {
 	const [current, setCurrent] = useState<any>();
 	const [searchInput, setSearchInput] = useState('');
 	const [reset, setReset] = useState(false);
+	const [selectOverlay, setSelectOverlay] = useState(null);
+	const [merchantSector, setMerchantSector] =
+		useState<MerchantSectorProps[]>(data);
+	const [merchantLists, setMerchantLists] = useState();
+	const [bookSector, setBookSector] = useState();
+	const [bookLists, setBookLists] = useState();
+
+	interface MerchantSectorProps {
+		merchantCount: number;
+		sector: number;
+		representativeLocation: {
+			lat: string;
+			lon: string;
+		};
+	}
 
 	const handleCurrentLocationMove = () => {
 		let lat = 0;
@@ -24,6 +42,28 @@ const BooksSearchPage = () => {
 			options,
 		);
 	};
+
+	console.log(selectOverlay);
+
+	useEffect(() => {
+		if (selectOverlay) {
+			const {
+				sector,
+				representativeLocation,
+			}: {
+				sector: number;
+				representativeLocation: { lat: string; lon: string };
+			} = selectOverlay;
+			const latitude = representativeLocation.lat;
+			const longitude = representativeLocation.lon;
+			getMerchantList(latitude, longitude, sector).then(res => {
+				if (res) {
+					setMerchantLists(res);
+				}
+			});
+		}
+	}, [selectOverlay]);
+
 	return (
 		<Container>
 			<FlexBox>
@@ -31,6 +71,9 @@ const BooksSearchPage = () => {
 					searchInput={searchInput}
 					setSearchInput={setSearchInput}
 					setReset={setReset}
+					current={current}
+					setMerchantSector={setMerchantSector}
+					setBookSector={setBookSector}
 				/>
 				<TbCurrentLocation
 					className="location"
@@ -38,7 +81,13 @@ const BooksSearchPage = () => {
 					onClick={handleCurrentLocationMove}
 				/>
 			</FlexBox>
-			<Map current={current} setCurrent={setCurrent} reset={reset} />
+			<Map
+				current={current}
+				setCurrent={setCurrent}
+				reset={reset}
+				setSelectOverlay={setSelectOverlay}
+				merchantSector={merchantSector}
+			/>
 		</Container>
 	);
 };

@@ -33,29 +33,4 @@ public class BookSearchCondition {
 		this.sector = sector;
 	}
 
-	// public List<Double> latRangeList() {
-	//
-	// 	if (Objects.isNull(this.latitude)) {
-	// 		return null;
-	// 	}
-	//
-	// 	double range = ((this.length / 1.1)/100000) / 6;
-	// 	double centralLat = this.latitude;
-	//
-	// 	return Arrays.asList(centralLat + (range * 3), centralLat + range, centralLat - range,
-	// 		centralLat - range * 3);
-	// }
-	//
-	// public List<Double> lonRangeList() {
-	//
-	// 	if (Objects.isNull(this.longitude)) {
-	// 		return null;
-	// 	}
-	//
-	// 	double range = ((this.width / 0.9)/100000) / 6;
-	// 	double centralLon = this.longitude;
-	//
-	// 	return Arrays.asList(centralLon - (range * 3), centralLon - range, centralLon + range,
-	// 		centralLon + range * 3);
-	// }
 }

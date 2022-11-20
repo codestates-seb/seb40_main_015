@@ -3,43 +3,94 @@ import styled from 'styled-components';
 import dummyImage from '../../assets/image/dummy.png';
 import convertDate from '../../utils/convertDate';
 import LendStatusButton from './LendStatusButton';
+import { lendDummy } from './dummy';
+
+interface ListProps {
+	bookInfo: {
+		bookId: string;
+		bookUrl: string;
+		title: string;
+		author: string;
+		publisher: string;
+		rental_fee: string;
+		bookDescription: string;
+		location: {
+			lat: string;
+			lon: string;
+		};
+		bookStatus: string;
+		merchantName: string;
+	};
+	rentalInfo: {
+		rentalId: string;
+		customerName: string;
+		rentalState: string;
+		rentalStartedAt: string;
+		rentalDeadline: string;
+		rentalReturnedAt: string;
+		rentalCanceledAt: string;
+	};
+}
 
 const LentBookLists = () => {
-	const [test, setTest] = useState<number[]>([1, 2, 3, 4, 5]);
-	const [state, setState] = useState([
-		'TRADING',
-		'BEING_RENTED',
-		'RETURN_UNREVIEWED',
-		'RETURN_REVIEWED',
-		'CANCELED',
-	]);
-	const from = '2022-11-15T00:17:34.045376400';
-	const to = '2022-11-21T00:17:34.045376400';
+	const [test, setTest] = useState<ListProps[]>(lendDummy);
 
 	return (
 		<Box>
 			{test
 				? test.map((item, i) => {
+						const { bookInfo, rentalInfo } = item;
+						const { bookId, author, title, publisher, merchantName } = bookInfo;
+						const {
+							rentalState,
+							rentalStartedAt,
+							rentalDeadline,
+							rentalReturnedAt,
+							rentalCanceledAt,
+							customerName,
+						} = rentalInfo;
 						return (
-							<Wrapper key={item}>
+							<Wrapper key={bookId}>
 								<Container>
 									<FlexBox>
 										<img src={dummyImage} alt="" width={90} height={105} />
 										<InfoWrapped>
-											<p>모던 자바스크립트</p>
-											<p>상인 이름</p>
-											<p>저자 / 출판사</p>
-											<p>대여기간</p>
-											<p>{convertDate(from, to, true)}</p>
+											<p>{title}</p>
+											<p>{merchantName}</p>
+											<p>
+												{author} / {publisher}
+											</p>
 										</InfoWrapped>
 									</FlexBox>
 								</Container>
 								<BottomContainer>
 									<UserInfoBox>
-										<span>주민: 김주민</span>
-										<span>대여기간: {convertDate(from, to)}</span>
+										<span>주민: {customerName}</span>
+										{(rentalState === 'TRADING' ||
+											rentalState === 'BEING_RENTED') && (
+											<p>
+												대여기간:{' '}
+												{convertDate(rentalStartedAt, rentalDeadline, true)}
+											</p>
+										)}
+										{(rentalState === 'RETURN_UNREVIEWED' ||
+											rentalState === 'RETURN_REVIEWED') && (
+											<p>
+												대여기간:{' '}
+												{convertDate(rentalStartedAt, rentalReturnedAt, true)}
+											</p>
+										)}
+										{rentalState === 'CANCELED' && (
+											<p>
+												대여기간:{' '}
+												{convertDate(rentalStartedAt, rentalCanceledAt, true)}
+											</p>
+										)}
 									</UserInfoBox>
-									<LendStatusButton status={state[i]} />
+									<LendStatusButton
+										status={rentalState}
+										customerName={customerName}
+									/>
 								</BottomContainer>
 							</Wrapper>
 						);
@@ -55,7 +106,7 @@ const Box = styled.div`
 
 const Wrapper = styled.div`
 	width: 100%;
-	max-width: 850px;
+	/* max-width: 850px; */
 	display: flex;
 	flex-direction: column;
 	margin-bottom: 1rem;
