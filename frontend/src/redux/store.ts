@@ -22,6 +22,7 @@ const loginPersistConfig = {
 // const rootReducer = combineReducers({
 // 	notification: notificationReducer,
 // 	loginInfo: persistReducer(loginPersistConfig, loginInfoReducer),
+
 // });
 
 // const persistedReducer = persistReducer(persistConfig, rootReducer);
