@@ -1,9 +1,8 @@
 import { useEffect, useState, useRef, Dispatch, SetStateAction } from 'react';
 import styled, { keyframes } from 'styled-components';
 import BookLists from './BookLists';
-import { data, bookLists, merchantList } from './dummy';
+import { data, dummyMerchantList, bookCount } from './dummy';
 import MerchantLists from './MerchantLists';
-import { getTotalMerchant } from '../../api/test';
 
 declare global {
 	interface Window {
@@ -12,7 +11,17 @@ declare global {
 }
 
 interface MarkerProps {
-	merchantCount: number;
+	merchantCount?: number;
+	totalBookCount?: number;
+	sector: number;
+	representativeLocation: {
+		lat: string;
+		lon: string;
+	};
+}
+
+interface BookMarkerProps {
+	totalBookCount: number;
 	sector: number;
 	representativeLocation: {
 		lat: string;
@@ -26,12 +35,29 @@ interface MapProps {
 	reset: boolean;
 	setSelectOverlay: Dispatch<SetStateAction<any>>;
 	merchantSector: any;
+	setMerchantSector: Dispatch<SetStateAction<any>>;
+	merchantLists: MarkerProps[];
+	setMerchantLists: Dispatch<SetStateAction<any>>;
+	bookSector: any;
+	setBookSector: Dispatch<SetStateAction<any>>;
+	bookLists: any;
 }
 
 const { kakao } = window;
 const Map = (props: MapProps) => {
-	const { current, setCurrent, reset, setSelectOverlay, merchantSector } =
-		props;
+	const {
+		current,
+		setCurrent,
+		reset,
+		setSelectOverlay,
+		merchantSector,
+		setMerchantSector,
+		merchantLists,
+		setMerchantLists,
+		bookSector,
+		setBookSector,
+		bookLists,
+	} = props;
 	const [centerCoord, setCenterCoord] = useState({ La: '0', Ma: '0' });
 
 	let mapContainer = useRef(null); // 지도를 표시할 div
@@ -55,12 +81,12 @@ const Map = (props: MapProps) => {
 					data[i].representativeLocation.lat,
 					data[i].representativeLocation.lon,
 				),
-				title: data[i].merchantCount,
+				title: data[i].merchantCount || data[i].totalBookCount,
 				image: markerImage,
 			});
-			if (reset) {
-				marker.setMap(null);
-			}
+			// if (reset) {
+			// 	marker.setMap(null);
+			// }
 
 			kakao.maps.event.addListener(marker, 'click', function () {
 				alert('마커를 클릭했습니다!');
@@ -69,15 +95,21 @@ const Map = (props: MapProps) => {
 			//커스텀 오버레이
 			let content = document.createElement('div');
 			content.setAttribute('class', 'overlay');
-			if (data[i].merchantCount < 10) {
+			if (data[i].merchantCount! < 10 || data[i].totalBookCount! < 10) {
 				content.style.width = '5rem';
 				content.style.height = '5rem';
 				content.style.fontSize = '2rem';
-			} else if (data[i].merchantCount < 100) {
+			} else if (
+				data[i].merchantCount! < 100 ||
+				data[i].totalBookCount! < 100
+			) {
 				content.style.width = '6rem';
 				content.style.height = '6rem';
 				content.style.fontSize = '2.5rem';
-			} else if (data[i].merchantCount < 1000) {
+			} else if (
+				data[i].merchantCount! < 1000 ||
+				data[i].totalBookCount! < 1000
+			) {
 				content.style.width = '7rem';
 				content.style.height = '7rem';
 				content.style.fontSize = '2.7rem';
@@ -91,7 +123,9 @@ const Map = (props: MapProps) => {
 			content.style.display = 'flex';
 			content.style.alignItems = 'center';
 			content.style.justifyContent = 'center';
-			content.innerText = String(data[i].merchantCount);
+			content.innerText = String(
+				data[i].merchantCount || data[i].totalBookCount,
+			);
 			//커스텀 오버레이 클릭 이벤트
 			content.onclick = () => {
 				setSelectOverlay(data[i]);
@@ -123,9 +157,6 @@ const Map = (props: MapProps) => {
 				xAnchor: 0.5, // 컨텐츠의 x 위치
 				yAnchor: 0.7, // 컨텐츠의 y 위치
 			});
-			if (reset) {
-				customOverlay.setMap(null);
-			}
 			kakao.maps.event.addListener(customOverlay, 'click', function () {
 				alert('오버레이를 클릭했습니다!');
 			});
@@ -135,24 +166,22 @@ const Map = (props: MapProps) => {
 	//카카오맵을 띄웁니다
 	useEffect(() => {
 		let map = new kakao.maps.Map(mapContainer.current, mapOption); // 지도를 생성합니다
-		if (merchantSector) {
+		if (merchantSector.length) {
 			ShowMultipleMarkers(map, merchantSector);
+		}
+		if (bookSector.length) {
+			ShowMultipleMarkers(map, bookSector);
 		}
 
 		// 지도 드래깅 이벤트를 등록한다 (드래그 시작 : dragstart, 드래그 종료 : dragend)
 		kakao.maps.event.addListener(map, 'dragend', function () {
 			let centerCoord = map.getCenter();
 			setCenterCoord(centerCoord);
-			let message =
-				'지도를 드래그 하고 있습니다. ' +
-				'지도의 중심 좌표는 ' +
-				centerCoord.toString() +
-				' 입니다.';
 		});
 
 		// map.setCenter(current);
 		// 확대 축소 기능을 막습니다 -> 해당 부분 확대 기능만 추가하기(setLevel 메소드)
-		// function setZoomable(zoomable: any) {
+		// function setZoomable(zoomable: boolean) {
 		// 	map.setZoomable(zoomable);
 		// }
 		// setZoomable(false);
@@ -160,15 +189,12 @@ const Map = (props: MapProps) => {
 		map.setMaxLevel(5);
 
 		// HTML5의 geolocation으로 사용할 수 있는지 확인합니다
-		if (merchantSector) {
-			ShowMultipleMarkers(map, merchantSector);
-		}
 		if (current) {
 			let locPosition = new kakao.maps.LatLng(current.Ma, current.La); // 마커가 표시될 위치를 geolocation으로 얻어온 좌표로 생성합니다
 			// 마커를 표시합니다
 			displayMarker(locPosition);
 			let options = {
-				enableHighAccuracy: false,
+				enableHighAccuracy: true,
 			};
 			navigator.geolocation.getCurrentPosition(
 				function (position) {
@@ -178,8 +204,8 @@ const Map = (props: MapProps) => {
 					let locPosition = new kakao.maps.LatLng(lat, lon); // 마커가 표시될 위치를 geolocation으로 얻어온 좌표로 생성합니다
 
 					if (locPosition.La !== current.La && locPosition.Ma !== current.Ma) {
-						console.log(locPosition, current);
-						console.log('다름');
+						// console.log(locPosition, current);
+						// console.log('다름');
 						setCurrent(locPosition);
 						// 마커를 표시합니다
 						displayMarker(locPosition);
@@ -220,6 +246,7 @@ const Map = (props: MapProps) => {
 					coords: '1,20,1,9,5,2,10,0,21,0,27,3,30,9,30,20,17,33,14,33',
 				},
 			);
+
 			let marker = new kakao.maps.Marker({
 				map: map,
 				position: locPosition,
@@ -229,23 +256,31 @@ const Map = (props: MapProps) => {
 			// 지도 중심좌표를 접속위치로 변경합니다
 			map.setCenter(locPosition);
 		}
-	}, [current, reset, merchantSector]);
+	}, [current, reset, merchantSector, bookSector]);
 
 	useEffect(() => {
 		// centerCoord 변경될때마다 주변상인 정보 api 호출하기
-
-		console.log('현재위치 변경됨 주변 상인정보 다시 요청');
-		getTotalMerchant(centerCoord?.Ma, centerCoord?.La).then(res =>
-			console.log(res),
-		);
+		if (bookSector.length === 0) {
+			console.log('현재위치 변경됨 주변 상인정보 다시 요청');
+			setMerchantSector(data);
+		}
+		if (merchantSector.length === 0) {
+			console.log('현재위치 변경됨 주변 책정보 다시 요청');
+			setBookSector(bookCount);
+		}
+		// getTotalMerchant(centerCoord?.Ma, centerCoord?.La).then(res => {
+		// 	// setMerchantSector(res.content);
+		// });
 	}, [centerCoord]);
 
 	return (
 		<div style={{ width: '100vw', height: '100%' }}>
 			<Container id="map" ref={mapContainer} />
 			<Search>
-				{/* <MerchantLists merchantList={merchantList} /> */}
-				<BookLists bookLists={bookLists} />
+				{merchantLists.length > 0 && (
+					<MerchantLists merchantList={dummyMerchantList} />
+				)}
+				{bookLists.length > 0 && <BookLists bookLists={bookLists} />}
 			</Search>
 		</div>
 	);
@@ -280,28 +315,15 @@ const MoveLists = keyframes`
 
 const Search = styled.div`
 	border-radius: 30px 30px 0px 0px;
-	box-shadow: 20px 20px 20px 20px grey;
+	/* box-shadow: 20px 20px 20px 20px grey; */
 	max-height: 220px;
-	overflow-y: scroll;
+	overflow-y: hidden;
 	position: relative;
 	bottom: 220px;
 	z-index: 1000;
 	opacity: 0.9;
 	transform: translateY(px);
 	animation: ${MoveLists} 1s;
-`;
-
-const List = styled.div`
-	padding-top: 30px;
-	padding-bottom: 30px;
-	display: flex;
-	align-items: center;
-	justify-content: center;
-	background-color: white;
-	border-bottom: 0.5px solid rgb(196, 182, 186);
-	:hover {
-		background-color: ${props => props.theme.colors.background};
-	}
 `;
 
 export default Map;
