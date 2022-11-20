@@ -7,8 +7,8 @@ const LoginNeed = () => {
 		<AuthWrapper>
 			<AuthRequired>
 				<AuthRequiredTitle>
-					{/* <LogoImg src={logo} /> */}
-					<span>동네숲 주민만 이용할 수 있어요 ㅠㅠ</span>
+					<LogoImg src={logo} />
+					<span>해당 페이지는 동네북 회원만 이용할 수 있습니다</span>
 				</AuthRequiredTitle>
 
 				<AuthRequiredBody>
@@ -56,8 +56,12 @@ const AuthRequiredTitle = styled.div`
 
 	span {
 		/* font-size: ${props => props.theme.fontSizes.subtitle}; */
-		font-size: 3rem;
+		font-size: 2.5rem;
 		font-family: 'kotra';
+		/* display: flex;
+		align-items: center;
+		justify-content: center;
+		padding-left: 10px; */
 	}
 `;
 const AuthRequiredBody = styled.div`
