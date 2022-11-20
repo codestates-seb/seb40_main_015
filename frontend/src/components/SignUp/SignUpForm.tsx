@@ -1,86 +1,82 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import styled from 'styled-components';
-import { PASSWORD_REGEX } from '../../constants/constants';
+import { useValidate } from '../../hooks/useValidate';
 import { useAppDispatch } from '../../redux/hooks';
+import { makeSignUpMessages } from '../../utils/makeSignUpMessages';
 import notify from '../../utils/notify';
 import Button from '../common/Button';
 import Clause from './Clause';
 import IdSection from './IdSection';
 import PasswordSection from './PasswordSection';
 
+export type inputKeys = 'id' | 'nickname' | 'password' | 'passwordCheck';
+
 const SignUpForm = () => {
-	const [id, setId] = useState('');
-	const [isValidId, setIsValidId] = useState(false);
-	const [nickname, setNickname] = useState('');
-	const [isValidNickname, setIsValidNickname] = useState(false);
-	const [password, setPassword] = useState('');
-	const [passwordError, setPasswordError] = useState(false);
-	const [passwordCheck, setPasswordCheck] = useState('');
-	const [passwordCheckError, setPasswordCheckError] = useState(false);
+	const [inputs, setInputs] = useState({
+		id: '',
+		nickname: '',
+		password: '',
+		passwordCheck: '',
+	});
+	const [isValid, setIsValid] = useState({
+		id: false,
+		nickname: false,
+		password: false,
+		passwordCheck: false,
+	});
 	const [isChecked, setIsChecked] = useState(false);
+
 	const dispatch = useAppDispatch();
-	const idSectionData = [
-		{ label: '아이디', state: id, setState: setId, validate: setIsValidId },
-		{
-			label: '닉네임',
-			state: nickname,
-			setState: setNickname,
-			validate: setIsValidNickname,
-		},
-	];
-	const passwordSectionData = [
-		{
-			label: '비밀번호',
-			state: password,
-			setState: setPassword,
-			error: passwordError,
-			type: 'password',
-		},
-		{
-			label: '비밀번호 확인',
-			state: passwordCheck,
-			setState: setPasswordCheck,
-			error: passwordCheckError,
-			type: 'passwordCheck',
-		},
-	];
-	const notifyMessages = new Map([
-		[!isChecked, '약관에 동의해주세요 ☺️'],
-		[!passwordCheck || passwordCheckError, '비밀번호 확인을 맞게 입력해주세요'],
-		[!password || passwordError, '올바른 비밀번호를 입력해주세요'],
-		[!isValidNickname, '닉네임 중복여부를 확인해주세요'],
-		[!isValidId, '아이디 중복여부를 확인해주세요'],
-		[!nickname, '닉네임을 입력해 주세요'],
-		[!id, '아이디를 입력해 주세요'],
-	]);
-
-	const validateInput = () => {
-		if (password && !PASSWORD_REGEX.test(password)) setPasswordError(true);
-		else if (PASSWORD_REGEX.test(password)) setPasswordError(false);
-
-		if (password !== passwordCheck) setPasswordCheckError(true);
-		else if (password === passwordCheck) setPasswordCheckError(false);
-	};
-
-	useEffect(() => {
-		validateInput();
-		// eslint-disable-next-line react-hooks/exhaustive-deps
-	}, [password, passwordCheck]);
-
+	const notifyMessages = makeSignUpMessages(inputs, isValid, isChecked);
 	const goNotify = (message: string) => notify(dispatch, message);
-
 	const handleSubmit = (e: React.SyntheticEvent) => {
 		e.preventDefault();
-		validateInput();
 		notifyMessages.forEach((message, notifyCase) => {
 			if (notifyCase) goNotify(message);
 		});
 	};
 
+	const getSectionProps = (label: string, select: inputKeys) => {
+		const state = inputs[select];
+		const setState = (value: string) =>
+			setInputs(pre => {
+				return {
+					...pre,
+					[select]: value,
+				};
+			});
+		const validity = isValid[select];
+		const setValidity = (value: boolean) =>
+			setIsValid(pre => {
+				return {
+					...pre,
+					[select]: value,
+				};
+			});
+		const type = select.includes('password') ? 'password' : 'text';
+		return { label, state, setState, validity, setValidity, type };
+	};
+
+	useValidate(
+		inputs.password,
+		inputs.passwordCheck,
+		(input: inputKeys, value: boolean) =>
+			setIsValid(pre => {
+				return { ...pre, [input]: value };
+			}),
+	);
+
 	return (
 		<StyledSignUpForm onSubmit={handleSubmit}>
-			<IdSection idSectionData={idSectionData} notify={goNotify} />
-			<PasswordSection passwordSectionData={passwordSectionData} />
+			<IdSection data={getSectionProps('아이디', 'id')} notify={goNotify} />
+			<IdSection
+				data={getSectionProps('닉네임', 'nickname')}
+				notify={goNotify}
+			/>
+			<PasswordSection data={getSectionProps('비밀번호', 'password')} />
+			<PasswordSection
+				data={getSectionProps('비밀번호 확인', 'passwordCheck')}
+			/>
 			<Clause isChecked={isChecked} setIsChecked={setIsChecked} />
 			<StyledButton>회원가입</StyledButton>
 		</StyledSignUpForm>
