@@ -9,6 +9,7 @@ import { useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { login } from '../../redux/slice/userSlice';
 import { axiosInstanceAuth } from '../../api';
+import { useNotifyHook } from '../../hooks/useNotify';
 
 //type
 interface loginProps {
@@ -36,6 +37,9 @@ const LoginForm = () => {
 	const distpatch = useDispatch();
 	const navigate = useNavigate();
 
+	// noti
+	const notify = useNotifyHook();
+
 	const { mutate, data, isLoading, isSuccess, isError } = useMutation({
 		mutationFn: () =>
 			fetchLogin({
@@ -48,6 +52,7 @@ const LoginForm = () => {
 				headers: { authorization },
 			} = res;
 			distpatch(login({ ...data, accessToken: authorization, isLogin: true }));
+			notify(`${data.nickname}님 안녕하세요`);
 			navigate('/books');
 		},
 		onError: res => {
