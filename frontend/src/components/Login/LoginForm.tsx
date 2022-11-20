@@ -1,13 +1,14 @@
-import axios, { AxiosPromise } from 'axios';
 import { useState } from 'react';
 import styled from 'styled-components';
-import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
+import { useMutation } from '@tanstack/react-query';
+
 //components
 import Button from '../common/Button';
 import Input from '../common/Input';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { login } from '../../redux/slice/userSlice';
+import { axiosInstanceAuth } from '../../api';
 
 //type
 interface loginProps {
@@ -20,20 +21,12 @@ interface userInfo {
 	nickname: string;
 	headers?: { authorization: string };
 }
-// constant
-const BASE_URL = process.env.REACT_APP_HOST;
 
-//axios
-const axiosInstance = axios.create({
-	baseURL: BASE_URL,
-	withCredentials: true,
-	timeout: 3000,
-});
-
-// login fetch post api
+// login post api
 const fetchLogin = async (payload: loginProps) => {
-	return await axiosInstance.post<userInfo>('/auth/login', payload);
+	return await axiosInstanceAuth.post<userInfo>('/auth/login', payload);
 };
+
 const LoginForm = () => {
 	const [id, setId] = useState('');
 	const [password, setPassword] = useState('');
