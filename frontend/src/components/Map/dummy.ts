@@ -75,80 +75,80 @@ export const data = [
 
 export const bookCount = [
 	{
-		totalBookCount: 3,
+		totalBookCount: 25,
 		sector: 1,
 		representativeLocation: {
-			lat: '37.15163546132',
-			lon: '129.2132451321',
+			lat: '37.39277543968578',
+			lon: '126.93629486796846',
 		},
 	},
 	{
-		totalBookCount: 241,
+		totalBookCount: 252,
 		sector: 2,
 		representativeLocation: {
-			lat: '37.15163546132',
-			lon: '125.2132451321',
+			lat: '37.39271348204709',
+			lon: '126.93503012423825',
 		},
 	},
 	{
-		totalBookCount: 412431,
+		totalBookCount: 12,
 		sector: 3,
 		representativeLocation: {
-			lat: '57.15163546132',
-			lon: '128.2132451321',
-		},
-	},
-	{
-		totalBookCount: 34636345345,
-		sector: 4,
-		representativeLocation: {
-			lat: '67.15163546132',
-			lon: '128.2132451321',
-		},
-	},
-	{
-		totalBookCount: 111,
-		sector: 5,
-		representativeLocation: {
-			lat: '17.15163546132',
-			lon: '128.2132451321',
-		},
-	},
-	{
-		totalBookCount: 544,
-		sector: 6,
-		representativeLocation: {
-			lat: '27.15163546132',
-			lon: '128.2132451321',
-		},
-	},
-	{
-		totalBookCount: 0,
-		sector: 7,
-		representativeLocation: {
-			lat: '26.15163546132',
-			lon: '128.2132451321',
+			lat: '37.39356427430288',
+			lon: '126.9354449705146',
 		},
 	},
 	{
 		totalBookCount: 4,
-		sector: 8,
+		sector: 4,
 		representativeLocation: {
-			lat: '17.15163546132',
-			lon: '128.2132451321',
+			lat: '37.39198970222246',
+			lon: '126.93620970826674',
 		},
 	},
 	{
-		totalBookCount: 5254234,
+		totalBookCount: 166,
+		sector: 5,
+		representativeLocation: {
+			lat: '37.49511841048171',
+			lon: '126.92184207141253',
+		},
+	},
+	{
+		totalBookCount: 23,
+		sector: 6,
+		representativeLocation: {
+			lat: '37.49292835574315',
+			lon: '126.91828010572407',
+		},
+	},
+	{
+		totalBookCount: 321,
+		sector: 7,
+		representativeLocation: {
+			lat: '37.49189717824911',
+			lon: '126.92301238656695',
+		},
+	},
+	{
+		totalBookCount: 55,
+		sector: 8,
+		representativeLocation: {
+			lat: '37.49049786390108',
+			lon: '126.92156645934426',
+		},
+	},
+	{
+		totalBookCount: 3,
 		sector: 9,
 		representativeLocation: {
-			lat: '37.15163546132',
-			lon: '168.2132451321',
+			lat: '37.492893955476916',
+			lon: '126.92068646170932',
 		},
 	},
 ];
 
-export const bookLists = [
+export const bookListsDummy = [
 	{
 		bookId: '1',
 		title: '모던 자바스크립트',
@@ -185,9 +185,27 @@ export const bookLists = [
 		status: '대여가능',
 		merchantName: '책팔아요',
 	},
+	{
+		bookId: '7',
+		title: '모던 자바스크립트',
+		status: '예약가능',
+		merchantName: '역삼북스',
+	},
+	{
+		bookId: '8',
+		title: '모던 자바스크립트',
+		status: '대여/예약불가',
+		merchantName: '강남문고',
+	},
+	{
+		bookId: '9',
+		title: '모던 자바스크립트',
+		status: '대여가능',
+		merchantName: '책팔아요',
+	},
 ];
 
-export const merchantList = {
+export const dummyMerchantList = {
 	content: [
 		{
 			merchantId: '1',
