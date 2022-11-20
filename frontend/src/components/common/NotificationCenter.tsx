@@ -1,14 +1,22 @@
+import { SiAtandt } from 'react-icons/si';
 import { useSelector } from 'react-redux';
 import styled from 'styled-components';
+import { useAppSelector } from '../../redux/hooks';
 import { notificationType } from '../../redux/slice/notificationSlice';
 import Toast from './Toast';
 
 interface RootState {
 	notification: notificationType;
 }
+// interface RootState {
+// 	persistedReducer: { notification: notificationType };
+// }
 
 const NotificationCenter = () => {
 	const state = useSelector((state: RootState) => state.notification).messages;
+	// const state = useAppSelector(
+	// 	(state: RootState) => state.persistedReducer.notification.messages,
+	// );
 	return (
 		<StyledNotificationCenter>
 			{state.map(n => (

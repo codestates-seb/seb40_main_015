@@ -1,6 +1,6 @@
 import { configureStore, combineReducers } from '@reduxjs/toolkit';
 import storage from 'redux-persist/lib/storage';
-import { persistStore, PURGE } from 'redux-persist';
+import { persistStore } from 'redux-persist';
 import persistReducer from 'redux-persist/lib/persistReducer';
 
 // slices
@@ -28,6 +28,10 @@ const persistedReducer = persistReducer(persistConfig, rootReducer);
 
 export const store = configureStore({
 	reducer: persistedReducer,
+	// reducer: {
+	// 	persistedReducer: persistReducer(persistConfig, notificationReducer),
+	// 	loginInfo: persistReducer(loginPersistConfig, loginInfoReducer),
+	// },
 
 	middleware: getDefaultMiddleware =>
 		getDefaultMiddleware({
