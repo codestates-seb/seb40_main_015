@@ -1,6 +1,6 @@
 export const data = [
 	{
-		merchantCount: 3,
+		merchantCount: 13,
 		sector: 1,
 		representativeLocation: {
 			lat: '37.39277543968578',
@@ -16,7 +16,7 @@ export const data = [
 		},
 	},
 	{
-		merchantCount: 3,
+		merchantCount: 232,
 		sector: 3,
 		representativeLocation: {
 			lat: '37.39356427430288',
@@ -24,7 +24,7 @@ export const data = [
 		},
 	},
 	{
-		merchantCount: 4,
+		merchantCount: 555,
 		sector: 4,
 		representativeLocation: {
 			lat: '37.39198970222246',
@@ -32,7 +32,7 @@ export const data = [
 		},
 	},
 	{
-		merchantCount: 9,
+		merchantCount: 12,
 		sector: 5,
 		representativeLocation: {
 			lat: '37.49511841048171',
@@ -40,7 +40,7 @@ export const data = [
 		},
 	},
 	{
-		merchantCount: 7,
+		merchantCount: 124,
 		sector: 6,
 		representativeLocation: {
 			lat: '37.49292835574315',
@@ -48,7 +48,7 @@ export const data = [
 		},
 	},
 	{
-		merchantCount: 10,
+		merchantCount: 333,
 		sector: 7,
 		representativeLocation: {
 			lat: '37.49189717824911',
@@ -64,7 +64,7 @@ export const data = [
 		},
 	},
 	{
-		merchantCount: 5,
+		merchantCount: 99,
 		sector: 9,
 		representativeLocation: {
 			lat: '37.492893955476916',
@@ -163,6 +163,24 @@ export const bookLists = [
 	},
 	{
 		bookId: '3',
+		title: '모던 자바스크립트',
+		status: '대여가능',
+		merchantName: '책팔아요',
+	},
+	{
+		bookId: '4',
+		title: '모던 자바스크립트',
+		status: '예약가능',
+		merchantName: '역삼북스',
+	},
+	{
+		bookId: '5',
+		title: '모던 자바스크립트',
+		status: '대여/예약불가',
+		merchantName: '강남문고',
+	},
+	{
+		bookId: '6',
 		title: '모던 자바스크립트',
 		status: '대여가능',
 		merchantName: '책팔아요',
