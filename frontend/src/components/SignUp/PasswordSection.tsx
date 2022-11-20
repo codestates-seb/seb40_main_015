@@ -3,33 +3,33 @@ import styled from 'styled-components';
 import Input from '../common/Input';
 import Bubble from './Bubble';
 
-type PasswordSectionDataProps = {
-	passwordSectionData: {
+type PasswordSectionProps = {
+	data: {
 		label: string;
 		state: string;
 		setState: Function;
-		error: boolean;
+		validity: boolean;
+		setValidity: Function;
 		type: string;
-	}[];
+	};
 };
 
-const PasswordSection = ({ passwordSectionData }: PasswordSectionDataProps) => {
+const PasswordSection = ({ data }: PasswordSectionProps) => {
+	const { label, state, setState, validity, type } = data;
 	return (
 		<div>
-			{passwordSectionData.map(el => (
-				<PasswordWrapper error={el.error} key={el.label}>
-					<Input
-						label={el.label}
-						state={el.state}
-						setState={el.setState}
-						type="password"
-					/>
-					<AlertSection error={el.error}>
-						<IoAlertCircle className="icon" />
-						<Bubble type={el.type} />
-					</AlertSection>
-				</PasswordWrapper>
-			))}
+			<PasswordWrapper error={validity} key={label}>
+				<Input
+					label={label}
+					state={state}
+					setState={setState}
+					type="password"
+				/>
+				<AlertSection error={validity}>
+					<IoAlertCircle className="icon" />
+					<Bubble type={type} />
+				</AlertSection>
+			</PasswordWrapper>
 		</div>
 	);
 };
