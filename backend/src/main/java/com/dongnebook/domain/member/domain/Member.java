@@ -3,7 +3,9 @@ package com.dongnebook.domain.member.domain;
 import javax.persistence.*;
 import javax.validation.constraints.Size;
 
+import com.dongnebook.domain.book.domain.Book;
 import com.dongnebook.domain.dibs.domain.Dibs;
+import com.dongnebook.domain.member.dto.request.MemberEditRequest;
 import com.dongnebook.domain.member.dto.request.MemberRegisterRequest;
 import com.dongnebook.domain.model.BaseTimeEntity;
 import com.dongnebook.domain.model.Location;
@@ -43,13 +45,16 @@ public class Member extends BaseTimeEntity {
 	private String avatarUrl;
 
 	@Column(name = "avg_grade")
-	private Long avgGrade;
+	private Long avgGrade = 4L;
 
 	@Enumerated(EnumType.STRING)
 	private Authority authority;
 
 	@OneToMany(mappedBy = "member",cascade = CascadeType.REMOVE)
 	private List<Dibs> dibsList = new ArrayList<>();
+
+	@OneToMany(mappedBy = "member")
+	private List<Book> bookList = new ArrayList<>();
 
 
 	@Builder
@@ -68,8 +73,10 @@ public class Member extends BaseTimeEntity {
 			.build();
 	}
 
-	public void changeLocation(Location location){
-		this.location = location;
+	public void edit(MemberEditRequest memberEditRequest){
+		this.avatarUrl = memberEditRequest.getAvatarUrl()==null ? this.avatarUrl : memberEditRequest.getAvatarUrl();
+		this.location = memberEditRequest.getLocation()==null ? this.location : memberEditRequest.getLocation();
+		this.nickname = memberEditRequest.getNickname()==null ? this.nickname : memberEditRequest.getNickname();
 	}
 
 }

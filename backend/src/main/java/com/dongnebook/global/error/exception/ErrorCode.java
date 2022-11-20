@@ -10,6 +10,7 @@ public enum ErrorCode {
 	INTERNAL_SERVER_ERROR(500, "서버 내부 오류"),
 	HANDLE_ACCESS_DENIED(403, "접근이 거부 되었습니다."),
 	METHOD_NOT_ALLOWED(405, "허용하지 않는 HTTP 메소드입니다."),
+	NOT_OWNER(404, "주인이 아닙니다."),
 
 
 	/* Member */
@@ -36,6 +37,7 @@ public enum ErrorCode {
 
 	/* Dibs */
 	DIBS_NOT_FOUND(404, "이 책을 찜한적이 없습니다.");
+
 
 
 

@@ -1,14 +1,81 @@
+import axios, { AxiosPromise } from 'axios';
 import { useState } from 'react';
 import styled from 'styled-components';
+import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
+//components
 import Button from '../common/Button';
 import Input from '../common/Input';
+import { useNavigate } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
+import { login } from '../../redux/slice/userSlice';
 
+//type
+interface loginProps {
+	userId: string;
+	password: string;
+}
+interface userInfo {
+	id: string;
+	userId: string;
+	nickname: string;
+	headers?: { authorization: string };
+}
+// constant
+const BASE_URL = process.env.REACT_APP_HOST;
+
+//axios
+const axiosInstance = axios.create({
+	baseURL: BASE_URL,
+	withCredentials: true,
+	timeout: 3000,
+});
+
+// login fetch post api
+const fetchLogin = async (payload: loginProps) => {
+	return await axiosInstance.post<userInfo>('/auth/login', payload);
+};
 const LoginForm = () => {
 	const [id, setId] = useState('');
 	const [password, setPassword] = useState('');
 
-	const handleSubmit = (e: React.SyntheticEvent) => {
+	const distpatch = useDispatch();
+
+	const navigate = useNavigate();
+
+	const { mutate, data, isLoading, isSuccess, isError } = useMutation({
+		mutationFn: () =>
+			fetchLogin({
+				userId: id,
+				password: password,
+			}),
+		onSuccess: res => {
+			const {
+				data,
+				headers: { authorization },
+			} = res;
+			distpatch(login({ ...data, accessToken: authorization, isLogin: true }));
+			navigate('/books');
+		},
+		onError: res => {
+			console.log('error : ', res);
+		},
+	});
+
+	const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
 		e.preventDefault();
+		mutate();
+		/*
+		axios({
+			method: 'post',
+			url: BASE_URL + '/auth/login',
+			withCredentials: true,
+			data: payload,
+			timeout: 5000,
+			headers: { ContentType: 'application/json' },
+		})
+			.then(data => console.log('res: ', data))
+			.then(err => console.error(err));
+      */
 	};
 
 	return (

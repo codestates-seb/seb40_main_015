@@ -3,38 +3,96 @@ import styled from 'styled-components';
 import { TbCurrentLocation } from 'react-icons/tb';
 import Search from '../components/Map/Search';
 import Map from '../components/Map/Map';
-
+import { getMerchantList } from '../api/test';
 const BooksSearchPage = () => {
 	const [current, setCurrent] = useState<any>();
-	const [centerCoord, setCenterCoord] = useState();
+	const [searchInput, setSearchInput] = useState('');
+	const [reset, setReset] = useState(false);
+	const [selectOverlay, setSelectOverlay] = useState(null);
+	const [merchantSector, setMerchantSector] = useState<MerchantSectorProps>();
+	const [merchantLists, setMerchantLists] = useState();
+	const [bookSector, setBookSector] = useState();
+	const [bookLists, setBookLists] = useState();
+
+	interface MerchantSectorProps {
+		merchantCount: number;
+		sector: number;
+		representativeLocation: {
+			lat: string;
+			lon: string;
+		};
+	}
+
+	const handleCurrentLocationMove = () => {
+		let lat = 0;
+		let lon = 0;
+		var options = {
+			enableHighAccuracy: true,
+		};
+		navigator.geolocation.getCurrentPosition(
+			position => {
+				lat = position.coords.latitude; // 위도
+				lon = position.coords.longitude; // 경도
+				setCurrent({ La: lon, Ma: lat });
+			},
+			null,
+			options,
+		);
+	};
+
+	console.log(selectOverlay);
+
+	useEffect(() => {
+		if (selectOverlay) {
+			const {
+				sector,
+				representativeLocation,
+			}: {
+				sector: number;
+				representativeLocation: { lat: string; lon: string };
+			} = selectOverlay;
+			const latitude = representativeLocation.lat;
+			const longitude = representativeLocation.lon;
+			getMerchantList(latitude, longitude, sector).then(res => {
+				if (res) {
+					setMerchantLists(res);
+				}
+			});
+		}
+	}, [selectOverlay]);
 
 	return (
-		<Box>
+		<Container>
 			<FlexBox>
-				<Search />
+				<Search
+					searchInput={searchInput}
+					setSearchInput={setSearchInput}
+					setReset={setReset}
+					current={current}
+					setMerchantSector={setMerchantSector}
+					setBookSector={setBookSector}
+				/>
 				<TbCurrentLocation
 					className="location"
 					size={40}
-					onClick={() => {
-						// onClickToggleModal();
-						// handleCurrentLocationMove();
-					}}
+					onClick={handleCurrentLocationMove}
 				/>
 			</FlexBox>
-			<Map />
-		</Box>
+			<Map
+				current={current}
+				setCurrent={setCurrent}
+				reset={reset}
+				setSelectOverlay={setSelectOverlay}
+			/>
+		</Container>
 	);
 };
 
-const Box = styled.div`
-	width: 100vw;
+const Container = styled.div`
+	width: 100%;
 	height: 93.5vh;
 	position: absolute;
-`;
-
-const Container = styled.div`
-	width: 100vw;
-	height: 93.5vh;
+	overflow-x: hidden;
 `;
 
 const FlexBox = styled.div`

@@ -1,11 +1,68 @@
 import styled from 'styled-components';
 import { HiSearch } from 'react-icons/hi';
+import { Dispatch, SetStateAction } from 'react';
+import { getTotalBook, getTotalMerchant } from '../../api/test';
+import notify from '../../utils/notify';
+import { useAppDispatch } from '../../redux/hooks';
 
-const Search = () => {
+interface SearchProps {
+	searchInput: string;
+	setSearchInput: Dispatch<SetStateAction<string>>;
+	setReset: Dispatch<SetStateAction<boolean>>;
+	current: { La: number; Ma: number };
+	setMerchantSector: Dispatch<SetStateAction<any>>;
+	setBookSector: Dispatch<SetStateAction<any>>;
+}
+
+const Search = (props: SearchProps) => {
+	const {
+		searchInput,
+		setSearchInput,
+		setReset,
+		current,
+		setMerchantSector,
+		setBookSector,
+	} = props;
+
+	const dispatch = useAppDispatch();
+
+	const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+		setSearchInput(e.target.value);
+	};
+
+	const handleSearchInput = (e: React.KeyboardEvent) => {
+		console.log(e.key);
+		if (e.key === 'Enter') {
+			if (searchInput === '') {
+				getTotalMerchant(current.Ma, current.La).then(res =>
+					setMerchantSector(res),
+				);
+			} else {
+				getTotalBook(searchInput, current.Ma, current.La).then(res => {
+					// 책검색 api 요청 -> 데이터가 잇으면?
+					if (res) {
+						notify(dispatch, '검색한 책이 없어요');
+						setReset(true);
+						setBookSector(res);
+					} else {
+						// 없으면 ?
+						// 리셋안하고 toast 팝업;
+						setBookSector(null);
+					}
+				});
+			}
+		}
+	};
+
 	return (
 		<SearchBox>
 			<HiSearch size={30} color="#a7a7a7" />
-			<SearchInput placeholder="책 검색" />
+			<SearchInput
+				placeholder="책 검색"
+				value={searchInput}
+				onChange={handleInputChange}
+				onKeyPress={handleSearchInput}
+			/>
 		</SearchBox>
 	);
 };

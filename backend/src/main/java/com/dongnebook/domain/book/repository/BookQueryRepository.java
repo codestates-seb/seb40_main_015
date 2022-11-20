@@ -75,7 +75,6 @@ public class BookQueryRepository {
 	 * 보여주고 싶은 정보 -> 현재 위치가 중앙인 가로 세로 500m 짜리 정사각형에서 마커를 클러스터링 해서 보여주기
 	 * db 에서 근방에 있는 책들 (pk와 주소) 모두 가져오기  -> 어플리케이션단에서 그룹핑하기
 	 * db 에서 그룹핑해서 가져오기 -> 그럼 select 쿼리가 9번??
-
 	 */
 	public List<Location> getSectorBookCounts(BookSearchCondition bookSearchCondition) {
 
@@ -126,12 +125,12 @@ public class BookQueryRepository {
 		PageRequest pageRequest) {
 
 		List<BookSimpleResponse> result = jpaQueryFactory.select(
-				new QBookSimpleResponse(book.id, book.title, book.bookState, book.ImgUrl, book.rentalFee, book.member.nickname))
+				new QBookSimpleResponse(dibs.book.id, dibs.book.title, dibs.book.bookState, dibs.book.ImgUrl, dibs.book.rentalFee, dibs.book.member.nickname))
 			.from(dibs)
-			.innerJoin(book)
-			.innerJoin(book.member)
-			.where(ltBookId(pageRequest.getIndex()))
-			.orderBy(book.id.desc())
+			.leftJoin(dibs.book)
+			.leftJoin(dibs.book.member)
+			.where(ltBookId(pageRequest.getIndex()),dibs.book.member.id.eq(memberId))
+			.orderBy(dibs.book.id.desc())
 			.limit(pageRequest.getSize() + 1)
 			.fetch();
 
@@ -160,9 +159,11 @@ public class BookQueryRepository {
 	}
 
 	private BooleanExpression sectorBetween(List<Double> latRangeList, List<Double> lonRangeList,Integer sector) {
-		for (int i = 0; i < 2; i++) {
-			for (int j = 0; j < 2; j++) {
-				if (sector == (i*j)+1) {
+		int count =0;
+		for (int i = 0; i < 3; i++) {
+			for (int j = 0; j < 3; j++) {
+				count++;
+				if (sector == count) {
 					return book.location.latitude.between(latRangeList.get(i + 1), latRangeList.get(i))
 						.and(book.location.longitude.between(lonRangeList.get(j), lonRangeList.get(j + 1)));
 				}
