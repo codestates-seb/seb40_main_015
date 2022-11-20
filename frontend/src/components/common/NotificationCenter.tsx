@@ -2,7 +2,10 @@ import { SiAtandt } from 'react-icons/si';
 import { useSelector } from 'react-redux';
 import styled from 'styled-components';
 import { useAppSelector } from '../../redux/hooks';
-import { notificationType } from '../../redux/slice/notificationSlice';
+import {
+	notificationType,
+	payloadType,
+} from '../../redux/slice/notificationSlice';
 import Toast from './Toast';
 
 interface RootState {
@@ -13,13 +16,10 @@ interface RootState {
 // }
 
 const NotificationCenter = () => {
-	const state = useSelector((state: RootState) => state.notification).messages;
-	// const state = useAppSelector(
-	// 	(state: RootState) => state.persistedReducer.notification.messages,
-	// );
+	const state = useAppSelector(state => state.persistedReducer.messages);
 	return (
 		<StyledNotificationCenter>
-			{state.map(n => (
+			{state.map((n: payloadType) => (
 				<Toast key={n.uuid} text={n.message} dismissTime={n.dismissTime} />
 			))}
 		</StyledNotificationCenter>
