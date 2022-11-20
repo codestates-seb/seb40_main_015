@@ -2,6 +2,8 @@ package com.dongnebook.global.error.exception;
 
 
 
+import com.fasterxml.jackson.annotation.JsonInclude;
+
 import lombok.Getter;
 
 @Getter

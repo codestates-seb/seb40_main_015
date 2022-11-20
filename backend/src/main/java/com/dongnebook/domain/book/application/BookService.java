@@ -22,6 +22,7 @@ import com.dongnebook.domain.book.repository.BookQueryRepository;
 import com.dongnebook.domain.member.domain.Member;
 import com.dongnebook.domain.member.dto.response.MerchantSectorCountResponse;
 import com.dongnebook.domain.member.exception.LocationNotCreatedYetException;
+import com.dongnebook.domain.member.exception.MemberNotFoundException;
 import com.dongnebook.domain.member.repository.MemberRepository;
 import com.dongnebook.domain.model.Location;
 import com.dongnebook.global.dto.request.PageRequest;
@@ -75,7 +76,7 @@ public class BookService {
 				() -> Optional.ofNullable(member.getLocation()).orElseThrow(LocationNotCreatedYetException::new));
 	}
 	private Member getMember(Long memberId) {
-		return memberRepository.findById(memberId).orElseThrow(IllegalStateException::new);
+		return memberRepository.findById(memberId).orElseThrow(MemberNotFoundException::new);
 	}
 
 	private Book getByBookId(Long bookId) {

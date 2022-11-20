@@ -12,6 +12,9 @@ public enum ErrorCode {
 	METHOD_NOT_ALLOWED(405, "허용하지 않는 HTTP 메소드입니다."),
 	NOT_OWNER(404, "주인이 아닙니다."),
 
+	/* JWT */
+	ACCESS_TOKEN_NOT_FOUND(404,"액세스토큰을 찾을 수 없습니다."),
+
 
 	/* Member */
 	LOCATION_NOT_CREATED_YET(404,"아직 주거래 동네를 설정하지 않았습니다."),
