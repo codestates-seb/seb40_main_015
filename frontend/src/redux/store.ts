@@ -11,7 +11,6 @@ const persistConfig = {
 	key: 'root',
 	version: 1,
 	storage,
-	whitelist: ['notification'],
 };
 
 const loginPersistConfig = {
@@ -22,12 +21,12 @@ const loginPersistConfig = {
 // const rootReducer = combineReducers({
 // 	notification: notificationReducer,
 // 	loginInfo: persistReducer(loginPersistConfig, loginInfoReducer),
-
 // });
 
 // const persistedReducer = persistReducer(persistConfig, rootReducer);
 
 export const store = configureStore({
+	// reducer: persistedReducer,
 	reducer: {
 		persistedReducer: persistReducer(persistConfig, notificationReducer),
 		loginInfo: persistReducer(loginPersistConfig, loginInfoReducer),

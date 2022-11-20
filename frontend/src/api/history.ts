@@ -1,4 +1,6 @@
 import axios, { AxiosResponse } from 'axios';
+import useAPI from '../hooks/useAPI';
+
 const BASE_URL = process.env.REACT_APP_HOST;
 
 const axiosConfig = {
@@ -73,4 +75,31 @@ export const axiosBookReturn = async (id: string) => {
 	} catch (err) {
 		return err;
 	}
+};
+
+// 예시)
+const useHistoryAPI = () => {
+	const api = useAPI();
+
+	// 대여내역 - 빌린 책
+	const getRentalBookLists = async () => {
+		try {
+			const result = await api.get(`/rental/from`);
+			return result.data;
+		} catch (err) {
+			return err;
+		}
+	};
+
+	// 대여 취소 by 상인
+	const axiosCancleByMerchant = async (id: string) => {
+		try {
+			const result = await api.patch(`/rental/${id}/cancelByMerchant`);
+			return result.data;
+		} catch (err) {
+			return err;
+		}
+	};
+
+	return { getRentalBookLists, axiosCancleByMerchant };
 };
