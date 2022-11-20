@@ -74,11 +74,11 @@ public class MemberService {
 		member.edit(memberEditRequest);
 	}
 
-	public ArrayList<MerchantSectorCountResponse> getSectorMerchantCounts(MerchantSearchRequest merchantSearchRequest) {
+	public ArrayList<MerchantSectorCountResponse> getSectorMerchantCounts(MerchantSearchRequest request) {
 
-		List<Double> latRangeList =	Location.latRangeList(merchantSearchRequest.getLatitude());
-		List<Double> lonRangeList = Location.lonRangeList(merchantSearchRequest.getLongitude());
-		List<Location> sectorBookCounts = memberQueryRepository.getSectorMerchantCounts(merchantSearchRequest);
+		List<Double> latRangeList =	Location.latRangeList(request.getLatitude(), request.getLength());
+		List<Double> lonRangeList = Location.lonRangeList(request.getLongitude(), request.getWidth());
+		List<Location> sectorBookCounts = memberQueryRepository.getSectorMerchantCounts(request);
 		ArrayList<MerchantSectorCountResponse> merchantSectorCountResponses = new ArrayList<>();
 		HashMap<Integer,Integer> indexMap = new HashMap<>();
 		int arrIndex = 0;

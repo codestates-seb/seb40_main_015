@@ -56,7 +56,6 @@ public class JwtVerificationFilter extends OncePerRequestFilter {
                 // SecurityContext 에 Authentication 객체를 저장
                 SecurityContextHolder.getContext().setAuthentication(authentication);
             }
-
             filterChain.doFilter(request, response);
         } catch (RuntimeException e) {
 
@@ -79,7 +78,7 @@ public class JwtVerificationFilter extends OncePerRequestFilter {
             return bearerToken.substring(7);
         }
 
-        throw new AccessTokenNotFound();
+        return null;
     }
 
     @Override
