@@ -37,7 +37,7 @@ const NavTemp = () => {
 		},
 		{
 			id: 2,
-			icon: <img src={home} alt="" width={30} height={30} />,
+			icon: <HiHome size="30" />,
 			text: '홈',
 			selected: true,
 			path: '/books',
@@ -97,7 +97,7 @@ const Container = styled.div`
 	bottom: 0;
 	padding: 10px 0;
 	border-top: 1px solid ${props => props.theme.colors.headerBorder};
-	background-color: ${props => props.theme.colors.background};
+	background-color: #f6f5ef;
 `;
 
 interface BoxProps {

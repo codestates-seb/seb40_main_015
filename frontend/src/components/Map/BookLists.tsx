@@ -1,4 +1,5 @@
 import styled from 'styled-components';
+import { useNavigate } from 'react-router-dom';
 
 interface Props {
 	bookLists: any;
@@ -6,6 +7,9 @@ interface Props {
 
 const BookLists = (props: Props) => {
 	const { bookLists } = props;
+
+	const navigate = useNavigate();
+
 	return (
 		<>
 			<Container>
@@ -16,15 +20,21 @@ const BookLists = (props: Props) => {
 				<div className="state3" />
 				<span className="string">대여/예약불가</span>
 			</Container>
-			{bookLists?.map((item: any, i: number) => (
-				<List key={i}>
-					<div className="bookstate">
-						<span className="book">모던 자바스트립트</span>
-						<div className="state"></div>
-					</div>
-					<span className="merchents">역삼북스</span>
-				</List>
-			))}
+			{bookLists?.map((item: any, i: number) => {
+				const { bookId, title, status, merchantName } = item;
+				console.log(status);
+				return (
+					<List key={bookId}>
+						<div className="bookstate">
+							<span className="book">{title}</span>
+							{status === '대여가능' && <div className="state1"></div>}
+							{status === '예약가능' && <div className="state2"></div>}
+							{status === '대여/예약불가' && <div className="state3"></div>}
+						</div>
+						<span className="merchents">{merchantName}</span>
+					</List>
+				);
+			})}
 		</>
 	);
 };
@@ -102,6 +112,30 @@ const List = styled.div`
 	.book {
 		padding-left: 15px;
 		font-size: 1.16rem;
+	}
+
+	.state1 {
+		width: 12px;
+		height: 12px;
+		background-color: #009539;
+		border-radius: 1000px;
+		margin-left: 15px;
+	}
+
+	.state2 {
+		width: 12px;
+		height: 12px;
+		background-color: #ffa500;
+		border-radius: 1000px;
+		margin-left: 15px;
+	}
+
+	.state3 {
+		width: 12px;
+		height: 12px;
+		background-color: #ff0000;
+		border-radius: 1000px;
+		margin-left: 15px;
 	}
 `;
 
