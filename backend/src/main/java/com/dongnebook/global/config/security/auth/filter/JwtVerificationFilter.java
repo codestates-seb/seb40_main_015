@@ -78,7 +78,7 @@ public class JwtVerificationFilter extends OncePerRequestFilter {
             return bearerToken.substring(7);
         }
 
-        return null;
+        throw new AccessTokenNotFound();
     }
 
     @Override
