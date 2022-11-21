@@ -8,7 +8,7 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import com.dongnebook.domain.member.domain.Member;
-
+import com.dongnebook.domain.model.Location;
 
 import lombok.Getter;
 
@@ -21,6 +21,7 @@ public class AuthMember extends Member implements UserDetails {
 	private String userId;
 	private String password;
 	private List<String> roles;
+	private Location location;
 	private String nickname;
 
 	private AuthMember(Member member) {
@@ -28,6 +29,7 @@ public class AuthMember extends Member implements UserDetails {
 		this.userId = member.getUserId();
 		this.password = member.getPassword();
 		this.roles = List.of(member.getAuthority().toString());
+		this.location = member.getLocation();
 		this.nickname = member.getNickname();
 	}
 

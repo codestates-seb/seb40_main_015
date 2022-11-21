@@ -1,5 +1,7 @@
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
+import useAPI from '../../hooks/useAPI';
 import { useValidate } from '../../hooks/useValidate';
 import { useAppDispatch } from '../../redux/hooks';
 import { makeSignUpMessages } from '../../utils/makeSignUpMessages';
@@ -9,31 +11,43 @@ import Clause from './Clause';
 import IdSection from './IdSection';
 import PasswordSection from './PasswordSection';
 
-export type inputKeys = 'id' | 'nickname' | 'password' | 'passwordCheck';
+export type inputKeys = 'userId' | 'nickname' | 'password' | 'passwordCheck';
 
 const SignUpForm = () => {
 	const [inputs, setInputs] = useState({
-		id: '',
+		userId: '',
 		nickname: '',
 		password: '',
 		passwordCheck: '',
 	});
 	const [isValid, setIsValid] = useState({
-		id: false,
+		userId: false,
 		nickname: false,
 		password: false,
 		passwordCheck: false,
 	});
+	const { userId, nickname, password } = inputs;
 	const [isChecked, setIsChecked] = useState(false);
 
+	const api = useAPI();
 	const dispatch = useAppDispatch();
+	const navigate = useNavigate();
 	const notifyMessages = makeSignUpMessages(inputs, isValid, isChecked);
 	const goNotify = (message: string) => notify(dispatch, message);
-	const handleSubmit = (e: React.SyntheticEvent) => {
+
+	const handleSubmit = async (e: React.SyntheticEvent) => {
 		e.preventDefault();
 		notifyMessages.forEach((message, notifyCase) => {
 			if (notifyCase) goNotify(message);
 		});
+		const data = { userId, nickname, password };
+		try {
+			await api.post('/auth/signup', data);
+			goNotify('회원가입 완료!');
+			navigate('/login');
+		} catch {
+			goNotify('회원가입에 실패했습니다.');
+		}
 	};
 
 	const getSectionProps = (label: string, select: inputKeys) => {
@@ -68,7 +82,7 @@ const SignUpForm = () => {
 
 	return (
 		<StyledSignUpForm onSubmit={handleSubmit}>
-			<IdSection data={getSectionProps('아이디', 'id')} notify={goNotify} />
+			<IdSection data={getSectionProps('아이디', 'userId')} notify={goNotify} />
 			<IdSection
 				data={getSectionProps('닉네임', 'nickname')}
 				notify={goNotify}
