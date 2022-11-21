@@ -15,7 +15,7 @@ export const makeSignUpMessages = (
 		],
 		[!input.password || isValid.password, '올바른 비밀번호를 입력해주세요'],
 		[!isValid.nickname, '닉네임 중복여부를 확인해주세요'],
-		[!isValid.id, '아이디 중복여부를 확인해주세요'],
+		[!isValid.userId, '아이디 중복여부를 확인해주세요'],
 		[!input.nickname, '닉네임을 입력해 주세요'],
-		[!input.id, '아이디를 입력해 주세요'],
+		[!input.userId, '아이디를 입력해 주세요'],
 	]);
