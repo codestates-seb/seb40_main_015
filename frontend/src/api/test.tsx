@@ -80,9 +80,9 @@ export const getBookList = async (
 	sector: number,
 ) => {
 	try {
-		const result = await instance.get(`/books/sector`, {
+		const result = await instance.get(`/books`, {
 			params: {
-				name,
+				bookTitle: name,
 				latitude,
 				longitude,
 				sector,

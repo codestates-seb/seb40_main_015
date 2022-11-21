@@ -20,28 +20,29 @@ const BookLists = (props: Props) => {
 				<div className="state3" />
 				<span className="string">대여/예약불가</span>
 			</Container>
-			{bookLists?.map((item: any, i: number) => {
-				const { bookId, title, status, merchantName } = item;
-				console.log(status);
-				return (
-					<List key={bookId}>
-						<div className="bookstate">
-							<span className="book">{title}</span>
-							{status === '대여가능' && <div className="state1"></div>}
-							{status === '예약가능' && <div className="state2"></div>}
-							{status === '대여/예약불가' && <div className="state3"></div>}
-						</div>
-						<span className="merchents">{merchantName}</span>
-					</List>
-				);
-			})}
+			<Box>
+				{bookLists?.map((item: any, i: number) => {
+					const { bookId, title, status, merchantName } = item;
+					return (
+						<List key={bookId}>
+							<div className="bookstate">
+								<span className="book">{title}</span>
+								{status === '대여가능' && <div className="state1"></div>}
+								{status === '예약가능' && <div className="state2"></div>}
+								{status === '대여/예약불가' && <div className="state3"></div>}
+							</div>
+							<span className="merchents">{merchantName}</span>
+						</List>
+					);
+				})}
+			</Box>
 		</>
 	);
 };
 const Container = styled.div`
 	width: 100%;
 	height: 25px;
-	background-color: rgb(194, 194, 194);
+	background-color: ${props => props.theme.colors.main};
 	/* border-radius: 1000px; */
 	display: flex;
 	flex-wrap: nowrap;
@@ -80,6 +81,11 @@ const Container = styled.div`
 	}
 `;
 
+const Box = styled.div`
+	overflow-y: scroll;
+	height: 185px;
+`;
+
 const List = styled.div`
 	padding-top: 25px;
 	padding-bottom: 25px;
@@ -96,6 +102,7 @@ const List = styled.div`
 	}
 	.bookstate {
 		display: flex;
+		align-items: center;
 		margin-left: 15px;
 	}
 	.merchents {
