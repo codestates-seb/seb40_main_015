@@ -1,8 +1,7 @@
 import { useState } from 'react';
 import styled from 'styled-components';
+import { useAppSelector } from '../redux/hooks';
 import { HiOutlineSearch, HiPhotograph } from 'react-icons/hi';
-
-// components
 import Title from '../components/common/Title';
 import {
 	BookInfo,
@@ -22,12 +21,13 @@ interface PayloadType {
 }
 
 const BooksCreatePage = () => {
-	const [title, setTitle] = useState('modern');
-	const [author, setAuthor] = useState('woongmo');
-	const [publisher, setPublisher] = useState('wiki');
+	const [title, setTitle] = useState('');
+	const [author, setAuthor] = useState('');
+	const [publisher, setPublisher] = useState('');
 	const [rentalFee, setRentalFee] = useState('');
-	const [description, setDescription] = useState('test1');
-	const [imageUrl, setImageUrl] = useState('notyet');
+	const [description, setDescription] = useState('');
+	const [imageUrl, setImageUrl] = useState('');
+	// const location = useAppSelector(state => state.login.location)
 
 	const payload = {
 		title,
@@ -36,17 +36,16 @@ const BooksCreatePage = () => {
 		rentalFee,
 		description,
 		imageUrl,
+		// location,
 	};
 
 	const handleCreate = () => {
 		console.log('click: ', payload);
 	};
-	/*
-  const handleChangeTitle = (e:React.ChangeEvent<HTMLInputElement>) => {
-    // 도서 api 조회 -> 제목, 저자, 출판사 상태 업데이트
-    
-  }
-  */
+
+	const handleChangeTitle = (e: React.ChangeEvent<HTMLInputElement>) => {
+		setTitle(e.target.value);
+	};
 	const handleChangeRentalFee = (e: React.ChangeEvent<HTMLInputElement>) => {
 		setRentalFee(e.target.value);
 	};
@@ -61,12 +60,16 @@ const BooksCreatePage = () => {
 			<TitleWrapper>
 				<Title text="책 등록하기" />
 			</TitleWrapper>
-
 			<BodyContainer>
 				<BookInfo>
 					<div>
 						<div className="book--info__title">
-							<input type="text" placeholder="책 제목" />
+							<input
+								type="text"
+								placeholder="책 제목"
+								value={title}
+								onChange={handleChangeTitle}
+							/>
 							<SearchIcon />
 						</div>
 						<div className="book--info__default">
@@ -79,8 +82,7 @@ const BooksCreatePage = () => {
 					<input
 						className="book--info__fee"
 						type="number"
-						placeholder="대여료"
-						step={100}
+						placeholder="대여료 (100원 단위)"
 						onChange={handleChangeRentalFee}
 					/>
 					<span>원 </span>
@@ -92,7 +94,7 @@ const BooksCreatePage = () => {
 					/>
 				</BookInfo>
 				<BookInfo>
-					<span>거래 위치 : 서울시 종로구</span>
+					<span>거래 위치 : {`서울시 종로구`}</span>
 				</BookInfo>
 				<BookInfo>
 					<div className="book--info__photo">
