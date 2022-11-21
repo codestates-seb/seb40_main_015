@@ -3,9 +3,6 @@ package com.dongnebook.domain.book.dto.request;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
-
-import javax.validation.constraints.NotNull;
-
 import lombok.Getter;
 
 /**
@@ -32,5 +29,4 @@ public class BookSearchCondition {
 		this.length = length == null ? 1000 : length * 50;
 		this.sector = sector;
 	}
-
 }
