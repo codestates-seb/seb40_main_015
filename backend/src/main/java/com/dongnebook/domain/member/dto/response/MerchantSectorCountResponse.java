@@ -9,8 +9,9 @@ import lombok.Getter;
 public class MerchantSectorCountResponse {
 
 	private Long merchantCount;
-	private Long sector;
+	private Integer sector;
 	private Location location;
+
 
 	public void plusBookCount(){
 		if(merchantCount ==null){
@@ -23,7 +24,7 @@ public class MerchantSectorCountResponse {
 		this.location = location;
 	}
 
-	public void initSector(Long sector) {
+	public void initSector(Integer sector) {
 		this.sector = sector;
 	}
 }
