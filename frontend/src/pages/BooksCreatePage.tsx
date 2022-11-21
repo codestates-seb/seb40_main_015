@@ -21,15 +21,6 @@ interface PayloadType {
 	imageUrl: string;
 }
 
-// interface PayloadType {
-// 	title: string;
-// 	author: string;
-// 	publisher: string;
-// 	rentalFee: string;
-// 	description: string;
-// 	imageUrl: string;
-// }
-
 const BooksCreatePage = () => {
 	const [title, setTitle] = useState('modern');
 	const [author, setAuthor] = useState('woongmo');
