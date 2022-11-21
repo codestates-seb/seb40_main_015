@@ -8,7 +8,7 @@ export const makeSignUpMessages = (
 	isChecked: boolean,
 ) =>
 	new Map([
-		[isChecked, '약관에 동의해주세요 ☺️'],
+		[!isChecked, '약관에 동의해주세요 ☺️'],
 		[
 			!input.passwordCheck || isValid.passwordCheck,
 			'비밀번호 확인을 맞게 입력해주세요',
