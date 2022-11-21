@@ -43,7 +43,7 @@ public class Location {
 		if (Objects.isNull(latitude)) {
 			return null;
 		}
-
+    
 		double range = ((length / 1.1)/100000) / 6;
 
 		return Arrays.asList(latitude + (range * 3), latitude + range, latitude - range,
@@ -51,6 +51,7 @@ public class Location {
 	}
 
 	public static List<Double> lonRangeList(Double longitude, Integer width) {
+
 
 		if (Objects.isNull(longitude)) {
 			return null;
@@ -62,5 +63,6 @@ public class Location {
 			longitude + range * 3);
 
 	}
+
 }
 
