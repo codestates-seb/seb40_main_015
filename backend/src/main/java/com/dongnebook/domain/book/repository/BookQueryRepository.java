@@ -8,8 +8,7 @@ import static com.dongnebook.domain.book.domain.QBook.*;
 import static com.dongnebook.domain.dibs.domain.QDibs.*;
 
 import java.util.List;
-
-
+import java.util.Objects;
 
 import org.springframework.data.domain.SliceImpl;
 import org.springframework.stereotype.Repository;
@@ -65,6 +64,7 @@ public class BookQueryRepository {
 			)
 			.from(book)
 			.leftJoin(book.member)
+			.where(book.id.eq(id))
 			.fetchOne();
 
 	}
@@ -76,11 +76,11 @@ public class BookQueryRepository {
 	 * db 에서 근방에 있는 책들 (pk와 주소) 모두 가져오기  -> 어플리케이션단에서 그룹핑하기
 	 * db 에서 그룹핑해서 가져오기 -> 그럼 select 쿼리가 9번??
 	 */
-	public List<Location> getSectorBookCounts(BookSearchCondition bookSearchCondition) {
+	public List<Location> getSectorBookCounts(BookSearchCondition condition) {
 
-		String bookTitle = bookSearchCondition.getBookTitle();
-		List<Double> LatRange = bookSearchCondition.latRangeList();
-		List<Double> LonRange = bookSearchCondition.lonRangeList();
+		String bookTitle = condition.getBookTitle();
+		List<Double> LatRange = Location.latRangeList(condition.getLatitude(), condition.getLength());
+		List<Double> LonRange = Location.lonRangeList(condition.getLongitude(), condition.getWidth());
 
 		return jpaQueryFactory.select(book.location)
 			.from(book)
@@ -90,14 +90,14 @@ public class BookQueryRepository {
 			.fetch();
 	}
 
-	public SliceImpl<BookSimpleResponse> getAll(BookSearchCondition bookSearchCondition,
+	public SliceImpl<BookSimpleResponse> getAll(BookSearchCondition condition,
 		PageRequest pageRequest) {
 
-		String bookTitle = bookSearchCondition.getBookTitle();
+		String bookTitle = condition.getBookTitle();
 		log.info("bookTitle = {}", bookTitle);
-		List<Double> LatRange = bookSearchCondition.latRangeList();
-		List<Double> LonRange = bookSearchCondition.lonRangeList();
-		Integer sector = bookSearchCondition.getSector();
+		List<Double> LatRange = Location.latRangeList(condition.getLatitude(), condition.getLength());
+		List<Double> LonRange = Location.lonRangeList(condition.getLongitude(), condition.getWidth());
+		Integer sector = condition.getSector();
 
 
 		List<BookSimpleResponse> result = jpaQueryFactory.select(
@@ -158,12 +158,17 @@ public class BookQueryRepository {
 		return book.id.lt(bookId);
 	}
 
-	private BooleanExpression sectorBetween(List<Double> latRangeList, List<Double> lonRangeList,Integer sector) {
-		int count =0;
+	private BooleanExpression sectorBetween(List<Double> latRangeList, List<Double> lonRangeList,Integer givenSector) {
+
+		if (Objects.isNull(latRangeList)||Objects.isNull(lonRangeList)||Objects.isNull(givenSector)) {
+			return null;
+		}
+
+		int sector = 0;
 		for (int i = 0; i < 3; i++) {
 			for (int j = 0; j < 3; j++) {
-				count++;
-				if (sector == count) {
+				sector++;
+				if (givenSector == sector) {
 					return book.location.latitude.between(latRangeList.get(i + 1), latRangeList.get(i))
 						.and(book.location.longitude.between(lonRangeList.get(j), lonRangeList.get(j + 1)));
 				}

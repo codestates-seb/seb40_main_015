@@ -9,7 +9,7 @@ import lombok.Getter;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class BookSectorCountResponse {
 	private Long bookCount;
-	private Long sector;
+	private Integer sector;
 	private Location location;
 
 	public void plusBookCount(){
@@ -23,7 +23,7 @@ public class BookSectorCountResponse {
 		this.location = location;
 	}
 
-	public void initSector(Long sector) {
+	public void initSector(Integer sector) {
 		this.sector = sector;
 	}
 }
