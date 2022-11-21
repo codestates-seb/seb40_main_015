@@ -8,12 +8,14 @@ import org.springframework.http.HttpStatus;
 import org.springframework.validation.BindingResult;
 
 import com.dongnebook.global.error.exception.ErrorCode;
+import com.fasterxml.jackson.annotation.JsonInclude;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 @Getter
 @NoArgsConstructor
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class ErrorResponse {
 
 	private int status;

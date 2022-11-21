@@ -26,6 +26,7 @@ import com.dongnebook.domain.book.dto.response.BookSimpleResponse;
 import com.dongnebook.global.Login;
 import com.dongnebook.global.config.security.auth.userdetails.AuthMember;
 import com.dongnebook.global.dto.request.PageRequest;
+import com.dongnebook.global.dto.response.MultiResponse;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -43,7 +44,6 @@ public class BookController {
 
 		Long bookId = bookService.create(bookRegisterRequest, authMember.getMemberId());
 		URI createdUri = ServletUriComponentsBuilder.fromCurrentRequestUri().path("/{id}").buildAndExpand(bookId).toUri();
-
 		return ResponseEntity.created(createdUri).build();
 	}
 
@@ -56,18 +56,18 @@ public class BookController {
 	}
 
 	@GetMapping
-	public ResponseEntity<SliceImpl<BookSimpleResponse>> getLists(@ModelAttribute BookSearchCondition bookSearchCondition, PageRequest pageRequest){
+	public ResponseEntity<MultiResponse<SliceImpl<BookSimpleResponse>>> getLists(@ModelAttribute BookSearchCondition bookSearchCondition, PageRequest pageRequest){
 		log.info("location = {}", bookSearchCondition.getLatitude());
 		log.info("bookTitle = {}", bookSearchCondition.getBookTitle());
 		log.info("location = {}", bookSearchCondition.getLongitude());
-		return ResponseEntity.ok(bookService.getList(bookSearchCondition,pageRequest));
+		return ResponseEntity.ok(MultiResponse.of(bookService.getList(bookSearchCondition,pageRequest)));
 	}
 
 	@GetMapping("/count")
-	public ResponseEntity<ArrayList<BookSectorCountResponse>> getSectorBookCounts(@ModelAttribute BookSearchCondition bookSearchCondition){
+	public ResponseEntity<MultiResponse<ArrayList<BookSectorCountResponse>>> getSectorBookCounts(@ModelAttribute BookSearchCondition bookSearchCondition){
 		ArrayList<BookSectorCountResponse> sectorBookCounts = bookService.getSectorBookCounts(bookSearchCondition);
 
-		return ResponseEntity.ok(sectorBookCounts);
+		return ResponseEntity.ok(MultiResponse.of(sectorBookCounts));
 	}
 
 	@DeleteMapping("/{id}")
