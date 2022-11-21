@@ -65,8 +65,15 @@ public class BookController {
 	@GetMapping("/count")
 	public ResponseEntity<ArrayList<BookSectorCountResponse>> getSectorBookCounts(@ModelAttribute BookSearchCondition bookSearchCondition){
 		ArrayList<BookSectorCountResponse> sectorBookCounts = bookService.getSectorBookCounts(bookSearchCondition);
-
 		return ResponseEntity.ok(sectorBookCounts);
+	}
+
+	@GetMapping("/sector")
+	public ResponseEntity<SliceImpl<BookSimpleResponse>> getSectors(@ModelAttribute BookSearchCondition bookSearchCondition, PageRequest pageRequest){
+		log.info("location = {}", bookSearchCondition.getLatitude());
+		log.info("bookTitle = {}", bookSearchCondition.getBookTitle());
+		log.info("location = {}", bookSearchCondition.getLongitude());
+		return ResponseEntity.ok(bookService.getList(bookSearchCondition,pageRequest));
 	}
 
 	@DeleteMapping("/{id}")

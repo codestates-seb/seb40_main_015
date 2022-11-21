@@ -101,7 +101,6 @@ public class MemberController {
     @GetMapping("/member/{id}")
     public ResponseEntity<MemberDetailResponse> getMyInfo(@PathVariable Long id){
         return ResponseEntity.ok(memberService.getMemberInfo(id));
-
     }
 
 }
