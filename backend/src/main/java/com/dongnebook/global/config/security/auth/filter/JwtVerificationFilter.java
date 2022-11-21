@@ -35,6 +35,7 @@ public class JwtVerificationFilter extends OncePerRequestFilter {
 
     private final TokenProvider tokenProvider;
 
+
     // 인증에서 제외할 url
     private static final List<String> EXCLUDE_URL =
         List.of("/auth/signup");
@@ -78,7 +79,7 @@ public class JwtVerificationFilter extends OncePerRequestFilter {
             return bearerToken.substring(7);
         }
 
-        throw new AccessTokenNotFound();
+        return null;
     }
 
     @Override
