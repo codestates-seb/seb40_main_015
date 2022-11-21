@@ -6,11 +6,13 @@ import lombok.Getter;
 
 @Getter
 public class BookDetailMemberResponse {
+	private Long merchantId;
 	private String name;
 	private Long grade;
 
 	@QueryProjection
-	public BookDetailMemberResponse(String name, Long grade) {
+	public BookDetailMemberResponse(Long merchantId, String name, Long grade) {
+		this.merchantId = merchantId;
 		this.name = name;
 		this.grade = grade;
 	}

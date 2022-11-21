@@ -1,6 +1,5 @@
 package com.dongnebook.domain.member.application;
 
-
 import com.dongnebook.domain.member.dto.request.MerchantSearchRequest;
 
 import com.dongnebook.domain.member.dto.request.MemberEditRequest;
@@ -34,7 +33,6 @@ import java.util.List;
 import java.util.Objects;
 
 import java.util.Optional;
-
 
 @Slf4j
 @Getter
@@ -76,23 +74,26 @@ public class MemberService {
 
 	public ArrayList<MerchantSectorCountResponse> getSectorMerchantCounts(MerchantSearchRequest request) {
 
-		List<Double> latRangeList =	Location.latRangeList(request.getLatitude(), request.getLength());
-		List<Double> lonRangeList = Location.lonRangeList(request.getLongitude(), request.getWidth());
+		List<Double> latRangeList = Location.latRangeList(request.getLatitude(), request.getLength(),
+			request.getLevel());
+		List<Double> lonRangeList = Location.lonRangeList(request.getLongitude(), request.getWidth(),
+			request.getLevel());
 		List<Location> sectorBookCounts = memberQueryRepository.getSectorMerchantCounts(request);
 		ArrayList<MerchantSectorCountResponse> merchantSectorCountResponses = new ArrayList<>();
-		HashMap<Integer,Integer> indexMap = new HashMap<>();
+		HashMap<Integer, Integer> indexMap = new HashMap<>();
 		int arrIndex = 0;
 
 		for (Location location : sectorBookCounts) {
 			Double latitude = location.getLatitude();
 			Double longitude = location.getLongitude();
 			int sector = 0;
-			for (int i = 0; i < 3; i++) {
-				for (int j = 0; j < 3; j++) {
+			for (int i = 0; i < request.getLevel(); i++) {
+				for (int j = 0; j < request.getLevel(); j++) {
 					sector++;
 					if (latRangeList.get(i + 1) <= latitude && latitude <= latRangeList.get(i)
 						&& lonRangeList.get(j) <= longitude && longitude <= lonRangeList.get(j + 1)) {
-						if (makeMerchantCountResponse(merchantSectorCountResponses, sector, arrIndex,location,indexMap)) {
+						if (makeMerchantCountResponse(merchantSectorCountResponses, sector, arrIndex, location,
+							indexMap)) {
 							arrIndex += 1;
 						}
 					}
@@ -103,7 +104,7 @@ public class MemberService {
 	}
 
 	private boolean makeMerchantCountResponse(ArrayList<MerchantSectorCountResponse> merchantSectorCountResponses,
-		int sector, int arrIndex,Location location, HashMap<Integer,Integer> indexMap) {
+		int sector, int arrIndex, Location location, HashMap<Integer, Integer> indexMap) {
 		boolean newResponse = false;
 
 		if (Optional.ofNullable(indexMap.get(sector)).isEmpty()) {
@@ -112,7 +113,8 @@ public class MemberService {
 			newResponse = true;
 		}
 
-		MerchantSectorCountResponse merchantSectorCountResponse = merchantSectorCountResponses.get(indexMap.get(sector));
+		MerchantSectorCountResponse merchantSectorCountResponse = merchantSectorCountResponses.get(
+			indexMap.get(sector));
 		merchantSectorCountResponse.plusBookCount();
 
 		if (Objects.isNull(merchantSectorCountResponse.getLocation())) {
@@ -123,16 +125,13 @@ public class MemberService {
 		return newResponse;
 	}
 
-
 	public MemberDetailResponse getMemberInfo(Long memberId) {
 		return Optional.ofNullable(memberQueryRepository.getMyInfo(memberId))
 			.orElseThrow(MemberNotFoundException::new);
 	}
 
-
-
 	public SliceImpl<MemberResponse> getList(MerchantSearchRequest merchantSearchRequest, PageRequest pageRequest) {
-		return memberQueryRepository.getAll(merchantSearchRequest,pageRequest);
+		return memberQueryRepository.getAll(merchantSearchRequest, pageRequest);
 	}
 
 }
