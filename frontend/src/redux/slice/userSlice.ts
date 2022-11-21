@@ -8,9 +8,9 @@ interface InitProps {
 	nickname?: string;
 	userId?: string;
 	accessToken?: string;
+	address?: string; // 유저거래위치
 }
 
-// const initialState: InitProps | {} = {};
 const initialState: InitProps = {
 	isLogin: false,
 };
