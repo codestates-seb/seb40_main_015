@@ -4,7 +4,7 @@ import { Dispatch, SetStateAction } from 'react';
 import { getTotalBook, getTotalMerchant } from '../../api/test';
 import notify from '../../utils/notify';
 import { useAppDispatch } from '../../redux/hooks';
-import { data } from './dummy';
+import { data, bookCount } from './dummy';
 
 interface SearchProps {
 	searchInput: string;
@@ -32,7 +32,6 @@ const Search = (props: SearchProps) => {
 	};
 
 	const handleSearchInput = (e: React.KeyboardEvent) => {
-		console.log(e.key);
 		if (e.key === 'Enter') {
 			if (searchInput === '') {
 				setReset(false);
@@ -40,19 +39,20 @@ const Search = (props: SearchProps) => {
 				// 	setMerchantSector(res),
 				// );
 				setMerchantSector(data); // 더미데이터
+				setBookSector([]);
 			} else {
 				getTotalBook(searchInput, current.Ma, current.La).then(res => {
 					// 책검색 api 요청 -> 데이터가 잇으면?
 					if (res) {
-						notify(dispatch, '검색한 책이 없어요');
-						setReset(true);
-						setBookSector(res);
+						// setReset(true);
+						setBookSector(bookCount);
 						setMerchantSector([]);
 					} else {
 						// 없으면 ?
 						// 리셋안하고 toast 팝업;
 						// setReset(false);
-						setBookSector(null);
+						notify(dispatch, '검색한 책이 없어요');
+						setBookSector([]);
 						setMerchantSector([]);
 					}
 				});

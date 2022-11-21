@@ -62,7 +62,13 @@ const BooksDetailPage = () => {
 				</MerchantInfo>
 				<BookRentalFee>
 					<label htmlFor="fee">대여료</label>
-					<input id="fee" type="number" step="100" defaultValue={'1000'} />
+					<input
+						id="fee"
+						type="number"
+						step="100"
+						defaultValue={'1000'}
+						disabled
+					/>
 					<span>원</span>
 				</BookRentalFee>
 				<BookDsc>

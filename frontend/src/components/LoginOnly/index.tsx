@@ -1,18 +1,18 @@
-import { useSelector } from 'react-redux';
 import { Outlet } from 'react-router-dom';
 import styled from 'styled-components';
+import { useAppSelector } from '../../redux/hooks';
 import NoticeIcon from '../Notice/NoticeIcon';
 import LoginNeed from './LoginCheckElements';
 
-interface StateProps {
-	loginInfo: {
-		isLogin: boolean;
-	};
-}
+// export interface StateProps {
+// 	loginInfo: {
+// 		isLogin: boolean;
+// 	};
+// }
 
 // Login checking
 function LoginOnly() {
-	const isLogin = useSelector((state: StateProps) => state.loginInfo.isLogin);
+	const isLogin = useAppSelector(state => state.loginInfo.isLogin);
 
 	return (
 		<StyledLoginOnly>

@@ -1,5 +1,6 @@
 package com.dongnebook.global.config.security.auth.filter;
 
+import com.dongnebook.global.config.security.auth.exception.AccessTokenNotFound;
 import com.dongnebook.global.error.ErrorResponse;
 import com.dongnebook.global.error.exception.BusinessException;
 import com.dongnebook.global.utils.CustomAuthorityUtils;
@@ -46,19 +47,15 @@ public class JwtVerificationFilter extends OncePerRequestFilter {
     protected void doFilterInternal(HttpServletRequest request,
         HttpServletResponse response,
         FilterChain filterChain) throws ServletException, IOException {
-        // Request Header 에서 JWT 를 받아옴
-        String jwt = resolveToken(request);
-
-        // 유효한 토큰인지 확인
 
         try {
+            String jwt = resolveToken(request);
             if (StringUtils.hasText(jwt) && tokenProvider.validateToken(jwt)) {
                 // 토큰으로부터 Authentication 객체를 만듬
                 Authentication authentication = tokenProvider.getAuthentication(jwt);
                 // SecurityContext 에 Authentication 객체를 저장
                 SecurityContextHolder.getContext().setAuthentication(authentication);
             }
-
             filterChain.doFilter(request, response);
         } catch (RuntimeException e) {
 
@@ -81,7 +78,7 @@ public class JwtVerificationFilter extends OncePerRequestFilter {
             return bearerToken.substring(7);
         }
 
-        return null;
+        throw new AccessTokenNotFound();
     }
 
     @Override

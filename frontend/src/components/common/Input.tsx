@@ -17,7 +17,6 @@ const Input = (props: InputProps) => {
 	return (
 		<StyledDiv>
 			<StyledLabel htmlFor={label}>{label}</StyledLabel>
-			{/* label 클릭시 인풋 포커싱 추가하였습니다 -상헌. 읽고나서 지워주세요*/}
 			<StyledInput
 				id={label}
 				type={type}

@@ -1,10 +1,23 @@
-import React, { useEffect, useState, useCallback } from 'react';
+import { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { TbCurrentLocation } from 'react-icons/tb';
 import Search from '../components/Map/Search';
 import Map from '../components/Map/Map';
-import { getMerchantList } from '../api/test';
-import { data } from '../components/Map/dummy';
+import { getBookList, getMerchantList, getTotalBook } from '../api/test';
+import {
+	data,
+	dummyMerchantList,
+	bookListsDummy,
+} from '../components/Map/dummy';
+
+interface MerchantSectorProps {
+	merchantCount: number;
+	sector: number;
+	representativeLocation: {
+		lat: string;
+		lon: string;
+	};
+}
 
 const BooksSearchPage = () => {
 	const [current, setCurrent] = useState<any>();
@@ -13,18 +26,9 @@ const BooksSearchPage = () => {
 	const [selectOverlay, setSelectOverlay] = useState(null);
 	const [merchantSector, setMerchantSector] =
 		useState<MerchantSectorProps[]>(data);
-	const [merchantLists, setMerchantLists] = useState();
-	const [bookSector, setBookSector] = useState();
-	const [bookLists, setBookLists] = useState();
-
-	interface MerchantSectorProps {
-		merchantCount: number;
-		sector: number;
-		representativeLocation: {
-			lat: string;
-			lon: string;
-		};
-	}
+	const [merchantLists, setMerchantLists] = useState<any>([]);
+	const [bookSector, setBookSector] = useState([]);
+	const [bookLists, setBookLists] = useState<any>([]);
 
 	const handleCurrentLocationMove = () => {
 		let lat = 0;
@@ -43,10 +47,8 @@ const BooksSearchPage = () => {
 		);
 	};
 
-	console.log(selectOverlay);
-
 	useEffect(() => {
-		if (selectOverlay) {
+		if (typeof selectOverlay === 'object' && !!selectOverlay) {
 			const {
 				sector,
 				representativeLocation,
@@ -56,11 +58,25 @@ const BooksSearchPage = () => {
 			} = selectOverlay;
 			const latitude = representativeLocation.lat;
 			const longitude = representativeLocation.lon;
-			getMerchantList(latitude, longitude, sector).then(res => {
-				if (res) {
-					setMerchantLists(res);
-				}
-			});
+			if (selectOverlay['merchantCount']) {
+				getMerchantList(latitude, longitude, sector).then(res => {
+					if (res) {
+						// setMerchantLists(res.content);
+						setMerchantLists(dummyMerchantList.content);
+					}
+				});
+			}
+			if (selectOverlay['totalBookCount']) {
+				getBookList(searchInput, latitude, longitude, sector).then(res => {
+					if (res) {
+						// setBookLists(res.content);
+						setBookLists(bookListsDummy);
+					}
+				});
+			}
+		} else {
+			setMerchantLists([]);
+			setBookLists([]);
 		}
 	}, [selectOverlay]);
 
@@ -87,6 +103,12 @@ const BooksSearchPage = () => {
 				reset={reset}
 				setSelectOverlay={setSelectOverlay}
 				merchantSector={merchantSector}
+				setMerchantSector={setMerchantSector}
+				merchantLists={merchantLists}
+				setMerchantLists={setMerchantLists}
+				setBookSector={setBookSector}
+				bookSector={bookSector}
+				bookLists={bookLists}
 			/>
 		</Container>
 	);
