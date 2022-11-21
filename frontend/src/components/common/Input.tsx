@@ -5,10 +5,11 @@ type InputProps = {
 	state?: string;
 	setState?: Function;
 	type?: string;
+	placeholder?: string;
 };
 
 const Input = (props: InputProps) => {
-	const { label, state, setState, type } = props;
+	const { label, state, setState, type, placeholder } = props;
 
 	const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
 		setState?.(e.target.value);
@@ -22,6 +23,7 @@ const Input = (props: InputProps) => {
 				type={type}
 				value={state}
 				onChange={handleChange}
+				placeholder={placeholder}
 			/>
 		</StyledDiv>
 	);

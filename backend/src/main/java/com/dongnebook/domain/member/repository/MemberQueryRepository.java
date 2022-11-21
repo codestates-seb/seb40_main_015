@@ -34,26 +34,26 @@ public class MemberQueryRepository {
 
 	public List<Location> getSectorMerchantCounts(MerchantSearchRequest request) {
 
-		List<Double> LatRange = Location.latRangeList(request.getLatitude(), request.getLength());
-		List<Double> LonRange = Location.lonRangeList(request.getLongitude(), request.getWidth());
+		List<Double> LatRange = Location.latRangeList(request.getLatitude(), request.getLength(), request.getLevel());
+		List<Double> LonRange = Location.lonRangeList(request.getLongitude(), request.getWidth(), request.getLevel());
 
 		return jpaQueryFactory.select(member.location)
 			.from(member)
-			.where((member.location.latitude.between(LatRange.get(3), LatRange.get(0))),
-				(member.location.longitude.between(LonRange.get(0), LonRange.get(3))))
+			.where((member.location.latitude.between(LatRange.get(request.getLevel()), LatRange.get(0))),
+				(member.location.longitude.between(LonRange.get(0), LonRange.get(request.getLevel()))))
 			.fetch();
 
 	}
 
 	public SliceImpl<MemberResponse> getAll(MerchantSearchRequest request, PageRequest pageRequest) {
 
-		List<Double> LatRange = Location.latRangeList(request.getLatitude(), request.getLength());
-		List<Double> LonRange = Location.lonRangeList(request.getLongitude(), request.getWidth());
+		List<Double> LatRange = Location.latRangeList(request.getLatitude(), request.getLength(), request.getLevel());
+		List<Double> LonRange = Location.lonRangeList(request.getLongitude(), request.getWidth(), request.getLevel());
 
 		List<MemberResponse> result = jpaQueryFactory.select(new QMemberResponse(member.id, member.nickname))
 			.from(member)
-			.where((member.location.latitude.between(LatRange.get(3), LatRange.get(0))),
-				(member.location.longitude.between(LonRange.get(0), LonRange.get(3))),
+			.where((member.location.latitude.between(LatRange.get(request.getLevel()), LatRange.get(0))),
+				(member.location.longitude.between(LonRange.get(0), LonRange.get(request.getLevel()))),
 				ltMemberId(pageRequest.getIndex()),
 				request.sectorBetween())
 			.orderBy(member.id.desc())
@@ -74,7 +74,7 @@ public class MemberQueryRepository {
 	public  MemberDetailResponse getMyInfo(Long memberId){
 
 		return jpaQueryFactory.select(
-				new QMemberDetailResponse(member.id, member.nickname, member.location, member.bookList.size(),
+				new QMemberDetailResponse(member.id, member.nickname, member.location, member.address, member.bookList.size(),
 					member.avatarUrl, member.avgGrade))
 			.from(member)
 			.where(member.id.eq(memberId))

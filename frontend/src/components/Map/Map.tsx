@@ -41,6 +41,7 @@ interface MapProps {
 	bookSector: any;
 	setBookSector: Dispatch<SetStateAction<any>>;
 	bookLists: any;
+	setZoomLevel: Dispatch<SetStateAction<number>>;
 }
 
 const { kakao } = window;
@@ -57,6 +58,7 @@ const Map = (props: MapProps) => {
 		bookSector,
 		setBookSector,
 		bookLists,
+		setZoomLevel,
 	} = props;
 	const [centerCoord, setCenterCoord] = useState({ La: '0', Ma: '0' });
 
@@ -114,11 +116,10 @@ const Map = (props: MapProps) => {
 				content.style.height = '7rem';
 				content.style.fontSize = '2.7rem';
 			}
-			content.style.backgroundColor = content.getAttribute('view')
-				? '#124B38'
-				: '#26795D';
-			content.style.opacity = '0.8';
-			content.style.borderRadius = '1000px';
+			content.style.backgroundColor = 'rgba(38, 121, 93,0.8)';
+			content.style.cursor = 'pointer';
+			content.style.border = '1px solid rgb(18, 75, 56)';
+			content.style.borderRadius = '54px';
 			content.style.color = 'white';
 			content.style.display = 'flex';
 			content.style.alignItems = 'center';
@@ -133,21 +134,30 @@ const Map = (props: MapProps) => {
 				document.querySelectorAll('.overlay').forEach(el => {
 					const ele = el as HTMLElement;
 					if (ele === selectSector) {
-						if (ele.style.backgroundColor === 'rgb(18, 75, 56)') {
-							ele.style.backgroundColor = '#26795D';
+						if (ele.style.backgroundColor === 'rgba(18, 75, 56, 0.9)') {
+							ele.style.backgroundColor = 'rgba(38, 121, 93,0.8)';
 							setSelectOverlay(null);
 						} else {
-							ele.style.backgroundColor = '#124B38';
+							ele.style.backgroundColor = 'rgba(18, 75, 56, 0.9)';
 						}
 					} else {
-						ele.style.backgroundColor = '#26795D';
+						ele.style.backgroundColor = 'rgba(38, 121, 93,0.8)';
 					}
 				});
 			};
+			// content.onmouseover = function () {
+			// 	content.style.backgroundColor = 'rgba(18, 75, 55, 0.9)';
+			// 	return console.log(data[i]);
+			// };
+
+			// content.onmouseout = function () {
+			// 	content.style.backgroundColor = 'rgba(38, 121, 93,0.8)';
+			// 	content.style.color = 'white';
+			// };
 
 			let customOverlay = new kakao.maps.CustomOverlay({
 				map: map,
-				clickable: true, // 커스텀 오버레이 클릭 시 지도에 이벤트를 전파하지 않도록 설정한다
+				clickable: false, // 커스텀 오버레이 클릭 시 지도에 이벤트를 전파하지 않도록 설정한다
 				content: content,
 				position: new kakao.maps.LatLng(
 					data[i].representativeLocation.lat,
@@ -187,6 +197,10 @@ const Map = (props: MapProps) => {
 		// setZoomable(false);
 		map.setMinLevel(1);
 		map.setMaxLevel(5);
+		kakao.maps.event.addListener(map, 'zoom_changed', function () {
+			let level = map.getLevel();
+			setZoomLevel(level);
+		});
 
 		// HTML5의 geolocation으로 사용할 수 있는지 확인합니다
 		if (current) {

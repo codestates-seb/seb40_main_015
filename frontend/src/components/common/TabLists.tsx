@@ -18,7 +18,7 @@ const TabLists = (props: TabListsProps) => {
 						onClick={() => {
 							handleChange(id);
 						}}>
-						{name}
+						<span>{name}</span>
 					</Tab>
 				);
 			})}
@@ -40,8 +40,8 @@ interface TabProps {
 }
 
 const Tab = styled.button<TabProps>`
-	padding: 0.8rem 5rem;
-	width: 40%;
+	width: 45%;
+	height: 3rem;
 	max-width: 300px;
 	background-color: ${props =>
 		props.selected
@@ -56,5 +56,8 @@ const Tab = styled.button<TabProps>`
 	:hover {
 		background-color: ${props =>
 			props.selected ? props.theme.colors.buttonHoverGreen : '#CFCFCF'};
+	}
+	.span {
+		width: 100%;
 	}
 `;
