@@ -11,7 +11,6 @@ import com.dongnebook.domain.member.dto.response.MemberResponse;
 import com.dongnebook.domain.member.dto.response.MerchantSectorCountResponse;
 
 import com.dongnebook.global.dto.request.PageRequest;
-import com.dongnebook.global.dto.response.MultiResponse;
 
 import org.springframework.data.domain.SliceImpl;
 import org.springframework.http.ResponseEntity;
@@ -88,8 +87,8 @@ public class MemberController {
     }
 
     @GetMapping("/member/count")
-    public ResponseEntity<MultiResponse<ArrayList<MerchantSectorCountResponse>>> getSectorMerchantCount(@ModelAttribute MerchantSearchRequest merchantSearchRequest){
-        return ResponseEntity.ok(MultiResponse.of(memberService.getSectorMerchantCounts(merchantSearchRequest)));
+    public ResponseEntity<ArrayList<MerchantSectorCountResponse>> getSectorMerchantCount(@ModelAttribute MerchantSearchRequest merchantSearchRequest){
+        return ResponseEntity.ok(memberService.getSectorMerchantCounts(merchantSearchRequest));
     }
 
     @GetMapping("/member/sector")
