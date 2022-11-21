@@ -11,16 +11,19 @@ public class MemberDetailResponse {
 	private Long memberId;
 	private String name;
 	private Location location;
+	private String address;
 	private Integer totalBookCount;
 	private String avatarUrl;
 	private Long avgGrade;
 
+
 	@QueryProjection
-	public MemberDetailResponse(Long memberId, String name, Location location, Integer totalBookCount, String avatarUrl,
+	public MemberDetailResponse(Long memberId, String name, Location location, String address, Integer totalBookCount, String avatarUrl,
 		Long avgGrade) {
 		this.memberId = memberId;
 		this.name = name;
 		this.location = location;
+		this.address = address;
 		this.totalBookCount = totalBookCount;
 		this.avatarUrl = avatarUrl;
 		this.avgGrade = avgGrade;

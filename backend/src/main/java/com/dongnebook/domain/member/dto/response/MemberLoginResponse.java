@@ -25,7 +25,7 @@ public class MemberLoginResponse {
 
     public static MemberLoginResponse of(AuthMember authMember){
         return MemberLoginResponse.builder()
-            .id(authMember.getId())
+            .id(authMember.getMemberId())
             .userId(authMember.getUserId())
             .nickName(authMember.getNickname())
             .location(authMember.getLocation())

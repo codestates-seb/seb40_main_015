@@ -9,11 +9,13 @@ public class MemberEditRequest {
 
 	private String nickname;
 	private Location location;
+	private String address;
 	private String avatarUrl;
 
-	public MemberEditRequest(String nickname, Location location, String avatarUrl) {
+	public MemberEditRequest(String nickname, Location location, String address, String avatarUrl) {
 		this.nickname = nickname;
 		this.location = location;
+		this.address = address;
 		this.avatarUrl = avatarUrl;
 	}
 
