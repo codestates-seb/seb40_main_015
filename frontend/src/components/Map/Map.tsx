@@ -25,17 +25,19 @@ interface MapProps {
 	setCurrent: Dispatch<SetStateAction<{ La: number; Ma: number }>>;
 	reset: boolean;
 	setSelectOverlay: Dispatch<SetStateAction<any>>;
+	merchantSector: any;
 }
 
 const { kakao } = window;
 const Map = (props: MapProps) => {
-	const { current, setCurrent, reset, setSelectOverlay } = props;
+	const { current, setCurrent, reset, setSelectOverlay, merchantSector } =
+		props;
 	const [centerCoord, setCenterCoord] = useState({ La: '0', Ma: '0' });
 
 	let mapContainer = useRef(null); // 지도를 표시할 div
 	let mapOption = {
 		center: new kakao.maps.LatLng(33.450701, 126.570667), // 지도의 중심좌표
-		level: 3, // 지도의 확대 레벨
+		level: 5, // 지도의 확대 레벨
 		// 두번 클릭시 확대 기능을 막습니다
 		disableDoubleClickZoom: true,
 	};
@@ -45,7 +47,6 @@ const Map = (props: MapProps) => {
 		let imageSrc =
 			'https://velog.velcdn.com/images/fejigu/post/3917d7b1-130c-4bc8-88df-b665386adbdd/image.png';
 		for (let i = 0; i < data.length; i++) {
-			let view = false;
 			let imageSize = new kakao.maps.Size(30, 35);
 			let markerImage = new kakao.maps.MarkerImage(imageSrc, imageSize);
 			let marker = new kakao.maps.Marker({
@@ -68,14 +69,24 @@ const Map = (props: MapProps) => {
 			//커스텀 오버레이
 			let content = document.createElement('div');
 			content.setAttribute('class', 'overlay');
-			content.style.width = '10rem';
-			content.style.height = '10rem';
+			if (data[i].merchantCount < 10) {
+				content.style.width = '5rem';
+				content.style.height = '5rem';
+				content.style.fontSize = '2rem';
+			} else if (data[i].merchantCount < 100) {
+				content.style.width = '6rem';
+				content.style.height = '6rem';
+				content.style.fontSize = '2.5rem';
+			} else if (data[i].merchantCount < 1000) {
+				content.style.width = '7rem';
+				content.style.height = '7rem';
+				content.style.fontSize = '2.7rem';
+			}
 			content.style.backgroundColor = content.getAttribute('view')
 				? '#124B38'
 				: '#26795D';
 			content.style.opacity = '0.8';
 			content.style.borderRadius = '1000px';
-			content.style.fontSize = '3rem';
 			content.style.color = 'white';
 			content.style.display = 'flex';
 			content.style.alignItems = 'center';
@@ -124,8 +135,8 @@ const Map = (props: MapProps) => {
 	//카카오맵을 띄웁니다
 	useEffect(() => {
 		let map = new kakao.maps.Map(mapContainer.current, mapOption); // 지도를 생성합니다
-		if (data) {
-			ShowMultipleMarkers(map, data);
+		if (merchantSector) {
+			ShowMultipleMarkers(map, merchantSector);
 		}
 
 		// 지도 드래깅 이벤트를 등록한다 (드래그 시작 : dragstart, 드래그 종료 : dragend)
@@ -141,14 +152,16 @@ const Map = (props: MapProps) => {
 
 		// map.setCenter(current);
 		// 확대 축소 기능을 막습니다 -> 해당 부분 확대 기능만 추가하기(setLevel 메소드)
-		function setZoomable(zoomable: any) {
-			map.setZoomable(zoomable);
-		}
-		setZoomable(false);
+		// function setZoomable(zoomable: any) {
+		// 	map.setZoomable(zoomable);
+		// }
+		// setZoomable(false);
+		map.setMinLevel(1);
+		map.setMaxLevel(5);
 
 		// HTML5의 geolocation으로 사용할 수 있는지 확인합니다
-		if (data) {
-			ShowMultipleMarkers(map, data);
+		if (merchantSector) {
+			ShowMultipleMarkers(map, merchantSector);
 		}
 		if (current) {
 			let locPosition = new kakao.maps.LatLng(current.Ma, current.La); // 마커가 표시될 위치를 geolocation으로 얻어온 좌표로 생성합니다
@@ -216,7 +229,7 @@ const Map = (props: MapProps) => {
 			// 지도 중심좌표를 접속위치로 변경합니다
 			map.setCenter(locPosition);
 		}
-	}, [current, reset]);
+	}, [current, reset, merchantSector]);
 
 	useEffect(() => {
 		// centerCoord 변경될때마다 주변상인 정보 api 호출하기
@@ -231,7 +244,7 @@ const Map = (props: MapProps) => {
 		<div style={{ width: '100vw', height: '100%' }}>
 			<Container id="map" ref={mapContainer} />
 			<Search>
-				<MerchantLists merchantList={merchantList} />
+				{/* <MerchantLists merchantList={merchantList} /> */}
 				<BookLists bookLists={bookLists} />
 			</Search>
 		</div>
@@ -286,6 +299,9 @@ const List = styled.div`
 	justify-content: center;
 	background-color: white;
 	border-bottom: 0.5px solid rgb(196, 182, 186);
+	:hover {
+		background-color: ${props => props.theme.colors.background};
+	}
 `;
 
 export default Map;

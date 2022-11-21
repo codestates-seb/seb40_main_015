@@ -4,12 +4,15 @@ import { TbCurrentLocation } from 'react-icons/tb';
 import Search from '../components/Map/Search';
 import Map from '../components/Map/Map';
 import { getMerchantList } from '../api/test';
+import { data } from '../components/Map/dummy';
+
 const BooksSearchPage = () => {
 	const [current, setCurrent] = useState<any>();
 	const [searchInput, setSearchInput] = useState('');
 	const [reset, setReset] = useState(false);
 	const [selectOverlay, setSelectOverlay] = useState(null);
-	const [merchantSector, setMerchantSector] = useState<MerchantSectorProps>();
+	const [merchantSector, setMerchantSector] =
+		useState<MerchantSectorProps[]>(data);
 	const [merchantLists, setMerchantLists] = useState();
 	const [bookSector, setBookSector] = useState();
 	const [bookLists, setBookLists] = useState();
@@ -83,6 +86,7 @@ const BooksSearchPage = () => {
 				setCurrent={setCurrent}
 				reset={reset}
 				setSelectOverlay={setSelectOverlay}
+				merchantSector={merchantSector}
 			/>
 		</Container>
 	);

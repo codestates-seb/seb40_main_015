@@ -32,10 +32,10 @@ import lombok.RequiredArgsConstructor;
 public class MemberQueryRepository {
 	private final JPAQueryFactory jpaQueryFactory;
 
-	public List<Location> getSectorMerchantCounts(MerchantSearchRequest merchantSearchRequest) {
+	public List<Location> getSectorMerchantCounts(MerchantSearchRequest request) {
 
-		List<Double> LatRange = Location.latRangeList(merchantSearchRequest.getLatitude());
-		List<Double> LonRange = Location.lonRangeList(merchantSearchRequest.getLongitude());
+		List<Double> LatRange = Location.latRangeList(request.getLatitude(), request.getLength());
+		List<Double> LonRange = Location.lonRangeList(request.getLongitude(), request.getWidth());
 
 		return jpaQueryFactory.select(member.location)
 			.from(member)
@@ -45,17 +45,17 @@ public class MemberQueryRepository {
 
 	}
 
-	public SliceImpl<MemberResponse> getAll(MerchantSearchRequest merchantSearchRequest, PageRequest pageRequest) {
+	public SliceImpl<MemberResponse> getAll(MerchantSearchRequest request, PageRequest pageRequest) {
 
-		List<Double> LatRange = Location.latRangeList(merchantSearchRequest.getLatitude());
-		List<Double> LonRange = Location.lonRangeList(merchantSearchRequest.getLongitude());
+		List<Double> LatRange = Location.latRangeList(request.getLatitude(), request.getLength());
+		List<Double> LonRange = Location.lonRangeList(request.getLongitude(), request.getWidth());
 
 		List<MemberResponse> result = jpaQueryFactory.select(new QMemberResponse(member.id, member.nickname))
 			.from(member)
 			.where((member.location.latitude.between(LatRange.get(3), LatRange.get(0))),
 				(member.location.longitude.between(LonRange.get(0), LonRange.get(3))),
 				ltMemberId(pageRequest.getIndex()),
-				merchantSearchRequest.sectorBetween())
+				request.sectorBetween())
 			.orderBy(member.id.desc())
 			.limit(pageRequest.getSize() + 1)
 			.fetch();
