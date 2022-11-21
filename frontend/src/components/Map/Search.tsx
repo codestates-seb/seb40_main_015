@@ -1,30 +1,62 @@
 import styled from 'styled-components';
 import { HiSearch } from 'react-icons/hi';
 import { Dispatch, SetStateAction } from 'react';
+import { getTotalBook, getTotalMerchant } from '../../api/test';
+import notify from '../../utils/notify';
+import { useAppDispatch } from '../../redux/hooks';
+import { data, bookCount } from './dummy';
 
 interface SearchProps {
 	searchInput: string;
 	setSearchInput: Dispatch<SetStateAction<string>>;
 	setReset: Dispatch<SetStateAction<boolean>>;
+	current: { La: number; Ma: number };
+	setMerchantSector: Dispatch<SetStateAction<any>>;
+	setBookSector: Dispatch<SetStateAction<any>>;
 }
 
 const Search = (props: SearchProps) => {
-	const { searchInput, setSearchInput, setReset } = props;
+	const {
+		searchInput,
+		setSearchInput,
+		setReset,
+		current,
+		setMerchantSector,
+		setBookSector,
+	} = props;
+
+	const dispatch = useAppDispatch();
 
 	const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
 		setSearchInput(e.target.value);
 	};
 
 	const handleSearchInput = (e: React.KeyboardEvent) => {
-		console.log(e.key);
 		if (e.key === 'Enter') {
 			if (searchInput === '') {
-				// 현재위치 기준 상인정보 데이터 읽어오기
+				setReset(false);
+				// getTotalMerchant(current.Ma, current.La).then(res =>
+				// 	setMerchantSector(res),
+				// );
+				setMerchantSector(data); // 더미데이터
+				setBookSector([]);
+			} else {
+				getTotalBook(searchInput, current.Ma, current.La).then(res => {
+					// 책검색 api 요청 -> 데이터가 잇으면?
+					if (res) {
+						// setReset(true);
+						setBookSector(bookCount);
+						setMerchantSector([]);
+					} else {
+						// 없으면 ?
+						// 리셋안하고 toast 팝업;
+						// setReset(false);
+						notify(dispatch, '검색한 책이 없어요');
+						setBookSector([]);
+						setMerchantSector([]);
+					}
+				});
 			}
-			// 책검색 api 요청 -> 데이터가 잇으면?
-			setReset(true);
-			// 없으면 ?
-			// 리셋안하고 toast 팝업;
 		}
 	};
 

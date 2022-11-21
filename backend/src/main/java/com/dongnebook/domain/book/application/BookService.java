@@ -83,11 +83,11 @@ public class BookService {
 		return bookCommandRepository.findById(bookId).orElseThrow(BookNotFoundException::new);
 	}
 
-	public ArrayList<BookSectorCountResponse> getSectorBookCounts(BookSearchCondition bookSearchCondition) {
+	public ArrayList<BookSectorCountResponse> getSectorBookCounts(BookSearchCondition condition) {
 
-		List<Double> latRangeList = bookSearchCondition.latRangeList();
-		List<Double> lonRangeList = bookSearchCondition.lonRangeList();
-		List<Location> sectorBookCounts = bookQueryRepository.getSectorBookCounts(bookSearchCondition);
+		List<Double> latRangeList = Location.latRangeList(condition.getLatitude(), condition.getLength());
+		List<Double> lonRangeList =  Location.lonRangeList(condition.getLongitude(), condition.getWidth());
+		List<Location> sectorBookCounts = bookQueryRepository.getSectorBookCounts(condition);
 		ArrayList<BookSectorCountResponse> bookSectorCountResponses = new ArrayList<>();
 		HashMap<Integer,Integer> indexMap = new HashMap<>();
 		int arrIndex = 0;
