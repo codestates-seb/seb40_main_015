@@ -27,7 +27,7 @@ const BookLists = (props: Props) => {
 					<List key={bookId}>
 						<div className="bookstate">
 							<span className="book">{title}</span>
-							{status === '대여가능' && <div className="state1"></div>}
+							{status === '' && <div className="state1"></div>}
 							{status === '예약가능' && <div className="state2"></div>}
 							{status === '대여/예약불가' && <div className="state3"></div>}
 						</div>

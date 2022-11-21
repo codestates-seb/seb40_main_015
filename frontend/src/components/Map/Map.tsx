@@ -92,6 +92,7 @@ const Map = (props: MapProps) => {
 			content.style.alignItems = 'center';
 			content.style.justifyContent = 'center';
 			content.innerText = String(data[i].merchantCount);
+
 			//커스텀 오버레이 클릭 이벤트
 			content.onclick = () => {
 				setSelectOverlay(data[i]);
