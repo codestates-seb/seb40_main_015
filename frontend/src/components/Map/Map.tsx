@@ -1,5 +1,6 @@
 import { useEffect, useState, useRef, Dispatch, SetStateAction } from 'react';
 import styled, { keyframes } from 'styled-components';
+import { getTotalMerchant } from '../../api/map';
 import BookLists from './BookLists';
 import { data, dummyMerchantList, bookCount } from './dummy';
 import MerchantLists from './MerchantLists';
@@ -282,9 +283,9 @@ const Map = (props: MapProps) => {
 			console.log('현재위치 변경됨 주변 책정보 다시 요청');
 			setBookSector(bookCount);
 		}
-		// getTotalMerchant(centerCoord?.Ma, centerCoord?.La).then(res => {
-		// 	// setMerchantSector(res.content);
-		// });
+		getTotalMerchant(centerCoord?.Ma, centerCoord?.La).then(res => {
+			// setMerchantSector(res.content);
+		});
 	}, [centerCoord]);
 
 	return (
