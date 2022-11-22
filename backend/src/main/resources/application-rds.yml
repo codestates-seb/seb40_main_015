@@ -14,7 +14,7 @@ Spring:
   jpa:
     defer-datasource-initialization: true
     hibernate:
-      ddl-auto: none  # (1) 스키마 자동 생성 X
+      ddl-auto: update  # (1) 스키마 자동 생성 X
       type: trace
     show-sql: true      # (2) SQL 쿼리 출력
     properties:
