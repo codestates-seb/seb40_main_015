@@ -8,7 +8,10 @@ import {
 	HiHome,
 } from 'react-icons/hi';
 import home from '../../assets/image/logo4.png';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
+import theme from '../../styles/theme';
+import { useAppSelector } from '../../redux/hooks';
+import useNotify, { useNotifyHook } from '../../hooks/useNotify';
 
 interface MenuProps {
 	id: number;
@@ -17,7 +20,10 @@ interface MenuProps {
 	path: string;
 	selected: boolean;
 }
-
+const Unrestricted = (id: number) => {
+	// 로그인 버튼이 따로 없어서 마이페이지는 일단 로그인 요청 페이지로 이동시킴
+	return id === 0 || id === 2 || id === 4;
+};
 const NavTemp = () => {
 	const [menus, setMenus] = useState<MenuProps[]>([
 		{
@@ -36,7 +42,7 @@ const NavTemp = () => {
 		},
 		{
 			id: 2,
-			icon: <img src={home} alt="" width={30} height={30} />,
+			icon: <HiHome size="30" />,
 			text: '홈',
 			selected: true,
 			path: '/books',
@@ -57,7 +63,15 @@ const NavTemp = () => {
 		},
 	]);
 
+	// login 체크 로직
+	const notify = useNotifyHook();
+	const isLogin = useAppSelector(state => state.loginInfo.isLogin);
+	const location = useLocation();
+
 	const handleChangeMenu = (id: number): void => {
+		// login 체크 로직
+		if (!Unrestricted(id) && !isLogin) notify('로그인이 필요합니다.');
+
 		const newMenus = menus.map(menu =>
 			menu.id === id
 				? { ...menu, selected: true }
@@ -71,7 +85,9 @@ const NavTemp = () => {
 			{menus.map(menu => {
 				const { id, icon, text, selected, path } = menu;
 				return (
-					<Link to={path} key={id}>
+					<Link
+						to={Unrestricted(id) || isLogin ? path : location.pathname}
+						key={id}>
 						<Box selected={selected} onClick={() => handleChangeMenu(id)}>
 							{icon}
 							{text}
@@ -95,8 +111,8 @@ const Container = styled.div`
 	text-align: center;
 	bottom: 0;
 	padding: 10px 0;
-	border-top: 1px solid #a7a7a7;
-	background-color: #fbfbfb;
+	border-top: 1px solid ${props => props.theme.colors.headerBorder};
+	background-color: #f6f5ef;
 `;
 
 interface BoxProps {
@@ -107,5 +123,5 @@ const Box = styled.div<BoxProps>`
 	display: flex;
 	flex-direction: column;
 	align-items: center;
-	color: ${props => (props.selected ? '#26795D' : '#000000')};
+	color: ${props => (props.selected ? theme.colors.main : theme.colors.black)};
 `;

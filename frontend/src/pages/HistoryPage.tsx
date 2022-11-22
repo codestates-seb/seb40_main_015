@@ -25,7 +25,8 @@ const Layout = styled.div`
 	flex-direction: column;
 	align-items: center;
 	justify-content: center;
-	padding: 1rem;
+	background-color: #fbfbfb;
+	margin-top: 1rem;
 	h2 {
 		font-size: 2rem;
 		margin-bottom: 1rem;

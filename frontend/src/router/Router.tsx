@@ -4,7 +4,7 @@ import { Suspense } from 'react';
 // import LoginOnly from '../components/LoginOnly';
 // import Layout from '../pages/Layout';
 import LayoutTemp from '../pages/LayoutTemp';
-import Loading from '../components/Loading';
+import Animation from '../components/Loading/Animation';
 import {
 	MainPage,
 	BooksBookingPage,
@@ -28,10 +28,10 @@ import {
 function Router() {
 	return (
 		<BrowserRouter>
-			<Suspense fallback={<Loading />}>
+			<Suspense fallback={<Animation />}>
 				<Routes>
 					{/* <Route element={<HeroSection />} /> */}
-					<Route path="/" element={<MainPage />} />
+					{/* <Route path="" element={<MainPage />} /> */}
 					<Route path="/" element={<LayoutTemp />}>
 						{/* <Route index element={<MainPage />} /> */}
 						<Route element={<LoginOnly />}>

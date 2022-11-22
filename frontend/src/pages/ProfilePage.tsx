@@ -1,19 +1,25 @@
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
-import userImage from '../assets/image/user.png';
+import { HiOutlinePencilAlt } from 'react-icons/hi';
+import { useDispatch } from 'react-redux';
+
+// component
 import MyList from '../components/common/MyList';
 import TabLists from '../components/common/TabLists';
 import Title from '../components/common/Title';
-import { HiOutlinePencilAlt } from 'react-icons/hi';
-import ProfileEditPage from './ProfileEditPage';
-import useTabs from '../hooks/useTabs';
-import { useNavigate } from 'react-router-dom';
 import Button from '../components/common/Button';
+import ProfileEditPage from './ProfileEditPage';
+
+// etc
+import useTabs from '../hooks/useTabs';
+import userImage from '../assets/image/user.png';
+import { logout } from '../redux/slice/userSlice';
 
 function ProfilePage() {
 	const [tab, curTab, handleChange] = useTabs(['찜 목록', '예약 목록']);
-
 	const navigate = useNavigate();
+	const dispatch = useDispatch();
 	const handleEditPage = () => {
 		navigate('/profile/edit');
 	};
@@ -32,7 +38,13 @@ function ProfilePage() {
 			</ProfileBox>
 			<TabLists tabs={tab} handleChange={handleChange} />
 			<MyList />
-			<Button fontSize={'small'} className="logout">
+			<Button
+				fontSize={'small'}
+				className="logout"
+				onClick={() => {
+					dispatch(logout());
+					navigate('/books');
+				}}>
 				로그아웃
 			</Button>
 		</Layout>

@@ -1,5 +1,10 @@
 package com.dongnebook.domain.model;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Objects;
+
 import javax.persistence.Column;
 import javax.persistence.Embeddable;
 
@@ -7,11 +12,12 @@ import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.ToString;
+import lombok.extern.slf4j.Slf4j;
 
+@Slf4j
+@Getter
 @Embeddable
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-@Getter
 public class Location {
 
 	@Column(name = "latitude")
@@ -28,70 +34,72 @@ public class Location {
 
 	@Override
 	public String toString() {
-		return "이곳의 좌표는 {" +
-			"위도='" + latitude + '\'' +
-			", 경도='" + longitude + '\'' +
-			"입니다}";
+		return "이곳의 좌표는 {" + "위도='" + latitude + '\'' + ", 경도='" + longitude + '\'' + "입니다}";
 	}
 
-	public DMSLocation parseDMS(Location location) {
-		/**
-		 도 :  소수점 좌표 값의 정수(37)
-		 분 : 37을 제외한 0.397 X 60 = 23.82 에서 소수점 앞의 정수(23)
-		 초 : 0.82 X 60 = 49.2 에서 소수점 포함 앞의 4자리(49.2)
-		 **/
-		Long latDegree = getDegree(this.latitude);
-		Long latMinutes = getMinutes(this.latitude, latDegree);
-		Double latSeconds = getSeconds(this.latitude,latDegree, latMinutes);
-		Long lonDegree = getDegree(this.longitude);
-		Long lonMinutes = getMinutes(this.longitude, lonDegree);
-		Double lonSeconds = getSeconds(this.longitude,lonDegree, lonMinutes);
+	public static List<Double> latRangeList(Double latitude, Integer length, Integer level) {
 
-		return DMSLocation.builder().
-			latDegree(latDegree)
-			.latMinutes(latMinutes)
-			.latSeconds(latSeconds)
-			.lonDegree(lonDegree)
-			.lonMinutes(lonMinutes)
-			.lonSeconds(lonSeconds)
-			.build();
-	}
-
-	private long getDegree(Double lonOrLat) {
-		return lonOrLat.longValue();
-	}
-
-	private long getMinutes(Double lonOrLat, Long degree) {
-
-
-		return (long)((lonOrLat-degree)*60);
-	}
-
-	private double getSeconds(Double lonOrLat, Long degree, Long minutes) {
-		return (((lonOrLat - degree) * 60) - minutes)*60;
-	}
-
-	@ToString
-	static public class DMSLocation {
-
-		Long latDegree;
-		Long latMinutes;
-		Double latSeconds;
-
-		Long lonDegree;
-		Long lonMinutes;
-		Double lonSeconds;
-
-		@Builder
-		public DMSLocation(Long latDegree, Long latMinutes, Double latSeconds, Long lonDegree, Long lonMinutes,
-			Double lonSeconds) {
-			this.latDegree = latDegree;
-			this.latMinutes = latMinutes;
-			this.latSeconds = latSeconds;
-			this.lonDegree = lonDegree;
-			this.lonMinutes = lonMinutes;
-			this.lonSeconds = lonSeconds;
+		if (Objects.isNull(latitude)) {
+			return null;
 		}
+		// 3x3 6, 4x4 8
+		//홀수 일때
+
+		return calculateLatRange(latitude, length, level);
+	}
+
+	public static List<Double> lonRangeList(Double longitude, Integer width, Integer level) {
+
+		if (Objects.isNull(longitude)) {
+			return null;
+		}
+
+		return calculateLonRange(longitude, width, level);
+
+	}
+
+	private static ArrayList<Double> calculateLatRange(Double latitude, Integer length, Integer level) {
+		ArrayList<Double> latRangeList = new ArrayList<>();
+		double range = ((length / 1.1) / 100000) / (level * 2);
+		if (level % 2 == 1) {
+			for (int i = level/2+1; i > 0; i--) {
+				latRangeList.add(latitude + range * (1 + ((i-1) * 2)));
+			}
+			for (int i = 1; i <= level/2+1; i++) {
+				latRangeList.add(latitude - range * (1 + ((i-1) * 2)));
+			}
+		} else {
+			for (int i = level/2; i > 0; i--) {
+				latRangeList.add(latitude + range * (i * 2));
+			}
+			for (int i = 0; i < level/2; i++) {
+				latRangeList.add(latitude - range * (i * 2));
+			}
+		}
+		log.info("latRangeList={}",latRangeList);
+		return latRangeList;
+	}
+
+	private static ArrayList<Double> calculateLonRange(Double longitude, Integer width, Integer level) {
+		ArrayList<Double> lonRangeList = new ArrayList<>();
+		double range = ((width / 0.9) / 100000) / (level * 2);
+		if (level % 2 == 1) {
+			for (int i = level/2 + 1; i > 0; i--) {
+				lonRangeList.add(longitude - range * (1 + ((i-1) * 2)));
+			}
+			for (int i = 1; i <= level/2 + 1; i++) {
+				lonRangeList.add(longitude + range * (1 + ((i-1) * 2)));
+			}
+		} else {
+			for (int i = level/2; i > 0; i--) {
+				lonRangeList.add(longitude - range * (i * 2));
+			}
+			for (int i = 0; i < level/2; i++) {
+				lonRangeList.add(longitude + range * (i * 2));
+			}
+		}
+		log.info("lonRangeList={}",lonRangeList);
+		return lonRangeList;
 	}
 
 }

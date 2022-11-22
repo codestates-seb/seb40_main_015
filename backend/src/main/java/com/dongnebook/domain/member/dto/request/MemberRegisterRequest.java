@@ -5,12 +5,14 @@ import javax.validation.constraints.Pattern;
 
 import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 @Getter
+@NoArgsConstructor
 public class MemberRegisterRequest {
 
 	@NotBlank(message = "아이디는 필수 입력 값입니다.")
-	@Pattern(regexp = "^[a-zA-Z0-9]*$", message = "아이디는 영문과 숫자의 조합입니다.")
+	@Pattern(regexp = "^[a-zA-Z\\d]*$", message = "아이디는 영문과 숫자의 조합입니다.")
 	private String userId;
 
 	@NotBlank(message = "비밀번호는 필수 입력 값입니다.")
