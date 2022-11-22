@@ -6,20 +6,18 @@ import Title from '../components/common/Title';
 import useTabs from '../hooks/useTabs';
 import Review from '../components/Merchant/Review';
 import { useMypageAPI } from '../api/mypage';
-import { useAppSelector } from '../redux/hooks';
-import { useEffect, useState } from 'react';
+import { useParams } from 'react-router-dom';
+import { useQuery } from '@tanstack/react-query';
+import { MemberInfo } from '../queryType/members';
 
 function MerchantPage() {
 	const [tab, curTab, handleChange] = useTabs(['책 목록', '리뷰 보기']);
-	const id = useAppSelector(state => state.loginInfo.id);
 	const { getMemberInfo } = useMypageAPI();
-	const [memberInfo, setMemberInfo] = useState();
+	const urlParams = useParams();
 
-	useEffect(() => {
-		getMemberInfo(id).then(res => {
-			console.log(res);
-		});
-	}, []);
+	const { data } = useQuery<MemberInfo>(['merchant'], () =>
+		getMemberInfo(urlParams.merchantId),
+	);
 
 	return (
 		<Layout>
@@ -27,10 +25,10 @@ function MerchantPage() {
 			<ProfileBox>
 				<img src={dummyImage} alt="dummy" width={80} height={100} />
 				<UserInfoBox>
-					<p>닉네임: 홍길동</p>
-					<p>주거래 동네: 강남</p>
-					<p>빌려주는 도서 수: 3</p>
-					<p>평점(평균): 별별별별별</p>
+					<p>닉네임: {data?.name}</p>
+					<p>주거래 동네: {data?.address}</p>
+					<p>빌려주는 도서 수: {data?.totalBookCount}</p>
+					<p>평점(평균): {data?.avgGrade}</p>
 				</UserInfoBox>
 			</ProfileBox>
 			<TabLists tabs={tab} handleChange={handleChange} />
