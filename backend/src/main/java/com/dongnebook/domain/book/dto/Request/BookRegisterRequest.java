@@ -25,18 +25,17 @@ public class BookRegisterRequest {
 	private String imageUrl;
 	@Min(0)
 	private Integer rentalFee;
-	@Nullable
-	private Location location;
+
 
 	@Builder
 	public BookRegisterRequest(String title, String author, String publisher, String description, String imageUrl,
-		Integer rentalFee, Location location) {
+		Integer rentalFee) {
 		this.title = title;
 		this.author = author;
 		this.publisher = publisher;
 		this.description = description;
 		this.imageUrl = imageUrl;
 		this.rentalFee = rentalFee;
-		this.location = location;
+
 	}
 }

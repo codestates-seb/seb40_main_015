@@ -20,6 +20,8 @@ import ProfileEditPage from './ProfileEditPage';
 import useTabs from '../hooks/useTabs';
 import userImage from '../assets/image/user.png';
 import { logout } from '../redux/slice/userSlice';
+import { dummyBookWish } from '../assets/dummy/books';
+import BookItem from '../components/Books/BookItem';
 
 function ProfilePage() {
 	const [tab, curTab, handleChange] = useTabs(['찜 목록', '예약 목록']);
@@ -52,10 +54,28 @@ function ProfilePage() {
 					</div>
 				</UserInfoBox>
 			</ProfileBox>
+
 			<TabLists tabs={tab} handleChange={handleChange} />
 			{curTab === '찜 목록' && <PickBookList />}
 			{curTab === '예약 목록' && <ReservationBookList />}
 			{/* <MyList /> */}
+
+			{/* {dummyBookWish?.map(el => {
+				return (
+					<ContainerNew key={+el.bookId}>
+						<BookItem
+							// key={+el.bookId}
+							bookId={el.bookId}
+							title={el.title}
+							bookImage={el.imageUrl}
+							rentalfee={+el.rentalFee}
+							status={el.status}
+						/>
+					</ContainerNew>
+				);
+			})}
+
+			<MyList /> */}
 			<Button
 				fontSize={'small'}
 				className="logout"
@@ -68,6 +88,10 @@ function ProfilePage() {
 		</Layout>
 	);
 }
+
+const ContainerNew = styled.div`
+	width: 90%;
+`;
 
 const Layout = styled.div`
 	display: flex;

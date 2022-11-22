@@ -63,9 +63,14 @@ public class RentalController {
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
-    @GetMapping("{id}/from")
-    public ResponseEntity<SliceImpl<RentalBookResponse>> getBooksFromMerchantInfinite(@PathVariable("id") Long merchantId, PageRequest pageRequest){
-        return new ResponseEntity<>(rentalService.getBooksByMerchantInfinite(merchantId, pageRequest), HttpStatus.OK);
+    @GetMapping("from")
+    public ResponseEntity<SliceImpl<RentalBookResponse>> getRentalsByMerchant(@AuthenticationPrincipal AuthMember merchant, PageRequest pageRequest){
+        return new ResponseEntity<>(rentalService.getRentalsByMerchant(merchant.getMemberId(), pageRequest), HttpStatus.OK);
+    }
+
+    @GetMapping("to")
+    public ResponseEntity<SliceImpl<RentalBookResponse>> getRentalsByCustomer(@AuthenticationPrincipal AuthMember customer, PageRequest pageRequest){
+        return new ResponseEntity<>(rentalService.getRentalsByCustomer(customer.getMemberId(), pageRequest), HttpStatus.OK);
     }
 
 }

@@ -1,5 +1,7 @@
 package com.dongnebook.domain.member.ui;
 
+import com.dongnebook.domain.book.application.BookService;
+import com.dongnebook.domain.book.dto.response.BookSimpleResponse;
 import com.dongnebook.domain.member.application.MemberService;
 
 import com.dongnebook.domain.member.dto.request.MemberEditRequest;
@@ -32,6 +34,7 @@ import java.util.Map;
 @RequiredArgsConstructor
 public class MemberController {
     private final MemberService memberService;
+    private final BookService bookService;
 
     @PostMapping("/auth/signup")
     public ResponseEntity<Map<String, Long>> create(@Valid @RequestBody MemberRegisterRequest memberRegisterRequest) {
@@ -101,6 +104,11 @@ public class MemberController {
     @GetMapping("/member/{id}")
     public ResponseEntity<MemberDetailResponse> getMyInfo(@PathVariable Long id){
         return ResponseEntity.ok(memberService.getMemberInfo(id));
+    }
+
+    @GetMapping("/member/{id}/books")
+    public SliceImpl<BookSimpleResponse> getMemberBooks(@PathVariable Long id, PageRequest pageRequest){
+        return bookService.getListByMember(id,pageRequest);
     }
 
 }

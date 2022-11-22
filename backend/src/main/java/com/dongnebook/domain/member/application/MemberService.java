@@ -1,5 +1,6 @@
 package com.dongnebook.domain.member.application;
 
+import com.dongnebook.domain.book.repository.BookQueryRepository;
 import com.dongnebook.domain.member.dto.request.MerchantSearchRequest;
 
 import com.dongnebook.domain.member.dto.request.MemberEditRequest;
@@ -34,6 +35,8 @@ import java.util.Objects;
 
 import java.util.Optional;
 
+import javax.persistence.EntityManager;
+
 @Slf4j
 @Getter
 @Service
@@ -43,6 +46,8 @@ public class MemberService {
 	private final MemberRepository memberRepository;
 	private final PasswordEncoder passwordEncoder;
 	private final MemberQueryRepository memberQueryRepository;
+	private final BookQueryRepository bookQueryRepository;
+	private final EntityManager em;
 
 	@Transactional
 	public Long create(MemberRegisterRequest memberRegisterRequest) {
@@ -68,8 +73,13 @@ public class MemberService {
 
 	@Transactional
 	public void edit(Long memberId, MemberEditRequest memberEditRequest) {
+
 		Member member = memberRepository.findById(memberId).orElseThrow(MemberNotFoundException::new);
 		member.edit(memberEditRequest);
+		em.flush();
+		bookQueryRepository.updateBookLocation(member,memberEditRequest.getLocation());
+
+
 	}
 
 	public ArrayList<MerchantSectorCountResponse> getSectorMerchantCounts(MerchantSearchRequest request) {
@@ -87,6 +97,7 @@ public class MemberService {
 			Double latitude = location.getLatitude();
 			Double longitude = location.getLongitude();
 			int sector = 0;
+			Loop :
 			for (int i = 0; i < request.getLevel(); i++) {
 				for (int j = 0; j < request.getLevel(); j++) {
 					sector++;
@@ -95,6 +106,7 @@ public class MemberService {
 						if (makeMerchantCountResponse(merchantSectorCountResponses, sector, arrIndex, location,
 							indexMap)) {
 							arrIndex += 1;
+							break Loop;
 						}
 					}
 				}
