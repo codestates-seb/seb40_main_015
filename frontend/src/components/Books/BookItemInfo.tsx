@@ -1,5 +1,4 @@
 import styled from 'styled-components';
-import BookImageDummy from '../../assets/image/dummy.png';
 import convertDate from '../../utils/convertDate';
 import { BooksProps, RentalProps } from './type';
 
@@ -46,12 +45,10 @@ const BookItemInfo = ({
 			</BookImage>
 			<BookDetail>
 				<BookTitle>{title}</BookTitle>
-				<p>
-					<span>{author ? `${author} / ${publisher}` : ''}</span>
-				</p>
+				<p>{author ? `${author} / ${publisher}` : ''}</p>
 				<p>{merchantName}</p>
 				<p>{`${rentalfee} 원`}</p>
-				{rentalPeriodConversion(rental)}
+				{/* {rentalPeriodConversion(rental)} */}
 			</BookDetail>
 		</BookInfo>
 	);

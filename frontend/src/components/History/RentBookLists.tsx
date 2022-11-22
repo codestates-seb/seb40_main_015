@@ -9,6 +9,8 @@ import BookItem from '../Books/BookItem';
 import { dummyBooksRental } from '../../assets/dummy/books';
 import { RentalProps } from '../Books/type';
 import { useHistoryAPI } from '../../api/history';
+import LendBookUserInfo from './LendBookUserInfo';
+import LendStatusButton from './LendStatusButton';
 
 interface ListProps {
 	bookInfo: {
@@ -62,18 +64,26 @@ const RentBookLists = () => {
 		<Box>
 			{/* 통합본 추가 */}
 			{dummyBooksRental?.map(el => (
-				<BookItem
-					key={+el.bookInfo.bookId}
-					bookId={el.bookInfo.bookId}
-					title={el.bookInfo.title}
-					bookImage={el.bookInfo.bookUrl}
-					rentalfee={+el.bookInfo.rental_fee}
-					author={el.bookInfo.author}
-					publisher={el.bookInfo.publisher}
-					merchantName={el.bookInfo.merchantName}
-					status={el.rentalInfo.rentalState}
-					rental={el.rentalInfo}
-				/>
+				<BookWrapper key={+el.bookInfo.bookId}>
+					<BookItem
+						bookId={el.bookInfo.bookId}
+						title={el.bookInfo.title}
+						bookImage={el.bookInfo.bookUrl}
+						rentalfee={+el.bookInfo.rental_fee}
+						author={el.bookInfo.author}
+						publisher={el.bookInfo.publisher}
+						status={el.rentalInfo.rentalState}
+						rental={el.rentalInfo}
+					/>
+					<LendBookUserInfo
+						rentalInfo={el.rentalInfo}
+						merchantName={el.bookInfo.merchantName}
+					/>
+					<LendStatusButton
+						status={el.rentalInfo.rentalState}
+						customerName={el.rentalInfo.customerName}
+					/>
+				</BookWrapper>
 			))}
 
 			{/* 컴포넌트 통합 전 */}
@@ -144,6 +154,15 @@ const RentBookLists = () => {
 
 const Box = styled.div`
 	/* padding: 0 1rem; */
+`;
+
+const BookWrapper = styled.div`
+	width: 100%;
+
+	display: flex;
+	flex-direction: column;
+
+	margin-bottom: 3rem;
 `;
 
 const Wrapper = styled.div`

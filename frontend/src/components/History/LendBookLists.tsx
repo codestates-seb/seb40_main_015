@@ -50,7 +50,6 @@ const LentBookLists = () => {
 						rentalfee={+el.bookInfo.rental_fee}
 						author={el.bookInfo.author}
 						publisher={el.bookInfo.publisher}
-						merchantName={el.bookInfo.merchantName}
 						status={el.rentalInfo.rentalState}
 						rental={el.rentalInfo}
 					/>
@@ -134,10 +133,10 @@ const Wrapper = styled.div`
 	/* max-width: 850px; */
 	display: flex;
 	flex-direction: column;
-	margin-bottom: 2rem;
-	/* 
-	padding-bottom: 1rem;
-	border-bottom: 1px solid black; */
+	margin-bottom: 3rem;
+
+	/* padding-bottom: 2rem; */
+	/* border-bottom: 1px solid rgba(0, 0, 0, 0.2); */
 `;
 
 const Container = styled.div`

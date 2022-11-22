@@ -4,6 +4,7 @@ import { RentalProps } from '../Books/type';
 
 interface ILendBookUserInfo {
 	rentalInfo: RentalProps;
+	merchantName?: string;
 }
 
 // export const LendBookUserInfo = ({
@@ -14,10 +15,17 @@ interface ILendBookUserInfo {
 // 	rentalReturnedAt,
 // 	rentalCanceledAt,
 // }: RentalProps) => {
-export const LendBookUserInfo = ({ rentalInfo }: ILendBookUserInfo) => {
+export const LendBookUserInfo = ({
+	rentalInfo,
+	merchantName,
+}: ILendBookUserInfo) => {
 	return (
 		<UserInfoBox>
-			<span>주민: {rentalInfo.customerName}</span>
+			<span>
+				{merchantName
+					? `빌려준 상인: ${merchantName}`
+					: `빌려간 주민: ${rentalInfo.customerName}`}
+			</span>
 			{(rentalInfo.rentalState === 'TRADING' ||
 				rentalInfo.rentalState === 'BEING_RENTED') && (
 				<p>

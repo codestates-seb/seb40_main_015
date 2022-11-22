@@ -30,24 +30,6 @@ const BookItem = ({
 }: BooksProps) => {
 	return (
 		<BookContainer to={`/books/${bookId}`}>
-			{/* <BookInfo>
-				<BookImage>
-					<img src={BookImageDummy} alt="Book Image" />
-				</BookImage>
-				<BookDetail>
-					<h1>책 제목은 h1</h1>
-					<p>저자 / 출판사</p>
-					<p>거래 지역</p>
-					<p>상인이름</p>
-					<p>대여료</p>
-					<p>대여기간</p>
-				</BookDetail>
-			</BookInfo>
-
-			<BookStateWrapper>
-				<Button>대여 가능</Button>
-				<Button backgroundColor={'grey'}>대여중</Button>
-			</BookStateWrapper> */}
 			<BookItemInfo
 				title={title}
 				bookImage={bookImage}
@@ -71,7 +53,7 @@ const BookContainer = styled(Link)`
 	justify-content: space-between;
 
 	padding: 14px;
-	margin: 10px 0;
+	margin-bottom: 6px;
 
 	border: 1px solid rgba(1, 1, 1, 0.1);
 	border-radius: 5px;
