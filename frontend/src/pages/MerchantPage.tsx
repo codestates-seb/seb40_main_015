@@ -5,14 +5,14 @@ import TabLists from '../components/common/TabLists';
 import Title from '../components/common/Title';
 import useTabs from '../hooks/useTabs';
 import Review from '../components/Merchant/Review';
-import { useMemberAPI } from '../api/member';
+import { useMypageAPI } from '../api/mypage';
 import { useParams } from 'react-router-dom';
 import { useQuery } from '@tanstack/react-query';
 import { MemberInfo } from '../queryType/members';
 
 function MerchantPage() {
 	const [tab, curTab, handleChange] = useTabs(['책 목록', '리뷰 보기']);
-	const { getMemberInfo } = useMemberAPI();
+	const { getMemberInfo } = useMypageAPI();
 	const urlParams = useParams();
 
 	const { data } = useQuery<MemberInfo>(['merchant'], () =>

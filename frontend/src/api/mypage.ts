@@ -3,9 +3,8 @@ import useAPI from '../hooks/useAPI';
 export const useMypageAPI = () => {
 	const api = useAPI();
 
-
-  // 마이페이지 - 회원정보 열람
-	const getMemberInfo = async (id: string) => {
+	// 마이페이지 - 회원정보 열람
+	const getMemberInfo = async (id: string | undefined) => {
 		try {
 			const result = await api.get(`/member/${id}`);
 			console.log(result);
@@ -15,7 +14,7 @@ export const useMypageAPI = () => {
 		}
 	};
 
-  // 마이페이지 - 회원정보 수정
+	// 마이페이지 - 회원정보 수정
 	const getFixMemberInfo = async (id: string) => {
 		try {
 			const result = await api.get(`/member/${id}/edit`);
@@ -48,7 +47,6 @@ export const useMypageAPI = () => {
 	// 	}
 	// };
 
-
 	// 예약 취소
 	const axiosCancleReservation = async (id: string) => {
 		try {
@@ -69,13 +67,12 @@ export const useMypageAPI = () => {
 			return err;
 		}
 	};
-	
 
 	return {
 		getMemberInfo,
 		getFixMemberInfo,
 		getPickBookLists,
 		axiosCancleReservation,
-		axiosAddPhoto
+		axiosAddPhoto,
+	};
 };
-}
