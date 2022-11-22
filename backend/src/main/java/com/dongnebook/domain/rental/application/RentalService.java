@@ -102,8 +102,12 @@ public class RentalService {
 		book.changeBookStateFromTo(BookState.UNRENTABLE_RESERVABLE, BookState.RENTABLE);
 	}
 
-	public SliceImpl<RentalBookResponse> getBooksByMerchantInfinite(Long merchantId, PageRequest pageRequest) {
+	public SliceImpl<RentalBookResponse> getRentalsByMerchant(Long merchantId, PageRequest pageRequest) {
 		return rentalQueryRepository.findAllByMerchantIdOrderByIdDesc(merchantId, pageRequest);
+	}
+
+	public SliceImpl<RentalBookResponse> getRentalsByCustomer(Long customerId, PageRequest pageRequest) {
+		return rentalQueryRepository.findAllByCustomerIdOrderByIdDesc(customerId, pageRequest);
 	}
 
 	private Book getBookById(Long bookId) {
