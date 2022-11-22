@@ -3,12 +3,14 @@ import styled from 'styled-components';
 import { TbCurrentLocation } from 'react-icons/tb';
 import Search from '../components/Map/Search';
 import Map from '../components/Map/Map';
-import { getBookList, getMerchantList, getTotalBook } from '../api/test';
+import { getBookList, getMerchantList, getTotalBook } from '../api/map';
 import {
 	data,
 	dummyMerchantList,
 	bookListsDummy,
 } from '../components/Map/dummy';
+import useWindowSize from '../hooks/useWindowSize';
+import useGeoLocation from '../hooks/useGeoLocation';
 
 interface MerchantSectorProps {
 	merchantCount: number;
@@ -20,7 +22,7 @@ interface MerchantSectorProps {
 }
 
 const BooksSearchPage = () => {
-	const [current, setCurrent] = useState<any>();
+	const [current, setCurrent, handleCurrentLocationMove] = useGeoLocation();
 	const [searchInput, setSearchInput] = useState('');
 	const [reset, setReset] = useState(false);
 	const [selectOverlay, setSelectOverlay] = useState(null);
@@ -29,23 +31,9 @@ const BooksSearchPage = () => {
 	const [merchantLists, setMerchantLists] = useState<any>([]);
 	const [bookSector, setBookSector] = useState([]);
 	const [bookLists, setBookLists] = useState<any>([]);
-
-	const handleCurrentLocationMove = () => {
-		let lat = 0;
-		let lon = 0;
-		var options = {
-			enableHighAccuracy: true,
-		};
-		navigator.geolocation.getCurrentPosition(
-			position => {
-				lat = position.coords.latitude; // 위도
-				lon = position.coords.longitude; // 경도
-				setCurrent({ La: lon, Ma: lat });
-			},
-			null,
-			options,
-		);
-	};
+	const [zoomLevel, setZoomLevel] = useState(5);
+	const size = useWindowSize(zoomLevel);
+	console.log(size);
 
 	useEffect(() => {
 		if (typeof selectOverlay === 'object' && !!selectOverlay) {
@@ -90,6 +78,8 @@ const BooksSearchPage = () => {
 					current={current}
 					setMerchantSector={setMerchantSector}
 					setBookSector={setBookSector}
+					setMerchantLists={setMerchantLists}
+					setBookLists={setBookLists}
 				/>
 				<TbCurrentLocation
 					className="location"
@@ -109,6 +99,7 @@ const BooksSearchPage = () => {
 				setBookSector={setBookSector}
 				bookSector={bookSector}
 				bookLists={bookLists}
+				setZoomLevel={setZoomLevel}
 			/>
 		</Container>
 	);
