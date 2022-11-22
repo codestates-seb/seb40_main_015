@@ -41,6 +41,9 @@ public class Rental {
     @Column(name = "last_modified_at")
     private LocalDateTime modifiedAt;
 
+    @Column(name = "merchant_id")
+    private Long merchantId;
+
     @Convert(converter = RentalStateConverter.class)
     @Column(name = "rental_state", nullable = false)
     private RentalState rentalState;
@@ -51,15 +54,16 @@ public class Rental {
 
     @ManyToOne
     @JoinColumn(name = "customer_id", nullable = false)
-    private Member member;
+    private Member customer;
 
     @Builder
     public Rental(LocalDateTime rentalDeadLine, RentalState rentalState,
-                  Book book, Member member) {
+                  Long merchantId, Book book, Member customer) {
         this.rentalDeadLine = rentalDeadLine;
         this.rentalState = rentalState;
+        this.merchantId = merchantId;
         this.book = book;
-        this.member = member;
+        this.customer = customer;
     }
 
     public void changeRentalStateFromTo(RentalState from, RentalState to) {
@@ -78,12 +82,13 @@ public class Rental {
         this.canceledAt = canceledAt;
     }
 
-    public static Rental create(Book book, Member member) {
+    public static Rental create(Book book, Member customer) {
         return Rental.builder()
                 .rentalDeadLine(LocalDateTime.now().plusDays(9).withHour(23).withMinute(59).withSecond(59))
                 .rentalState(RentalState.TRADING)
+                .merchantId(book.getMember().getId())
                 .book(book)
-                .member(member)
+                .customer(customer)
                 .build();
     }
 }

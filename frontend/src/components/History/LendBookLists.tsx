@@ -4,6 +4,9 @@ import dummyImage from '../../assets/image/dummy.png';
 import convertDate from '../../utils/convertDate';
 import LendStatusButton from './LendStatusButton';
 import { lendDummy } from './dummy';
+import { dummyBooksLending } from '../../assets/dummy/books';
+import BookItem from '../Books/BookItem';
+import LendBookUserInfo from './LendBookUserInfo';
 
 interface ListProps {
 	bookInfo: {
@@ -37,6 +40,28 @@ const LentBookLists = () => {
 
 	return (
 		<Box>
+			{/* 통합본 추가 */}
+			{dummyBooksLending?.map(el => (
+				<Wrapper key={+el.bookInfo.bookId}>
+					<BookItem
+						bookId={el.bookInfo.bookId}
+						title={el.bookInfo.title}
+						bookImage={el.bookInfo.bookUrl}
+						rentalfee={+el.bookInfo.rental_fee}
+						author={el.bookInfo.author}
+						publisher={el.bookInfo.publisher}
+						merchantName={el.bookInfo.merchantName}
+						status={el.rentalInfo.rentalState}
+						rental={el.rentalInfo}
+					/>
+					<LendBookUserInfo rentalInfo={el.rentalInfo} />
+					<LendStatusButton
+						status={el.rentalInfo.rentalState}
+						customerName={el.rentalInfo.customerName}
+					/>
+				</Wrapper>
+			))}
+			{/* 컴포넌트 통합 전 */}
 			{test
 				? test.map((item, i) => {
 						const { bookInfo, rentalInfo } = item;
@@ -109,7 +134,10 @@ const Wrapper = styled.div`
 	/* max-width: 850px; */
 	display: flex;
 	flex-direction: column;
-	margin-bottom: 1rem;
+	margin-bottom: 2rem;
+	/* 
+	padding-bottom: 1rem;
+	border-bottom: 1px solid black; */
 `;
 
 const Container = styled.div`

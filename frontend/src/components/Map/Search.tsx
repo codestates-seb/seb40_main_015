@@ -57,7 +57,7 @@ const Search = (props: SearchProps) => {
 						// 없으면 ?
 						// 리셋안하고 toast 팝업;
 						// setReset(false);
-						notify(dispatch, '검색한 책이 없어요');
+						notify(dispatch, `검색한 ${searchInput}가 주변에 없어요`);
 						setBookSector([]);
 						setBookLists([]);
 						setMerchantSector([]);

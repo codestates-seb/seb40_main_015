@@ -21,7 +21,7 @@ interface loginProps {
 interface userInfo {
 	id: string;
 	userId: string;
-	nickname: string;
+	nickName: string;
 	headers?: { authorization: string };
 }
 
@@ -42,6 +42,7 @@ const LoginForm = () => {
 	// noti
 	const notify = useNotifyHook();
 
+	// login query
 	const { mutate, data, isLoading, isSuccess, isError } = useMutation({
 		mutationFn: () =>
 			fetchLogin({
@@ -54,7 +55,7 @@ const LoginForm = () => {
 				headers: { authorization },
 			} = res;
 			distpatch(login({ ...data, accessToken: authorization, isLogin: true }));
-			notify(`${data.nickname}님 안녕하세요`);
+			notify(`${data.nickName}님 안녕하세요`);
 			navigate('/books');
 		},
 		onError: res => {
