@@ -1,5 +1,6 @@
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
+import { dummyBooks } from '../assets/dummy/books';
 
 //components
 import BookItem from '../components/Books/BookItem';
@@ -19,16 +20,20 @@ const BooksPage = () => {
 				</LinkStyled>
 			</BtnWrapper>
 
-			<Books>
-				<BookItem />
-				<BookItem />
-				<BookItem />
-				<BookItem />
-				<BookItem />
-				<BookItem />
-				<BookItem />
-				<BookItem />
-			</Books>
+			<BooksList>
+				{/* <BookItem /> */}
+
+				{dummyBooks?.map(el => (
+					<BookItem
+						key={+el.bookId}
+						bookId={el.bookId}
+						title={el.title}
+						bookImage={el.bookImage}
+						status={el.status}
+						merchantName={el.merchantName}
+					/>
+				))}
+			</BooksList>
 		</Main>
 	);
 };
@@ -46,7 +51,7 @@ const BtnWrapper = styled.div`
 	padding: 10px 20px;
 `;
 
-const Books = styled.div`
+const BooksList = styled.div`
 	height: 70vh;
 	padding: 10px;
 

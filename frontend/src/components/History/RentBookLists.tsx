@@ -5,6 +5,8 @@ import convertDate from '../../utils/convertDate';
 import RentStatusButton from './RentStatusButton';
 import { rentalDummy } from './dummy';
 import { axiosCancleByCustomer } from '../../api/history';
+import BookItem from '../Books/BookItem';
+import { dummyBooksRental } from '../../assets/dummy/books';
 
 interface ListProps {
 	bookInfo: {
@@ -38,6 +40,19 @@ const RentBookLists = () => {
 
 	return (
 		<Box>
+			{dummyBooksRental?.map(el => (
+				<BookItem
+					key={+el.bookInfo.bookId}
+					bookId={el.bookInfo.bookId}
+					title={el.bookInfo.title}
+					bookImage={el.bookInfo.bookUrl}
+					rentalfee={+el.bookInfo.rental_fee}
+					author={el.bookInfo.author}
+					publisher={el.bookInfo.publisher}
+					merchantName={el.bookInfo.merchantName}
+					status={el.rentalInfo.rentalState}
+				/>
+			))}
 			{test
 				? test.map((item, i) => {
 						const { bookInfo, rentalInfo } = item;

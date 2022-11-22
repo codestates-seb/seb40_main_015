@@ -4,6 +4,8 @@ import dummyImage from '../../assets/image/dummy.png';
 import convertDate from '../../utils/convertDate';
 import LendStatusButton from './LendStatusButton';
 import { lendDummy } from './dummy';
+import { dummyBooksLending } from '../../assets/dummy/books';
+import BookItem from '../Books/BookItem';
 
 interface ListProps {
 	bookInfo: {
@@ -37,6 +39,21 @@ const LentBookLists = () => {
 
 	return (
 		<Box>
+			{/* 통합본 추가 */}
+			{dummyBooksLending?.map(el => (
+				<Wrapper key={+el.bookInfo.bookId}>
+					<BookItem
+						bookId={el.bookInfo.bookId}
+						title={el.bookInfo.title}
+						bookImage={el.bookInfo.bookUrl}
+						rentalfee={+el.bookInfo.rental_fee}
+						author={el.bookInfo.author}
+						publisher={el.bookInfo.publisher}
+						merchantName={el.bookInfo.merchantName}
+						status={el.rentalInfo.rentalState}
+					/>
+				</Wrapper>
+			))}
 			{test
 				? test.map((item, i) => {
 						const { bookInfo, rentalInfo } = item;
