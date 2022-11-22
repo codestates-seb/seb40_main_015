@@ -57,7 +57,7 @@ public class BookService {
 		//자기가 쓴 글인지 확인하는 로직
 		Book book = getByBookId(bookId);
 
-		if(!Objects.equals(book.getMember().getId(), memberId)){
+		if (!Objects.equals(book.getMember().getId(), memberId)) {
 			throw new NotOwnerException();
 		}
 
@@ -75,6 +75,7 @@ public class BookService {
 			.orElseGet(
 				() -> Optional.ofNullable(member.getLocation()).orElseThrow(LocationNotCreatedYetException::new));
 	}
+
 	private Member getMember(Long memberId) {
 		return memberRepository.findById(memberId).orElseThrow(MemberNotFoundException::new);
 	}
@@ -85,25 +86,26 @@ public class BookService {
 
 	public ArrayList<BookSectorCountResponse> getSectorBookCounts(BookSearchCondition condition) {
 
-		List<Double> latRangeList = Location.latRangeList(condition.getLatitude(), condition.getLength());
-		List<Double> lonRangeList =  Location.lonRangeList(condition.getLongitude(), condition.getWidth());
+		List<Double> latRangeList = Location.latRangeList(condition.getLatitude(), condition.getLength(),
+			condition.getLevel());
+		List<Double> lonRangeList = Location.lonRangeList(condition.getLongitude(), condition.getWidth(),
+			condition.getLevel());
 		List<Location> sectorBookCounts = bookQueryRepository.getSectorBookCounts(condition);
 		ArrayList<BookSectorCountResponse> bookSectorCountResponses = new ArrayList<>();
-		HashMap<Integer,Integer> indexMap = new HashMap<>();
+		HashMap<Integer, Integer> indexMap = new HashMap<>();
 		int arrIndex = 0;
-
-
 
 		for (Location location : sectorBookCounts) {
 			int sector = 0;
 			Double latitude = location.getLatitude();
 			Double longitude = location.getLongitude();
-			for (int i = 0; i < 3; i++) {
-				for (int j = 0; j < 3; j++) {
+			for (int i = 0; i < condition.getLevel(); i++) {
+				for (int j = 0; j < condition.getLevel(); j++) {
 					sector++;
-					if (latRangeList.get(i+1) <= latitude && latitude <= latRangeList.get(i) && lonRangeList.get(j) <= longitude
-						&& longitude <= lonRangeList.get(j+1)) {
-						if (makeBookCountResponse(bookSectorCountResponses, sector, arrIndex,location,indexMap)) {
+					if (latRangeList.get(i + 1) <= latitude && latitude <= latRangeList.get(i)
+						&& lonRangeList.get(j) <= longitude
+						&& longitude <= lonRangeList.get(j + 1)) {
+						if (makeBookCountResponse(bookSectorCountResponses, sector, arrIndex, location, indexMap)) {
 							arrIndex += 1;
 						}
 					}
@@ -114,7 +116,7 @@ public class BookService {
 	}
 
 	public SliceImpl<BookSimpleResponse> getList(BookSearchCondition bookSearchCondition, PageRequest pageRequest) {
-		return bookQueryRepository.getAll(bookSearchCondition,pageRequest);
+		return bookQueryRepository.getAll(bookSearchCondition, pageRequest);
 	}
 
 	private boolean makeBookCountResponse(ArrayList<BookSectorCountResponse> bookSectorCountResponses, int sector,
@@ -130,7 +132,7 @@ public class BookService {
 		BookSectorCountResponse bookSectorCountResponse = bookSectorCountResponses.get(indexMap.get(sector));
 		bookSectorCountResponse.plusBookCount();
 
-		if(Objects.isNull(bookSectorCountResponse.getLocation())){
+		if (Objects.isNull(bookSectorCountResponse.getLocation())) {
 			bookSectorCountResponse.initLocation(location);
 			bookSectorCountResponse.initSector(sector);
 		}

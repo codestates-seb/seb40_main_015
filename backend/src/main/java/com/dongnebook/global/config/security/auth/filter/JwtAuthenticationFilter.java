@@ -2,6 +2,8 @@ package com.dongnebook.global.config.security.auth.filter;
 
 
 import com.dongnebook.domain.member.dto.request.MemberLoginRequest;
+import com.dongnebook.domain.member.dto.response.MemberLoginResponse;
+import com.dongnebook.domain.member.dto.response.MemberResponse;
 import com.dongnebook.global.config.security.auth.userdetails.AuthMember;
 import com.dongnebook.global.dto.TokenDto;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -62,12 +64,13 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
         response.addCookie(refreshTokenToCookie);
 
         response.setHeader("Authorization", "Bearer " + tokenDto.getAccessToken());
-
+        ObjectMapper objectMapper = new ObjectMapper();
+        String memberLoginResponse = objectMapper.writeValueAsString(
+            MemberLoginResponse.of(authMember)
+        );
         // response body에 member의 id, username을 담아서 보내준다.
         response.getWriter().write(
-            "{" + "\"id\":\"" + authMember.getMemberId() + "\"" +"," +
-                "\"userId\":\"" + authMember.getUserId() + "\"" +"," +
-                "\"nickname\":\"" + authMember.getNickname() + "\"" + "}"
+            memberLoginResponse
         );
 
         this.getSuccessHandler().onAuthenticationSuccess(request, response, authResult);

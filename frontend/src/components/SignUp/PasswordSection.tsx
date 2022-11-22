@@ -24,6 +24,7 @@ const PasswordSection = ({ data }: PasswordSectionProps) => {
 					state={state}
 					setState={setState}
 					type="password"
+					placeholder="영문, 숫자, 특수문자 포함 8글자"
 				/>
 				<AlertSection error={validity}>
 					<IoAlertCircle className="icon" />

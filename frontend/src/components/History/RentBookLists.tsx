@@ -4,7 +4,7 @@ import dummyImage from '../../assets/image/dummy.png';
 import convertDate from '../../utils/convertDate';
 import RentStatusButton from './RentStatusButton';
 import { rentalDummy } from './dummy';
-import { axiosCancleByCustomer } from '../../api/history';
+import { useHistoryAPI } from '../../api/history';
 
 interface ListProps {
 	bookInfo: {
@@ -34,6 +34,7 @@ interface ListProps {
 }
 
 const RentBookLists = () => {
+	const { axiosCancleByCustomer } = useHistoryAPI();
 	const [test, setTest] = useState<ListProps[]>(rentalDummy);
 
 	return (
