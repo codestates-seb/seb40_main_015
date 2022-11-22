@@ -31,6 +31,5 @@ root.render(
 				</QueryClientProvider>
 			</PersistGate>
 		</Provider>
-		,
 	</React.StrictMode>,
 );
