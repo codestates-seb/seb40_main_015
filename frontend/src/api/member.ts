@@ -2,17 +2,9 @@ import useAPI from '../hooks/useAPI';
 
 export const useMemberAPI = () => {
 	const api = useAPI();
-
 	// 회원정보
-	const getMemberInfo = async (id: string) => {
-		try {
-			const result = await api.get(`/member/${id}`);
-			console.log(result);
-			return result.data;
-		} catch (err) {
-			return err;
-		}
-	};
+	const getMemberInfo = (id: string | undefined) =>
+		api.get(`/member/${id}`).then(res => res.data);
 
 	return { getMemberInfo };
 };
