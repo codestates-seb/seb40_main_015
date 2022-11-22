@@ -37,6 +37,9 @@ const IdSection = ({ data, notify }: IdSectionProps) => {
 							console.log(res);
 						} else notify(res.data.message);
 					})
+					.catch(e => {
+						notify(e.message);
+					})
 			: notify(`${label === '아이디' ? '아이디를' : '닉네임을'} 입력해주세요.`);
 	};
 
