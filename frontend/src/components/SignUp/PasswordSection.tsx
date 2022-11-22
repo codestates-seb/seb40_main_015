@@ -51,7 +51,7 @@ const AlertSection = styled.div<{ error: boolean }>`
 	position: relative;
 	left: 1rem;
 	top: 2.3rem;
-	display: ${props => (props.error ? 'flex' : 'none')};
+	display: ${props => (props.error ? 'none' : 'flex')};
 	flex-direction: ${props => props.error && 'column'};
 	.bubble {
 		visibility: hidden;

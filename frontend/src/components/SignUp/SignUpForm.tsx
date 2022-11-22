@@ -37,16 +37,20 @@ const SignUpForm = () => {
 
 	const handleSubmit = async (e: React.SyntheticEvent) => {
 		e.preventDefault();
+
 		notifyMessages.forEach((message, notifyCase) => {
 			if (notifyCase) goNotify(message);
 		});
-		const data = { userId, nickname, password };
-		try {
-			await api.post('/auth/signup', data);
-			goNotify('회원가입 완료!');
-			navigate('/login');
-		} catch {
-			goNotify('회원가입에 실패했습니다.');
+
+		if (!Object.values(isValid).includes(false) && isChecked) {
+			const data = { userId, nickname, password };
+			try {
+				await api.post('/auth/signup', data);
+				goNotify('회원가입 완료!');
+				navigate('/login');
+			} catch {
+				goNotify('회원가입에 실패했습니다.');
+			}
 		}
 	};
 

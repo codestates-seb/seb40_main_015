@@ -1,4 +1,4 @@
-import { axiosBookReceipt, axiosCancleByMerchant } from '../../api/history';
+import { useHistoryAPI } from '../../api/history';
 import Button from '../common/Button';
 
 interface Props {
@@ -7,6 +7,8 @@ interface Props {
 }
 
 const LendStatusButton = ({ status, customerName }: Props) => {
+	const { axiosCancleByMerchant, axiosBookReceipt } = useHistoryAPI();
+
 	const handleStatusChange = (
 		status: string,
 		id: string,

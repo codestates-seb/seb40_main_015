@@ -4,10 +4,11 @@ import dummyImage from '../../assets/image/dummy.png';
 import convertDate from '../../utils/convertDate';
 import RentStatusButton from './RentStatusButton';
 import { rentalDummy } from './dummy';
-import { axiosCancleByCustomer } from '../../api/history';
+
 import BookItem from '../Books/BookItem';
 import { dummyBooksRental } from '../../assets/dummy/books';
 import { RentalProps } from '../Books/type';
+import { useHistoryAPI } from '../../api/history';
 
 interface ListProps {
 	bookInfo: {
@@ -54,12 +55,12 @@ const RentalPeriodConversion = ({
 };
 
 const RentBookLists = () => {
+	const { axiosCancleByCustomer } = useHistoryAPI();
 	const [test, setTest] = useState<ListProps[]>(rentalDummy);
 
 	return (
 		<Box>
 			{/* 통합본 추가 */}
-			{/* 컴포넌트 통합 전 */}
 			{dummyBooksRental?.map(el => (
 				<BookItem
 					key={+el.bookInfo.bookId}

@@ -1,10 +1,6 @@
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
-import {
-	axiosBookReceipt,
-	axiosBookReturn,
-	axiosCancleByCustomer,
-} from '../../api/history';
+import { useHistoryAPI } from '../../api/history';
 import Button from '../common/Button';
 
 interface Props {
@@ -12,6 +8,8 @@ interface Props {
 	merchantName: string;
 }
 const RentStatusButton = ({ status, merchantName }: Props) => {
+	const { axiosBookReceipt, axiosBookReturn, axiosCancleByCustomer } =
+		useHistoryAPI();
 	const navigate = useNavigate();
 
 	const handleStatusChange = (

@@ -54,7 +54,10 @@ function Router() {
 						<Route path="books" element={<BooksPage />} />
 						<Route path="books/search" element={<BooksSearchPage />} />
 						<Route path="books/:bookId" element={<BooksDetailPage />} />
-						<Route path="profile/merchant" element={<MerchantPage />} />
+						<Route
+							path="profile/merchant/:merchantId"
+							element={<MerchantPage />}
+						/>
 						{/* merchant -> :userId ? */}
 					</Route>
 
