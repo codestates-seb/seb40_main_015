@@ -75,69 +75,6 @@ const RentBookLists = () => {
 					rental={el.rentalInfo}
 				/>
 			))}
-
-			{/* 컴포넌트 통합 전 */}
-			{test
-				? test.map((item, i) => {
-						const { bookInfo, rentalInfo } = item;
-						const {
-							bookId,
-							bookUrl,
-							title,
-							author,
-							publisher,
-							bookStatus,
-							merchantName,
-						} = bookInfo;
-						const {
-							rentalId,
-							rentalState,
-							rentalStartedAt,
-							rentalDeadline,
-							rentalReturnedAt,
-							rentalCanceledAt,
-						} = rentalInfo;
-						return (
-							<Wrapper key={Number(bookId)}>
-								<Container>
-									<FlexBox>
-										<img src={dummyImage} alt="" width={90} height={105} />
-										<InfoWrapped>
-											<p>{title}</p>
-											<p>{merchantName}</p>
-											<p>
-												{author} / {publisher}
-											</p>
-											{RentalPeriodConversion(rentalInfo)}
-											{/* <p>대여기간</p>
-											{(rentalState === 'TRADING' ||
-												rentalState === 'BEING_RENTED') && (
-												<p>
-													{convertDate(rentalStartedAt, rentalDeadline, true)}
-												</p>
-											)}
-											{(rentalState === 'RETURN_UNREVIEWED' ||
-												rentalState === 'RETURN_REVIEWED') && (
-												<p>
-													{convertDate(rentalStartedAt, rentalReturnedAt, true)}
-												</p>
-											)}
-											{rentalState === 'CANCELED' && (
-												<p>
-													{convertDate(rentalStartedAt, rentalCanceledAt, true)}
-												</p>
-											)} */}
-										</InfoWrapped>
-									</FlexBox>
-									<RentStatusButton
-										status={rentalState}
-										merchantName={merchantName}
-									/>
-								</Container>
-							</Wrapper>
-						);
-				  })
-				: null}
 		</Box>
 	);
 };

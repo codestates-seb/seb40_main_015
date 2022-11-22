@@ -17,6 +17,7 @@ const RentStatusButton = ({ status, merchantName }: Props) => {
 		id: string,
 		e?: React.MouseEvent<HTMLButtonElement, MouseEvent>,
 	) => {
+		e?.preventDefault();
 		switch (status) {
 			case 'TRADING':
 				const action = (e?.target as HTMLButtonElement).textContent;
@@ -70,14 +71,17 @@ interface StatusBoxProps {
 	status: string;
 }
 const StatusBox = styled.div<StatusBoxProps>`
+	height: 100%;
 	display: flex;
 	flex-direction: column;
 	flex-wrap: wrap;
 	justify-content: ${props =>
 		props.status === 'TRADING' ? 'space-evenly' : 'center'};
 	width: 7rem;
-	background-color: white;
 	word-break: keep-all;
+	:hover {
+		background-color: ${props => props.theme.colors.grey};
+	}
 `;
 
 export default RentStatusButton;
