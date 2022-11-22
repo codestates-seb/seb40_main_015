@@ -7,6 +7,6 @@ export interface MemberInfo {
 	} | null;
 	address: string | null;
 	totalBookCount: number;
-	avatarUrl: string | null;
+	avatarUrl: string;
 	avgGrade: number;
 }
