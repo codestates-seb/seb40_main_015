@@ -4,6 +4,9 @@ import { dummyBookWish } from '../../assets/dummy/books';
 import dummyImage2 from '../../assets/image/dummy2.png';
 import BookItem from '../Books/BookItem';
 import Button from '../common/Button';
+import RentalAvailable from '../common/BookState/RentalAvailable';
+import ReservationAvailable from '../common/BookState/ReservationAvailable';
+import Impossible from '../common/BookState/Impossible';
 
 const PickBookList = () => {
 	const [test, setTest] = useState<number[]>([1, 2, 3, 4, 5, 6, 7, 8, 9]);
@@ -33,7 +36,9 @@ const PickBookList = () => {
 										<p>러닝 리액트</p>
 										<p>오늘의북스</p>
 										<p>3,000</p>
-										<Button fontSize="small">대여 가능</Button>
+										<RentalAvailable />
+										<ReservationAvailable />
+										<Impossible />
 									</InfoWrapped>
 								</FlexBox>
 							</Container>
