@@ -35,7 +35,6 @@ const Toast = ({ text, dismissTime = 3000 }: ToastProps) => {
 };
 
 const ToastWrapper = styled.div`
-	position: fixed;
 	z-index: 999999;
 	.notification {
 		box-sizing: border-box;
