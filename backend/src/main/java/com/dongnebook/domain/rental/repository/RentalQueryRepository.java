@@ -50,7 +50,54 @@ public class RentalQueryRepository {
                 )
                 .from(rental)
                 .where(ltRentalId(pageRequest.getIndex()),
-                        (contains(merchantId))
+                        (rental.merchantId.eq(merchantId))
+                )
+                .innerJoin(rental.book, book)
+                .innerJoin(book.member)
+                .innerJoin(rental.customer)
+                .orderBy(rental.id.desc())
+                .limit(pageRequest.getSize() + 1)
+                .fetch();
+
+        boolean hasNext = false;
+
+        if (rentals.size() > pageRequest.getSize()) {
+            hasNext = true;
+            rentals.remove(pageRequest.getSize().intValue());
+        }
+
+        return new SliceImpl<>(rentals, pageRequest.of(), hasNext);
+    }
+
+    public SliceImpl<RentalBookResponse> findAllByCustomerIdOrderByIdDesc(Long customerId, PageRequest pageRequest){
+
+        List<RentalBookResponse> rentals = jpaQueryFactory.select(new QRentalBookResponse(
+                                new QBookInfoResponse(
+                                        book.id,
+                                        book.ImgUrl,
+                                        book.title,
+                                        book.author,
+                                        book.publisher,
+                                        book.rentalFee.value,
+                                        book.description,
+                                        book.location,
+                                        book.bookState,
+                                        book.member.nickname
+                                ),
+                                new QRentalInfoResponse(
+                                        rental.id,
+                                        rental.customer.nickname,
+                                        rental.rentalState,
+                                        rental.rentalStartedAt,
+                                        rental.rentalDeadLine,
+                                        rental.rentalReturnedAt,
+                                        rental.canceledAt
+                                )
+                        )
+                )
+                .from(rental)
+                .where(ltRentalId(pageRequest.getIndex()),
+                        (rental.customer.id.eq(customerId))
                 )
                 .innerJoin(rental.book, book)
                 .innerJoin(book.member)
@@ -75,13 +122,6 @@ public class RentalQueryRepository {
             return null;
         }
         return rental.id.lt(rentalId);
-    }
-
-    private BooleanExpression contains(Long merchantId) {
-        if(merchantId == null){
-            return null;
-        }
-        return rental.merchantId.eq(merchantId);
     }
 
 }
