@@ -1,14 +1,33 @@
-import { Link } from 'react-router-dom';
 import styled from 'styled-components';
-import { dummyBooks } from '../assets/dummy/books';
+import { Link } from 'react-router-dom';
+import { useQuery } from '@tanstack/react-query';
 
 //components
 import BookItem from '../components/Books/BookItem';
 import Button from '../components/common/Button';
 import Title from '../components/common/Title';
-import BookImageDummy from '../assets/image/dummy.png';
+import Animation from '../components/Loading/Animation';
+import { dummyBooks } from '../assets/dummy/books';
+
+//hooks
+import { useBooksAPI } from '../api/books';
+import { useEffect } from 'react';
 
 const BooksPage = () => {
+	const { getAllBooksList } = useBooksAPI();
+
+	// useEffect(() => {
+	// 	fetch('http://13.124.11.174:8080/books')
+	// 		.then(res => res.json())
+	// 		.then(res => console.log(res))
+	// 		.catch(err => console.error(err));
+	// }, []);
+
+	const { data, isLoading } = useQuery({
+		queryKey: ['allBooks'],
+		queryFn: getAllBooksList,
+	});
+
 	return (
 		<Main>
 			<TitleWrapper>
@@ -22,16 +41,21 @@ const BooksPage = () => {
 			</BtnWrapper>
 
 			<BooksList>
-				{dummyBooks?.map(el => (
-					<BookItem
-						key={+el.bookId}
-						bookId={el.bookId}
-						title={el.title}
-						bookImage={el.bookImage}
-						status={el.status}
-						merchantName={el.merchantName}
-					/>
-				))}
+				{isLoading ? (
+					<Animation />
+				) : (
+					data?.data.content.map(el => (
+						<BookItem
+							key={+el.bookId}
+							bookId={el.bookId}
+							title={el.title}
+							bookImage={el.bookImage}
+							status={el.status}
+							rentalfee={el.rentalFee}
+							merchantName={el.merchantName}
+						/>
+					))
+				)}
 			</BooksList>
 		</Main>
 	);

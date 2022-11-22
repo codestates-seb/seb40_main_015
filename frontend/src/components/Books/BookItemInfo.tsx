@@ -45,7 +45,13 @@ const BookItemInfo = ({
 			</BookImage>
 			<BookDetail>
 				<BookTitle>{title}</BookTitle>
-				<p>{author ? `${author} / ${publisher}` : ''}</p>
+				{author !== '' ? (
+					<p>
+						{author} / {publisher}
+					</p>
+				) : (
+					''
+				)}
 				<p>{merchantName}</p>
 				<p>{`${rentalfee} 원`}</p>
 				{/* {rentalPeriodConversion(rental)} */}
@@ -63,7 +69,7 @@ const BookImage = styled.div`
 	img {
 		width: 9em;
 		height: 11rem;
-		background-color: hotpink;
+		background-color: ${props => props.theme.colors.grey};
 	}
 `;
 const BookDetail = styled.div`
