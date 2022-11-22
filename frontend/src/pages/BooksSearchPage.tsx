@@ -1,52 +1,42 @@
-import React, { useEffect, useState, useCallback } from 'react';
+import { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { TbCurrentLocation } from 'react-icons/tb';
 import Search from '../components/Map/Search';
 import Map from '../components/Map/Map';
-import { getMerchantList } from '../api/test';
-import { data } from '../components/Map/dummy';
+import { getBookList, getMerchantList, getTotalBook } from '../api/map';
+import {
+	data,
+	dummyMerchantList,
+	bookListsDummy,
+} from '../components/Map/dummy';
+import useWindowSize from '../hooks/useWindowSize';
+import useGeoLocation from '../hooks/useGeoLocation';
+
+interface MerchantSectorProps {
+	merchantCount: number;
+	sector: number;
+	representativeLocation: {
+		lat: string;
+		lon: string;
+	};
+}
 
 const BooksSearchPage = () => {
-	const [current, setCurrent] = useState<any>();
+	const [current, setCurrent, handleCurrentLocationMove] = useGeoLocation();
 	const [searchInput, setSearchInput] = useState('');
 	const [reset, setReset] = useState(false);
 	const [selectOverlay, setSelectOverlay] = useState(null);
 	const [merchantSector, setMerchantSector] =
 		useState<MerchantSectorProps[]>(data);
-	const [merchantLists, setMerchantLists] = useState();
-	const [bookSector, setBookSector] = useState();
-	const [bookLists, setBookLists] = useState();
-
-	interface MerchantSectorProps {
-		merchantCount: number;
-		sector: number;
-		representativeLocation: {
-			lat: string;
-			lon: string;
-		};
-	}
-
-	const handleCurrentLocationMove = () => {
-		let lat = 0;
-		let lon = 0;
-		var options = {
-			enableHighAccuracy: true,
-		};
-		navigator.geolocation.getCurrentPosition(
-			position => {
-				lat = position.coords.latitude; // 위도
-				lon = position.coords.longitude; // 경도
-				setCurrent({ La: lon, Ma: lat });
-			},
-			null,
-			options,
-		);
-	};
-
-	console.log(selectOverlay);
+	const [merchantLists, setMerchantLists] = useState<any>([]);
+	const [bookSector, setBookSector] = useState([]);
+	const [bookLists, setBookLists] = useState<any>([]);
+	const [zoomLevel, setZoomLevel] = useState(5);
+	const size = useWindowSize(zoomLevel);
+	console.log(size);
 
 	useEffect(() => {
-		if (selectOverlay) {
+		if (typeof selectOverlay === 'object' && !!selectOverlay) {
 			const {
 				sector,
 				representativeLocation,
@@ -56,11 +46,25 @@ const BooksSearchPage = () => {
 			} = selectOverlay;
 			const latitude = representativeLocation.lat;
 			const longitude = representativeLocation.lon;
-			getMerchantList(latitude, longitude, sector).then(res => {
-				if (res) {
-					setMerchantLists(res);
-				}
-			});
+			if (selectOverlay['merchantCount']) {
+				getMerchantList(latitude, longitude, sector).then(res => {
+					if (res) {
+						// setMerchantLists(res.content);
+						setMerchantLists(dummyMerchantList.content);
+					}
+				});
+			}
+			if (selectOverlay['totalBookCount']) {
+				getBookList(searchInput, latitude, longitude, sector).then(res => {
+					if (res) {
+						// setBookLists(res.content);
+						setBookLists(bookListsDummy);
+					}
+				});
+			}
+		} else {
+			setMerchantLists([]);
+			setBookLists([]);
 		}
 	}, [selectOverlay]);
 
@@ -74,6 +78,8 @@ const BooksSearchPage = () => {
 					current={current}
 					setMerchantSector={setMerchantSector}
 					setBookSector={setBookSector}
+					setMerchantLists={setMerchantLists}
+					setBookLists={setBookLists}
 				/>
 				<TbCurrentLocation
 					className="location"
@@ -87,6 +93,13 @@ const BooksSearchPage = () => {
 				reset={reset}
 				setSelectOverlay={setSelectOverlay}
 				merchantSector={merchantSector}
+				setMerchantSector={setMerchantSector}
+				merchantLists={merchantLists}
+				setMerchantLists={setMerchantLists}
+				setBookSector={setBookSector}
+				bookSector={bookSector}
+				bookLists={bookLists}
+				setZoomLevel={setZoomLevel}
 			/>
 		</Container>
 	);

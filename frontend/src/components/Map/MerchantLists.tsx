@@ -12,7 +12,7 @@ const MerchantLists = (props: Props) => {
 	// 	navigate(`/profile/${id}`);
 	// };
 	return (
-		<>
+		<Box>
 			{merchantList?.content.map((item: any) => {
 				const { merchantName, merchantId } = item;
 				return (
@@ -21,9 +21,14 @@ const MerchantLists = (props: Props) => {
 					</List>
 				);
 			})}
-		</>
+		</Box>
 	);
 };
+
+const Box = styled.div`
+	overflow-y: scroll;
+	height: 220px;
+`;
 
 const List = styled.div`
 	padding-top: 30px;
@@ -31,10 +36,10 @@ const List = styled.div`
 	display: flex;
 	align-items: center;
 	justify-content: center;
-	background-color: white;
+	background-color: #fbfbfb;
 	border-bottom: 0.5px solid rgb(196, 182, 186);
 	:hover {
-		background-color: ${props => props.theme.colors.background};
+		background-color: ${props => props.theme.colors.grey};
 	}
 `;
 

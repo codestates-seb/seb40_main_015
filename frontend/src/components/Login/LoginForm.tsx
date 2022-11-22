@@ -10,6 +10,9 @@ import { useDispatch } from 'react-redux';
 import { login } from '../../redux/slice/userSlice';
 import { axiosInstanceAuth } from '../../api';
 
+//hooks
+import { useNotifyHook } from '../../hooks/useNotify';
+
 //type
 interface loginProps {
 	userId: string;
@@ -18,7 +21,7 @@ interface loginProps {
 interface userInfo {
 	id: string;
 	userId: string;
-	nickname: string;
+	nickName: string;
 	headers?: { authorization: string };
 }
 
@@ -30,10 +33,14 @@ const fetchLogin = async (payload: loginProps) => {
 const LoginForm = () => {
 	const [id, setId] = useState('');
 	const [password, setPassword] = useState('');
+	const [isValidID, setIsValidID] = useState(true);
+	const [isValidPW, setIsValidPW] = useState(true);
 
 	const distpatch = useDispatch();
-
 	const navigate = useNavigate();
+
+	// noti
+	const notify = useNotifyHook();
 
 	const { mutate, data, isLoading, isSuccess, isError } = useMutation({
 		mutationFn: () =>
@@ -47,15 +54,24 @@ const LoginForm = () => {
 				headers: { authorization },
 			} = res;
 			distpatch(login({ ...data, accessToken: authorization, isLogin: true }));
+			notify(`${data.nickName}님 안녕하세요`);
 			navigate('/books');
 		},
 		onError: res => {
-			console.log('error : ', res);
+			console.log('login failed: ', res);
+			alert('아이디 혹은 비밀번호를 다시 한 번 확인해주세요');
 		},
 	});
 
 	const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
 		e.preventDefault();
+
+		if (id === '') setIsValidID(false);
+		else setIsValidID(true);
+		if (password === '') setIsValidPW(false);
+		else setIsValidPW(true);
+		if (id === '' || password === '') return;
+
 		mutate();
 		/*
 		axios({
@@ -73,17 +89,30 @@ const LoginForm = () => {
 
 	return (
 		<StyledLoginForm onSubmit={handleSubmit}>
-			<Input label="아이디" state={id} setState={setId} />
-			<Input
-				label="비밀번호"
-				state={password}
-				setState={setPassword}
-				type="password"
-			/>
+			<IdWrapper>
+				<Input label="아이디" state={id} setState={setId} />
+				{isValidID ? '' : <ErrorMsg>아이디를 입력해주세요</ErrorMsg>}
+			</IdWrapper>
+			<PwWrapper>
+				<Input
+					label="비밀번호"
+					state={password}
+					setState={setPassword}
+					type="password"
+				/>
+				{isValidPW ? '' : <ErrorMsg>비밀번호를 입력해주세요</ErrorMsg>}
+			</PwWrapper>
+
 			<StyledButton>로그인</StyledButton>
 		</StyledLoginForm>
 	);
 };
+const IdWrapper = styled.div``;
+const PwWrapper = styled.div``;
+const ErrorMsg = styled.p`
+	color: #de4f55;
+	padding: 0.4rem;
+`;
 
 const StyledLoginForm = styled.form`
 	width: 100%;

@@ -41,6 +41,8 @@ public class Member extends BaseTimeEntity {
 	@Embedded
 	private Location location;
 
+	private String address;
+
 	@Column(name = "avatar_url")
 	private String avatarUrl;
 
@@ -77,6 +79,7 @@ public class Member extends BaseTimeEntity {
 		this.avatarUrl = memberEditRequest.getAvatarUrl()==null ? this.avatarUrl : memberEditRequest.getAvatarUrl();
 		this.location = memberEditRequest.getLocation()==null ? this.location : memberEditRequest.getLocation();
 		this.nickname = memberEditRequest.getNickname()==null ? this.nickname : memberEditRequest.getNickname();
+		this.address= memberEditRequest.getAddress()==null ? this.address : memberEditRequest.getAddress();
 	}
 
 }
