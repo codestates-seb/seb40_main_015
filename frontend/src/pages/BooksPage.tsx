@@ -6,6 +6,7 @@ import { dummyBooks } from '../assets/dummy/books';
 import BookItem from '../components/Books/BookItem';
 import Button from '../components/common/Button';
 import Title from '../components/common/Title';
+import BookImageDummy from '../assets/image/dummy.png';
 
 const BooksPage = () => {
 	return (
@@ -21,8 +22,6 @@ const BooksPage = () => {
 			</BtnWrapper>
 
 			<BooksList>
-				{/* <BookItem /> */}
-
 				{dummyBooks?.map(el => (
 					<BookItem
 						key={+el.bookId}

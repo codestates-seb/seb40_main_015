@@ -1,33 +1,8 @@
 import { useState } from 'react';
 import styled from 'styled-components';
-import { dummyBookWish } from '../../assets/dummy/books';
 import dummyImage from '../../assets/image/dummy.png';
-import BookItem from '../Books/BookItem';
 import Button from './Button';
 
-// 통합본
-// const MyList = () => {
-// 	return (
-// 		<>
-// 			{dummyBookWish?.map(el => {
-// 				return (
-// 					<ContainerNew key={+el.bookId}>
-// 						<BookItem
-// 							// key={+el.bookId}
-// 							bookId={el.bookId}
-// 							title={el.title}
-// 							bookImage={el.imageUrl}
-// 							rentalfee={+el.rentalFee}
-// 							status={el.status}
-// 						/>
-// 					</ContainerNew>
-// 				);
-// 			})}
-// 		</>
-// 	);
-// };
-
-// 통합 이전
 const MyList = () => {
 	const [test, setTest] = useState<number[]>([1, 2, 3, 4, 5, 6]);
 	return (

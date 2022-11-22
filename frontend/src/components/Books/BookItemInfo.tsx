@@ -1,6 +1,26 @@
 import styled from 'styled-components';
 import BookImageDummy from '../../assets/image/dummy.png';
-import { BooksProps } from './type';
+import convertDate from '../../utils/convertDate';
+import { BooksProps, RentalProps } from './type';
+
+// 대여목록 페이지에서 대여기간 표시할때 사용하는 함수
+const rentalPeriodConversion = ({
+	rentalState,
+	rentalStartedAt,
+	rentalDeadline,
+	rentalReturnedAt,
+	rentalCanceledAt,
+}: RentalProps) => {
+	{
+		/* <p>대여기간</p> */
+	}
+	if (rentalState === 'TRADING' || rentalState === 'BEING_RENTED')
+		return <p>{convertDate(rentalStartedAt, rentalDeadline, true)}</p>;
+	if (rentalState === 'RETURN_UNREVIEWED' || rentalState === 'RETURN_REVIEWED')
+		return <p>{convertDate(rentalStartedAt, rentalReturnedAt, true)}</p>;
+	if (rentalState === 'CANCELED')
+		return <p>{convertDate(rentalStartedAt, rentalCanceledAt, true)}</p>;
+};
 
 const BookItemInfo = ({
 	title = '',
@@ -9,6 +29,15 @@ const BookItemInfo = ({
 	author = '',
 	rentalfee = 0,
 	merchantName = '',
+	rental = {
+		rentalId: '',
+		customerName: '',
+		rentalState: '',
+		rentalStartedAt: '',
+		rentalDeadline: '',
+		rentalReturnedAt: '',
+		rentalCanceledAt: '',
+	},
 }: BooksProps) => {
 	return (
 		<BookInfo>
@@ -18,10 +47,11 @@ const BookItemInfo = ({
 			<BookDetail>
 				<BookTitle>{title}</BookTitle>
 				<p>
-					{author} / {publisher}
+					<span>{author ? `${author} / ${publisher}` : ''}</span>
 				</p>
 				<p>{merchantName}</p>
 				<p>{`${rentalfee} 원`}</p>
+				{rentalPeriodConversion(rental)}
 			</BookDetail>
 		</BookInfo>
 	);

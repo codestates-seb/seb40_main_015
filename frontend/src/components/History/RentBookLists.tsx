@@ -7,6 +7,7 @@ import { rentalDummy } from './dummy';
 import { axiosCancleByCustomer } from '../../api/history';
 import BookItem from '../Books/BookItem';
 import { dummyBooksRental } from '../../assets/dummy/books';
+import { RentalProps } from '../Books/type';
 
 interface ListProps {
 	bookInfo: {
@@ -34,12 +35,31 @@ interface ListProps {
 		rentalCanceledAt: string;
 	};
 }
+const RentalPeriodConversion = ({
+	rentalState,
+	rentalStartedAt,
+	rentalDeadline,
+	rentalReturnedAt,
+	rentalCanceledAt,
+}: RentalProps) => {
+	{
+		/* <p>대여기간</p> */
+	}
+	if (rentalState === 'TRADING' || rentalState === 'BEING_RENTED')
+		return <p>{convertDate(rentalStartedAt, rentalDeadline, true)}</p>;
+	if (rentalState === 'RETURN_UNREVIEWED' || rentalState === 'RETURN_REVIEWED')
+		return <p>{convertDate(rentalStartedAt, rentalReturnedAt, true)}</p>;
+	if (rentalState === 'CANCELED')
+		return <p>{convertDate(rentalStartedAt, rentalCanceledAt, true)}</p>;
+};
 
 const RentBookLists = () => {
 	const [test, setTest] = useState<ListProps[]>(rentalDummy);
 
 	return (
 		<Box>
+			{/* 통합본 추가 */}
+			{/* 컴포넌트 통합 전 */}
 			{dummyBooksRental?.map(el => (
 				<BookItem
 					key={+el.bookInfo.bookId}
@@ -51,8 +71,11 @@ const RentBookLists = () => {
 					publisher={el.bookInfo.publisher}
 					merchantName={el.bookInfo.merchantName}
 					status={el.rentalInfo.rentalState}
+					rental={el.rentalInfo}
 				/>
 			))}
+
+			{/* 컴포넌트 통합 전 */}
 			{test
 				? test.map((item, i) => {
 						const { bookInfo, rentalInfo } = item;
@@ -84,7 +107,8 @@ const RentBookLists = () => {
 											<p>
 												{author} / {publisher}
 											</p>
-											{/* <p>대여기간</p> */}
+											{RentalPeriodConversion(rentalInfo)}
+											{/* <p>대여기간</p>
 											{(rentalState === 'TRADING' ||
 												rentalState === 'BEING_RENTED') && (
 												<p>
@@ -101,7 +125,7 @@ const RentBookLists = () => {
 												<p>
 													{convertDate(rentalStartedAt, rentalCanceledAt, true)}
 												</p>
-											)}
+											)} */}
 										</InfoWrapped>
 									</FlexBox>
 									<RentStatusButton

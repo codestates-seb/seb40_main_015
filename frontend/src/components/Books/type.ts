@@ -9,9 +9,10 @@ export interface BooksProps {
 	bookImage?: string;
 	imageUrl?: string;
 	merchantName?: string;
+	rental?: RentalProps;
 }
 
-export interface RetalProps {
+export interface RentalProps {
 	rentalId: string;
 	customerName: string;
 	rentalState: string;

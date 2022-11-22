@@ -18,6 +18,15 @@ const BookItem = ({
 	rentalfee = 0,
 	merchantName = '',
 	status = '',
+	rental = {
+		rentalId: '',
+		customerName: '',
+		rentalState: '',
+		rentalStartedAt: '',
+		rentalDeadline: '',
+		rentalReturnedAt: '',
+		rentalCanceledAt: '',
+	},
 }: BooksProps) => {
 	return (
 		<BookContainer to={`/books/${bookId}`}>
@@ -46,8 +55,13 @@ const BookItem = ({
 				author={author}
 				merchantName={merchantName}
 				rentalfee={rentalfee}
+				rental={rental}
 			/>
-			<BookItemState status={status} />
+			<BookItemState
+				status={status}
+				merchantName={merchantName}
+				rental={rental}
+			/>
 		</BookContainer>
 	);
 };

@@ -6,6 +6,7 @@ import LendStatusButton from './LendStatusButton';
 import { lendDummy } from './dummy';
 import { dummyBooksLending } from '../../assets/dummy/books';
 import BookItem from '../Books/BookItem';
+import LendBookUserInfo from './LendBookUserInfo';
 
 interface ListProps {
 	bookInfo: {
@@ -51,9 +52,16 @@ const LentBookLists = () => {
 						publisher={el.bookInfo.publisher}
 						merchantName={el.bookInfo.merchantName}
 						status={el.rentalInfo.rentalState}
+						rental={el.rentalInfo}
+					/>
+					<LendBookUserInfo rentalInfo={el.rentalInfo} />
+					<LendStatusButton
+						status={el.rentalInfo.rentalState}
+						customerName={el.rentalInfo.customerName}
 					/>
 				</Wrapper>
 			))}
+			{/* 컴포넌트 통합 전 */}
 			{test
 				? test.map((item, i) => {
 						const { bookInfo, rentalInfo } = item;
@@ -126,7 +134,10 @@ const Wrapper = styled.div`
 	/* max-width: 850px; */
 	display: flex;
 	flex-direction: column;
-	margin-bottom: 1rem;
+	margin-bottom: 2rem;
+	/* 
+	padding-bottom: 1rem;
+	border-bottom: 1px solid black; */
 `;
 
 const Container = styled.div`
