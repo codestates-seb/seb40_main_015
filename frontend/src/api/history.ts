@@ -1,5 +1,4 @@
 import useAPI from '../hooks/useAPI';
-import { useAppSelector } from '../redux/hooks';
 
 // 예시)
 export const useHistoryAPI = () => {

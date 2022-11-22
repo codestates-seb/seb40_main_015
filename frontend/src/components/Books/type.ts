@@ -1,6 +1,6 @@
 export interface BooksProps {
 	key?: number;
-	bookId?: string;
+	bookId?: string | number;
 	title?: string;
 	publisher?: string;
 	author?: string;
