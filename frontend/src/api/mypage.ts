@@ -4,15 +4,8 @@ export const useMypageAPI = () => {
 	const api = useAPI();
 
 	// 마이페이지 - 회원정보 열람
-	const getMemberInfo = async (id: string | undefined) => {
-		try {
-			const result = await api.get(`/member/${id}`);
-			console.log(result);
-			return result.data;
-		} catch (err) {
-			return err;
-		}
-	};
+	const getMemberInfo = (id: string | undefined) =>
+		api.get(`/member/${id}`).then(res => res.data);
 
 	// 마이페이지 - 회원정보 수정
 	const getFixMemberInfo = async (id: string) => {
@@ -68,11 +61,16 @@ export const useMypageAPI = () => {
 		}
 	};
 
+	// 상인정보용 도서 목록 조회
+	const getMerchantBookLists = (id: string | undefined) =>
+		api.get(`/member/${id}/books`).then(res => res.data);
+
 	return {
 		getMemberInfo,
 		getFixMemberInfo,
 		getPickBookLists,
 		axiosCancleReservation,
 		axiosAddPhoto,
+		getMerchantBookLists,
 	};
 };
