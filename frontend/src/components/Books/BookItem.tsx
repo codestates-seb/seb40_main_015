@@ -69,6 +69,7 @@ const BookItem = ({
 const BookContainer = styled(Link)`
 	display: flex;
 	justify-content: space-between;
+	width: 90vw;
 
 	padding: 14px;
 	margin: 10px 0;
