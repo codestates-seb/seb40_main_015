@@ -6,6 +6,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.dongnebook.domain.alarm.dto.AlarmResponse;
+import com.dongnebook.domain.book.domain.Book;
+import com.dongnebook.domain.member.domain.Member;
 
 import lombok.RequiredArgsConstructor;
 
@@ -15,6 +17,7 @@ import lombok.RequiredArgsConstructor;
 public class AlarmService {
 
 	private final AlarmQueryRepository alarmQueryRepository;
+	private final AlarmRepository alarmRepository;
 	private final AlarmReadService alarmReadService;
 
 	/**
@@ -23,6 +26,12 @@ public class AlarmService {
 	 *
 	 * @return
 	 */
+	@Transactional
+	public void sendAlarm(Member member, Book book,AlarmType type){
+		Alarm alarm = Alarm.create(member, book, type);
+		alarmRepository.save(alarm);
+
+	}
 	@Transactional
 	public List<AlarmResponse> getMyAlarm(Long memberId) {
 		List<AlarmResponse> myAlarm = alarmQueryRepository.getMyAlarm(memberId);

@@ -13,9 +13,12 @@ import com.dongnebook.domain.book.domain.Book;
 import com.dongnebook.domain.member.domain.Member;
 
 import lombok.AccessLevel;
+import lombok.Builder;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 @Entity
+@Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Alarm {
 	@Id
@@ -37,4 +40,21 @@ public class Alarm {
 	@Column(name = "is_read")
 	private Boolean isRead;
 
+	@Builder
+	public Alarm(Member member, Book book, AlarmType type, Boolean isRead) {
+		this.member = member;
+		this.book = book;
+		this.type = type;
+		this.isRead = isRead;
+	}
+
+	static public Alarm create(Member member, Book book,AlarmType type){
+		return Alarm.builder()
+			.member(member)
+			.book(book)
+			.type(type)
+			.isRead(false)
+			.build();
+
+	}
 }

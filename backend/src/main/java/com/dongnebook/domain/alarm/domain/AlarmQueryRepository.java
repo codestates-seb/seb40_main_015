@@ -27,6 +27,7 @@ public class AlarmQueryRepository {
 	private final JPAQueryFactory jpaQueryFactory;
 	private final EntityManager em;
 
+
 	public List<AlarmResponse> getMyAlarm(Long memberId){
 
 		return jpaQueryFactory.select(
@@ -46,6 +47,13 @@ public class AlarmQueryRepository {
 
 		em.clear();
 		em.flush();
+	}
+
+
+	public void save(Alarm entity){
+		jpaQueryFactory.insert(alarm)
+			.set(alarm,entity)
+			.execute();
 	}
 
 	private BooleanExpression alarmMemberIdEq(Long memberId) {
