@@ -1,6 +1,7 @@
 package com.dongnebook.domain.book.dto.response;
 
 import com.dongnebook.domain.book.domain.BookState;
+import com.dongnebook.domain.book.domain.Money;
 import com.querydsl.core.annotations.QueryProjection;
 
 
@@ -12,14 +13,16 @@ public class BookSimpleResponse {
 	private String title;
 	private String status;
 	private String bookImage;
+	private Integer rentalFee;
 	private String merchantName;
 
 	@QueryProjection
-	public BookSimpleResponse(Long bookId, String title, BookState status, String bookImage, String merchantName) {
+	public BookSimpleResponse(Long bookId, String title, BookState status, String bookImage, Money rentalFee,String merchantName) {
 		this.bookId = bookId;
 		this.title = title;
 		this.status = status.getMessage();
 		this.bookImage = bookImage;
+		this.rentalFee = rentalFee.getValue();
 		this.merchantName = merchantName;
 	}
 }

@@ -3,11 +3,8 @@ import LinkToSign from '../components/common/LinkToSign';
 import LoginForm from '../components/Login/LoginForm';
 import Logo from '../components/Login/Logo';
 import Oauth from '../components/common/Oauth';
-import useNotify from '../hooks/useNotify';
 
 const LoginPage = () => {
-	useNotify('되네...?');
-
 	return (
 		<StyledLoginPage>
 			<Logo />

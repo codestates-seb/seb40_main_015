@@ -23,14 +23,20 @@ const Toast = ({ text, dismissTime = 3000 }: ToastProps) => {
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, []);
 
+	const handleToastClick = () => {
+		setIsFading(true);
+	};
+
 	return (
-		<ToastWrapper>
+		<ToastWrapper onClick={handleToastClick}>
 			<div className={`notification ${isFading ? 'fade-out' : ''}`}>{text}</div>
 		</ToastWrapper>
 	);
 };
 
 const ToastWrapper = styled.div`
+	position: fixed;
+	z-index: 999999;
 	.notification {
 		box-sizing: border-box;
 		transition: transform 0.6s ease-in-out;

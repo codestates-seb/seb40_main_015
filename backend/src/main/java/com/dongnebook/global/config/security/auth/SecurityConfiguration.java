@@ -1,9 +1,12 @@
 package com.dongnebook.global.config.security.auth;
 
 import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
 
 import com.dongnebook.global.config.security.auth.filter.JwtAuthenticationFilter;
 import com.dongnebook.global.config.security.auth.filter.JwtVerificationFilter;
+import com.dongnebook.global.config.security.auth.filter.TokenProvider;
 import com.dongnebook.global.config.security.auth.handler.MemberAccessDeniedHandler;
 import com.dongnebook.global.config.security.auth.handler.MemberAuthenticationEntryPoint;
 import com.dongnebook.global.config.security.auth.handler.MemberAuthenticationFailureHandler;
@@ -25,15 +28,15 @@ import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
+import lombok.RequiredArgsConstructor;
+
 @Configuration
+@RequiredArgsConstructor
 public class SecurityConfiguration {
+	private final TokenProvider tokenProvider;
 	private final JwtTokenizer jwtTokenizer;
 	private final CustomAuthorityUtils authorityUtils;
 
-	public SecurityConfiguration(JwtTokenizer jwtTokenizer, CustomAuthorityUtils authorityUtils) {
-		this.jwtTokenizer = jwtTokenizer;
-		this.authorityUtils = authorityUtils;
-	}
 
 	@Bean
 	public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
@@ -67,7 +70,10 @@ public class SecurityConfiguration {
 	@Bean
 	CorsConfigurationSource corsConfigurationSource() {
 		CorsConfiguration configuration = new CorsConfiguration();
-		configuration.setAllowedOrigins(Arrays.asList("*"));
+		configuration.setAllowedOrigins(List.of("http://localhost:3000"));
+		configuration.setAllowCredentials(true);
+		configuration.addExposedHeader("Authorization");
+		configuration.addAllowedHeader("*");
 		configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PATCH", "DELETE"));
 
 		UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
@@ -75,22 +81,22 @@ public class SecurityConfiguration {
 		return source;
 	}
 
-	public class CustomFilterConfigurer extends AbstractHttpConfigurer<CustomFilterConfigurer, HttpSecurity> {
+	private class CustomFilterConfigurer extends AbstractHttpConfigurer<CustomFilterConfigurer, HttpSecurity> {
+
 		@Override
 		public void configure(HttpSecurity builder) throws Exception {
-			AuthenticationManager authenticationManager
-					= builder.getSharedObject(AuthenticationManager.class);
-			JwtAuthenticationFilter jwtAuthenticationFilter
-					= new JwtAuthenticationFilter(authenticationManager, jwtTokenizer);
-			jwtAuthenticationFilter.setFilterProcessesUrl("/auth/login"); // Login url
-			jwtAuthenticationFilter.setAuthenticationSuccessHandler(new MemberAuthenticationSuccessHandler());
-			jwtAuthenticationFilter.setAuthenticationFailureHandler(new MemberAuthenticationFailureHandler());
+			AuthenticationManager authenticationManager = builder.getSharedObject(AuthenticationManager.class);
 
-			JwtVerificationFilter jwtVerificationFilter = new JwtVerificationFilter(jwtTokenizer, authorityUtils);
+			JwtAuthenticationFilter jwtAuthenticationFilter = new JwtAuthenticationFilter(tokenProvider, authenticationManager);
+			jwtAuthenticationFilter.setFilterProcessesUrl("/auth/login");
+			jwtAuthenticationFilter.setAuthenticationSuccessHandler(new MemberAuthenticationSuccessHandler());
+			           // jwtAuthenticationFilter.setAuthenticationFailureHandler(new UserAuthenticationFailureHandler());
+			//
+			JwtVerificationFilter jwtVerificationFilter = new JwtVerificationFilter(tokenProvider);
 
 			builder
-					.addFilter(jwtAuthenticationFilter)
-					.addFilterAfter(jwtVerificationFilter, JwtAuthenticationFilter.class);
+				.addFilter(jwtAuthenticationFilter)
+				.addFilterAfter(jwtVerificationFilter, JwtAuthenticationFilter.class);
 		}
 	}
 }

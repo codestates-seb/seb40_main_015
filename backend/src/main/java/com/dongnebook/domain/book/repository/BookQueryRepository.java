@@ -5,10 +5,10 @@ import com.dongnebook.domain.book.dto.request.BookSearchCondition;
 
 
 import static com.dongnebook.domain.book.domain.QBook.*;
+import static com.dongnebook.domain.dibs.domain.QDibs.*;
 
 import java.util.List;
-
-
+import java.util.Objects;
 
 import org.springframework.data.domain.SliceImpl;
 import org.springframework.stereotype.Repository;
@@ -31,9 +31,6 @@ import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
 
-import org.springframework.stereotype.Repository;
-
-import java.util.List;
 
 
 import lombok.extern.slf4j.Slf4j;
@@ -58,6 +55,7 @@ public class BookQueryRepository {
 						book.bookState
 					),
 					new QBookDetailMemberResponse(
+						book.member.id,
 						book.member.nickname,
 						book.member.avgGrade
 					)
@@ -65,6 +63,7 @@ public class BookQueryRepository {
 			)
 			.from(book)
 			.leftJoin(book.member)
+			.where(book.id.eq(id))
 			.fetchOne();
 
 	}
@@ -75,40 +74,62 @@ public class BookQueryRepository {
 	 * 보여주고 싶은 정보 -> 현재 위치가 중앙인 가로 세로 500m 짜리 정사각형에서 마커를 클러스터링 해서 보여주기
 	 * db 에서 근방에 있는 책들 (pk와 주소) 모두 가져오기  -> 어플리케이션단에서 그룹핑하기
 	 * db 에서 그룹핑해서 가져오기 -> 그럼 select 쿼리가 9번??
-
 	 */
-	public List<Location> getSectorBookCounts(BookSearchCondition bookSearchCondition) {
+	public List<Location> getSectorBookCounts(BookSearchCondition condition) {
 
-		String bookTitle = bookSearchCondition.getBookTitle();
-		List<Double> LatRange = bookSearchCondition.latRangeList();
-		List<Double> LonRange = bookSearchCondition.lonRangeList();
+		String bookTitle = condition.getBookTitle();
+		List<Double> LatRange = Location.latRangeList(condition.getLatitude(), condition.getLength(),condition.getLevel());
+		List<Double> LonRange = Location.lonRangeList(condition.getLongitude(), condition.getWidth(),condition.getLevel());
 
 		return jpaQueryFactory.select(book.location)
 			.from(book)
-			.where(book.location.latitude.between(LatRange.get(3), LatRange.get(0))
-				.and(book.location.longitude.between(LonRange.get(0), LonRange.get(3))
+			.where(book.location.latitude.between(LatRange.get(condition.getLevel()), LatRange.get(0))
+				.and(book.location.longitude.between(LonRange.get(0), LonRange.get(condition.getLevel()))
 					.and(contains(bookTitle))))
 			.fetch();
 	}
 
-	public SliceImpl<BookSimpleResponse> noOffsetPagingList(BookSearchCondition bookSearchCondition,
+	public SliceImpl<BookSimpleResponse> getAll(BookSearchCondition condition,
 		PageRequest pageRequest) {
 
-		String bookTitle = bookSearchCondition.getBookTitle();
+		String bookTitle = condition.getBookTitle();
 		log.info("bookTitle = {}", bookTitle);
-		List<Double> LatRange = bookSearchCondition.latRangeList();
-		List<Double> LonRange = bookSearchCondition.lonRangeList();
-		Integer sector = bookSearchCondition.getSector();
+		List<Double> LatRange = Location.latRangeList(condition.getLatitude(), condition.getLength(),condition.getLevel());
+		List<Double> LonRange = Location.lonRangeList(condition.getLongitude(), condition.getWidth(),condition.getLevel());
+
 
 
 		List<BookSimpleResponse> result = jpaQueryFactory.select(
-				new QBookSimpleResponse(book.id, book.title, book.bookState, book.ImgUrl, book.member.nickname))
+				new QBookSimpleResponse(book.id, book.title, book.bookState, book.ImgUrl, book.rentalFee, book.member.nickname))
 			.from(book)
 			.innerJoin(book.member)
 			.where(ltBookId(pageRequest.getIndex())
 				,(contains(bookTitle))
-				,(sectorBetween(LatRange,LonRange,sector)))
+				,(sectorBetween(LatRange,LonRange,condition.getSector(),condition.getLevel())))
 			.orderBy(book.id.desc())
+			.limit(pageRequest.getSize() + 1)
+			.fetch();
+
+		boolean hasNext = false;
+
+		if (result.size() > pageRequest.getSize()) {
+			hasNext = true;
+			result.remove(pageRequest.getSize().intValue());
+		}
+
+		return new SliceImpl<>(result, pageRequest.of(), hasNext);
+	}
+
+	public SliceImpl<BookSimpleResponse> getAllDibsBook(Long memberId,
+		PageRequest pageRequest) {
+
+		List<BookSimpleResponse> result = jpaQueryFactory.select(
+				new QBookSimpleResponse(dibs.book.id, dibs.book.title, dibs.book.bookState, dibs.book.ImgUrl, dibs.book.rentalFee, dibs.book.member.nickname))
+			.from(dibs)
+			.leftJoin(dibs.book)
+			.leftJoin(dibs.book.member)
+			.where(ltBookId(pageRequest.getIndex()),dibs.book.member.id.eq(memberId))
+			.orderBy(dibs.book.id.desc())
 			.limit(pageRequest.getSize() + 1)
 			.fetch();
 
@@ -136,10 +157,18 @@ public class BookQueryRepository {
 		return book.id.lt(bookId);
 	}
 
-	private BooleanExpression sectorBetween(List<Double> latRangeList, List<Double> lonRangeList,Integer sector) {
-		for (int i = 0; i < 2; i++) {
-			for (int j = 0; j < 2; j++) {
-				if (sector == (i*j)+1) {
+	private BooleanExpression sectorBetween(List<Double> latRangeList, List<Double> lonRangeList,Integer givenSector,
+		Integer level) {
+
+		if (Objects.isNull(latRangeList)||Objects.isNull(lonRangeList)||Objects.isNull(givenSector)) {
+			return null;
+		}
+
+		int sector = 0;
+		for (int i = 0; i < level; i++) {
+			for (int j = 0; j < level; j++) {
+				sector++;
+				if (givenSector == sector) {
 					return book.location.latitude.between(latRangeList.get(i + 1), latRangeList.get(i))
 						.and(book.location.longitude.between(lonRangeList.get(j), lonRangeList.get(j + 1)));
 				}

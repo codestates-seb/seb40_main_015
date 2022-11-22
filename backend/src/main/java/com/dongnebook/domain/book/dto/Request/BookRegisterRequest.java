@@ -4,6 +4,8 @@ import javax.validation.constraints.Min;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 
+import org.springframework.lang.Nullable;
+
 import com.dongnebook.domain.model.Location;
 
 import lombok.Builder;
@@ -23,7 +25,7 @@ public class BookRegisterRequest {
 	private String imageUrl;
 	@Min(0)
 	private Integer rentalFee;
-	@NotNull
+	@Nullable
 	private Location location;
 
 	@Builder

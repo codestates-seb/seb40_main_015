@@ -51,6 +51,10 @@ const Books = styled.div`
 	padding: 10px;
 
 	overflow-x: scroll;
+
+	::-webkit-scrollbar {
+		display: none;
+	}
 `;
 
 const LinkStyled = styled(Link)`

@@ -10,6 +10,10 @@ public enum ErrorCode {
 	INTERNAL_SERVER_ERROR(500, "서버 내부 오류"),
 	HANDLE_ACCESS_DENIED(403, "접근이 거부 되었습니다."),
 	METHOD_NOT_ALLOWED(405, "허용하지 않는 HTTP 메소드입니다."),
+	NOT_OWNER(404, "주인이 아닙니다."),
+
+	/* JWT */
+	ACCESS_TOKEN_NOT_FOUND(404,"액세스토큰을 찾을 수 없습니다."),
 
 
 	/* Member */
@@ -32,9 +36,11 @@ public enum ErrorCode {
 	NOT_CANCELABLE(404, "대여 취소 가능한 상태가 아닙니다."),
   	NOT_RECEIVABLE(404, "도서 수령 가능 상태가 아닙니다."),
 	NOT_RETURNABLE(404, "도서 반납 가능 상태가 아닙니다."),
+	NOT_CHANGEABLE(404,"상태를 바꿀수 없습니다."),
 
 	/* Dibs */
 	DIBS_NOT_FOUND(404, "이 책을 찜한적이 없습니다.");
+
 
 
 

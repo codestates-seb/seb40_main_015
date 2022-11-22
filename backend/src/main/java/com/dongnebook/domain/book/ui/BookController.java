@@ -23,6 +23,8 @@ import com.dongnebook.domain.book.dto.request.BookSearchCondition;
 import com.dongnebook.domain.book.dto.response.BookDetailResponse;
 import com.dongnebook.domain.book.dto.response.BookSectorCountResponse;
 import com.dongnebook.domain.book.dto.response.BookSimpleResponse;
+import com.dongnebook.global.Login;
+import com.dongnebook.global.config.security.auth.userdetails.AuthMember;
 import com.dongnebook.global.dto.request.PageRequest;
 
 import lombok.RequiredArgsConstructor;
@@ -37,11 +39,10 @@ public class BookController {
 	private final BookService bookService;
 
 	@PostMapping
-	public ResponseEntity<Long> create(@Valid @RequestBody BookRegisterRequest bookRegisterRequest){
+	public ResponseEntity<Long> create(@Valid @RequestBody BookRegisterRequest bookRegisterRequest, @Login AuthMember authMember){
 
-		Long bookId = bookService.create(bookRegisterRequest, 1L);
+		Long bookId = bookService.create(bookRegisterRequest, authMember.getMemberId());
 		URI createdUri = ServletUriComponentsBuilder.fromCurrentRequestUri().path("/{id}").buildAndExpand(bookId).toUri();
-
 		return ResponseEntity.created(createdUri).build();
 	}
 
@@ -64,13 +65,20 @@ public class BookController {
 	@GetMapping("/count")
 	public ResponseEntity<ArrayList<BookSectorCountResponse>> getSectorBookCounts(@ModelAttribute BookSearchCondition bookSearchCondition){
 		ArrayList<BookSectorCountResponse> sectorBookCounts = bookService.getSectorBookCounts(bookSearchCondition);
-
 		return ResponseEntity.ok(sectorBookCounts);
 	}
 
+	@GetMapping("/sector")
+	public ResponseEntity<SliceImpl<BookSimpleResponse>> getSectors(@ModelAttribute BookSearchCondition bookSearchCondition, PageRequest pageRequest){
+		log.info("location = {}", bookSearchCondition.getLatitude());
+		log.info("bookTitle = {}", bookSearchCondition.getBookTitle());
+		log.info("location = {}", bookSearchCondition.getLongitude());
+		return ResponseEntity.ok(bookService.getList(bookSearchCondition,pageRequest));
+	}
+
 	@DeleteMapping("/{id}")
-	public ResponseEntity<Long> delete(@PathVariable Long id) {
-		return ResponseEntity.ok(bookService.delete(id, 1L));
+	public ResponseEntity<Long> delete(@PathVariable Long id,@Login AuthMember authMember) {
+		return ResponseEntity.ok(bookService.delete(id, authMember.getMemberId()));
 	}
 
 

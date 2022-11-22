@@ -5,10 +5,11 @@ type InputProps = {
 	state?: string;
 	setState?: Function;
 	type?: string;
+	placeholder?: string;
 };
 
 const Input = (props: InputProps) => {
-	const { label, state, setState, type } = props;
+	const { label, state, setState, type, placeholder } = props;
 
 	const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
 		setState?.(e.target.value);
@@ -17,12 +18,12 @@ const Input = (props: InputProps) => {
 	return (
 		<StyledDiv>
 			<StyledLabel htmlFor={label}>{label}</StyledLabel>
-			{/* label 클릭시 인풋 포커싱 추가하였습니다 -상헌. 읽고나서 지워주세요*/}
 			<StyledInput
 				id={label}
 				type={type}
 				value={state}
 				onChange={handleChange}
+				placeholder={placeholder}
 			/>
 		</StyledDiv>
 	);

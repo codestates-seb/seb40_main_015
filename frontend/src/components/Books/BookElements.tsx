@@ -45,7 +45,7 @@ const BookInfo = styled(Div)`
 	}
 
 	.book--info__photo {
-		width: 100vw;
+		width: 100%;
 		display: flex;
 		justify-content: flex-start;
 		align-items: center;
@@ -71,7 +71,7 @@ const BookInfo = styled(Div)`
 	input {
 		font-size: ${props => [props.theme.fontSizes.subtitle]};
 
-		width: 100vw;
+		width: 100%;
 		border: none;
 		background-color: transparent;
 		outline: none;
@@ -83,7 +83,7 @@ const BookInfo = styled(Div)`
 	textarea {
 		/* font-size: 20px; */
 		font-size: ${props => [props.theme.fontSizes.paragraph]};
-		width: 100vw;
+		width: 100%;
 		height: 20vh;
 		background-color: transparent;
 		border: none;
@@ -95,7 +95,7 @@ const BookInfo = styled(Div)`
 	}
 
 	div {
-		width: 100vw;
+		width: 100%;
 
 		.book--info__title {
 			margin-bottom: 1rem;
@@ -160,7 +160,7 @@ const MerchantInfo = styled(Div)`
 			justify-content: space-between;
 			align-items: center;
 
-			width: 30vw;
+			width: 30%;
 			height: 2rem;
 			border-radius: 4px;
 			border: 1px solid rgba(1, 1, 1, 0.4);
