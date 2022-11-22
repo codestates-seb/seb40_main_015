@@ -5,14 +5,14 @@ import TabLists from '../components/common/TabLists';
 import Title from '../components/common/Title';
 import useTabs from '../hooks/useTabs';
 import Review from '../components/Merchant/Review';
-import { useMemberAPI } from '../api/member';
+import { useMypageAPI } from '../api/mypage';
 import { useAppSelector } from '../redux/hooks';
 import { useEffect, useState } from 'react';
 
 function MerchantPage() {
 	const [tab, curTab, handleChange] = useTabs(['책 목록', '리뷰 보기']);
 	const id = useAppSelector(state => state.loginInfo.id);
-	const { getMemberInfo } = useMemberAPI();
+	const { getMemberInfo } = useMypageAPI();
 	const [memberInfo, setMemberInfo] = useState();
 
 	useEffect(() => {
