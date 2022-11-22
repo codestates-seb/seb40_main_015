@@ -28,7 +28,7 @@ const IdSection = ({ data, notify }: IdSectionProps) => {
 		state
 			? axios
 					.get(
-						`${BASE_URL}auth/signup/check${endPointTemp}?${endPoint}=${state}`,
+						`${BASE_URL}/auth/signup/check${endPointTemp}?${endPoint}=${state}`,
 					)
 					.then(res => {
 						if (res.data.success) {
