@@ -5,15 +5,6 @@ import { RentalProps } from '../Books/type';
 interface ILendBookUserInfo {
 	rentalInfo: RentalProps;
 }
-
-// export const LendBookUserInfo = ({
-// 	customerName,
-// 	rentalState,
-// 	rentalStartedAt,
-// 	rentalDeadline,
-// 	rentalReturnedAt,
-// 	rentalCanceledAt,
-// }: RentalProps) => {
 export const LendBookUserInfo = ({ rentalInfo }: ILendBookUserInfo) => {
 	return (
 		<UserInfoBox>
