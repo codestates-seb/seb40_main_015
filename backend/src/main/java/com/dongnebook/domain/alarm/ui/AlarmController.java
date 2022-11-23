@@ -11,6 +11,7 @@ import org.springframework.web.servlet.mvc.method.annotation.SseEmitter;
 import com.dongnebook.domain.alarm.domain.AlarmService;
 import com.dongnebook.domain.alarm.dto.AlarmResponse;
 import com.dongnebook.global.Login;
+import com.dongnebook.global.config.security.auth.annotation.Auth;
 import com.dongnebook.global.config.security.auth.userdetails.AuthMember;
 
 import lombok.RequiredArgsConstructor;
@@ -26,11 +27,11 @@ public class AlarmController {
 		return alarmService.getMyAlarm(authMember.getMemberId());
 	}
 
-	@GetMapping(value = "/sub/{id}", produces = "text/event-stream")
-	public SseEmitter subscribe(@PathVariable Long id,
+	@GetMapping(value = "/sub", produces = "text/event-stream")
+	public SseEmitter subscribe(@Login AuthMember authMember,
 		@RequestHeader(value = "LastEventId", required = false, defaultValue = "" ) String lastEventId){
 
-	return alarmService.sub(id,lastEventId);
+	return alarmService.sub(authMember.getMemberId(), lastEventId);
 	}
 
 }
