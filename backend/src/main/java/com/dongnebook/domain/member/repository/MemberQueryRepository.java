@@ -50,7 +50,7 @@ public class MemberQueryRepository {
 		List<Double> LatRange = Location.latRangeList(request.getLatitude(), request.getLength(), request.getLevel());
 		List<Double> LonRange = Location.lonRangeList(request.getLongitude(), request.getWidth(), request.getLevel());
 
-		List<MemberResponse> result = jpaQueryFactory.select(new QMemberResponse(member.id, member.nickname))
+		List<MemberResponse> result = jpaQueryFactory.select(new QMemberResponse(member.id, member.nickname,member.location))
 			.from(member)
 			.where((member.location.latitude.between(LatRange.get(request.getLevel()), LatRange.get(0))),
 				(member.location.longitude.between(LonRange.get(0), LonRange.get(request.getLevel()))),
