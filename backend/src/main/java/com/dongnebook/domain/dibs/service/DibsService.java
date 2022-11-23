@@ -50,6 +50,10 @@ public class DibsService {
 		dibsRepository.delete(dibs);
 	}
 
+	public SliceImpl<BookSimpleResponse> findAll(PageRequest pageRequest, Long memberId) {
+		return bookQueryRepository.getAllDibsBook(memberId,pageRequest);
+	}
+
 	private Dibs getDibs(Book book, Member member) {
 		return dibsRepository.findByBookAndMember(book, member).orElseThrow(DibsNotFoundException::new);
 	}
@@ -62,7 +66,5 @@ public class DibsService {
 		return bookCommandRepository.findById(bookId).orElseThrow(BookNotFoundException::new);
 	}
 
-	public SliceImpl<BookSimpleResponse> findAll(PageRequest pageRequest, Long memberId) {
-		return bookQueryRepository.getAllDibsBook(memberId,pageRequest);
-	}
+
 }

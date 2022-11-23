@@ -1,7 +1,4 @@
-
 import useAPI from '../hooks/useAPI';
-
-
 
 // 마이페이지 유저정보 및 찜목록 요청 getPickBookLists
 interface Member {
@@ -17,10 +14,12 @@ interface Member {
 }
 
 interface PickBook {
-	bookId:      string;
-	title:       string;
-	rentalFee:   number;
-	status:      string;
+	bookId: number;
+	title: string;
+	status: string;
+	bookImage:string;
+	rentalFee:number;
+	merchantName: string;
 }
 
 
@@ -44,7 +43,7 @@ export const useMypageAPI = () => {
 			
 	//마이페이지 - 찜목록
 		const getPickBookList = () => 
-			api.get<PickBook>(`/dibs`);
+			api.get(`/dibs`);
 	
 	
 
@@ -71,7 +70,7 @@ export const useMypageAPI = () => {
 	// 	}
 	// };
 
-	// 예약 취소(지구)
+	// 예약 취소
 	const axiosCancleReservation = async (id: string) => {
 		try {
 			const result = await api.delete(`/books/${id}/reservation`);
@@ -82,7 +81,7 @@ export const useMypageAPI = () => {
 		}
 	};
 	
-	// 사진 등록(지구)
+	// 사진 등록
 	const axiosAddPhoto = async () => {
 		try {
 			const result = await api.post(`image`);
