@@ -11,9 +11,6 @@ const rentalPeriodConversion = ({
 	rentalReturnedAt,
 	rentalCanceledAt,
 }: RentalProps) => {
-	{
-		/* <p>대여기간</p> */
-	}
 	if (rentalState === 'TRADING' || rentalState === 'BEING_RENTED')
 		return <p>{convertDate(rentalStartedAt, rentalDeadline, true)}</p>;
 	if (rentalState === 'RETURN_UNREVIEWED' || rentalState === 'RETURN_REVIEWED')
