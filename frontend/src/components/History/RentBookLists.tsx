@@ -1,124 +1,58 @@
-import { useState } from 'react';
 import styled from 'styled-components';
-import dummyImage from '../../assets/image/dummy.png';
-import convertDate from '../../utils/convertDate';
-import RentStatusButton from './RentStatusButton';
-import { rentalDummy } from './dummy';
-
 import BookItem from '../Books/BookItem';
-import { dummyBooksRental } from '../../assets/dummy/books';
-import { RentalProps } from '../Books/type';
 import { useHistoryAPI } from '../../api/history';
-
-interface ListProps {
-	bookInfo: {
-		bookId: string;
-		bookUrl: string;
-		title: string;
-		author: string;
-		publisher: string;
-		rental_fee: string;
-		bookDescription: string;
-		location: {
-			latitude: string;
-			longitude: string;
-		};
-		bookStatus: string;
-		merchantName: string;
-	};
-	rentalInfo: {
-		rentalId: string;
-		customerName: string;
-		rentalState: string;
-		rentalStartedAt: string;
-		rentalDeadline: string;
-		rentalReturnedAt: string;
-		rentalCanceledAt: string;
-	};
-}
-const RentalPeriodConversion = ({
-	rentalState,
-	rentalStartedAt,
-	rentalDeadline,
-	rentalReturnedAt,
-	rentalCanceledAt,
-}: RentalProps) => {
-	{
-		/* <p>대여기간</p> */
-	}
-	if (rentalState === 'TRADING' || rentalState === 'BEING_RENTED')
-		return <p>{convertDate(rentalStartedAt, rentalDeadline, true)}</p>;
-	if (rentalState === 'RETURN_UNREVIEWED' || rentalState === 'RETURN_REVIEWED')
-		return <p>{convertDate(rentalStartedAt, rentalReturnedAt, true)}</p>;
-	if (rentalState === 'CANCELED')
-		return <p>{convertDate(rentalStartedAt, rentalCanceledAt, true)}</p>;
-};
+import { useQuery } from '@tanstack/react-query';
+import Animation from '../Loading/Animation';
 
 const RentBookLists = () => {
-	const { axiosCancleByCustomer } = useHistoryAPI();
-	const [test, setTest] = useState<ListProps[]>(rentalDummy);
+	const { getRentalBookLists } = useHistoryAPI();
+
+	const { data } = useQuery(
+		['rentBookList'],
+		() => getRentalBookLists().then(res => res.data),
+		{ retry: 1 },
+	);
 
 	return (
 		<Box>
-			{/* 통합본 추가 */}
-			{dummyBooksRental?.map(el => (
-				<BookItem
-					key={+el.bookInfo.bookId}
-					bookId={el.bookInfo.bookId}
-					title={el.bookInfo.title}
-					bookImage={el.bookInfo.bookUrl}
-					rentalfee={+el.bookInfo.rental_fee}
-					author={el.bookInfo.author}
-					publisher={el.bookInfo.publisher}
-					merchantName={el.bookInfo.merchantName}
-					status={el.rentalInfo.rentalState}
-					rental={el.rentalInfo}
-				/>
-			))}
+			{data?.content.length ? (
+				data?.content?.map((el: any) => (
+					<BookItem
+						key={el.rentalInfo.rentalId}
+						bookId={el.bookInfo.bookId}
+						title={el.bookInfo.title}
+						bookImage={el.bookInfo.bookUrl}
+						rentalfee={el.bookInfo.rentalFee}
+						author={el.bookInfo.author}
+						publisher={el.bookInfo.publisher}
+						merchantName={el.bookInfo.merchantName}
+						status={el.rentalInfo.rentalState}
+						rental={el.rentalInfo}
+					/>
+				))
+			) : (
+				<EmptyBox>
+					<p>빌린 책이 없어요</p>
+				</EmptyBox>
+			)}
 		</Box>
 	);
 };
 
 const Box = styled.div`
 	/* padding: 0 1rem; */
+	height: 100%;
 `;
 
-const Wrapper = styled.div`
+const EmptyBox = styled.div`
 	width: 100%;
-	max-width: 850px;
+	height: 75vh;
 	display: flex;
-	flex-direction: column;
+	justify-content: center;
 	align-items: center;
-	margin-bottom: 1rem;
-`;
-
-const Container = styled.div`
-	width: 90vw;
-	display: flex;
-	justify-content: space-between;
-	margin-bottom: 0.5rem;
-	border: 1px solid #eaeaea;
-	border-radius: 5px;
-	padding: 1rem;
-	background-color: white;
-`;
-
-const FlexBox = styled.div`
-	display: flex;
-`;
-
-const InfoWrapped = styled.div`
-	display: flex;
-	margin-left: 0.3rem;
-	flex-direction: column;
-	justify-content: space-evenly;
-	justify-items: stretch;
-	background-color: white;
 	p {
-		font-size: ${props => props.theme.fontSizes.paragraph};
-		margin-left: 1rem;
-		background-color: white;
+		font-size: ${props => props.theme.fontSizes.subtitle};
+		font-weight: 600;
 	}
 `;
-
 export default RentBookLists;

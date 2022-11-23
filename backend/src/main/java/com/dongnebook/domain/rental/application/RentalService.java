@@ -1,5 +1,7 @@
 package com.dongnebook.domain.rental.application;
 
+import com.dongnebook.domain.alarm.domain.AlarmService;
+import com.dongnebook.domain.alarm.domain.AlarmType;
 import com.dongnebook.domain.book.domain.Book;
 import com.dongnebook.domain.book.domain.BookState;
 import com.dongnebook.domain.book.exception.BookNotFoundException;
@@ -33,19 +35,19 @@ import org.springframework.transaction.annotation.Transactional;
 public class RentalService {
 
 	private final RentalRepository rentalRepository;
-
+	private final AlarmService alarmService;
 	private final RentalQueryRepository rentalQueryRepository;
 	private final BookCommandRepository bookCommandRepository;
 	private final MemberRepository memberRepository;
 
 	@Transactional
-	public void createRental(Long bookId, Long merchantId) {
-		Member merchant = getMemberById(merchantId);
+	public void createRental(Long bookId, Long customerId) {
+		Member merchant = getMemberById(customerId);
 		Book book = getBookById(bookId);
 
-		blockRentMyBook(merchantId, book);
+		blockRentMyBook(customerId, book);
 		book.changeBookStateFromTo(BookState.RENTABLE, BookState.TRADING);
-
+		alarmService.sendAlarm(book.getMember(),book, AlarmType.RENTAL);
 		Rental rental = Rental.create(book, merchant);
 		rentalRepository.save(rental);
 	}
@@ -55,7 +57,7 @@ public class RentalService {
 	public void cancelRentalByCustomer(Long rentalId, Long customerId) {
 		Rental rental = getRental(rentalId);
 		Book book = getBookFromRental(rental);
-
+		alarmService.sendAlarm(book.getMember(),book, AlarmType.RESIDENT_CANCELLATION);
 		// 책을 빌린 주민 본인이 아닌 경우 예외 처리
 		canNotChangeRental(rental.getCustomer(), customerId);
 
@@ -68,7 +70,7 @@ public class RentalService {
 	public void cancelRentalByMerchant(Long rentalId, Long merchantId) {
 		Rental rental = getRental(rentalId);
 		Book book = getBookFromRental(rental);
-
+		alarmService.sendAlarm(rental.getCustomer(),book, AlarmType.MERCHANT_CANCELLATION);
 		// 대여를 올린 상인 본인이 아닌 경우 예외 처리
 		canNotChangeRental(book.getMember(), merchantId);
 

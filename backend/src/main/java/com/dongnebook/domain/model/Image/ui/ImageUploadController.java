@@ -1,12 +1,11 @@
-package com.dongnebook.domain.Image.ui;
+package com.dongnebook.domain.model.Image.ui;
 
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.dongnebook.domain.Image.application.AwsS3Service;
-import com.dongnebook.domain.Image.application.ImageUploadService;
-import com.dongnebook.domain.Image.dto.ImageUploadRequest;
+import com.dongnebook.domain.model.Image.infrastructure.AwsS3Service;
+import com.dongnebook.domain.model.Image.application.ImageUploadService;
+import com.dongnebook.domain.model.Image.dto.ImageUploadRequest;
 
 import lombok.extern.slf4j.Slf4j;
 

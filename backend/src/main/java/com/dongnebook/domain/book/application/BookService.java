@@ -92,6 +92,10 @@ public class BookService {
 		HashMap<Integer, Integer> indexMap = new HashMap<>();
 		int arrIndex = 0;
 
+		if (condition.getLevel()==1) {
+
+		}
+
 
 		for (Location location : sectorBookCounts) {
 			int sector = 0;
