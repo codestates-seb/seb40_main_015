@@ -11,7 +11,7 @@ export const useBookReturn = (rentalId: string) => {
 	const { mutate } = useMutation(() => axiosBookReturn(rentalId), {
 		onSuccess: () => {
 			queryClient.invalidateQueries({ queryKey: ['lendBookList'] });
-			notify(dispatch, '반납완료');
+			// notify(dispatch, '반납완료');
 		},
 	});
 
