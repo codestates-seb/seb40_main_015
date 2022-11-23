@@ -6,6 +6,7 @@ import Animation from '../Loading/Animation';
 import { dummyBooksRental } from '../../assets/dummy/books';
 import LendBookUserInfo from './LendBookUserInfo';
 import LendStatusButton from './LendStatusButton';
+import RentStatusButton from './RentStatusButton';
 
 const RentBookLists = () => {
 	const { getRentalBookLists } = useHistoryAPI();
@@ -28,11 +29,15 @@ const RentBookLists = () => {
 						rentalfee={el.bookInfo.rentalFee}
 						author={el.bookInfo.author}
 						publisher={el.bookInfo.publisher}
-						merchantName={el.bookInfo.merchantName}
+						// merchantName={el.bookInfo.merchantName}
 						status={el.rentalInfo.rentalState}
 						rental={el.rentalInfo}
 					/>
-					<LendBookUserInfo rentalInfo={el.rentalInfo} />
+					{/* lendbook 참고해서 rentbook 전용 유저 인포 컴포넌트와 상태 버튼을 만들어야 할듯, 통합 컴포넌트를 만들거나 */}
+					<LendBookUserInfo
+						rentalInfo={el.rentalInfo}
+						merchantName={el.bookInfo.merchantName}
+					/>
 					<LendStatusButton
 						status={el.rentalInfo.rentalState}
 						customerName={el.rentalInfo.customerName}

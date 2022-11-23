@@ -52,7 +52,7 @@ const LentBookLists = () => {
 							rentalfee={el.bookInfo.rentalFee}
 							author={el.bookInfo.author}
 							publisher={el.bookInfo.publisher}
-							merchantName={el.bookInfo.merchantName}
+							// merchantName={el.bookInfo.merchantName}
 							status={el.rentalInfo.rentalState}
 							rental={el.rentalInfo}
 						/>

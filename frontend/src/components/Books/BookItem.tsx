@@ -35,9 +35,9 @@ const BookItem = ({
 				bookImage={bookImage}
 				publisher={publisher}
 				author={author}
-				merchantName={merchantName}
 				rentalfee={rentalfee}
 				rental={rental}
+				merchantName={merchantName}
 			/>
 			<BookItemState
 				status={status}

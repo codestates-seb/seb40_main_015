@@ -67,8 +67,8 @@ const BookInfo = styled.div`
 const BookImage = styled.div`
 	margin-right: 16px;
 	img {
-		width: 9em;
-		height: 11rem;
+		width: 7em;
+		height: 9rem;
 		background-color: ${props => props.theme.colors.grey};
 	}
 `;

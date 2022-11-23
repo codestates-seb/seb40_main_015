@@ -20,6 +20,8 @@ const BooksPage = () => {
 		queryFn: getAllBooksList,
 	});
 
+	console.log('dataL ', data);
+
 	return (
 		<Main>
 			<TitleWrapper>
