@@ -1,7 +1,4 @@
-
 import useAPI from '../hooks/useAPI';
-
-
 
 // 마이페이지 유저정보 및 찜목록 요청 getPickBookLists
 interface Member {

@@ -16,14 +16,16 @@ function ProfileEditPage() {
 	}, [isOpenModal]);
 
 	//유저 이미지 수정
-	const [File, setFile] = useState();
-	const [Image, setImage] = useState(
+	const [File, setFile] = useState<File | undefined>();
+	const [Image, setImage] = useState<string>(
 		'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png',
 	);
 	const fileInput = useRef<any>(null);
-	const onChange = e => {
-		if (e.target.files[0]) {
-			setFile(e.target.files[0]);
+	const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+		console.log('');
+		const files = e.currentTarget.files as FileList;
+		if (files) {
+			setFile(files[0]);
 		} else {
 			//업로드 취소할 시
 			setImage(
@@ -31,24 +33,17 @@ function ProfileEditPage() {
 			);
 			return;
 		}
+
 		//화면에 프로필 사진 표시
 		const reader = new FileReader();
 		reader.onload = () => {
-			if (reader.readyState === 2) {
-				setImage(reader.result);
+			if (reader.readyState === 2 && reader.result) {
+				console.log(reader);
+				setImage(`${reader.result}`);
 			}
 		};
-		reader.readAsDataURL(e.target.files[0]);
+		reader.readAsDataURL(files[0]);
 	};
-
-	<input
-		type="file"
-		style={{ display: 'none' }}
-		accept="image/jpg,impge/png,image/jpeg"
-		name="profile_img"
-		onChange={onChange}
-		ref={fileInput}
-	/>;
 
 	return (
 		<Layout>
@@ -62,20 +57,26 @@ function ProfileEditPage() {
 						fileInput.current.click();
 					}}
 				/>
-
+				<input
+					type="file"
+					style={{ display: 'none' }}
+					accept="image/jpg,impge/png,image/jpeg"
+					name="profile_img"
+					onChange={onChange}
+					ref={fileInput}
+				/>
 				<p className="minititle">닉네임</p>
 				<div className="input">
-					<input placeholder="닉네임을 입력하세요" />
-					<HiOutlinePencilAlt className="editicon" />
+					<input placeholder="닉네임을 입력하세요" disabled={false} />
 				</div>
 				<p className="minititle">내 동네 설정</p>
 				<div className="input">
-					<input placeholder="내 동네를 설정하세요" disabled={false} />
 					{isOpenModal && (
 						<Modal onClickToggleModal={onClickToggleModal}></Modal>
 					)}
-					<HiOutlinePencilAlt
-						className="editicon"
+					<input
+						placeholder="내 동네를 설정하세요"
+						disabled={false}
 						onClick={onClickToggleModal}
 					/>
 				</div>
@@ -130,10 +131,15 @@ const ProfileBox = styled.div`
 	padding-bottom: 50px;
 
 	.image {
+		box-sizing: border-box;
 		width: 220px;
 		height: 220px;
 		border-radius: 1000px;
 		border: 0.5px solid grey;
+		cursor: pointer;
+		:hover {
+			border: 2px solid ${props => props.theme.colors.buttonGreen};
+		}
 	}
 
 	.Button {
