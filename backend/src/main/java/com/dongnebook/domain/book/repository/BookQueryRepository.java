@@ -10,6 +10,8 @@ import static com.dongnebook.domain.dibs.domain.QDibs.*;
 import java.util.List;
 import java.util.Objects;
 
+import javax.persistence.EntityManager;
+
 import org.springframework.data.domain.SliceImpl;
 import org.springframework.stereotype.Repository;
 
@@ -23,6 +25,7 @@ import com.dongnebook.domain.book.dto.response.QBookDetailResponse;
 import com.dongnebook.domain.book.dto.response.QBookResponse;
 
 import com.dongnebook.domain.book.dto.response.QBookSimpleResponse;
+import com.dongnebook.domain.member.domain.Member;
 import com.dongnebook.domain.member.dto.response.QBookDetailMemberResponse;
 import com.dongnebook.domain.model.Location;
 
@@ -42,6 +45,7 @@ import lombok.extern.slf4j.Slf4j;
 public class BookQueryRepository {
 
 	private final JPAQueryFactory jpaQueryFactory;
+	private final EntityManager em;
 
 	public BookDetailResponse getDetail(Long id) {
 
@@ -83,8 +87,8 @@ public class BookQueryRepository {
 
 		return jpaQueryFactory.select(book.location)
 			.from(book)
-			.where(book.location.latitude.between(LatRange.get(condition.getLevel()), LatRange.get(0))
-				.and(book.location.longitude.between(LonRange.get(0), LonRange.get(condition.getLevel()))
+			.where(book.location.latitude.between(LatRange.get(LatRange.size()-1), LatRange.get(0))
+				.and(book.location.longitude.between(LonRange.get(0), LonRange.get(LonRange.size()-1))
 					.and(contains(bookTitle))))
 			.fetch();
 	}
@@ -175,5 +179,32 @@ public class BookQueryRepository {
 			}
 		}
 		return null;
+	}
+
+	public void updateBookLocation(Member member, Location location) {
+		jpaQueryFactory.update(book)
+			.set(book.location,location)
+			.where(book.member.id.eq(member.getId()))
+			.execute();
+
+	}
+
+	public SliceImpl<BookSimpleResponse> getListByMember(Long memberId, PageRequest pageRequest) {
+		List<BookSimpleResponse> result = jpaQueryFactory.select(
+				new QBookSimpleResponse(book.id, book.title, book.bookState, book.ImgUrl))
+			.from(book)
+			.where(ltBookId(pageRequest.getIndex()),book.member.id.eq(memberId))
+			.orderBy(book.id.desc())
+			.limit(pageRequest.getSize() + 1)
+			.fetch();
+
+		boolean hasNext = false;
+
+		if (result.size() > pageRequest.getSize()) {
+			hasNext = true;
+			result.remove(pageRequest.getSize().intValue());
+		}
+
+		return new SliceImpl<>(result, pageRequest.of(), hasNext);
 	}
 }
