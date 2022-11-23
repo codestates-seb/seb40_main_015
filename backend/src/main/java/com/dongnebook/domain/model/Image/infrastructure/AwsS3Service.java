@@ -1,4 +1,4 @@
-package com.dongnebook.domain.Image.application;
+package com.dongnebook.domain.model.Image.infrastructure;
 
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
@@ -14,7 +14,8 @@ import com.amazonaws.services.s3.model.CannedAccessControlList;
 import com.amazonaws.services.s3.model.ObjectMetadata;
 import com.amazonaws.services.s3.model.PutObjectRequest;
 import com.amazonaws.util.IOUtils;
-import com.dongnebook.domain.Image.exception.UploadFailed;
+import com.dongnebook.domain.model.Image.application.ImageUploadService;
+import com.dongnebook.domain.model.Image.exception.UploadFailed;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

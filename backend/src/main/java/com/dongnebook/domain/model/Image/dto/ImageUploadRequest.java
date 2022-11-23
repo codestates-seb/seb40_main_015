@@ -1,4 +1,4 @@
-package com.dongnebook.domain.Image.dto;
+package com.dongnebook.domain.model.Image.dto;
 
 import org.springframework.web.multipart.MultipartFile;
 

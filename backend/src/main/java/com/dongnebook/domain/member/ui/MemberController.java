@@ -12,6 +12,8 @@ import com.dongnebook.domain.member.dto.response.MemberExistsCheckResponse;
 import com.dongnebook.domain.member.dto.response.MemberResponse;
 import com.dongnebook.domain.member.dto.response.MerchantSectorCountResponse;
 
+import com.dongnebook.global.Login;
+import com.dongnebook.global.config.security.auth.userdetails.AuthMember;
 import com.dongnebook.global.dto.request.PageRequest;
 
 import org.springframework.data.domain.SliceImpl;
@@ -82,10 +84,10 @@ public class MemberController {
         return ResponseEntity.ok(memberExistsCheckResponse);
     }
 
-    @PatchMapping("/member/{id}/edit")
-    public void edit(@PathVariable Long id, @RequestBody MemberEditRequest memberEditRequest){
+    @PatchMapping("/member/edit")
+    public void edit(@Login AuthMember member, @RequestBody MemberEditRequest memberEditRequest){
 
-        memberService.edit(id,memberEditRequest);
+        memberService.edit(member.getMemberId(),memberEditRequest);
 
     }
 
