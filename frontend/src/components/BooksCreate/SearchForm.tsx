@@ -1,15 +1,15 @@
-import { Dispatch, SetStateAction, useState } from 'react';
+import { useState } from 'react';
 import { HiOutlineSearch } from 'react-icons/hi';
 import styled from 'styled-components';
 import ModalForTitle from './ModalForTitle';
 
 interface SearchFormProps {
 	title: string;
-	setTitle: Dispatch<SetStateAction<string>>;
+	setTitle: Function;
 }
 
 const SearchForm = ({ title, setTitle }: SearchFormProps) => {
-	const [isModalOpened, setIsModalOpened] = useState(true);
+	const [isModalOpened, setIsModalOpened] = useState(false);
 
 	const handleTitleClick = () => {
 		setIsModalOpened(pre => !pre);
@@ -30,6 +30,7 @@ const SearchForm = ({ title, setTitle }: SearchFormProps) => {
 			<ModalForTitle
 				isModalOpened={isModalOpened}
 				setIsModalOpened={setIsModalOpened}
+				setTitle={setTitle}
 			/>
 		</StyledSearchForm>
 	);

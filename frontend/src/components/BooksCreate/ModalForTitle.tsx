@@ -1,4 +1,4 @@
-import React, { SetStateAction, useState } from 'react';
+import { useState } from 'react';
 import styled from 'styled-components';
 import useAPI from '../../hooks/useAPI';
 import Button from '../common/Button';
@@ -6,12 +6,14 @@ import SearchItem from './SearchItem';
 
 interface ModalDefaultType {
 	isModalOpened: boolean;
-	setIsModalOpened: React.Dispatch<SetStateAction<boolean>>;
+	setIsModalOpened: Function;
+	setTitle: Function;
 }
 
 const ModalForTitle = ({
 	isModalOpened,
 	setIsModalOpened,
+	setTitle,
 }: ModalDefaultType) => {
 	const [searchText, setSearchText] = useState('');
 	const [bookData, setBookData] = useState([]);
@@ -46,14 +48,14 @@ const ModalForTitle = ({
 						</ModalForm>
 						<SearchItems>
 							{bookData.map((el, idx) => (
-								<SearchItem key={idx} content={el} />
+								<SearchItem key={idx} content={el} setTitle={setTitle} />
 							))}
 						</SearchItems>
 					</DialogBox>
 					<Backdrop
 						className="back"
 						onClick={() => {
-							setIsModalOpened(pre => !pre);
+							setIsModalOpened(false);
 							setSearchText('');
 							setBookData([]);
 						}}

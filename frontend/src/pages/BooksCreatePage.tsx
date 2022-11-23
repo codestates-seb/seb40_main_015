@@ -39,17 +39,6 @@ const BooksCreatePage = () => {
 		// location,
 	};
 
-	// useEffect(() => {
-	// 	const config = {
-	// 		headers: {
-	// 			Authorization: `KAkaoAK ${process.env.REACT_APP_KAKAO_KEY}`,
-	// 		},
-	// 	};
-	// 	axios
-	// 		.get(`${BOOK_API}?query=해리포터&size=5`, config)
-	// 		.then(res => console.log(res.data));
-	// }, [title]);
-
 	const handleCreate = () => {
 		console.log('click: ', payload);
 	};

@@ -6,12 +6,16 @@ interface SearchItemProps {
 		authors: string[];
 		publisher: string;
 	};
+	setTitle: Function;
 }
 
-const SearchItem = ({ content }: SearchItemProps) => {
+const SearchItem = ({ content, setTitle }: SearchItemProps) => {
 	const { title, authors, publisher } = content;
+	const handleBookSelect = () => {
+		setTitle(title);
+	};
 	return (
-		<StyledSearchItem>
+		<StyledSearchItem onClick={handleBookSelect}>
 			<h2>{title}</h2>
 			<div>
 				{authors.length === 1 ? authors[0] : `${authors[0]} 외`} / {publisher}
