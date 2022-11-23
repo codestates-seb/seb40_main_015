@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.mvc.method.annotation.SseEmitter;
 
+
 import com.dongnebook.domain.alarm.domain.AlarmService;
 import com.dongnebook.domain.alarm.dto.AlarmResponse;
 import com.dongnebook.global.Login;
@@ -26,11 +27,11 @@ public class AlarmController {
 		return alarmService.getMyAlarm(authMember.getMemberId());
 	}
 
+
 	@GetMapping(value = "/sub/{id}", produces = "text/event-stream")
 	public SseEmitter subscribe(@PathVariable Long id,
 		@RequestHeader(value = "LastEventId", required = false, defaultValue = "" ) String lastEventId){
 
 	return alarmService.sub(id,lastEventId);
 	}
-
 }

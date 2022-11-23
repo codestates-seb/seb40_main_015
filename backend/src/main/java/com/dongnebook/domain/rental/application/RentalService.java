@@ -70,7 +70,7 @@ public class RentalService {
 	public void cancelRentalByMerchant(Long rentalId, Long merchantId) {
 		Rental rental = getRental(rentalId);
 		Book book = getBookFromRental(rental);
-
+		alarmService.sendAlarm(rental.getCustomer(),book, AlarmType.MERCHANT_CANCELLATION);
 		// 대여를 올린 상인 본인이 아닌 경우 예외 처리
 		canNotChangeRental(book.getMember(), merchantId);
 
