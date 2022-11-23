@@ -1,39 +1,47 @@
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
-import {
-	axiosBookReceipt,
-	axiosBookReturn,
-	axiosCancleByCustomer,
-} from '../../api/history';
 import Button from '../common/Button';
+import { useBookReceipt } from './hooks/useBookReceipt';
+import { useCancelByCustomer } from './hooks/useCancelByCustomer';
 
 interface Props {
 	status: string;
 	merchantName: string;
+	rental: {
+		rentalId: string;
+		customerName: string;
+		rentalState: string;
+		rentalStartedAt: string;
+		rentalDeadline: string;
+		rentalReturnedAt: string;
+		rentalCanceledAt: string;
+	};
 }
-const RentStatusButton = ({ status, merchantName }: Props) => {
+const RentStatusButton = ({ status, merchantName, rental }: Props) => {
 	const navigate = useNavigate();
+
+	const { mutate: cancel } = useCancelByCustomer(rental.rentalId);
+	const { mutate: receipt } = useBookReceipt(rental.rentalId);
 
 	const handleStatusChange = (
 		status: string,
 		id: string,
 		e?: React.MouseEvent<HTMLButtonElement, MouseEvent>,
 	) => {
+		e?.preventDefault();
 		switch (status) {
 			case 'TRADING':
 				const action = (e?.target as HTMLButtonElement).textContent;
 				if (action === '취소') {
-					axiosCancleByCustomer(id);
+					cancel();
 				}
 				if (action === '수령 완료') {
-					axiosBookReceipt(id);
+					receipt();
 				}
-				break;
-			case 'BEING_RENTED':
-				axiosBookReturn(id);
 				break;
 			case 'RETURN_UNREVIEWED':
 				navigate('/review/create');
+				break;
 		}
 	};
 	return (
@@ -49,9 +57,7 @@ const RentStatusButton = ({ status, merchantName }: Props) => {
 				</>
 			)}
 			{status === 'BEING_RENTED' && (
-				<Button onClick={() => handleStatusChange(status, merchantName)}>
-					반납하기
-				</Button>
+				<Button backgroundColor="grey">대여중</Button>
 			)}
 			{status === 'RETURN_UNREVIEWED' && (
 				<Button onClick={() => handleStatusChange(status, merchantName)}>
@@ -72,14 +78,17 @@ interface StatusBoxProps {
 	status: string;
 }
 const StatusBox = styled.div<StatusBoxProps>`
+	height: 100%;
 	display: flex;
 	flex-direction: column;
 	flex-wrap: wrap;
 	justify-content: ${props =>
 		props.status === 'TRADING' ? 'space-evenly' : 'center'};
 	width: 7rem;
-	background-color: white;
 	word-break: keep-all;
+	:hover {
+		background-color: ${props => props.theme.colors.grey};
+	}
 `;
 
 export default RentStatusButton;

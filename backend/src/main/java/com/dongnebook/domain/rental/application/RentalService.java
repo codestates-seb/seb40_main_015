@@ -1,5 +1,7 @@
 package com.dongnebook.domain.rental.application;
 
+import com.dongnebook.domain.alarm.domain.AlarmService;
+import com.dongnebook.domain.alarm.domain.AlarmType;
 import com.dongnebook.domain.book.domain.Book;
 import com.dongnebook.domain.book.domain.BookState;
 import com.dongnebook.domain.book.exception.BookNotFoundException;
@@ -11,18 +13,20 @@ import com.dongnebook.domain.rental.domain.Rental;
 
 import com.dongnebook.domain.rental.domain.RentalState;
 
-import com.dongnebook.domain.rental.dto.Request.RentalRegisterRequest;
+import com.dongnebook.domain.rental.dto.Response.RentalBookResponse;
 import com.dongnebook.domain.rental.exception.*;
 
+import com.dongnebook.domain.rental.repository.RentalQueryRepository;
 import com.dongnebook.domain.rental.repository.RentalRepository;
 
+import com.dongnebook.global.dto.request.PageRequest;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
+import org.springframework.data.domain.*;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.time.LocalDateTime;
 
 @Slf4j
 @Service
@@ -31,17 +35,19 @@ import java.time.LocalDateTime;
 public class RentalService {
 
 	private final RentalRepository rentalRepository;
+	private final AlarmService alarmService;
+	private final RentalQueryRepository rentalQueryRepository;
 	private final BookCommandRepository bookCommandRepository;
 	private final MemberRepository memberRepository;
 
 	@Transactional
-	public void createRental(Long bookId, Long merchantId) {
-		Member merchant = getMemberById(merchantId);
+	public void createRental(Long bookId, Long customerId) {
+		Member merchant = getMemberById(customerId);
 		Book book = getBookById(bookId);
 
-		blockRentMyBook(merchantId, book);
+		blockRentMyBook(customerId, book);
 		book.changeBookStateFromTo(BookState.RENTABLE, BookState.TRADING);
-
+		alarmService.sendAlarm(book.getMember(),book, AlarmType.RENTAL);
 		Rental rental = Rental.create(book, merchant);
 		rentalRepository.save(rental);
 	}
@@ -51,9 +57,9 @@ public class RentalService {
 	public void cancelRentalByCustomer(Long rentalId, Long customerId) {
 		Rental rental = getRental(rentalId);
 		Book book = getBookFromRental(rental);
-
+		alarmService.sendAlarm(book.getMember(),book, AlarmType.RESIDENT_CANCELLATION);
 		// 책을 빌린 주민 본인이 아닌 경우 예외 처리
-		canNotChangeRental(rental.getMember(), customerId);
+		canNotChangeRental(rental.getCustomer(), customerId);
 
 		rental.changeRentalStateFromTo(RentalState.TRADING, RentalState.CANCELED);
 		book.changeBookStateFromTo(BookState.TRADING, BookState.RENTABLE);
@@ -64,7 +70,7 @@ public class RentalService {
 	public void cancelRentalByMerchant(Long rentalId, Long merchantId) {
 		Rental rental = getRental(rentalId);
 		Book book = getBookFromRental(rental);
-
+		alarmService.sendAlarm(rental.getCustomer(),book, AlarmType.MERCHANT_CANCELLATION);
 		// 대여를 올린 상인 본인이 아닌 경우 예외 처리
 		canNotChangeRental(book.getMember(), merchantId);
 
@@ -78,7 +84,7 @@ public class RentalService {
 		Book book = getBookFromRental(rental);
 
 		// 책을 빌린 주민 본인이 아닌 경우 예외 처리
-		canNotChangeRental(rental.getMember(), customerId);
+		canNotChangeRental(rental.getCustomer(), customerId);
 
 		rental.changeRentalStateFromTo(RentalState.TRADING, RentalState.BEING_RENTED);
 		book.changeBookStateFromTo(BookState.TRADING, BookState.UNRENTABLE_RESERVABLE);
@@ -98,6 +104,13 @@ public class RentalService {
 		book.changeBookStateFromTo(BookState.UNRENTABLE_RESERVABLE, BookState.RENTABLE);
 	}
 
+	public SliceImpl<RentalBookResponse> getRentalsByMerchant(Long merchantId, PageRequest pageRequest) {
+		return rentalQueryRepository.findAllByMerchantIdOrderByIdDesc(merchantId, pageRequest);
+	}
+
+	public SliceImpl<RentalBookResponse> getRentalsByCustomer(Long customerId, PageRequest pageRequest) {
+		return rentalQueryRepository.findAllByCustomerIdOrderByIdDesc(customerId, pageRequest);
+	}
 
 	private Book getBookById(Long bookId) {
 		return bookCommandRepository.findById(bookId)

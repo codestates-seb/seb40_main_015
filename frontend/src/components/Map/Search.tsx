@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 import { HiSearch } from 'react-icons/hi';
 import { Dispatch, SetStateAction } from 'react';
-import { getTotalBook, getTotalMerchant } from '../../api/test';
+import { getTotalBook, getTotalMerchant } from '../../api/map';
 import notify from '../../utils/notify';
 import { useAppDispatch } from '../../redux/hooks';
 import { data, bookCount } from './dummy';
@@ -13,6 +13,8 @@ interface SearchProps {
 	current: { La: number; Ma: number };
 	setMerchantSector: Dispatch<SetStateAction<any>>;
 	setBookSector: Dispatch<SetStateAction<any>>;
+	setMerchantLists: Dispatch<SetStateAction<any>>;
+	setBookLists: Dispatch<SetStateAction<any>>;
 }
 
 const Search = (props: SearchProps) => {
@@ -23,6 +25,8 @@ const Search = (props: SearchProps) => {
 		current,
 		setMerchantSector,
 		setBookSector,
+		setMerchantLists,
+		setBookLists,
 	} = props;
 
 	const dispatch = useAppDispatch();
@@ -40,6 +44,7 @@ const Search = (props: SearchProps) => {
 				// );
 				setMerchantSector(data); // 더미데이터
 				setBookSector([]);
+				setBookLists([]);
 			} else {
 				getTotalBook(searchInput, current.Ma, current.La).then(res => {
 					// 책검색 api 요청 -> 데이터가 잇으면?
@@ -47,13 +52,16 @@ const Search = (props: SearchProps) => {
 						// setReset(true);
 						setBookSector(bookCount);
 						setMerchantSector([]);
+						setMerchantLists([]);
 					} else {
 						// 없으면 ?
 						// 리셋안하고 toast 팝업;
 						// setReset(false);
-						notify(dispatch, '검색한 책이 없어요');
+						notify(dispatch, `검색한 ${searchInput}가 주변에 없어요`);
 						setBookSector([]);
+						setBookLists([]);
 						setMerchantSector([]);
+						setMerchantLists([]);
 					}
 				});
 			}

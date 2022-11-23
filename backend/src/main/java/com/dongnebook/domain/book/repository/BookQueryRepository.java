@@ -10,6 +10,8 @@ import static com.dongnebook.domain.dibs.domain.QDibs.*;
 import java.util.List;
 import java.util.Objects;
 
+import javax.persistence.EntityManager;
+
 import org.springframework.data.domain.SliceImpl;
 import org.springframework.stereotype.Repository;
 
@@ -23,8 +25,7 @@ import com.dongnebook.domain.book.dto.response.QBookDetailResponse;
 import com.dongnebook.domain.book.dto.response.QBookResponse;
 
 import com.dongnebook.domain.book.dto.response.QBookSimpleResponse;
-import com.dongnebook.domain.dibs.domain.Dibs;
-import com.dongnebook.domain.dibs.domain.QDibs;
+import com.dongnebook.domain.member.domain.Member;
 import com.dongnebook.domain.member.dto.response.QBookDetailMemberResponse;
 import com.dongnebook.domain.model.Location;
 
@@ -44,6 +45,7 @@ import lombok.extern.slf4j.Slf4j;
 public class BookQueryRepository {
 
 	private final JPAQueryFactory jpaQueryFactory;
+	private final EntityManager em;
 
 	public BookDetailResponse getDetail(Long id) {
 
@@ -57,6 +59,7 @@ public class BookQueryRepository {
 						book.bookState
 					),
 					new QBookDetailMemberResponse(
+						book.member.id,
 						book.member.nickname,
 						book.member.avgGrade
 					)
@@ -79,13 +82,13 @@ public class BookQueryRepository {
 	public List<Location> getSectorBookCounts(BookSearchCondition condition) {
 
 		String bookTitle = condition.getBookTitle();
-		List<Double> LatRange = Location.latRangeList(condition.getLatitude(), condition.getLength());
-		List<Double> LonRange = Location.lonRangeList(condition.getLongitude(), condition.getWidth());
+		List<Double> LatRange = Location.latRangeList(condition.getLatitude(), condition.getLength(),condition.getLevel());
+		List<Double> LonRange = Location.lonRangeList(condition.getLongitude(), condition.getWidth(),condition.getLevel());
 
 		return jpaQueryFactory.select(book.location)
 			.from(book)
-			.where(book.location.latitude.between(LatRange.get(3), LatRange.get(0))
-				.and(book.location.longitude.between(LonRange.get(0), LonRange.get(3))
+			.where(book.location.latitude.between(LatRange.get(LatRange.size()-1), LatRange.get(0))
+				.and(book.location.longitude.between(LonRange.get(0), LonRange.get(LonRange.size()-1))
 					.and(contains(bookTitle))))
 			.fetch();
 	}
@@ -95,9 +98,9 @@ public class BookQueryRepository {
 
 		String bookTitle = condition.getBookTitle();
 		log.info("bookTitle = {}", bookTitle);
-		List<Double> LatRange = Location.latRangeList(condition.getLatitude(), condition.getLength());
-		List<Double> LonRange = Location.lonRangeList(condition.getLongitude(), condition.getWidth());
-		Integer sector = condition.getSector();
+		List<Double> LatRange = Location.latRangeList(condition.getLatitude(), condition.getLength(),condition.getLevel());
+		List<Double> LonRange = Location.lonRangeList(condition.getLongitude(), condition.getWidth(),condition.getLevel());
+
 
 
 		List<BookSimpleResponse> result = jpaQueryFactory.select(
@@ -106,7 +109,7 @@ public class BookQueryRepository {
 			.innerJoin(book.member)
 			.where(ltBookId(pageRequest.getIndex())
 				,(contains(bookTitle))
-				,(sectorBetween(LatRange,LonRange,sector)))
+				,(sectorBetween(LatRange,LonRange,condition.getSector(),condition.getLevel())))
 			.orderBy(book.id.desc())
 			.limit(pageRequest.getSize() + 1)
 			.fetch();
@@ -158,15 +161,16 @@ public class BookQueryRepository {
 		return book.id.lt(bookId);
 	}
 
-	private BooleanExpression sectorBetween(List<Double> latRangeList, List<Double> lonRangeList,Integer givenSector) {
+	private BooleanExpression sectorBetween(List<Double> latRangeList, List<Double> lonRangeList,Integer givenSector,
+		Integer level) {
 
 		if (Objects.isNull(latRangeList)||Objects.isNull(lonRangeList)||Objects.isNull(givenSector)) {
 			return null;
 		}
 
 		int sector = 0;
-		for (int i = 0; i < 3; i++) {
-			for (int j = 0; j < 3; j++) {
+		for (int i = 0; i < level; i++) {
+			for (int j = 0; j < level; j++) {
 				sector++;
 				if (givenSector == sector) {
 					return book.location.latitude.between(latRangeList.get(i + 1), latRangeList.get(i))
@@ -175,5 +179,32 @@ public class BookQueryRepository {
 			}
 		}
 		return null;
+	}
+
+	public void updateBookLocation(Member member, Location location) {
+		jpaQueryFactory.update(book)
+			.set(book.location,location)
+			.where(book.member.id.eq(member.getId()))
+			.execute();
+
+	}
+
+	public SliceImpl<BookSimpleResponse> getListByMember(Long memberId, PageRequest pageRequest) {
+		List<BookSimpleResponse> result = jpaQueryFactory.select(
+				new QBookSimpleResponse(book.id, book.title, book.bookState, book.ImgUrl))
+			.from(book)
+			.where(ltBookId(pageRequest.getIndex()),book.member.id.eq(memberId))
+			.orderBy(book.id.desc())
+			.limit(pageRequest.getSize() + 1)
+			.fetch();
+
+		boolean hasNext = false;
+
+		if (result.size() > pageRequest.getSize()) {
+			hasNext = true;
+			result.remove(pageRequest.getSize().intValue());
+		}
+
+		return new SliceImpl<>(result, pageRequest.of(), hasNext);
 	}
 }

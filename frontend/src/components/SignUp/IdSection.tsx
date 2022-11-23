@@ -1,6 +1,6 @@
 import axios from 'axios';
 import styled from 'styled-components';
-import { BASE_URL } from '../../constants/constants';
+import { BASE_URL, USERID_REGEX } from '../../constants/constants';
 import Input from '../common/Input';
 
 type IdSectionProps = {
@@ -17,27 +17,37 @@ type IdSectionProps = {
 
 const IdSection = ({ data, notify }: IdSectionProps) => {
 	const { label, state, setState, setValidity, type } = data;
+
 	const handleValidateClick = (
 		label: string,
 		state: string,
 		validate: Function,
 	) => {
 		// 아이디 중복확인 부분 서버 엔드포인트 소문자 변경 작업중으로 임시 사용 불가 -> 다음 배포 때 적용 예정
-		const endPoint = label === '아이디' ? 'id' : 'nickname';
-		const endPointTemp = label === '아이디' ? 'Id' : 'nickname';
-		state
-			? axios
-					.get(
-						`${BASE_URL}auth/signup/check${endPointTemp}?${endPoint}=${state}`,
-					)
-					.then(res => {
-						if (res.data.success) {
-							validate(true);
-							notify(`사용가능한 ${label}입니다.`);
-							console.log(res);
-						} else notify(res.data.message);
-					})
-			: notify(`${label === '아이디' ? '아이디를' : '닉네임을'} 입력해주세요.`);
+		if (label === '아이디' && !USERID_REGEX.test(state)) {
+			notify('아이디는 영문과 숫자로만 입력해주세요.');
+		} else {
+			const endPoint = label === '아이디' ? 'id' : 'nickname';
+			const endPointTemp = label === '아이디' ? 'Id' : 'nickname';
+			state
+				? axios
+						.get(
+							`${BASE_URL}/auth/signup/check${endPointTemp}?${endPoint}=${state}`,
+						)
+						.then(res => {
+							if (res.data.success) {
+								validate(true);
+								notify(`사용가능한 ${label}입니다.`);
+								console.log(res);
+							} else notify(res.data.message);
+						})
+						.catch(e => {
+							notify(e.message);
+						})
+				: notify(
+						`${label === '아이디' ? '아이디를' : '닉네임을'} 입력해주세요.`,
+				  );
+		}
 	};
 
 	return (

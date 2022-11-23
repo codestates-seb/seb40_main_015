@@ -24,6 +24,7 @@ const PasswordSection = ({ data }: PasswordSectionProps) => {
 					state={state}
 					setState={setState}
 					type="password"
+					placeholder="영문, 숫자, 특수문자 포함 8글자"
 				/>
 				<AlertSection error={validity}>
 					<IoAlertCircle className="icon" />
@@ -50,7 +51,7 @@ const AlertSection = styled.div<{ error: boolean }>`
 	position: relative;
 	left: 1rem;
 	top: 2.3rem;
-	display: ${props => (props.error ? 'flex' : 'none')};
+	display: ${props => (props.error ? 'none' : 'flex')};
 	flex-direction: ${props => props.error && 'column'};
 	.bubble {
 		visibility: hidden;
