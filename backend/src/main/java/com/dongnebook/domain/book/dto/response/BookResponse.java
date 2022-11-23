@@ -18,20 +18,21 @@ public class BookResponse {
 	private Integer rentalFee;
 	private String content;
 	private String state;
+	private String bookImgUrl;
 	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd", timezone = "Asia/Seoul")
 	private LocalDateTime rentalStart;
 	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd", timezone = "Asia/Seoul")
 	private LocalDateTime rentalEnd;
 
 	@QueryProjection
-	public BookResponse(Long bookId, String title, String publisher, Integer rentalFee, String content, BookState state
-		) {
+	public BookResponse(Long bookId, String title, String publisher, Integer rentalFee, String content, BookState state,
+		String bookImgUrl) {
 		this.bookId = bookId;
 		this.title = title;
 		this.publisher = publisher;
 		this.rentalFee = rentalFee;
 		this.content = content;
 		this.state = state.getMessage();
-
+		this.bookImgUrl = bookImgUrl;
 	}
 }

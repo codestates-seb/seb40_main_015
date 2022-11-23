@@ -3,7 +3,7 @@ import Button from '../common/Button';
 
 interface Props {
 	status: string;
-	bookId?: string;
+	bookId?: string | number;
 }
 
 const ButtonStatus = ({ status, bookId }: Props) => {

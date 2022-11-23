@@ -9,70 +9,71 @@ import dummyImage2 from '../../assets/image/dummy2.png';
 import BookItem from '../Books/BookItem';
 import Button from '../common/Button';
 import ButtonStatus from '../Merchant/ButtonStatus';
-//state btn
-import RentalAvailable from '../common/BookState/RentalAvailable';
-import ReservationAvailable from '../common/BookState/ReservationAvailable';
-import Impossible from '../common/BookState/Impossible';
+// import BookStatus from './BookStatus';
+
+interface PickBook {
+	bookId: number;
+	title: string;
+	status: string;
+	bookImage: string;
+	rentalFee: number;
+	merchantName: string;
+}
 
 const PickBookList = () => {
-	const [test, setTest] = useState<number[]>([1, 2, 3, 4, 5, 6, 7, 8, 9]);
 	const navigate = useNavigate();
 
 	// api mypage member info
 	const { getPickBookList } = useMypageAPI();
 	const { data, isLoading } = useQuery({
 		queryKey: ['pickbooklist'],
-		queryFn: () => getPickBookList(),
+		queryFn: () => getPickBookList().then(res => res.data),
 		retry: false,
 	});
 
-	const handleBookDetailPageMove = (id: string) => {
+	const handleBookDetailPageMove = (id: number) => {
 		navigate(`/books/${id}`);
 	};
 
+	if (isLoading) {
+		return <Animation width={50} height={50} />;
+	}
+	console.log(data?.content);
 	return (
 		<>
-			{/* {dummyBookWish?.map(el => {
-				return (
-					<ContainerNew key={+el.bookId}>
-						<BookItem
-							// key={+el.bookId}
-							bookId={el.bookId}
-							title={el.title}
-							bookImage={el.imageUrl}
-							rentalfee={+el.rentalFee}
-							status={el.status}
-						/>
-					</ContainerNew>
-				);
-			})} */}
+			{data?.content ? (
+				data.content.map((pickbook: PickBook, i: number) => {
+					const { bookId, title, status, bookImage, rentalFee, merchantName } =
+						pickbook;
+					// 대여가능, 예약가능, 대여/예약 불가능
 
-			{test
-				? test.map(item => {
-						return (
-							<Container key={item}>
-								<FlexBox>
-									<img src={dummyImage2} alt="" width={50} height={70} />
-									<InfoWrapped>
-										<p>러닝 리액트</p>
-										<p>오늘의북스</p>
-										<p>3,000</p>
-										<p>대여 상태</p>
-										{/* <RentalAvailable />
-										<ReservationAvailable />
-										<Impossible /> */}
-									</InfoWrapped>
-								</FlexBox>
-							</Container>
-						);
-				  })
-				: null}
+					return (
+						<Container key={bookId}>
+							<FlexBox
+								onClick={() => {
+									handleBookDetailPageMove(bookId);
+								}}>
+								<img src={bookImage} alt="" width={50} height={70} />
+								<InfoWrapped>
+									<div className="list">
+										<p className="bookname">{title}</p>
+										<p>{rentalFee}원</p>
+										<p>{merchantName}</p>
+									</div>
+									<ButtonStatus status={status} bookId={bookId} />
+								</InfoWrapped>
+							</FlexBox>
+						</Container>
+					);
+				})
+			) : (
+				<EmptyBox>
+					<p>찜한 책이 없어요</p>
+				</EmptyBox>
+			)}
 		</>
 	);
 };
-// const ContainerNew = styled.div`
-// 	width: 90%;
-// `;
 
 const Container = styled.div`
 	width: 90%;
@@ -82,6 +83,11 @@ const Container = styled.div`
 	border-radius: 5px;
 	padding: 1rem;
 	margin-bottom: 0.5rem;
+	cursor: pointer;
+
+	&:hover {
+		background-color: ${props => props.theme.colors.grey};
+	}
 `;
 
 const FlexBox = styled.div`
@@ -95,11 +101,33 @@ const InfoWrapped = styled.div`
 	margin-left: 0.3rem;
 	justify-content: space-between;
 	align-items: center;
+	line-height: 20px;
+	.bookname {
+		font-size: ${props => props.theme.fontSizes.subtitle};
+		font-weight: 600;
+	}
 	p {
-		font-size: ${props => props.theme.fontSizes.paragraph};
+		font-size: 13px;
 		margin-left: 1rem;
 		display: flex;
 		flex-direction: column;
+		padding-top: 5px;
+	}
+	.list {
+		display: flex;
+		flex-direction: column;
+	}
+`;
+
+const EmptyBox = styled.div`
+	width: 100%;
+	height: 75vh;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	p {
+		font-size: ${props => props.theme.fontSizes.subtitle};
+		font-weight: 600;
 	}
 `;
 

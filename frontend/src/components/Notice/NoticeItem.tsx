@@ -1,47 +1,59 @@
 import styled from 'styled-components';
 import logo from '../../assets/image/logo1.png';
 
-type NoticeItemType = {
-	noticeData: {
-		id: number;
-		type: string;
-		title: string;
-	}[];
+export type NoticeItemType = {
+	noticeData: noticeDataType[];
+};
+
+export type noticeDataType = {
+	[key: string]: string | number | boolean;
+	id: number;
+	type:
+		| 'reservation'
+		| 'return'
+		| 'rental'
+		| 'merchantCancellation'
+		| 'residentCancellation';
+	title: string;
+	isViewed: boolean;
 };
 
 const NoticeItem = ({ noticeData }: NoticeItemType) => {
 	return (
 		<>
-			{noticeData.map(el => (
-				<StyledNoticeItem key={el.id}>
-					<Logo src={logo} alt="로고" />
-					{el.type === 'reservation' && (
+			{noticeData.map(el => {
+				const message = noticeMessages[el.type];
+				return (
+					<StyledNoticeItem isViewed={el.isViewed} key={el.id}>
+						<Logo src={logo} alt="로고" />
 						<Notice>
-							💌 예약하신 <span>{el.title}</span>의 대여가 가능합니다.
+							{`${message[0]} ${message[1]}하신 `}
+							<span>{el.title}</span>
+							{`${message[2]}`}
 						</Notice>
-					)}
-					{el.type === 'return' && (
-						<Notice>
-							⏰ 대여하신 <span>{el.title}</span>의 대여 반납이 하루 남았습니다.
-						</Notice>
-					)}
-					{el.type === 'rental' && (
-						<Notice>
-							📚 등록하신 <span>{el.title}</span>의 대여 신청이 접수되었습니다.
-						</Notice>
-					)}
-				</StyledNoticeItem>
-			))}
+					</StyledNoticeItem>
+				);
+			})}
 		</>
 	);
 };
 
-const StyledNoticeItem = styled.div`
-	width: 100%;
-	max-width: 95vw;
+const noticeMessages = {
+	reservation: ['💌', '예약', '의 대여가 가능합니다.'],
+	return: ['⏰', '대여', '의 대여 반납이 하루 남았습니다.'],
+	rental: ['📚', '등록', '대여 신청이 접수되었습니다.'],
+	merchantCancellation: ['❌', '신청', '의 대여가 취소되었습니다.'],
+	residentCancellation: ['❌', '등록', '의 대여가 취소되었습니다.'],
+};
+
+const StyledNoticeItem = styled.div<{ isViewed: boolean }>`
+	width: 95%;
+	max-width: 1000px;
 	min-height: 5rem;
-	background-color: white;
+	background-color: ${props =>
+		props.isViewed ? 'white' : props.theme.colors.unViewedNotice};
 	border: ${props => props.theme.colors.grey + ' 1px solid'};
+	border-radius: 5px;
 	display: flex;
 	align-items: center;
 	padding: 0.5rem;

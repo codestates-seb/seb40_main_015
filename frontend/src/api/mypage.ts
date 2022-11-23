@@ -14,10 +14,12 @@ interface Member {
 }
 
 interface PickBook {
-	bookId: string;
+	bookId: number;
 	title: string;
-	rentalFee: number;
 	status: string;
+	bookImage: string;
+	rentalFee: number;
+	merchantName: string;
 }
 
 export const useMypageAPI = () => {
@@ -46,7 +48,7 @@ export const useMypageAPI = () => {
 		await api.get<Member>(`/member/${id}`).then(res => res.data);
 
 	//마이페이지 - 찜목록
-	const getPickBookList = () => api.get<PickBook>(`/dibs`);
+	const getPickBookList = () => api.get(`/dibs`);
 
 	// 마이페이지 - 회원정보 수정
 	const getFixMemberInfo = async (id: string) => {
@@ -70,7 +72,7 @@ export const useMypageAPI = () => {
 	// 	}
 	// };
 
-	// 예약 취소(지구)
+	// 예약 취소
 	const axiosCancleReservation = async (id: string) => {
 		try {
 			const result = await api.delete(`/books/${id}/reservation`);
