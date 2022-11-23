@@ -11,15 +11,12 @@ import { useNavigate } from 'react-router-dom';
 interface Item {
 	bookId: string;
 	title: string;
-	imageUrl: string;
+	bookImage: string;
 	status: string;
 }
 
 const BookList = ({ merchantId }: { merchantId: string | undefined }) => {
 	const { getMerchantBookLists } = useMypageAPI();
-	const status = ['대여가능', '거래중', '대여중&예약불가', '대여중&예약가능'];
-
-	const [test, setTest] = useState<number[]>([1, 2, 3, 4, 5, 6, 7, 8]);
 	const navigate = useNavigate();
 
 	const { data, isLoading } = useQuery(
@@ -37,9 +34,9 @@ const BookList = ({ merchantId }: { merchantId: string | undefined }) => {
 	}
 	return (
 		<>
-			{data?.books ? (
-				data.books.map((item: Item, i: number) => {
-					const { bookId, title, imageUrl } = item;
+			{data?.content ? (
+				data.content.map((item: Item, i: number) => {
+					const { bookId, title, bookImage, status } = item;
 					// 대여가능, 거래중, 대여중&예약불가, 대여중&예약가능
 					return (
 						<Container key={bookId}>
@@ -47,11 +44,11 @@ const BookList = ({ merchantId }: { merchantId: string | undefined }) => {
 								onClick={() => {
 									handleBookDetailPageMove(bookId);
 								}}>
-								<img src={imageUrl} alt="" width={50} height={70} />
+								<img src={bookImage} alt="" width={50} height={70} />
 								<InfoWrapped>
 									<p>{title}</p>
-									<ButtonStatus status={status[i]} bookId={bookId} />
-									<Button fontSize="small">대여 가능</Button>
+									<ButtonStatus status={status} bookId={bookId} />
+									{/* <Button fontSize="small">대여 가능</Button> */}
 								</InfoWrapped>
 							</FlexBox>
 						</Container>
@@ -62,27 +59,9 @@ const BookList = ({ merchantId }: { merchantId: string | undefined }) => {
 					<p>등록한 책이 없어요</p>
 				</EmptyBox>
 			)}
-			{test
-				? test.map((item, i) => {
-						return (
-							<Container key={item}>
-								<FlexBox>
-									<img src={dummyImage} alt="" width={50} height={70} />
-									<InfoWrapped>
-										<p>모던 자바스크립트</p>
-										<ButtonStatus status={status[i]} />
-										{/* <Button fontSize="small">대여 가능</Button> */}
-									</InfoWrapped>
-								</FlexBox>
-							</Container>
-						);
-				  })
-				: null}
 		</>
 	);
 };
-
-export default BookList;
 
 const Container = styled.div`
 	width: 90%;
@@ -113,7 +92,7 @@ const InfoWrapped = styled.div`
 
 const EmptyBox = styled.div`
 	width: 100%;
-	height: 30rem;
+	height: 75vh;
 	display: flex;
 	justify-content: center;
 	align-items: center;
@@ -122,3 +101,5 @@ const EmptyBox = styled.div`
 		font-weight: 600;
 	}
 `;
+
+export default BookList;

@@ -1,5 +1,6 @@
 package com.dongnebook.domain.alarm.domain;
 
+
 import java.io.IOException;
 import java.util.List;
 import java.util.Map;
@@ -7,6 +8,7 @@ import java.util.Map;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.servlet.mvc.method.annotation.SseEmitter;
+
 
 import com.dongnebook.domain.alarm.dto.AlarmResponse;
 import com.dongnebook.domain.book.domain.Book;
@@ -19,12 +21,14 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class AlarmService {
 
+
 	private static final Long DEFAULT_TIMEOUT = 60L * 1000 * 60;
 
 	private final AlarmQueryRepository alarmQueryRepository;
 	private final AlarmRepository alarmRepository;
 	private final AlarmReadService alarmReadService;
 	private final EmitterRepositoryImpl emitterRepository;
+
 
 	/**
 	 * 현재 로그인한 사용자의 모든 알람을 DTO로 가져온다.
@@ -33,6 +37,7 @@ public class AlarmService {
 	 * @return
 	 */
 	@Transactional
+
 	public void sendAlarm(Member member, Book book, AlarmType type) {
 		Alarm alarm = Alarm.create(member, book, type);
 		alarmRepository.save(alarm);
@@ -49,6 +54,7 @@ public class AlarmService {
 
 	}
 
+
 	@Transactional
 	public List<AlarmResponse> getMyAlarm(Long memberId) {
 		List<AlarmResponse> myAlarm = alarmQueryRepository.getMyAlarm(memberId);
@@ -56,6 +62,7 @@ public class AlarmService {
 
 		return myAlarm;
 	}
+
 
 	public SseEmitter sub(Long memberId, String lastEventId) {
 
@@ -99,3 +106,5 @@ public class AlarmService {
 	}
 
 }
+
+

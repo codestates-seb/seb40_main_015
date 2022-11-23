@@ -1,6 +1,8 @@
 import { AiOutlineConsoleSql } from 'react-icons/ai';
 import styled from 'styled-components';
+import { useAppSelector } from '../../redux/hooks';
 import Button from '../common/Button';
+import LendStatusButton from '../History/LendStatusButton';
 import RentStatusButton from '../History/RentStatusButton';
 import { BooksProps } from './type';
 
@@ -9,6 +11,7 @@ const BookItemState = ({
 	merchantName = '',
 	rental,
 }: BooksProps) => {
+	const nickName = useAppSelector(state => state.loginInfo.nickName);
 	return (
 		<BookStateWrapper>
 			{/* <Button>{status}</Button> */}
@@ -16,7 +19,13 @@ const BookItemState = ({
 			{rental?.rentalId ? (
 				// rental 정보가 있는 대여내역페이지에서 렌더링
 				// 빌린책과 빌리준책은 현재 로그인한 유저 닉네임과 merchantName를 비교해서 분기하면 될 듯
-				<RentStatusButton status={status} merchantName={merchantName} />
+				nickName === merchantName ? null : (
+					<RentStatusButton
+						status={status}
+						merchantName={merchantName}
+						rental={rental}
+					/>
+				)
 			) : (
 				// rental 정보가 없는 전체조회, 마이페이지에서 렌더링
 				<BookStatus>{status}</BookStatus>
