@@ -11,17 +11,9 @@ import { dummyBooks } from '../assets/dummy/books';
 
 //hooks
 import { useBooksAPI } from '../api/books';
-import { useEffect } from 'react';
 
 const BooksPage = () => {
 	const { getAllBooksList } = useBooksAPI();
-
-	// useEffect(() => {
-	// 	fetch('http://13.124.11.174:8080/books')
-	// 		.then(res => res.json())
-	// 		.then(res => console.log(res))
-	// 		.catch(err => console.error(err));
-	// }, []);
 
 	const { data, isLoading } = useQuery({
 		queryKey: ['allBooks'],
