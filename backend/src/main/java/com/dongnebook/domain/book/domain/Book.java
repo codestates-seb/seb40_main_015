@@ -23,6 +23,7 @@ import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 
+import com.dongnebook.domain.alarm.domain.Alarm;
 import com.dongnebook.domain.book.dto.request.BookRegisterRequest;
 import com.dongnebook.domain.book.exception.NotRentableException;
 import com.dongnebook.domain.dibs.domain.Dibs;
