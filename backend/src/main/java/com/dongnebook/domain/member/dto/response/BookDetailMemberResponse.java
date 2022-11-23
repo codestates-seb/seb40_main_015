@@ -9,12 +9,14 @@ public class BookDetailMemberResponse {
 	private Long merchantId;
 	private String name;
 	private Long grade;
+	private String avatarUrl;
 
 	@QueryProjection
-	public BookDetailMemberResponse(Long merchantId, String name, Long grade) {
+	public BookDetailMemberResponse(Long merchantId, String name, Long grade, String avatarUrl) {
 		this.merchantId = merchantId;
 		this.name = name;
 		this.grade = grade;
+		this.avatarUrl = avatarUrl;
 	}
 
 }
