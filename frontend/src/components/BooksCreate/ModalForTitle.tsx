@@ -1,5 +1,6 @@
-import React, { SetStateAction } from 'react';
+import React, { SetStateAction, useState } from 'react';
 import styled from 'styled-components';
+import useAPI from '../../hooks/useAPI';
 import Button from '../common/Button';
 import SearchItem from './SearchItem';
 
@@ -12,49 +13,41 @@ const ModalForTitle = ({
 	isModalOpened,
 	setIsModalOpened,
 }: ModalDefaultType) => {
+	const [searchText, setSearchText] = useState('');
+	const [bookData, setBookData] = useState([]);
+	const api = useAPI();
+
+	const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+		e.preventDefault();
+		api
+			.get(`/books/bookInfo?bookTitle=${searchText}`)
+			.then(res => setBookData(res.data));
+	};
+
 	return (
 		<>
 			{isModalOpened && (
 				<ModalContainer>
 					<DialogBox>
-						<ModalHeader>
+						<ModalForm onSubmit={handleSubmit}>
 							<h1>제목으로 검색 하기</h1>
 							<InputWrapper>
-								<input id="book-search" />
-								<StyledButton fontSize="small">검색</StyledButton>
+								<input
+									value={searchText}
+									onChange={e => {
+										setSearchText(e.target.value);
+									}}
+									id="book-search"
+								/>
+								<StyledButton type="submit" fontSize="small">
+									검색
+								</StyledButton>
 							</InputWrapper>
-						</ModalHeader>
+						</ModalForm>
 						<SearchItems>
-							<SearchItem
-								content={{ title: '제목', author: '작가', publisher: '출판사' }}
-							/>
-							<SearchItem
-								content={{ title: '제목', author: '작가', publisher: '출판사' }}
-							/>
-							<SearchItem
-								content={{ title: '제목', author: '작가', publisher: '출판사' }}
-							/>
-							<SearchItem
-								content={{ title: '제목', author: '작가', publisher: '출판사' }}
-							/>
-							<SearchItem
-								content={{ title: '제목', author: '작가', publisher: '출판사' }}
-							/>
-							<SearchItem
-								content={{ title: '제목', author: '작가', publisher: '출판사' }}
-							/>
-							<SearchItem
-								content={{ title: '제목', author: '작가', publisher: '출판사' }}
-							/>
-							<SearchItem
-								content={{ title: '제목', author: '작가', publisher: '출판사' }}
-							/>
-							<SearchItem
-								content={{ title: '제목', author: '작가', publisher: '출판사' }}
-							/>
-							<SearchItem
-								content={{ title: '제목', author: '작가', publisher: '출판사' }}
-							/>
+							{bookData.map((el, idx) => (
+								<SearchItem key={idx} content={el} />
+							))}
 						</SearchItems>
 					</DialogBox>
 					<Backdrop
@@ -70,7 +63,7 @@ const ModalForTitle = ({
 	);
 };
 
-const ModalHeader = styled.div`
+const ModalForm = styled.form`
 	box-sizing: border-box;
 	background-color: ${props => props.theme.colors.unViewedNotice};
 	padding: 2em 1em 0 1em;

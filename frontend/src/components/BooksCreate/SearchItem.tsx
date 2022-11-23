@@ -3,18 +3,18 @@ import styled from 'styled-components';
 interface SearchItemProps {
 	content: {
 		title: string;
-		author: string;
+		authors: string[];
 		publisher: string;
 	};
 }
 
 const SearchItem = ({ content }: SearchItemProps) => {
-	const { title, author, publisher } = content;
+	const { title, authors, publisher } = content;
 	return (
 		<StyledSearchItem>
 			<h2>{title}</h2>
 			<div>
-				{author} / {publisher}
+				{authors.length === 1 ? authors[0] : `${authors[0]} 외`} / {publisher}
 			</div>
 		</StyledSearchItem>
 	);

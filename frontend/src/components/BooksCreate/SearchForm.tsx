@@ -10,25 +10,19 @@ interface SearchFormProps {
 
 const SearchForm = ({ title, setTitle }: SearchFormProps) => {
 	const [isModalOpened, setIsModalOpened] = useState(true);
-	const handleTitleSubmit = (
-		e: React.FormEvent<HTMLFormElement>,
-		title: string,
-	) => {
-		e.preventDefault();
-		console.log(title);
-	};
 
 	const handleTitleClick = () => {
 		setIsModalOpened(pre => !pre);
 	};
 
 	return (
-		<StyledSearchForm onSubmit={e => handleTitleSubmit(e, title)}>
+		<StyledSearchForm>
 			<input
 				onClick={() => handleTitleClick()}
 				type="text"
 				placeholder="책 제목을 입력해 주세요."
 				value={title}
+				readOnly
 			/>
 			<SubmitButton>
 				<SearchIcon />
@@ -41,7 +35,7 @@ const SearchForm = ({ title, setTitle }: SearchFormProps) => {
 	);
 };
 
-const StyledSearchForm = styled.form`
+const StyledSearchForm = styled.div`
 	margin-bottom: 1rem;
 	padding: 0.2rem 0;
 	padding-bottom: 0.4rem;
