@@ -39,7 +39,10 @@ public enum ErrorCode {
 	NOT_CHANGEABLE(404,"상태를 바꿀수 없습니다."),
 
 	/* Dibs */
-	DIBS_NOT_FOUND(404, "이 책을 찜한적이 없습니다.");
+	DIBS_NOT_FOUND(404, "이 책을 찜한적이 없습니다."),
+
+	/* Image */
+	UPLOAD_FAILED(404, "업로드 실패!!!!!!");
 
 
 

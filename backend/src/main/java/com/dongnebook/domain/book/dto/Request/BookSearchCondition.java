@@ -1,5 +1,7 @@
 package com.dongnebook.domain.book.dto.request;
 
+import javax.validation.constraints.Max;
+
 import lombok.Getter;
 
 /**
@@ -16,6 +18,7 @@ public class BookSearchCondition {
 	private final Integer width;
 	private final Integer length;
 	private final Integer sector;
+	@Max(10)
 	private final Integer level;
 
 	public BookSearchCondition(String bookTitle, Double longitude, Double latitude, Integer width, Integer length,

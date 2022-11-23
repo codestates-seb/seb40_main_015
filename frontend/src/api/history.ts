@@ -1,75 +1,28 @@
 import useAPI from '../hooks/useAPI';
-import { useAppSelector } from '../redux/hooks';
 
 // 예시)
 export const useHistoryAPI = () => {
 	const api = useAPI();
 	// const id = useAppSelector(state => state.loginInfo.userId);
 	// 대여내역 - 빌린 책
-	const getRentalBookLists = async () => {
-		try {
-			const result = await api.get(`/rental/from`);
-			console.log(result);
-			return result.data;
-		} catch (err) {
-			return err;
-		}
-	};
+	const getRentalBookLists = () => api.get(`/rental/to`);
 
 	// 대여내역 - 빌려준 책
-	const getLendBookLists = async () => {
-		try {
-			const result = await api.get(`/rental/to`);
-			console.log(result);
-			return result.data;
-		} catch (err) {
-			return err;
-		}
-	};
+	const getLendBookLists = () => api.get(`/rental/from`);
 
 	// 대여 취소 by 상인
-	const axiosCancleByMerchant = async (id: string) => {
-		try {
-			const result = await api.patch(`/rental/${id}/cancelByMerchant`);
-			console.log(result);
-			return result.data;
-		} catch (err) {
-			return err;
-		}
-	};
+	const axiosCancleByMerchant = (id: string) =>
+		api.patch(`/rental/${id}/cancelByMerchant`);
 
 	// 대여 취소 by 주민
-	const axiosCancleByCustomer = async (id: string) => {
-		try {
-			const result = await api.patch(`/rental/${id}/cancelByCustomer`);
-			console.log(result);
-			return result.data;
-		} catch (err) {
-			return err;
-		}
-	};
+	const axiosCancleByCustomer = (id: string) =>
+		api.patch(`/rental/${id}/cancelByCustomer`);
 
 	// 도서 수령
-	const axiosBookReceipt = async (id: string) => {
-		try {
-			const result = await api.get(`/rental/${id}/receive`);
-			console.log(result);
-			return result.data;
-		} catch (err) {
-			return err;
-		}
-	};
+	const axiosBookReceipt = (id: string) => api.patch(`/rental/${id}/receive`);
 
 	// 도서 반납
-	const axiosBookReturn = async (id: string) => {
-		try {
-			const result = await api.get(`/rental/${id}/return`);
-			console.log(result);
-			return result.data;
-		} catch (err) {
-			return err;
-		}
-	};
+	const axiosBookReturn = (id: string) => api.patch(`/rental/${id}/return`);
 
 	return {
 		getRentalBookLists,
