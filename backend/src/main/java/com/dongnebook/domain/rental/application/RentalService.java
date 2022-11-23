@@ -57,12 +57,12 @@ public class RentalService {
 	public void cancelRentalByCustomer(Long rentalId, Long customerId) {
 		Rental rental = getRental(rentalId);
 		Book book = getBookFromRental(rental);
-		alarmService.sendAlarm(book.getMember(),book, AlarmType.RESIDENT_CANCELLATION);
 		// 책을 빌린 주민 본인이 아닌 경우 예외 처리
 		canNotChangeRental(rental.getCustomer(), customerId);
 
 		rental.changeRentalStateFromTo(RentalState.TRADING, RentalState.CANCELED);
 		book.changeBookStateFromTo(BookState.TRADING, BookState.RENTABLE);
+		alarmService.sendAlarm(book.getMember(),book, AlarmType.RESIDENT_CANCELLATION);
 	}
 
 	// 해당 상인이 취소하는 경우
@@ -70,12 +70,13 @@ public class RentalService {
 	public void cancelRentalByMerchant(Long rentalId, Long merchantId) {
 		Rental rental = getRental(rentalId);
 		Book book = getBookFromRental(rental);
-		alarmService.sendAlarm(rental.getCustomer(),book, AlarmType.MERCHANT_CANCELLATION);
+
 		// 대여를 올린 상인 본인이 아닌 경우 예외 처리
 		canNotChangeRental(book.getMember(), merchantId);
 
 		rental.changeRentalStateFromTo(RentalState.TRADING, RentalState.CANCELED);
 		book.changeBookStateFromTo(BookState.TRADING, BookState.RENTABLE);
+		alarmService.sendAlarm(rental.getCustomer(),book, AlarmType.MERCHANT_CANCELLATION);
 	}
 
 	@Transactional
