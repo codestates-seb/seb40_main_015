@@ -4,7 +4,7 @@ import { BASE_URL } from '../constants/constants';
 const config = {
 	baseURL: BASE_URL,
 	headers: { 'Content-Type': 'application/json' },
-	timeout: 10000,
+	// timeout: 10000,
 };
 
 const axiosInstance = axios.create(config);

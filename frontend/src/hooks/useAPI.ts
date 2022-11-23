@@ -8,7 +8,7 @@ const useAPI = () => {
 		baseURL: BASE_URL,
 		withCredentials: true,
 		headers: { ContentType: 'application/json', Authorization: accessToken },
-		timeout: 10000,
+		// timeout: 10000,
 	};
 	const axiosWithAccessToken = axios.create(config);
 
