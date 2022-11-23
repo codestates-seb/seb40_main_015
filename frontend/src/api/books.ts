@@ -15,6 +15,10 @@ interface AllBooks {
 interface IAllBooks {
 	content: AllBooks[];
 }
+// interface IAllBooksInfinite {
+// 	content: AllBooks[];
+// 	pages: { content: AllBooks }[];
+// }
 
 // getBookDetail
 interface IBook {
@@ -40,11 +44,17 @@ export const useBooksAPI = () => {
 	// const getAllBooksList = (): Promise<IAllBooks[]> =>
 	// 	axiosInstance.get('/books');
 	const api = useAPI();
+
 	const getAllBooksList = async () =>
 		await axiosInstance.get<IAllBooks>('/books').then(res => res.data);
 
+	const getAllBooksListInfinite = async (id?: number) => {
+		return await axiosInstance
+			.get<IAllBooks>(id ? `/books?index=${id}` : '/books')
+			.then(res => res.data);
+	};
 	const getBookDetail = async (id: string | undefined) =>
 		await axiosInstance.get<IBook>(`/books/${id}`).then(res => res.data);
 
-	return { getAllBooksList, getBookDetail };
+	return { getAllBooksList, getBookDetail, getAllBooksListInfinite };
 };

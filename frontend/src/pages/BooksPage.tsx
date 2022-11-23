@@ -1,27 +1,45 @@
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
-import { useQuery } from '@tanstack/react-query';
+import { useInfiniteQuery } from '@tanstack/react-query';
+import { useEffect, useRef } from 'react';
 
 //components
 import BookItem from '../components/Books/BookItem';
 import Button from '../components/common/Button';
 import Title from '../components/common/Title';
 import Animation from '../components/Loading/Animation';
-import { dummyBooks } from '../assets/dummy/books';
 
 //hooks
 import { useBooksAPI } from '../api/books';
 
 const BooksPage = () => {
-	const { getAllBooksList } = useBooksAPI();
+	const { getAllBooksListInfinite } = useBooksAPI();
+	const target = useRef<HTMLDivElement>(null);
 
-	const { data, isLoading } = useQuery({
-		queryKey: ['allBooks'],
-		queryFn: getAllBooksList,
-	});
+	const { data, fetchNextPage, isLoading, hasNextPage, isFetchingNextPage } =
+		useInfiniteQuery({
+			queryKey: ['allBooks'],
+			queryFn: ({ pageParam = undefined }) =>
+				getAllBooksListInfinite(pageParam),
+			getNextPageParam: lastPage => {
+				return lastPage?.content?.slice(-1)[0]?.bookId;
+			},
+		});
 
-	console.log('dataL ', data);
-
+	useEffect(() => {
+		const observer = new IntersectionObserver(
+			entries => {
+				const [entry] = entries;
+				if (!entry.isIntersecting) return;
+				fetchNextPage();
+			},
+			{
+				root: null,
+				threshold: 0.9,
+			},
+		);
+		observer.observe(target.current as Element);
+	}, []);
 	return (
 		<Main>
 			<TitleWrapper>
@@ -38,18 +56,23 @@ const BooksPage = () => {
 				{isLoading ? (
 					<Animation />
 				) : (
-					data?.content.map(el => (
-						<BookItem
-							key={+el.bookId}
-							bookId={el.bookId}
-							title={el.title}
-							bookImage={el.bookImage}
-							status={el.status}
-							rentalfee={el.rentalFee}
-							merchantName={el.merchantName}
-						/>
-					))
+					data?.pages?.map(el =>
+						el?.content?.map(el => (
+							<BookItem
+								key={+el.bookId}
+								bookId={el.bookId}
+								title={el.title}
+								bookImage={el.bookImage}
+								status={el.status}
+								rentalfee={el.rentalFee}
+								merchantName={el.merchantName}
+							/>
+						)),
+					)
 				)}
+				<ScrollEnd ref={target} className={`${hasNextPage ? '' : 'hidden'}`}>
+					{isFetchingNextPage ? <p>Loading more books ...</p> : ''}
+				</ScrollEnd>
 			</BooksList>
 		</Main>
 	);
@@ -58,6 +81,11 @@ const BooksPage = () => {
 const Main = styled.div`
 	display: flex;
 	flex-direction: column;
+	/* align-items: center; */
+
+	.hidden {
+		display: none;
+	}
 `;
 
 const TitleWrapper = styled.div``;
@@ -69,7 +97,7 @@ const BtnWrapper = styled.div`
 `;
 
 const BooksList = styled.div`
-	height: 70vh;
+	height: 75vh;
 	padding: 10px;
 
 	overflow-x: scroll;
@@ -82,6 +110,11 @@ const BooksList = styled.div`
 const LinkStyled = styled(Link)`
 	display: flex;
 	flex-direction: column;
+`;
+
+const ScrollEnd = styled.div`
+	background-color: ${props => props.theme.colors.grey};
+	height: 10rem;
 `;
 
 export default BooksPage;

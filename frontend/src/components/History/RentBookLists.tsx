@@ -19,7 +19,8 @@ const RentBookLists = () => {
 
 	return (
 		<Box>
-			{dummyBooksRental.map((el: any) => (
+			{/* 빌린책 -빌려준책 레이아웃 일치시키는 중  */}
+			{/* {dummyBooksRental.map((el: any) => (
 				<>
 					<BookItem
 						key={el.rentalInfo.rentalId}
@@ -32,20 +33,20 @@ const RentBookLists = () => {
 						// merchantName={el.bookInfo.merchantName}
 						status={el.rentalInfo.rentalState}
 						rental={el.rentalInfo}
-					/>
-					{/* lendbook 참고해서 rentbook 전용 유저 인포 컴포넌트와 상태 버튼을 만들어야 할듯, 통합 컴포넌트를 만들거나 */}
-					<LendBookUserInfo
+					/> */}
+			{/* lendbook 참고해서 rentbook 전용 유저 인포 컴포넌트와 상태 버튼을 만들어야 할듯, 통합 컴포넌트를 만들거나 */}
+			{/* <LendBookUserInfo
 						rentalInfo={el.rentalInfo}
 						merchantName={el.bookInfo.merchantName}
 					/>
 					<LendStatusButton
 						status={el.rentalInfo.rentalState}
 						customerName={el.rentalInfo.customerName}
-						rental={el.rentalInfo}
-					/>
+						rental={el.rentalInfo} */}
+			{/* />
 				</>
-			))}
-			{/* {data?.content.length ? (
+			))} */}
+			{data?.content.length ? (
 				data?.content?.map((el: any) => (
 					<BookItem
 						key={el.rentalInfo.rentalId}
@@ -64,7 +65,7 @@ const RentBookLists = () => {
 				<EmptyBox>
 					<p>빌린 책이 없어요</p>
 				</EmptyBox>
-			)} */}
+			)}
 		</Box>
 	);
 };
