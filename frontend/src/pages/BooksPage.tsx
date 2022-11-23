@@ -36,7 +36,7 @@ const BooksPage = () => {
 				{isLoading ? (
 					<Animation />
 				) : (
-					data?.data.content.map(el => (
+					data?.content.map(el => (
 						<BookItem
 							key={+el.bookId}
 							bookId={el.bookId}

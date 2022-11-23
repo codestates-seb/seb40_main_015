@@ -41,10 +41,10 @@ export const useBooksAPI = () => {
 	// 	axiosInstance.get('/books');
 	const api = useAPI();
 	const getAllBooksList = async () =>
-		await axiosInstance.get<IAllBooks>('/books');
+		await axiosInstance.get<IAllBooks>('/books').then(res => res.data);
 
 	const getBookDetail = async (id: string | undefined) =>
-		await axiosInstance.get<IBook>(`/books/${id}`);
+		await axiosInstance.get<IBook>(`/books/${id}`).then(res => res.data);
 
 	return { getAllBooksList, getBookDetail };
 };

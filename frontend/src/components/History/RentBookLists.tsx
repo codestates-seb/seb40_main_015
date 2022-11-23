@@ -3,6 +3,9 @@ import BookItem from '../Books/BookItem';
 import { useHistoryAPI } from '../../api/history';
 import { useQuery } from '@tanstack/react-query';
 import Animation from '../Loading/Animation';
+import { dummyBooksRental } from '../../assets/dummy/books';
+import LendBookUserInfo from './LendBookUserInfo';
+import LendStatusButton from './LendStatusButton';
 
 const RentBookLists = () => {
 	const { getRentalBookLists } = useHistoryAPI();
@@ -15,7 +18,29 @@ const RentBookLists = () => {
 
 	return (
 		<Box>
-			{data?.content.length ? (
+			{dummyBooksRental.map((el: any) => (
+				<>
+					<BookItem
+						key={el.rentalInfo.rentalId}
+						bookId={el.bookInfo.bookId}
+						title={el.bookInfo.title}
+						bookImage={el.bookInfo.bookUrl}
+						rentalfee={el.bookInfo.rentalFee}
+						author={el.bookInfo.author}
+						publisher={el.bookInfo.publisher}
+						merchantName={el.bookInfo.merchantName}
+						status={el.rentalInfo.rentalState}
+						rental={el.rentalInfo}
+					/>
+					<LendBookUserInfo rentalInfo={el.rentalInfo} />
+					<LendStatusButton
+						status={el.rentalInfo.rentalState}
+						customerName={el.rentalInfo.customerName}
+						rental={el.rentalInfo}
+					/>
+				</>
+			))}
+			{/* {data?.content.length ? (
 				data?.content?.map((el: any) => (
 					<BookItem
 						key={el.rentalInfo.rentalId}
@@ -34,7 +59,7 @@ const RentBookLists = () => {
 				<EmptyBox>
 					<p>빌린 책이 없어요</p>
 				</EmptyBox>
-			)}
+			)} */}
 		</Box>
 	);
 };

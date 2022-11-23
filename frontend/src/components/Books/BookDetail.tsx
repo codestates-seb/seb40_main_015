@@ -11,7 +11,27 @@ import {
 	MerchantInfo,
 } from './BookElements';
 
-const BookDetail = () => {
+//type
+interface IBookDetail {
+	bookId: number;
+	content: string;
+	publisher: string;
+	rentalEnd: string | null;
+	rentalFee?: number;
+	rentalStart: string | null;
+	state?: string;
+	title: string;
+}
+interface BookMerchant {
+	grade: number;
+	merchantId: number;
+	name: string;
+}
+interface BookDetailProps {
+	book: IBookDetail | undefined;
+	merchant: BookMerchant | undefined;
+}
+const BookDetail = ({ book, merchant }: BookDetailProps) => {
 	return (
 		<BodyContainer>
 			<BookImgWrapper>
@@ -29,48 +49,43 @@ const BookDetail = () => {
 
 			<BookInfo>
 				<legend>제목</legend>
-				<label>모던 자바스크립트 Deep Dive</label>
+				<label>{book?.title}</label>
 			</BookInfo>
 
 			<BookInfo>
 				<legend>저자/출판사</legend>
-				<label>이웅모</label>
+				<label>author</label>
 				<span className="partition">{''}</span>
-				<label>위키북스</label>
+				<label>{book?.publisher}</label>
 			</BookInfo>
 
 			<MerchantInfo>
 				<div>
-					<Link to={'/profile/merchant'}>
+					<Link to={`/profile/merchant/${merchant?.merchantId}`}>
 						<UserImg src={''} />
-						<span>자바북스</span>
+						<span>{merchant?.name}</span>
 					</Link>
 				</div>
 				<div>
 					<span>평점</span>
-					<span>★★★★★</span>
+					<span>★★★★★{merchant?.grade}</span>
 				</div>
 			</MerchantInfo>
 
 			<BookRentalFee>
-				<label htmlFor="fee">대여료</label>
+				<label htmlFor="fee">대여료{book?.rentalFee}</label>
 				<input
 					id="fee"
 					type="number"
 					step="100"
-					defaultValue={'1000'}
+					defaultValue={book?.rentalFee}
 					disabled
 				/>
 				<span>원</span>
 			</BookRentalFee>
 
 			<BookDsc>
-				<span>재미있어요</span>
-				<div>재미있어요</div>
-				<div>재미있어요</div>
-				<div>재미있어요</div>
-				<div>재미있어요</div>
-				<div>재미있어요</div>
+				<div>{book?.content}</div>
 			</BookDsc>
 		</BodyContainer>
 	);

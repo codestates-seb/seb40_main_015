@@ -23,7 +23,7 @@ const BooksDetailPage = () => {
 		queryFn: () => getBookDetail(bookId),
 	});
 
-	console.log(isLoading, data);
+	// console.log(isLoading, data);
 
 	if (isLoading) return <Animation />;
 	return (
@@ -32,7 +32,7 @@ const BooksDetailPage = () => {
 				<Title text="상세 조회" />
 			</TitleWrapper>
 
-			<BookDetail />
+			<BookDetail book={data?.book} merchant={data?.merchant} />
 
 			<LinkStyled to={`rental`}>
 				<Button>책 대여하기</Button>
