@@ -72,8 +72,8 @@ const ModalForTitle = ({
 
 const ModalHeader = styled.div`
 	box-sizing: border-box;
-	background-color: pink;
-	padding: 1em 1em 0 1em;
+	background-color: ${props => props.theme.colors.unViewedNotice};
+	padding: 2em 1em 0 1em;
 `;
 
 const StyledButton = styled(Button)`
@@ -110,7 +110,7 @@ const InputWrapper = styled.div`
 		max-width: 100%;
 		font-size: ${props => props.theme.fontSizes.paragraph};
 		border-radius: 5px;
-		border: ${props => props.theme.colors.grey + ' 1px solid'};
+		border: 1px solid ${props => props.theme.colors.grey};
 		background-color: white;
 		padding: 10px 15px;
 		:focus {
