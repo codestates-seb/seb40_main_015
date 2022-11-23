@@ -4,6 +4,7 @@ package com.dongnebook.domain.alarm.domain;
 import java.io.IOException;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.atomic.AtomicLong;
 
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -37,18 +38,18 @@ public class AlarmService {
 	 * @return
 	 */
 	@Transactional
-
 	public void sendAlarm(Member member, Book book, AlarmType type) {
 		Alarm alarm = Alarm.create(member, book, type);
 		alarmRepository.save(alarm);
 
 		Map<String, SseEmitter> sseEmitters = emitterRepository.findAllEmitterStartWithByMemberId(member.getId());
+		String eventId =String.valueOf(member.getId()).concat("_").concat(String.valueOf(System.currentTimeMillis()));
 		sseEmitters.forEach(
 			(key, emitter) -> {
 				// 데이터 캐시 저장(유실된 데이터 처리하기 위함)
 				emitterRepository.saveEventCache(key, alarm);
 				// 데이터 전송
-				sendToClient(emitter, key, "알람이 도착했습니다");
+				sendToClient(emitter,eventId, "알람이 도착했습니다");
 			}
 		);
 
