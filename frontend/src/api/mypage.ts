@@ -1,52 +1,54 @@
-
 import useAPI from '../hooks/useAPI';
-
-
 
 // 마이페이지 유저정보 및 찜목록 요청 getPickBookLists
 interface Member {
 	memberId: number;
 	name: string;
-	location:{
+	location: {
 		lat: string | number;
 		lon: string | number;
-} | null,
+	} | null;
 	address: string | null;
 	totalBookCount: number;
 	avatarUrl: string | null;
 }
 
 interface PickBook {
-	bookId:      string;
-	title:       string;
-	rentalFee:   number;
-	status:      string;
+	bookId: number;
+	title: string;
+	status: string;
+	bookImage: string;
+	rentalFee: number;
+	merchantName: string;
 }
-
 
 export const useMypageAPI = () => {
 	const api = useAPI();
 
 	// 상인정보용 도서 목록 조회(주용님)
-	const getMerchantBookLists = (id: string | undefined) =>
-	api.get(`/member/${id}/books`).then(res => res.data);
-	
+	const getMerchantBookLists = (
+		id: string | undefined,
+		index?: string | undefined,
+	) => {
+		if (index) {
+			return api
+				.get(`/member/${id}/books`, { params: { index } })
+				.then(res => res.data);
+		} else {
+			return api.get(`/member/${id}/books`).then(res => res.data);
+		}
+	};
 
 	// 마이페이지 - 회원정보 열람(주용님)
-		const getMemberInfo = async (id: string | undefined) =>
-		await api.get(`/member/${id}`).then(res => res.data)
-
+	const getMemberInfo = async (id: string | undefined) =>
+		await api.get(`/member/${id}`).then(res => res.data);
 
 	// 마이페이지 - 회원정보 열람
-			const getMyInfo = async (id: string | undefined) =>
-			await api.get<Member>(`/member/${id}`).then(res => res.data);
-		
-			
+	const getMyInfo = async (id: string | undefined) =>
+		await api.get<Member>(`/member/${id}`).then(res => res.data);
+
 	//마이페이지 - 찜목록
-		const getPickBookList = () => 
-			api.get<PickBook>(`/dibs`);
-	
-	
+	const getPickBookList = () => api.get(`/dibs`);
 
 	// 마이페이지 - 회원정보 수정
 	const getFixMemberInfo = async (id: string) => {
@@ -59,7 +61,6 @@ export const useMypageAPI = () => {
 		}
 	};
 
-
 	// 마이페이지 - 예약목록(API 명세서 나오지 않음)
 	// const getReservationBookLists = async () => {
 	// 	try {
@@ -71,7 +72,7 @@ export const useMypageAPI = () => {
 	// 	}
 	// };
 
-	// 예약 취소(지구)
+	// 예약 취소
 	const axiosCancleReservation = async (id: string) => {
 		try {
 			const result = await api.delete(`/books/${id}/reservation`);
@@ -81,7 +82,7 @@ export const useMypageAPI = () => {
 			return err;
 		}
 	};
-	
+
 	// 사진 등록(지구)
 	const axiosAddPhoto = async () => {
 		try {
@@ -93,10 +94,6 @@ export const useMypageAPI = () => {
 		}
 	};
 
-	
-
-	
-
 	return {
 		getMyInfo,
 		getMemberInfo,
@@ -104,6 +101,6 @@ export const useMypageAPI = () => {
 		getPickBookList,
 		axiosCancleReservation,
 		axiosAddPhoto,
-		getMerchantBookLists
+		getMerchantBookLists,
 	};
 };

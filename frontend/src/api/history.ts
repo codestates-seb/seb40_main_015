@@ -5,11 +5,30 @@ export const useHistoryAPI = () => {
 	const api = useAPI();
 	// const id = useAppSelector(state => state.loginInfo.userId);
 	// 대여내역 - 빌린 책
-	const getRentalBookLists = () => api.get(`/rental/to`);
+	const getRentalBookLists = (index?: string) => {
+		if (index) {
+			return api.get(`/rental/to`, {
+				params: {
+					index,
+				},
+			});
+		} else {
+			return api.get(`/rental/to`);
+		}
+	};
 
 	// 대여내역 - 빌려준 책
-	const getLendBookLists = () => api.get(`/rental/from`);
-
+	const getLendBookLists = (index?: string) => {
+		if (index) {
+			return api.get(`/rental/from`, {
+				params: {
+					index,
+				},
+			});
+		} else {
+			return api.get(`/rental/from`);
+		}
+	};
 	// 대여 취소 by 상인
 	const axiosCancleByMerchant = (id: string) =>
 		api.patch(`/rental/${id}/cancelByMerchant`);

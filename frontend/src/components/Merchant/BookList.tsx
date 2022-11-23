@@ -1,12 +1,11 @@
-import { useState } from 'react';
-import styled from 'styled-components';
-import dummyImage from '../../assets/image/dummy.png';
-import Button from '../common/Button';
+import { ReactElement, useEffect, useMemo } from 'react';
 import { useMypageAPI } from '../../api/mypage';
-import { useQuery } from '@tanstack/react-query';
-import Animation from '../Loading/Animation';
-import ButtonStatus from './ButtonStatus';
+import { useInfiniteQuery } from '@tanstack/react-query';
+import { useInView } from 'react-intersection-observer';
 import { useNavigate } from 'react-router-dom';
+import styled from 'styled-components';
+import ButtonStatus from './ButtonStatus';
+import Animation from '../Loading/Animation';
 
 interface Item {
 	bookId: string;
@@ -15,40 +14,54 @@ interface Item {
 	status: string;
 }
 
-const BookList = ({ merchantId }: { merchantId: string | undefined }) => {
+const BookList = ({ merchantId }: { merchantId?: string }) => {
 	const { getMerchantBookLists } = useMypageAPI();
+	const [ref, inView] = useInView();
 	const navigate = useNavigate();
 
-	const { data, isLoading } = useQuery(
-		['merchantBookList'],
-		() => getMerchantBookLists(merchantId),
-		{ retry: 1 },
+	const { data, fetchNextPage, hasNextPage, isFetchingNextPage } =
+		useInfiniteQuery(
+			['merchantBookList'],
+			({ pageParam = undefined }) =>
+				getMerchantBookLists(merchantId, pageParam),
+			{
+				getNextPageParam: lastPage => {
+					return lastPage.last
+						? undefined
+						: lastPage.content[lastPage.content.length - 1].bookId;
+				},
+				retry: false,
+			},
+		);
+	const lists: any = useMemo(
+		() => data?.pages.flatMap(page => page.content),
+		[data?.pages],
 	);
+
+	useEffect(() => {
+		if (inView && hasNextPage) fetchNextPage();
+	}, [inView]);
 
 	const handleBookDetailPageMove = (id: string) => {
 		navigate(`/books/${id}`);
 	};
 
-	if (isLoading) {
-		return <Animation width={50} height={50} />;
-	}
 	return (
 		<>
-			{data?.content ? (
-				data.content.map((item: Item, i: number) => {
+			{lists?.length ? (
+				lists.map((item: Item, i: number) => {
 					const { bookId, title, bookImage, status } = item;
 					// 대여가능, 거래중, 대여중&예약불가, 대여중&예약가능
 					return (
 						<Container key={bookId}>
 							<FlexBox
-								onClick={() => {
+								onClick={e => {
 									handleBookDetailPageMove(bookId);
 								}}>
 								<img src={bookImage} alt="" width={50} height={70} />
 								<InfoWrapped>
 									<p>{title}</p>
 									<ButtonStatus status={status} bookId={bookId} />
-									{/* <Button fontSize="small">대여 가능</Button> */}
 								</InfoWrapped>
 							</FlexBox>
 						</Container>
@@ -59,6 +72,7 @@ const BookList = ({ merchantId }: { merchantId: string | undefined }) => {
 					<p>등록한 책이 없어요</p>
 				</EmptyBox>
 			)}
+			{hasNextPage ? <div ref={ref}>Loading...</div> : null}
 		</>
 	);
 };
@@ -71,6 +85,9 @@ const Container = styled.div`
 	border-radius: 5px;
 	padding: 1rem;
 	margin-bottom: 0.5rem;
+	:hover {
+		background-color: ${props => props.theme.colors.grey};
+	}
 `;
 
 const FlexBox = styled.div`

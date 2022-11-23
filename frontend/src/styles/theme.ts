@@ -27,6 +27,7 @@ const colors = {
 	buttonGrey: '#D9D9D9',
 	buttonHoverGreen: '#1f966e',
 	headerBorder: '#A7A7A7',
+	unViewedNotice: '#C4E1D7',
 };
 
 const radius = {
