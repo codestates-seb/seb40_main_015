@@ -17,13 +17,22 @@ function ProfileEditPage() {
 			<Title text="내 정보 수정하기" />
 			<ProfileBox>
 				<img src={userImage} alt="dummy" width={260} height={300} />
-				<p className="username">닉네임</p>
-				<input placeholder="닉네임을 입력하세요" />
-				<HiOutlinePencilAlt className="editicon" />
-				<p className="place">내 동네 설정</p>
-				<input placeholder="내 동네를 설정하세요" disabled={true} />
-				{isOpenModal && <Modal onClickToggleModal={onClickToggleModal}></Modal>}
-				<HiOutlinePencilAlt onClick={onClickToggleModal} />
+				<p className="minititle">닉네임</p>
+				<div className="input">
+					<input placeholder="닉네임을 입력하세요" />
+					<HiOutlinePencilAlt className="editicon" />
+				</div>
+				<p className="minititle">내 동네 설정</p>
+				<div className="input">
+					<input placeholder="내 동네를 설정하세요" disabled={false} />
+					{isOpenModal && (
+						<Modal onClickToggleModal={onClickToggleModal}></Modal>
+					)}
+					<HiOutlinePencilAlt
+						className="editicon"
+						onClick={onClickToggleModal}
+					/>
+				</div>
 				<Button className="Button" fontSize={'small'}>
 					저장
 				</Button>
@@ -47,19 +56,17 @@ const Layout = styled.div`
 	}
 
 	input {
-		width: 250px;
+		width: 220px;
 		margin-top: 10;
 		padding: 5px;
 		border-radius: 10px;
 		border: 0.5px solid grey;
 	}
 
-	.place {
-		padding-top: 1.25rem;
+	.minititle {
+		padding-top: 2rem;
 		padding-bottom: 0.5rem;
-	}
-
-	.editicon {
+		font-size: 16px;
 	}
 `;
 
@@ -68,13 +75,32 @@ const ProfileBox = styled.div`
 	align-items: center;
 	flex-direction: column;
 	width: 80%;
+	position: fixed;
+	top: 22%;
 	padding: 1.2rem;
 	border: 1px solid #eaeaea;
+	background-color: rgb(239, 240, 241);
+	padding-top: 50px;
+	padding-bottom: 50px;
+	border-radius: 5%;
 
 	.Button {
-		margin-top: 2rem;
+		margin-top: 2.5rem;
+		width: 250px;
+		font-size: 16px;
 	}
 	.input {
+		display: flex;
+		text-align: center;
+		align-items: center;
+	}
+
+	.editicon {
+		width: 20px;
+		height: 20px;
+		color: ${props => props.theme.colors.buttonGreen};
+		cursor: pointer;
+		padding-left: 5px;
 	}
 `;
 
