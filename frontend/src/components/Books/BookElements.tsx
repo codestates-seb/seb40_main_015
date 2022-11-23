@@ -97,17 +97,17 @@ const BookInfo = styled(Div)`
 	div {
 		width: 100%;
 
-		.book--info__title {
-			margin-bottom: 1rem;
-			padding: 0.2rem 0;
-			padding-bottom: 0.4rem;
-			border-bottom: 1px solid rgba(1, 1, 1, 0.3);
-			position: relative;
-		}
 		.book--info__default {
 			display: flex;
+			font-size: 14px;
+			label {
+				width: fit-content;
+				font-size: inherit;
+				white-space: nowrap;
+				margin: 0;
+			}
 			input {
-				font-size: 14px;
+				font-size: inherit;
 			}
 		}
 	}

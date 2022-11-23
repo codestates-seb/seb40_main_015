@@ -1,7 +1,6 @@
 import { useState } from 'react';
 import styled from 'styled-components';
-import { useAppSelector } from '../redux/hooks';
-import { HiOutlineSearch, HiPhotograph } from 'react-icons/hi';
+import { HiPhotograph } from 'react-icons/hi';
 import Title from '../components/common/Title';
 import {
 	BookInfo,
@@ -10,6 +9,7 @@ import {
 	TitleWrapper,
 } from '../components/Books/BookElements';
 import Button from '../components/common/Button';
+import SearchForm from '../components/BooksCreate/SearchForm';
 
 interface PayloadType {
 	title: string;
@@ -39,13 +39,21 @@ const BooksCreatePage = () => {
 		// location,
 	};
 
+	// useEffect(() => {
+	// 	const config = {
+	// 		headers: {
+	// 			Authorization: `KAkaoAK ${process.env.REACT_APP_KAKAO_KEY}`,
+	// 		},
+	// 	};
+	// 	axios
+	// 		.get(`${BOOK_API}?query=해리포터&size=5`, config)
+	// 		.then(res => console.log(res.data));
+	// }, [title]);
+
 	const handleCreate = () => {
 		console.log('click: ', payload);
 	};
 
-	const handleChangeTitle = (e: React.ChangeEvent<HTMLInputElement>) => {
-		setTitle(e.target.value);
-	};
 	const handleChangeRentalFee = (e: React.ChangeEvent<HTMLInputElement>) => {
 		setRentalFee(e.target.value);
 	};
@@ -63,18 +71,12 @@ const BooksCreatePage = () => {
 			<BodyContainer>
 				<BookInfo>
 					<div>
-						<div className="book--info__title">
-							<input
-								type="text"
-								placeholder="책 제목"
-								value={title}
-								onChange={handleChangeTitle}
-							/>
-							<SearchIcon />
-						</div>
+						<SearchForm title={title} setTitle={setTitle} />
 						<div className="book--info__default">
-							<input type="text" value="저자 :" disabled />
-							<input type="text" value="출판사 :" disabled />
+							<label>저자 :</label>
+							<input type="text" value="저자" disabled />
+							<label>출판사 :</label>
+							<input type="text" value="출판사" disabled />
 						</div>
 					</div>
 				</BookInfo>
@@ -115,15 +117,6 @@ const BooksCreatePage = () => {
 		</Main>
 	);
 };
-
-const SearchIcon = styled(HiOutlineSearch)`
-	width: 1.4rem;
-	height: 1.4rem;
-	position: absolute;
-	top: 0;
-	right: 0;
-	cursor: pointer;
-`;
 
 const Photicon = styled(HiPhotograph)`
 	color: ${props => props.theme.colors.logoGreen};
