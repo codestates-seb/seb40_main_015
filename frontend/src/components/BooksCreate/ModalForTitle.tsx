@@ -54,7 +54,8 @@ const ModalForTitle = ({
 						className="back"
 						onClick={() => {
 							setIsModalOpened(pre => !pre);
-							console.log(isModalOpened);
+							setSearchText('');
+							setBookData([]);
 						}}
 					/>
 				</ModalContainer>
