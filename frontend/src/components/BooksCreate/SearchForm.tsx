@@ -1,6 +1,7 @@
-import { Dispatch, SetStateAction } from 'react';
+import { Dispatch, SetStateAction, useState } from 'react';
 import { HiOutlineSearch } from 'react-icons/hi';
 import styled from 'styled-components';
+import ModalForTitle from './ModalForTitle';
 
 interface SearchFormProps {
 	title: string;
@@ -8,6 +9,7 @@ interface SearchFormProps {
 }
 
 const SearchForm = ({ title, setTitle }: SearchFormProps) => {
+	const [isModalOpened, setIsModalOpened] = useState(true);
 	const handleTitleSubmit = (
 		e: React.FormEvent<HTMLFormElement>,
 		title: string,
@@ -16,20 +18,25 @@ const SearchForm = ({ title, setTitle }: SearchFormProps) => {
 		console.log(title);
 	};
 
-	const handleInputClick = () => {};
+	const handleTitleClick = () => {
+		setIsModalOpened(pre => !pre);
+	};
 
 	return (
 		<StyledSearchForm onSubmit={e => handleTitleSubmit(e, title)}>
 			<input
+				onClick={() => handleTitleClick()}
 				type="text"
 				placeholder="책 제목을 입력해 주세요."
 				value={title}
-				onClick={handleInputClick}
-				disabled
 			/>
 			<SubmitButton>
 				<SearchIcon />
 			</SubmitButton>
+			<ModalForTitle
+				isModalOpened={isModalOpened}
+				setIsModalOpened={setIsModalOpened}
+			/>
 		</StyledSearchForm>
 	);
 };
