@@ -12,8 +12,6 @@ import javax.persistence.Convert;
 import javax.persistence.Converter;
 import javax.persistence.Embedded;
 import javax.persistence.Entity;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -23,7 +21,6 @@ import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 
-import com.dongnebook.domain.alarm.domain.Alarm;
 import com.dongnebook.domain.book.dto.request.BookRegisterRequest;
 import com.dongnebook.domain.book.exception.NotRentableException;
 import com.dongnebook.domain.dibs.domain.Dibs;
