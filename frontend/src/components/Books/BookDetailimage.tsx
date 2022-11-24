@@ -20,9 +20,6 @@ const BookImage = ({ book, merchant }: BookDetailProps) => {
 	// 찜하기 post요청 쿼리
 	const { mutate: mutateWish } = useMutation({
 		mutationFn: () => postWishItem(book?.bookId),
-		onSuccess: () => {
-			console.log('wish req complete');
-		},
 	});
 
 	// 삭제하기 delete 요청 쿼리
@@ -37,7 +34,7 @@ const BookImage = ({ book, merchant }: BookDetailProps) => {
 
 	const HandleWishIcon = () => {
 		setActive(!active);
-		// active || mutateWish();
+		mutateWish();
 
 		// notify 메시지 계속 남아있는 오류 해결 후에 사용. 삭제버튼에도 알림멘션줄까
 		// active ||
