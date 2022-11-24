@@ -28,6 +28,7 @@ const colors = {
 	buttonHoverGreen: '#1f966e',
 	headerBorder: '#A7A7A7',
 	unViewedNotice: '#C4E1D7',
+	errorColor: '#ff6a00',
 };
 
 const radius = {
