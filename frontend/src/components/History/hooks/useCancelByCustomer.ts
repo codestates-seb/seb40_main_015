@@ -10,7 +10,7 @@ export const useCancelByCustomer = (rentalId: string) => {
 	const { mutate } = useMutation(() => axiosCancleByCustomer(rentalId), {
 		onSuccess: () => {
 			queryClient.invalidateQueries({ queryKey: ['rentBookList'] });
-			notify(dispatch, '취소완료');
+			// notify(dispatch, '취소완료');
 		},
 	});
 

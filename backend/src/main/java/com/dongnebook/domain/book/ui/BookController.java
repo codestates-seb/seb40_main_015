@@ -8,6 +8,7 @@ import java.util.Objects;
 
 import javax.validation.Valid;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.SliceImpl;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
@@ -49,7 +50,8 @@ import lombok.extern.slf4j.Slf4j;
 @RequiredArgsConstructor
 @RequestMapping("/books")
 public class BookController {
-
+	@Value("${KAKAO_KEY}")
+	private String KaKaoKey;
 	private final BookService bookService;
 
 	@PostMapping
@@ -106,7 +108,7 @@ public class BookController {
 	public ArrayList<KaKaoBookInfoResponse> getBookInfo(@RequestParam String bookTitle) throws IOException {
 		String testurl = "https://dapi.kakao.com/v3/search/book";
 		HttpHeaders httpHeaders = new HttpHeaders();
-		httpHeaders.set("Authorization", "KakaoAK " + "3a00fa08f31f62ea8ff30d3b0ad3f213");
+		httpHeaders.set("Authorization", "KakaoAK " + KaKaoKey);
 
 		log.info("bookTitle = {}", bookTitle);
 		URI uri = UriComponentsBuilder.fromHttpUrl(testurl)
