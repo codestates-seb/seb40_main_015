@@ -23,6 +23,23 @@ interface PickBook {
 }
 
 
+interface ReservationBook {
+	bookId: number;
+	title: string;
+	imageUrl: string;
+	rentalFee: number;
+	status: string;
+}
+
+//회원정보 수정
+interface ReservationBook {
+	bookId: number;
+	title: string;
+	imageUrl: string;
+	rentalFee: number;
+	status: string;
+}
+
 export const useMypageAPI = () => {
 	const api = useAPI();
 
@@ -45,30 +62,24 @@ export const useMypageAPI = () => {
 		const getPickBookList = () => 
 			api.get(`/dibs`);
 	
-	
+
+	// 마이페이지 - 예약목록(API 미완성)
+	const getReservationBookList = () => 
+		api.get(`/reservations`);
+
 
 	// 마이페이지 - 회원정보 수정
-	const getFixMemberInfo = async (id: string) => {
+	const axiosFixMemberInfo = async (id: string) => {
 		try {
-			const result = await api.get(`/member/${id}/edit`);
+			const result = await api.patch(`/member/edit`);
 			console.log(result);
 			return result.data;
 		} catch (err) {
 			return err;
 		}
 	};
+ 
 
-
-	// 마이페이지 - 예약목록(API 명세서 나오지 않음)
-	// const getReservationBookLists = async () => {
-	// 	try {
-	// 		const result = await api.get();
-	// 		console.log(result);
-	// 		return result.data;
-	// 	} catch (err) {
-	// 		return err;
-	// 	}
-	// };
 
 	// 예약 취소
 	const axiosCancleReservation = async (id: string) => {
@@ -81,10 +92,18 @@ export const useMypageAPI = () => {
 		}
 	};
 	
-	// 사진 등록
-	const axiosAddPhoto = async () => {
+	// 사진 등록(endpoint 수정)
+	const axiosAddPhoto = async (File:any) => {
 		try {
-			const result = await api.post(`image`);
+			const result = await api.post(
+				`/upload`,
+				{File},
+				 {
+					headers: {
+						'Content-Type': 'multipart/form-data'
+				},				
+				},
+			);
 			console.log(result);
 			return result.data;
 		} catch (err) {
@@ -92,15 +111,13 @@ export const useMypageAPI = () => {
 		}
 	};
 
-	
-
-	
 
 	return {
 		getMyInfo,
 		getMemberInfo,
-		getFixMemberInfo,
+		axiosFixMemberInfo,
 		getPickBookList,
+		getReservationBookList,
 		axiosCancleReservation,
 		axiosAddPhoto,
 		getMerchantBookLists
