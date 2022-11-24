@@ -1,4 +1,5 @@
 import styled from 'styled-components';
+import { useAppSelector } from '../redux/hooks';
 import { HiPhotograph } from 'react-icons/hi';
 import Title from '../components/common/Title';
 import {
@@ -9,24 +10,19 @@ import {
 } from '../components/Books/BookElements';
 import Button from '../components/common/Button';
 import SearchForm from '../components/BooksCreate/SearchForm';
-import { useAppSelector } from '../redux/hooks';
 import RentalFee from '../components/BooksCreate/RentalFee';
+import Description from '../components/BooksCreate/Description';
 
-interface PayloadType {
-	title: string;
-	author: string;
-	publisher: string;
-	rentalFee: string;
-	description: string;
-	imageUrl: string;
-}
+// interface PayloadType {
+// 	title: string;
+// 	author: string;
+// 	publisher: string;
+// 	rentalFee: string;
+// 	description: string;
+// 	imageUrl: string;
+// }
 
 const BooksCreatePage = () => {
-	// const [rentalFee, setRentalFee] = useState('');
-	// const [description, setDescription] = useState('');
-	// const [imageUrl, setImageUrl] = useState('');
-	// const location = useAppSelector(state => state.login.location)
-
 	const bookCreate = useAppSelector(state => state.persistedReducer.bookCreate);
 	const { title, authors, publisher } = bookCreate.bookInfo;
 	const { rentalFee, description, imageUrl } = bookCreate.rentalInfo;
@@ -45,12 +41,6 @@ const BooksCreatePage = () => {
 		console.log('click: ', payload);
 	};
 
-	// const handleChangeDescription = (
-	// 	e: React.ChangeEvent<HTMLTextAreaElement>,
-	// ) => {
-	// 	setDescription(e.target.value);
-	// };
-
 	return (
 		<Main>
 			<TitleWrapper>
@@ -59,12 +49,7 @@ const BooksCreatePage = () => {
 			<BodyContainer>
 				<SearchForm />
 				<RentalFee />
-				<BookInfo>
-					<textarea
-						placeholder="등록하실 책과 관련된 내용을 입력해주세요"
-						// onChange={handleChangeDescription}
-					/>
-				</BookInfo>
+				<Description />
 				<BookInfo>
 					<span>거래 위치 : {`서울시 종로구`}</span>
 				</BookInfo>

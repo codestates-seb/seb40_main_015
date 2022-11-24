@@ -37,9 +37,13 @@ const bookCreateSlice = createSlice({
 		updateRentalFee: (state, action) => {
 			state.rentalInfo.rentalFee = action.payload;
 		},
+		updateDescription: (state, action) => {
+			state.rentalInfo.description = action.payload;
+		},
 	},
 });
 
-export const { updateBookInfo, updateRentalFee } = bookCreateSlice.actions;
+export const { updateBookInfo, updateRentalFee, updateDescription } =
+	bookCreateSlice.actions;
 
 export default bookCreateSlice.reducer;
