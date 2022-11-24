@@ -16,6 +16,7 @@ function useGeoLocation() {
 			},
 			null,
 			options,
+			
 		);
 	};
 

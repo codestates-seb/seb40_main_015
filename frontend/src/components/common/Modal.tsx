@@ -1,7 +1,9 @@
 import React, { PropsWithChildren } from 'react';
 import styled from 'styled-components';
 import Button from '../common/Button';
-import useGeoLocation from '../../hooks/useGeoLocation';
+import useGeoLocation2 from '../../hooks/useGeoLocation2';
+import { useNavigate } from 'react-router-dom';
+
 interface ModalDefaultType {
 	onClickToggleModal: () => void;
 }
@@ -10,15 +12,17 @@ function Modal({
 	onClickToggleModal,
 	children,
 }: PropsWithChildren<ModalDefaultType>) {
-	const [current, setCurrent] = useGeoLocation();
+	const location = useGeoLocation2();
+	const navigate = useNavigate();
 	return (
 		<ModalContainer>
 			<DialogBox>
 				{children}
 				<h1>현재 위치를 주거래 지역으로 설정할까요?</h1>
 				<div className="currentplace">
-					current={current}
-					setCurrent={setCurrent}
+					{location.loaded
+						? JSON.stringify(location)
+						: '현재 위치를 알 수 없습니다.'}
 				</div>
 				<div className="btn">
 					<Button className="btn1">예</Button>

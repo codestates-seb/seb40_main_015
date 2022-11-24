@@ -1,3 +1,4 @@
+import axios from 'axios';
 import useAPI from '../hooks/useAPI';
 
 // 마이페이지 유저정보 및 찜목록 요청 getPickBookLists
@@ -92,25 +93,12 @@ export const useMypageAPI = () => {
 		}
 	};
 	
-	// 사진 등록(endpoint 수정)
-	const axiosAddPhoto = async (File:any) => {
-		try {
-			const result = await api.post(
-				`/upload`,
-				{File},
-				 {
-					headers: {
-						'Content-Type': 'multipart/form-data'
-				},				
-				},
-			);
-			console.log(result);
-			return result.data;
-		} catch (err) {
-			return err;
-		}
-	};
 
+	// 사진 등록(endpoint 수정)
+	const axiosAddPhoto = (data:any) => {
+			axios.post(`/upload`, data).then(res => console.log(res))}
+
+				
 
 	return {
 		getMyInfo,
@@ -119,7 +107,7 @@ export const useMypageAPI = () => {
 		getPickBookList,
 		getReservationBookList,
 		axiosCancleReservation,
-		axiosAddPhoto,
-		getMerchantBookLists
+		getMerchantBookLists,
+		axiosAddPhoto
 	};
 };

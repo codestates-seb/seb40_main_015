@@ -9,10 +9,10 @@ import { useMypageAPI } from '../api/mypage';
 import { useQuery } from '@tanstack/react-query';
 import { useNavigate } from 'react-router-dom';
 import { useFixInfo } from '../components/Member/hooks/useFixInfo';
+import axios from 'axios';
+import { BASE_URL } from '../constants/constants';
 
 function ProfileEditPage() {
-	//내정보수정하기
-	// const { mutate } = useFixInfo();
 	//현재 위치 수정
 	const [isOpenModal, setOpenModal] = useState<boolean>(false);
 	const onClickToggleModal = useCallback(() => {
@@ -22,35 +22,49 @@ function ProfileEditPage() {
 
 	//유저 이미지 수정
 	const [File, setFile] = useState<File | undefined>();
-	const { mutate: image } = useInputImage(File);
+	// const { mutate: image } = useInputImage(File);
 	const [Image, setImage] = useState<string>(
 		'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png',
 	);
 	const navigate = useNavigate();
 	const fileInput = useRef<any>(null);
 	const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-		console.log('');
-		e.preventDefault();
-		const files = e.currentTarget.files as FileList;
-		setFile(files[0]);
+		const { files } = e.target;
+		const formData = new FormData();
 		if (files) {
-			const formData = new FormData();
-			formData.append('img', files[0]);
-
-			console.log(Array.from(formData.values()));
-
-			//Array.from(formData.values())
-
-			console.log(files[0]);
-			// console.log(FormData);
-
-			image();
+			const fileRef = files[0];
+			setFile(fileRef);
+			formData.append('img', fileRef);
+			axios.post(`${BASE_URL}/upload`, formData).then(res => console.log(res));
 		} else {
 			//업로드 취소할 시
 			setImage(
 				'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png',
 			);
 			return;
+
+			// console.log('');
+			// e.preventDefault();
+			// const files = e.currentTarget.files as FileList;
+			// setFile(files[0]);
+			// if (files) {
+			// 	const formData = new FormData();
+			// 	formData.append('img', files[0]);
+
+			// 	console.log(Array.from(formData.values()));
+
+			// 	//Array.from(formData.values())
+
+			// 	console.log(files[0]);
+			// 	// console.log(FormData);
+
+			// 	image();
+			// } else {
+			// 	//업로드 취소할 시
+			// 	setImage(
+			// 		'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png',
+			// 	);
+			// 	return;
 		}
 
 		//화면에 프로필 사진 표시
