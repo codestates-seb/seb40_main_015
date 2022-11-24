@@ -83,7 +83,7 @@ public class BookService {
 
 	public ArrayList<BookSectorCountResponse> getSectorBookCounts(BookSearchCondition condition) {
 
-		List<Double> latRangeList = Location.latRangeList(condition.getLatitude(), condition.getLength(),
+		List<Double> latRangeList = Location.latRangeList(condition.getLatitude(), condition.getHeight(),
 			condition.getLevel());
 		List<Double> lonRangeList = Location.lonRangeList(condition.getLongitude(), condition.getWidth(),
 			condition.getLevel());
