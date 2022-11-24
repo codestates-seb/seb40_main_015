@@ -8,6 +8,32 @@ import Animation from '../Loading/Animation';
 import { useEffect, useMemo } from 'react';
 import { useInView } from 'react-intersection-observer';
 
+// interface ListProps {
+// 	bookInfo: {
+// 		bookId: string;
+// 		bookUrl: string;
+// 		title: string;
+// 		author: string;
+// 		publisher: string;
+// 		rental_fee: string;
+// 		bookDescription: string;
+// 		location: {
+// 			lat: string;
+// 			lon: string;
+// 		};
+// 		bookStatus: string;
+// 		merchantName: string;
+// 	};
+// 	rentalInfo: {
+// 		rentalId: string;
+// 		customerName: string;
+// 		rentalState: string;
+// 		rentalStartedAt: string;
+// 		rentalDeadline: string;
+// 		rentalReturnedAt: string;
+// 		rentalCanceledAt: string;
+// 	};
+// }
 const LentBookLists = () => {
 	const { getLendBookLists } = useHistoryAPI();
 	const [ref, inView] = useInView();
@@ -54,7 +80,7 @@ const LentBookLists = () => {
 							rentalfee={el.bookInfo.rentalFee}
 							author={el.bookInfo.author}
 							publisher={el.bookInfo.publisher}
-							merchantName={el.bookInfo.merchantName}
+							// merchantName={el.bookInfo.merchantName}
 							status={el.rentalInfo.rentalState}
 							rental={el.rentalInfo}
 						/>
@@ -85,10 +111,10 @@ const Wrapper = styled.div`
 	/* max-width: 850px; */
 	display: flex;
 	flex-direction: column;
-	margin-bottom: 2rem;
-	/* 
-	padding-bottom: 1rem;
-	border-bottom: 1px solid black; */
+	margin-bottom: 3rem;
+
+	/* padding-bottom: 2rem; */
+	/* border-bottom: 1px solid rgba(0, 0, 0, 0.2); */
 `;
 
 const EmptyBox = styled.div`
