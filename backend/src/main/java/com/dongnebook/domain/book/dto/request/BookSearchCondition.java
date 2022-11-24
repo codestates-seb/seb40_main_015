@@ -1,4 +1,4 @@
-package com.dongnebook.domain.book.dto.request;
+package com.dongnebook.domain.book.dto.Request;
 
 import javax.validation.constraints.Max;
 
