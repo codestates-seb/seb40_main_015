@@ -45,14 +45,17 @@ export const useBooksAPI = () => {
 	// 	axiosInstance.get('/books');
 	const api = useAPI();
 
+	// books page query
 	const getAllBooksList = async () =>
 		await axiosInstance.get<IAllBooks>('/books').then(res => res.data);
 
+	//books page infinite query
 	const getAllBooksListInfinite = async (id?: number) => {
 		return await axiosInstance
 			.get<IAllBooks>(id ? `/books?index=${id}` : '/books')
 			.then(res => res.data);
 	};
+
 	const getBookDetail = async (id: string | undefined) =>
 		await axiosInstance.get<IBook>(`/books/${id}`).then(res => res.data);
 
