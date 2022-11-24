@@ -27,7 +27,7 @@ interface IBook {
 		title: string;
 		publisher: string;
 		author: string;
-		status: string;
+		state: string;
 		content: string;
 		rentalfee: number;
 		rentalStart: string;
@@ -41,8 +41,6 @@ interface IBook {
 }
 
 export const useBooksAPI = () => {
-	// const getAllBooksList = (): Promise<IAllBooks[]> =>
-	// 	axiosInstance.get('/books');
 	const api = useAPI();
 
 	// books page query
@@ -56,8 +54,17 @@ export const useBooksAPI = () => {
 			.then(res => res.data);
 	};
 
+	// book detail page
 	const getBookDetail = async (id: string | undefined) =>
 		await axiosInstance.get<IBook>(`/books/${id}`).then(res => res.data);
 
-	return { getAllBooksList, getBookDetail, getAllBooksListInfinite };
+	// book detail page wish
+	const postWishItem = async (bookid: number | undefined) =>
+		await api.post(`/dibs/${bookid}`);
+	return {
+		getAllBooksList,
+		getBookDetail,
+		getAllBooksListInfinite,
+		postWishItem,
+	};
 };

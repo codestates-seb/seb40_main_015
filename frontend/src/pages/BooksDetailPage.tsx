@@ -10,10 +10,12 @@ import {
 	Main,
 	TitleWrapper,
 	LinkStyled,
+	BodyContainer,
 } from '../components/Books/BookElements';
 
 //hooks
 import { useBooksAPI } from '../api/books';
+import BookImage from '../components/Books/BookDetailimage';
 
 const BooksDetailPage = () => {
 	const { bookId } = useParams();
@@ -32,16 +34,22 @@ const BooksDetailPage = () => {
 				<Title text="상세 조회" />
 			</TitleWrapper>
 
-			<BookDetail book={data?.book} merchant={data?.merchant} />
+			<BodyContainer>
+				<BookImage book={data?.book} merchant={data?.merchant} />
+				<BookDetail book={data?.book} merchant={data?.merchant} />
+			</BodyContainer>
 
-			<LinkStyled to={`rental`}>
-				<Button>책 대여하기</Button>
-			</LinkStyled>
-			<LinkStyled to={`booking`}>
-				<Button>책 예약하기</Button>
-				<Button backgroundColor={'grey'}>예약 불가</Button>
-			</LinkStyled>
-			<Button backgroundColor={'grey'}>예약 불가</Button>
+			{data?.book?.state === '예약불가' ? (
+				<Button backgroundColor={'grey'}>대여/예약 불가</Button>
+			) : data?.book?.state === '대여가능' ? (
+				<LinkStyled to={`rental`}>
+					<Button>책 대여하기</Button>
+				</LinkStyled>
+			) : (
+				<LinkStyled to={`booking`}>
+					<Button>책 예약하기</Button>
+				</LinkStyled>
+			)}
 		</Main>
 	);
 };
