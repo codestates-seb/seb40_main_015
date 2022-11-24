@@ -53,6 +53,7 @@ public class BookQueryRepository {
 					new QBookResponse(
 						book.id,
 						book.title,
+						book.author,
 						book.publisher,
 						book.rentalFee.value,
 						book.description,
