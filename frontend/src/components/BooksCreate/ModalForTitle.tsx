@@ -71,6 +71,7 @@ const ModalForTitle = ({
 const ModalForm = styled.form`
 	box-sizing: border-box;
 	background-color: ${props => props.theme.colors.unViewedNotice};
+	border-radius: 10px 10px 0 0;
 	padding: 2em 1em 0 1em;
 `;
 
@@ -79,6 +80,7 @@ const StyledButton = styled(Button)`
 	width: 4rem;
 	margin-left: 0.5rem;
 	white-space: nowrap;
+	justify-content: sp;
 `;
 
 const ModalContainer = styled.div`
@@ -96,6 +98,9 @@ const ModalContainer = styled.div`
 const SearchItems = styled.div`
 	box-sizing: border-box;
 	overflow-y: scroll;
+	::-webkit-scrollbar {
+		display: none;
+	}
 	padding: 1em;
 `;
 
@@ -124,16 +129,26 @@ const DialogBox = styled.dialog`
 	width: 400px;
 	height: 500px;
 	border: none;
-	border-radius: 3px;
+	border-radius: 10px;
 	padding: 0;
 	box-shadow: 0 0 30px rgba(30, 30, 30, 0.185);
 	display: flex;
 	flex-direction: column;
 	z-index: 1000;
+	animation: moveUp 0.5s cubic-bezier(0.165, 0.84, 0.44, 1) forwards;
 
 	h1 {
 		font-size: 1.5rem;
 		text-align: center;
+	}
+
+	@keyframes moveUp {
+		0% {
+			transform: translateY(20px);
+		}
+		100% {
+			transform: translateY(0);
+		}
 	}
 `;
 
