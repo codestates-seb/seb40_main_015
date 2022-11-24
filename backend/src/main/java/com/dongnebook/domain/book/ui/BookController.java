@@ -3,7 +3,6 @@ package com.dongnebook.domain.book.ui;
 import java.io.IOException;
 import java.net.URI;
 import java.util.ArrayList;
-import java.util.List;
 import java.util.Objects;
 
 import javax.validation.Valid;

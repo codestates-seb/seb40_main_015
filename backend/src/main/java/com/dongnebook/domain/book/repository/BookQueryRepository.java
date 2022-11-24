@@ -1,7 +1,6 @@
 package com.dongnebook.domain.book.repository;
 
 
-import com.dongnebook.domain.book.dto.request.BookSearchCondition;
 
 
 import static com.dongnebook.domain.book.domain.QBook.*;
@@ -15,9 +14,7 @@ import javax.persistence.EntityManager;
 import org.springframework.data.domain.SliceImpl;
 import org.springframework.stereotype.Repository;
 
-
-
-
+import com.dongnebook.domain.book.dto.request.BookSearchCondition;
 import com.dongnebook.domain.book.dto.response.BookDetailResponse;
 
 import com.dongnebook.domain.book.dto.response.BookSimpleResponse;
@@ -85,7 +82,7 @@ public class BookQueryRepository {
 	public List<Location> getSectorBookCounts(BookSearchCondition condition) {
 
 		String bookTitle = condition.getBookTitle();
-		List<Double> LatRange = Location.latRangeList(condition.getLatitude(), condition.getLength(),condition.getLevel());
+		List<Double> LatRange = Location.latRangeList(condition.getLatitude(), condition.getHeight(),condition.getLevel());
 		List<Double> LonRange = Location.lonRangeList(condition.getLongitude(), condition.getWidth(),condition.getLevel());
 
 		return jpaQueryFactory.select(book.location)
@@ -101,7 +98,7 @@ public class BookQueryRepository {
 
 		String bookTitle = condition.getBookTitle();
 		log.info("bookTitle = {}", bookTitle);
-		List<Double> LatRange = Location.latRangeList(condition.getLatitude(), condition.getLength(),condition.getLevel());
+		List<Double> LatRange = Location.latRangeList(condition.getLatitude(), condition.getHeight(),condition.getLevel());
 		List<Double> LonRange = Location.lonRangeList(condition.getLongitude(), condition.getWidth(),condition.getLevel());
 
 
