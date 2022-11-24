@@ -9,6 +9,12 @@ import {
 	BookInfo,
 	BookRentalFee,
 	MerchantInfo,
+	MerchantGrade,
+	RentalInfo,
+	BookContainer,
+	BookTitle,
+	BookSubTitle,
+	Partition,
 } from './BookElements';
 
 //type
@@ -48,31 +54,53 @@ const BookDetail = ({ book, merchant }: BookDetailProps) => {
 			</BookImgWrapper>
 
 			<BookInfo>
-				<legend>제목</legend>
-				<label>{book?.title}</label>
+				<legend>도서 정보</legend>
+				{/* <label>{book?.title}</label>
+				<label>author</label>
+				<span className="partition">{''}</span>
+				<label>{book?.publisher}</label> */}
+				<BookContainer>
+					<BookTitle>
+						<label>{book?.title}</label>
+					</BookTitle>
+					<BookSubTitle>
+						<label>author</label>
+						<Partition>|</Partition>
+						<label>{book?.publisher}</label>
+					</BookSubTitle>
+				</BookContainer>
 			</BookInfo>
 
-			<BookInfo>
+			{/* <BookInfo>
 				<legend>저자/출판사</legend>
 				<label>author</label>
 				<span className="partition">{''}</span>
 				<label>{book?.publisher}</label>
-			</BookInfo>
+			</BookInfo> */}
 
-			<MerchantInfo>
-				<div>
+			<BookInfo>
+				<legend>상인 정보</legend>
+				<MerchantInfo>
 					<Link to={`/profile/merchant/${merchant?.merchantId}`}>
-						<UserImg src={''} />
+						<MerchantImg src={''} />
 						<span>{merchant?.name}</span>
 					</Link>
-				</div>
-				<div>
-					<span>평점</span>
-					<span>★★★★★{merchant?.grade}</span>
-				</div>
-			</MerchantInfo>
+					<MerchantGrade>
+						<span>평점: {merchant?.grade}★★★★★</span>
+					</MerchantGrade>
+				</MerchantInfo>
+			</BookInfo>
 
-			<BookRentalFee>
+			<BookInfo>
+				<legend>대여 정보</legend>
+				<RentalInfo>
+					<label>대여료: {book?.rentalFee}원</label>
+					{/* <Partition>|</Partition> */}
+					<label>대여기간: 10일</label>
+				</RentalInfo>
+			</BookInfo>
+
+			{/* <BookRentalFee>
 				<label htmlFor="fee">대여료{book?.rentalFee}</label>
 				<input
 					id="fee"
@@ -82,7 +110,7 @@ const BookDetail = ({ book, merchant }: BookDetailProps) => {
 					disabled
 				/>
 				<span>원</span>
-			</BookRentalFee>
+			</BookRentalFee> */}
 
 			<BookDsc>
 				<div>{book?.content}</div>
@@ -96,8 +124,9 @@ const BookImgWrapper = styled.div`
 	display: flex;
 	justify-content: center;
 	align-items: center;
-	margin-bottom: 30px;
 	position: relative;
+
+	margin-bottom: 2rem;
 `;
 const Deleticon = styled(HiOutlineTrash)`
 	font-size: 30px;
@@ -146,8 +175,9 @@ const BookNotAvailable = styled.div`
 	}
 `;
 
-const UserImg = styled.img`
+const MerchantImg = styled.img`
 	border-radius: 0.3rem;
+	/* border-radius: 50%; */
 	width: 2.6rem;
 	height: 2.6rem;
 
