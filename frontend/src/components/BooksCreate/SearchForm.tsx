@@ -7,7 +7,9 @@ import ModalForTitle from './ModalForTitle';
 
 const SearchForm = () => {
 	const [isModalOpened, setIsModalOpened] = useState(false);
-	const bookInfo = useAppSelector(state => state.persistedReducer.bookInfo);
+	const bookInfo = useAppSelector(
+		state => state.persistedReducer.bookCreate.bookInfo,
+	);
 	const { title, authors, publisher } = bookInfo;
 	const titleView = title.length < 20 ? title : title.slice(0, 20) + '...';
 

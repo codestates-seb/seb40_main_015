@@ -1,4 +1,3 @@
-import { useState } from 'react';
 import styled from 'styled-components';
 import { HiPhotograph } from 'react-icons/hi';
 import Title from '../components/common/Title';
@@ -11,6 +10,7 @@ import {
 import Button from '../components/common/Button';
 import SearchForm from '../components/BooksCreate/SearchForm';
 import { useAppSelector } from '../redux/hooks';
+import RentalFee from '../components/BooksCreate/RentalFee';
 
 interface PayloadType {
 	title: string;
@@ -22,17 +22,18 @@ interface PayloadType {
 }
 
 const BooksCreatePage = () => {
-	const [rentalFee, setRentalFee] = useState('');
-	const [description, setDescription] = useState('');
-	const [imageUrl, setImageUrl] = useState('');
+	// const [rentalFee, setRentalFee] = useState('');
+	// const [description, setDescription] = useState('');
+	// const [imageUrl, setImageUrl] = useState('');
 	// const location = useAppSelector(state => state.login.location)
 
-	const bookInfo = useAppSelector(state => state.persistedReducer.bookInfo);
-	const { title, authors, publisher } = bookInfo;
+	const bookCreate = useAppSelector(state => state.persistedReducer.bookCreate);
+	const { title, authors, publisher } = bookCreate.bookInfo;
+	const { rentalFee, description, imageUrl } = bookCreate.rentalInfo;
 
 	const payload = {
 		title,
-		authors,
+		authors: authors.join(', '),
 		publisher,
 		rentalFee,
 		description,
@@ -44,14 +45,11 @@ const BooksCreatePage = () => {
 		console.log('click: ', payload);
 	};
 
-	const handleChangeRentalFee = (e: React.ChangeEvent<HTMLInputElement>) => {
-		setRentalFee(e.target.value);
-	};
-	const handleChangeDescription = (
-		e: React.ChangeEvent<HTMLTextAreaElement>,
-	) => {
-		setDescription(e.target.value);
-	};
+	// const handleChangeDescription = (
+	// 	e: React.ChangeEvent<HTMLTextAreaElement>,
+	// ) => {
+	// 	setDescription(e.target.value);
+	// };
 
 	return (
 		<Main>
@@ -60,19 +58,11 @@ const BooksCreatePage = () => {
 			</TitleWrapper>
 			<BodyContainer>
 				<SearchForm />
-				<BookInfo>
-					<input
-						className="book--info__fee"
-						type="number"
-						placeholder="대여료 (100원 단위)"
-						onChange={handleChangeRentalFee}
-					/>
-					<span>원 </span>
-				</BookInfo>
+				<RentalFee />
 				<BookInfo>
 					<textarea
 						placeholder="등록하실 책과 관련된 내용을 입력해주세요"
-						onChange={handleChangeDescription}
+						// onChange={handleChangeDescription}
 					/>
 				</BookInfo>
 				<BookInfo>

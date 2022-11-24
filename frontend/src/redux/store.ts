@@ -12,7 +12,7 @@ const persistConfig = {
 	key: 'root',
 	version: 1,
 	storage,
-	blacklist: ['bookInfo'],
+	blacklist: ['bookCreate'],
 };
 
 const loginPersistConfig = {
@@ -22,7 +22,7 @@ const loginPersistConfig = {
 
 const rootReducer = combineReducers({
 	notification: notificationReducer,
-	bookInfo: bookCreateReducer,
+	bookCreate: bookCreateReducer,
 });
 
 // const persistedReducer = persistReducer(persistConfig, rootReducer);

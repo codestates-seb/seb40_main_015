@@ -1,15 +1,29 @@
 import { createSlice } from '@reduxjs/toolkit';
 
 interface bookCreateInterface {
-	title: string;
-	authors: string;
-	publisher: string;
+	bookInfo: {
+		title: string;
+		authors: string[];
+		publisher: string;
+	};
+	rentalInfo: {
+		rentalFee: number;
+		description: string;
+		imageUrl: string;
+	};
 }
 
 const initialState: bookCreateInterface = {
-	title: '',
-	authors: '',
-	publisher: '',
+	bookInfo: {
+		title: '',
+		authors: [''],
+		publisher: '',
+	},
+	rentalInfo: {
+		rentalFee: 0,
+		description: '',
+		imageUrl: '',
+	},
 };
 
 const bookCreateSlice = createSlice({
@@ -18,13 +32,14 @@ const bookCreateSlice = createSlice({
 	reducers: {
 		updateBookInfo: (state, action) => {
 			const { title, authors, publisher } = action.payload;
-			state.title = title;
-			state.authors = authors[0];
-			state.publisher = publisher;
+			state.bookInfo = { title, authors, publisher };
+		},
+		updateRentalFee: (state, action) => {
+			state.rentalInfo.rentalFee = action.payload;
 		},
 	},
 });
 
-export const { updateBookInfo } = bookCreateSlice.actions;
+export const { updateBookInfo, updateRentalFee } = bookCreateSlice.actions;
 
 export default bookCreateSlice.reducer;
