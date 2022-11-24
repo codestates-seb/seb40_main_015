@@ -57,17 +57,20 @@ const BooksPage = () => {
 					<Animation />
 				) : (
 					data?.pages?.map(el =>
-						el?.content?.map(el => (
-							<BookItem
-								key={+el.bookId}
-								bookId={el.bookId}
-								title={el.title}
-								bookImage={el.bookImage}
-								status={el.status}
-								rentalfee={el.rentalFee}
-								merchantName={el.merchantName}
-							/>
-						)),
+						el?.content?.map(el => {
+							if (el.status === '거래중단') return;
+							return (
+								<BookItem
+									key={+el.bookId}
+									bookId={el.bookId}
+									title={el.title}
+									bookImage={el.bookImage}
+									status={el.status}
+									rentalfee={el.rentalFee}
+									merchantName={el.merchantName}
+								/>
+							);
+						}),
 					)
 				)}
 				<ScrollEnd ref={target} className={`${hasNextPage ? '' : 'hidden'}`}>
