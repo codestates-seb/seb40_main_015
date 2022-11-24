@@ -15,8 +15,6 @@ import org.springframework.data.domain.SliceImpl;
 import org.springframework.stereotype.Repository;
 
 import com.dongnebook.domain.book.dto.request.BookSearchCondition;
-
-
 import com.dongnebook.domain.book.dto.response.BookDetailResponse;
 
 import com.dongnebook.domain.book.dto.response.BookSimpleResponse;
