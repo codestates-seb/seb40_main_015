@@ -14,13 +14,15 @@ const SearchForm = ({ title }: SearchFormProps) => {
 		setIsModalOpened(pre => !pre);
 	};
 
+	const titleView = title.length < 20 ? title : title.slice(0, 20) + '...';
+
 	return (
 		<StyledSearchForm>
 			<input
 				onClick={() => handleTitleClick()}
 				type="text"
 				placeholder="책 제목을 입력해 주세요."
-				value={title}
+				value={titleView}
 				readOnly
 			/>
 			<SubmitButton>

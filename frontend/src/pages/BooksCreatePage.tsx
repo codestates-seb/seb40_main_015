@@ -22,9 +22,6 @@ interface PayloadType {
 }
 
 const BooksCreatePage = () => {
-	// const [title, setTitle] = useState('');
-	// const [authors, setAuthor] = useState('');
-	// const [publisher, setPublisher] = useState('');
 	const [rentalFee, setRentalFee] = useState('');
 	const [description, setDescription] = useState('');
 	const [imageUrl, setImageUrl] = useState('');
@@ -34,9 +31,9 @@ const BooksCreatePage = () => {
 	const { title, authors, publisher } = bookInfo;
 
 	const payload = {
-		// title,
-		// authors,
-		// publisher,
+		title,
+		authors,
+		publisher,
 		rentalFee,
 		description,
 		imageUrl,
