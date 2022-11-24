@@ -3,7 +3,10 @@ import LendStatusButton from './LendStatusButton';
 import BookItem from '../Books/BookItem';
 import LendBookUserInfo from './LendBookUserInfo';
 import { useHistoryAPI } from '../../api/history';
-import { useQuery } from '@tanstack/react-query';
+import { useInfiniteQuery } from '@tanstack/react-query';
+import Animation from '../Loading/Animation';
+import { useEffect, useMemo } from 'react';
+import { useInView } from 'react-intersection-observer';
 
 // interface ListProps {
 // 	bookInfo: {
@@ -33,18 +36,43 @@ import { useQuery } from '@tanstack/react-query';
 // }
 const LentBookLists = () => {
 	const { getLendBookLists } = useHistoryAPI();
+	const [ref, inView] = useInView();
 
-	const { data, isLoading } = useQuery(
-		['lendBookList'],
-		() => getLendBookLists().then(res => res.data),
-		{ retry: 1 },
+	// const { data, isLoading } = useQuery(
+	// 	['lendBookList'],
+	// 	() => getLendBookLists().then(res => res.data),
+	// 	{ retry: 1 },
+	// );
+
+	const { data, fetchNextPage, hasNextPage, isFetchingNextPage } =
+		useInfiniteQuery(
+			['lendBookList'],
+			({ pageParam = undefined }) =>
+				getLendBookLists(pageParam).then(res => res.data),
+			{
+				getNextPageParam: lastPage => {
+					return lastPage.last
+						? undefined
+						: lastPage.content[lastPage.content.length - 1].rentalInfo.rentalId;
+				},
+				retry: false,
+			},
+		);
+	const lists: any = useMemo(
+		() => data?.pages.flatMap(page => page.content),
+		[data?.pages],
 	);
+
+	useEffect(() => {
+		if (inView && hasNextPage) fetchNextPage();
+	}, [inView]);
 
 	return (
 		<Box>
-			{data?.content.length ? (
-				data?.content.map((el: any) => (
-					<Wrapper key={+el.rentalInfo.rentalId}>
+			{/* 통합본 추가 */}
+			{lists?.length ? (
+				lists?.map((el: any) => (
+					<Wrapper key={el.rentalInfo.rentalId}>
 						<BookItem
 							bookId={el.bookInfo.bookId}
 							title={el.bookInfo.title}
@@ -69,6 +97,7 @@ const LentBookLists = () => {
 					<p>빌려준 책이 없어요</p>
 				</EmptyBox>
 			)}
+			{hasNextPage ? <div ref={ref}>Loading...</div> : null}
 		</Box>
 	);
 };

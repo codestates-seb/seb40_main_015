@@ -9,12 +9,14 @@ interface Props {
 const ButtonStatus = ({ status, bookId }: Props) => {
 	const navigate = useNavigate();
 
-	const handleRentalPageMove = () => {
-		navigate(`books/${bookId}/rental`);
+	const handleRentalPageMove = (e: React.SyntheticEvent) => {
+		e.stopPropagation();
+		navigate(`/books/${bookId}/rental`);
 	};
 
-	const handleBookingPageMove = () => {
-		navigate(`books/${bookId}/booking`);
+	const handleBookingPageMove = (e: React.SyntheticEvent) => {
+		e.stopPropagation();
+		navigate(`/books/${bookId}/booking`);
 	};
 	return (
 		<>

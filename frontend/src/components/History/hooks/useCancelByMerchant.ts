@@ -10,7 +10,7 @@ export const useCancelByMerchant = (rentalId: string) => {
 	const { mutate } = useMutation(() => axiosCancleByMerchant(rentalId), {
 		onSuccess: () => {
 			queryClient.invalidateQueries({ queryKey: ['lendBookList'] });
-			notify(dispatch, '취소완료');
+			// notify(dispatch, '취소완료');
 		},
 	});
 

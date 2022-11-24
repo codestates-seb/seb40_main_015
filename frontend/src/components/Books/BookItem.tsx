@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 //components
 import Button from '../common/Button';
@@ -28,8 +28,31 @@ const BookItem = ({
 		rentalCanceledAt: '',
 	},
 }: BooksProps) => {
+	const navigate = useNavigate();
+	const handleBookDetailPage = () => {
+		navigate(`/books/${bookId}`);
+	};
 	return (
-		<BookContainer to={`/books/${bookId}`}>
+		// <BookContainer to={`/books/${bookId}`}>
+		<BookContainer onClick={handleBookDetailPage}>
+			{/* <BookInfo>
+				<BookImage>
+					<img src={BookImageDummy} alt="Book Image" />
+				</BookImage>
+				<BookDetail>
+					<h1>책 제목은 h1</h1>
+					<p>저자 / 출판사</p>
+					<p>거래 지역</p>
+					<p>상인이름</p>
+					<p>대여료</p>
+					<p>대여기간</p>
+				</BookDetail>
+			</BookInfo>
+
+			<BookStateWrapper>
+				<Button>대여 가능</Button>
+				<Button backgroundColor={'grey'}>대여중</Button>
+			</BookStateWrapper> */}
 			<BookItemInfo
 				title={title}
 				bookImage={bookImage}
@@ -48,7 +71,7 @@ const BookItem = ({
 	);
 };
 
-const BookContainer = styled(Link)`
+const BookContainer = styled.div`
 	display: flex;
 	justify-content: space-between;
 	width: 90vw;
