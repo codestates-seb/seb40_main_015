@@ -16,22 +16,22 @@ public class MerchantSearchRequest {
 	private	Double longitude;
 	private Double latitude;
 	private Integer width;
-	private Integer length;
+	private Integer height;
 	private Integer sector;
 	private Integer level;
 
-	public MerchantSearchRequest(Double longitude, Double latitude, Integer width, Integer length, Integer sector,
+	public MerchantSearchRequest(Double longitude, Double latitude, Integer width, Integer height, Integer sector,
 		Integer level) {
 		this.longitude = longitude;
 		this.latitude = latitude;
 		this.width = width == null ? 1000 : width * 50;
-		this.length = length == null ? 1000 : length * 50;
+		this.height = height == null ? 1000 : height * 50;
 		this.sector = sector;
 		this.level = level;
 	}
 
 	public BooleanExpression sectorBetween() {
-		List<Double> latRange = Location.latRangeList(latitude, length,level);
+		List<Double> latRange = Location.latRangeList(latitude, height,level);
 		List<Double> lonRange = Location.lonRangeList(longitude, width,level);
 		int count = 0;
 		for (int i = 0; i < level; i++) {
