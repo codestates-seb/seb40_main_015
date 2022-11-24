@@ -25,8 +25,7 @@ const BooksDetailPage = () => {
 		queryFn: () => getBookDetail(bookId),
 	});
 
-	console.log(isLoading, data);
-
+	console.log(data);
 	if (isLoading) return <Animation />;
 	return (
 		<Main>
@@ -39,6 +38,7 @@ const BooksDetailPage = () => {
 				<BookDetail book={data?.book} merchant={data?.merchant} />
 			</BodyContainer>
 
+			{/* 글 주인한테는 버튼이 어떻게 보여야할까? */}
 			{data?.book?.state === '예약불가' ? (
 				<Button backgroundColor={'grey'}>대여/예약 불가</Button>
 			) : data?.book?.state === '대여가능' ? (

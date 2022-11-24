@@ -81,6 +81,7 @@ const BookDetail = ({ book, merchant }: BookDetailProps) => {
 			</BookRentalFee> */}
 
 			<BookDsc>
+				<legend>내용</legend>
 				<div>{book?.content}</div>
 			</BookDsc>
 		</>

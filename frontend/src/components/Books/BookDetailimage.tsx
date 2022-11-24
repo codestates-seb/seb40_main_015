@@ -1,6 +1,7 @@
 import styled from 'styled-components';
 import { useState } from 'react';
 import { HiHeart, HiOutlineHeart, HiOutlineTrash } from 'react-icons/hi';
+
 // types
 import { BookDetailProps } from './type';
 import { useAppSelector } from '../../redux/hooks';
@@ -13,17 +14,26 @@ const BookImage = ({ book, merchant }: BookDetailProps) => {
 	const { id } = useAppSelector(state => state.loginInfo);
 	const [active, setActive] = useState(false);
 	const { postWishItem } = useBooksAPI();
+
+	// 찜하기 post요청 쿼리
 	const { mutate } = useMutation({
 		mutationFn: () => postWishItem(book?.bookId),
 		onSuccess: () => {
 			console.log('wish req complete');
 		},
 	});
+	const HandleDeleteIcon = () => {
+		const result = window.confirm('정말로 삭제하시겠습니까?');
+		console.log('IsDelete: ', result);
+	};
 
 	const HandleWishIcon = () => {
 		setActive(!active);
-		active || mutate();
-		active || notify('찜 목록에 추가되었습니다.');
+		// active || mutate();
+		active ||
+			notify(
+				'찜 목록에 추가되었습니다. 실제로 요청 가진 않아요. 취소 기능이랑 함께 구현할 예정',
+			);
 	};
 	return (
 		<BookImgWrapper>
@@ -39,7 +49,11 @@ const BookImage = ({ book, merchant }: BookDetailProps) => {
 				''
 			)}
 
-			{id === merchant?.merchantId ? <Deleticon /> : ''}
+			{id === merchant?.merchantId ? (
+				<Deleticon onClick={HandleDeleteIcon} />
+			) : (
+				''
+			)}
 
 			{id !== merchant?.merchantId ? (
 				active ? (
@@ -71,6 +85,7 @@ const Deleticon = styled(HiOutlineTrash)`
 	right: 1rem;
 	cursor: pointer;
 `;
+
 const WishiconOn = styled(HiHeart)`
 	font-size: 32px;
 	color: ${props => props.theme.colors.logoGreen};
@@ -78,6 +93,19 @@ const WishiconOn = styled(HiHeart)`
 	right: 1rem;
 	bottom: 0;
 	cursor: pointer;
+
+	@keyframes wishBeat {
+		50% {
+			opacity: 1;
+			transform: scale(1.2);
+		}
+		100% {
+			transform: none;
+		}
+	}
+	will-change: transform;
+	animation: wishBeat 0.4s linear;
+	animation-fill-mode: forwards;
 `;
 const WishiconOff = styled(HiOutlineHeart)`
 	font-size: 30px;
@@ -115,4 +143,5 @@ const BookNotAvailable = styled.div`
 		}
 	}
 `;
+
 export default BookImage;
