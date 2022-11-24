@@ -61,10 +61,15 @@ export const useBooksAPI = () => {
 	// book detail page wish
 	const postWishItem = async (bookid: number | undefined) =>
 		await api.post(`/dibs/${bookid}`);
+
+	const deleteBook = async (id: number | undefined) =>
+		await api.delete(`/books/${id}`);
+
 	return {
 		getAllBooksList,
 		getBookDetail,
 		getAllBooksListInfinite,
 		postWishItem,
+		deleteBook,
 	};
 };

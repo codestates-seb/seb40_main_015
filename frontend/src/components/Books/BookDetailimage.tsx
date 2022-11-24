@@ -1,39 +1,49 @@
 import styled from 'styled-components';
 import { useState } from 'react';
 import { HiHeart, HiOutlineHeart, HiOutlineTrash } from 'react-icons/hi';
+import { useNavigate } from 'react-router-dom';
+import { useMutation } from '@tanstack/react-query';
+import { useAppSelector } from '../../redux/hooks';
+import { useNotifyHook } from '../../hooks/useNotify';
+import { useBooksAPI } from '../../api/books';
 
 // types
 import { BookDetailProps } from './type';
-import { useAppSelector } from '../../redux/hooks';
-import { useNotifyHook } from '../../hooks/useNotify';
-import { useMutation } from '@tanstack/react-query';
-import { useBooksAPI } from '../../api/books';
 
 const BookImage = ({ book, merchant }: BookDetailProps) => {
 	const notify = useNotifyHook();
 	const { id } = useAppSelector(state => state.loginInfo);
+	const navigate = useNavigate();
 	const [active, setActive] = useState(false);
-	const { postWishItem } = useBooksAPI();
+	const { postWishItem, deleteBook } = useBooksAPI();
 
 	// 찜하기 post요청 쿼리
-	const { mutate } = useMutation({
+	const { mutate: mutateWish } = useMutation({
 		mutationFn: () => postWishItem(book?.bookId),
 		onSuccess: () => {
 			console.log('wish req complete');
 		},
 	});
+
+	// 삭제하기 delete 요청 쿼리
+	const { mutate: mutateDelete } = useMutation({
+		mutationFn: () => deleteBook(book?.bookId),
+	});
 	const HandleDeleteIcon = () => {
 		const result = window.confirm('정말로 삭제하시겠습니까?');
-		console.log('IsDelete: ', result);
+		result && mutateDelete();
+		result && navigate('/books');
 	};
 
 	const HandleWishIcon = () => {
 		setActive(!active);
-		// active || mutate();
-		active ||
-			notify(
-				'찜 목록에 추가되었습니다. 실제로 요청 가진 않아요. 취소 기능이랑 함께 구현할 예정',
-			);
+		// active || mutateWish();
+
+		// notify 메시지 계속 남아있는 오류 해결 후에 사용. 삭제버튼에도 알림멘션줄까
+		// active ||
+		// 	notify(
+		// 		'찜 목록에 추가되었습니다. 실제로 요청 가진 않아요. 취소 기능이랑 함께 구현할 예정',
+		// 	);
 	};
 	return (
 		<BookImgWrapper>
