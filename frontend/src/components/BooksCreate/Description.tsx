@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { useAppDispatch } from '../../redux/hooks';
-import { updateDescription } from '../../redux/slice/bookCreateSlice';
+import { updateRentalInfo } from '../../redux/slice/bookCreateSlice';
 import notify from '../../utils/notify';
 import { BookInfo } from '../Books/BookElements';
 
@@ -16,7 +16,7 @@ const Description = () => {
 		if (!text) {
 			notify(dispatch, '본문을 입력해 주세요');
 		} else {
-			dispatch(updateDescription(text));
+			dispatch(updateRentalInfo({ key: 'description', value: text }));
 		}
 	};
 

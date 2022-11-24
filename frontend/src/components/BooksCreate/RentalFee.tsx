@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import styled from 'styled-components';
 import { useAppDispatch } from '../../redux/hooks';
-import { updateRentalFee } from '../../redux/slice/bookCreateSlice';
+import { updateRentalInfo } from '../../redux/slice/bookCreateSlice';
 import notify from '../../utils/notify';
 import { BookInfo } from '../Books/BookElements';
 
@@ -19,7 +19,7 @@ const RentalFee = () => {
 			notify(dispatch, '대여료는 100원 단위여야 합니다.');
 		} else {
 			setIsValid(true);
-			dispatch(updateRentalFee(fee));
+			dispatch(updateRentalInfo({ key: 'rentalFee', value: fee }));
 		}
 	};
 
