@@ -33,6 +33,7 @@ const BookItem = ({
 		navigate(`/books/${bookId}`);
 	};
 	return (
+		// <BookContainer to={`/books/${bookId}`}>
 		<BookContainer onClick={handleBookDetailPage}>
 			{/* <BookInfo>
 				<BookImage>
@@ -57,9 +58,9 @@ const BookItem = ({
 				bookImage={bookImage}
 				publisher={publisher}
 				author={author}
-				merchantName={merchantName}
 				rentalfee={rentalfee}
 				rental={rental}
+				merchantName={merchantName}
 			/>
 			<BookItemState
 				status={status}
@@ -76,7 +77,7 @@ const BookContainer = styled.div`
 	width: 90vw;
 
 	padding: 14px;
-	margin: 10px 0;
+	margin-bottom: 6px;
 
 	border: 1px solid rgba(1, 1, 1, 0.1);
 	border-radius: 5px;
