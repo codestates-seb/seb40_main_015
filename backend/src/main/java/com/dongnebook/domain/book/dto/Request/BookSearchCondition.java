@@ -1,4 +1,4 @@
-package com.dongnebook.domain.book.dto.request;
+package com.dongnebook.domain.book.dto.Request;
 
 import javax.validation.constraints.Max;
 
@@ -16,18 +16,18 @@ public class BookSearchCondition {
 	private final Double longitude;
 	private final Double latitude;
 	private final Integer width;
-	private final Integer length;
+	private final Integer height;
 	private final Integer sector;
 	@Max(10)
 	private final Integer level;
 
-	public BookSearchCondition(String bookTitle, Double longitude, Double latitude, Integer width, Integer length,
+	public BookSearchCondition(String bookTitle, Double longitude, Double latitude, Integer width, Integer height,
 		Integer sector, Integer level) {
 		this.bookTitle = bookTitle == null ? "" : bookTitle;
 		this.longitude = longitude;
 		this.latitude = latitude;
 		this.width = width == null ? 1000 : width * 50;
-		this.length = length == null ? 1000 : length * 50;
+		this.height = height == null ? 1000 : height * 50;
 		this.sector = sector;
 		this.level = level;
 	}
