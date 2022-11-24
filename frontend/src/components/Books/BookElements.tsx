@@ -6,9 +6,6 @@ import styled from 'styled-components';
 const Main = styled.div`
 	display: flex;
 	flex-direction: column;
-
-	/* font-size: calc(12px + 0.4vw); */
-	/* font-size: ${props => [props.theme.fontSizes.subtitle]}; */
 	padding-bottom: 30px;
 `;
 const TitleWrapper = styled.div``;
@@ -26,8 +23,9 @@ const Div = styled.fieldset`
 	border-radius: 4px;
 	border: 1px solid rgba(1, 1, 1, 0.2);
 
-	padding: 0.8rem;
-	margin: 0.6rem 0;
+	padding: 1rem 1.2rem;
+	/* margin: 0.6rem 0; */
+	margin: 0.7rem 0;
 
 	legend {
 		padding: 0 0.4rem;
@@ -37,12 +35,6 @@ const Div = styled.fieldset`
 const BookInfo = styled(Div)`
 	display: flex;
 	align-items: center;
-	.partition {
-		width: 2px;
-		height: 20px;
-		background-color: rgba(1, 1, 1, 0.3);
-		margin-left: 1rem;
-	}
 
 	.book--info__photo {
 		width: 100%;
@@ -62,10 +54,7 @@ const BookInfo = styled(Div)`
 	}
 
 	label {
-		/* font-size: calc(12px + 0.4vw); */
 		font-size: ${props => [props.theme.fontSizes.subtitle]};
-
-		margin-left: 1rem;
 	}
 
 	input {
@@ -81,8 +70,7 @@ const BookInfo = styled(Div)`
 	}
 
 	textarea {
-		/* font-size: 20px; */
-		font-size: ${props => [props.theme.fontSizes.paragraph]};
+		font-size: ${props => [props.theme.fontSizes.subtitle]};
 		width: 100%;
 		height: 20vh;
 		background-color: transparent;
@@ -112,7 +100,31 @@ const BookInfo = styled(Div)`
 		}
 	}
 `;
+const BookContainer = styled.div`
+	display: flex;
+	flex-direction: column;
+	justify-content: flex-start;
+`;
+const BookTitle = styled.div`
+	label {
+		/* font-size: ${props => props.theme.fontSizes.maintitle}; */
+		font-size: 2rem;
+	}
+	margin-bottom: 0.6rem;
+`;
+const BookSubTitle = styled.div`
+	label {
+		font-size: ${props => props.theme.fontSizes.paragraph};
+	}
+	margin-left: 0.3rem;
+`;
 
+const Partition = styled.span`
+	width: 1px;
+	height: 20px;
+	/* background-color: rgba(1, 1, 1, 0.2); */
+	margin: 0 0.5rem;
+`;
 const BookRentalFee = styled(Div)`
 	border: none;
 	display: flex;
@@ -138,40 +150,51 @@ const BookRentalFee = styled(Div)`
 	}
 `;
 
-const MerchantInfo = styled(Div)`
-	font-size: 1.4rem;
+const MerchantInfo = styled.div`
 	display: flex;
-
 	justify-content: space-between;
 	align-items: center;
 
-	div {
-		&:nth-child(1) {
-			display: flex;
-			justify-content: space-between;
-			align-items: center;
-			cursor: pointer;
-		}
-
-		&:nth-child(2) {
-			font-size: 1.1rem;
-
-			display: flex;
-			justify-content: space-between;
-			align-items: center;
-
-			width: 30%;
-			height: 2rem;
-			border-radius: 4px;
-			border: 1px solid rgba(1, 1, 1, 0.4);
-			padding: 0 0.6rem;
+	a {
+		display: flex;
+		justify-content: space-between;
+		align-items: center;
+		cursor: pointer;
+		span {
+			font-size: ${props => props.theme.fontSizes.subtitle};
 		}
 	}
+`;
+
+const MerchantGrade = styled.div`
+	display: flex;
+	justify-content: flex-end;
+	/* font-size: 1.1rem; */
+	/* width: 30%; */
+	/* height: 2rem; */
+	/* border-radius: 4px; */
+	/* border: 1px solid rgba(1, 1, 1, 0.4); */
+	/* padding: 0 0.6rem; */
+`;
+
+const RentalInfo = styled.div`
+	display: flex;
+	flex-direction: column;
+	label {
+		font-size: 1.4rem;
+		margin-bottom: 0.6rem;
+	}
+	/* justify-content: center; */
+	/* align-items: center; */
+	/* justify-content: space-between; */
 `;
 
 const BookDsc = styled(Div)`
 	height: 20vh;
 	margin-bottom: 1rem;
+	div {
+		font-size: 20px;
+	}
 `;
 const LinkStyled = styled(Link)`
 	display: flex;
@@ -186,6 +209,12 @@ export {
 	BookInfo,
 	BookRentalFee,
 	MerchantInfo,
+	MerchantGrade,
+	RentalInfo,
 	BookDsc,
 	LinkStyled,
+	BookContainer,
+	BookTitle,
+	BookSubTitle,
+	Partition,
 };
