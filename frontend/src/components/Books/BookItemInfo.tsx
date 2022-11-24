@@ -23,7 +23,7 @@ const BookItemInfo = ({
 	bookImage = '',
 	publisher = '',
 	author = '',
-	rentalfee = 0,
+	rentalfee = 100,
 	merchantName = '',
 	rental = {
 		rentalId: '',
@@ -64,18 +64,19 @@ const BookInfo = styled.div`
 const BookImage = styled.div`
 	margin-right: 16px;
 	img {
-		width: 7em;
-		height: 9rem;
+		width: 9em;
+		height: 11rem;
 		background-color: ${props => props.theme.colors.grey};
 	}
 `;
 const BookDetail = styled.div`
 	display: flex;
 	flex-direction: column;
-	justify-content: space-between;
+	/* justify-content: space-between; */
 	padding: 5px 0;
 	p {
-		padding: 3px;
+		font-size: 1.2rem;
+		margin: 0.4rem 0;
 	}
 `;
 
