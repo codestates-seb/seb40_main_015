@@ -47,7 +47,7 @@ const BookImage = ({ book, merchant }: BookDetailProps) => {
 	};
 	return (
 		<BookImgWrapper>
-			<BookImg src={''} alt="Book_image" />
+			<BookImg src={book?.bookImgUrl} alt="Book_image" />
 
 			{book?.state !== '대여가능' ? (
 				<BookNotAvailable>
@@ -128,7 +128,7 @@ const WishiconOff = styled(HiOutlineHeart)`
 `;
 const BookImg = styled.img`
 	width: 18rem;
-	height: 20rem;
+	height: 21rem;
 `;
 const BookNotAvailable = styled.div`
 	width: 18rem;

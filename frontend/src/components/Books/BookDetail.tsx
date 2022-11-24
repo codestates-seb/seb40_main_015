@@ -50,7 +50,7 @@ const BookDetail = ({ book, merchant }: BookDetailProps) => {
 				<legend>상인 정보</legend>
 				<MerchantInfo>
 					<Link to={`/profile/merchant/${merchant?.merchantId}`}>
-						<MerchantImg src={''} />
+						<MerchantImg src={merchant?.avatarUrl} />
 						<span>{merchant?.name}</span>
 					</Link>
 					<MerchantGrade>

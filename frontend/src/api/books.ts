@@ -32,11 +32,13 @@ interface IBook {
 		rentalfee: number;
 		rentalStart: string;
 		rentalEnd: string;
+		bookImgUrl: string;
 	};
 	merchant: {
 		merchantId: number;
 		name: string;
 		grade: number;
+		avatarUrl: string;
 	};
 }
 

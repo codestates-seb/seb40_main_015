@@ -37,11 +37,13 @@ export interface IBookDetail {
 	rentalStart: string | null;
 	state?: string;
 	title: string;
+	bookImgUrl: string;
 }
 export interface BookMerchant {
 	grade: number;
 	merchantId: number;
 	name: string;
+	avatarUrl: string;
 }
 export interface BookDetailProps {
 	book: IBookDetail | undefined;
