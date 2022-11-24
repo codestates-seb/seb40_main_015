@@ -114,6 +114,7 @@ public class BookController {
 		URI uri = UriComponentsBuilder.fromHttpUrl(testurl)
 			.queryParam("query", bookTitle)
 			.queryParam("target", "title")
+			.queryParam("size",50)
 			.build().toUri();
 
 		RestTemplate restTemplate = new RestTemplate();
