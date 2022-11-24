@@ -8,15 +8,17 @@ interface Props {
 const MerchantLists = (props: Props) => {
 	const { merchantList } = props;
 	const navigate = useNavigate();
-	// const handleSearchMerchantInfo = (id: string) => {
-	// 	navigate(`/profile/${id}`);
-	// };
+	const handleSearchMerchantInfo = (id: string) => {
+		navigate(`/profile/merchant/${id}`);
+	};
 	return (
 		<Box>
-			{merchantList?.content.map((item: any) => {
+			{merchantList?.map((item: any) => {
 				const { merchantName, merchantId } = item;
 				return (
-					<List key={merchantId}>
+					<List
+						key={merchantId}
+						onClick={() => handleSearchMerchantInfo(merchantId)}>
 						<div className="book"> {merchantName}</div>
 					</List>
 				);
@@ -27,7 +29,8 @@ const MerchantLists = (props: Props) => {
 
 const Box = styled.div`
 	overflow-y: scroll;
-	height: 220px;
+	min-height: 70px;
+	max-height: 220px;
 `;
 
 const List = styled.div`
