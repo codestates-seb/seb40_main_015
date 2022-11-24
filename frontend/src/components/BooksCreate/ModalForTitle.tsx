@@ -7,13 +7,11 @@ import SearchItem from './SearchItem';
 interface ModalDefaultType {
 	isModalOpened: boolean;
 	setIsModalOpened: Function;
-	setTitle: Function;
 }
 
 const ModalForTitle = ({
 	isModalOpened,
 	setIsModalOpened,
-	setTitle,
 }: ModalDefaultType) => {
 	const [searchText, setSearchText] = useState('');
 	const [bookData, setBookData] = useState([]);
@@ -48,7 +46,11 @@ const ModalForTitle = ({
 						</ModalForm>
 						<SearchItems>
 							{bookData.map((el, idx) => (
-								<SearchItem key={idx} content={el} setTitle={setTitle} />
+								<SearchItem
+									key={idx}
+									content={el}
+									setIsModalOpened={setIsModalOpened}
+								/>
 							))}
 						</SearchItems>
 					</DialogBox>

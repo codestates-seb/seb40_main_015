@@ -5,10 +5,9 @@ import ModalForTitle from './ModalForTitle';
 
 interface SearchFormProps {
 	title: string;
-	setTitle: Function;
 }
 
-const SearchForm = ({ title, setTitle }: SearchFormProps) => {
+const SearchForm = ({ title }: SearchFormProps) => {
 	const [isModalOpened, setIsModalOpened] = useState(false);
 
 	const handleTitleClick = () => {
@@ -30,7 +29,6 @@ const SearchForm = ({ title, setTitle }: SearchFormProps) => {
 			<ModalForTitle
 				isModalOpened={isModalOpened}
 				setIsModalOpened={setIsModalOpened}
-				setTitle={setTitle}
 			/>
 		</StyledSearchForm>
 	);

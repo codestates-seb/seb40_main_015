@@ -10,6 +10,7 @@ import {
 } from '../components/Books/BookElements';
 import Button from '../components/common/Button';
 import SearchForm from '../components/BooksCreate/SearchForm';
+import { useAppSelector } from '../redux/hooks';
 
 interface PayloadType {
 	title: string;
@@ -21,18 +22,21 @@ interface PayloadType {
 }
 
 const BooksCreatePage = () => {
-	const [title, setTitle] = useState('');
-	const [author, setAuthor] = useState('');
-	const [publisher, setPublisher] = useState('');
+	// const [title, setTitle] = useState('');
+	// const [authors, setAuthor] = useState('');
+	// const [publisher, setPublisher] = useState('');
 	const [rentalFee, setRentalFee] = useState('');
 	const [description, setDescription] = useState('');
 	const [imageUrl, setImageUrl] = useState('');
 	// const location = useAppSelector(state => state.login.location)
 
+	const bookInfo = useAppSelector(state => state.persistedReducer.bookInfo);
+	const { title, authors, publisher } = bookInfo;
+
 	const payload = {
-		title,
-		author,
-		publisher,
+		// title,
+		// authors,
+		// publisher,
 		rentalFee,
 		description,
 		imageUrl,
@@ -60,12 +64,12 @@ const BooksCreatePage = () => {
 			<BodyContainer>
 				<BookInfo>
 					<div>
-						<SearchForm title={title} setTitle={setTitle} />
+						<SearchForm title={title} />
 						<div className="book--info__default">
 							<label>저자 :</label>
-							<input type="text" value="저자" disabled />
+							<input type="text" value={authors} readOnly disabled />
 							<label>출판사 :</label>
-							<input type="text" value="출판사" disabled />
+							<input type="text" value={publisher} readOnly disabled />
 						</div>
 					</div>
 				</BookInfo>

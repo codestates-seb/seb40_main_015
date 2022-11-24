@@ -1,4 +1,6 @@
 import styled from 'styled-components';
+import { useAppDispatch } from '../../redux/hooks';
+import { updateBookInfo } from '../../redux/slice/bookCreateSlice';
 
 interface SearchItemProps {
 	content: {
@@ -6,13 +8,16 @@ interface SearchItemProps {
 		authors: string[];
 		publisher: string;
 	};
-	setTitle: Function;
+	setIsModalOpened: Function;
 }
 
-const SearchItem = ({ content, setTitle }: SearchItemProps) => {
+const SearchItem = ({ content, setIsModalOpened }: SearchItemProps) => {
 	const { title, authors, publisher } = content;
+	const dispatch = useAppDispatch();
+
 	const handleBookSelect = () => {
-		setTitle(title);
+		dispatch(updateBookInfo(content));
+		setIsModalOpened(false);
 	};
 	return (
 		<StyledSearchItem onClick={handleBookSelect}>
