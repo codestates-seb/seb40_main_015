@@ -59,17 +59,7 @@ const BooksCreatePage = () => {
 				<Title text="책 등록하기" />
 			</TitleWrapper>
 			<BodyContainer>
-				<BookInfo>
-					<div>
-						<SearchForm title={title} />
-						<div className="book--info__default">
-							<label>저자 :</label>
-							<input type="text" value={authors} readOnly disabled />
-							<label>출판사 :</label>
-							<input type="text" value={publisher} readOnly disabled />
-						</div>
-					</div>
-				</BookInfo>
+				<SearchForm />
 				<BookInfo>
 					<input
 						className="book--info__fee"

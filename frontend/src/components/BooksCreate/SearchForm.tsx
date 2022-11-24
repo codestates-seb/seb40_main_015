@@ -1,49 +1,74 @@
 import { useState } from 'react';
 import { HiOutlineSearch } from 'react-icons/hi';
 import styled from 'styled-components';
+import { useAppSelector } from '../../redux/hooks';
+import { BookInfo } from '../Books/BookElements';
 import ModalForTitle from './ModalForTitle';
 
-interface SearchFormProps {
-	title: string;
-}
-
-const SearchForm = ({ title }: SearchFormProps) => {
+const SearchForm = () => {
 	const [isModalOpened, setIsModalOpened] = useState(false);
+	const bookInfo = useAppSelector(state => state.persistedReducer.bookInfo);
+	const { title, authors, publisher } = bookInfo;
+	const titleView = title.length < 20 ? title : title.slice(0, 20) + '...';
 
 	const handleTitleClick = () => {
 		setIsModalOpened(pre => !pre);
 	};
 
-	const titleView = title.length < 20 ? title : title.slice(0, 20) + '...';
-
 	return (
-		<StyledSearchForm>
-			<input
-				onClick={() => handleTitleClick()}
-				type="text"
-				placeholder="책 제목을 입력해 주세요."
-				value={titleView}
-				readOnly
-			/>
-			<SubmitButton>
-				<SearchIcon />
-			</SubmitButton>
+		<StyledBookInfo>
+			<InputWrapper>
+				<input
+					onClick={() => handleTitleClick()}
+					type="text"
+					placeholder="책 제목을 입력해 주세요."
+					value={titleView}
+					readOnly
+				/>
+				<SubmitButton>
+					<SearchIcon />
+				</SubmitButton>
+			</InputWrapper>
 			<ModalForTitle
 				isModalOpened={isModalOpened}
 				setIsModalOpened={setIsModalOpened}
 			/>
-		</StyledSearchForm>
+			<AuthorAndPublisher>
+				<label>저자 :</label>
+				<input type="text" value={authors} readOnly disabled />
+				<label>출판사 :</label>
+				<input type="text" value={publisher} readOnly disabled />
+			</AuthorAndPublisher>
+		</StyledBookInfo>
 	);
 };
 
-const StyledSearchForm = styled.div`
-	margin-bottom: 1rem;
-	padding: 0.2rem 0;
+const StyledBookInfo = styled(BookInfo)`
+	display: grid;
+`;
+
+const InputWrapper = styled.div`
 	padding-bottom: 0.4rem;
-	border-bottom: 1px solid rgba(1, 1, 1, 0.3);
 	position: relative;
+	padding: 0.2rem 0;
+	margin-bottom: 1rem;
+	border-bottom: 1px solid rgba(1, 1, 1, 0.3);
 	input {
 		cursor: pointer;
+	}
+`;
+
+const AuthorAndPublisher = styled.div`
+	display: flex;
+	font-size: 14px;
+	label {
+		width: fit-content;
+		font-size: inherit;
+		white-space: nowrap;
+		margin: 0;
+	}
+	input {
+		font-size: inherit;
 	}
 `;
 

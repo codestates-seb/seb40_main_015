@@ -96,20 +96,6 @@ const BookInfo = styled(Div)`
 
 	div {
 		width: 100%;
-
-		.book--info__default {
-			display: flex;
-			font-size: 14px;
-			label {
-				width: fit-content;
-				font-size: inherit;
-				white-space: nowrap;
-				margin: 0;
-			}
-			input {
-				font-size: inherit;
-			}
-		}
 	}
 `;
 
