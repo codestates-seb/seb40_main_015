@@ -7,6 +7,7 @@ interface bookCreateInterface {
 		publisher: string;
 	};
 	rentalInfo: {
+		[key: string]: number | string;
 		rentalFee: number;
 		description: string;
 		imageUrl: string;
@@ -40,10 +41,18 @@ const bookCreateSlice = createSlice({
 		updateDescription: (state, action) => {
 			state.rentalInfo.description = action.payload;
 		},
+		updateRentalInfo: (state, action) => {
+			const { key } = action.payload;
+			state.rentalInfo[key] = action.payload.value;
+		},
 	},
 });
 
-export const { updateBookInfo, updateRentalFee, updateDescription } =
-	bookCreateSlice.actions;
+export const {
+	updateBookInfo,
+	updateRentalFee,
+	updateDescription,
+	updateRentalInfo,
+} = bookCreateSlice.actions;
 
 export default bookCreateSlice.reducer;
