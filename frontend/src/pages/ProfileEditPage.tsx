@@ -149,6 +149,7 @@ function ProfileEditPage() {
 				</div>
 				<Button
 					onClick={() => {
+						//저장 후 바로 프로필 페이지로 가지 않게 수정
 						const isconfirm = window.confirm('해당 정보로 수정하시겠습니까?');
 						if (!isconfirm) return;
 						mutate();
