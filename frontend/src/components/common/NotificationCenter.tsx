@@ -4,7 +4,9 @@ import Toast from './Toast';
 import { payloadType } from '../../redux/slice/notificationSlice';
 
 const NotificationCenter = () => {
-	const state = useAppSelector(state => state.persistedReducer.messages);
+	const state = useAppSelector(
+		state => state.persistedReducer.notification.messages,
+	);
 
 	return (
 		<StyledNotificationCenter>
