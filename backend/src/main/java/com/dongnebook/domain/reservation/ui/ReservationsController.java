@@ -4,6 +4,8 @@ import com.dongnebook.domain.reservation.application.ReservationService;
 import com.dongnebook.global.Login;
 import com.dongnebook.global.config.security.auth.userdetails.AuthMember;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -14,12 +16,16 @@ public class ReservationsController {
     private final ReservationService reservationService;
 
     @PostMapping("{bookId}")
-    public void postReservation(@PathVariable Long bookId, @Login AuthMember member) {
+    public ResponseEntity<Void> postReservation(@PathVariable Long bookId, @Login AuthMember member) {
         reservationService.createReservation(bookId, member.getMemberId());
+        return new ResponseEntity<>(HttpStatus.CREATED);
     }
 
 
-//    @GetMapping("/")
-//    public ResponseEntity<SliceImpl<>>
+    @DeleteMapping("cancel/{reservationId}")
+    public ResponseEntity<Void> deleteReservation(@PathVariable("reservationId") Long reservationId, @Login AuthMember member){
+        reservationService.cancelReservation(reservationId, member.getMemberId());
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+    }
 
 }

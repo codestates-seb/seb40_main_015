@@ -24,4 +24,16 @@ public class ReservationQueryRepository {
                 .fetch();
     }
 
+//    public List<Reservation> getReservationById(Long reservationId){
+//        return jpaQueryFactory.selectFrom(reservation)
+//                .where(reservation.id.eq(reservationId))
+//                .fetch();
+//    }
+
+    public Reservation getReservationById(Long reservationId){
+        return jpaQueryFactory.selectFrom(reservation)
+                .where(reservation.id.eq(reservationId))
+                .fetchOne();
+    }
+
 }

@@ -6,7 +6,7 @@ import com.dongnebook.global.error.exception.ErrorCode;
 public class CanNotChangeReservationStateException extends BusinessException {
 
     public CanNotChangeReservationStateException(){
-        super(ErrorCode.NOT_CHANGEABLE_RESERVATIONSTATE.getMessage(), ErrorCode.NOT_CHANGEABLE_RESERVATIONSTATE);
+        super(ErrorCode.NOT_CHANGEABLE_RESERVATION_STATE.getMessage(), ErrorCode.NOT_CHANGEABLE_RESERVATION_STATE);
     }
 
 }
