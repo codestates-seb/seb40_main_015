@@ -7,6 +7,7 @@ import useGeoLocation from '../hooks/useGeoLocation';
 import { useFixInfo } from '../components/Member/hooks/useFixInfo';
 import axios from 'axios';
 import { BASE_URL } from '../constants/constants';
+import { useNavigate } from 'react-router-dom';
 
 function ProfileEditPage() {
 	//현재 위치 수정

@@ -3,7 +3,6 @@ import styled from 'styled-components';
 import Button from '../common/Button';
 import useGeoLocation2 from '../../hooks/useGeoLocation2';
 import { useNavigate } from 'react-router-dom';
-import { useFixInfo } from '../Member/hooks/useFixInfo';
 
 interface ModalDefaultType {
 	onClickToggleModal: () => void;
@@ -15,6 +14,7 @@ function Modal({
 }: PropsWithChildren<ModalDefaultType>) {
 	const location = useGeoLocation2();
 	const navigate = useNavigate();
+
 	return (
 		<ModalContainer>
 			<DialogBox>
@@ -27,7 +27,16 @@ function Modal({
 				</div>
 				<div className="btn">
 					<Button className="btn1">예</Button>
-					<Button className="btn2">아니오</Button>
+					<Button
+						className="btn2"
+						onClick={(e: React.MouseEvent) => {
+							e.preventDefault();
+							if (onClickToggleModal) {
+								onClickToggleModal();
+							}
+						}}>
+						아니오
+					</Button>
 				</div>
 			</DialogBox>
 			<Backdrop
