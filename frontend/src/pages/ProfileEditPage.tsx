@@ -3,11 +3,7 @@ import styled from 'styled-components';
 import Title from '../components/common/Title';
 import Button from '../components/common/Button';
 import Modal from '../components/common/Modal';
-import { useInputImage } from '../components/Member/hooks/useInputImage';
 import useGeoLocation from '../hooks/useGeoLocation';
-import { useMypageAPI } from '../api/mypage';
-import { useQuery, useMutation } from '@tanstack/react-query';
-import { useNavigate } from 'react-router-dom';
 import { useFixInfo } from '../components/Member/hooks/useFixInfo';
 import axios from 'axios';
 import { BASE_URL } from '../constants/constants';
@@ -131,7 +127,7 @@ function ProfileEditPage() {
 				/>
 				<p className="minititle">닉네임</p>
 				<div className="input">
-					<input placeholder="" disabled={false} />
+					<input placeholder="수정할 닉네임을 작성하세요" disabled={false} />
 				</div>
 				<p className="minititle">내 동네 설정</p>
 				<div className="input">
