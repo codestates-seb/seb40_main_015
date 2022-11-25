@@ -113,6 +113,7 @@ const Container = styled.div`
 	padding: 10px 0;
 	border-top: 1px solid ${props => props.theme.colors.headerBorder};
 	background-color: #f6f5ef;
+	z-index: 999;
 `;
 
 interface BoxProps {
