@@ -1,4 +1,4 @@
-import { useAppSelector } from '../redux/hooks';
+import { useAppDispatch, useAppSelector } from '../redux/hooks';
 import Title from '../components/common/Title';
 import {
 	BookInfo,
@@ -12,12 +12,17 @@ import RentalFee from '../components/BooksCreate/RentalFee';
 import Description from '../components/BooksCreate/Description';
 import Photo from '../components/BooksCreate/Photo';
 import useAPI from '../hooks/useAPI';
+import { makeCreateBookMessages } from '../utils/makeCreateBookMessages';
+import notify from '../utils/notify';
 
 const BooksCreatePage = () => {
 	const bookCreate = useAppSelector(state => state.persistedReducer.bookCreate);
 	const { title, authors, publisher } = bookCreate.bookInfo;
 	const { rentalFee, description, imageUrl } = bookCreate.rentalInfo;
+	const createBookMessages = makeCreateBookMessages(bookCreate);
 	const api = useAPI();
+	const dispatch = useAppDispatch();
+	const goNotify = (message: string) => notify(dispatch, message);
 
 	const payload = {
 		title,
@@ -28,8 +33,23 @@ const BooksCreatePage = () => {
 		imageUrl,
 	};
 
+	const isValid = () => {
+		const values = Object.values(payload);
+		for (let i = 0; i < values.length; i++) {
+			if (!values[i]) return false;
+		}
+		return true;
+	};
+
 	const handleCreate = () => {
-		api.post('/books', payload).then(res => console.log(res));
+		createBookMessages.forEach((message, notifyCase) => {
+			if (notifyCase) {
+				goNotify(message);
+			}
+		});
+		if (isValid()) {
+			api.post('/books', payload).then(res => console.log(res));
+		}
 	};
 
 	return (

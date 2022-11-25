@@ -13,11 +13,7 @@ const Description = () => {
 	};
 
 	const handleBlur = () => {
-		if (!text) {
-			notify(dispatch, '본문을 입력해 주세요');
-		} else {
-			dispatch(updateRentalInfo({ key: 'description', value: text }));
-		}
+		dispatch(updateRentalInfo({ key: 'description', value: text }));
 	};
 
 	return (
