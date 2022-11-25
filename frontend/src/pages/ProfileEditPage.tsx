@@ -33,8 +33,8 @@ function ProfileEditPage() {
 		const formData = new FormData();
 		if (files) {
 			const fileRef = files[0];
-			setFile(fileRef);
-			formData.append('img', fileRef);
+			// setFile(fileRef);
+			// formData.append('img', fileRef);
 			axios.post(`${BASE_URL}/upload`, formData).then(res => console.log(res));
 		} else {
 			//업로드 취소할 시
@@ -77,6 +77,36 @@ function ProfileEditPage() {
 		};
 		reader.readAsDataURL(files[0]);
 	};
+
+	//유저 이미지 수정
+	// const [File, setFile] = useState<File | undefined>();
+	// const [Image, setImage] = useState<string>(
+	// 	'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png',
+	// );
+	// const fileInput = useRef<any>(null);
+	// const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+	// 	console.log('');
+	// 	const files = e.currentTarget.files as FileList;
+	// 	if (files) {
+	// 		setFile(files[0]);
+	// 	} else {
+	// 		//업로드 취소할 시
+	// 		setImage(
+	// 			'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png',
+	// 		);
+	// 		return;
+	// 	}
+
+	//화면에 프로필 사진 표시
+	// 	const reader = new FileReader();
+	// 	reader.onload = () => {
+	// 		if (reader.readyState === 2 && reader.result) {
+	// 			console.log(reader);
+	// 			setImage(`${reader.result}`);
+	// 		}
+	// 	};
+	// 	reader.readAsDataURL(files[0]);
+	// };
 
 	return (
 		<Layout>

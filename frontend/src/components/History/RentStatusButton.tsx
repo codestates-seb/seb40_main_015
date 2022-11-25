@@ -26,9 +26,9 @@ const RentStatusButton = ({ status, merchantName, rental }: Props) => {
 	const handleStatusChange = (
 		status: string,
 		id: string,
-		e?: React.MouseEvent<HTMLButtonElement, MouseEvent>,
+		e?: React.SyntheticEvent,
 	) => {
-		e?.preventDefault();
+		e?.stopPropagation();
 		switch (status) {
 			case 'TRADING':
 				const action = (e?.target as HTMLButtonElement).textContent;
@@ -60,7 +60,7 @@ const RentStatusButton = ({ status, merchantName, rental }: Props) => {
 				<Button backgroundColor="grey">대여중</Button>
 			)}
 			{status === 'RETURN_UNREVIEWED' && (
-				<Button onClick={() => handleStatusChange(status, merchantName)}>
+				<Button onClick={e => handleStatusChange(status, merchantName, e)}>
 					리뷰 남기기
 				</Button>
 			)}
