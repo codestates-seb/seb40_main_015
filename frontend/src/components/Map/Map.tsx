@@ -1,8 +1,7 @@
 import { useEffect, useState, useRef, Dispatch, SetStateAction } from 'react';
-import styled, { keyframes } from 'styled-components';
+import styled, { css, keyframes } from 'styled-components';
 import { getTotalMerchant } from '../../api/map';
 import BookLists from './BookLists';
-import { data, dummyMerchantList, bookCount } from './dummy';
 import MerchantLists from './MerchantLists';
 
 declare global {
@@ -62,6 +61,7 @@ const Map = (props: MapProps) => {
 		setZoomLevel,
 	} = props;
 	const [centerCoord, setCenterCoord] = useState({ La: '0', Ma: '0' });
+	const [mount, setMount] = useState(false);
 
 	let mapContainer = useRef(null); // 지도를 표시할 div
 	let mapOption = {
@@ -130,6 +130,7 @@ const Map = (props: MapProps) => {
 			);
 			//커스텀 오버레이 클릭 이벤트
 			content.onclick = () => {
+				setMount(!mount);
 				setSelectOverlay(data[i]);
 				let selectSector = content;
 				document.querySelectorAll('.overlay').forEach(el => {
@@ -277,68 +278,79 @@ const Map = (props: MapProps) => {
 		// centerCoord 변경될때마다 주변상인 정보 api 호출하기
 		if (bookSector.length === 0) {
 			console.log('현재위치 변경됨 주변 상인정보 다시 요청');
-			setMerchantSector(data);
+			// setMerchantSector(data);
 		}
 		if (merchantSector.length === 0) {
 			console.log('현재위치 변경됨 주변 책정보 다시 요청');
-			setBookSector(bookCount);
+			// setBookSector(bookCount);
 		}
-		getTotalMerchant(centerCoord?.Ma, centerCoord?.La).then(res => {
-			// setMerchantSector(res.content);
-		});
+		// getTotalMerchant(centerCoord?.Ma, centerCoord?.La).then(res => {
+		// 	// setMerchantSector(res.content);
+		// });
 	}, [centerCoord]);
 
 	return (
-		<div style={{ width: '100vw', height: '100%' }}>
-			<Container id="map" ref={mapContainer} />
-			<Search>
-				{merchantLists.length > 0 && (
+		<Container id="map" ref={mapContainer}>
+			<Search mount={mount}>
+				{/* {merchantLists.length > 0 && (
 					<MerchantLists merchantList={dummyMerchantList} />
-				)}
+				)} */}
 				{bookLists.length > 0 && <BookLists bookLists={bookLists} />}
 			</Search>
-		</div>
+		</Container>
 	);
 };
 
 const Container = styled.div`
 	width: 100%;
 	height: 100%;
+	position: absolute;
+	left: 0;
+	top: 0;
+	margin: 0;
+	padding: 0;
 `;
 
-const MoveLists = keyframes`
-0% {
-	opacity: 0.9;
-	transform: translateY(220px);
-	bottom: -20px;
+const slideUp = keyframes`
+	from {
+		transform: translateY(300px);
+	}
+	to {
+		transform: translateY(0px);
+	}
+	`;
+
+const slideDown = keyframes`
+		from {
+			transform: translateY(0px);
+		}
+		to {
+			transform: translateY(300px);
+		}
+	`;
+
+interface SearchProps {
+	mount: boolean;
 }
 
-80% {
-	opacity: 0.9;
-	transform: none;
-	bottom: 230px;
-	max-height: 230px;
-}
-
-100% {
-	opacity: 0.9;
-	transform: none;
-	bottom: 220px;
+const Search = styled.div<SearchProps>`
+	width: 100%;
 	max-height: 220px;
-}
-`;
-
-const Search = styled.div`
+	position: absolute;
+	bottom: 60px;
 	border-radius: 30px 30px 0px 0px;
-	/* box-shadow: 20px 20px 20px 20px grey; */
-	max-height: 220px;
+	box-shadow: 0px -5px 10px -5px grey;
 	overflow-y: hidden;
-	position: relative;
-	bottom: 220px;
-	z-index: 1000;
+	z-index: 555;
 	opacity: 0.9;
-	transform: translateY(px);
-	animation: ${MoveLists} 1s;
+	animation: ${props =>
+		props.mount
+			? css`
+					${slideUp} ease-in-out 0.6s
+			  `
+			: css`
+					${slideDown} ease-in-out 0.6s
+			  `};
 `;
 
 export default Map;
