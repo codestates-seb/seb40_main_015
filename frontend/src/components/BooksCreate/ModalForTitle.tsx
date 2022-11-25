@@ -1,6 +1,8 @@
 import { useState } from 'react';
 import styled from 'styled-components';
 import useAPI from '../../hooks/useAPI';
+import { useAppDispatch } from '../../redux/hooks';
+import notify from '../../utils/notify';
 import Button from '../common/Button';
 import SearchItem from './SearchItem';
 
@@ -15,13 +17,17 @@ const ModalForTitle = ({
 }: ModalDefaultType) => {
 	const [searchText, setSearchText] = useState('');
 	const [bookData, setBookData] = useState([]);
+	const dispatch = useAppDispatch();
+	const goNotify = (message: string) => notify(dispatch, message);
 	const api = useAPI();
 
 	const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
 		e.preventDefault();
-		api
-			.get(`/books/bookInfo?bookTitle=${searchText}`)
-			.then(res => setBookData(res.data));
+		if (searchText) {
+			api
+				.get(`/books/bookInfo?bookTitle=${searchText}`)
+				.then(res => setBookData(res.data));
+		} else goNotify('검색어를 입력해주세요');
 	};
 
 	return (
