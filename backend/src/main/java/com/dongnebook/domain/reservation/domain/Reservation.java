@@ -34,7 +34,7 @@ public class Reservation extends BaseTimeEntity {
     @Column(name = "reserve_state", nullable = false)
     private ReservationState reservationState;
 
-    @ManyToOne(fetch= FetchType.LAZY)
+    @OneToOne(fetch= FetchType.LAZY)
     @JoinColumn(name = "rental_id", nullable = false)
     private Rental rental;
 

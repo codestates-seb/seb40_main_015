@@ -42,9 +42,10 @@ public enum ErrorCode {
 	DIBS_NOT_FOUND(404, "이 책을 찜한적이 없습니다."),
 
 	/* Reservation */
-	CANNOT_RESERVATION_BOOKSTATE(404, "예약할 수 있는 도서상태가 아닙니다."),
+	RESERVATION_NOT_FOUND(404, "예약 건을 찾지 못했습니다."),
+	CANNOT_RESERVATION_BOOK_RENTAL_STATE(404, "예약할 수 있는 도서상태 또는 대여상태가 아닙니다."),
 	CANNOT_RESERVATION_PERSON(404, "예약할 수 있는 회원이 아닙니다."),
-	NOT_CHANGEABLE_RESERVATIONSTATE(404, "변경할 수 있는 예약상태가 아닙니다"),
+	NOT_CHANGEABLE_RESERVATION_STATE(404, "변경할 수 있는 예약상태가 아닙니다"),
 
 	/* Image */
 	UPLOAD_FAILED(404, "업로드 실패!!!!!!");
