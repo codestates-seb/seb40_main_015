@@ -179,7 +179,7 @@ const BookDsc = styled(Div)`
 	height: 20vh;
 	margin-bottom: 1rem;
 	div {
-		font-size: 20px;
+		font-size: 1.4rem;
 	}
 `;
 const LinkStyled = styled(Link)`
