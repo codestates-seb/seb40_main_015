@@ -84,20 +84,6 @@ const BookInfo = styled(Div)`
 
 	div {
 		width: 100%;
-
-		.book--info__title {
-			margin-bottom: 1rem;
-			padding: 0.2rem 0;
-			padding-bottom: 0.4rem;
-			border-bottom: 1px solid rgba(1, 1, 1, 0.3);
-			position: relative;
-		}
-		.book--info__default {
-			display: flex;
-			input {
-				font-size: 14px;
-			}
-		}
 	}
 `;
 const BookContainer = styled.div`
