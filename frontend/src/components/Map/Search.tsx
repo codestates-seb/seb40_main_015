@@ -4,7 +4,6 @@ import { Dispatch, SetStateAction } from 'react';
 import { getTotalBook, getTotalMerchant } from '../../api/map';
 import notify from '../../utils/notify';
 import { useAppDispatch } from '../../redux/hooks';
-import { data, bookCount } from './dummy';
 
 interface SearchProps {
 	searchInput: string;
@@ -15,6 +14,8 @@ interface SearchProps {
 	setBookSector: Dispatch<SetStateAction<any>>;
 	setMerchantLists: Dispatch<SetStateAction<any>>;
 	setBookLists: Dispatch<SetStateAction<any>>;
+	zoomLevel: number;
+	size: { width: number; height: number };
 }
 
 const Search = (props: SearchProps) => {
@@ -27,6 +28,8 @@ const Search = (props: SearchProps) => {
 		setBookSector,
 		setMerchantLists,
 		setBookLists,
+		zoomLevel,
+		size,
 	} = props;
 
 	const dispatch = useAppDispatch();
@@ -39,18 +42,32 @@ const Search = (props: SearchProps) => {
 		if (e.key === 'Enter') {
 			if (searchInput === '') {
 				setReset(false);
-				// getTotalMerchant(current.Ma, current.La).then(res =>
-				// 	setMerchantSector(res),
-				// );
-				setMerchantSector(data); // 더미데이터
+				getTotalMerchant(
+					current.Ma,
+					current.La,
+					size.width,
+					size.height,
+					zoomLevel < 3 ? 3 : zoomLevel,
+				).then(res => {
+					console.log(res);
+					setMerchantSector(res);
+				});
+				// setMerchantSector(data); // 더미데이터
 				setBookSector([]);
 				setBookLists([]);
 			} else {
-				getTotalBook(searchInput, current.Ma, current.La).then(res => {
+				getTotalBook(
+					searchInput,
+					current.Ma,
+					current.La,
+					size.width,
+					size.height,
+					zoomLevel < 3 ? 3 : zoomLevel,
+				).then(res => {
 					// 책검색 api 요청 -> 데이터가 잇으면?
 					if (res) {
 						// setReset(true);
-						setBookSector(bookCount);
+						setBookSector(res);
 						setMerchantSector([]);
 						setMerchantLists([]);
 					} else {

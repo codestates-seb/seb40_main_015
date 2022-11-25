@@ -27,22 +27,22 @@ interface IBook {
 		title: string;
 		publisher: string;
 		author: string;
-		status: string;
+		state: string;
 		content: string;
 		rentalfee: number;
 		rentalStart: string;
 		rentalEnd: string;
+		bookImgUrl: string;
 	};
 	merchant: {
 		merchantId: number;
 		name: string;
 		grade: number;
+		avatarUrl: string;
 	};
 }
 
 export const useBooksAPI = () => {
-	// const getAllBooksList = (): Promise<IAllBooks[]> =>
-	// 	axiosInstance.get('/books');
 	const api = useAPI();
 
 	// books page query
@@ -56,8 +56,22 @@ export const useBooksAPI = () => {
 			.then(res => res.data);
 	};
 
+	// book detail page
 	const getBookDetail = async (id: string | undefined) =>
 		await axiosInstance.get<IBook>(`/books/${id}`).then(res => res.data);
 
-	return { getAllBooksList, getBookDetail, getAllBooksListInfinite };
+	// book detail page wish
+	const postWishItem = async (bookid: number | undefined) =>
+		await api.post(`/dibs/${bookid}`);
+
+	const deleteBook = async (id: number | undefined) =>
+		await api.delete(`/books/${id}`);
+
+	return {
+		getAllBooksList,
+		getBookDetail,
+		getAllBooksListInfinite,
+		postWishItem,
+		deleteBook,
+	};
 };

@@ -9,7 +9,9 @@ const BookLists = (props: Props) => {
 	const { bookLists } = props;
 
 	const navigate = useNavigate();
-
+	const handleSearchBookDetailInfo = (id: string) => {
+		navigate(`/books/${id}`);
+	};
 	return (
 		<>
 			<Container>
@@ -24,7 +26,9 @@ const BookLists = (props: Props) => {
 				{bookLists?.map((item: any, i: number) => {
 					const { bookId, title, status, merchantName } = item;
 					return (
-						<List key={bookId}>
+						<List
+							key={bookId}
+							onClick={() => handleSearchBookDetailInfo(bookId)}>
 							<div className="bookstate">
 								<span className="book">{title}</span>
 								{status === '대여가능' && <div className="state1"></div>}
@@ -83,7 +87,8 @@ const Container = styled.div`
 
 const Box = styled.div`
 	overflow-y: scroll;
-	height: 185px;
+	min-height: 65px;
+	max-height: 185px;
 `;
 
 const List = styled.div`
@@ -99,6 +104,7 @@ const List = styled.div`
 	:hover {
 		background-color: ${props => props.theme.colors.grey};
 		font-weight: bold;
+		cursor: pointer;
 	}
 	.bookstate {
 		display: flex;

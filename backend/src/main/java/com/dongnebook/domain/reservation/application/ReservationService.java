@@ -18,6 +18,7 @@ import com.dongnebook.domain.reservation.exception.CanNotReservationBookRentalSt
 import com.dongnebook.domain.reservation.exception.CanNotReservationPersonException;
 import com.dongnebook.domain.reservation.exception.ReservationNotFoundException;
 import com.dongnebook.domain.reservation.repository.ReservationQueryRepository;
+
 import com.dongnebook.domain.reservation.repository.ReservationRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -35,6 +36,7 @@ public class ReservationService {
     private final MemberRepository memberRepository;
     private final RentalQueryRepository rentalQueryRepository;
     private final RentalRepository rentalRepository;
+
 
     @Transactional
     public void createReservation(Long bookId, Long memberId){

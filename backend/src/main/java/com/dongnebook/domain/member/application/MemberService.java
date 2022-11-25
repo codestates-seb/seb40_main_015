@@ -84,7 +84,7 @@ public class MemberService {
 
 	public ArrayList<MerchantSectorCountResponse> getSectorMerchantCounts(MerchantSearchRequest request) {
 
-		List<Double> latRangeList = Location.latRangeList(request.getLatitude(), request.getLength(),
+		List<Double> latRangeList = Location.latRangeList(request.getLatitude(), request.getHeight(),
 			request.getLevel());
 		List<Double> lonRangeList = Location.lonRangeList(request.getLongitude(), request.getWidth(),
 			request.getLevel());
