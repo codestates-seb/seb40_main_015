@@ -41,7 +41,7 @@ const PasswordWrapper = styled.div<{ error: boolean }>`
 	grid-template-columns: 22rem 1px;
 	.icon {
 		font-size: 25px;
-		color: #ff6a00;
+		color: ${props => props.theme.colors.errorColor};
 		position: absolute;
 		cursor: pointer;
 	}

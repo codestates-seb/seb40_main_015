@@ -4,20 +4,17 @@ import { TbCurrentLocation } from 'react-icons/tb';
 import Search from '../components/Map/Search';
 import Map from '../components/Map/Map';
 import { getBookList, getMerchantList, getTotalBook } from '../api/map';
-import {
-	data,
-	dummyMerchantList,
-	bookListsDummy,
-} from '../components/Map/dummy';
 import useWindowSize from '../hooks/useWindowSize';
 import useGeoLocation from '../hooks/useGeoLocation';
+import Map2 from '../components/Map/Map2';
 
 interface MerchantSectorProps {
 	merchantCount: number;
+	totalBookCount?: number;
 	sector: number;
-	representativeLocation: {
-		lat: string;
-		lon: string;
+	location: {
+		latitude: string;
+		longitude: string;
 	};
 }
 
@@ -26,39 +23,57 @@ const BooksSearchPage = () => {
 	const [searchInput, setSearchInput] = useState('');
 	const [reset, setReset] = useState(false);
 	const [selectOverlay, setSelectOverlay] = useState(null);
-	const [merchantSector, setMerchantSector] =
-		useState<MerchantSectorProps[]>(data);
+	const [merchantSector, setMerchantSector] = useState<MerchantSectorProps[]>(
+		[],
+	);
 	const [merchantLists, setMerchantLists] = useState<any>([]);
 	const [bookSector, setBookSector] = useState([]);
 	const [bookLists, setBookLists] = useState<any>([]);
 	const [zoomLevel, setZoomLevel] = useState(5);
 	const size = useWindowSize(zoomLevel);
-	console.log(size);
-
+	console.log(zoomLevel);
+	// console.log(selectOverlay);
 	useEffect(() => {
 		if (typeof selectOverlay === 'object' && !!selectOverlay) {
 			const {
 				sector,
-				representativeLocation,
+				location,
 			}: {
 				sector: number;
-				representativeLocation: { lat: string; lon: string };
+				location: { latitude: number; longitude: number };
 			} = selectOverlay;
-			const latitude = representativeLocation.lat;
-			const longitude = representativeLocation.lon;
+			const latitude = location.latitude;
+			const longitude = location.longitude;
 			if (selectOverlay['merchantCount']) {
-				getMerchantList(latitude, longitude, sector).then(res => {
+				getMerchantList(
+					latitude,
+					longitude,
+					sector,
+					zoomLevel < 3 ? 3 : zoomLevel,
+					size.width,
+					size.height,
+				).then(res => {
 					if (res) {
-						// setMerchantLists(res.content);
-						setMerchantLists(dummyMerchantList.content);
+						console.log(res);
+						setMerchantLists(res.content);
+						// setMerchantLists(dummyMerchantList.content);
 					}
 				});
 			}
-			if (selectOverlay['totalBookCount']) {
-				getBookList(searchInput, latitude, longitude, sector).then(res => {
+			if (selectOverlay['bookCount']) {
+				getBookList(
+					searchInput,
+					latitude,
+					longitude,
+					sector,
+					zoomLevel < 3 ? 3 : zoomLevel,
+					size.width,
+					size.height,
+				).then(res => {
 					if (res) {
-						// setBookLists(res.content);
-						setBookLists(bookListsDummy);
+						console.log(res);
+						setBookLists(res.content);
+						// setBookLists(bookListsDummy);
 					}
 				});
 			}
@@ -67,6 +82,8 @@ const BooksSearchPage = () => {
 			setBookLists([]);
 		}
 	}, [selectOverlay]);
+
+	console.log(!searchInput);
 
 	return (
 		<Container>
@@ -80,6 +97,8 @@ const BooksSearchPage = () => {
 					setBookSector={setBookSector}
 					setMerchantLists={setMerchantLists}
 					setBookLists={setBookLists}
+					zoomLevel={zoomLevel}
+					size={size}
 				/>
 				<TbCurrentLocation
 					className="location"
@@ -87,11 +106,12 @@ const BooksSearchPage = () => {
 					onClick={handleCurrentLocationMove}
 				/>
 			</FlexBox>
-			<Map
+			<Map2
 				current={current}
 				setCurrent={setCurrent}
 				reset={reset}
 				setSelectOverlay={setSelectOverlay}
+				selectOverlay={selectOverlay}
 				merchantSector={merchantSector}
 				setMerchantSector={setMerchantSector}
 				merchantLists={merchantLists}
@@ -99,7 +119,10 @@ const BooksSearchPage = () => {
 				setBookSector={setBookSector}
 				bookSector={bookSector}
 				bookLists={bookLists}
+				zoomLevel={zoomLevel}
 				setZoomLevel={setZoomLevel}
+				size={size}
+				searchInput={searchInput}
 			/>
 		</Container>
 	);
@@ -107,7 +130,7 @@ const BooksSearchPage = () => {
 
 const Container = styled.div`
 	width: 100%;
-	height: 93.5vh;
+	height: 100%;
 	position: absolute;
 	overflow-x: hidden;
 `;
