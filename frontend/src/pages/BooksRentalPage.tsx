@@ -10,6 +10,28 @@ import {
 	BookInfo,
 } from '../components/Books/BookElements';
 import BookCalendar from '../components/Books/BookCalendar';
+import convertDate from '../utils/convertDate';
+
+//책 상태: 대여가능
+const today = new Date();
+const marks = {
+	rentalStatedAt: today.toISOString(),
+	rentalDeadline: new Date(
+		today.getFullYear(),
+		today.getMonth(),
+		today.getDate() + 9,
+	).toISOString(),
+};
+const rentalPeriod = convertDate(marks.rentalStatedAt, marks.rentalDeadline);
+const month = rentalPeriod
+	.split('~')
+	.map(el => el.trim().slice(5))
+	.map(el => +el.split('.')[0]);
+
+const day = rentalPeriod
+	.split('~')
+	.map(el => el.trim().slice(5))
+	.map(el => +el.split('.')[1]);
 
 const BooksRentalPage = () => {
 	return (
@@ -20,12 +42,14 @@ const BooksRentalPage = () => {
 
 			<BodyContainer>
 				<CalendarWrapper>
-					<BookCalendar />
+					<BookCalendar month={month} day={day} />
 					<p>* 대여 가능 기간은 10일 입니다.</p>
-					<p>대여일 , 반납일</p>
 				</CalendarWrapper>
 				<RentalInfo>
-					<label>✅ 2022.11.09~2022.11.19</label>
+					<label>✅</label>
+					<label>대여일 : {marks.rentalStatedAt.slice(0, 10)}</label>
+					<label>~</label>
+					<label>반납일 : {marks.rentalDeadline.slice(0, 10)}</label>
 				</RentalInfo>
 			</BodyContainer>
 
@@ -43,7 +67,12 @@ const CalendarWrapper = styled.div`
 	}
 `;
 const RentalInfo = styled(BookInfo)`
-	margin-bottom: 6rem;
+	margin-bottom: 4rem;
+	display: flex;
+	justify-content: space-between;
+	label:nth-child(1) {
+		margin-right: 1rem;
+	}
 `;
 
 export default BooksRentalPage;

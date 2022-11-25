@@ -15,7 +15,7 @@ const BodyContainer = styled.div`
 	flex-direction: column;
 	justify-content: center;
 	align-items: center;
-	margin-bottom: 2rem;
+	margin: 2rem 0;
 `;
 
 const Div = styled.fieldset`
