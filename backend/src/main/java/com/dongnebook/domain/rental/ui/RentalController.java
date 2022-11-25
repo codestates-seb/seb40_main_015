@@ -20,9 +20,9 @@ public class RentalController {
     private final RentalService rentalService;
 
     @PostMapping("/{bookId}")
-    public ResponseEntity<Long> postRental(@PathVariable Long bookId, @AuthenticationPrincipal AuthMember merchant){
+    public ResponseEntity<Long> postRental(@PathVariable Long bookId, @AuthenticationPrincipal AuthMember customer){
 
-        rentalService.createRental(bookId, merchant.getMemberId());
+        rentalService.createRental(bookId, customer.getMemberId());
 
         return new ResponseEntity<>(HttpStatus.ACCEPTED);
     }
