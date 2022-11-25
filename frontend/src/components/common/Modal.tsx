@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import Button from '../common/Button';
 import useGeoLocation2 from '../../hooks/useGeoLocation2';
 import { useNavigate } from 'react-router-dom';
+import { useFixInfo } from '../Member/hooks/useFixInfo';
 
 interface ModalDefaultType {
 	onClickToggleModal: () => void;
@@ -60,7 +61,7 @@ const DialogBox = styled.dialog`
 	box-shadow: 0 0 30px rgba(30, 30, 30, 0.185);
 	box-sizing: border-box;
 	background-color: white;
-	z-index: 1000;
+	z-index: 9999;
 	align-items: center;
 	justify-content: center;
 	top: 30%;
