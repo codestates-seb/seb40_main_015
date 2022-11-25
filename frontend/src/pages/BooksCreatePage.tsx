@@ -14,8 +14,11 @@ import Photo from '../components/BooksCreate/Photo';
 import useAPI from '../hooks/useAPI';
 import { makeCreateBookMessages } from '../utils/makeCreateBookMessages';
 import notify from '../utils/notify';
+import Animation from '../components/Loading/Animation';
+import { useState } from 'react';
 
 const BooksCreatePage = () => {
+	const [isSubmitting, setIsSubmitting] = useState(false);
 	const bookCreate = useAppSelector(state => state.persistedReducer.bookCreate);
 	const { title, authors, publisher } = bookCreate.bookInfo;
 	const { rentalFee, description, imageUrl } = bookCreate.rentalInfo;
@@ -48,12 +51,22 @@ const BooksCreatePage = () => {
 			}
 		});
 		if (isValid()) {
-			api.post('/books', payload).then(res => console.log(res));
+			setIsSubmitting(true);
+			api
+				.post('/books', payload)
+				.then(res => {
+					console.log(res);
+					setIsSubmitting(false);
+				})
+				.catch(() => {
+					setIsSubmitting(false);
+				});
 		}
 	};
 
 	return (
 		<Main>
+			{isSubmitting && <Animation />}
 			<TitleWrapper>
 				<Title text="책 등록하기" />
 			</TitleWrapper>
