@@ -19,25 +19,26 @@ function useGeoLocation() {
 			},
 			null,
 			options,
+			
 		);
 	};
 
-	useEffect(() => {
-		let lat = 0;
-		let lon = 0;
-		let options = {
-			enableHighAccuracy: true,
-		};
-		navigator.geolocation.getCurrentPosition(
-			position => {
-				lat = position.coords.latitude; // 위도
-				lon = position.coords.longitude; // 경도
-				setCurrent({ La: lon, Ma: lat });
-			},
-			null,
-			options,
-		);
-	}, []);
+// 	useEffect(() => {
+// 		let lat = 0;
+// 		let lon = 0;
+// 		let options = {
+// 				enableHighAccuracy: true,
+// 		};
+// 		navigator.geolocation.getCurrentPosition(
+// 				position => {
+// 						lat = position.coords.latitude; // 위도
+// 						lon = position.coords.longitude; // 경도
+// 						setCurrent({ La: lon, Ma: lat });
+// 				},
+// 				null,
+// 				options,
+// 		);
+// }, []);
 
 	return [current, setCurrent, handleCurrentLocationMove];
 }

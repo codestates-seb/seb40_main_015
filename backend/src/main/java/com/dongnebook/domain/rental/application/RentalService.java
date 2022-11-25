@@ -19,6 +19,9 @@ import com.dongnebook.domain.rental.exception.*;
 import com.dongnebook.domain.rental.repository.RentalQueryRepository;
 import com.dongnebook.domain.rental.repository.RentalRepository;
 
+import com.dongnebook.domain.reservation.domain.Reservation;
+import com.dongnebook.domain.reservation.domain.ReservationState;
+import com.dongnebook.domain.reservation.repository.ReservationQueryRepository;
 import com.dongnebook.global.dto.request.PageRequest;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -39,16 +42,17 @@ public class RentalService {
 	private final RentalQueryRepository rentalQueryRepository;
 	private final BookCommandRepository bookCommandRepository;
 	private final MemberRepository memberRepository;
+	private final ReservationQueryRepository reservationQueryRepository;
 
 	@Transactional
 	public void createRental(Long bookId, Long customerId) {
-		Member merchant = getMemberById(customerId);
+		Member customer = getMemberById(customerId);
 		Book book = getBookById(bookId);
 
 		blockRentMyBook(customerId, book);
 		book.changeBookStateFromTo(BookState.RENTABLE, BookState.TRADING);
 		alarmService.sendAlarm(book.getMember(),book, AlarmType.RENTAL);
-		Rental rental = Rental.create(book, merchant);
+		Rental rental = Rental.create(book, customer);
 		rentalRepository.save(rental);
 	}
 
@@ -91,7 +95,6 @@ public class RentalService {
 		book.changeBookStateFromTo(BookState.TRADING, BookState.UNRENTABLE_RESERVABLE);
 	}
 
-	// 예약이 없을 경우에 대한 반납 case (예약이 있을 경우에 대한 반납 case 또한 만들어줘야 함)
 	@Transactional
 	public void returnRental(Long rentalId, Long merchantId){
 		Rental rental = getRental(rentalId);
@@ -100,9 +103,20 @@ public class RentalService {
 		// 대여를 올린 상인 본인이 아닌 경우 예외 처리
 		canNotChangeRental(book.getMember(), merchantId);
 
-		//예약이 없을 경우
 		rental.changeRentalStateFromTo(RentalState.BEING_RENTED, RentalState.RETURN_UNREVIEWED);
-		book.changeBookStateFromTo(BookState.UNRENTABLE_RESERVABLE, BookState.RENTABLE);
+
+		// 예약이 없을 경우
+		if(book.getBookState().equals(BookState.UNRENTABLE_RESERVABLE)){
+			book.changeBookStateFromTo(BookState.UNRENTABLE_RESERVABLE, BookState.RENTABLE);
+		} else { // 예약이 있을 경우 - 반납 즉시, 예약은 대여로 전환(=대여 등록)
+			book.changeBookStateFromTo(BookState.UNRENTABLE_UNRESERVABLE, BookState.TRADING);
+
+			Reservation reservation = reservationQueryRepository.getReservationByRentalId(rental.getId()).get(0);
+			reservation.changeReservationState(ReservationState.ON_RESERVATION, ReservationState.RENTAL_OK);
+
+			Rental newRental = Rental.create(book, reservation.getMember());
+			rentalRepository.save(newRental);
+		}
 	}
 
 	public SliceImpl<RentalBookResponse> getRentalsByMerchant(Long merchantId, PageRequest pageRequest) {
