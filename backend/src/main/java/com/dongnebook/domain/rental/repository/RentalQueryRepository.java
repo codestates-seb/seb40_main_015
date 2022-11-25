@@ -1,6 +1,7 @@
 package com.dongnebook.domain.rental.repository;
 
 import com.dongnebook.domain.book.dto.response.QBookInfoResponse;
+import com.dongnebook.domain.rental.domain.Rental;
 import com.dongnebook.domain.rental.dto.Response.QRentalBookResponse;
 import com.dongnebook.domain.rental.dto.Response.QRentalInfoResponse;
 import com.dongnebook.domain.rental.dto.Response.RentalBookResponse;
@@ -115,6 +116,15 @@ public class RentalQueryRepository {
 
         return new SliceImpl<>(rentals, pageRequest.of(), hasNext);
     }
+
+    public List<Rental> getRental(Long bookId){
+        return jpaQueryFactory.selectFrom(rental)
+            .where(book.id.eq(bookId))
+            .orderBy(rental.id.desc())
+            .limit(1)
+            .fetch();
+    }
+
 
 
     private BooleanExpression ltRentalId(Long rentalId){
