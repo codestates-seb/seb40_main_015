@@ -126,7 +126,6 @@ public class RentalQueryRepository {
     }
 
 
-
     private BooleanExpression ltRentalId(Long rentalId){
         if(rentalId == null){
             return null;
