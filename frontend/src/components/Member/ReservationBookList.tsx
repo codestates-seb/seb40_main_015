@@ -1,29 +1,72 @@
 import { useState } from 'react';
 import styled from 'styled-components';
+import Animation from '../Loading/Animation';
 import dummyImage3 from '../../assets/image/dummy3.png';
 import Button from '../common/Button';
+import { useMypageAPI } from '../../api/mypage';
+import { useQuery } from '@tanstack/react-query';
+import { useNavigate } from 'react-router-dom';
+import ButtonStatus from '../Merchant/ButtonStatus';
+
+interface ReservationBook {
+	bookId: number;
+	title: string;
+	imageUrl: string;
+	rentalFee: number;
+	status: string;
+}
 
 const ReservationBookList = () => {
-	const [test, setTest] = useState<number[]>([1, 2, 3, 4, 5, 6, 7, 8, 9]);
+	const navigate = useNavigate();
+
+	//api
+	const { getReservationBookList } = useMypageAPI();
+	const { data, isLoading } = useQuery({
+		queryKey: ['reservationbooklist'],
+		queryFn: () => getReservationBookList().then(res => res.data),
+		retry: false,
+	});
+
+	const handleBookDetailPageMove = (id: number) => {
+		navigate(`/books/${id}`);
+	};
+
+	if (isLoading) {
+		return <Animation width={50} height={50} />;
+	}
+	console.log(data?.content);
 	return (
 		<>
-			{test
-				? test.map(item => {
-						return (
-							<Container key={item}>
-								<FlexBox>
-									<img src={dummyImage3} alt="" width={50} height={70} />
-									<InfoWrapped>
-										<p>오늘부터 개발자</p>
-										<p>친구네 다락방</p>
-										<p>2,000</p>
-										<Button fontSize="small">예약 취소</Button>
-									</InfoWrapped>
-								</FlexBox>
-							</Container>
-						);
-				  })
-				: null}
+			<EmptyBox>
+				<p>예약한 책이 없어요</p>
+			</EmptyBox>
+			{/* {data.content ? (
+				data?.content.map((reservationbook: ReservationBook, i: number) => {
+					const { bookId, title, imageUrl, rentalFee, status } =
+						reservationbook;
+					return (
+						<Container key={bookId}>
+							<FlexBox
+								onClick={() => {
+									handleBookDetailPageMove(bookId);
+								}}>
+								<img src={imageUrl} alt="도서 이미지" width={50} height={70} />
+								<InfoWrapped>
+									<div className="list">
+										<p className="bookname">{title}</p>
+										<p>{rentalFee}원</p>
+									</div>
+									<ButtonStatus status={status} bookId={bookId} />
+								</InfoWrapped>
+							</FlexBox>
+						</Container>
+					);
+				})
+			) : (
+				<EmptyBox>
+					<p>예약한 책이 없어요</p>
+				</EmptyBox>
+			)} */}
 		</>
 	);
 };
@@ -55,4 +98,15 @@ const InfoWrapped = styled.div`
 	}
 `;
 
+const EmptyBox = styled.div`
+	width: 100%;
+	height: 65vh;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	p {
+		font-size: ${props => props.theme.fontSizes.subtitle};
+		font-weight: 600;
+	}
+`;
 export default ReservationBookList;

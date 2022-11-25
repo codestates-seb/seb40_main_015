@@ -1,3 +1,4 @@
+import axios from 'axios';
 import useAPI from '../hooks/useAPI';
 
 // 마이페이지 유저정보 및 찜목록 요청 getPickBookLists
@@ -17,9 +18,27 @@ interface PickBook {
 	bookId: number;
 	title: string;
 	status: string;
-	bookImage: string;
-	rentalFee: number;
+	bookImage:string;
+	rentalFee:number;
 	merchantName: string;
+}
+
+
+interface ReservationBook {
+	bookId: number;
+	title: string;
+	imageUrl: string;
+	rentalFee: number;
+	status: string;
+}
+
+//회원정보 수정
+interface ReservationBook {
+	bookId: number;
+	title: string;
+	imageUrl: string;
+	rentalFee: number;
+	status: string;
 }
 
 export const useMypageAPI = () => {
@@ -48,30 +67,26 @@ export const useMypageAPI = () => {
 		await api.get<Member>(`/member/${id}`).then(res => res.data);
 
 	//마이페이지 - 찜목록
-	const getPickBookList = () => api.get(`/dibs`);
+		const getPickBookList = () => 
+			api.get(`/dibs`);
+	
+
+	// 마이페이지 - 예약목록(API 미완성)
+	const getReservationBookList = () => 
+		api.get(`/reservations`);
+
 
 	// 마이페이지 - 회원정보 수정
-	const getFixMemberInfo = async (id: string) => {
+	const axiosFixMemberInfo = async (id: string) => {
 		try {
-			const result = await api.get(`/member/${id}/edit`);
+			const result = await api.patch(`/member/edit`);
 			console.log(result);
 			return result.data;
 		} catch (err) {
 			return err;
 		}
 	};
-
-	// 마이페이지 - 예약목록(API 명세서 나오지 않음)
-	// const getReservationBookLists = async () => {
-	// 	try {
-	// 		const result = await api.get();
-	// 		console.log(result);
-	// 		return result.data;
-	// 	} catch (err) {
-	// 		return err;
-	// 	}
-	// };
-
+ 
 	// 예약 취소
 	const axiosCancleReservation = async (id: string) => {
 		try {
@@ -82,25 +97,22 @@ export const useMypageAPI = () => {
 			return err;
 		}
 	};
+	
 
-	// 사진 등록(지구)
-	const axiosAddPhoto = async () => {
-		try {
-			const result = await api.post(`image`);
-			console.log(result);
-			return result.data;
-		} catch (err) {
-			return err;
-		}
-	};
+	// 사진 등록(endpoint 수정)
+	const axiosAddPhoto = (data:any) => {
+			axios.post(`/upload`, data).then(res => console.log(res))}
+
+				
 
 	return {
 		getMyInfo,
 		getMemberInfo,
-		getFixMemberInfo,
+		axiosFixMemberInfo,
 		getPickBookList,
+		getReservationBookList,
 		axiosCancleReservation,
-		axiosAddPhoto,
 		getMerchantBookLists,
+		axiosAddPhoto
 	};
 };
