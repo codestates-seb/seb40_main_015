@@ -1,6 +1,7 @@
+import { useQuery } from '@tanstack/react-query';
 import { useState } from 'react';
 import styled from 'styled-components';
-import useAPI from '../../hooks/useAPI';
+import { getBooksByTitle } from '../../api/createBook';
 import { useAppDispatch } from '../../redux/hooks';
 import notify from '../../utils/notify';
 import Button from '../common/Button';
@@ -16,18 +17,17 @@ const ModalForTitle = ({
 	setIsModalOpened,
 }: ModalDefaultType) => {
 	const [searchText, setSearchText] = useState('');
-	const [bookData, setBookData] = useState([]);
 	const dispatch = useAppDispatch();
 	const goNotify = (message: string) => notify(dispatch, message);
-	const api = useAPI();
+
+	const { data, refetch } = useQuery(['books'], getBooksByTitle(searchText), {
+		refetchOnWindowFocus: false,
+		enabled: false,
+	});
 
 	const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
 		e.preventDefault();
-		if (searchText) {
-			api
-				.get(`/books/bookInfo?bookTitle=${searchText}`)
-				.then(res => setBookData(res.data));
-		} else goNotify('검색어를 입력해주세요');
+		searchText ? refetch() : goNotify('검색어를 입력해주세요');
 	};
 
 	return (
@@ -51,13 +51,14 @@ const ModalForTitle = ({
 							</InputWrapper>
 						</ModalForm>
 						<SearchItems>
-							{bookData.map((el, idx) => (
-								<SearchItem
-									key={idx}
-									content={el}
-									setIsModalOpened={setIsModalOpened}
-								/>
-							))}
+							{data &&
+								data.data.map((el, idx) => (
+									<SearchItem
+										key={idx}
+										content={el}
+										setIsModalOpened={setIsModalOpened}
+									/>
+								))}
 						</SearchItems>
 					</DialogBox>
 					<Backdrop
@@ -65,7 +66,6 @@ const ModalForTitle = ({
 						onClick={() => {
 							setIsModalOpened(false);
 							setSearchText('');
-							setBookData([]);
 						}}
 					/>
 				</ModalContainer>
