@@ -11,11 +11,11 @@ import {
 	BookRentalFee,
 	MerchantInfo,
 	MerchantGrade,
-	RentalInfo,
 	BookContainer,
 	BookTitle,
 	BookSubTitle,
 	Partition,
+	BookRentalInfo,
 } from './BookElements';
 
 const BookDetail = ({ book, merchant }: BookDetailProps) => {
@@ -61,11 +61,11 @@ const BookDetail = ({ book, merchant }: BookDetailProps) => {
 
 			<BookInfo>
 				<legend>대여 정보</legend>
-				<RentalInfo>
+				<BookRentalInfo>
 					<label>대여료: {book?.rentalFee?.toLocaleString()}원</label>
 					{/* <Partition>|</Partition> */}
 					<label>대여기간: 10일</label>
-				</RentalInfo>
+				</BookRentalInfo>
 			</BookInfo>
 
 			{/* <BookRentalFee>

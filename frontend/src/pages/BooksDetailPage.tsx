@@ -39,11 +39,12 @@ const BooksDetailPage = () => {
 			</BodyContainer>
 
 			{/* 글 주인한테는 버튼이 어떻게 보여야할까? */}
-			{data?.book?.state === '예약불가' ? (
+			{/* {data?.book?.state === '예약불가' ? (
 				<Button backgroundColor={'grey'}>대여/예약 불가</Button>
 			) : data?.book?.state === '대여가능' ? (
 				<LinkStyled to={`rental`}>
 					<Button>책 대여하기</Button>
+					
 				</LinkStyled>
 			) : (
 				<LinkStyled
@@ -54,7 +55,18 @@ const BooksDetailPage = () => {
 					}}>
 					<Button>책 예약하기</Button>
 				</LinkStyled>
-			)}
+			)} */}
+			<LinkStyled to={`rental`}>
+				<Button>책 대여하기</Button>
+			</LinkStyled>
+			<LinkStyled
+				to={`booking`}
+				state={{
+					rentalStart: data?.book.rentalStart,
+					rentalEnd: data?.book.rentalEnd,
+				}}>
+				<Button>책 예약하기</Button>
+			</LinkStyled>
 		</Main>
 	);
 };

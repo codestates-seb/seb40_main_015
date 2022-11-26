@@ -1,7 +1,7 @@
-import { useState } from 'react';
 import styled from 'styled-components';
 import Calendar from 'react-calendar';
 import 'react-calendar/dist/Calendar.css';
+import { useState } from 'react';
 
 //책 상태: 대여가능
 // const today = new Date();
@@ -35,9 +35,16 @@ import 'react-calendar/dist/Calendar.css';
 // 	.map(el => +el.split('.')[1]);
 
 const rentalCalc = (date: Date, month: number[], day: number[]): string => {
+	const thisYear = new Date().getFullYear();
+	const y = date.getFullYear();
 	const m = date.getMonth() + 1;
 	const d = date.getDate();
 
+	// 대여 시작일 이전은 모두 회색
+	if (y <= thisYear && m < month[0]) return 'unavailable';
+	else if (y <= thisYear && m === month[0] && d < day[0]) return 'unavailable';
+
+	// 대여기간
 	if (month[0] === month[1] && month[0] === m) {
 		if (d === day[0]) return 'highlightLeft';
 		if (d === day[1]) return 'highlightRight';
@@ -58,6 +65,7 @@ interface CalendarProps {
 }
 
 const BookCalendar = ({ month, day }: CalendarProps) => {
+	// console.log(month, day);
 	const [value, setValue] = useState(new Date());
 
 	return (
@@ -150,7 +158,9 @@ const CalendarWrapper = styled.div`
 		color: inherit;
 		background: transparent;
 	}
-
+	.unavailable {
+		color: ${props => props.theme.colors.buttonGrey};
+	}
 	.highlight {
 		background: rgba(38, 121, 93, 0.2);
 	}

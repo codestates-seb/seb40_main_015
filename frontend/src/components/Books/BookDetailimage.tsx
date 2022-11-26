@@ -62,7 +62,7 @@ const BookImage = ({ book, merchant }: BookDetailProps) => {
 				''
 			)}
 
-			{id !== merchant?.merchantId ? (
+			{id && id !== merchant?.merchantId ? (
 				active ? (
 					<WishiconOn onClick={HandleWishIcon} />
 				) : (
