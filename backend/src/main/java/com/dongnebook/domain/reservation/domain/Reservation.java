@@ -23,7 +23,7 @@ public class Reservation extends BaseTimeEntity {
     @Column(name = "id", updatable = false)
     private Long id;
 
-    @Column(name = "reserve_expected_at", nullable = false)
+    @Column(name = "rental_expected_at", nullable = false)
     private LocalDateTime rentalExpectedAt;
 
     @Column(name = "return_expected_at", nullable = false)
