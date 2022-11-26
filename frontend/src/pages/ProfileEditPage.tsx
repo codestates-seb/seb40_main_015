@@ -105,6 +105,16 @@ function ProfileEditPage() {
 		avatarUrl:
 			'https://www.pngarts.com/files/10/Default-Profile-Picture-PNG-Download-Image.png',
 	});
+	//화면에 프로필 사진 표시
+	// 	const reader = new FileReader();
+	// 	reader.onload = () => {
+	// 		if (reader.readyState === 2 && reader.result) {
+	// 			console.log(reader);
+	// 			setImage(`${reader.result}`);
+	// 		}
+	// 	};
+	// 	reader.readAsDataURL(files[0]);
+	// };
 
 	return (
 		<Layout>

@@ -20,46 +20,36 @@ public class RentalController {
     private final RentalService rentalService;
 
     @PostMapping("/{bookId}")
-    public ResponseEntity<Long> postRental(@PathVariable Long bookId, @AuthenticationPrincipal AuthMember merchant){
-
-        rentalService.createRental(bookId, merchant.getMemberId());
-
-        return new ResponseEntity<>(HttpStatus.ACCEPTED);
+    public ResponseEntity<Void> postRental(@PathVariable Long bookId, @AuthenticationPrincipal AuthMember customer){
+        rentalService.createRental(bookId, customer.getMemberId());
+        return new ResponseEntity<>(HttpStatus.CREATED);
     }
 
     @PatchMapping("/{rentalId}/cancelByCustomer")
     public ResponseEntity<Void> cancelRentalByCustomer(@PathVariable Long rentalId,
                                                        @AuthenticationPrincipal AuthMember customer){
-
         rentalService.cancelRentalByCustomer(rentalId, customer.getMemberId());
-
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
     @PatchMapping("/{rentalId}/cancelByMerchant")
     public ResponseEntity<Void> cancelRentalByMerchant(@PathVariable Long rentalId,
                                                        @AuthenticationPrincipal AuthMember merchant){
-
         rentalService.cancelRentalByMerchant(rentalId, merchant.getMemberId());
-
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
     @PatchMapping("/{rentalId}/receive")
     public ResponseEntity<Void> receiveBook(@PathVariable Long rentalId,
                                             @AuthenticationPrincipal AuthMember customer){
-
         rentalService.receiveBook(rentalId, customer.getMemberId());
-
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
     @PatchMapping("{rentalId}/return")
     public ResponseEntity<Void> returnRental(@PathVariable Long rentalId,
                                              @AuthenticationPrincipal AuthMember merchant){
-
         rentalService.returnRental(rentalId, merchant.getMemberId());
-
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
