@@ -1,5 +1,4 @@
 import styled from 'styled-components';
-import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { HiOutlinePencilAlt } from 'react-icons/hi';
 import { useDispatch } from 'react-redux';
@@ -12,19 +11,14 @@ import ReservationBookList from '../components/Member/ReservationBookList';
 import TabLists from '../components/common/TabLists';
 import Title from '../components/common/Title';
 import Button from '../components/common/Button';
-import ProfileEditPage from './ProfileEditPage';
-import BookItem from '../components/Books/BookItem';
-import userImage from '../assets/image/user.png';
 import Animation from '../components/Loading/Animation';
 
 // hooks
 import { useMypageAPI } from '../api/mypage';
 import useTabs from '../hooks/useTabs';
-
 // etc
-import { MemberInfo } from '../queryType/members';
 import { logout } from '../redux/slice/userSlice';
-import { dummyBookWish } from '../assets/dummy/books';
+import { useInputImage } from '../components/Member/hooks/useInputImage';
 
 function ProfilePage() {
 	const dispatch = useDispatch();
@@ -44,18 +38,17 @@ function ProfilePage() {
 		queryFn: () => getMyInfo(id),
 		retry: false,
 	});
-
 	console.log('data: ', data);
-	if (isLoading) return <Animation width={50} height={50} />;
 
+	if (isLoading) return <Animation width={50} height={50} />;
 	return (
 		<Layout>
 			<Title text="마이페이지" />
 			<ProfileBox>
-				<img src={userImage} alt="dummy" width={80} height={100} />
+				<img className="profileimage" alt="프로필 이미지가 없습니다"></img>
 				<UserInfoBox>
 					<p>닉네임: {data?.name}</p>
-					<p>주거래 동네:{data?.address ?? ' 거래 할 동네를 설정해주세요!'}</p>
+					<p>주거래 동네:{data?.address ?? '거래 할 동네를 설정해주세요!'}</p>
 					<p>빌려준 도서 수: {data?.totalBookCount}</p>
 					<div className="editprofile">
 						<p className="edit1" onClick={handleEditPage}>
@@ -110,7 +103,13 @@ const ProfileBox = styled.div`
 	display: flex;
 	padding: 1.2rem;
 	border: 1px solid #eaeaea;
-
+	.profileimage {
+		box-sizing: border-box;
+		width: 100px;
+		height: 100px;
+		border-radius: 1000px;
+		border: 0.5px solid grey;
+	}
 	.edit1 {
 		cursor: pointer;
 	}
