@@ -25,7 +25,7 @@ const BooksDetailPage = () => {
 		queryFn: () => getBookDetail(bookId),
 	});
 
-	console.log(data);
+	// console.log(data);
 	if (isLoading) return <Animation />;
 	return (
 		<Main>
