@@ -1,10 +1,12 @@
 import convertDate from './convertDate';
 
+//type
 interface IcalcCalendarDate {
 	month: number[];
 	day: number[];
 	rentalPeriod: string;
 }
+
 export const calcCalendarDate = (start: string): IcalcCalendarDate => {
 	const date = {
 		rentalStatedAt: start,
@@ -15,7 +17,6 @@ export const calcCalendarDate = (start: string): IcalcCalendarDate => {
 		).toISOString(),
 	};
 
-	console.log(date);
 	const rentalPeriod = convertDate(date.rentalStatedAt, date.rentalDeadline);
 
 	const month = rentalPeriod

@@ -67,11 +67,20 @@ export const useBooksAPI = () => {
 	const deleteBook = async (id: number | undefined) =>
 		await api.delete(`/books/${id}`);
 
+	// book rental
+	const postBookRental = async (bookId: string | undefined) =>
+		await api.post(`/rental/${bookId}`);
+
+	// book booking
+	const postBookBooking = async (bookId: string | undefined) =>
+		await api.post(`/reservations/${bookId}`);
 	return {
 		getAllBooksList,
 		getBookDetail,
 		getAllBooksListInfinite,
 		postWishItem,
 		deleteBook,
+		postBookRental,
+		postBookBooking,
 	};
 };

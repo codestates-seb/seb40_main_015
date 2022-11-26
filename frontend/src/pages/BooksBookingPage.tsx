@@ -1,4 +1,4 @@
-import { useLocation } from 'react-router-dom';
+import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import { useState } from 'react';
 
 // components
@@ -14,6 +14,8 @@ import {
 } from '../components/Books/BookElements';
 import BookCalendar from '../components/Books/BookCalendar';
 import { calcCalendarDate } from '../utils/calcCalendarDate';
+import { useBooksAPI } from '../api/books';
+import { useMutation } from '@tanstack/react-query';
 
 //책 상태: 예약가능
 
@@ -26,15 +28,29 @@ interface LinkProps {
 const BooksBookingPage = () => {
 	const [isChecked, setIsChecked] = useState(false);
 	const { state } = useLocation() as LinkProps;
+	const navigate = useNavigate();
+	const { bookId } = useParams();
+	const { postBookRental } = useBooksAPI();
+	const { mutate } = useMutation({
+		mutationFn: () => postBookRental(bookId),
+		onSuccess: res => {
+			console.log(res);
+			navigate('/history');
+		},
+	});
 
 	// 외부에서 예약하기 페이지 접근시
 	if (state.rentalStart === null) return <h1>Not found</h1>;
 
 	const { month, day, rentalPeriod } = calcCalendarDate(state.rentalEnd);
 
+	// 예약 요청
+
 	const handleRentalButton = () => {
 		if (!isChecked) return alert('대여 기간을 확인해주세요');
+		mutate();
 	};
+
 	return (
 		<Main>
 			<TitleWrapper>
