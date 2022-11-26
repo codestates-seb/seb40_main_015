@@ -23,10 +23,12 @@ function Modal({
 				<div className="currentplace">
 					{location.loaded
 						? JSON.stringify(location)
-						: '현재 위치를 알 수 없습니다.'}
+						: '현재 위치를 확인 중입니다'}
 				</div>
 				<div className="btn">
-					<Button className="btn1">예</Button>
+					<Button className="btn1" onClick={() => {}}>
+						예
+					</Button>
 					<Button
 						className="btn2"
 						onClick={(e: React.MouseEvent) => {
