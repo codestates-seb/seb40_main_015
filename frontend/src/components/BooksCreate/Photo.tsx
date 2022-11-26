@@ -1,3 +1,4 @@
+import { useMutation } from '@tanstack/react-query';
 import axios from 'axios';
 import { useState } from 'react';
 import { HiPhotograph } from 'react-icons/hi';
@@ -11,6 +12,10 @@ const Photo = () => {
 	const [imageName, setImageName] = useState('');
 	const dispatch = useAppDispatch();
 
+	const { mutate } = useMutation((formData: FormData) =>
+		axios.post(`${BASE_URL}/upload`, formData),
+	);
+
 	const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
 		const { files } = e.target;
 		const formData = new FormData();
@@ -18,11 +23,10 @@ const Photo = () => {
 			const fileRef = files[0];
 			setImageName(fileRef.name);
 			formData.append('img', fileRef);
-			axios
-				.post(`${BASE_URL}/upload`, formData)
-				.then(res =>
+			mutate(formData, {
+				onSuccess: res =>
 					dispatch(updateRentalInfo({ key: 'imageUrl', value: res.data })),
-				);
+			});
 		}
 	};
 
