@@ -1,7 +1,6 @@
-import { useQuery } from '@tanstack/react-query';
 import { useState } from 'react';
 import styled from 'styled-components';
-import { getBooksByTitle } from '../../api/createBook';
+import useGetBooksByTitle from '../../api/hooks/useGetBooksByTitle';
 import { useAppDispatch } from '../../redux/hooks';
 import notify from '../../utils/notify';
 import Button from '../common/Button';
@@ -20,10 +19,7 @@ const ModalForTitle = ({
 	const dispatch = useAppDispatch();
 	const goNotify = (message: string) => notify(dispatch, message);
 
-	const { data, refetch } = useQuery(['books'], getBooksByTitle(searchText), {
-		refetchOnWindowFocus: false,
-		enabled: false,
-	});
+	const { data, refetch } = useGetBooksByTitle(searchText);
 
 	const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
 		e.preventDefault();
