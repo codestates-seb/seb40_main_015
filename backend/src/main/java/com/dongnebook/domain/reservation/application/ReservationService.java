@@ -10,9 +10,8 @@ import com.dongnebook.domain.member.repository.MemberRepository;
 import com.dongnebook.domain.rental.domain.Rental;
 import com.dongnebook.domain.rental.domain.RentalState;
 import com.dongnebook.domain.rental.repository.RentalQueryRepository;
-import com.dongnebook.domain.rental.repository.RentalRepository;
 import com.dongnebook.domain.reservation.domain.Reservation;
-import com.dongnebook.domain.reservation.domain.ReservationState;
+import com.dongnebook.domain.reservation.dto.request.ReservationInfoResponse;
 import com.dongnebook.domain.reservation.exception.CanNotChangeReservationStateException;
 import com.dongnebook.domain.reservation.exception.CanNotReservationBookRentalStateException;
 import com.dongnebook.domain.reservation.exception.CanNotReservationPersonException;
@@ -20,8 +19,10 @@ import com.dongnebook.domain.reservation.exception.ReservationNotFoundException;
 import com.dongnebook.domain.reservation.repository.ReservationQueryRepository;
 
 import com.dongnebook.domain.reservation.repository.ReservationRepository;
+import com.dongnebook.global.dto.request.PageRequest;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.SliceImpl;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -35,7 +36,6 @@ public class ReservationService {
     private final BookCommandRepository bookCommandRepository;
     private final MemberRepository memberRepository;
     private final RentalQueryRepository rentalQueryRepository;
-    private final RentalRepository rentalRepository;
 
 
     @Transactional
@@ -53,10 +53,13 @@ public class ReservationService {
         reservationRepository.save(reservation);
     }
 
+    public SliceImpl<ReservationInfoResponse> readReservations(Long memberId, PageRequest pageRequest){
+        return reservationQueryRepository.findAllByMemberIdOrderByIdDesc(memberId, pageRequest);
+    }
+
     @Transactional
     public void cancelReservation(Long reservationId, Long memberId){
         Reservation reservation = getReservation(reservationId);
-        checkCancelReservationState(reservation, ReservationState.ON_RESERVATION);
         checkCancelReservationPerson(reservation, memberId);
 
         Book book = reservation.getBook();
@@ -101,12 +104,6 @@ public class ReservationService {
         if(customer.getId().equals(book.getMember().getId())
                 || rental.getCustomer().getId().equals(memberId)){
             throw new CanNotReservationPersonException();
-        }
-    }
-
-    private static void checkCancelReservationState(Reservation reservation, ReservationState reservationState) {
-        if(!reservation.getReservationState().equals(reservationState)){
-            throw new CanNotChangeReservationStateException();
         }
     }
 

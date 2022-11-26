@@ -20,8 +20,8 @@ import com.dongnebook.domain.rental.repository.RentalQueryRepository;
 import com.dongnebook.domain.rental.repository.RentalRepository;
 
 import com.dongnebook.domain.reservation.domain.Reservation;
-import com.dongnebook.domain.reservation.domain.ReservationState;
 import com.dongnebook.domain.reservation.repository.ReservationQueryRepository;
+import com.dongnebook.domain.reservation.repository.ReservationRepository;
 import com.dongnebook.global.dto.request.PageRequest;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -43,6 +43,7 @@ public class RentalService {
 	private final BookCommandRepository bookCommandRepository;
 	private final MemberRepository memberRepository;
 	private final ReservationQueryRepository reservationQueryRepository;
+	private final ReservationRepository reservationRepository;
 
 	@Transactional
 	public void createRental(Long bookId, Long customerId) {
@@ -112,7 +113,7 @@ public class RentalService {
 			book.changeBookStateFromTo(BookState.UNRENTABLE_UNRESERVABLE, BookState.TRADING);
 
 			Reservation reservation = reservationQueryRepository.getReservationByRentalId(rental.getId()).get(0);
-			reservation.changeReservationState(ReservationState.ON_RESERVATION, ReservationState.RENTAL_OK);
+			reservationRepository.delete(reservation);
 
 			Rental newRental = Rental.create(book, reservation.getMember());
 			rentalRepository.save(newRental);
