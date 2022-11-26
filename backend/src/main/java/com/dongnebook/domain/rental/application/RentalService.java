@@ -30,6 +30,8 @@ import org.springframework.data.domain.*;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDateTime;
+
 
 @Slf4j
 @Service
@@ -61,11 +63,14 @@ public class RentalService {
 	public void cancelRentalByCustomer(Long rentalId, Long customerId) {
 		Rental rental = getRental(rentalId);
 		Book book = getBookFromRental(rental);
+
 		// 책을 빌린 주민 본인이 아닌 경우 예외 처리
 		canNotChangeRental(rental.getCustomer(), customerId);
 
 		rental.changeRentalStateFromTo(RentalState.TRADING, RentalState.CANCELED);
 		book.changeBookStateFromTo(BookState.TRADING, BookState.RENTABLE);
+		rental.setCanceledAt(LocalDateTime.now());
+
 		alarmService.sendAlarm(book.getMember(),book, AlarmType.RESIDENT_CANCELLATION);
 	}
 
@@ -74,12 +79,14 @@ public class RentalService {
 	public void cancelRentalByMerchant(Long rentalId, Long merchantId) {
 		Rental rental = getRental(rentalId);
 		Book book = getBookFromRental(rental);
-		alarmService.sendAlarm(rental.getCustomer(),book, AlarmType.MERCHANT_CANCELLATION);
+
 		// 대여를 올린 상인 본인이 아닌 경우 예외 처리
 		canNotChangeRental(book.getMember(), merchantId);
 
 		rental.changeRentalStateFromTo(RentalState.TRADING, RentalState.CANCELED);
 		book.changeBookStateFromTo(BookState.TRADING, BookState.RENTABLE);
+		rental.setCanceledAt(LocalDateTime.now());
+
 		alarmService.sendAlarm(rental.getCustomer(),book, AlarmType.MERCHANT_CANCELLATION);
 	}
 
@@ -104,6 +111,7 @@ public class RentalService {
 		canNotChangeRental(book.getMember(), merchantId);
 
 		rental.changeRentalStateFromTo(RentalState.BEING_RENTED, RentalState.RETURN_UNREVIEWED);
+		rental.setReturnedAt(LocalDateTime.now());
 
 		// 예약이 없을 경우
 		if(book.getBookState().equals(BookState.UNRENTABLE_RESERVABLE)){

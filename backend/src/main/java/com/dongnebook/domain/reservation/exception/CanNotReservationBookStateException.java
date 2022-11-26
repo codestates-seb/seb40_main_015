@@ -5,6 +5,6 @@ import com.dongnebook.global.error.exception.ErrorCode;
 
 public class CanNotReservationBookStateException extends BusinessException {
     public CanNotReservationBookStateException() {
-        super(ErrorCode.CANNOT_RESERVATION_BOOKSTATE.getMessage(), ErrorCode.CANNOT_RESERVATION_BOOKSTATE);
+        super(ErrorCode.CANNOT_RESERVATION_BOOK_RENTAL_STATE.getMessage(), ErrorCode.CANNOT_RESERVATION_BOOK_RENTAL_STATE);
     }
 }

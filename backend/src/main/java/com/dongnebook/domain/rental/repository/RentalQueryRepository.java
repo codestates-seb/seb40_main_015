@@ -117,7 +117,13 @@ public class RentalQueryRepository {
         return new SliceImpl<>(rentals, pageRequest.of(), hasNext);
     }
 
-    public List<Rental> getRental(Long bookId){
+    public Rental getRentalById(Long rentalId){
+        return jpaQueryFactory.selectFrom(rental)
+                .where(rental.id.eq(rentalId))
+                .fetchOne();
+    }
+
+    public List<Rental> getRentalByBookId(Long bookId){
         return jpaQueryFactory.selectFrom(rental)
             .where(book.id.eq(bookId))
             .orderBy(rental.id.desc())
