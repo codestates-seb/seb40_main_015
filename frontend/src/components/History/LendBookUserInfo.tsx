@@ -23,40 +23,40 @@ export const LendBookUserInfo = ({
 		<UserInfoBox>
 			<span>
 				{merchantName
-					? `빌려준 상인: ${merchantName}`
-					: `빌려간 주민: ${rentalInfo.customerName}`}
+					? `상인 이름: ${merchantName}`
+					: `주민 이름: ${rentalInfo.customerName}`}
 			</span>
 			{(rentalInfo.rentalState === 'TRADING' ||
 				rentalInfo.rentalState === 'BEING_RENTED') && (
-				<p>
-					대여기간:{' '}
+				<span>
+					대여 기간:{' '}
 					{convertDate(
 						rentalInfo.rentalStartedAt,
 						rentalInfo.rentalDeadline,
 						true,
 					)}
-				</p>
+				</span>
 			)}
 			{(rentalInfo.rentalState === 'RETURN_UNREVIEWED' ||
 				rentalInfo.rentalState === 'RETURN_REVIEWED') && (
-				<p>
+				<span>
 					대여기간:{' '}
 					{convertDate(
 						rentalInfo.rentalStartedAt,
 						rentalInfo.rentalReturnedAt,
 						true,
 					)}
-				</p>
+				</span>
 			)}
 			{rentalInfo.rentalState === 'CANCELED' && (
-				<p>
+				<span>
 					대여기간:{' '}
 					{convertDate(
 						rentalInfo.rentalStartedAt,
 						rentalInfo.rentalCanceledAt,
 						true,
 					)}
-				</p>
+				</span>
 			)}
 		</UserInfoBox>
 	);
