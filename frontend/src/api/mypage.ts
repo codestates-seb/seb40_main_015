@@ -1,4 +1,5 @@
 import axios from 'axios';
+import { Settings } from 'http2';
 import useAPI from '../hooks/useAPI';
 
 // 마이페이지 유저정보 및 찜목록 요청 getPickBookLists
@@ -23,14 +24,21 @@ interface PickBook {
 	merchantName: string;
 }
 
-
+//예약목록 조회
 interface ReservationBook {
-	bookId: number;
-	title: string;
-	imageUrl: string;
-	rentalFee: number;
-	status: string;
-}
+	reservationInfo: {
+		reservationId: number;
+		rentalExpectedAt: string;
+	},
+	bookInfo:{
+		bookId: number;
+		title: string;
+		bookImage: string;
+		rentalFee: number;
+		merchantName: string;
+	}
+	}
+
 
 //회원정보 수정
 interface FixmemberInfo {
@@ -70,7 +78,7 @@ export const useMypageAPI = () => {
 			api.get(`/dibs`);
 	
 
-	// 마이페이지 - 예약목록(API 미완성)
+	// 마이페이지 - 예약목록
 	const getReservationBookList = () => 
 		api.get(`/reservations`);
 
