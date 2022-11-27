@@ -16,8 +16,12 @@ import {
 //hooks
 import { useBooksAPI } from '../api/books';
 import BookImage from '../components/Books/BookDetailimage';
+import notify from '../utils/notify';
+import { useAppDispatch, useAppSelector } from '../redux/hooks';
 
 const BooksDetailPage = () => {
+	const dispatch = useAppDispatch();
+	const { isLogin } = useAppSelector(state => state.loginInfo);
 	const { bookId } = useParams();
 	const { getBookDetail } = useBooksAPI();
 	const { data, isLoading } = useQuery({
@@ -45,17 +49,23 @@ const BooksDetailPage = () => {
 			{data?.book?.state === '예약불가' ? (
 				<Button backgroundColor={'grey'}>대여/예약 불가</Button>
 			) : data?.book?.state === '대여가능' ? (
-				<LinkStyled to={`rental`}>
-					<Button>책 대여하기</Button>
+				<LinkStyled to={isLogin ? `rental` : ''}>
+					<Button
+						onClick={() => isLogin || notify(dispatch, '로그인이 필요합니다')}>
+						책 대여하기
+					</Button>
 				</LinkStyled>
 			) : (
 				<LinkStyled
-					to={`booking`}
+					to={isLogin ? `booking` : ''}
 					state={{
 						rentalStart: data?.book.rentalStart,
 						rentalEnd: data?.book.rentalEnd,
 					}}>
-					<Button>책 예약하기</Button>
+					<Button
+						onClick={() => isLogin || notify(dispatch, '로그인이 필요합니다')}>
+						책 예약하기
+					</Button>
 				</LinkStyled>
 			)}
 			{/* <LinkStyled to={`rental`}>
