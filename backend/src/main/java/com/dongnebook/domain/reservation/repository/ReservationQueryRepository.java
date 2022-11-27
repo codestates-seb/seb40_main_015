@@ -2,9 +2,9 @@ package com.dongnebook.domain.reservation.repository;
 
 import com.dongnebook.domain.book.dto.response.QBookSimpleResponse;
 import com.dongnebook.domain.reservation.domain.Reservation;
-import com.dongnebook.domain.reservation.dto.request.QReservationInfoResponse;
-import com.dongnebook.domain.reservation.dto.request.QReservationResponse;
-import com.dongnebook.domain.reservation.dto.request.ReservationInfoResponse;
+import com.dongnebook.domain.reservation.dto.response.QReservationInfoResponse;
+import com.dongnebook.domain.reservation.dto.response.QReservationResponse;
+import com.dongnebook.domain.reservation.dto.response.ReservationInfoResponse;
 import com.dongnebook.global.dto.request.PageRequest;
 import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.impl.JPAQueryFactory;
