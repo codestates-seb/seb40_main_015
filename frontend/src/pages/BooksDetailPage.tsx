@@ -23,6 +23,9 @@ const BooksDetailPage = () => {
 	const { data, isLoading } = useQuery({
 		queryKey: ['book'],
 		queryFn: () => getBookDetail(bookId),
+		onSuccess: () => {
+			console.log(data);
+		},
 	});
 
 	// console.log(data);
