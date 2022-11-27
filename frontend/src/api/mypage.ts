@@ -79,8 +79,12 @@ export const useMypageAPI = () => {
 	
 
 	// 마이페이지 - 예약목록
-	const getReservationBookList = () => 
-		api.get(`/reservations`);
+	const getReservationBookList = (index:string) => 
+		api.get(`/reservations`,{
+			params: {
+				index,
+			},
+		});
 
 
 	// 마이페이지 - 회원정보 수정
