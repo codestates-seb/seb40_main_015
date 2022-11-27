@@ -14,6 +14,7 @@ function Modal({
 }: PropsWithChildren<ModalDefaultType>) {
 	const location = useGeoLocation2();
 	const navigate = useNavigate();
+
 	return (
 		<ModalContainer>
 			<DialogBox>
@@ -22,11 +23,22 @@ function Modal({
 				<div className="currentplace">
 					{location.loaded
 						? JSON.stringify(location)
-						: '현재 위치를 알 수 없습니다.'}
+						: '현재 위치를 확인 중입니다'}
 				</div>
 				<div className="btn">
-					<Button className="btn1">예</Button>
-					<Button className="btn2">아니오</Button>
+					<Button className="btn1" onClick={() => {}}>
+						예
+					</Button>
+					<Button
+						className="btn2"
+						onClick={(e: React.MouseEvent) => {
+							e.preventDefault();
+							if (onClickToggleModal) {
+								onClickToggleModal();
+							}
+						}}>
+						아니오
+					</Button>
 				</div>
 			</DialogBox>
 			<Backdrop
@@ -60,7 +72,7 @@ const DialogBox = styled.dialog`
 	box-shadow: 0 0 30px rgba(30, 30, 30, 0.185);
 	box-sizing: border-box;
 	background-color: white;
-	z-index: 1000;
+	z-index: 9999;
 	align-items: center;
 	justify-content: center;
 	top: 30%;

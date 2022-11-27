@@ -3,14 +3,11 @@ import styled from 'styled-components';
 import Title from '../components/common/Title';
 import Button from '../components/common/Button';
 import Modal from '../components/common/Modal';
-import { useInputImage } from '../components/Member/hooks/useInputImage';
 import useGeoLocation from '../hooks/useGeoLocation';
-import { useMypageAPI } from '../api/mypage';
-import { useQuery } from '@tanstack/react-query';
-import { useNavigate } from 'react-router-dom';
 import { useFixInfo } from '../components/Member/hooks/useFixInfo';
 import axios from 'axios';
 import { BASE_URL } from '../constants/constants';
+import { useNavigate } from 'react-router-dom';
 
 function ProfileEditPage() {
 	//현재 위치 수정
@@ -97,6 +94,17 @@ function ProfileEditPage() {
 	// 		return;
 	// 	}
 
+	//patch mutation
+	const { mutate } = useFixInfo({
+		nickname: 'asdf',
+		location: {
+			latitude: '37.5340',
+			longitude: '126.7064',
+		},
+		address: '서울시 서울구 서울동',
+		avatarUrl:
+			'https://www.pngarts.com/files/10/Default-Profile-Picture-PNG-Download-Image.png',
+	});
 	//화면에 프로필 사진 표시
 	// 	const reader = new FileReader();
 	// 	reader.onload = () => {
@@ -130,7 +138,7 @@ function ProfileEditPage() {
 				/>
 				<p className="minititle">닉네임</p>
 				<div className="input">
-					<input placeholder="" disabled={false} />
+					<input placeholder="수정할 닉네임을 작성하세요" disabled={false} />
 				</div>
 				<p className="minititle">내 동네 설정</p>
 				<div className="input">
@@ -148,6 +156,10 @@ function ProfileEditPage() {
 				</div>
 				<Button
 					onClick={() => {
+						//저장 후 바로 프로필 페이지로 가지 않게 수정
+						const isconfirm = window.confirm('해당 정보로 수정하시겠습니까?');
+						if (!isconfirm) return;
+						mutate();
 						navigate('/profile');
 					}}
 					className="Button"
