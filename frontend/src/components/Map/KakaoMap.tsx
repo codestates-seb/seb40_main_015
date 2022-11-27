@@ -1,18 +1,18 @@
 import { Dispatch, SetStateAction, useEffect, useState } from 'react';
 import styled, { css, keyframes } from 'styled-components';
-import { getTotalBook, getTotalMerchant } from '../../api/map';
 import { Map, MapMarker } from 'react-kakao-maps-sdk';
 import BookLists from './BookLists';
 import MerchantLists from './MerchantLists';
 import CustomOverlay from './CustomOverlay';
+import CustomOverlayHover from './CustomOverlayHover';
 
 interface MarkerProps {
 	merchantCount: number;
 	totalBookCount?: number;
 	sector: number;
 	location: {
-		latitude: string;
-		longitude: string;
+		latitude: number;
+		longitude: number;
 	};
 }
 
@@ -21,24 +21,14 @@ interface MerchantSectorProps {
 	totalBookCount?: number;
 	sector: number;
 	location: {
-		latitude: string;
-		longitude: string;
+		latitude: number;
+		longitude: number;
 	};
 }
 
-interface BookMarkerProps {
-	totalBookCount: number;
-	sector: number;
-	representativeLocation: {
-		latitude: string;
-		longitude: string;
-	};
-}
-
-interface Map2Props {
-	current: { La: number; Ma: number };
-	setCurrent: Dispatch<SetStateAction<{ La: number; Ma: number }>>;
-	reset: boolean;
+interface KakaoMapProps {
+	current: { lat: number; lon: number };
+	setCurrent: Dispatch<SetStateAction<{ lat: number; lon: number }>>;
 	selectOverlay: any;
 	setSelectOverlay: Dispatch<SetStateAction<any>>;
 	merchantSector: MerchantSectorProps[];
@@ -52,13 +42,24 @@ interface Map2Props {
 	setZoomLevel: Dispatch<SetStateAction<number>>;
 	size: any;
 	searchInput: string;
+	centerCoord: {
+		lat: number;
+		lon: number;
+	};
+	setCenterCoord: Dispatch<
+		SetStateAction<{
+			lat: number;
+			lon: number;
+		}>
+	>;
+	merchantCurrentRefetch: any;
+	bookCurrentRefetch: any;
 }
 
-const Map2 = (props: Map2Props) => {
+const KakaoMap = (props: KakaoMapProps) => {
 	const {
 		current,
 		setCurrent,
-		reset,
 		selectOverlay,
 		setSelectOverlay,
 		merchantSector,
@@ -72,64 +73,52 @@ const Map2 = (props: Map2Props) => {
 		setZoomLevel,
 		size,
 		searchInput,
+		centerCoord,
+		setCenterCoord,
+		merchantCurrentRefetch,
+		bookCurrentRefetch,
 	} = props;
-	const [level, setLevel] = useState(5);
-	const [centerCoord, setCenterCoord] = useState({
-		lat: 0,
-		lon: 0,
-	});
+
+	const [hoverList, setHoverLists] = useState({ latitude: 0, longitude: 0 });
 
 	useEffect(() => {
-		if (level > 5) {
-			setLevel(5);
+		if (zoomLevel > 5) {
+			setZoomLevel(5);
 		}
-		setZoomLevel(level);
-	}, [level]);
+	}, [zoomLevel]);
 
+	// 	// centerCoord 변경될때마다 주변상인 정보 api 호출하기
 	useEffect(() => {
-		// centerCoord 변경될때마다 주변상인 정보 api 호출하기
-		if (!searchInput) {
-			console.log('현재위치 변경됨 주변 상인정보 다시 요청');
-			// setMerchantSector(data);
-			getTotalMerchant(
-				centerCoord.lat ? centerCoord.lat : current.Ma,
-				centerCoord.lon ? centerCoord.lon : current.La,
-				size.width,
-				size.height,
-				zoomLevel < 3 ? 3 : zoomLevel,
-			).then(res => {
-				console.log(res);
-				setMerchantSector(res);
-				setBookSector([]);
-			});
-		} else {
-			console.log('현재위치 변경됨 주변 책정보 다시 요청');
-			// setBookSector(bookCount);
-			getTotalBook(
-				searchInput,
-				centerCoord.lat ? centerCoord.lat : current.Ma,
-				centerCoord.lon ? centerCoord.lon : current.La,
-				size.width,
-				size.height,
-				zoomLevel < 3 ? 3 : zoomLevel,
-			).then(res => {
-				console.log(res);
-				setBookSector(res);
-				setMerchantSector([]);
-			});
+		if (centerCoord.lat && centerCoord.lon) {
+			if (!searchInput) {
+				merchantCurrentRefetch();
+			} else {
+				bookCurrentRefetch();
+			}
 		}
-	}, [centerCoord, current]);
+	}, [centerCoord, zoomLevel, size]);
+
+	// 	// current 변경될때마다 주변상인 정보 api 호출하기
+	useEffect(() => {
+		if (current.lat && current.lon) {
+			if (!searchInput) {
+				merchantCurrentRefetch();
+			} else {
+				bookCurrentRefetch();
+			}
+		}
+	}, [current, zoomLevel, size]);
 
 	return (
 		<Map
 			center={{
-				lat: current?.Ma ? current.Ma : 33.4522346675632,
-				lng: current?.La ? current.La : 126.57100321134753,
+				lat: current?.lat ? current.lat : 33.4522346675632,
+				lng: current?.lon ? current.lon : 126.57100321134753,
 			}}
 			isPanto={true}
 			style={{ width: '100%', height: '100%', position: 'absolute' }}
-			level={level}
-			onZoomChanged={map => setLevel(map.getLevel())}
+			level={zoomLevel}
+			onZoomChanged={map => setZoomLevel(map.getLevel())}
 			onDragEnd={map =>
 				setCenterCoord({
 					lat: map.getCenter().getLat(),
@@ -138,8 +127,8 @@ const Map2 = (props: Map2Props) => {
 			}>
 			<MapMarker
 				position={{
-					lat: current?.Ma ? current.Ma : 33.4522346675632,
-					lng: current?.La ? current.La : 126.57100321134753,
+					lat: current?.lat ? current.lat : 33.4522346675632,
+					lng: current?.lon ? current.lon : 126.57100321134753,
 				}}
 				image={{
 					src: 'https://velog.velcdn.com/images/fejigu/post/ffa9fea3-b632-4d69-aac0-dc807ff55ea7/image.png', // 마커이미지의 주소입니다
@@ -157,23 +146,29 @@ const Map2 = (props: Map2Props) => {
 			/>
 			{merchantSector.length && (
 				<CustomOverlay
-					merchantSector={merchantSector}
+					sector={merchantSector}
 					selectOverlay={selectOverlay}
 					setSelectOverlay={setSelectOverlay}
 				/>
 			)}
 			{bookSector.length && (
 				<CustomOverlay
-					merchantSector={bookSector}
+					sector={bookSector}
 					selectOverlay={selectOverlay}
 					setSelectOverlay={setSelectOverlay}
 				/>
 			)}
+			{hoverList && <CustomOverlayHover hoverList={hoverList} />}
 			<Search>
 				{merchantLists.length > 0 && (
-					<MerchantLists merchantList={merchantLists} />
+					<MerchantLists
+						merchantList={merchantLists}
+						setHoverLists={setHoverLists}
+					/>
 				)}
-				{bookLists.length > 0 && <BookLists bookLists={bookLists} />}
+				{bookLists.length > 0 && (
+					<BookLists bookLists={bookLists} setHoverLists={setHoverLists} />
+				)}
 			</Search>
 		</Map>
 	);
@@ -221,4 +216,4 @@ const Search = styled.div<SearchProps>`
 			  `};
 `;
 
-export default Map2;
+export default KakaoMap;

@@ -10,6 +10,6 @@ import com.dongnebook.domain.member.domain.Member;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 
 public interface DibsRepository extends JpaRepository<Dibs,Long> {
-	Optional<Dibs> findByBookAndMember(Book book, Member member);
+	Optional<Dibs> findByBookAndMemberOrderByIdDesc(Book book, Member member);
 
 }

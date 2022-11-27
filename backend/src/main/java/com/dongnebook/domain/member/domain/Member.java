@@ -4,6 +4,7 @@ import javax.persistence.*;
 import javax.validation.constraints.Size;
 
 import com.dongnebook.domain.book.domain.Book;
+import com.dongnebook.domain.chat.domain.ChatRoom;
 import com.dongnebook.domain.dibs.domain.Dibs;
 import com.dongnebook.domain.member.dto.request.MemberEditRequest;
 import com.dongnebook.domain.member.dto.request.MemberRegisterRequest;
@@ -59,6 +60,7 @@ public class Member extends BaseTimeEntity {
 	private List<Book> bookList = new ArrayList<>();
 
 
+
 	@Builder
 	public Member(String userId, String password, String nickname)  {
 		this.userId = userId;
@@ -80,6 +82,10 @@ public class Member extends BaseTimeEntity {
 		this.location = memberEditRequest.getLocation()==null ? this.location : memberEditRequest.getLocation();
 		this.nickname = memberEditRequest.getNickname()==null ? this.nickname : memberEditRequest.getNickname();
 		this.address= memberEditRequest.getAddress()==null ? this.address : memberEditRequest.getAddress();
+	}
+
+	public boolean hasSameId(Long id) {
+		return this.id.equals(id);
 	}
 
 }

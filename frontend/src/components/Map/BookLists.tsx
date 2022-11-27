@@ -1,17 +1,27 @@
 import styled from 'styled-components';
 import { useNavigate } from 'react-router-dom';
+import { Dispatch, SetStateAction } from 'react';
 
 interface Props {
 	bookLists: any;
+	setHoverLists: Dispatch<SetStateAction<any>>;
 }
 
 const BookLists = (props: Props) => {
-	const { bookLists } = props;
+	const { bookLists, setHoverLists } = props;
 
 	const navigate = useNavigate();
 	const handleSearchBookDetailInfo = (id: string) => {
 		navigate(`/books/${id}`);
 	};
+
+	const handleHoverMap = (location: {
+		latitude: number;
+		longitude: number;
+	}) => {
+		setHoverLists(location);
+	};
+
 	return (
 		<>
 			<Container>
@@ -24,11 +34,13 @@ const BookLists = (props: Props) => {
 			</Container>
 			<Box>
 				{bookLists?.map((item: any, i: number) => {
-					const { bookId, title, status, merchantName } = item;
+					const { bookId, title, status, merchantName, location } = item;
 					return (
 						<List
 							key={bookId}
-							onClick={() => handleSearchBookDetailInfo(bookId)}>
+							onClick={() => handleSearchBookDetailInfo(bookId)}
+							onMouseOver={() => handleHoverMap(location)}
+							onMouseOut={() => setHoverLists({ latitude: 0, longitude: 0 })}>
 							<div className="bookstate">
 								<span className="book">{title}</span>
 								{status === '대여가능' && <div className="state1"></div>}
