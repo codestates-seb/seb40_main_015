@@ -35,7 +35,7 @@ const BooksPage = () => {
 			},
 			{
 				root: null,
-				threshold: 0.9,
+				threshold: 0.5,
 			},
 		);
 		observer.observe(target.current as Element);

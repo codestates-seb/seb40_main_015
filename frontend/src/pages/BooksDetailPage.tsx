@@ -25,7 +25,7 @@ const BooksDetailPage = () => {
 		queryFn: () => getBookDetail(bookId),
 	});
 
-	console.log(data);
+	// console.log(data);
 	if (isLoading) return <Animation />;
 	return (
 		<Main>
@@ -46,10 +46,26 @@ const BooksDetailPage = () => {
 					<Button>책 대여하기</Button>
 				</LinkStyled>
 			) : (
-				<LinkStyled to={`booking`}>
+				<LinkStyled
+					to={`booking`}
+					state={{
+						rentalStart: data?.book.rentalStart,
+						rentalEnd: data?.book.rentalEnd,
+					}}>
 					<Button>책 예약하기</Button>
 				</LinkStyled>
 			)}
+			{/* <LinkStyled to={`rental`}>
+				<Button>책 대여하기</Button>
+			</LinkStyled>
+			<LinkStyled
+				to={`booking`}
+				state={{
+					rentalStart: data?.book.rentalStart,
+					rentalEnd: data?.book.rentalEnd,
+				}}>
+				<Button>책 예약하기</Button>
+			</LinkStyled> */}
 		</Main>
 	);
 };

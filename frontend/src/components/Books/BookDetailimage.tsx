@@ -48,9 +48,20 @@ const BookImage = ({ book, merchant }: BookDetailProps) => {
 
 			{book?.state !== '대여가능' ? (
 				<BookNotAvailable>
-					<span>이미 누가 대여중이에요 😭</span>
-					<span>2022/1104~2022/11/18</span>
-					<span>{book?.state}</span>
+					{book?.state !== '거래중단' ? (
+						<>
+							<span>이미 누가 대여중이에요 😭</span>
+							<span>2022/1104~2022/11/18</span>
+							<span
+								className={
+									book?.state !== '예약불가' ? 'possible' : 'impossible'
+								}>
+								{book?.state !== '예약불가' ? '예약가능' : '예약불가'}
+							</span>
+						</>
+					) : (
+						<span>{book?.state}</span>
+					)}
 				</BookNotAvailable>
 			) : (
 				''
@@ -62,7 +73,7 @@ const BookImage = ({ book, merchant }: BookDetailProps) => {
 				''
 			)}
 
-			{id !== merchant?.merchantId ? (
+			{id && id !== merchant?.merchantId ? (
 				active ? (
 					<WishiconOn onClick={HandleWishIcon} />
 				) : (
@@ -129,7 +140,7 @@ const BookImg = styled.img`
 `;
 const BookNotAvailable = styled.div`
 	width: 18rem;
-	height: 20rem;
+	height: 21rem;
 	background-color: rgba(1, 1, 1, 0.4);
 	position: absolute;
 	/* left: 0; */
@@ -142,12 +153,21 @@ const BookNotAvailable = styled.div`
 		font-size: ${props => props.theme.fontSizes.subtitle};
 		background-color: transparent;
 		margin-bottom: 0.7rem;
-		&:nth-child(2) {
+		color: white;
+		/* &:nth-child(2) {
 			color: red;
 		}
 		&:last-child {
 			color: white;
-		}
+		} */
+	}
+	.possible {
+		color: #38e54d;
+		font-weight: bold;
+	}
+	.impossible {
+		color: #ff6464;
+		font-weight: bold;
 	}
 `;
 

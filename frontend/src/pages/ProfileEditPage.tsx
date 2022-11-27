@@ -1,12 +1,13 @@
 import { useState, useCallback, useRef } from 'react';
 import styled from 'styled-components';
-import userImage from '../assets/image/user.png';
 import Title from '../components/common/Title';
 import Button from '../components/common/Button';
-import { HiOutlinePencilAlt } from 'react-icons/hi';
 import Modal from '../components/common/Modal';
-import useAPI from '../hooks/useAPI';
+import useGeoLocation from '../hooks/useGeoLocation';
+import { useFixInfo } from '../components/Member/hooks/useFixInfo';
 import axios from 'axios';
+import { BASE_URL } from '../constants/constants';
+import { useNavigate } from 'react-router-dom';
 
 function ProfileEditPage() {
 	//현재 위치 수정
@@ -14,24 +15,53 @@ function ProfileEditPage() {
 	const onClickToggleModal = useCallback(() => {
 		setOpenModal(!isOpenModal);
 	}, [isOpenModal]);
+	const [current, setCurrent, handleCurrentLocationMove] = useGeoLocation();
 
 	//유저 이미지 수정
 	const [File, setFile] = useState<File | undefined>();
+	// const { mutate: image } = useInputImage(File);
 	const [Image, setImage] = useState<string>(
 		'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png',
 	);
+	const navigate = useNavigate();
 	const fileInput = useRef<any>(null);
 	const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-		console.log('');
-		const files = e.currentTarget.files as FileList;
+		const { files } = e.target;
+		const formData = new FormData();
 		if (files) {
-			setFile(files[0]);
+			const fileRef = files[0];
+			// setFile(fileRef);
+			// formData.append('img', fileRef);
+			axios.post(`${BASE_URL}/upload`, formData).then(res => console.log(res));
 		} else {
 			//업로드 취소할 시
 			setImage(
 				'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png',
 			);
 			return;
+
+			// console.log('');
+			// e.preventDefault();
+			// const files = e.currentTarget.files as FileList;
+			// setFile(files[0]);
+			// if (files) {
+			// 	const formData = new FormData();
+			// 	formData.append('img', files[0]);
+
+			// 	console.log(Array.from(formData.values()));
+
+			// 	//Array.from(formData.values())
+
+			// 	console.log(files[0]);
+			// 	// console.log(FormData);
+
+			// 	image();
+			// } else {
+			// 	//업로드 취소할 시
+			// 	setImage(
+			// 		'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png',
+			// 	);
+			// 	return;
 		}
 
 		//화면에 프로필 사진 표시
@@ -44,6 +74,47 @@ function ProfileEditPage() {
 		};
 		reader.readAsDataURL(files[0]);
 	};
+
+	//유저 이미지 수정
+	// const [File, setFile] = useState<File | undefined>();
+	// const [Image, setImage] = useState<string>(
+	// 	'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png',
+	// );
+	// const fileInput = useRef<any>(null);
+	// const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+	// 	console.log('');
+	// 	const files = e.currentTarget.files as FileList;
+	// 	if (files) {
+	// 		setFile(files[0]);
+	// 	} else {
+	// 		//업로드 취소할 시
+	// 		setImage(
+	// 			'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png',
+	// 		);
+	// 		return;
+	// 	}
+
+	//patch mutation
+	const { mutate } = useFixInfo({
+		nickname: 'asdf',
+		location: {
+			latitude: '37.5340',
+			longitude: '126.7064',
+		},
+		address: '서울시 서울구 서울동',
+		avatarUrl:
+			'https://www.pngarts.com/files/10/Default-Profile-Picture-PNG-Download-Image.png',
+	});
+	//화면에 프로필 사진 표시
+	// 	const reader = new FileReader();
+	// 	reader.onload = () => {
+	// 		if (reader.readyState === 2 && reader.result) {
+	// 			console.log(reader);
+	// 			setImage(`${reader.result}`);
+	// 		}
+	// 	};
+	// 	reader.readAsDataURL(files[0]);
+	// };
 
 	return (
 		<Layout>
@@ -67,7 +138,7 @@ function ProfileEditPage() {
 				/>
 				<p className="minititle">닉네임</p>
 				<div className="input">
-					<input placeholder="닉네임을 입력하세요" disabled={false} />
+					<input placeholder="수정할 닉네임을 작성하세요" disabled={false} />
 				</div>
 				<p className="minititle">내 동네 설정</p>
 				<div className="input">
@@ -77,10 +148,22 @@ function ProfileEditPage() {
 					<input
 						placeholder="내 동네를 설정하세요"
 						disabled={false}
-						onClick={onClickToggleModal}
+						onClick={() => {
+							onClickToggleModal();
+							handleCurrentLocationMove();
+						}}
 					/>
 				</div>
-				<Button className="Button" fontSize={'small'}>
+				<Button
+					onClick={() => {
+						//저장 후 바로 프로필 페이지로 가지 않게 수정
+						const isconfirm = window.confirm('해당 정보로 수정하시겠습니까?');
+						if (!isconfirm) return;
+						mutate();
+						navigate('/profile');
+					}}
+					className="Button"
+					fontSize={'small'}>
 					저장
 				</Button>
 			</ProfileBox>
@@ -144,7 +227,7 @@ const ProfileBox = styled.div`
 
 	.Button {
 		margin-top: 2.5rem;
-		width: 250px;
+		width: 230px;
 		font-size: 16px;
 	}
 	.input {

@@ -39,4 +39,14 @@ public class BookSimpleResponse {
 		this.status = status.getMessage();
 		this.bookImage = bookImage;
 	}
+
+	@QueryProjection
+	public BookSimpleResponse(Long bookId, String title, Money rentalFee, String bookImage, String merchantName) {
+		this.bookId = bookId;
+		this.title = title;
+		this.rentalFee = rentalFee.getValue();
+		this.bookImage = bookImage;
+		this.merchantName = merchantName;
+	}
+
 }
