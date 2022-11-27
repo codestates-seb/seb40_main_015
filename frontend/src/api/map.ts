@@ -1,17 +1,15 @@
 import { axiosInstance } from '.';
 
-// 섹터당 상인의 총 갯수
-//location 형식
-// localhost:8080/member/count?latitude=37.4974939&longitude=127.0270229
-export const getTotalMerchant = async (
+// 섹터당 상인의 총 갯수 // useQuery
+export const getTotalMerchantQuery = (
 	latitude: number,
 	longitude: number,
 	width: number,
 	height: number,
 	level: number,
 ) => {
-	try {
-		const result = await axiosInstance.get(`/member/count`, {
+	return axiosInstance
+		.get(`/member/count`, {
 			params: {
 				latitude,
 				longitude,
@@ -19,16 +17,12 @@ export const getTotalMerchant = async (
 				height,
 				level,
 			},
-		});
-		console.log(result);
-		return result.data;
-	} catch (err) {
-		return err;
-	}
+		})
+		.then(res => res.data);
 };
 
-// 섹터당 상인 목록
-export const getMerchantList = async (
+// 섹터당 상인 목록 // useQuery
+export const getMerchantListQuery = (
 	latitude: number,
 	longitude: number,
 	sector: number,
@@ -37,8 +31,8 @@ export const getMerchantList = async (
 	heigth: number,
 	index?: number | string,
 ) => {
-	try {
-		const result = await axiosInstance.get(`/member/sector`, {
+	return axiosInstance
+		.get(`/member/sector`, {
 			params: {
 				latitude,
 				longitude,
@@ -48,16 +42,12 @@ export const getMerchantList = async (
 				heigth,
 				index,
 			},
-		});
-		console.log(result);
-		return result.data;
-	} catch (err) {
-		return err;
-	}
+		})
+		.then(res => res.data);
 };
 
-// // 섹터당 책의 총 갯수
-export const getTotalBook = async (
+// // 섹터당 책의 총 갯수 useQuery
+export const getTotalBookQuery = (
 	bookTitle: string,
 	latitude: number,
 	longitude: number,
@@ -65,8 +55,8 @@ export const getTotalBook = async (
 	height: number,
 	level: number,
 ) => {
-	try {
-		const result = await axiosInstance.get(`/books/count`, {
+	return axiosInstance
+		.get(`/books/count`, {
 			params: {
 				bookTitle,
 				latitude,
@@ -75,16 +65,12 @@ export const getTotalBook = async (
 				height,
 				level,
 			},
-		});
-		console.log(result);
-		return result.data;
-	} catch (err) {
-		return err;
-	}
+		})
+		.then(res => res.data);
 };
 
-// // 섹터당 책 목록
-export const getBookList = async (
+// // 섹터당 책 목록 useQuery
+export const getBookListQuery = (
 	bookTitle: string,
 	latitude: number,
 	longitude: number,
@@ -93,9 +79,9 @@ export const getBookList = async (
 	width: number,
 	heigth: number,
 	index?: number | string,
-) => {
-	try {
-		const result = await axiosInstance.get(`/books`, {
+) =>
+	axiosInstance
+		.get(`/books`, {
 			params: {
 				bookTitle,
 				latitude,
@@ -106,10 +92,5 @@ export const getBookList = async (
 				heigth,
 				index,
 			},
-		});
-		console.log(result);
-		return result.data;
-	} catch (err) {
-		return err;
-	}
-};
+		})
+		.then(res => res.data);

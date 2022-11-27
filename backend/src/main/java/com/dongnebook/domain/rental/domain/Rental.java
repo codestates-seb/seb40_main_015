@@ -82,6 +82,10 @@ public class Rental {
         this.canceledAt = canceledAt;
     }
 
+    public void setReturnedAt(LocalDateTime rentalReturnedAt) {
+        this.rentalReturnedAt = rentalReturnedAt;
+    }
+
     public static Rental create(Book book, Member customer) {
         return Rental.builder()
                 .rentalDeadLine(LocalDateTime.now().plusDays(9).withHour(23).withMinute(59).withSecond(59))

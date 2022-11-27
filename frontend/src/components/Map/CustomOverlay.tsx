@@ -7,17 +7,17 @@ interface MarkerProps {
 	bookCount?: number;
 	sector: number;
 	location: {
-		latitude: string;
-		longitude: string;
+		latitude: number;
+		longitude: number;
 	};
 }
 
 const CustomOverlay = ({
-	merchantSector,
+	sector,
 	selectOverlay,
 	setSelectOverlay,
 }: {
-	merchantSector: MarkerProps[];
+	sector: MarkerProps[];
 	selectOverlay: any;
 	setSelectOverlay: Dispatch<SetStateAction<any>>;
 }) => {
@@ -32,7 +32,7 @@ const CustomOverlay = ({
 	};
 
 	const handleToggleActive = (idx: number) => {
-		console.log(active, idx);
+		// console.log(active, idx);
 		if (idx === active) {
 			setActive(-1);
 		} else {
@@ -40,10 +40,10 @@ const CustomOverlay = ({
 		}
 	};
 
-	// console.log(merchantSector);
+	// console.log(sector);
 	return (
 		<>
-			{merchantSector.map((item: MarkerProps, idx: number) => {
+			{sector.map((item: MarkerProps, idx: number) => {
 				const { merchantCount, sector, location, bookCount } = item;
 				return (
 					<div
