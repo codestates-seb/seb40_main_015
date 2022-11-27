@@ -8,6 +8,8 @@ import { useFixInfo } from '../components/Member/hooks/useFixInfo';
 import axios from 'axios';
 import { BASE_URL } from '../constants/constants';
 import { useNavigate } from 'react-router-dom';
+import Photo from '../components/BooksCreate/Photo';
+import Avatar from '../components/Member/hooks/ Avatar';
 
 function ProfileEditPage() {
 	//현재 위치 수정
@@ -142,6 +144,7 @@ function ProfileEditPage() {
 					onChange={onChange}
 					ref={fileInput}
 				/>
+				{/* <Avatar /> */}
 				<p className="minititle">닉네임</p>
 				<div className="input">
 					<input

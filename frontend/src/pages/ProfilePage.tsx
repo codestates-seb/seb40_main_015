@@ -18,7 +18,6 @@ import { useMypageAPI } from '../api/mypage';
 import useTabs from '../hooks/useTabs';
 // etc
 import { logout } from '../redux/slice/userSlice';
-import { useInputImage } from '../components/Member/hooks/useInputImage';
 import { useState } from 'react';
 function ProfilePage() {
 	const dispatch = useDispatch();
