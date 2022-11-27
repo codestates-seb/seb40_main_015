@@ -115,7 +115,12 @@ function ProfileEditPage() {
 	// 	};
 	// 	reader.readAsDataURL(files[0]);
 	// };
+	const [test, setTest] = useState<any>('');
+	const getAdress = (ad: any) => {
+		setTest(ad);
+	};
 
+	console.log('시험', test);
 	return (
 		<Layout>
 			<Title text="내 정보 수정하기" />
@@ -143,10 +148,13 @@ function ProfileEditPage() {
 				<p className="minititle">내 동네 설정</p>
 				<div className="input">
 					{isOpenModal && (
-						<Modal onClickToggleModal={onClickToggleModal}></Modal>
+						<Modal
+							onClickToggleModal={onClickToggleModal}
+							getAdress={getAdress}></Modal>
 					)}
 					<input
 						placeholder="내 동네를 설정하세요"
+						value={test}
 						disabled={false}
 						onClick={() => {
 							onClickToggleModal();

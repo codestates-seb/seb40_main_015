@@ -8,19 +8,12 @@ import { useQuery } from '@tanstack/react-query';
 import { useNavigate } from 'react-router-dom';
 import ButtonStatus from '../Merchant/ButtonStatus';
 
-//예약목록 조회
 interface ReservationBook {
-	reservationInfo: {
-		reservationId: number;
-		rentalExpectedAt: string;
-	};
-	bookInfo: {
-		bookId: number;
-		title: string;
-		bookImage: string;
-		rentalFee: number;
-		merchantName: string;
-	};
+	bookId: number;
+	title: string;
+	imageUrl: string;
+	rentalFee: number;
+	status: string;
 }
 
 const ReservationBookList = () => {

@@ -7,45 +7,36 @@ import Geocode from 'react-geocode';
 
 interface ModalDefaultType {
 	onClickToggleModal: () => void;
+	getAdress: (ad: string) => void;
 }
 
 function Modal({
 	onClickToggleModal,
+	getAdress,
 	children,
 }: PropsWithChildren<ModalDefaultType>) {
 	const location = useGeoLocation2();
 	const navigate = useNavigate();
 
 	const { lat, lng }: any = location.coordinates;
-	// const [test, setTest] = useState({
-	// 	tt: lat,
-	// 	ss: lng,
-	// });
 
-	console.log(location);
-	console.log(lat);
+	const [ad, setAd] = useState('');
+
 	useEffect(() => {
-		if (location.loaded === true)
-			// setTest({
-			// 	tt: lat,
-			// 	ss: lng,
-			// });
-			getAddressFromLatLng();
+		if (location.loaded === true) getAddressFromLatLng();
 	}, [location]);
 
-	// console.log(test);
 	const GEOCODER_KEY = 'AIzaSyDERRfqgHFEembIWc79vWHaxP9QUJifh1Q';
 	// const key: any = process.env.GEOCODER_KEY;
-
+	Geocode.setLanguage('ko');
 	Geocode.setApiKey(GEOCODER_KEY);
 	Geocode.enableDebug();
 
 	const getAddressFromLatLng = () => {
 		Geocode.fromLatLng(lat, lng).then(
 			response => {
-				console.log('response: ' + response);
 				const address = response.results[0].formatted_address;
-				console.log('address: ' + address);
+				setAd(address);
 			},
 			error => {
 				console.log(error);
@@ -59,12 +50,14 @@ function Modal({
 				{children}
 				<h1>현재 위치를 주거래 지역으로 설정할까요?</h1>
 				<div className="currentplace">
-					{location.loaded
-						? JSON.stringify(location)
-						: '현재 위치를 확인 중입니다'}
+					{location.loaded ? ad : '현재 위치를 확인 중입니다'}
 				</div>
 				<div className="btn">
-					<Button className="btn1" onClick={() => {}}>
+					<Button
+						className="btn1"
+						onClick={() => {
+							getAdress(ad);
+						}}>
 						예
 					</Button>
 					<Button

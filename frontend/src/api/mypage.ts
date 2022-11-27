@@ -51,7 +51,7 @@ interface FixmemberInfo {
 export const useMypageAPI = () => {
 	const api = useAPI();
 
-	// 상인정보용 도서 목록 조회(주용님)
+	// 상인정보용 도서 목록 조회
 	const getMerchantBookLists = (
 		id: string | undefined,
 		index?: string | undefined,
@@ -79,12 +79,8 @@ export const useMypageAPI = () => {
 	
 
 	// 마이페이지 - 예약목록
-	const getReservationBookList = (index:string) => 
-		api.get(`/reservations`,{
-			params: {
-				index,
-			},
-		});
+	const getReservationBookList = () => 
+		api.get(`/reservations`);
 
 
 	// 마이페이지 - 회원정보 수정
