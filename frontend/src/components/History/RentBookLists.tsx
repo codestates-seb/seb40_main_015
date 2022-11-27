@@ -115,7 +115,9 @@ const Wrapper = styled.div`
 		padding: 0.6rem 0.8rem;
 		background-color: inherit;
 		border-radius: 0 5px 0 5px;
-		border: 1px solid rgba(1, 1, 1, 0.1);
+		/* border: 1px solid rgba(1, 1, 1, 0.1); */
+		border-left: 1px solid rgba(1, 1, 1, 0.1);
+		border-bottom: 1px solid rgba(1, 1, 1, 0.1);
 
 		position: absolute;
 		top: 0;

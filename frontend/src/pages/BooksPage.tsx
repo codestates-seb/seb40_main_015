@@ -11,8 +11,12 @@ import Animation from '../components/Loading/Animation';
 
 //hooks
 import { useBooksAPI } from '../api/books';
+import { useAppDispatch, useAppSelector } from '../redux/hooks';
+import notify from '../utils/notify';
 
 const BooksPage = () => {
+	const { isLogin } = useAppSelector(state => state.loginInfo);
+	const dispatch = useAppDispatch();
 	const { getAllBooksListInfinite } = useBooksAPI();
 	const target = useRef<HTMLDivElement>(null);
 
@@ -47,8 +51,11 @@ const BooksPage = () => {
 			</TitleWrapper>
 
 			<BtnWrapper>
-				<LinkStyled to={'/books/create'}>
-					<Button>책 등록하기</Button>
+				<LinkStyled to={isLogin ? '/books/create' : ''}>
+					<Button
+						onClick={() => isLogin || notify(dispatch, '로그인이 필요합니다')}>
+						책 등록하기
+					</Button>
 				</LinkStyled>
 			</BtnWrapper>
 
@@ -58,7 +65,7 @@ const BooksPage = () => {
 				) : (
 					data?.pages?.map(el =>
 						el?.content?.map(el => {
-							if (el.status === '거래중단') return;
+							// if (el.status === '거래중단') return;
 							return (
 								<BookItem
 									key={+el.bookId}
