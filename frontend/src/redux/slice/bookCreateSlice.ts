@@ -1,6 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit';
 
-interface bookCreateInterface {
+export interface bookCreateInterface {
 	bookInfo: {
 		title: string;
 		authors: string[];

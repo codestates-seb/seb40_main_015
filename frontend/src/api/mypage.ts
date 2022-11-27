@@ -33,12 +33,11 @@ interface ReservationBook {
 }
 
 //회원정보 수정
-interface ReservationBook {
-	bookId: number;
-	title: string;
-	imageUrl: string;
-	rentalFee: number;
-	status: string;
+interface FixmemberInfo {
+	nickname: string;
+	location: { latitude: string | number; longitude: string | number };
+	address: string;
+	avatarUrl: string;
 }
 
 export const useMypageAPI = () => {
@@ -77,15 +76,9 @@ export const useMypageAPI = () => {
 
 
 	// 마이페이지 - 회원정보 수정
-	const axiosFixMemberInfo = async (id: string) => {
-		try {
-			const result = await api.patch(`/member/edit`);
-			console.log(result);
-			return result.data;
-		} catch (err) {
-			return err;
-		}
-	};
+	const patchFixMemberInfo = (data:FixmemberInfo) => 
+		api.patch(`/member/edit`,data);
+	
  
 	// 예약 취소
 	const axiosCancleReservation = async (id: string) => {
@@ -108,7 +101,7 @@ export const useMypageAPI = () => {
 	return {
 		getMyInfo,
 		getMemberInfo,
-		axiosFixMemberInfo,
+		patchFixMemberInfo,
 		getPickBookList,
 		getReservationBookList,
 		axiosCancleReservation,

@@ -1,24 +1,37 @@
 import styled from 'styled-components';
 import { useNavigate } from 'react-router-dom';
+import { Dispatch, SetStateAction } from 'react';
 
 interface Props {
 	merchantList: any;
+	setHoverLists: Dispatch<SetStateAction<any>>;
 }
 
 const MerchantLists = (props: Props) => {
-	const { merchantList } = props;
+	const { merchantList, setHoverLists } = props;
+
 	const navigate = useNavigate();
+
 	const handleSearchMerchantInfo = (id: string) => {
 		navigate(`/profile/merchant/${id}`);
+	};
+
+	const handleHoverMap = (location: {
+		latitude: number;
+		longitude: number;
+	}) => {
+		setHoverLists(location);
 	};
 	return (
 		<Box>
 			{merchantList?.map((item: any) => {
-				const { merchantName, merchantId } = item;
+				const { merchantName, merchantId, location } = item;
 				return (
 					<List
 						key={merchantId}
-						onClick={() => handleSearchMerchantInfo(merchantId)}>
+						onClick={() => handleSearchMerchantInfo(merchantId)}
+						onMouseOver={() => handleHoverMap(location)}
+						onMouseOut={() => setHoverLists({ latitude: 0, longitude: 0 })}>
 						<div className="book"> {merchantName}</div>
 					</List>
 				);
