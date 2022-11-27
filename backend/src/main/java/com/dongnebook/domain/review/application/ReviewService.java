@@ -6,13 +6,16 @@ import com.dongnebook.domain.rental.exception.RentalNotFoundException;
 import com.dongnebook.domain.rental.repository.RentalQueryRepository;
 import com.dongnebook.domain.review.domain.Review;
 import com.dongnebook.domain.review.dto.request.ReviewRequest;
+import com.dongnebook.domain.review.dto.response.ReviewResponse;
 import com.dongnebook.domain.review.exception.BookRentalNotMatchException;
+import com.dongnebook.domain.review.repository.ReviewQueryRepository;
 import com.dongnebook.domain.review.repository.ReviewRepository;
+import com.dongnebook.global.dto.request.PageRequest;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.SliceImpl;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.bind.annotation.PostMapping;
 
 @Slf4j
 @Service
@@ -21,7 +24,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 public class ReviewService {
 
     private final ReviewRepository reviewRepository;
-
+    private final ReviewQueryRepository reviewQueryRepository;
     private final RentalQueryRepository rentalQueryRepository;
 
     @Transactional
@@ -35,6 +38,11 @@ public class ReviewService {
         reviewRepository.save(review);
     }
 
+    public SliceImpl<ReviewResponse> readReviews(Long merchantId, PageRequest pageRequest){
+        return reviewQueryRepository.findAllByMerchantIdOrderByIdDesc(merchantId, pageRequest);
+    }
+
+
     private static void checkRentalPerson(Rental rental, Long customerId) {
         if(!rental.getCustomer().getId().equals(customerId)){
             throw new RentalNotFoundException();
@@ -46,7 +54,6 @@ public class ReviewService {
             throw new BookRentalNotMatchException();
         }
     }
-
 
     private Rental getRental(Long rentalId) {
         Rental rental = rentalQueryRepository.getRentalById(rentalId);
