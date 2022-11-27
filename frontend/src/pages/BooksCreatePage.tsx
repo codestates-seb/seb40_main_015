@@ -11,21 +11,20 @@ import SearchForm from '../components/BooksCreate/SearchForm';
 import RentalFee from '../components/BooksCreate/RentalFee';
 import Description from '../components/BooksCreate/Description';
 import Photo from '../components/BooksCreate/Photo';
-import useAPI from '../hooks/useAPI';
 import { makeCreateBookMessages } from '../utils/makeCreateBookMessages';
 import notify from '../utils/notify';
-import Animation from '../components/Loading/Animation';
-import { useState } from 'react';
+import usePostBooks from '../api/hooks/usePostBooks';
+import { validateBookCreatePayloads } from '../utils/validateBookCreatePayload';
 
 const BooksCreatePage = () => {
-	const [isSubmitting, setIsSubmitting] = useState(false);
 	const bookCreate = useAppSelector(state => state.persistedReducer.bookCreate);
 	const { title, authors, publisher } = bookCreate.bookInfo;
 	const { rentalFee, description, imageUrl } = bookCreate.rentalInfo;
 	const createBookMessages = makeCreateBookMessages(bookCreate);
-	const api = useAPI();
 	const dispatch = useAppDispatch();
 	const goNotify = (message: string) => notify(dispatch, message);
+
+	const { mutate } = usePostBooks();
 
 	const payload = {
 		title,
@@ -36,37 +35,19 @@ const BooksCreatePage = () => {
 		imageUrl,
 	};
 
-	const isValid = () => {
-		const values = Object.values(payload);
-		for (let i = 0; i < values.length; i++) {
-			if (!values[i]) return false;
-		}
-		return true;
-	};
-
 	const handleCreate = () => {
 		createBookMessages.forEach((message, notifyCase) => {
 			if (notifyCase) {
 				goNotify(message);
 			}
 		});
-		if (isValid()) {
-			setIsSubmitting(true);
-			api
-				.post('/books', payload)
-				.then(res => {
-					console.log(res);
-					setIsSubmitting(false);
-				})
-				.catch(() => {
-					setIsSubmitting(false);
-				});
+		if (validateBookCreatePayloads(payload)) {
+			mutate(payload);
 		}
 	};
 
 	return (
 		<Main>
-			{isSubmitting && <Animation />}
 			<TitleWrapper>
 				<Title text="책 등록하기" />
 			</TitleWrapper>
