@@ -17,6 +17,7 @@ interface Props {
 		rentalCanceledAt: string;
 	};
 }
+
 const RentStatusButton = ({ status, merchantName, rental }: Props) => {
 	const navigate = useNavigate();
 
@@ -28,7 +29,8 @@ const RentStatusButton = ({ status, merchantName, rental }: Props) => {
 		id: string,
 		e?: React.SyntheticEvent,
 	) => {
-		e?.stopPropagation();
+		console.log(e);
+		// e?.stopPropagation();
 		switch (status) {
 			case 'TRADING':
 				const action = (e?.target as HTMLButtonElement).textContent;
@@ -45,11 +47,14 @@ const RentStatusButton = ({ status, merchantName, rental }: Props) => {
 		}
 	};
 	return (
-		<StatusBox status={status}>
+		// <StatusBox status={status}>
+		<>
 			{status === 'TRADING' && (
 				<>
-					<Button onClick={e => handleStatusChange(status, merchantName, e)}>
-						취소
+					<Button
+						className="cancel"
+						onClick={e => handleStatusChange(status, merchantName, e)}>
+						취소 하기
 					</Button>
 					<Button onClick={e => handleStatusChange(status, merchantName, e)}>
 						수령 완료
@@ -70,21 +75,24 @@ const RentStatusButton = ({ status, merchantName, rental }: Props) => {
 			{status === 'CANCELED' && (
 				<Button backgroundColor="grey">취소 완료</Button>
 			)}
-		</StatusBox>
+		</>
+		// </StatusBox>
 	);
 };
-
 interface StatusBoxProps {
 	status: string;
 }
+
 const StatusBox = styled.div<StatusBoxProps>`
-	height: 100%;
+	/* height: 100%; */
+	/* width: 7rem; */
+
 	display: flex;
 	flex-direction: column;
 	flex-wrap: wrap;
+
 	justify-content: ${props =>
 		props.status === 'TRADING' ? 'space-evenly' : 'center'};
-	width: 7rem;
 	word-break: keep-all;
 	:hover {
 		background-color: ${props => props.theme.colors.grey};

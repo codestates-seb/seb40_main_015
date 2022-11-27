@@ -6,6 +6,7 @@ const GlobalStyle = createGlobalStyle`
   @font-face {
         font-family: 'Apple SD';
         font-weight: 500;
+        font-display: block;
         src: local('AppleNormal'), local('AppleNormal');
         font-style: normal;
         src: url(${AppleNormal}) format('truetype');
@@ -13,12 +14,14 @@ const GlobalStyle = createGlobalStyle`
   @font-face {
         font-family: 'Apple SD';
         font-weight: 600;
+        font-display: block;
         src: local('AppleBold'), local('AppleBold');
         font-style: bold;
         src: url(${AppleBold}) format('truetype');
   }
   @font-face {
         font-family: 'kotra';
+        font-display: block;
         src: local('kotra'), local('kotra');
         font-style: normal;
         src: url(${kotra}) format('truetype');

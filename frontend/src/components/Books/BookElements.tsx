@@ -1,7 +1,7 @@
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 
-// 현재 책상세, 책등록 페이지에서 사용중
+// 책상세, 책등록, 대여/예약 페이지에서 사용중
 
 const Main = styled.div`
 	display: flex;
@@ -15,7 +15,7 @@ const BodyContainer = styled.div`
 	flex-direction: column;
 	justify-content: center;
 	align-items: center;
-	margin-bottom: 2rem;
+	margin: 2rem 0;
 `;
 
 const Div = styled.fieldset`
@@ -111,6 +111,14 @@ const Partition = styled.span`
 	/* background-color: rgba(1, 1, 1, 0.2); */
 	margin: 0 0.5rem;
 `;
+const BookRentalInfo = styled.div`
+	display: flex;
+	flex-direction: column;
+	label {
+		font-size: 1.4rem;
+		margin-bottom: 0.6rem;
+	}
+`;
 const BookRentalFee = styled(Div)`
 	border: none;
 	display: flex;
@@ -163,28 +171,52 @@ const MerchantGrade = styled.div`
 	/* padding: 0 0.6rem; */
 `;
 
-const RentalInfo = styled.div`
-	display: flex;
-	flex-direction: column;
-	label {
-		font-size: 1.4rem;
-		margin-bottom: 0.6rem;
-	}
-	/* justify-content: center; */
-	/* align-items: center; */
-	/* justify-content: space-between; */
-`;
-
 const BookDsc = styled(Div)`
 	height: 20vh;
 	margin-bottom: 1rem;
 	div {
-		font-size: 20px;
+		font-size: 1.4rem;
 	}
 `;
 const LinkStyled = styled(Link)`
 	display: flex;
 	flex-direction: column;
+`;
+
+////////////////////////////
+// book rental & booking //
+
+const CalendarWrapper = styled.div`
+	p {
+		margin: 0.6rem 0;
+		font-size: 14px;
+
+		margin-bottom: 3rem;
+	}
+	strong {
+		font-size: 1.2rem;
+	}
+`;
+const RentalInfo = styled(BookInfo)`
+	/* width: 30rem; */
+	margin-bottom: 2rem;
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+`;
+
+const RentalCheck = styled.div`
+	width: 1rem;
+	display: flex;
+	align-items: center;
+
+	input {
+		width: 20px;
+		cursor: pointer;
+	}
+	label {
+		margin-right: 2rem;
+	}
 `;
 
 export {
@@ -203,4 +235,7 @@ export {
 	BookTitle,
 	BookSubTitle,
 	Partition,
+	CalendarWrapper,
+	RentalCheck,
+	BookRentalInfo,
 };
