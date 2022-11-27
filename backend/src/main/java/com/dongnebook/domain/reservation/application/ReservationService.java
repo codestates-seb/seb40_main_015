@@ -77,7 +77,7 @@ public class ReservationService {
     }
 
     private Rental getRentalByBookId(Long bookId) {
-        return rentalQueryRepository.getRental(bookId).get(0);
+        return rentalQueryRepository.getRentalByBookId(bookId).get(0);
     }
 
     private Reservation getReservation(Long reservationId) {

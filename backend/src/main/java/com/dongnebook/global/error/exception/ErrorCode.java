@@ -47,6 +47,9 @@ public enum ErrorCode {
 	CANNOT_RESERVATION_PERSON(404, "예약할 수 있는 회원이 아닙니다."),
 	NOT_CHANGEABLE_RESERVATION_STATE(404, "변경할 수 있는 예약상태가 아닙니다"),
 
+	/* Review */
+	BOOK_RENTAL_UNMATCHED(404, "도서정보와 대여도서정보가 일치하지 않습니다"),
+
 	/* Image */
 	UPLOAD_FAILED(404, "업로드 실패!!!!!!");
 
