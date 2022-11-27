@@ -1,8 +1,9 @@
-import React, { PropsWithChildren } from 'react';
+import React, { PropsWithChildren, useEffect, useState } from 'react';
 import styled from 'styled-components';
 import Button from '../common/Button';
 import useGeoLocation2 from '../../hooks/useGeoLocation2';
 import { useNavigate } from 'react-router-dom';
+import Geocode from 'react-geocode';
 
 interface ModalDefaultType {
 	onClickToggleModal: () => void;
@@ -14,6 +15,43 @@ function Modal({
 }: PropsWithChildren<ModalDefaultType>) {
 	const location = useGeoLocation2();
 	const navigate = useNavigate();
+
+	const { lat, lng }: any = location.coordinates;
+	// const [test, setTest] = useState({
+	// 	tt: lat,
+	// 	ss: lng,
+	// });
+
+	console.log(location);
+	console.log(lat);
+	useEffect(() => {
+		if (location.loaded === true)
+			// setTest({
+			// 	tt: lat,
+			// 	ss: lng,
+			// });
+			getAddressFromLatLng();
+	}, [location]);
+
+	// console.log(test);
+	const GEOCODER_KEY = 'AIzaSyDERRfqgHFEembIWc79vWHaxP9QUJifh1Q';
+	// const key: any = process.env.GEOCODER_KEY;
+
+	Geocode.setApiKey(GEOCODER_KEY);
+	Geocode.enableDebug();
+
+	const getAddressFromLatLng = () => {
+		Geocode.fromLatLng(lat, lng).then(
+			response => {
+				console.log('response: ' + response);
+				const address = response.results[0].formatted_address;
+				console.log('address: ' + address);
+			},
+			error => {
+				console.log(error);
+			},
+		);
+	};
 
 	return (
 		<ModalContainer>

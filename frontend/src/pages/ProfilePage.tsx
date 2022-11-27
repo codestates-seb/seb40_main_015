@@ -19,16 +19,30 @@ import useTabs from '../hooks/useTabs';
 // etc
 import { logout } from '../redux/slice/userSlice';
 import { useInputImage } from '../components/Member/hooks/useInputImage';
-
+import { useState } from 'react';
 function ProfilePage() {
 	const dispatch = useDispatch();
 	const navigate = useNavigate();
 	const [tab, curTab, handleChange] = useTabs(['찜 목록', '예약 목록']);
 	const { id } = useAppSelector(state => state.loginInfo);
-
+	const [Image, setImage] = useState<string>(
+		'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png',
+	);
 	const handleEditPage = () => {
 		navigate('/profile/edit');
 	};
+
+	interface Member {
+		memberId: number;
+		name: string;
+		location: {
+			lat: string | number;
+			lon: string | number;
+		} | null;
+		address: string | null;
+		totalBookCount: number;
+		avatarUrl: string | null;
+	}
 
 	// api mypage member info
 	const { getMyInfo, getPickBookList } = useMypageAPI();
@@ -41,6 +55,7 @@ function ProfilePage() {
 	console.log('data: ', data);
 
 	if (isLoading) return <Animation width={50} height={50} />;
+
 	return (
 		<Layout>
 			<Title text="마이페이지" />
