@@ -3,7 +3,9 @@ package com.dongnebook.domain.alarm.ui;
 import java.util.List;
 
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestHeader;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.mvc.method.annotation.SseEmitter;
 
@@ -26,11 +28,12 @@ public class AlarmController {
 		return alarmService.getMyAlarm(authMember.getMemberId());
 	}
 
-	@GetMapping(value = "/sub", produces = "text/event-stream")
-	public SseEmitter subscribe(@Login AuthMember authMember,
-		@RequestHeader(value = "LastEventId", required = false, defaultValue = "" ) String lastEventId){
+	@GetMapping(value = "/sub/{memberId}", produces = "text/event-stream")
+	public SseEmitter subscribe(
+		@RequestParam(value = "lastEventId", required = false, defaultValue = "" ) String lastEventId,
+		@PathVariable Long memberId){
 
-	return alarmService.sub(authMember.getMemberId(), lastEventId);
+	return alarmService.sub(memberId, lastEventId);
 	}
 
 }
