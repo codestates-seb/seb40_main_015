@@ -22,6 +22,7 @@ public class EmitterRepositoryImpl implements EmitterRepository{
 	@Override
 	public SseEmitter save(String emitterId, SseEmitter sseEmitter) {
 		emitters.put(emitterId, sseEmitter);
+
 		log.info("{}",emitters);
 		return sseEmitter;
 	}
