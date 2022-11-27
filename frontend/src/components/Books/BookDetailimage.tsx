@@ -4,7 +4,6 @@ import { HiHeart, HiOutlineHeart, HiOutlineTrash } from 'react-icons/hi';
 import { useNavigate } from 'react-router-dom';
 import { useMutation } from '@tanstack/react-query';
 import { useAppDispatch, useAppSelector } from '../../redux/hooks';
-import { useNotifyHook } from '../../hooks/useNotify';
 import { useBooksAPI } from '../../api/books';
 
 // types
