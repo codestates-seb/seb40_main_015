@@ -26,8 +26,7 @@ function Modal({
 		if (location.loaded === true) getAddressFromLatLng();
 	}, [location]);
 
-	const GEOCODER_KEY = 'AIzaSyDERRfqgHFEembIWc79vWHaxP9QUJifh1Q';
-	// const key: any = process.env.GEOCODER_KEY;
+	const GEOCODER_KEY: any = process.env.REACT_APP_GEOCODER_KEY;
 	Geocode.setLanguage('ko');
 	Geocode.setApiKey(GEOCODER_KEY);
 	Geocode.enableDebug();
