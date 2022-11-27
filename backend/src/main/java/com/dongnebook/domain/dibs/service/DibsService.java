@@ -55,7 +55,7 @@ public class DibsService {
 	}
 
 	private Dibs getDibs(Book book, Member member) {
-		return dibsRepository.findByBookAndMember(book, member).orElseThrow(DibsNotFoundException::new);
+		return dibsRepository.findByBookAndMemberOrderByIdDesc(book, member).orElseThrow(DibsNotFoundException::new);
 	}
 
 	private Member getMemberById(Long memberId) {
