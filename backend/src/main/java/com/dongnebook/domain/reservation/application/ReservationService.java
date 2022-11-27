@@ -11,7 +11,7 @@ import com.dongnebook.domain.rental.domain.Rental;
 import com.dongnebook.domain.rental.domain.RentalState;
 import com.dongnebook.domain.rental.repository.RentalQueryRepository;
 import com.dongnebook.domain.reservation.domain.Reservation;
-import com.dongnebook.domain.reservation.dto.request.ReservationInfoResponse;
+import com.dongnebook.domain.reservation.dto.response.ReservationInfoResponse;
 import com.dongnebook.domain.reservation.exception.CanNotChangeReservationStateException;
 import com.dongnebook.domain.reservation.exception.CanNotReservationBookRentalStateException;
 import com.dongnebook.domain.reservation.exception.CanNotReservationPersonException;
