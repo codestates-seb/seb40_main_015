@@ -115,12 +115,13 @@ function ProfileEditPage() {
 	// 	};
 	// 	reader.readAsDataURL(files[0]);
 	// };
-	const [test, setTest] = useState<any>('');
+	const [result, setResult] = useState<any>('');
 	const getAdress = (ad: any) => {
-		setTest(ad);
+		setResult(ad);
 	};
+	const [id, setId] = useState('');
 
-	console.log('시험', test);
+	console.log('결과', result);
 	return (
 		<Layout>
 			<Title text="내 정보 수정하기" />
@@ -143,7 +144,12 @@ function ProfileEditPage() {
 				/>
 				<p className="minititle">닉네임</p>
 				<div className="input">
-					<input placeholder="수정할 닉네임을 작성하세요" disabled={false} />
+					<input
+						placeholder="수정할 닉네임을 작성하세요"
+						disabled={false}
+						type="nickname"
+						{...setId}
+					/>
 				</div>
 				<p className="minititle">내 동네 설정</p>
 				<div className="input">
@@ -154,7 +160,7 @@ function ProfileEditPage() {
 					)}
 					<input
 						placeholder="내 동네를 설정하세요"
-						value={test}
+						value={result}
 						disabled={false}
 						onClick={() => {
 							onClickToggleModal();

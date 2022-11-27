@@ -50,13 +50,17 @@ function Modal({
 				{children}
 				<h1>현재 위치를 주거래 지역으로 설정할까요?</h1>
 				<div className="currentplace">
-					{location.loaded ? ad : '현재 위치를 확인 중입니다'}
+					{location.loaded ? ad : '- 현재 위치를 확인 중입니다 -'}
 				</div>
 				<div className="btn">
 					<Button
 						className="btn1"
-						onClick={() => {
+						onClick={(e: React.MouseEvent) => {
 							getAdress(ad);
+							e.preventDefault();
+							if (onClickToggleModal) {
+								onClickToggleModal();
+							}
 						}}>
 						예
 					</Button>
@@ -107,6 +111,7 @@ const DialogBox = styled.dialog`
 	align-items: center;
 	justify-content: center;
 	top: 30%;
+	padding-top: 20px;
 
 	h1 {
 		font-size: 20px;
@@ -132,6 +137,9 @@ const DialogBox = styled.dialog`
 		background-color: rgb(43, 103, 74);
 		border-radius: 3px;
 		color: white;
+		align-items: center;
+		text-align: center;
+		padding-top: 14px;
 	}
 `;
 
