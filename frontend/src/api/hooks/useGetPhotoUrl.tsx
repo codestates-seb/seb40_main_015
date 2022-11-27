@@ -1,19 +1,16 @@
 import { useMutation } from '@tanstack/react-query';
-import axios from 'axios';
-import { BASE_URL } from '../../constants/constants';
+import { axiosInstance } from '..';
 import { useAppDispatch } from '../../redux/hooks';
 import { updateRentalInfo } from '../../redux/slice/bookCreateSlice';
 
 const config = {
-	baseURL: BASE_URL,
 	headers: { 'Content-Type': 'multipart/form-data' },
 };
-const axiosInstance = axios.create(config);
 
 const useGetPhotoUrl = () => {
 	const dispatch = useAppDispatch();
 	return useMutation(
-		(formData: FormData) => axiosInstance.post(`/upload`, formData),
+		(formData: FormData) => axiosInstance.post(`/upload`, formData, config),
 		{
 			onSuccess: res =>
 				dispatch(updateRentalInfo({ key: 'imageUrl', value: res.data })),
