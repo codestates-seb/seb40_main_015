@@ -58,6 +58,7 @@ const BookItemInfo = ({
 };
 
 const BookInfo = styled.div`
+	/* width: 100vw; */
 	display: flex;
 `;
 
@@ -70,6 +71,7 @@ const BookImage = styled.div`
 	}
 `;
 const BookDetail = styled.div`
+	width: 60%;
 	display: flex;
 	flex-direction: column;
 	/* justify-content: space-between; */
