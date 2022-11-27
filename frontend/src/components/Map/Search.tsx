@@ -1,32 +1,36 @@
 import styled from 'styled-components';
 import { HiSearch } from 'react-icons/hi';
 import { Dispatch, SetStateAction } from 'react';
-import { getTotalBook, getTotalMerchant } from '../../api/map';
 import notify from '../../utils/notify';
 import { useAppDispatch } from '../../redux/hooks';
-import { data, bookCount } from './dummy';
 
 interface SearchProps {
 	searchInput: string;
 	setSearchInput: Dispatch<SetStateAction<string>>;
-	setReset: Dispatch<SetStateAction<boolean>>;
-	current: { La: number; Ma: number };
+	current: { lat: number; lon: number };
 	setMerchantSector: Dispatch<SetStateAction<any>>;
 	setBookSector: Dispatch<SetStateAction<any>>;
 	setMerchantLists: Dispatch<SetStateAction<any>>;
 	setBookLists: Dispatch<SetStateAction<any>>;
+	zoomLevel: number;
+	size: { width: number; height: number };
+	merchantCurrentRefetch: any;
+	bookCurrentRefetch: any;
 }
 
 const Search = (props: SearchProps) => {
 	const {
 		searchInput,
 		setSearchInput,
-		setReset,
 		current,
 		setMerchantSector,
 		setBookSector,
 		setMerchantLists,
 		setBookLists,
+		zoomLevel,
+		size,
+		merchantCurrentRefetch,
+		bookCurrentRefetch,
 	} = props;
 
 	const dispatch = useAppDispatch();
@@ -37,33 +41,46 @@ const Search = (props: SearchProps) => {
 
 	const handleSearchInput = (e: React.KeyboardEvent) => {
 		if (e.key === 'Enter') {
-			if (searchInput === '') {
-				setReset(false);
-				// getTotalMerchant(current.Ma, current.La).then(res =>
-				// 	setMerchantSector(res),
-				// );
-				setMerchantSector(data); // 더미데이터
+			if (!searchInput) {
+				merchantCurrentRefetch();
 				setBookSector([]);
 				setBookLists([]);
+				// getTotalMerchant(
+				// 	current.lat,
+				// 	current.lon,
+				// 	size.width,
+				// 	size.height,
+				// 	zoomLevel < 3 ? 3 : zoomLevel,
+				// ).then(res => {
+				// 	console.log(res);
+				// 	setMerchantSector(res);
+				// setBookSector([]);
+				// setBookLists([]);
+				// });
 			} else {
-				getTotalBook(searchInput, current.Ma, current.La).then(res => {
-					// 책검색 api 요청 -> 데이터가 잇으면?
-					if (res) {
-						// setReset(true);
-						setBookSector(bookCount);
-						setMerchantSector([]);
-						setMerchantLists([]);
-					} else {
-						// 없으면 ?
-						// 리셋안하고 toast 팝업;
-						// setReset(false);
-						notify(dispatch, `검색한 ${searchInput}가 주변에 없어요`);
-						setBookSector([]);
-						setBookLists([]);
-						setMerchantSector([]);
-						setMerchantLists([]);
-					}
-				});
+				bookCurrentRefetch();
+				setMerchantSector([]);
+				setMerchantLists([]);
+				// getTotalBook(
+				// 	searchInput,
+				// 	current.lat,
+				// 	current.lon,
+				// 	size.width,
+				// 	size.height,
+				// 	zoomLevel < 3 ? 3 : zoomLevel,
+				// ).then(res => {
+				// 	if (res) {
+				// 		setBookSector(res);
+				// 		setMerchantSector([]);
+				// 		setMerchantLists([]);
+				// 	} else {
+				// 		notify(dispatch, `검색한 ${searchInput}가 주변에 없어요`);
+				// 		setBookSector([]);
+				// 		setBookLists([]);
+				// 		setMerchantSector([]);
+				// 		setMerchantLists([]);
+				// 	}
+				// });
 			}
 		}
 	};

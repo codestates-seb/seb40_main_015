@@ -19,6 +19,9 @@ import com.dongnebook.domain.rental.exception.*;
 import com.dongnebook.domain.rental.repository.RentalQueryRepository;
 import com.dongnebook.domain.rental.repository.RentalRepository;
 
+import com.dongnebook.domain.reservation.domain.Reservation;
+import com.dongnebook.domain.reservation.repository.ReservationQueryRepository;
+import com.dongnebook.domain.reservation.repository.ReservationRepository;
 import com.dongnebook.global.dto.request.PageRequest;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -26,6 +29,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.*;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.time.LocalDateTime;
 
 
 @Slf4j
@@ -39,16 +44,18 @@ public class RentalService {
 	private final RentalQueryRepository rentalQueryRepository;
 	private final BookCommandRepository bookCommandRepository;
 	private final MemberRepository memberRepository;
+	private final ReservationQueryRepository reservationQueryRepository;
+	private final ReservationRepository reservationRepository;
 
 	@Transactional
 	public void createRental(Long bookId, Long customerId) {
-		Member merchant = getMemberById(customerId);
+		Member customer = getMemberById(customerId);
 		Book book = getBookById(bookId);
 
 		blockRentMyBook(customerId, book);
 		book.changeBookStateFromTo(BookState.RENTABLE, BookState.TRADING);
 		alarmService.sendAlarm(book.getMember(),book, AlarmType.RENTAL);
-		Rental rental = Rental.create(book, merchant);
+		Rental rental = Rental.create(book, customer);
 		rentalRepository.save(rental);
 	}
 
@@ -57,12 +64,15 @@ public class RentalService {
 	public void cancelRentalByCustomer(Long rentalId, Long customerId) {
 		Rental rental = getRental(rentalId);
 		Book book = getBookFromRental(rental);
-		alarmService.sendAlarm(book.getMember(),book, AlarmType.RESIDENT_CANCELLATION);
+
 		// 책을 빌린 주민 본인이 아닌 경우 예외 처리
 		canNotChangeRental(rental.getCustomer(), customerId);
 
 		rental.changeRentalStateFromTo(RentalState.TRADING, RentalState.CANCELED);
 		book.changeBookStateFromTo(BookState.TRADING, BookState.RENTABLE);
+		rental.setCanceledAt(LocalDateTime.now());
+
+		alarmService.sendAlarm(book.getMember(),book, AlarmType.RESIDENT_CANCELLATION);
 	}
 
 	// 해당 상인이 취소하는 경우
@@ -70,12 +80,15 @@ public class RentalService {
 	public void cancelRentalByMerchant(Long rentalId, Long merchantId) {
 		Rental rental = getRental(rentalId);
 		Book book = getBookFromRental(rental);
-		alarmService.sendAlarm(rental.getCustomer(),book, AlarmType.MERCHANT_CANCELLATION);
+
 		// 대여를 올린 상인 본인이 아닌 경우 예외 처리
 		canNotChangeRental(book.getMember(), merchantId);
 
 		rental.changeRentalStateFromTo(RentalState.TRADING, RentalState.CANCELED);
 		book.changeBookStateFromTo(BookState.TRADING, BookState.RENTABLE);
+		rental.setCanceledAt(LocalDateTime.now());
+
+		alarmService.sendAlarm(rental.getCustomer(),book, AlarmType.MERCHANT_CANCELLATION);
 	}
 
 	@Transactional
@@ -90,7 +103,6 @@ public class RentalService {
 		book.changeBookStateFromTo(BookState.TRADING, BookState.UNRENTABLE_RESERVABLE);
 	}
 
-	// 예약이 없을 경우에 대한 반납 case (예약이 있을 경우에 대한 반납 case 또한 만들어줘야 함)
 	@Transactional
 	public void returnRental(Long rentalId, Long merchantId){
 		Rental rental = getRental(rentalId);
@@ -99,9 +111,21 @@ public class RentalService {
 		// 대여를 올린 상인 본인이 아닌 경우 예외 처리
 		canNotChangeRental(book.getMember(), merchantId);
 
-		//예약이 없을 경우
 		rental.changeRentalStateFromTo(RentalState.BEING_RENTED, RentalState.RETURN_UNREVIEWED);
-		book.changeBookStateFromTo(BookState.UNRENTABLE_RESERVABLE, BookState.RENTABLE);
+		rental.setReturnedAt(LocalDateTime.now());
+
+		// 예약이 없을 경우
+		if(book.getBookState().equals(BookState.UNRENTABLE_RESERVABLE)){
+			book.changeBookStateFromTo(BookState.UNRENTABLE_RESERVABLE, BookState.RENTABLE);
+		} else { // 예약이 있을 경우 - 반납 즉시, 예약은 대여로 전환(=대여 등록)
+			book.changeBookStateFromTo(BookState.UNRENTABLE_UNRESERVABLE, BookState.TRADING);
+
+			Reservation reservation = reservationQueryRepository.getReservationByRentalId(rental.getId()).get(0);
+			reservationRepository.delete(reservation);
+
+			Rental newRental = Rental.create(book, reservation.getMember());
+			rentalRepository.save(newRental);
+		}
 	}
 
 	public SliceImpl<RentalBookResponse> getRentalsByMerchant(Long merchantId, PageRequest pageRequest) {

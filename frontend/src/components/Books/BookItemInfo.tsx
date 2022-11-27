@@ -1,5 +1,4 @@
 import styled from 'styled-components';
-import BookImageDummy from '../../assets/image/dummy.png';
 import convertDate from '../../utils/convertDate';
 import { BooksProps, RentalProps } from './type';
 
@@ -11,9 +10,6 @@ const rentalPeriodConversion = ({
 	rentalReturnedAt,
 	rentalCanceledAt,
 }: RentalProps) => {
-	{
-		/* <p>대여기간</p> */
-	}
 	if (rentalState === 'TRADING' || rentalState === 'BEING_RENTED')
 		return <p>{convertDate(rentalStartedAt, rentalDeadline, true)}</p>;
 	if (rentalState === 'RETURN_UNREVIEWED' || rentalState === 'RETURN_REVIEWED')
@@ -27,7 +23,7 @@ const BookItemInfo = ({
 	bookImage = '',
 	publisher = '',
 	author = '',
-	rentalfee = 0,
+	rentalfee = 100,
 	merchantName = '',
 	rental = {
 		rentalId: '',
@@ -46,12 +42,16 @@ const BookItemInfo = ({
 			</BookImage>
 			<BookDetail>
 				<BookTitle>{title}</BookTitle>
-				<p>
-					<span>{author ? `${author} / ${publisher}` : ''}</span>
-				</p>
+				{author !== '' ? (
+					<p>
+						{author} / {publisher}
+					</p>
+				) : (
+					''
+				)}
 				<p>{merchantName}</p>
 				<p>{`${rentalfee} 원`}</p>
-				{rentalPeriodConversion(rental)}
+				{/* {rentalPeriodConversion(rental)} */}
 			</BookDetail>
 		</BookInfo>
 	);
@@ -66,16 +66,17 @@ const BookImage = styled.div`
 	img {
 		width: 9em;
 		height: 11rem;
-		background-color: hotpink;
+		background-color: ${props => props.theme.colors.grey};
 	}
 `;
 const BookDetail = styled.div`
 	display: flex;
 	flex-direction: column;
-	justify-content: space-between;
+	/* justify-content: space-between; */
 	padding: 5px 0;
 	p {
-		padding: 3px;
+		font-size: 1.2rem;
+		margin: 0.4rem 0;
 	}
 `;
 

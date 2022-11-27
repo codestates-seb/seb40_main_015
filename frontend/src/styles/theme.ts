@@ -4,6 +4,7 @@ const pixelToRem = (size: number) => `${size / 16}rem`;
 // font size를 객체로 반환해주자.
 const fontSizes = {
 	title: pixelToRem(60),
+	maintitle: pixelToRem(35),
 	subtitle: pixelToRem(25),
 	paragraph: pixelToRem(18),
 };
@@ -28,6 +29,7 @@ const colors = {
 	buttonHoverGreen: '#1f966e',
 	headerBorder: '#A7A7A7',
 	unViewedNotice: '#C4E1D7',
+	errorColor: '#ff6a00',
 };
 
 const radius = {

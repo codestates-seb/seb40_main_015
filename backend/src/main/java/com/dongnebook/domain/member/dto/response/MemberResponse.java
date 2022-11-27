@@ -4,21 +4,22 @@ import com.dongnebook.domain.model.Location;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.querydsl.core.annotations.QueryProjection;
 
-import lombok.Builder;
 import lombok.Getter;
 
 @Getter
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class MemberResponse {
 
-	private Long id;
-	private String name;
+	private Long merchantId;
+	private String merchantName;
+	private Location location;
 
 
 	@QueryProjection
 
-	public MemberResponse(Long id, String name) {
-		this.id = id;
-		this.name = name;
+	public MemberResponse(Long merchantId, String merchantName, Location location) {
+		this.merchantId = merchantId;
+		this.merchantName = merchantName;
+		this.location = location;
 	}
 }

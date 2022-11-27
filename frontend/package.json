@@ -41,8 +41,12 @@
 		"react": "^18.2.0",
 		"react-calendar": "^4.0.0",
 		"react-dom": "^18.2.0",
+		"react-geocode": "^0.2.3",
 		"react-icons": "^4.6.0",
+		"react-intersection-observer": "^9.4.1",
+		"react-kakao-maps-sdk": "^1.1.5",
 		"react-redux": "^8.0.5",
+		"react-router": "^6.4.3",
 		"react-router-dom": "^6.4.3",
 		"react-scripts": "5.0.1",
 		"styled-components": "^5.3.6",
@@ -72,5 +76,8 @@
 			"last 1 firefox version",
 			"last 1 safari version"
 		]
+	},
+	"devDependencies": {
+		"kakao.maps.d.ts": "^0.1.33"
 	}
 }

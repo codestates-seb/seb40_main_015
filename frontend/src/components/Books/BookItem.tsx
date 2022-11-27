@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 //components
 import Button from '../common/Button';
@@ -28,8 +28,13 @@ const BookItem = ({
 		rentalCanceledAt: '',
 	},
 }: BooksProps) => {
+	const navigate = useNavigate();
+	const handleBookDetailPage = () => {
+		navigate(`/books/${bookId}`);
+	};
 	return (
-		<BookContainer to={`/books/${bookId}`}>
+		// <BookContainer to={`/books/${bookId}`}>
+		<BookContainer onClick={handleBookDetailPage}>
 			{/* <BookInfo>
 				<BookImage>
 					<img src={BookImageDummy} alt="Book Image" />
@@ -53,9 +58,9 @@ const BookItem = ({
 				bookImage={bookImage}
 				publisher={publisher}
 				author={author}
-				merchantName={merchantName}
 				rentalfee={rentalfee}
 				rental={rental}
+				merchantName={merchantName}
 			/>
 			<BookItemState
 				status={status}
@@ -66,13 +71,13 @@ const BookItem = ({
 	);
 };
 
-const BookContainer = styled(Link)`
+const BookContainer = styled.div`
 	display: flex;
 	justify-content: space-between;
 	width: 90vw;
 
 	padding: 14px;
-	margin: 10px 0;
+	margin-bottom: 6px;
 
 	border: 1px solid rgba(1, 1, 1, 0.1);
 	border-radius: 5px;

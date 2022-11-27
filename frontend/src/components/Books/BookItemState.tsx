@@ -16,18 +16,17 @@ const BookItemState = ({
 		<BookStateWrapper>
 			{/* <Button>{status}</Button> */}
 			{/* <BookStatus>{status}</BookStatus> */}
-			{rental?.rentalId ? (
-				// rental 정보가 있는 대여내역페이지에서 렌더링
-				// 빌린책과 빌리준책은 현재 로그인한 유저 닉네임과 merchantName를 비교해서 분기하면 될 듯
-				nickName === merchantName ? null : (
-					<RentStatusButton
-						status={status}
-						merchantName={merchantName}
-						rental={rental}
-					/>
-				)
-			) : (
-				// rental 정보가 없는 전체조회, 마이페이지에서 렌더링
+			{rental?.rentalId ? // rental 정보가 있는 대여내역페이지에서는 상태 버튼이 보이지 않음.
+			// nickName === merchantName ? null : (
+			// merchantName === '' ? null : (
+			// 	<RentStatusButton
+			// 		status={status}
+			// 		merchantName={merchantName}
+			// 		rental={rental}
+			// 	/>
+			// )
+			null : (
+				// rental 정보가 없는 전체조회, 마이페이지에서 상태 버튼 렌더링
 				<BookStatus>{status}</BookStatus>
 			)}
 		</BookStateWrapper>
