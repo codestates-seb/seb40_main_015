@@ -32,6 +32,7 @@ export interface IBookDetail {
 	bookId: number;
 	content: string;
 	publisher: string;
+	author: string;
 	rentalEnd: string | null;
 	rentalFee?: number;
 	rentalStart: string | null;

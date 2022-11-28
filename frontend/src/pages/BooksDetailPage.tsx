@@ -32,8 +32,8 @@ const BooksDetailPage = () => {
 		},
 	});
 
-	// console.log(data);
-	if (isLoading) return <Animation />;
+	// console.log(isLoading, isFetching);
+	if (isLoading) return <Animation width={20} height={20} />;
 	// if (isSuccess) {
 	return (
 		<>
@@ -49,9 +49,8 @@ const BooksDetailPage = () => {
 					</BodyContainer>
 
 					{/* 글 주인한테는 버튼이 어떻게 보여야할까? */}
-					{data?.book?.state === '예약불가' ? (
-						<Button backgroundColor={'grey'}>대여/예약 불가</Button>
-					) : data?.book?.state === '대여가능' ? (
+
+					{data?.book?.state === '대여가능' ? (
 						<LinkStyled to={isLogin ? `rental` : ''}>
 							<Button
 								onClick={() =>
@@ -60,7 +59,7 @@ const BooksDetailPage = () => {
 								책 대여하기
 							</Button>
 						</LinkStyled>
-					) : (
+					) : data?.book?.state === '대여중&예약가능' ? (
 						<LinkStyled
 							to={isLogin ? `booking` : ''}
 							state={{
@@ -74,6 +73,8 @@ const BooksDetailPage = () => {
 								책 예약하기
 							</Button>
 						</LinkStyled>
+					) : (
+						<Button backgroundColor={'grey'}>대여/예약 불가</Button>
 					)}
 					{/* <LinkStyled to={`rental`}>
 				<Button>책 대여하기</Button>

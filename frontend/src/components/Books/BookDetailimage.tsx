@@ -18,7 +18,11 @@ const BookImage = ({ book, merchant }: BookDetailProps) => {
 	const { postWishItem, deleteBook } = useBooksAPI();
 
 	// 찜하기 post요청 쿼리
-	const { mutate: mutateWish } = useMutation({
+	const {
+		mutate: mutateWish,
+		isLoading,
+		isSuccess,
+	} = useMutation({
 		mutationFn: () => postWishItem(book?.bookId),
 	});
 
@@ -35,7 +39,6 @@ const BookImage = ({ book, merchant }: BookDetailProps) => {
 	const HandleWishIcon = () => {
 		setActive(!active);
 		mutateWish();
-
 		// notify 메시지 계속 남아있는 오류 해결 후에 사용. 삭제버튼에도 알림멘션줄까
 		// active 보다 찜 정보를 이용해서 알림 기능 구현할 것
 		active || notify(dispatch, '찜 목록에 추가되었습니다.');

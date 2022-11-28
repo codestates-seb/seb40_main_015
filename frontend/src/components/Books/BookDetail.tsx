@@ -32,7 +32,7 @@ const BookDetail = ({ book, merchant }: BookDetailProps) => {
 						<label>{book?.title}</label>
 					</BookTitle>
 					<BookSubTitle>
-						<label>author</label>
+						<label>{book?.author}</label>
 						<Partition>|</Partition>
 						<label>{book?.publisher}</label>
 					</BookSubTitle>
