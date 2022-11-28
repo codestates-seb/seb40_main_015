@@ -35,7 +35,7 @@ public class OAuthService implements OAuth2UserService<OAuth2UserRequest, OAuth2
 
         OAuthUserProfile oAuthUserProfile = OAuthAttributes.extract(registrationId, attributes); // registrationId에 따라 유저 정보를 통해 공통된 UserProfile 객체로 만들어 줌
 
-        Member member = saveOrUpdate(OAuthUserProfile); // DB에 저장
+        Member member = saveOrUpdate(oAuthUserProfile); // DB에 저장
 
         return new DefaultOAuth2User(
                 Collections.singleton(new SimpleGrantedAuthority(member.getAuthority().toString())),

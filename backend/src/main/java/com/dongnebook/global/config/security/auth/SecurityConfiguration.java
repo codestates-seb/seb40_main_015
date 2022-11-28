@@ -118,7 +118,7 @@ public class SecurityConfiguration {
 
 			builder
 					.addFilter(jwtAuthenticationFilter)
-					.addFilterAfter(jwtVerificationFilter, JwtAuthenticationFilter.class)
+					.addFilterAfter(jwtVerificationFilter, JwtAuthenticationFilter.class);
 //					.addFilterAfter(oAuth2LoginAuthenticationFilter, JwtVerificationFilter.class);
 		}
 	}
