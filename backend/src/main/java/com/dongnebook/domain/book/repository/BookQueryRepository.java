@@ -14,6 +14,7 @@ import javax.persistence.EntityManager;
 import org.springframework.data.domain.SliceImpl;
 import org.springframework.stereotype.Repository;
 
+import com.dongnebook.domain.book.domain.BookState;
 import com.dongnebook.domain.book.dto.request.BookSearchCondition;
 import com.dongnebook.domain.book.dto.response.BookDetailResponse;
 
@@ -44,7 +45,8 @@ public class BookQueryRepository {
 	private final JPAQueryFactory jpaQueryFactory;
 	private final EntityManager em;
 
-	public BookDetailResponse getDetail(Long id) {
+
+	public BookDetailResponse getBookDetail(Long id) {
 
 		return jpaQueryFactory.select(new QBookDetailResponse(
 					new QBookResponse(
@@ -87,9 +89,10 @@ public class BookQueryRepository {
 
 		return jpaQueryFactory.select(book.location)
 			.from(book)
-			.where(book.location.latitude.between(LatRange.get(LatRange.size()-1), LatRange.get(0))
-				.and(book.location.longitude.between(LonRange.get(0), LonRange.get(LonRange.size()-1))
-					.and(contains(bookTitle))))
+			.where(book.location.latitude.between(LatRange.get(LatRange.size()-1), LatRange.get(0)),
+				book.location.longitude.between(LonRange.get(0), LonRange.get(LonRange.size()-1))
+				,contains(bookTitle)
+			,bookToShow())
 			.fetch();
 	}
 
@@ -109,7 +112,8 @@ public class BookQueryRepository {
 			.innerJoin(book.member)
 			.where(ltBookId(pageRequest.getIndex())
 				,(contains(bookTitle))
-				,(sectorBetween(LatRange,LonRange,condition.getSector(),condition.getLevel())))
+				,(sectorBetween(LatRange,LonRange,condition.getSector(),condition.getLevel()))
+			,bookToShow())
 			.orderBy(book.id.desc())
 			.limit(pageRequest.getSize() + 1)
 			.fetch();
@@ -133,8 +137,29 @@ public class BookQueryRepository {
 			.from(dibs)
 			.leftJoin(dibs.book)
 			.leftJoin(dibs.book.member)
-			.where(dibs.book.id.lt(pageRequest.getIndex()),dibs.member.id.eq(memberId))
+			.where(dibs.book.id.lt(pageRequest.getIndex()),dibs.member.id.eq(memberId),
+				bookToShow())
 			.orderBy(dibs.book.id.desc())
+			.limit(pageRequest.getSize() + 1)
+			.fetch();
+
+		boolean hasNext = false;
+
+		if (result.size() > pageRequest.getSize()) {
+			hasNext = true;
+			result.remove(pageRequest.getSize().intValue());
+		}
+
+		return new SliceImpl<>(result, pageRequest.of(), hasNext);
+	}
+
+	public SliceImpl<BookSimpleResponse> getListByMember(Long memberId, PageRequest pageRequest) {
+		List<BookSimpleResponse> result = jpaQueryFactory.select(
+				new QBookSimpleResponse(book.id, book.title, book.bookState, book.ImgUrl))
+			.from(book)
+			.where(ltBookId(pageRequest.getIndex()),book.member.id.eq(memberId)
+			,bookToShow())
+			.orderBy(book.id.desc())
 			.limit(pageRequest.getSize() + 1)
 			.fetch();
 
@@ -160,6 +185,10 @@ public class BookQueryRepository {
 			return null;
 		}
 		return book.id.lt(bookId);
+	}
+
+	private BooleanExpression bookToShow() {
+		return book.bookState.eq(BookState.DELETED).and(book.bookState.eq(BookState.TRADING));
 	}
 
 	private BooleanExpression sectorBetween(List<Double> latRangeList, List<Double> lonRangeList,Integer givenSector,
@@ -190,22 +219,5 @@ public class BookQueryRepository {
 
 	}
 
-	public SliceImpl<BookSimpleResponse> getListByMember(Long memberId, PageRequest pageRequest) {
-		List<BookSimpleResponse> result = jpaQueryFactory.select(
-				new QBookSimpleResponse(book.id, book.title, book.bookState, book.ImgUrl))
-			.from(book)
-			.where(ltBookId(pageRequest.getIndex()),book.member.id.eq(memberId))
-			.orderBy(book.id.desc())
-			.limit(pageRequest.getSize() + 1)
-			.fetch();
 
-		boolean hasNext = false;
-
-		if (result.size() > pageRequest.getSize()) {
-			hasNext = true;
-			result.remove(pageRequest.getSize().intValue());
-		}
-
-		return new SliceImpl<>(result, pageRequest.of(), hasNext);
-	}
 }
