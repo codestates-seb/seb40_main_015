@@ -5,10 +5,11 @@ import { Dispatch, SetStateAction } from 'react';
 interface Props {
 	merchantList: any;
 	setHoverLists: Dispatch<SetStateAction<any>>;
+	merchantListRef: any;
 }
 
 const MerchantLists = (props: Props) => {
-	const { merchantList, setHoverLists } = props;
+	const { merchantList, setHoverLists, merchantListRef } = props;
 
 	const navigate = useNavigate();
 
@@ -32,10 +33,11 @@ const MerchantLists = (props: Props) => {
 						onClick={() => handleSearchMerchantInfo(merchantId)}
 						onMouseOver={() => handleHoverMap(location)}
 						onMouseOut={() => setHoverLists({ latitude: 0, longitude: 0 })}>
-						<div className="book"> {merchantName}</div>
+						<div className="book">{merchantName}</div>
 					</List>
 				);
 			})}
+			<div ref={merchantListRef}>Loading...</div>
 		</Box>
 	);
 };

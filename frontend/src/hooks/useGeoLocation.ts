@@ -2,8 +2,8 @@ import { useEffect, useState } from 'react';
 
 function useGeoLocation() {
 	const [current, setCurrent] = useState<any>({
-		lat: 0,
-		lon: 0,
+		lat: 37.3827456,
+		lon: 126.9264032,
 	});
 	const handleCurrentLocationMove = () => {
 		let lat = 0;

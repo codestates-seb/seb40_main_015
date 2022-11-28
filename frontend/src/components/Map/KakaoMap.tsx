@@ -57,6 +57,7 @@ interface KakaoMapProps {
 	bookCurrentRefetch: any;
 	merchantListRefetch: any;
 	bookListRefetch: any;
+	merchantListRef: any;
 }
 
 const KakaoMap = (props: KakaoMapProps) => {
@@ -83,6 +84,7 @@ const KakaoMap = (props: KakaoMapProps) => {
 		bookCurrentRefetch,
 		merchantListRefetch,
 		bookListRefetch,
+		merchantListRef,
 	} = props;
 
 	const [hoverList, setHoverLists] = useState({ latitude: 0, longitude: 0 });
@@ -92,12 +94,12 @@ const KakaoMap = (props: KakaoMapProps) => {
 		if (centerCoord.lat && centerCoord.lon) {
 			if (!searchInput) {
 				merchantCurrentRefetch();
-				if (merchantLists.length) {
+				if (merchantLists?.length) {
 					merchantListRefetch();
 				}
 			} else {
 				bookCurrentRefetch();
-				if (bookLists.length) {
+				if (bookLists?.length) {
 					bookListRefetch();
 				}
 			}
@@ -109,12 +111,12 @@ const KakaoMap = (props: KakaoMapProps) => {
 		if (current.lat && current.lon) {
 			if (!searchInput) {
 				merchantCurrentRefetch();
-				if (merchantLists.length) {
+				if (merchantLists?.length) {
 					merchantListRefetch();
 				}
 			} else {
 				bookCurrentRefetch();
-				if (bookLists.length) {
+				if (bookLists?.length) {
 					bookListRefetch();
 				}
 			}
@@ -138,6 +140,11 @@ const KakaoMap = (props: KakaoMapProps) => {
 				});
 			}}
 			disableDoubleClick={true}
+			onClick={() => {
+				setBookLists([]);
+				setSelectOverlay(null);
+				setMerchantLists([]);
+			}}
 			maxLevel={5}>
 			<MapMarker
 				position={{
@@ -174,10 +181,11 @@ const KakaoMap = (props: KakaoMapProps) => {
 			)}
 			{hoverList && <CustomOverlayHover hoverList={hoverList} />}
 			<Search>
-				{merchantLists.length > 0 && (
+				{merchantLists?.length > 0 && (
 					<MerchantLists
 						merchantList={merchantLists}
 						setHoverLists={setHoverLists}
+						merchantListRef={merchantListRef}
 					/>
 				)}
 				{bookLists.length > 0 && (

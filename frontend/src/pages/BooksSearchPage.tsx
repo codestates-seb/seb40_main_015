@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import styled from 'styled-components';
 import { TbCurrentLocation } from 'react-icons/tb';
 import Search from '../components/Map/Search';
@@ -11,8 +11,10 @@ import {
 import useWindowSize from '../hooks/useWindowSize';
 import useGeoLocation from '../hooks/useGeoLocation';
 import KakaoMap from '../components/Map/KakaoMap';
-import { useQuery } from '@tanstack/react-query';
+import { useInfiniteQuery, useQuery } from '@tanstack/react-query';
 import Animation from '../components/Loading/Animation';
+import { useInView } from 'react-intersection-observer';
+import useMerchantList from '../components/Map/hooks/useMerchantList';
 
 interface MerchantSectorProps {
 	merchantCount: number;
@@ -42,12 +44,70 @@ const BooksSearchPage = () => {
 	const [merchantSector, setMerchantSector] = useState<MerchantSectorProps[]>(
 		[],
 	);
-	const [merchantLists, setMerchantLists] = useState<any>([]);
+	// const [merchantLists, setMerchantLists] = useState<any>([]);
 	const [bookSector, setBookSector] = useState([]);
 	const [bookLists, setBookLists] = useState<any>([]);
 	const [zoomLevel, setZoomLevel] = useState(5);
 	const size = useWindowSize(zoomLevel);
+	const [
+		merchantLists,
+		setMerchantLists,
+		merchantListRef,
+		merchantListRefetch,
+	] = useMerchantList({
+		centerCoord,
+		current,
+		selectOverlay,
+		searchInput,
+		zoomLevel,
+		size,
+	});
 
+	// 무한스크롤
+	// const [ref, inView] = useInView();
+
+	// const {
+	// 	fetchNextPage,
+	// 	hasNextPage,
+	// 	refetch: merchantListRefetch,
+	// } = useInfiniteQuery({
+	// 	queryKey: ['merchantListMap', centerCoord],
+	// 	queryFn: ({ pageParam = undefined }) => {
+	// 		const sector = selectOverlay ? selectOverlay?.sector : 0;
+	// 		if (!!searchInput) {
+	// 			return [];
+	// 		}
+	// 		return getMerchantListQuery(
+	// 			centerCoord.lat ? centerCoord.lat : current.lat,
+	// 			centerCoord.lon ? centerCoord.lon : current.lon,
+	// 			sector,
+	// 			zoomLevel < 3 ? 3 : zoomLevel,
+	// 			size.width,
+	// 			size.height,
+	// 			pageParam,
+	// 		);
+	// 	},
+	// 	getNextPageParam: lastPage => {
+	// 		console.log(lastPage);
+	// 		return lastPage.last
+	// 			? undefined
+	// 			: lastPage.content[lastPage.content.length - 1].merchantId;
+	// 	},
+	// 	onSuccess: data => {
+	// 		if (selectOverlay?.merchantCount) {
+	// 			setMerchantLists(data?.pages.flatMap(page => page.content));
+	// 		}
+	// 	},
+	// 	retry: false,
+	// 	refetchOnWindowFocus: false,
+	// 	cacheTime: 0,
+	// });
+
+	// useEffect(() => {
+	// 	if (inView && hasNextPage) fetchNextPage();
+	// }, [inView]);
+
+	console.log(centerCoord);
 	const { refetch: merchantCurrentRefetch } = useQuery({
 		queryKey: ['merchantSectorByCurrent', centerCoord],
 		queryFn: () => {
@@ -69,30 +129,30 @@ const BooksSearchPage = () => {
 		cacheTime: 0,
 	});
 
-	const { refetch: merchantListRefetch } = useQuery({
-		queryKey: ['merchantListMap', centerCoord],
-		queryFn: () => {
-			const sector = selectOverlay ? selectOverlay?.sector : 0;
-			if (!!searchInput) {
-				return [];
-			}
-			return getMerchantListQuery(
-				centerCoord.lat ? centerCoord.lat : current.lat,
-				centerCoord.lon ? centerCoord.lon : current.lon,
-				sector,
-				zoomLevel < 3 ? 3 : zoomLevel,
-				size.width,
-				size.height,
-			);
-		},
-		onSuccess: data => {
-			if (selectOverlay?.merchantCount) {
-				setMerchantLists(data.content);
-			}
-		},
-		refetchOnWindowFocus: false,
-		cacheTime: 0,
-	});
+	// const { refetch: merchantListRefetch } = useQuery({
+	// 	queryKey: ['merchantListMap', centerCoord],
+	// 	queryFn: () => {
+	// 		const sector = selectOverlay ? selectOverlay?.sector : 0;
+	// 		if (!!searchInput) {
+	// 			return [];
+	// 		}
+	// 		return getMerchantListQuery(
+	// 			centerCoord.lat ? centerCoord.lat : current.lat,
+	// 			centerCoord.lon ? centerCoord.lon : current.lon,
+	// 			sector,
+	// 			zoomLevel < 3 ? 3 : zoomLevel,
+	// 			size.width,
+	// 			size.height,
+	// 		);
+	// 	},
+	// 	onSuccess: data => {
+	// 		if (selectOverlay?.merchantCount) {
+	// 			setMerchantLists(data.content);
+	// 		}
+	// 	},
+	// 	refetchOnWindowFocus: false,
+	// 	cacheTime: 0,
+	// });
 
 	const { refetch: bookCurrentRefetch } = useQuery({
 		queryKey: ['bookSectorByCurrent', centerCoord],
@@ -209,6 +269,7 @@ const BooksSearchPage = () => {
 						bookCurrentRefetch={bookCurrentRefetch}
 						merchantListRefetch={merchantListRefetch}
 						bookListRefetch={bookListRefetch}
+						merchantListRef={merchantListRef}
 					/>
 				</>
 			) : (
