@@ -16,12 +16,18 @@ interface Member {
 }
 
 interface PickBook {
-	bookId: number;
-	title: string;
-	status: string;
-	bookImage:string;
-	rentalFee:number;
-	merchantName: string;
+	content: {
+		bookId: number;
+		title: string;
+		status: string;
+		bookImage: string;
+		rentalFee: number;
+		merchantName: string;
+		location: {
+			latitude: number | number;
+			longitude: number | number;
+		};
+	}[];
 }
 
 //예약목록 조회
@@ -29,16 +35,15 @@ interface ReservationBook {
 	reservationInfo: {
 		reservationId: number;
 		rentalExpectedAt: string;
-	},
-	bookInfo:{
+	};
+	bookInfo: {
 		bookId: number;
 		title: string;
 		bookImage: string;
 		rentalFee: number;
 		merchantName: string;
-	}
-	}
-
+	};
+}
 
 //회원정보 수정
 interface FixmemberInfo {
@@ -73,21 +78,17 @@ export const useMypageAPI = () => {
 	const getMyInfo = async (id: string | undefined) =>
 		await api.get<Member>(`/member/${id}`).then(res => res.data);
 
-	//마이페이지 - 찜목록
-		const getPickBookList = () => 
-			api.get(`/dibs`);
-	
+	//마이페이지 - 찜목록 (infinite scroll)
+	const getPickBookList = (id?: number) =>
+		api.get<PickBook>(id ? `/dibs?index=${id}` : `/dibs`).then(res => res.data);
 
-	// 마이페이지 - 예약목록
-	const getReservationBookList = () => 
-		api.get(`/reservations`);
-
+	// 마이페이지 - 예약목록(infinite scroll)
+	const getReservationBookList = () => api.get(`/reservations`);
 
 	// 마이페이지 - 회원정보 수정
-	const patchFixMemberInfo = (data:FixmemberInfo) => 
-		api.patch(`/member/edit`,data);
-	
- 
+	const patchFixMemberInfo = (data: FixmemberInfo) =>
+		api.patch(`/member/edit`, data);
+
 	// 예약 취소
 	const axiosCancleReservation = async (id: string) => {
 		try {
@@ -98,13 +99,11 @@ export const useMypageAPI = () => {
 			return err;
 		}
 	};
-	
 
 	// 사진 등록(endpoint 수정)
-	const axiosAddPhoto = (data:any) => {
-			axios.post(`/upload`, data).then(res => console.log(res))}
-
-				
+	const axiosAddPhoto = (data: any) => {
+		axios.post(`/upload`, data).then(res => console.log(res));
+	};
 
 	return {
 		getMyInfo,
@@ -114,6 +113,6 @@ export const useMypageAPI = () => {
 		getReservationBookList,
 		axiosCancleReservation,
 		getMerchantBookLists,
-		axiosAddPhoto
+		axiosAddPhoto,
 	};
 };

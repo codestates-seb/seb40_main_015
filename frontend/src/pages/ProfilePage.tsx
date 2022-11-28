@@ -111,6 +111,10 @@ const Layout = styled.div`
 			background-color: grey;
 		}
 	}
+	.hidden {
+		/* 무한스크롤 */
+		display: none;
+	}
 `;
 
 const ProfileBox = styled.div`

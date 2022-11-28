@@ -34,7 +34,7 @@ const ReservationBookList = () => {
 	if (isLoading) {
 		return <Animation width={50} height={50} />;
 	}
-	console.log(data?.content);
+	console.log('reser: ', data?.content);
 	return (
 		<>
 			<EmptyBox>
