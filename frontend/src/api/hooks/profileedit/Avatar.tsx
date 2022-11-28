@@ -2,10 +2,11 @@ import axios from 'axios';
 import { useState } from 'react';
 import { HiPhotograph } from 'react-icons/hi';
 import styled from 'styled-components';
-import useGetPhotoUrl from '../useGetPhotoUrl';
+
 import { BASE_URL } from '../../../constants/constants';
 import { useAppDispatch } from '../../../redux/hooks';
 import { updateRentalInfo } from '../../../redux/slice/bookCreateSlice';
+import useGetPhotoUrl from '../common/useGetPhotoUrl';
 
 const Avatar = () => {
 	const [imageName, setImageName] = useState('');
