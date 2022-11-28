@@ -40,10 +40,7 @@ import static org.springframework.security.config.Customizer.withDefaults;
 @RequiredArgsConstructor
 public class SecurityConfiguration {
 	private final TokenProvider tokenProvider;
-	private final CustomAuthorityUtils authorityUtils;
-	private final MemberService memberService;
 	private final OAuthService oAuthService;
-
 
 	@Bean
 	public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
@@ -68,8 +65,6 @@ public class SecurityConfiguration {
 				.oauth2Login() // OAuth2 로그인 설정 시작점
 				.userInfoEndpoint() // OAuth2 로그인 성공 이후 사용자 정보를 가져올 때 설정 담당
 				.userService(oAuthService);
-//				.oauth2Login(oauth2 -> oauth2
-//						.successHandler(new OAuth2MemberSuccessHandler(tokenProvider, authorityUtils, memberService))
 		return http.build();
 	}
 
@@ -103,23 +98,11 @@ public class SecurityConfiguration {
 			jwtAuthenticationFilter.setAuthenticationSuccessHandler(new MemberAuthenticationSuccessHandler());
 			jwtAuthenticationFilter.setAuthenticationFailureHandler(new MemberAuthenticationFailureHandler());
 
-//			OAuth2LoginAuthenticationFilter oAuth2LoginAuthenticationFilter = new OAuth2LoginAuthenticationFilter();
-
-			//OAuth2LoginAuthenticationToken을 AuthenticationManager에게 전달
-			/** Assuming the End-User (Resource Owner) has granted access to the Client,
-			 * the Authorization Server will append the code and state parameters to the redirect_uri (provided in the Authorization Request)
-			 * and redirect the End-User's user-agent back to this Filter (the Client)
-			 * This Filter will then create an OAuth2LoginAuthenticationToken with the code received and delegate it to the AuthenticationManager to authenticate.
-			 * Upon a successful authentication, an OAuth2AuthenticationToken is created (representing the End-User Principal)
-			 * and associated to the Authorized Client using the OAuth2AuthorizedClientRepository.
-			 * Finally, the OAuth2AuthenticationToken is returned and ultimately stored in the SecurityContextRepository to complete the authentication processing.**/
-
 			JwtVerificationFilter jwtVerificationFilter = new JwtVerificationFilter(tokenProvider);
 
 			builder
 					.addFilter(jwtAuthenticationFilter)
 					.addFilterAfter(jwtVerificationFilter, JwtAuthenticationFilter.class);
-//					.addFilterAfter(oAuth2LoginAuthenticationFilter, JwtVerificationFilter.class);
 		}
 	}
 }

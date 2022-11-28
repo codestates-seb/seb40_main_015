@@ -7,7 +7,7 @@ public class OAuthUserProfile {
     private final String email;
     private final String oauthId;
 
-    public OAuthUserProfile(String name, String email, String oauthId) {
+    public OAuthUserProfile(String oauthId, String name, String email) {
         this.name = name;
         this.email = email;
         this.oauthId = oauthId;
@@ -15,9 +15,9 @@ public class OAuthUserProfile {
 
     public Member createOauth2Member() {
         return Member.builder()
-                .userId(email)
-                .nickname(name)
-                .password(oauthId)
+                .userId(email) //이메일
+                .nickname(name) // 이름
+                .password(oauthId) // 고유값
                 .build();
     }
 
