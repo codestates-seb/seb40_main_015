@@ -38,6 +38,7 @@ interface KakaoMapProps {
 	bookSector: MerchantSectorProps[];
 	setBookSector: Dispatch<SetStateAction<any>>;
 	bookLists: any;
+	setBookLists: any;
 	zoomLevel: number;
 	setZoomLevel: Dispatch<SetStateAction<number>>;
 	size: any;
@@ -54,6 +55,8 @@ interface KakaoMapProps {
 	>;
 	merchantCurrentRefetch: any;
 	bookCurrentRefetch: any;
+	merchantListRefetch: any;
+	bookListRefetch: any;
 }
 
 const KakaoMap = (props: KakaoMapProps) => {
@@ -69,6 +72,7 @@ const KakaoMap = (props: KakaoMapProps) => {
 		bookSector,
 		setBookSector,
 		bookLists,
+		setBookLists,
 		zoomLevel,
 		setZoomLevel,
 		size,
@@ -77,23 +81,25 @@ const KakaoMap = (props: KakaoMapProps) => {
 		setCenterCoord,
 		merchantCurrentRefetch,
 		bookCurrentRefetch,
+		merchantListRefetch,
+		bookListRefetch,
 	} = props;
 
 	const [hoverList, setHoverLists] = useState({ latitude: 0, longitude: 0 });
-
-	useEffect(() => {
-		if (zoomLevel > 5) {
-			setZoomLevel(5);
-		}
-	}, [zoomLevel]);
 
 	// 	// centerCoord 변경될때마다 주변상인 정보 api 호출하기
 	useEffect(() => {
 		if (centerCoord.lat && centerCoord.lon) {
 			if (!searchInput) {
 				merchantCurrentRefetch();
+				if (merchantLists.length) {
+					merchantListRefetch();
+				}
 			} else {
 				bookCurrentRefetch();
+				if (bookLists.length) {
+					bookListRefetch();
+				}
 			}
 		}
 	}, [centerCoord, zoomLevel, size]);
@@ -103,8 +109,14 @@ const KakaoMap = (props: KakaoMapProps) => {
 		if (current.lat && current.lon) {
 			if (!searchInput) {
 				merchantCurrentRefetch();
+				if (merchantLists.length) {
+					merchantListRefetch();
+				}
 			} else {
 				bookCurrentRefetch();
+				if (bookLists.length) {
+					bookListRefetch();
+				}
 			}
 		}
 	}, [current, zoomLevel, size]);
@@ -119,12 +131,14 @@ const KakaoMap = (props: KakaoMapProps) => {
 			style={{ width: '100%', height: '100%', position: 'absolute' }}
 			level={zoomLevel}
 			onZoomChanged={map => setZoomLevel(map.getLevel())}
-			onDragEnd={map =>
+			onDragEnd={map => {
 				setCenterCoord({
 					lat: map.getCenter().getLat(),
 					lon: map.getCenter().getLng(),
-				})
-			}>
+				});
+			}}
+			disableDoubleClick={true}
+			maxLevel={5}>
 			<MapMarker
 				position={{
 					lat: current?.lat ? current.lat : 33.4522346675632,

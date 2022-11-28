@@ -37,6 +37,8 @@ const StyledNoticeIcon = styled.div`
 		font-size: 3rem;
 		color: ${props => props.theme.colors.grey};
 	}
+
+	z-index: 10;
 `;
 
 export default NoticeIcon;

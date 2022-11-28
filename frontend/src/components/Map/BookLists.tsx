@@ -27,6 +27,8 @@ const BookLists = (props: Props) => {
 			<Container>
 				<div className="state1" />
 				<span className="string">대여가능</span>
+				<div className="state4" />
+				<span className="string">거래중</span>
 				<div className="state2" />
 				<span className="string">예약가능</span>
 				<div className="state3" />
@@ -44,7 +46,8 @@ const BookLists = (props: Props) => {
 							<div className="bookstate">
 								<span className="book">{title}</span>
 								{status === '대여가능' && <div className="state1"></div>}
-								{status === '예약가능' && <div className="state2"></div>}
+								{status === '거래중' && <div className="state4"></div>}
+								{status === '대여중&예약가능' && <div className="state2"></div>}
 								{status === '대여/예약불가' && <div className="state3"></div>}
 							</div>
 							<span className="merchents">{merchantName}</span>
@@ -93,6 +96,13 @@ const Container = styled.div`
 		width: 12px;
 		height: 12px;
 		background-color: #ff0000;
+		border-radius: 1000px;
+	}
+
+	.state4 {
+		width: 12px;
+		height: 12px;
+		background-color: #1e1ef4;
 		border-radius: 1000px;
 	}
 `;
@@ -159,6 +169,14 @@ const List = styled.div`
 		width: 12px;
 		height: 12px;
 		background-color: #ff0000;
+		border-radius: 1000px;
+		margin-left: 15px;
+	}
+
+	.state4 {
+		width: 12px;
+		height: 12px;
+		background-color: #1e1ef4;
 		border-radius: 1000px;
 		margin-left: 15px;
 	}

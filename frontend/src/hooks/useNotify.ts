@@ -19,16 +19,16 @@ const useNotify = (message: string) => {
 	}, []);
 };
 
-export const useNotifyHook = () => {
-	const dispatch = useAppDispatch();
+// export const useNotifyHook = () => {
+// 	const dispatch = useAppDispatch();
 
-	return (message: string) => {
-		const payload = getNotificationPayload(message);
-		dispatch(enqueueNotification(payload));
-		setTimeout(() => {
-			dispatch(dequeueNotification());
-		}, payload.dismissTime);
-	};
-};
+// 	return (message: string) => {
+// 		const payload = getNotificationPayload(message);
+// 		dispatch(enqueueNotification(payload));
+// 		setTimeout(() => {
+// 			dispatch(dequeueNotification());
+// 		}, payload.dismissTime);
+// 	};
+// };
 
 export default useNotify;
