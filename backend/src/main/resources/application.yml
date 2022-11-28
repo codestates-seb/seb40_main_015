@@ -22,6 +22,16 @@ Spring:
   redis:
     host: localhost
     port: 6379
+  security:
+    oauth2:
+      client:
+        registration:
+          google:
+            clientId: ${GOOGLE_OAUTH2_CLIENT_ID}
+            clientSecret: ${GOOGLE_OAUTH2_CLIENT_SECRET}
+            scope:
+              - profile
+              - email
 jwt:
   secret-key: ${JWT_SECRET_KEY}
   access-token-expiration-minutes: 3500

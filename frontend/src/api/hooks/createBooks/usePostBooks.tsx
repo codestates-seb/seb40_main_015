@@ -1,7 +1,7 @@
 import { useMutation } from '@tanstack/react-query';
-import { axiosInstance } from '..';
-import { useAppDispatch } from '../../redux/hooks';
-import notify from '../../utils/notify';
+import { axiosInstance } from '../..';
+import { useAppDispatch } from '../../../redux/hooks';
+import notify from '../../../utils/notify';
 
 export interface PayloadType {
 	title: string;
