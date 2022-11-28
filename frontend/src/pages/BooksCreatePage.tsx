@@ -15,6 +15,7 @@ import { makeCreateBookMessages } from '../utils/makeCreateBookMessages';
 import notify from '../utils/notify';
 import { validateBookCreatePayloads } from '../utils/validateBookCreatePayload';
 import usePostBooks from '../api/hooks/createBooks/usePostBooks';
+import { useNavigate } from 'react-router';
 
 const BooksCreatePage = () => {
 	const bookCreate = useAppSelector(state => state.persistedReducer.bookCreate);
@@ -23,6 +24,7 @@ const BooksCreatePage = () => {
 	const createBookMessages = makeCreateBookMessages(bookCreate);
 	const dispatch = useAppDispatch();
 	const goNotify = (message: string) => notify(dispatch, message);
+	const navigate = useNavigate();
 
 	const { mutate } = usePostBooks();
 
@@ -41,8 +43,10 @@ const BooksCreatePage = () => {
 				goNotify(message);
 			}
 		});
+		console.log(payload);
 		if (validateBookCreatePayloads(payload)) {
 			mutate(payload);
+			// navigate('/books');
 		}
 	};
 
