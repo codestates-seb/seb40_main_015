@@ -32,6 +32,9 @@ public class Member extends BaseTimeEntity {
 	@Column(name = "user_id", nullable = false, unique = true)
 	private String userId;
 
+	@Column(name = "oauth_id", unique = true)
+	private String oauthId;
+
 	@Size(min = 8)
 	@Column(name = "password", nullable = false)
 	private String password;
@@ -82,6 +85,12 @@ public class Member extends BaseTimeEntity {
 		this.location = memberEditRequest.getLocation()==null ? this.location : memberEditRequest.getLocation();
 		this.nickname = memberEditRequest.getNickname()==null ? this.nickname : memberEditRequest.getNickname();
 		this.address= memberEditRequest.getAddress()==null ? this.address : memberEditRequest.getAddress();
+	}
+
+	public Member oauthUpdate(String name, String email) {
+		this.nickname = name;
+		this.userId = email;
+		return this;
 	}
 
 	public boolean hasSameId(Long id) {

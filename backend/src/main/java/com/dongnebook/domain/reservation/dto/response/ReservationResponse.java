@@ -1,4 +1,4 @@
-package com.dongnebook.domain.reservation.dto.request;
+package com.dongnebook.domain.reservation.dto.response;
 
 import com.querydsl.core.annotations.QueryProjection;
 import lombok.Getter;

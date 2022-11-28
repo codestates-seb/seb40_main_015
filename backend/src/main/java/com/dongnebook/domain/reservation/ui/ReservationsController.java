@@ -1,7 +1,7 @@
 package com.dongnebook.domain.reservation.ui;
 
 import com.dongnebook.domain.reservation.application.ReservationService;
-import com.dongnebook.domain.reservation.dto.request.ReservationInfoResponse;
+import com.dongnebook.domain.reservation.dto.response.ReservationInfoResponse;
 import com.dongnebook.global.Login;
 import com.dongnebook.global.config.security.auth.userdetails.AuthMember;
 import com.dongnebook.global.dto.request.PageRequest;

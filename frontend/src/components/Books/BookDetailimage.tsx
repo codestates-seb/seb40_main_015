@@ -3,16 +3,16 @@ import { useState } from 'react';
 import { HiHeart, HiOutlineHeart, HiOutlineTrash } from 'react-icons/hi';
 import { useNavigate } from 'react-router-dom';
 import { useMutation } from '@tanstack/react-query';
-import { useAppSelector } from '../../redux/hooks';
-import { useNotifyHook } from '../../hooks/useNotify';
+import { useAppDispatch, useAppSelector } from '../../redux/hooks';
 import { useBooksAPI } from '../../api/books';
 
 // types
 import { BookDetailProps } from './type';
+import notify from '../../utils/notify';
 
 const BookImage = ({ book, merchant }: BookDetailProps) => {
-	const notify = useNotifyHook();
 	const { id } = useAppSelector(state => state.loginInfo);
+	const dispatch = useAppDispatch();
 	const navigate = useNavigate();
 	const [active, setActive] = useState(false);
 	const { postWishItem, deleteBook } = useBooksAPI();
@@ -37,10 +37,8 @@ const BookImage = ({ book, merchant }: BookDetailProps) => {
 		mutateWish();
 
 		// notify 메시지 계속 남아있는 오류 해결 후에 사용. 삭제버튼에도 알림멘션줄까
-		// active ||
-		// 	notify(
-		// 		'찜 목록에 추가되었습니다. 실제로 요청 가진 않아요. 취소 기능이랑 함께 구현할 예정',
-		// 	);
+		// active 보다 찜 정보를 이용해서 알림 기능 구현할 것
+		active || notify(dispatch, '찜 목록에 추가되었습니다.');
 	};
 	return (
 		<BookImgWrapper>
