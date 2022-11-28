@@ -4,12 +4,13 @@ import Title from '../components/common/Title';
 import Button from '../components/common/Button';
 import Modal from '../components/common/Modal';
 import useGeoLocation from '../hooks/useGeoLocation';
-import { useFixInfo } from '../components/Member/hooks/useFixInfo';
+
 import axios from 'axios';
 import { BASE_URL } from '../constants/constants';
 import { useNavigate } from 'react-router-dom';
 import Photo from '../components/BooksCreate/Photo';
-import Avatar from '../components/Member/hooks/ Avatar';
+import Avatar from '../api/hooks/profileedit/Avatar';
+import { useFixInfo } from '../api/hooks/profileedit/useFixInfo';
 
 function ProfileEditPage() {
 	//현재 위치 수정
@@ -77,25 +78,6 @@ function ProfileEditPage() {
 		reader.readAsDataURL(files[0]);
 	};
 
-	//유저 이미지 수정
-	// const [File, setFile] = useState<File | undefined>();
-	// const [Image, setImage] = useState<string>(
-	// 	'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png',
-	// );
-	// const fileInput = useRef<any>(null);
-	// const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-	// 	console.log('');
-	// 	const files = e.currentTarget.files as FileList;
-	// 	if (files) {
-	// 		setFile(files[0]);
-	// 	} else {
-	// 		//업로드 취소할 시
-	// 		setImage(
-	// 			'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png',
-	// 		);
-	// 		return;
-	// 	}
-
 	//patch mutation
 	const { mutate } = useFixInfo({
 		nickname: 'asdf',
@@ -107,16 +89,7 @@ function ProfileEditPage() {
 		avatarUrl:
 			'https://www.pngarts.com/files/10/Default-Profile-Picture-PNG-Download-Image.png',
 	});
-	//화면에 프로필 사진 표시
-	// 	const reader = new FileReader();
-	// 	reader.onload = () => {
-	// 		if (reader.readyState === 2 && reader.result) {
-	// 			console.log(reader);
-	// 			setImage(`${reader.result}`);
-	// 		}
-	// 	};
-	// 	reader.readAsDataURL(files[0]);
-	// };
+
 	const [result, setResult] = useState<any>('');
 	const getAdress = (ad: any) => {
 		setResult(ad);
@@ -128,23 +101,7 @@ function ProfileEditPage() {
 		<Layout>
 			<Title text="내 정보 수정하기" />
 			<ProfileBox>
-				<img
-					className="image"
-					src={Image}
-					alt="dummy"
-					onClick={() => {
-						fileInput.current.click();
-					}}
-				/>
-				<input
-					type="file"
-					style={{ display: 'none' }}
-					accept="image/jpg,impge/png,image/jpeg"
-					name="profile_img"
-					onChange={onChange}
-					ref={fileInput}
-				/>
-				{/* <Avatar /> */}
+				<Avatar />
 				<p className="minititle">닉네임</p>
 				<div className="input">
 					<input

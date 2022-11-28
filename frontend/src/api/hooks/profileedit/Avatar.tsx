@@ -2,11 +2,10 @@ import axios from 'axios';
 import { useState } from 'react';
 import { HiPhotograph } from 'react-icons/hi';
 import styled from 'styled-components';
-import useGetPhotoUrl from '../../../api/hooks/useGetPhotoUrl';
+import useGetPhotoUrl from '../useGetPhotoUrl';
 import { BASE_URL } from '../../../constants/constants';
 import { useAppDispatch } from '../../../redux/hooks';
 import { updateRentalInfo } from '../../../redux/slice/bookCreateSlice';
-import { BookInfo } from '../../Books/BookElements';
 
 const Avatar = () => {
 	const [imageName, setImageName] = useState('');
@@ -22,7 +21,9 @@ const Avatar = () => {
 			const fileRef = files[0];
 			setImageName(fileRef.name);
 			formData.append('img', fileRef);
-			mutate(formData);
+			mutate(formData, {
+				onSuccess: res => setImage(res.data),
+			});
 		}
 	};
 
