@@ -6,10 +6,11 @@ import Modal from '../components/common/Modal';
 import useGeoLocation from '../hooks/useGeoLocation';
 
 import { useNavigate } from 'react-router-dom';
-import Avatar from '../api/hooks/profileEdit/Avatar';
-import { useFixInfo } from '../api/hooks/profileEdit/useFixInfo';
+
 import { useAppDispatch, useAppSelector } from '../redux/hooks';
 import { updateUserInfo } from '../redux/slice/userInfoSlice';
+import Avatar from '../api/hooks/profileedit/Avatar';
+import { useFixInfo } from '../api/hooks/profileedit/useFixInfo';
 
 function ProfileEditPage() {
 	//현재 위치 수정
