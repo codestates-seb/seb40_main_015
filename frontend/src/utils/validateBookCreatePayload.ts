@@ -1,4 +1,4 @@
-import { PayloadType } from '../api/hooks/usePostBooks';
+import { PayloadType } from "../api/hooks/createBooks/usePostBooks";
 
 export const validateBookCreatePayloads = (payload: PayloadType) => {
 	const values = Object.values(payload);
