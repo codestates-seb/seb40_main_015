@@ -102,7 +102,7 @@ const BookSubTitle = styled.div`
 	label {
 		font-size: ${props => props.theme.fontSizes.paragraph};
 	}
-	margin-left: 0.3rem;
+	margin-left: 0.2rem;
 `;
 
 const Partition = styled.span`
@@ -173,7 +173,7 @@ const MerchantGrade = styled.div`
 `;
 
 const BookDsc = styled(Div)`
-	height: 20vh;
+	min-height: 20vh;
 	margin-bottom: 1rem;
 	div {
 		font-size: 1.4rem;

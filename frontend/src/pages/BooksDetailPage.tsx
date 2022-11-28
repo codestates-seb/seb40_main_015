@@ -1,5 +1,5 @@
-import { useQuery } from '@tanstack/react-query';
-import { useParams } from 'react-router-dom';
+import { useQuery, useMutation } from '@tanstack/react-query';
+import { useNavigate, useParams } from 'react-router-dom';
 
 //conmponents
 import Title from '../components/common/Title';
@@ -21,20 +21,38 @@ import { useAppDispatch, useAppSelector } from '../redux/hooks';
 
 const BooksDetailPage = () => {
 	const dispatch = useAppDispatch();
-	const { isLogin } = useAppSelector(state => state.loginInfo);
+	const { isLogin, id } = useAppSelector(state => state.loginInfo);
 	const { bookId } = useParams();
-	const { getBookDetail } = useBooksAPI();
-	const { data, isLoading, isFetching } = useQuery({
+	const navigate = useNavigate();
+	const { getBookDetail, deleteBook } = useBooksAPI();
+
+	// 책 상세정보 받아오기 쿼리
+	const { data, isLoading } = useQuery({
 		queryKey: ['book'],
 		queryFn: () => getBookDetail(bookId),
 		onSuccess: () => {
-			console.log(data);
+			console.log('책 로드: ', data);
 		},
 	});
+	// 삭제하기 delete 요청 쿼리
+	const { mutate: mutateDelete } = useMutation({
+		mutationFn: () => deleteBook(data?.book?.bookId),
+	});
 
-	// console.log(isLoading, isFetching);
-	if (isLoading) return <Animation width={20} height={20} />;
-	// if (isSuccess) {
+	// event handler
+	const HandleDelete = () => {
+		const result = window.confirm('대여 종료하시겠습니까?');
+		result && mutateDelete();
+		result && navigate('/books');
+		result && notify(dispatch, '삭제가 완료되었습니다.');
+	};
+
+	if (isLoading)
+		return (
+			<Main>
+				<Animation width={20} height={20} />
+			</Main>
+		);
 	return (
 		<>
 			{data && (
@@ -48,9 +66,10 @@ const BooksDetailPage = () => {
 						<BookDetail book={data?.book} merchant={data?.merchant} />
 					</BodyContainer>
 
-					{/* 글 주인한테는 버튼이 어떻게 보여야할까? */}
-
-					{data?.book?.state === '대여가능' ? (
+					{id === data.merchant?.merchantId &&
+					data?.book?.state !== '거래중단' ? (
+						<Button onClick={HandleDelete}>대여 종료</Button>
+					) : data?.book?.state === '대여가능' ? (
 						<LinkStyled to={isLogin ? `rental` : ''}>
 							<Button
 								onClick={() =>
@@ -76,17 +95,6 @@ const BooksDetailPage = () => {
 					) : (
 						<Button backgroundColor={'grey'}>대여/예약 불가</Button>
 					)}
-					{/* <LinkStyled to={`rental`}>
-				<Button>책 대여하기</Button>
-			</LinkStyled>
-			<LinkStyled
-				to={`booking`}
-				state={{
-					rentalStart: data?.book.rentalStart,
-					rentalEnd: data?.book.rentalEnd,
-				}}>
-				<Button>책 예약하기</Button>
-			</LinkStyled> */}
 				</Main>
 			)}
 		</>

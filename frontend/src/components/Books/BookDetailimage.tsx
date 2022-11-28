@@ -13,9 +13,9 @@ import notify from '../../utils/notify';
 const BookImage = ({ book, merchant }: BookDetailProps) => {
 	const { id } = useAppSelector(state => state.loginInfo);
 	const dispatch = useAppDispatch();
-	const navigate = useNavigate();
+
 	const [active, setActive] = useState(false);
-	const { postWishItem, deleteBook } = useBooksAPI();
+	const { postWishItem } = useBooksAPI();
 
 	// 찜하기 post요청 쿼리
 	const {
@@ -25,16 +25,6 @@ const BookImage = ({ book, merchant }: BookDetailProps) => {
 	} = useMutation({
 		mutationFn: () => postWishItem(book?.bookId),
 	});
-
-	// 삭제하기 delete 요청 쿼리
-	const { mutate: mutateDelete } = useMutation({
-		mutationFn: () => deleteBook(book?.bookId),
-	});
-	const HandleDeleteIcon = () => {
-		const result = window.confirm('정말로 삭제하시겠습니까?');
-		result && mutateDelete();
-		result && navigate('/books');
-	};
 
 	const HandleWishIcon = () => {
 		setActive(!active);
@@ -67,12 +57,12 @@ const BookImage = ({ book, merchant }: BookDetailProps) => {
 			) : (
 				''
 			)}
-
+			{/* 
 			{id === merchant?.merchantId ? (
 				<Deleticon onClick={HandleDeleteIcon} />
 			) : (
 				''
-			)}
+			)} */}
 
 			{id && id !== merchant?.merchantId ? (
 				active ? (
@@ -96,14 +86,14 @@ const BookImgWrapper = styled.div`
 
 	margin-bottom: 2rem;
 `;
-const Deleticon = styled(HiOutlineTrash)`
-	font-size: 30px;
-	color: rgba(0, 0, 0, 0.7);
-	position: absolute;
-	top: 0;
-	right: 1rem;
-	cursor: pointer;
-`;
+// const Deleticon = styled(HiOutlineTrash)`
+// 	font-size: 30px;
+// 	color: rgba(0, 0, 0, 0.7);
+// 	position: absolute;
+// 	top: 0;
+// 	right: 1rem;
+// 	cursor: pointer;
+// `;
 
 const WishiconOn = styled(HiHeart)`
 	font-size: 32px;

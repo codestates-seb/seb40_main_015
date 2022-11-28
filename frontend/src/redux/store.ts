@@ -12,7 +12,7 @@ const persistConfig = {
 	key: 'root',
 	version: 1,
 	storage,
-	blacklist: ['bookCreate'],
+	blacklist: ['bookCreate', 'notification'],
 };
 
 const loginPersistConfig = {
