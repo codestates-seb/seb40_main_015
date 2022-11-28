@@ -1,28 +1,31 @@
 package com.dongnebook.global.config.security.auth;
 
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
 
+import com.dongnebook.domain.member.application.MemberService;
 import com.dongnebook.global.config.security.auth.filter.JwtAuthenticationFilter;
 import com.dongnebook.global.config.security.auth.filter.JwtVerificationFilter;
 import com.dongnebook.global.config.security.auth.filter.TokenProvider;
-import com.dongnebook.global.config.security.auth.handler.MemberAccessDeniedHandler;
-import com.dongnebook.global.config.security.auth.handler.MemberAuthenticationEntryPoint;
-import com.dongnebook.global.config.security.auth.handler.MemberAuthenticationFailureHandler;
-import com.dongnebook.global.config.security.auth.handler.MemberAuthenticationSuccessHandler;
+import com.dongnebook.global.config.security.auth.handler.*;
 import com.dongnebook.global.config.security.auth.jwtTokenizer.JwtTokenizer;
+import com.dongnebook.global.config.security.auth.oauth.OAuthService;
 import com.dongnebook.global.utils.CustomAuthorityUtils;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.factory.PasswordEncoderFactories;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.oauth2.client.registration.ClientRegistrationRepository;
+import org.springframework.security.oauth2.client.userinfo.OAuth2UserService;
+import org.springframework.security.oauth2.client.web.OAuth2LoginAuthenticationFilter;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
@@ -30,13 +33,14 @@ import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
 import lombok.RequiredArgsConstructor;
 
+import static org.springframework.security.config.Customizer.withDefaults;
+
 @Configuration
+@EnableWebSecurity(debug = true)
 @RequiredArgsConstructor
 public class SecurityConfiguration {
 	private final TokenProvider tokenProvider;
-	private final JwtTokenizer jwtTokenizer;
-	private final CustomAuthorityUtils authorityUtils;
-
+	private final OAuthService oAuthService;
 
 	@Bean
 	public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
@@ -57,8 +61,10 @@ public class SecurityConfiguration {
 				.apply(new CustomFilterConfigurer())
 				.and()
 				.authorizeHttpRequests(authorize -> authorize
-						.anyRequest().permitAll()
-				);
+						.anyRequest().permitAll())
+				.oauth2Login() // OAuth2 로그인 설정 시작점
+				.userInfoEndpoint() // OAuth2 로그인 성공 이후 사용자 정보를 가져올 때 설정 담당
+				.userService(oAuthService);
 		return http.build();
 	}
 
@@ -90,14 +96,13 @@ public class SecurityConfiguration {
 			JwtAuthenticationFilter jwtAuthenticationFilter = new JwtAuthenticationFilter(tokenProvider, authenticationManager);
 			jwtAuthenticationFilter.setFilterProcessesUrl("/auth/login");
 			jwtAuthenticationFilter.setAuthenticationSuccessHandler(new MemberAuthenticationSuccessHandler());
-			           // jwtAuthenticationFilter.setAuthenticationFailureHandler(new UserAuthenticationFailureHandler());
-			//
+			jwtAuthenticationFilter.setAuthenticationFailureHandler(new MemberAuthenticationFailureHandler());
+
 			JwtVerificationFilter jwtVerificationFilter = new JwtVerificationFilter(tokenProvider);
 
 			builder
-				.addFilter(jwtAuthenticationFilter)
-				.addFilterAfter(jwtVerificationFilter, JwtAuthenticationFilter.class);
+					.addFilter(jwtAuthenticationFilter)
+					.addFilterAfter(jwtVerificationFilter, JwtAuthenticationFilter.class);
 		}
 	}
 }
-
