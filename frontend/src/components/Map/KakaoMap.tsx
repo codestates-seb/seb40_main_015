@@ -5,6 +5,8 @@ import BookLists from './BookLists';
 import MerchantLists from './MerchantLists';
 import CustomOverlay from './CustomOverlay';
 import CustomOverlayHover from './CustomOverlayHover';
+import { useDispatch } from 'react-redux';
+import { change } from '../../redux/slice/geoLocationSlice';
 
 interface MarkerProps {
 	merchantCount: number;
@@ -28,15 +30,12 @@ interface MerchantSectorProps {
 
 interface KakaoMapProps {
 	current: { lat: number; lon: number };
-	setCurrent: Dispatch<SetStateAction<{ lat: number; lon: number }>>;
 	selectOverlay: any;
 	setSelectOverlay: Dispatch<SetStateAction<any>>;
 	merchantSector: MerchantSectorProps[];
-	setMerchantSector: Dispatch<SetStateAction<MerchantSectorProps[]>>;
 	merchantLists: MarkerProps[];
 	setMerchantLists: Dispatch<SetStateAction<any>>;
 	bookSector: MerchantSectorProps[];
-	setBookSector: Dispatch<SetStateAction<any>>;
 	bookLists: any;
 	setBookLists: any;
 	zoomLevel: number;
@@ -47,31 +46,23 @@ interface KakaoMapProps {
 		lat: number;
 		lon: number;
 	};
-	setCenterCoord: Dispatch<
-		SetStateAction<{
-			lat: number;
-			lon: number;
-		}>
-	>;
 	merchantCurrentRefetch: any;
 	bookCurrentRefetch: any;
 	merchantListRefetch: any;
 	bookListRefetch: any;
 	merchantListRef: any;
+	bookListRef: any;
 }
 
 const KakaoMap = (props: KakaoMapProps) => {
 	const {
 		current,
-		setCurrent,
 		selectOverlay,
 		setSelectOverlay,
 		merchantSector,
-		setMerchantSector,
 		merchantLists,
 		setMerchantLists,
 		bookSector,
-		setBookSector,
 		bookLists,
 		setBookLists,
 		zoomLevel,
@@ -79,15 +70,16 @@ const KakaoMap = (props: KakaoMapProps) => {
 		size,
 		searchInput,
 		centerCoord,
-		setCenterCoord,
 		merchantCurrentRefetch,
 		bookCurrentRefetch,
 		merchantListRefetch,
 		bookListRefetch,
 		merchantListRef,
+		bookListRef,
 	} = props;
 
 	const [hoverList, setHoverLists] = useState({ latitude: 0, longitude: 0 });
+	const dispatch = useDispatch();
 
 	// 	// centerCoord 변경될때마다 주변상인 정보 api 호출하기
 	useEffect(() => {
@@ -134,10 +126,12 @@ const KakaoMap = (props: KakaoMapProps) => {
 			level={zoomLevel}
 			onZoomChanged={map => setZoomLevel(map.getLevel())}
 			onDragEnd={map => {
-				setCenterCoord({
-					lat: map.getCenter().getLat(),
-					lon: map.getCenter().getLng(),
-				});
+				dispatch(
+					change({
+						lat: map.getCenter().getLat(),
+						lon: map.getCenter().getLng(),
+					}),
+				);
 			}}
 			disableDoubleClick={true}
 			onClick={() => {
@@ -188,8 +182,12 @@ const KakaoMap = (props: KakaoMapProps) => {
 						merchantListRef={merchantListRef}
 					/>
 				)}
-				{bookLists.length > 0 && (
-					<BookLists bookLists={bookLists} setHoverLists={setHoverLists} />
+				{bookLists?.length > 0 && (
+					<BookLists
+						bookLists={bookLists}
+						setHoverLists={setHoverLists}
+						bookListRef={bookListRef}
+					/>
 				)}
 			</Search>
 		</Map>
