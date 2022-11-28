@@ -13,8 +13,8 @@ import Description from '../components/BooksCreate/Description';
 import Photo from '../components/BooksCreate/Photo';
 import { makeCreateBookMessages } from '../utils/makeCreateBookMessages';
 import notify from '../utils/notify';
-import usePostBooks from '../api/hooks/usePostBooks';
 import { validateBookCreatePayloads } from '../utils/validateBookCreatePayload';
+import usePostBooks from '../api/hooks/createBooks/usePostBooks';
 
 const BooksCreatePage = () => {
 	const bookCreate = useAppSelector(state => state.persistedReducer.bookCreate);
