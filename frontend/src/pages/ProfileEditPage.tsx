@@ -1,4 +1,4 @@
-import { useState, useCallback, useRef } from 'react';
+import { useState, useCallback, useRef, useEffect } from 'react';
 import styled from 'styled-components';
 import Title from '../components/common/Title';
 import Button from '../components/common/Button';
@@ -8,6 +8,8 @@ import { useFixInfo } from '../components/Member/hooks/useFixInfo';
 import axios from 'axios';
 import { BASE_URL } from '../constants/constants';
 import { useNavigate } from 'react-router-dom';
+import Photo from '../components/BooksCreate/Photo';
+import Avatar from '../components/Member/hooks/ Avatar';
 
 function ProfileEditPage() {
 	//현재 위치 수정
@@ -115,7 +117,13 @@ function ProfileEditPage() {
 	// 	};
 	// 	reader.readAsDataURL(files[0]);
 	// };
+	const [result, setResult] = useState<any>('');
+	const getAdress = (ad: any) => {
+		setResult(ad);
+	};
+	const [id, setId] = useState('');
 
+	console.log('결과', result);
 	return (
 		<Layout>
 			<Title text="내 정보 수정하기" />
@@ -136,17 +144,26 @@ function ProfileEditPage() {
 					onChange={onChange}
 					ref={fileInput}
 				/>
+				{/* <Avatar /> */}
 				<p className="minititle">닉네임</p>
 				<div className="input">
-					<input placeholder="수정할 닉네임을 작성하세요" disabled={false} />
+					<input
+						placeholder="수정할 닉네임을 작성하세요"
+						disabled={false}
+						type="nickname"
+						{...setId}
+					/>
 				</div>
 				<p className="minititle">내 동네 설정</p>
 				<div className="input">
 					{isOpenModal && (
-						<Modal onClickToggleModal={onClickToggleModal}></Modal>
+						<Modal
+							onClickToggleModal={onClickToggleModal}
+							getAdress={getAdress}></Modal>
 					)}
 					<input
 						placeholder="내 동네를 설정하세요"
+						value={result}
 						disabled={false}
 						onClick={() => {
 							onClickToggleModal();

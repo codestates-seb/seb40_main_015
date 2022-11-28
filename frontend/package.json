@@ -78,6 +78,7 @@
 		]
 	},
 	"devDependencies": {
+		"@types/react-geocode": "^0.2.1",
 		"kakao.maps.d.ts": "^0.1.33"
 	}
 }

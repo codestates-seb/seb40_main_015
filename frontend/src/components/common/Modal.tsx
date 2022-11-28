@@ -1,19 +1,47 @@
-import React, { PropsWithChildren } from 'react';
+import React, { PropsWithChildren, useEffect, useState } from 'react';
 import styled from 'styled-components';
 import Button from '../common/Button';
 import useGeoLocation2 from '../../hooks/useGeoLocation2';
 import { useNavigate } from 'react-router-dom';
+import Geocode from 'react-geocode';
 
 interface ModalDefaultType {
 	onClickToggleModal: () => void;
+	getAdress: (ad: string) => void;
 }
 
 function Modal({
 	onClickToggleModal,
+	getAdress,
 	children,
 }: PropsWithChildren<ModalDefaultType>) {
 	const location = useGeoLocation2();
 	const navigate = useNavigate();
+
+	const { lat, lng }: any = location.coordinates;
+
+	const [ad, setAd] = useState('');
+
+	useEffect(() => {
+		if (location.loaded === true) getAddressFromLatLng();
+	}, [location]);
+
+	const GEOCODER_KEY: any = process.env.REACT_APP_GEOCODER_KEY;
+	Geocode.setLanguage('ko');
+	Geocode.setApiKey(GEOCODER_KEY);
+	Geocode.enableDebug();
+
+	const getAddressFromLatLng = () => {
+		Geocode.fromLatLng(lat, lng).then(
+			response => {
+				const address = response.results[0].formatted_address;
+				setAd(address);
+			},
+			error => {
+				console.log(error);
+			},
+		);
+	};
 
 	return (
 		<ModalContainer>
@@ -21,12 +49,18 @@ function Modal({
 				{children}
 				<h1>현재 위치를 주거래 지역으로 설정할까요?</h1>
 				<div className="currentplace">
-					{location.loaded
-						? JSON.stringify(location)
-						: '현재 위치를 확인 중입니다'}
+					{location.loaded ? ad : '- 현재 위치를 확인 중입니다 -'}
 				</div>
 				<div className="btn">
-					<Button className="btn1" onClick={() => {}}>
+					<Button
+						className="btn1"
+						onClick={(e: React.MouseEvent) => {
+							getAdress(ad);
+							e.preventDefault();
+							if (onClickToggleModal) {
+								onClickToggleModal();
+							}
+						}}>
 						예
 					</Button>
 					<Button
@@ -76,6 +110,7 @@ const DialogBox = styled.dialog`
 	align-items: center;
 	justify-content: center;
 	top: 30%;
+	padding-top: 20px;
 
 	h1 {
 		font-size: 20px;
@@ -101,6 +136,9 @@ const DialogBox = styled.dialog`
 		background-color: rgb(43, 103, 74);
 		border-radius: 3px;
 		color: white;
+		align-items: center;
+		text-align: center;
+		padding-top: 14px;
 	}
 `;
 
