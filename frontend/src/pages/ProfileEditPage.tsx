@@ -22,7 +22,6 @@ function ProfileEditPage() {
 
 	//유저 이미지 수정
 	const [File, setFile] = useState<File | undefined>();
-	// const { mutate: image } = useInputImage(File);
 	const [Image, setImage] = useState<string>(
 		'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png',
 	);
@@ -42,29 +41,6 @@ function ProfileEditPage() {
 				'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png',
 			);
 			return;
-
-			// console.log('');
-			// e.preventDefault();
-			// const files = e.currentTarget.files as FileList;
-			// setFile(files[0]);
-			// if (files) {
-			// 	const formData = new FormData();
-			// 	formData.append('img', files[0]);
-
-			// 	console.log(Array.from(formData.values()));
-
-			// 	//Array.from(formData.values())
-
-			// 	console.log(files[0]);
-			// 	// console.log(FormData);
-
-			// 	image();
-			// } else {
-			// 	//업로드 취소할 시
-			// 	setImage(
-			// 		'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png',
-			// 	);
-			// 	return;
 		}
 
 		//화면에 프로필 사진 표시
