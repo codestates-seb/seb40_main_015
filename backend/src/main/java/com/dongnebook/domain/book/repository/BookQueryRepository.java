@@ -133,7 +133,7 @@ public class BookQueryRepository {
 			.from(dibs)
 			.leftJoin(dibs.book)
 			.leftJoin(dibs.book.member)
-			.where(ltBookId(pageRequest.getIndex()),dibs.member.id.eq(memberId))
+			.where(dibs.book.id.lt(pageRequest.getIndex()),dibs.member.id.eq(memberId))
 			.orderBy(dibs.book.id.desc())
 			.limit(pageRequest.getSize() + 1)
 			.fetch();
