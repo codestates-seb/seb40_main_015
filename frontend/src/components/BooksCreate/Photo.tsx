@@ -1,12 +1,15 @@
 import { useState } from 'react';
 import { HiPhotograph } from 'react-icons/hi';
 import styled from 'styled-components';
-import useGetPhotoUrl from '../../api/hooks/useGetPhotoUrl';
+import useGetPhotoUrl from '../../api/hooks/common/useGetPhotoUrl';
+import { useAppDispatch } from '../../redux/hooks';
+import { updateRentalInfo } from '../../redux/slice/bookCreateSlice';
 import { BookInfo } from '../Books/BookElements';
 
 const Photo = () => {
 	const [imageName, setImageName] = useState('');
 	const { mutate } = useGetPhotoUrl();
+	const dispatch = useAppDispatch();
 
 	const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
 		const { files } = e.target;
@@ -15,7 +18,10 @@ const Photo = () => {
 			const fileRef = files[0];
 			setImageName(fileRef.name);
 			formData.append('img', fileRef);
-			mutate(formData);
+			mutate(formData, {
+				onSuccess: res =>
+					dispatch(updateRentalInfo({ key: 'imageUrl', value: res.data })),
+			});
 		}
 	};
 
