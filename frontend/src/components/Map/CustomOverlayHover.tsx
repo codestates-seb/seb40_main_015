@@ -26,26 +26,26 @@ const CustomOverlayHover = ({ hoverList }: { hoverList: HoverProps }) => {
 const Circle = keyframes`
 	0% {
   transform: scale(1);
-	opacity: 0.7;
+
 	}
   
-	70% {
+	80% {
     transform: scale(0.4);
-	opacity: 0.6;
+
 	}
 
   100% {
   transform: scale(0.4);
-	opacity: 0.6;
+	
   }
 	`;
 
 const StyledOverlay = styled.div`
-	width: 7rem;
-	height: 7rem;
+	width: 8rem;
+	height: 8rem;
 	border-radius: 50%;
-	background-color: #f6bb83;
-	animation: ${Circle} 1.4s infinite;
+	background-color: rgba(246, 187, 131, 0.7);
+	animation: ${Circle} 1.6s infinite;
 `;
 
 export default CustomOverlayHover;

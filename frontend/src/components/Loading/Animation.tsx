@@ -2,11 +2,20 @@ import Lottie from 'lottie-react';
 import animationData from '../../assets/image/lottieloading.json';
 import styled from 'styled-components';
 
-const Animation = ({ width, height }: { width?: number; height?: number }) => {
+const Animation = ({
+	width,
+	height,
+	text,
+}: {
+	width?: number;
+	height?: number;
+	text?: string;
+}) => {
 	return (
 		<Background height={height}>
 			<LottieContainer width={width} height={height}>
 				<Lottie animationData={animationData} loop={true}></Lottie>
+				{text && <Text>{text}</Text>}
 			</LottieContainer>
 		</Background>
 	);
@@ -35,6 +44,15 @@ const LottieContainer = styled.div<LottieContainerProps>`
 	width: ${props => (props.width ? props.width : '150px')};
 	height: ${props => (props.height ? props.height : '150px')};
 	margin: 0 auto;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	flex-direction: column;
+`;
+
+const Text = styled.p`
+	margin-top: 1rem;
+	font-size: 1.5rem;
 `;
 
 export default Animation;
