@@ -38,7 +38,7 @@ public class JwtVerificationFilter extends OncePerRequestFilter {
 
     // 인증에서 제외할 url
     private static final List<String> EXCLUDE_URL =
-        List.of("/auth/signup");
+        List.of("/auth/signup", "/auth/login", "/oauth2/authorization/google");
 
     /* 실제 필터링 로직은 doFilterInternal 에서 수행
 	JWT 토큰의 인증 정보를 현재 쓰레드의 SecurityContext 에 저장하는 역할
