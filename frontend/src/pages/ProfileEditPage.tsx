@@ -128,7 +128,7 @@ function ProfileEditPage() {
 		<Layout>
 			<Title text="내 정보 수정하기" />
 			<ProfileBox>
-				<img
+				{/* <img
 					className="image"
 					src={Image}
 					alt="dummy"
@@ -143,8 +143,8 @@ function ProfileEditPage() {
 					name="profile_img"
 					onChange={onChange}
 					ref={fileInput}
-				/>
-				{/* <Avatar /> */}
+				/> */}
+				<Avatar />
 				<p className="minititle">닉네임</p>
 				<div className="input">
 					<input
