@@ -9,6 +9,7 @@ function useGeoLocation(type?: string) {
 	const location = useSelector((state: RootState) => {
 		return state.persistedReducer.getLocation;
 	});
+
 	const [current, setCurrent] = useState<any>({
 		lat: 33.452612905667934,
 		lon: 126.57087765868735,
