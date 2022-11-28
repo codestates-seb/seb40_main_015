@@ -24,9 +24,10 @@ function ProfilePage() {
 	const navigate = useNavigate();
 	const [tab, curTab, handleChange] = useTabs(['찜 목록', '예약 목록']);
 	const { id } = useAppSelector(state => state.loginInfo);
-	const [Image, setImage] = useState<string>(
-		'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png',
-	);
+	// const [Image, setImage] = useState<string>(
+	// 	'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png',
+	// );
+
 	const handleEditPage = () => {
 		navigate('/profile/edit');
 	};
@@ -59,7 +60,10 @@ function ProfilePage() {
 		<Layout>
 			<Title text="마이페이지" />
 			<ProfileBox>
-				<img className="profileimage" alt="프로필 이미지가 없습니다"></img>
+				<img
+					src={data?.avatarUrl}
+					className="profileimage"
+					alt="프로필 이미지가 없습니다"></img>
 				<UserInfoBox>
 					<p>닉네임: {data?.name}</p>
 					<p>주거래 동네:{data?.address ?? '거래 할 동네를 설정해주세요!'}</p>
