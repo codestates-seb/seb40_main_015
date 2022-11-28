@@ -51,7 +51,7 @@ public class Member extends BaseTimeEntity {
 	private String avatarUrl;
 
 	@Column(name = "avg_grade")
-	private Long avgGrade = 4L;
+	private Long avgGrade = 0L;
 
 	@Enumerated(EnumType.STRING)
 	private Authority authority;
