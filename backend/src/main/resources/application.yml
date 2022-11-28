@@ -17,11 +17,11 @@ Spring:
     properties:
       hibernate:
         format_sql: true  # (3) SQL pretty print
-  cache:
-    type: redis
-  redis:
-    host: localhost
-    port: 6379
+#  cache:
+#    type: redis
+#  redis:
+#    host: localhost
+#    port: 6379
   security:
     oauth2:
       client:
@@ -51,15 +51,15 @@ server:
     encoding:
       force-response: true
 
-cloud:
-  aws:
-    credentials:
-      access-key: ${S3_ACCESS_KEY}
-      secret-key: ${S3_SECRET_KEY}
-    s3:
-      bucket: codestates-dongnebook
-    region:
-      static: ap-northeast-2
-    stack:
-      auto: false
+#cloud:
+#  aws:
+#    credentials:
+#      access-key: ${S3_ACCESS_KEY}
+#      secret-key: ${S3_SECRET_KEY}
+#    s3:
+#      bucket: codestates-dongnebook
+#    region:
+#      static: ap-northeast-2
+#    stack:
+#      auto: false
 
