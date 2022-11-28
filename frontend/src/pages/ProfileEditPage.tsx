@@ -1,15 +1,16 @@
-import { useState, useCallback, useRef, useEffect } from 'react';
+import { useState, useCallback } from 'react';
 import styled from 'styled-components';
 import Title from '../components/common/Title';
 import Button from '../components/common/Button';
 import Modal from '../components/common/Modal';
 import useGeoLocation from '../hooks/useGeoLocation';
-import { useFixInfo } from '../components/Member/hooks/useFixInfo';
-import axios from 'axios';
-import { BASE_URL } from '../constants/constants';
+
 import { useNavigate } from 'react-router-dom';
-import Photo from '../components/BooksCreate/Photo';
-import Avatar from '../components/Member/hooks/ Avatar';
+
+import { useAppDispatch, useAppSelector } from '../redux/hooks';
+import { updateUserInfo } from '../redux/slice/userInfoSlice';
+import Avatar from '../api/hooks/profileedit/Avatar';
+import { useFixInfo } from '../api/hooks/profileedit/useFixInfo';
 
 function ProfileEditPage() {
 	//현재 위치 수정
@@ -17,173 +18,88 @@ function ProfileEditPage() {
 	const onClickToggleModal = useCallback(() => {
 		setOpenModal(!isOpenModal);
 	}, [isOpenModal]);
-	const [current, setCurrent, handleCurrentLocationMove] = useGeoLocation();
+
+	const userInfo = useAppSelector(state => state.persistedReducer.userInfo);
+
+	console.log(userInfo);
+
+	const [location, setLocation, handleCurrentLocationMove] = useGeoLocation();
 
 	//유저 이미지 수정
-	const [File, setFile] = useState<File | undefined>();
-	// const { mutate: image } = useInputImage(File);
-	const [Image, setImage] = useState<string>(
-		'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png',
-	);
+
+	const { Address, avatarUrl } = userInfo;
+	const [nickname, setNickname] = useState(userInfo.name);
 	const navigate = useNavigate();
-	const fileInput = useRef<any>(null);
-	const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-		const { files } = e.target;
-		const formData = new FormData();
-		if (files) {
-			const fileRef = files[0];
-			// setFile(fileRef);
-			// formData.append('img', fileRef);
-			axios.post(`${BASE_URL}/upload`, formData).then(res => console.log(res));
-		} else {
-			//업로드 취소할 시
-			setImage(
-				'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png',
-			);
-			return;
-
-			// console.log('');
-			// e.preventDefault();
-			// const files = e.currentTarget.files as FileList;
-			// setFile(files[0]);
-			// if (files) {
-			// 	const formData = new FormData();
-			// 	formData.append('img', files[0]);
-
-			// 	console.log(Array.from(formData.values()));
-
-			// 	//Array.from(formData.values())
-
-			// 	console.log(files[0]);
-			// 	// console.log(FormData);
-
-			// 	image();
-			// } else {
-			// 	//업로드 취소할 시
-			// 	setImage(
-			// 		'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png',
-			// 	);
-			// 	return;
-		}
-
-		//화면에 프로필 사진 표시
-		const reader = new FileReader();
-		reader.onload = () => {
-			if (reader.readyState === 2 && reader.result) {
-				console.log(reader);
-				setImage(`${reader.result}`);
-			}
-		};
-		reader.readAsDataURL(files[0]);
-	};
-
-	//유저 이미지 수정
-	// const [File, setFile] = useState<File | undefined>();
-	// const [Image, setImage] = useState<string>(
-	// 	'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png',
-	// );
-	// const fileInput = useRef<any>(null);
-	// const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-	// 	console.log('');
-	// 	const files = e.currentTarget.files as FileList;
-	// 	if (files) {
-	// 		setFile(files[0]);
-	// 	} else {
-	// 		//업로드 취소할 시
-	// 		setImage(
-	// 			'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png',
-	// 		);
-	// 		return;
-	// 	}
+	const dispatch = useAppDispatch();
 
 	//patch mutation
 	const { mutate } = useFixInfo({
-		nickname: 'asdf',
-		location: {
-			latitude: '37.5340',
-			longitude: '126.7064',
-		},
-		address: '서울시 서울구 서울동',
-		avatarUrl:
-			'https://www.pngarts.com/files/10/Default-Profile-Picture-PNG-Download-Image.png',
+		nickname,
+		location,
+		address: Address,
+		avatarUrl,
 	});
-	//화면에 프로필 사진 표시
-	// 	const reader = new FileReader();
-	// 	reader.onload = () => {
-	// 		if (reader.readyState === 2 && reader.result) {
-	// 			console.log(reader);
-	// 			setImage(`${reader.result}`);
-	// 		}
-	// 	};
-	// 	reader.readAsDataURL(files[0]);
-	// };
-	const [result, setResult] = useState<any>('');
-	const getAdress = (ad: any) => {
-		setResult(ad);
-	};
-	const [id, setId] = useState('');
 
-	console.log('결과', result);
+	//닉네임
+	const handleChangeNickname = (e: React.ChangeEvent<HTMLInputElement>) => {
+		setNickname(e.target.value);
+	};
+
+	const handleBlurNickname = () => {
+		dispatch(updateUserInfo({ key: 'nickname', value: nickname }));
+	};
+
+	console.log('결과', Address);
 	return (
 		<Layout>
-			<Title text="내 정보 수정하기" />
-			<ProfileBox>
-				<img
-					className="image"
-					src={Image}
-					alt="dummy"
-					onClick={() => {
-						fileInput.current.click();
-					}}
-				/>
-				<input
-					type="file"
-					style={{ display: 'none' }}
-					accept="image/jpg,impge/png,image/jpeg"
-					name="profile_img"
-					onChange={onChange}
-					ref={fileInput}
-				/>
-				{/* <Avatar /> */}
-				<p className="minititle">닉네임</p>
-				<div className="input">
-					<input
-						placeholder="수정할 닉네임을 작성하세요"
-						disabled={false}
-						type="nickname"
-						{...setId}
-					/>
-				</div>
-				<p className="minititle">내 동네 설정</p>
-				<div className="input">
-					{isOpenModal && (
-						<Modal
-							onClickToggleModal={onClickToggleModal}
-							getAdress={getAdress}></Modal>
-					)}
-					<input
-						placeholder="내 동네를 설정하세요"
-						value={result}
-						disabled={false}
-						onClick={() => {
-							onClickToggleModal();
-							handleCurrentLocationMove();
-						}}
-					/>
-				</div>
-				<Button
-					onClick={() => {
-						//저장 후 바로 프로필 페이지로 가지 않게 수정
-						const isconfirm = window.confirm('해당 정보로 수정하시겠습니까?');
-						if (!isconfirm) return;
-						mutate();
-						navigate('/profile');
-					}}
-					className="Button"
-					fontSize={'small'}>
-					저장
-				</Button>
-			</ProfileBox>
+			{/*  name -> nickname으로 바뀔 예정 */}
+			{userInfo.name ? (
+				<>
+					<Title text="내 정보 수정하기" />
+					<ProfileBox>
+						<Avatar />
+						<p className="minititle">닉네임</p>
+						<div className="input">
+							<input
+								placeholder="수정할 닉네임을 작성하세요"
+								disabled={false}
+								type="nickname"
+								value={nickname}
+								onChange={handleChangeNickname}
+								onBlur={handleBlurNickname}
+							/>
+						</div>
+						<p className="minititle">내 동네 설정</p>
+						<div className="input">
+							{isOpenModal && <Modal onClickToggleModal={onClickToggleModal} />}
+							<input
+								placeholder="내 동네를 설정하세요"
+								value={Address}
+								disabled={false}
+								onClick={() => {
+									onClickToggleModal();
+									handleCurrentLocationMove();
+								}}
+							/>
+						</div>
+						<Button
+							onClick={() => {
+								//저장 후 바로 프로필 페이지로 가지 않게 수정
+								const isconfirm =
+									window.confirm('해당 정보로 수정하시겠습니까?');
+								if (!isconfirm) return;
+								mutate();
+								navigate('/profile');
+							}}
+							className="Button"
+							fontSize={'small'}>
+							저장
+						</Button>
+					</ProfileBox>
+				</>
+			) : (
+				'잘못된 요청입니다.'
+			)}
 		</Layout>
 	);
 }
