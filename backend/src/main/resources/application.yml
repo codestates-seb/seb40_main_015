@@ -13,12 +13,15 @@ Spring:
     hibernate:
       ddl-auto: create  # (1) 스키마 자동 생성
       type: trace
-
-
     show-sql: true      # (2) SQL 쿼리 출력
     properties:
       hibernate:
         format_sql: true  # (3) SQL pretty print
+  cache:
+    type: redis
+  redis:
+    host: localhost
+    port: 6379
 jwt:
   secret-key: ${JWT_SECRET_KEY}
   access-token-expiration-minutes: 3500
@@ -37,4 +40,16 @@ server:
   servlet:
     encoding:
       force-response: true
+
+cloud:
+  aws:
+    credentials:
+      access-key: ${S3_ACCESS_KEY}
+      secret-key: ${S3_SECRET_KEY}
+    s3:
+      bucket: codestates-dongnebook
+    region:
+      static: ap-northeast-2
+    stack:
+      auto: false
 

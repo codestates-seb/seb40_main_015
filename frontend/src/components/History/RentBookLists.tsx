@@ -1,146 +1,142 @@
-import { useState } from 'react';
 import styled from 'styled-components';
-import dummyImage from '../../assets/image/dummy.png';
-import convertDate from '../../utils/convertDate';
+import BookItem from '../Books/BookItem';
+import { useHistoryAPI } from '../../api/history';
+import { useInfiniteQuery } from '@tanstack/react-query';
+import Animation from '../Loading/Animation';
+import LendBookUserInfo from './LendBookUserInfo';
 import RentStatusButton from './RentStatusButton';
-import { rentalDummy } from './dummy';
-import { axiosCancleByCustomer } from '../../api/history';
-
-interface ListProps {
-	bookInfo: {
-		bookId: string;
-		bookUrl: string;
-		title: string;
-		author: string;
-		publisher: string;
-		rental_fee: string;
-		bookDescription: string;
-		location: {
-			latitude: string;
-			longitude: string;
-		};
-		bookStatus: string;
-		merchantName: string;
-	};
-	rentalInfo: {
-		rentalId: string;
-		customerName: string;
-		rentalState: string;
-		rentalStartedAt: string;
-		rentalDeadline: string;
-		rentalReturnedAt: string;
-		rentalCanceledAt: string;
-	};
-}
+import { useEffect, useMemo } from 'react';
+import { useInView } from 'react-intersection-observer';
 
 const RentBookLists = () => {
-	const [test, setTest] = useState<ListProps[]>(rentalDummy);
+	const { getRentalBookLists } = useHistoryAPI();
+	const [ref, inView] = useInView();
+
+	const { data, fetchNextPage, hasNextPage, isFetchingNextPage } =
+		useInfiniteQuery(
+			['rentBookList'],
+			({ pageParam = undefined }) =>
+				getRentalBookLists(pageParam).then(res => res.data),
+			{
+				getNextPageParam: lastPage => {
+					return lastPage.last
+						? undefined
+						: lastPage.content[lastPage.content.length - 1].rentalInfo.rentalId;
+				},
+				retry: false,
+			},
+		);
+	const lists: any = useMemo(
+		() => data?.pages.flatMap(page => page.content),
+		[data?.pages],
+	);
+
+	useEffect(() => {
+		if (inView && hasNextPage) fetchNextPage();
+	}, [inView]);
 
 	return (
 		<Box>
-			{test
-				? test.map((item, i) => {
-						const { bookInfo, rentalInfo } = item;
-						const {
-							bookId,
-							bookUrl,
-							title,
-							author,
-							publisher,
-							bookStatus,
-							merchantName,
-						} = bookInfo;
-						const {
-							rentalId,
-							rentalState,
-							rentalStartedAt,
-							rentalDeadline,
-							rentalReturnedAt,
-							rentalCanceledAt,
-						} = rentalInfo;
-						return (
-							<Wrapper key={Number(bookId)}>
-								<Container>
-									<FlexBox>
-										<img src={dummyImage} alt="" width={90} height={105} />
-										<InfoWrapped>
-											<p>{title}</p>
-											<p>{merchantName}</p>
-											<p>
-												{author} / {publisher}
-											</p>
-											{/* <p>대여기간</p> */}
-											{(rentalState === 'TRADING' ||
-												rentalState === 'BEING_RENTED') && (
-												<p>
-													{convertDate(rentalStartedAt, rentalDeadline, true)}
-												</p>
-											)}
-											{(rentalState === 'RETURN_UNREVIEWED' ||
-												rentalState === 'RETURN_REVIEWED') && (
-												<p>
-													{convertDate(rentalStartedAt, rentalReturnedAt, true)}
-												</p>
-											)}
-											{rentalState === 'CANCELED' && (
-												<p>
-													{convertDate(rentalStartedAt, rentalCanceledAt, true)}
-												</p>
-											)}
-										</InfoWrapped>
-									</FlexBox>
-									<RentStatusButton
-										status={rentalState}
-										merchantName={merchantName}
-									/>
-								</Container>
-							</Wrapper>
-						);
-				  })
-				: null}
+			{lists?.length ? (
+				<>
+					{lists?.map((el: any) => (
+						<Wrapper key={el.rentalInfo.rentalId}>
+							<BookItem
+								bookId={el.bookInfo.bookId}
+								title={el.bookInfo.title}
+								bookImage={el.bookInfo.bookUrl}
+								rentalfee={el.bookInfo.rentalFee}
+								author={el.bookInfo.author}
+								publisher={el.bookInfo.publisher}
+								// merchantName={el.bookInfo.merchantName}
+								status={el.rentalInfo.rentalState}
+								rental={el.rentalInfo}
+							/>
+							<LendBookUserInfo
+								rentalInfo={el.rentalInfo}
+								merchantName={el.bookInfo.merchantName}
+							/>
+							<RentStatusButton
+								status={el.rentalInfo.rentalState}
+								merchantName={el.rentalInfo.customerName}
+								rental={el.rentalInfo}
+							/>
+						</Wrapper>
+					))}
+				</>
+			) : (
+				<EmptyBox>
+					<p>빌린 책이 없어요</p>
+				</EmptyBox>
+			)}
+
+			{/* {lists?.length ? (
+				<>
+					{lists?.map((el: any) => (
+						<BookItem
+							key={el.rentalInfo.rentalId}
+							bookId={el.bookInfo.bookId}
+							title={el.bookInfo.title}
+							bookImage={el.bookInfo.bookUrl}
+							rentalfee={el.bookInfo.rentalFee}
+							author={el.bookInfo.author}
+							publisher={el.bookInfo.publisher}
+							merchantName={el.bookInfo.merchantName}
+							status={el.rentalInfo.rentalState}
+							rental={el.rentalInfo}
+						/>
+					))}
+				</>
+			) : (
+				<EmptyBox>
+					<p>빌린 책이 없어요</p>
+				</EmptyBox>
+			)} */}
+			{hasNextPage ? <div ref={ref}>Loading...</div> : null}
 		</Box>
 	);
 };
 
 const Box = styled.div`
 	/* padding: 0 1rem; */
+	height: 100%;
 `;
 
 const Wrapper = styled.div`
 	width: 100%;
-	max-width: 850px;
+	/* max-width: 850px; */
 	display: flex;
 	flex-direction: column;
+	margin-bottom: 3rem;
+
+	position: relative;
+	.cancel {
+		color: black;
+		padding: 0.6rem 0.8rem;
+		background-color: inherit;
+		border-radius: 0 5px 0 5px;
+		/* border: 1px solid rgba(1, 1, 1, 0.1); */
+		border-left: 1px solid rgba(1, 1, 1, 0.1);
+		border-bottom: 1px solid rgba(1, 1, 1, 0.1);
+
+		position: absolute;
+		top: 0;
+		right: 0;
+		:hover {
+			background-color: ${props => props.theme.colors.grey};
+		}
+	}
+`;
+
+const EmptyBox = styled.div`
+	width: 100%;
+	height: 75vh;
+	display: flex;
+	justify-content: center;
 	align-items: center;
-	margin-bottom: 1rem;
-`;
-
-const Container = styled.div`
-	width: 90vw;
-	display: flex;
-	justify-content: space-between;
-	margin-bottom: 0.5rem;
-	border: 1px solid #eaeaea;
-	border-radius: 5px;
-	padding: 1rem;
-	background-color: white;
-`;
-
-const FlexBox = styled.div`
-	display: flex;
-`;
-
-const InfoWrapped = styled.div`
-	display: flex;
-	margin-left: 0.3rem;
-	flex-direction: column;
-	justify-content: space-evenly;
-	justify-items: stretch;
-	background-color: white;
 	p {
-		font-size: ${props => props.theme.fontSizes.paragraph};
-		margin-left: 1rem;
-		background-color: white;
+		font-size: ${props => props.theme.fontSizes.subtitle};
+		font-weight: 600;
 	}
 `;
 

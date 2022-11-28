@@ -1,5 +1,7 @@
 package com.dongnebook.domain.member.ui;
 
+import com.dongnebook.domain.book.application.BookService;
+import com.dongnebook.domain.book.dto.response.BookSimpleResponse;
 import com.dongnebook.domain.member.application.MemberService;
 
 import com.dongnebook.domain.member.dto.request.MemberEditRequest;
@@ -10,6 +12,8 @@ import com.dongnebook.domain.member.dto.response.MemberExistsCheckResponse;
 import com.dongnebook.domain.member.dto.response.MemberResponse;
 import com.dongnebook.domain.member.dto.response.MerchantSectorCountResponse;
 
+import com.dongnebook.global.Login;
+import com.dongnebook.global.config.security.auth.userdetails.AuthMember;
 import com.dongnebook.global.dto.request.PageRequest;
 
 import org.springframework.data.domain.SliceImpl;
@@ -32,6 +36,7 @@ import java.util.Map;
 @RequiredArgsConstructor
 public class MemberController {
     private final MemberService memberService;
+    private final BookService bookService;
 
     @PostMapping("/auth/signup")
     public ResponseEntity<Map<String, Long>> create(@Valid @RequestBody MemberRegisterRequest memberRegisterRequest) {
@@ -79,10 +84,10 @@ public class MemberController {
         return ResponseEntity.ok(memberExistsCheckResponse);
     }
 
-    @PatchMapping("/member/{id}/edit")
-    public void edit(@PathVariable Long id, @RequestBody MemberEditRequest memberEditRequest){
+    @PatchMapping("/member/edit")
+    public void edit(@Login AuthMember member, @RequestBody MemberEditRequest memberEditRequest){
 
-        memberService.edit(id,memberEditRequest);
+        memberService.edit(member.getMemberId(),memberEditRequest);
 
     }
 
@@ -101,6 +106,11 @@ public class MemberController {
     @GetMapping("/member/{id}")
     public ResponseEntity<MemberDetailResponse> getMyInfo(@PathVariable Long id){
         return ResponseEntity.ok(memberService.getMemberInfo(id));
+    }
+
+    @GetMapping("/member/{id}/books")
+    public SliceImpl<BookSimpleResponse> getMemberBooks(@PathVariable Long id, PageRequest pageRequest){
+        return bookService.getListByMember(id,pageRequest);
     }
 
 }

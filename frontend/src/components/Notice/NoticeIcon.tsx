@@ -1,16 +1,25 @@
 import styled from 'styled-components';
 import { HiOutlineBell } from 'react-icons/hi';
-import { Link } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 
 const NoticeIcon = () => {
+	const { pathname } = useLocation();
+	const navigate = useNavigate();
+	const handleButtonClick = () => {
+		if (pathname === '/notice') {
+			navigate(-1);
+		} else {
+			navigate('/notice');
+		}
+	};
 	return (
-		<StyledNoticeIcon to="/notice">
+		<StyledNoticeIcon onClick={handleButtonClick}>
 			<HiOutlineBell className="icon" />
 		</StyledNoticeIcon>
 	);
 };
 
-const StyledNoticeIcon = styled(Link)`
+const StyledNoticeIcon = styled.div`
 	background-color: ${props => props.theme.colors.buttonGreen};
 	height: 4rem;
 	width: 4rem;
@@ -28,6 +37,8 @@ const StyledNoticeIcon = styled(Link)`
 		font-size: 3rem;
 		color: ${props => props.theme.colors.grey};
 	}
+
+	z-index: 10;
 `;
 
 export default NoticeIcon;
