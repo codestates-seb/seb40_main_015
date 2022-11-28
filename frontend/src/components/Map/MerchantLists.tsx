@@ -37,7 +37,7 @@ const MerchantLists = (props: Props) => {
 					</List>
 				);
 			})}
-			<div ref={merchantListRef}>Loading...</div>
+			<div ref={merchantListRef} />
 		</Box>
 	);
 };
