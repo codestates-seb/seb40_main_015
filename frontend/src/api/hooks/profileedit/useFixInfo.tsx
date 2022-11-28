@@ -1,5 +1,5 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
-import { useMypageAPI } from '../../../api/mypage';
+import { useMypageAPI } from '../../mypage';
 import { useAppDispatch } from '../../../redux/hooks';
 import notify from '../../../utils/notify';
 
