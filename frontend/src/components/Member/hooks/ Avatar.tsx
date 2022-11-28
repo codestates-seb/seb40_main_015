@@ -31,13 +31,11 @@ const Avatar = () => {
 
 	return (
 		<div className="avatar">
-			<img
-				className="image"
-				src={Image}
-				alt="profile image"
-				// onClick={() => {}}
-			/>
+			<label htmlFor="photo">
+				<img className="image" src={Image} alt="profile image" />
+			</label>
 			<input
+				id="photo"
 				type="file"
 				style={{ display: 'none' }}
 				accept="image/jpg,image/png,image/jpeg"
