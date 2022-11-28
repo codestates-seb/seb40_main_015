@@ -142,6 +142,10 @@ public class MemberService {
 			.orElseThrow(MemberNotFoundException::new);
 	}
 
+	public Member findById(Long memberId){
+		return memberRepository.findById(memberId).orElseThrow(MemberNotFoundException::new);
+	}
+
 	public SliceImpl<MemberResponse> getList(MerchantSearchRequest merchantSearchRequest, PageRequest pageRequest) {
 		return memberQueryRepository.getAll(merchantSearchRequest, pageRequest);
 	}

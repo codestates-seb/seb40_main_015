@@ -28,7 +28,7 @@ export const getMerchantListQuery = (
 	sector: number,
 	level: number,
 	width: number,
-	heigth: number,
+	height: number,
 	index?: number | string,
 ) => {
 	return axiosInstance
@@ -39,7 +39,7 @@ export const getMerchantListQuery = (
 				sector,
 				level,
 				width,
-				heigth,
+				height,
 				index,
 			},
 		})
@@ -77,7 +77,7 @@ export const getBookListQuery = (
 	sector: number,
 	level: number,
 	width: number,
-	heigth: number,
+	height: number,
 	index?: number | string,
 ) =>
 	axiosInstance
@@ -89,7 +89,7 @@ export const getBookListQuery = (
 				sector,
 				level,
 				width,
-				heigth,
+				height,
 				index,
 			},
 		})
