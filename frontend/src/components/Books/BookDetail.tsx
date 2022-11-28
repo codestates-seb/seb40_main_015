@@ -54,7 +54,7 @@ const BookDetail = ({ book, merchant }: BookDetailProps) => {
 						<span>{merchant?.name}</span>
 					</Link>
 					<MerchantGrade>
-						<span>평점: {merchant?.grade}★★★★★</span>
+						<span>평점: {merchant?.grade} /5</span>
 					</MerchantGrade>
 				</MerchantInfo>
 			</BookInfo>

@@ -41,7 +41,7 @@ const LendStatusButton = ({ status, customerName, rental }: Props) => {
 					onClick={() => {
 						handleStatusChange(status, customerName);
 					}}>
-					취소
+					거래 취소
 				</Button>
 			)}
 			{status === 'BEING_RENTED' && (
@@ -55,12 +55,12 @@ const LendStatusButton = ({ status, customerName, rental }: Props) => {
 			)}
 			{(status === 'RETURN_UNREVIEWED' || status === 'RETURN_REVIEWED') && (
 				<Button padding="0.8rem" backgroundColor="grey" disabled>
-					반납완료
+					반납 완료
 				</Button>
 			)}
 			{status === 'CANCELED' && (
 				<Button padding="0.8rem" backgroundColor="grey" disabled>
-					취소완료
+					취소 완료
 				</Button>
 			)}
 		</>

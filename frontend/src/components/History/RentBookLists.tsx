@@ -31,6 +31,7 @@ const RentBookLists = () => {
 		[data?.pages],
 	);
 
+	console.log('rental: ', lists);
 	useEffect(() => {
 		if (inView && hasNextPage) fetchNextPage();
 	}, [inView]);
@@ -58,7 +59,7 @@ const RentBookLists = () => {
 							/>
 							<RentStatusButton
 								status={el.rentalInfo.rentalState}
-								merchantName={el.rentalInfo.customerName}
+								merchantName={el.bookInfo.merchantName}
 								rental={el.rentalInfo}
 							/>
 						</Wrapper>

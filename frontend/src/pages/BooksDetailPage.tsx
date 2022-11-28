@@ -31,7 +31,7 @@ const BooksDetailPage = () => {
 		queryKey: ['book'],
 		queryFn: () => getBookDetail(bookId),
 		onSuccess: () => {
-			console.log('책 로드: ', data);
+			console.log('book detail: ', data);
 		},
 	});
 	// 삭제하기 delete 요청 쿼리
