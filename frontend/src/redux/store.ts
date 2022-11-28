@@ -7,6 +7,7 @@ import persistReducer from 'redux-persist/lib/persistReducer';
 import notificationReducer from './slice/notificationSlice';
 import loginInfoReducer from './slice/userSlice';
 import bookCreateReducer from './slice/bookCreateSlice';
+import geoLocationSlice from './slice/geoLocationSlice';
 
 const persistConfig = {
 	key: 'root',
@@ -23,6 +24,7 @@ const loginPersistConfig = {
 const rootReducer = combineReducers({
 	notification: notificationReducer,
 	bookCreate: bookCreateReducer,
+	getLocation: geoLocationSlice,
 });
 
 // const persistedReducer = persistReducer(persistConfig, rootReducer);
