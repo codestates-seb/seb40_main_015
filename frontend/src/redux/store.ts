@@ -12,7 +12,7 @@ const persistConfig = {
 	key: 'root',
 	version: 1,
 	storage,
-	blacklist: ['bookCreate'],
+	blacklist: ['notification', 'bookCreate'],
 };
 
 const loginPersistConfig = {
@@ -25,10 +25,7 @@ const rootReducer = combineReducers({
 	bookCreate: bookCreateReducer,
 });
 
-// const persistedReducer = persistReducer(persistConfig, rootReducer);
-
 export const store = configureStore({
-	// reducer: persistedReducer,
 	reducer: {
 		persistedReducer: persistReducer(persistConfig, rootReducer),
 		loginInfo: persistReducer(loginPersistConfig, loginInfoReducer),
