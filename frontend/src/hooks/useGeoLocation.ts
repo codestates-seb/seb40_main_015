@@ -1,7 +1,10 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 function useGeoLocation() {
-	const [current, setCurrent] = useState<any>();
+	const [current, setCurrent] = useState<any>({
+		lat: 0,
+		lon: 0,
+	});
 	const handleCurrentLocationMove = () => {
 		let lat = 0;
 		let lon = 0;
@@ -12,12 +15,16 @@ function useGeoLocation() {
 			position => {
 				lat = position.coords.latitude; // 위도
 				lon = position.coords.longitude; // 경도
-				setCurrent({ La: lon, Ma: lat });
+				setCurrent({ lat, lon });
 			},
 			null,
 			options,
 		);
 	};
+
+	useEffect(() => {
+		handleCurrentLocationMove();
+	}, []);
 
 	return [current, setCurrent, handleCurrentLocationMove];
 }

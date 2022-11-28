@@ -37,24 +37,24 @@ public class Location {
 		return "이곳의 좌표는 {" + "위도='" + latitude + '\'' + ", 경도='" + longitude + '\'' + "입니다}";
 	}
 
-	public static List<Double> latRangeList(Double latitude, Integer length, Integer level) {
+	public static List<Double> latRangeList(Double centralLatitude, Integer length, Integer level) {
 
-		if (Objects.isNull(latitude)) {
+		if (Objects.isNull(centralLatitude)) {
 			return null;
 		}
 		// 3x3 6, 4x4 8
 		//홀수 일때
 
-		return calculateLatRange(latitude, length, level);
+		return calculateLatRange(centralLatitude, length, level);
 	}
 
-	public static List<Double> lonRangeList(Double longitude, Integer width, Integer level) {
+	public static List<Double> lonRangeList(Double centralLongitude, Integer width, Integer level) {
 
-		if (Objects.isNull(longitude)) {
+		if (Objects.isNull(centralLongitude)) {
 			return null;
 		}
 
-		return calculateLonRange(longitude, width, level);
+		return calculateLonRange(centralLongitude, width, level);
 
 	}
 
@@ -72,7 +72,7 @@ public class Location {
 			for (int i = level/2; i > 0; i--) {
 				latRangeList.add(latitude + range * (i * 2));
 			}
-			for (int i = 0; i < level/2; i++) {
+			for (int i = 0; i <= level/2; i++) {
 				latRangeList.add(latitude - range * (i * 2));
 			}
 		}
@@ -94,7 +94,7 @@ public class Location {
 			for (int i = level/2; i > 0; i--) {
 				lonRangeList.add(longitude - range * (i * 2));
 			}
-			for (int i = 0; i < level/2; i++) {
+			for (int i = 0; i <= level/2; i++) {
 				lonRangeList.add(longitude + range * (i * 2));
 			}
 		}

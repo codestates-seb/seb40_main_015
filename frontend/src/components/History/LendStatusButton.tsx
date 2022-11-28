@@ -1,14 +1,24 @@
-import { useHistoryAPI } from '../../api/history';
 import Button from '../common/Button';
+import { useBookReturn } from './hooks/useBookReturn';
+import { useCancelByMerchant } from './hooks/useCancelByMerchant';
 
 interface Props {
 	status: string;
 	customerName: string;
+	rental: {
+		rentalId: string;
+		customerName: string;
+		rentalState: string;
+		rentalStartedAt: string;
+		rentalDeadline: string;
+		rentalReturnedAt: string;
+		rentalCanceledAt: string;
+	};
 }
 
-const LendStatusButton = ({ status, customerName }: Props) => {
-	const { axiosCancleByMerchant, axiosBookReceipt } = useHistoryAPI();
-
+const LendStatusButton = ({ status, customerName, rental }: Props) => {
+	const { mutate: returnBook } = useBookReturn(rental.rentalId);
+	const { mutate: cancel } = useCancelByMerchant(rental.rentalId);
 	const handleStatusChange = (
 		status: string,
 		id: string,
@@ -16,13 +26,10 @@ const LendStatusButton = ({ status, customerName }: Props) => {
 	) => {
 		switch (status) {
 			case 'TRADING':
-				const action = (e?.target as HTMLButtonElement).textContent;
-				if (action === '취소') {
-					axiosCancleByMerchant(id);
-				}
-				if (action === '반납 완료') {
-					axiosBookReceipt(id);
-				}
+				cancel();
+				break;
+			case 'BEING_RENTED':
+				returnBook();
 				break;
 		}
 	};
@@ -31,8 +38,8 @@ const LendStatusButton = ({ status, customerName }: Props) => {
 			{status === 'TRADING' && (
 				<Button
 					padding="0.8rem"
-					onClick={e => {
-						handleStatusChange(status, customerName, e);
+					onClick={() => {
+						handleStatusChange(status, customerName);
 					}}>
 					취소
 				</Button>
@@ -40,8 +47,8 @@ const LendStatusButton = ({ status, customerName }: Props) => {
 			{status === 'BEING_RENTED' && (
 				<Button
 					padding="0.8rem"
-					onClick={e => {
-						handleStatusChange(status, customerName, e);
+					onClick={() => {
+						handleStatusChange(status, customerName);
 					}}>
 					반납 완료
 				</Button>

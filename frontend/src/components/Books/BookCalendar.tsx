@@ -1,54 +1,71 @@
-import { useState } from 'react';
 import styled from 'styled-components';
 import Calendar from 'react-calendar';
 import 'react-calendar/dist/Calendar.css';
-import convertDate from '../../utils/convertDate';
+import { useState } from 'react';
 
 //책 상태: 대여가능
-const today = new Date();
-const marks = {
-	rentalStatedAt: today.toISOString(),
-	rentalDeadline: new Date(
-		today.getFullYear(),
-		today.getMonth(),
-		today.getDate() + 9,
-	).toISOString(),
-};
+// const today = new Date();
+// const marks = {
+// 	rentalStatedAt: today.toISOString(),
+// 	rentalDeadline: new Date(
+// 		today.getFullYear(),
+// 		today.getMonth(),
+// 		today.getDate() + 9,
+// 	).toISOString(),
+// };
 
 //날짜형식: https://gurtn.tistory.com/65
 
 // 책 상태: 대여중
-const mark = {
-	rentalStatedAt: '2022-11-24T00:17:34.045376400',
-	rentalDeadline: '2022-12-03T23:59:59.045376400',
-};
+// const mark = {
+// 	rentalStatedAt: '2022-11-24T00:17:34.045376400',
+// 	rentalDeadline: '2022-12-03T23:59:59.045376400',
+// };
 
-const rentalPeriod = convertDate(marks.rentalStatedAt, marks.rentalDeadline);
+// const rentalPeriod = convertDate(marks.rentalStatedAt, marks.rentalDeadline);
 
-const month = rentalPeriod
-	.split('~')
-	.map(el => el.trim().slice(5))
-	.map(el => +el.split('.')[0]);
+// const month = rentalPeriod
+// 	.split('~')
+// 	.map(el => el.trim().slice(5))
+// 	.map(el => +el.split('.')[0]);
 
-const day = rentalPeriod
-	.split('~')
-	.map(el => el.trim().slice(5))
-	.map(el => +el.split('.')[1]);
+// const day = rentalPeriod
+// 	.split('~')
+// 	.map(el => el.trim().slice(5))
+// 	.map(el => +el.split('.')[1]);
 
-const rentalCalc = (date: Date): string => {
+const rentalCalc = (date: Date, month: number[], day: number[]): string => {
+	const thisYear = new Date().getFullYear();
+	const y = date.getFullYear();
 	const m = date.getMonth() + 1;
 	const d = date.getDate();
 
+	// 대여 시작일 이전은 모두 회색
+	if (y <= thisYear && m < month[0]) return 'unavailable';
+	else if (y <= thisYear && m === month[0] && d < day[0]) return 'unavailable';
+
+	// 대여기간
 	if (month[0] === month[1] && month[0] === m) {
-		if (d >= day[0] && d <= day[1]) return 'highlight';
+		if (d === day[0]) return 'highlightLeft';
+		if (d === day[1]) return 'highlightRight';
+		if (d > day[0] && d < day[1]) return 'highlight';
 	} else {
-		if (month[0] === m && d >= day[0]) return 'highlight';
-		if (month[1] === m && d <= day[1]) return 'highlight';
+		if (month[0] === m && d === day[0]) return 'highlightLeft';
+		if (month[0] === m && d > day[0]) return 'highlight';
+		if (month[1] === m && d < day[1]) return 'highlight';
+		if (month[1] === m && d === day[1]) return 'highlightRight';
 	}
 	return '';
 };
 
-const BookCalendar = () => {
+//type
+interface CalendarProps {
+	month: number[];
+	day: number[];
+}
+
+const BookCalendar = ({ month, day }: CalendarProps) => {
+	// console.log(month, day);
 	const [value, setValue] = useState(new Date());
 
 	return (
@@ -61,7 +78,7 @@ const BookCalendar = () => {
 					return `${date.getDate()}`;
 				}}
 				tileClassName={({ date }) => {
-					return rentalCalc(date);
+					return rentalCalc(date, month, day);
 				}}
 			/>
 			<Screen />
@@ -141,9 +158,23 @@ const CalendarWrapper = styled.div`
 		color: inherit;
 		background: transparent;
 	}
-
+	.unavailable {
+		color: ${props => props.theme.colors.buttonGrey};
+	}
 	.highlight {
 		background: rgba(38, 121, 93, 0.2);
+	}
+	.highlightLeft {
+		color: black;
+		font-weight: bold;
+		background: rgba(38, 121, 93, 0.2);
+		border-radius: 30% 0 0 30%;
+	}
+	.highlightRight {
+		color: black;
+		font-weight: bold;
+		background: rgba(38, 121, 93, 0.2);
+		border-radius: 0 30% 30% 0;
 	}
 `;
 const Screen = styled.div`

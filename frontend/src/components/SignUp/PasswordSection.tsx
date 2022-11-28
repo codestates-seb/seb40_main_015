@@ -41,7 +41,7 @@ const PasswordWrapper = styled.div<{ error: boolean }>`
 	grid-template-columns: 22rem 1px;
 	.icon {
 		font-size: 25px;
-		color: #ff6a00;
+		color: ${props => props.theme.colors.errorColor};
 		position: absolute;
 		cursor: pointer;
 	}
@@ -51,7 +51,7 @@ const AlertSection = styled.div<{ error: boolean }>`
 	position: relative;
 	left: 1rem;
 	top: 2.3rem;
-	display: ${props => (props.error ? 'flex' : 'none')};
+	display: ${props => (props.error ? 'none' : 'flex')};
 	flex-direction: ${props => props.error && 'column'};
 	.bubble {
 		visibility: hidden;

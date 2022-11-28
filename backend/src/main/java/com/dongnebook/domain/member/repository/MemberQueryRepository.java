@@ -1,9 +1,6 @@
 package com.dongnebook.domain.member.repository;
 
 
-import static com.dongnebook.domain.book.domain.QBook.*;
-
-
 import static com.dongnebook.domain.member.domain.QMember.*;
 
 import java.util.List;
@@ -16,7 +13,6 @@ import com.dongnebook.domain.member.dto.request.MerchantSearchRequest;
 import com.dongnebook.domain.member.dto.response.MemberResponse;
 
 import com.dongnebook.domain.member.dto.response.MemberDetailResponse;
-import com.dongnebook.domain.member.dto.response.MemberResponse;
 import com.dongnebook.domain.member.dto.response.QMemberDetailResponse;
 
 import com.dongnebook.domain.member.dto.response.QMemberResponse;
@@ -34,7 +30,7 @@ public class MemberQueryRepository {
 
 	public List<Location> getSectorMerchantCounts(MerchantSearchRequest request) {
 
-		List<Double> LatRange = Location.latRangeList(request.getLatitude(), request.getLength(), request.getLevel());
+		List<Double> LatRange = Location.latRangeList(request.getLatitude(), request.getHeight(), request.getLevel());
 		List<Double> LonRange = Location.lonRangeList(request.getLongitude(), request.getWidth(), request.getLevel());
 
 		return jpaQueryFactory.select(member.location)
@@ -47,10 +43,10 @@ public class MemberQueryRepository {
 
 	public SliceImpl<MemberResponse> getAll(MerchantSearchRequest request, PageRequest pageRequest) {
 
-		List<Double> LatRange = Location.latRangeList(request.getLatitude(), request.getLength(), request.getLevel());
+		List<Double> LatRange = Location.latRangeList(request.getLatitude(), request.getHeight(), request.getLevel());
 		List<Double> LonRange = Location.lonRangeList(request.getLongitude(), request.getWidth(), request.getLevel());
 
-		List<MemberResponse> result = jpaQueryFactory.select(new QMemberResponse(member.id, member.nickname))
+		List<MemberResponse> result = jpaQueryFactory.select(new QMemberResponse(member.id, member.nickname,member.location))
 			.from(member)
 			.where((member.location.latitude.between(LatRange.get(request.getLevel()), LatRange.get(0))),
 				(member.location.longitude.between(LonRange.get(0), LonRange.get(request.getLevel()))),
