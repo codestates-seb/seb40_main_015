@@ -91,8 +91,8 @@ const BookDetail = ({ book, merchant }: BookDetailProps) => {
 const MerchantImg = styled.img`
 	border-radius: 0.3rem;
 	/* border-radius: 50%; */
-	width: 2.6rem;
-	height: 2.6rem;
+	width: 2.2rem;
+	height: 2.2rem;
 
 	margin-right: 10px;
 `;

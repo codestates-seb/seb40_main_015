@@ -61,7 +61,7 @@ const BooksPage = () => {
 
 			<BooksList>
 				{isLoading ? (
-					<Animation />
+					<Animation width={20} height={20} />
 				) : (
 					data?.pages?.map(el =>
 						el?.content?.map(el => {

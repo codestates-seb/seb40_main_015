@@ -94,7 +94,7 @@ const BookContainer = styled.div`
 const BookTitle = styled.div`
 	label {
 		/* font-size: ${props => props.theme.fontSizes.maintitle}; */
-		font-size: 1.8rem;
+		font-size: 1.6rem;
 	}
 	margin-bottom: 0.6rem;
 `;
@@ -156,6 +156,7 @@ const MerchantInfo = styled.div`
 		cursor: pointer;
 		span {
 			font-size: ${props => props.theme.fontSizes.subtitle};
+			/* font-size: 1.4rem; */
 		}
 	}
 `;
