@@ -72,7 +72,6 @@ function ProfileEditPage() {
 						</div>
 						<p className="minititle">내 동네 설정</p>
 						<div className="input">
-							{isOpenModal && <Modal onClickToggleModal={onClickToggleModal} />}
 							<input
 								placeholder="내 동네를 설정하세요"
 								value={Address}
@@ -96,6 +95,7 @@ function ProfileEditPage() {
 							fontSize={'small'}>
 							저장
 						</Button>
+						{isOpenModal && <Modal onClickToggleModal={onClickToggleModal} />}
 					</ProfileBox>
 				</>
 			) : (
@@ -176,6 +176,10 @@ const ProfileBox = styled.div`
 		color: ${props => props.theme.colors.buttonGreen};
 		cursor: pointer;
 		padding-left: 5px;
+	}
+
+	@media (min-width: 800px) {
+		width: 450px;
 	}
 `;
 
