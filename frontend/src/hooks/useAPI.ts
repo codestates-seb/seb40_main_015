@@ -4,6 +4,7 @@ import { useAppSelector } from '../redux/hooks';
 
 const useAPI = () => {
 	const { accessToken } = useAppSelector(state => state.loginInfo);
+	console.log('acc: ', accessToken);
 	const config = {
 		baseURL: BASE_URL,
 		withCredentials: true,
