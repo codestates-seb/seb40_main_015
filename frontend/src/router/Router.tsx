@@ -23,6 +23,7 @@ import {
 	ReviewCreatePage,
 	SignupPage,
 	LoginOnly,
+	ChatRoomPage,
 } from '../pages';
 
 function Router() {
@@ -49,6 +50,7 @@ function Router() {
 							<Route path="history" element={<HistoryPage />} />
 							<Route path="review/create" element={<ReviewCreatePage />} />
 							<Route path="chats" element={<ChatsPage />} />
+							<Route path="chats/:roomId" element={<ChatRoomPage />} />
 							<Route path="notice" element={<NoticePage />} />
 						</Route>
 						<Route path="books" element={<BooksPage />} />
