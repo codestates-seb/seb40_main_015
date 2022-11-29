@@ -144,6 +144,9 @@ const ProfileBox = styled.div`
 		padding-left: 5px;
 		cursor: pointer;
 	}
+	@media (min-width: 800px) {
+		width: 800px;
+	}
 `;
 
 const UserInfoBox = styled.div`

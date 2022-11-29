@@ -60,4 +60,7 @@ const Tab = styled.button<TabProps>`
 	.span {
 		width: 100%;
 	}
+	@media (min-width: 800px) {
+		width: 250px;
+	}
 `;

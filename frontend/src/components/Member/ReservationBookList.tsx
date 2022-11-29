@@ -40,10 +40,10 @@ const ReservationBookList = () => {
 	console.log(data?.content);
 	return (
 		<>
-			<EmptyBox>
+			{/* <EmptyBox>
 				<p>예약한 책이 없어요</p>
-			</EmptyBox>
-			{/* {data.content ? (
+			</EmptyBox> */}
+			{data.content ? (
 				data?.content.map((reservationbook: ReservationBook, i: number) => {
 					const { bookId, title, imageUrl, rentalFee, status } =
 						reservationbook;
@@ -69,7 +69,7 @@ const ReservationBookList = () => {
 				<EmptyBox>
 					<p>예약한 책이 없어요</p>
 				</EmptyBox>
-			)} */}
+			)}
 		</>
 	);
 };
