@@ -80,7 +80,7 @@ const BookContainer = styled.div<IBookContainer>`
 	${props =>
 		props.styleGrid &&
 		css`
-			@media screen and (min-width: 801px) {
+			@media screen and (min-width: 1101px) {
 				width: 380px;
 			}
 		`}

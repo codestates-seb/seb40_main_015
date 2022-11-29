@@ -33,6 +33,7 @@ interface IBook {
 		rentalStart: string;
 		rentalEnd: string;
 		bookImgUrl: string;
+		isDibs: boolean;
 	};
 	merchant: {
 		merchantId: number;

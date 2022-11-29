@@ -85,7 +85,7 @@ function ProfilePage() {
 				fontSize={'small'}
 				className="logout"
 				onClick={() => {
-					// api 아직 없음
+					// logout api 아직 없음
 					dispatch(logout());
 					navigate('/books');
 				}}>

@@ -124,7 +124,7 @@ const BooksList = styled.div`
 
 	display: grid;
 	grid-gap: 10px;
-	@media screen and (min-width: 801px) {
+	@media screen and (min-width: 1101px) {
 		grid-template-columns: repeat(2, 1fr);
 	}
 `;

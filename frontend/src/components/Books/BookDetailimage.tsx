@@ -14,7 +14,7 @@ const BookImage = ({ book, merchant }: BookDetailProps) => {
 	const { id } = useAppSelector(state => state.loginInfo);
 	const dispatch = useAppDispatch();
 
-	const [active, setActive] = useState(false);
+	const [active, setActive] = useState(book?.isDibs);
 	const { postWishItem } = useBooksAPI();
 
 	// 찜하기 post요청 쿼리
@@ -115,9 +115,7 @@ const WishWrapper = styled.div`
 const WishiconOn = styled(HiHeart)`
 	font-size: 32px;
 	color: ${props => props.theme.colors.logoGreen};
-
 	cursor: pointer;
-
 	@keyframes wishBeat {
 		50% {
 			opacity: 1;
@@ -131,15 +129,18 @@ const WishiconOn = styled(HiHeart)`
 	animation: wishBeat 0.4s linear;
 	animation-fill-mode: forwards;
 `;
+
 const WishiconOff = styled(HiOutlineHeart)`
 	font-size: 30px;
 	color: rgba(0, 0, 0, 0.4);
 	cursor: pointer;
 `;
+
 const BookImg = styled.img`
 	width: 18rem;
 	height: 21rem;
 `;
+
 const BookNotAvailable = styled.div`
 	width: 18rem;
 	height: 21rem;

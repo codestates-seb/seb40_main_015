@@ -40,6 +40,7 @@ export interface IBookDetail {
 	state?: string;
 	title: string;
 	bookImgUrl: string;
+	isDibs: boolean;
 }
 export interface BookMerchant {
 	grade: number;
