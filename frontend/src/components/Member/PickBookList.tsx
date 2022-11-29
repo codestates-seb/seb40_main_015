@@ -11,19 +11,19 @@ import Animation from '../Loading/Animation';
 const PickBookList = () => {
 	const navigate = useNavigate();
 	const { getPickBookList } = useMypageAPI();
-	const infiniteScrollTarget = useRef<HTMLDivElement>(null);
 
 	const handleBookDetailPageMove = (id: number) => {
 		navigate(`/books/${id}`);
 	};
 
 	// 찜목록 무한스크롤
+	const infiniteScrollTarget = useRef<HTMLDivElement>(null);
 	const { data, fetchNextPage, isLoading, hasNextPage, isFetchingNextPage } =
 		useInfiniteQuery({
 			queryKey: ['pickbooklist'],
 			queryFn: ({ pageParam = undefined }) => getPickBookList(pageParam),
 			getNextPageParam: lastPage => {
-				// return lastPage?.content?.slice(-1)[0]?.bookId;
+				return lastPage?.content?.slice(-1)[0]?.bookId;
 			},
 		});
 	useEffect(() => {
@@ -47,7 +47,7 @@ const PickBookList = () => {
 		<>
 			{isLoading ? (
 				<Animation width={20} height={20} />
-			) : data?.pages[0].content[0].bookId ? (
+			) : data?.pages[0].content[0]?.bookId ? (
 				data?.pages.map(el =>
 					el?.content.map((pickbook, i: number) => {
 						const {

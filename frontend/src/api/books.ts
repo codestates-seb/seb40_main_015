@@ -75,7 +75,7 @@ export const useBooksAPI = () => {
 
 	// book booking
 	const postBookBooking = async (bookId: string | undefined) =>
-		await api.post(`/reservations/${bookId}`);
+		await api.post(`/reservation/${bookId}`);
 
 	return {
 		getAllBooksList,

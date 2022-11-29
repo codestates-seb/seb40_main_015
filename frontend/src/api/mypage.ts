@@ -34,17 +34,19 @@ interface PickBook {
 
 //예약목록 조회
 interface ReservationBook {
-	reservationInfo: {
-		reservationId: number;
-		rentalExpectedAt: string;
-	};
-	bookInfo: {
-		bookId: number;
-		title: string;
-		bookImage: string;
-		rentalFee: number;
-		merchantName: string;
-	};
+	content: {
+		reservationInfo: {
+			reservationId: number;
+			rentalExpectedAt: string;
+		};
+		bookInfo: {
+			bookId: number;
+			title: string;
+			bookImage: string;
+			rentalFee: number;
+			merchantName: string;
+		};
+	}[];
 }
 
 //회원정보 수정
@@ -57,7 +59,7 @@ interface FixmemberInfo {
 
 export const useMypageAPI = () => {
 	const api = useAPI();
-	const dispatch = useAppDispatch()
+	const dispatch = useAppDispatch();
 
 	// 상인정보용 도서 목록 조회
 	const getMerchantBookLists = (
@@ -80,8 +82,8 @@ export const useMypageAPI = () => {
 	// 마이페이지 - 회원정보 열람(지구)
 	const getMyInfo = async (id: string | undefined) =>
 		await api.get<Member>(`/member/${id}`).then(res => {
-			dispatch(setUserInfo(res.data))
-			return res.data
+			dispatch(setUserInfo(res.data));
+			return res.data;
 		});
 
 	//마이페이지 - 찜목록 (infinite scroll)
@@ -89,7 +91,10 @@ export const useMypageAPI = () => {
 		api.get<PickBook>(id ? `/dibs?index=${id}` : `/dibs`).then(res => res.data);
 
 	// 마이페이지 - 예약목록(infinite scroll)
-	const getReservationBookList = () => api.get(`/reservations`);
+	const getReservationBookList = (id?: number) =>
+		api
+			.get<ReservationBook>(id ? `/reservation?index=${id}` : '/reservation')
+			.then(res => res.data);
 
 	// 마이페이지 - 회원정보 수정
 	const patchFixMemberInfo = (data: FixmemberInfo) =>
