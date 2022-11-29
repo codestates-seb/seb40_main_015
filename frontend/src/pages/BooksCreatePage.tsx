@@ -43,10 +43,17 @@ const BooksCreatePage = () => {
 				goNotify(message);
 			}
 		});
-		console.log(payload);
+
 		if (validateBookCreatePayloads(payload)) {
-			mutate(payload);
-			// navigate('/books');
+			mutate(payload, {
+				onSuccess: () => {
+					goNotify('게시글이 작성되었습니다.');
+					navigate('/books');
+				},
+				onError: () => {
+					goNotify('게시글 작성에 실패했습니다.\n 잠시 후 다시 시도해주세요.');
+				},
+			});
 		}
 	};
 
