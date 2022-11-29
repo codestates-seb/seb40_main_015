@@ -6,16 +6,16 @@ function useGeoLocation() {
 		lon: 0,
 	});
 	const handleCurrentLocationMove = () => {
-		let lat = 0;
-		let lon = 0;
+		let latitude = 0;
+		let longitude = 0;
 		var options = {
 			enableHighAccuracy: true,
 		};
 		navigator.geolocation.getCurrentPosition(
 			position => {
-				lat = position.coords.latitude; // 위도
-				lon = position.coords.longitude; // 경도
-				setCurrent({ lat, lon });
+				latitude = position.coords.latitude; // 위도
+				longitude = position.coords.longitude; // 경도
+				setCurrent({ latitude, longitude });
 			},
 			null,
 			options,
