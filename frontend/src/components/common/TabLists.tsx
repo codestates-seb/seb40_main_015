@@ -61,6 +61,7 @@ const Tab = styled.button<TabProps>`
 		width: 100%;
 	}
 	@media (min-width: 800px) {
-		width: 250px;
+		width: 450px;
+		justify-content: center;
 	}
 `;

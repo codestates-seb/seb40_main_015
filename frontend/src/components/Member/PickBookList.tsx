@@ -107,7 +107,8 @@ const InfoWrapped = styled.div`
 	align-items: center;
 	line-height: 20px;
 	.bookname {
-		font-size: ${props => props.theme.fontSizes.subtitle};
+		/* font-size: ${props => props.theme.fontSizes.subtitle}; */
+		font-size: 16px;
 		font-weight: 600;
 	}
 	p {
