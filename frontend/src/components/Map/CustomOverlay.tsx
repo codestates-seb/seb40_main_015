@@ -53,7 +53,8 @@ const CustomOverlay = ({
 							position={{
 								lat: Number(location.latitude) + 0.0001,
 								lng: Number(location.longitude),
-							}}>
+							}}
+							clickable={true}>
 							<StyledOverlay
 								count={merchantCount || bookCount}
 								className={idx === +active ? ' active' : ''}
