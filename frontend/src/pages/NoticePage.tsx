@@ -16,15 +16,21 @@ function NoticePage() {
 	}, []);
 
 	return (
-		<div>
+		<StyledNoticePage>
 			<Title text="알림" />
 			<Main>
 				<Deletion>받으신 알림은 30일 이후 자동 삭제됩니다.</Deletion>
 				<NoticeItem noticeData={data?.data} />
 			</Main>
-		</div>
+		</StyledNoticePage>
 	);
 }
+
+const StyledNoticePage = styled.div`
+	::-webkit-scrollbar {
+		display: none;
+	}
+`;
 
 const Main = styled.div`
 	width: 100%;

@@ -35,8 +35,8 @@ const NoticeItem = ({ noticeData }: NoticeItemType) => {
 };
 
 const StyledNoticeItem = styled.div<{ isRead: boolean }>`
-	width: 95%;
-	max-width: 1000px;
+	width: 90vw;
+	max-width: 800px;
 	min-height: 5rem;
 	background-color: ${props =>
 		props.isRead ? 'white' : props.theme.colors.unViewedNotice};
@@ -44,8 +44,8 @@ const StyledNoticeItem = styled.div<{ isRead: boolean }>`
 	border-radius: 5px;
 	display: flex;
 	align-items: center;
-	padding: 0.5rem;
-	margin: 0 0.5rem 1rem 0.5rem;
+	padding: 0.5rem 1.5rem 0.5rem 0.5rem;
+	margin-bottom: 1rem;
 	position: relative;
 `;
 
@@ -60,6 +60,7 @@ const IconWrapper = styled.div`
 	align-items: center;
 
 	.icon {
+		color: ${props => props.theme.colors.buttonGrey};
 		font-size: 1.3rem;
 	}
 	:hover {
