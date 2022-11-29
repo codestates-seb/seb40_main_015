@@ -66,8 +66,8 @@ public class BookService {
 		return bookId;
 	}
 
-	public BookDetailResponse getDetail(Long id) {
-		return bookQueryRepository.getBookDetail(id);
+	public BookDetailResponse getDetail(Long id, Long memberId) {
+		return bookQueryRepository.getBookDetail(id, memberId);
 	}
 
 	private Location getMemberLocation(Member member) {
