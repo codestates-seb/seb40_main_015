@@ -71,18 +71,6 @@ const LoginForm = () => {
 		if (id === '' || password === '') return;
 
 		mutate();
-		/*
-		axios({
-			method: 'post',
-			url: BASE_URL + '/auth/login',
-			withCredentials: true,
-			data: payload,
-			timeout: 5000,
-			headers: { ContentType: 'application/json' },
-		})
-			.then(data => console.log('res: ', data))
-			.then(err => console.error(err));
-      */
 	};
 
 	return (

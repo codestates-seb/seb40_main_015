@@ -1,6 +1,8 @@
+import { useAppDispatch } from './../redux/hooks';
 import axios from 'axios';
 import { Settings } from 'http2';
 import useAPI from '../hooks/useAPI';
+import { setUserInfo } from '../redux/slice/userInfoSlice';
 
 // 마이페이지 유저정보 및 찜목록 요청 getPickBookLists
 interface Member {
@@ -12,7 +14,7 @@ interface Member {
 	} | null;
 	address: string | null;
 	totalBookCount: number;
-	avatarUrl: string | null;
+	avatarUrl: string;
 }
 
 interface PickBook {
@@ -55,6 +57,7 @@ interface FixmemberInfo {
 
 export const useMypageAPI = () => {
 	const api = useAPI();
+	const dispatch = useAppDispatch()
 
 	// 상인정보용 도서 목록 조회
 	const getMerchantBookLists = (
@@ -74,9 +77,12 @@ export const useMypageAPI = () => {
 	const getMemberInfo = async (id: string | undefined) =>
 		await api.get(`/member/${id}`).then(res => res.data);
 
-	// 마이페이지 - 회원정보 열람
+	// 마이페이지 - 회원정보 열람(지구)
 	const getMyInfo = async (id: string | undefined) =>
-		await api.get<Member>(`/member/${id}`).then(res => res.data);
+		await api.get<Member>(`/member/${id}`).then(res => {
+			dispatch(setUserInfo(res.data))
+			return res.data
+		});
 
 	//마이페이지 - 찜목록 (infinite scroll)
 	const getPickBookList = (id?: number) =>
