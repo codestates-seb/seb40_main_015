@@ -15,17 +15,21 @@ import { makeCreateBookMessages } from '../utils/makeCreateBookMessages';
 import notify from '../utils/notify';
 import { validateBookCreatePayloads } from '../utils/validateBookCreatePayload';
 import usePostBooks from '../api/hooks/createBooks/usePostBooks';
+import { useMypageAPI } from '../api/mypage';
 import { useNavigate } from 'react-router';
+import { useQuery } from '@tanstack/react-query';
+import { useEffect } from 'react';
 
 const BooksCreatePage = () => {
 	const bookCreate = useAppSelector(state => state.persistedReducer.bookCreate);
+	const { id } = useAppSelector(state => state.loginInfo);
 	const { title, authors, publisher } = bookCreate.bookInfo;
 	const { rentalFee, description, imageUrl } = bookCreate.rentalInfo;
 	const createBookMessages = makeCreateBookMessages(bookCreate);
 	const dispatch = useAppDispatch();
 	const goNotify = (message: string) => notify(dispatch, message);
 	const navigate = useNavigate();
-
+	const { getMyInfo } = useMypageAPI();
 	const { mutate } = usePostBooks();
 
 	const payload = {
@@ -36,6 +40,12 @@ const BooksCreatePage = () => {
 		description,
 		imageUrl,
 	};
+
+	const { data } = useQuery({
+		queryKey: ['myprofile'],
+		queryFn: () => getMyInfo(id),
+		retry: false,
+	});
 
 	const handleCreate = () => {
 		createBookMessages.forEach((message, notifyCase) => {
@@ -51,11 +61,18 @@ const BooksCreatePage = () => {
 					navigate('/books');
 				},
 				onError: () => {
-					goNotify('게시글 작성에 실패했습니다.\n 잠시 후 다시 시도해주세요.');
+					goNotify('게시글 작성에 실패했습니다. 잠시 후 다시 시도해주세요.');
 				},
 			});
 		}
 	};
+
+	useEffect(() => {
+		if (!data?.address) {
+			goNotify('책 등록을 위해 위치 정보를 등록해주세요.');
+			navigate('/profile/edit');
+		}
+	});
 
 	return (
 		<Main>
@@ -67,7 +84,7 @@ const BooksCreatePage = () => {
 				<RentalFee />
 				<Description />
 				<BookInfo>
-					<span>거래 위치 : {''}</span>
+					<span>거래 위치 : {data?.address}</span>
 				</BookInfo>
 				<Photo />
 			</BodyContainer>
