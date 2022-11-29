@@ -148,10 +148,10 @@ const MerchantInfo = styled.div`
 	display: flex;
 	justify-content: space-between;
 	align-items: center;
-
 	a {
 		display: flex;
-		justify-content: space-between;
+		width: 100%;
+		/* justify-content: space-between; */
 		align-items: center;
 		cursor: pointer;
 		span {

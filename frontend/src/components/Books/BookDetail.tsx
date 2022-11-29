@@ -55,6 +55,7 @@ const BookDetail = ({ book, merchant }: BookDetailProps) => {
 					</Link>
 					<MerchantGrade>
 						<span>평점: {merchant?.grade} /5</span>
+						<span> (채팅)</span>
 					</MerchantGrade>
 				</MerchantInfo>
 			</BookInfo>
@@ -90,11 +91,11 @@ const BookDetail = ({ book, merchant }: BookDetailProps) => {
 
 const MerchantImg = styled.img`
 	border-radius: 0.3rem;
-	/* border-radius: 50%; */
+	border-radius: 50%;
 	width: 2.2rem;
 	height: 2.2rem;
 
-	margin-right: 10px;
+	margin-right: 6px;
 `;
 
 export default BookDetail;
