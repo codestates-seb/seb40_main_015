@@ -53,7 +53,13 @@ const IdSection = ({ data, notify }: IdSectionProps) => {
 	return (
 		<StyledIdSection>
 			<IdWrapper key={label}>
-				<Input label={label} state={state} setState={setState} type={type} />
+				<Input
+					label={label}
+					state={state}
+					setState={setState}
+					type={type}
+					maxLength={15}
+				/>
 				<div
 					className="overlapCheck"
 					onClick={() => handleValidateClick(label, state, setValidity)}>
