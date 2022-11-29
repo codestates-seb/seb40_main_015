@@ -1,8 +1,8 @@
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import Button from '../common/Button';
-import { useBookReceipt } from './hooks/useBookReceipt';
-import { useCancelByCustomer } from './hooks/useCancelByCustomer';
+import { useBookReceipt } from '../../api/hooks/history/useBookReceipt';
+import { useCancelByCustomer } from '../../api/hooks/history/useCancelByCustomer';
 
 interface Props {
 	status: string;
