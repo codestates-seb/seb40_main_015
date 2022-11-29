@@ -6,7 +6,7 @@ Spring:
       settings:
         web-allow-others: true
   datasource:
-#    url: jdbc:h2:mem:test
+    #    url: jdbc:h2:mem:test
     driver-class-name: com.mysql.cj.jdbc.Driver
     url: jdbc:mysql://codestates-mainpj-mysql.clwvdgya13lr.ap-northeast-2.rds.amazonaws.com:3306/dongnebook
     username: admin
@@ -20,6 +20,16 @@ Spring:
     properties:
       hibernate:
         format_sql: true  # (3) SQL pretty print
+  security:
+    oauth2:
+      client:
+        registration:
+          google:
+            clientId: ${GOOGLE_OAUTH2_CLIENT_ID}
+            clientSecret: ${GOOGLE_OAUTH2_CLIENT_SECRET}
+            scope:
+              - profile
+              - email
 jwt:
   secret-key: ${JWT_SECRET_KEY}
   access-token-expiration-minutes: 3500
@@ -39,3 +49,14 @@ server:
     encoding:
       force-response: true
 
+cloud:
+  aws:
+    credentials:
+      access-key: ${S3_ACCESS_KEY}
+      secret-key: ${S3_SECRET_KEY}
+    s3:
+      bucket: codestates-dongnebook
+    region:
+      static: ap-northeast-2
+    stack:
+      auto: false

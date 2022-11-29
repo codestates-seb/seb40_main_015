@@ -1,66 +1,82 @@
 import { useEffect, useState } from 'react';
-import styled from 'styled-components';
+import styled, { css, keyframes } from 'styled-components';
 import { TbCurrentLocation } from 'react-icons/tb';
 import Search from '../components/Map/Search';
-import Map from '../components/Map/Map';
-import { getBookList, getMerchantList, getTotalBook } from '../api/map';
-import {
-	data,
-	dummyMerchantList,
-	bookListsDummy,
-} from '../components/Map/dummy';
 import useWindowSize from '../hooks/useWindowSize';
 import useGeoLocation from '../hooks/useGeoLocation';
+import KakaoMap from '../components/Map/KakaoMap';
+import Animation from '../components/Loading/Animation';
+import useMerchantList from '../api/hooks/map/useMerchantList';
+import useMerchantSector from '../api/hooks/map/useMerchantSector';
+import useBookList from '../api/hooks/map/useBookList';
+import useBookSector from '../api/hooks/map/useBookSector';
 
 interface MerchantSectorProps {
 	merchantCount: number;
+	totalBookCount?: number;
 	sector: number;
-	representativeLocation: {
-		lat: string;
-		lon: string;
+	location: {
+		latitude: number;
+		longitude: number;
+	};
+}
+
+interface selectOverlayProps {
+	merchantCount?: number;
+	bookCount?: number;
+	sector: number;
+	location: {
+		latitude: number;
+		longitude: number;
 	};
 }
 
 const BooksSearchPage = () => {
-	const [current, setCurrent, handleCurrentLocationMove] = useGeoLocation();
+	const [current, setCurrent, handleCurrentLocationMove, loading] =
+		useGeoLocation();
+	const [centerCoord, setCenterCoord] = useGeoLocation('center');
 	const [searchInput, setSearchInput] = useState('');
-	const [reset, setReset] = useState(false);
-	const [selectOverlay, setSelectOverlay] = useState(null);
-	const [merchantSector, setMerchantSector] =
-		useState<MerchantSectorProps[]>(data);
-	const [merchantLists, setMerchantLists] = useState<any>([]);
-	const [bookSector, setBookSector] = useState([]);
-	const [bookLists, setBookLists] = useState<any>([]);
+	const [selectOverlay, setSelectOverlay] = useState<selectOverlayProps>();
 	const [zoomLevel, setZoomLevel] = useState(5);
 	const size = useWindowSize(zoomLevel);
-	console.log(size);
+	const [merchantSector, setMerchantSector, merchantCurrentRefetch] =
+		useMerchantSector({ centerCoord, current, searchInput, zoomLevel, size });
+	const [
+		merchantLists,
+		setMerchantLists,
+		merchantListRef,
+		merchantListRefetch,
+	] = useMerchantList({
+		centerCoord,
+		current,
+		selectOverlay,
+		searchInput,
+		zoomLevel,
+		size,
+	});
+	const [bookSector, setBookSector, bookCurrentRefetch] = useBookSector({
+		centerCoord,
+		current,
+		searchInput,
+		zoomLevel,
+		size,
+	});
+	const [bookLists, setBookLists, bookListRef, bookListRefetch] = useBookList({
+		centerCoord,
+		current,
+		selectOverlay,
+		searchInput,
+		zoomLevel,
+		size,
+	});
 
 	useEffect(() => {
 		if (typeof selectOverlay === 'object' && !!selectOverlay) {
-			const {
-				sector,
-				representativeLocation,
-			}: {
-				sector: number;
-				representativeLocation: { lat: string; lon: string };
-			} = selectOverlay;
-			const latitude = representativeLocation.lat;
-			const longitude = representativeLocation.lon;
 			if (selectOverlay['merchantCount']) {
-				getMerchantList(latitude, longitude, sector).then(res => {
-					if (res) {
-						// setMerchantLists(res.content);
-						setMerchantLists(dummyMerchantList.content);
-					}
-				});
+				merchantListRefetch();
 			}
-			if (selectOverlay['totalBookCount']) {
-				getBookList(searchInput, latitude, longitude, sector).then(res => {
-					if (res) {
-						// setBookLists(res.content);
-						setBookLists(bookListsDummy);
-					}
-				});
+			if (selectOverlay['bookCount']) {
+				bookListRefetch();
 			}
 		} else {
 			setMerchantLists([]);
@@ -70,46 +86,68 @@ const BooksSearchPage = () => {
 
 	return (
 		<Container>
-			<FlexBox>
-				<Search
-					searchInput={searchInput}
-					setSearchInput={setSearchInput}
-					setReset={setReset}
-					current={current}
-					setMerchantSector={setMerchantSector}
-					setBookSector={setBookSector}
-					setMerchantLists={setMerchantLists}
-					setBookLists={setBookLists}
-				/>
-				<TbCurrentLocation
-					className="location"
-					size={40}
-					onClick={handleCurrentLocationMove}
-				/>
-			</FlexBox>
-			<Map
-				current={current}
-				setCurrent={setCurrent}
-				reset={reset}
-				setSelectOverlay={setSelectOverlay}
-				merchantSector={merchantSector}
-				setMerchantSector={setMerchantSector}
-				merchantLists={merchantLists}
-				setMerchantLists={setMerchantLists}
-				setBookSector={setBookSector}
-				bookSector={bookSector}
-				bookLists={bookLists}
-				setZoomLevel={setZoomLevel}
-			/>
+			{current.lat && current.lon ? (
+				<>
+					<FlexBox>
+						<Search
+							searchInput={searchInput}
+							setSearchInput={setSearchInput}
+							current={current}
+							setMerchantSector={setMerchantSector}
+							setBookSector={setBookSector}
+							setMerchantLists={setMerchantLists}
+							setBookLists={setBookLists}
+							zoomLevel={zoomLevel}
+							size={size}
+							merchantCurrentRefetch={merchantCurrentRefetch}
+							bookCurrentRefetch={bookCurrentRefetch}
+						/>
+						<IconBox onClick={handleCurrentLocationMove}>
+							<LocationIcon size={40} loading={loading ? 1 : 0} />
+						</IconBox>
+					</FlexBox>
+					<KakaoMap
+						current={current}
+						setSelectOverlay={setSelectOverlay}
+						selectOverlay={selectOverlay}
+						merchantSector={merchantSector}
+						merchantLists={merchantLists}
+						setMerchantLists={setMerchantLists}
+						bookSector={bookSector}
+						bookLists={bookLists}
+						setBookLists={setBookLists}
+						zoomLevel={zoomLevel}
+						setZoomLevel={setZoomLevel}
+						size={size}
+						searchInput={searchInput}
+						centerCoord={centerCoord}
+						merchantCurrentRefetch={merchantCurrentRefetch}
+						bookCurrentRefetch={bookCurrentRefetch}
+						merchantListRefetch={merchantListRefetch}
+						bookListRefetch={bookListRefetch}
+						merchantListRef={merchantListRef}
+						bookListRef={bookListRef}
+					/>
+				</>
+			) : (
+				<Animation text="현재 위치 확인중..." />
+			)}
 		</Container>
 	);
 };
 
 const Container = styled.div`
 	width: 100%;
-	height: 93.5vh;
+	height: 100%;
 	position: absolute;
 	overflow-x: hidden;
+`;
+
+const rotate = keyframes`
+
+  100% {
+  transform: rotate(360deg);
+	}
 `;
 
 const FlexBox = styled.div`
@@ -123,17 +161,35 @@ const FlexBox = styled.div`
 	align-items: center;
 	z-index: 90;
 	padding: 0 20px;
+`;
 
-	.location {
-		background-color: white;
-		z-index: 100;
-		margin-left: 1.25rem;
-		height: 3rem;
-		color: #016241;
-		cursor: pointer;
-		padding: 5px;
-		border-radius: 5px;
-	}
+const IconBox = styled.div`
+	margin-left: 1.125rem;
+	border-radius: 5px;
+	background-color: rgba(950, 950, 950, 0.8);
+	z-index: 100;
+	cursor: pointer;
+`;
+
+interface LocationIconProps {
+	loading: number;
+}
+
+const LocationIcon = styled(TbCurrentLocation)<LocationIconProps>`
+	color: #016241;
+	padding: 5px;
+	animation: ${props =>
+		props.loading
+			? css`
+					${rotate} 1s linear infinite
+			  `
+			: ''};
+	transform: ${props =>
+		props.loading
+			? css`
+			50% 50%
+		`
+			: ''};
 `;
 
 export default BooksSearchPage;

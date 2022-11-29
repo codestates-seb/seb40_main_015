@@ -1,87 +1,108 @@
 import { axiosInstance } from '.';
 
-// 섹터당 상인의 총 갯수
-//location 형식
-// localhost:8080/member/count?latitude=37.4974939&longitude=127.0270229
-export const getTotalMerchant = async (
-	latitude: string | number,
-	longitude: string | number,
+// 섹터당 상인의 총 갯수 // useQuery
+export const getTotalMerchantQuery = (
+	latitude: number,
+	longitude: number,
+	width: number,
+	height: number,
+	level: number,
 ) => {
-	try {
-		const result = await axiosInstance.get(`/member/count`, {
+	return axiosInstance
+		.get(`/member/count`, {
 			params: {
 				latitude,
 				longitude,
+				width,
+				height,
+				level,
 			},
+		})
+		.then(res => {
+			if (res.data.length) {
+				return res.data;
+			} else {
+				throw new Error('상인 없음');
+			}
 		});
-		console.log(result);
-		return result.data;
-	} catch (err) {
-		return err;
-	}
 };
 
-// 섹터당 상인 목록
-export const getMerchantList = async (
-	latitude: string,
-	longitude: string,
+// 섹터당 상인 목록 // useQuery
+export const getMerchantListQuery = (
+	latitude: number,
+	longitude: number,
 	sector: number,
+	level: number,
+	width: number,
+	height: number,
+	index?: number | string,
 ) => {
-	try {
-		const result = await axiosInstance.get(`/member/sector`, {
+	return axiosInstance
+		.get(`/member/sector`, {
 			params: {
 				latitude,
 				longitude,
 				sector,
+				level,
+				width,
+				height,
+				index,
 			},
-		});
-		console.log(result.data);
-		return result.data;
-	} catch (err) {
-		return err;
-	}
+		})
+		.then(res => res.data);
 };
 
-// // 섹터당 책의 총 갯수
-export const getTotalBook = async (
+// // 섹터당 책의 총 갯수 useQuery
+export const getTotalBookQuery = (
 	bookTitle: string,
-	latitude: string | number,
-	longitude: string | number,
+	latitude: number,
+	longitude: number,
+	width: number,
+	height: number,
+	level: number,
 ) => {
-	try {
-		const result = await axiosInstance.get(`/books/count`, {
+	return axiosInstance
+		.get(`/books/count`, {
 			params: {
 				bookTitle,
 				latitude,
 				longitude,
+				width,
+				height,
+				level,
 			},
+		})
+		.then(res => {
+			if (res.data.length) {
+				return res.data;
+			} else {
+				throw new Error('책 없음');
+			}
 		});
-		console.log(result);
-		return result.data;
-	} catch (err) {
-		return err;
-	}
 };
 
-// // 섹터당 책 목록
-export const getBookList = async (
-	name: string,
-	latitude: string,
-	longitude: string,
+// // 섹터당 책 목록 useQuery
+export const getBookListQuery = (
+	bookTitle: string,
+	latitude: number,
+	longitude: number,
 	sector: number,
-) => {
-	try {
-		const result = await axiosInstance.get(`/books`, {
+	level: number,
+	width: number,
+	height: number,
+	index?: number | string,
+) =>
+	axiosInstance
+		.get(`/books`, {
 			params: {
-				bookTitle: name,
+				bookTitle,
 				latitude,
 				longitude,
 				sector,
+				level,
+				width,
+				height,
+				index,
 			},
-		});
-		console.log(result.data);
-		return result.data;
-	} catch (err) {
-		return err;
-	}
-};
+		})
+		.then(res => res.data);

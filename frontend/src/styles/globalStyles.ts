@@ -6,6 +6,7 @@ const GlobalStyle = createGlobalStyle`
   @font-face {
         font-family: 'Apple SD';
         font-weight: 500;
+        font-display: block;
         src: local('AppleNormal'), local('AppleNormal');
         font-style: normal;
         src: url(${AppleNormal}) format('truetype');
@@ -13,12 +14,14 @@ const GlobalStyle = createGlobalStyle`
   @font-face {
         font-family: 'Apple SD';
         font-weight: 600;
+        font-display: block;
         src: local('AppleBold'), local('AppleBold');
         font-style: bold;
         src: url(${AppleBold}) format('truetype');
   }
   @font-face {
         font-family: 'kotra';
+        font-display: block;
         src: local('kotra'), local('kotra');
         font-style: normal;
         src: url(${kotra}) format('truetype');
@@ -28,7 +31,7 @@ const GlobalStyle = createGlobalStyle`
   h1, h2, h3, h4, h5, h6, p, blockquote, pre,
   a, abbr, acronym, address, big, cite, code,
   del, dfn, em, img, ins, kbd, q, s, samp,
-  small, strike, strong, sub, sup, tt, var,
+  small, strike, strong, sub, sup, tt, var
   b, u, i, center,
   dl, dt, dd, ol, ul, li,
   fieldset, form, label, legend,

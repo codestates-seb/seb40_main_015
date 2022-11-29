@@ -10,4 +10,4 @@ fi
 
 echo "my-application Restart!"
 echo $1
-nohup java -jar build/libs/backend-0.0.1-SNAPSHOT.jar --spring.profiles.active=rds > /dev/null 2>&1 &
+nohup java -jar build/libs/backend-0.0.1-SNAPSHOT.jar --spring.profiles.active=rds > logging.log 2>&1 &

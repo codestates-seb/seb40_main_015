@@ -12,6 +12,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.dongnebook.domain.book.domain.Book;
 import com.dongnebook.domain.book.dto.request.BookRegisterRequest;
+
 import com.dongnebook.domain.book.dto.request.BookSearchCondition;
 import com.dongnebook.domain.book.dto.response.BookDetailResponse;
 import com.dongnebook.domain.book.dto.response.BookSectorCountResponse;
@@ -20,7 +21,6 @@ import com.dongnebook.domain.book.exception.BookNotFoundException;
 import com.dongnebook.domain.book.repository.BookCommandRepository;
 import com.dongnebook.domain.book.repository.BookQueryRepository;
 import com.dongnebook.domain.member.domain.Member;
-import com.dongnebook.domain.member.dto.response.MerchantSectorCountResponse;
 import com.dongnebook.domain.member.exception.LocationNotCreatedYetException;
 import com.dongnebook.domain.member.exception.MemberNotFoundException;
 import com.dongnebook.domain.member.repository.MemberRepository;
@@ -45,7 +45,7 @@ public class BookService {
 	public Long create(BookRegisterRequest bookRegisterRequest, Long memberId) {
 
 		Member member = getMember(memberId);
-		Location location = ifDtoHasNoLocationGetMemberLocation(bookRegisterRequest, member);
+		Location location = getMemberLocation(member);
 		Book book = Book.create(bookRegisterRequest, location, member);
 
 		return bookCommandRepository.save(book).getId();
@@ -66,14 +66,12 @@ public class BookService {
 		return bookId;
 	}
 
-	public BookDetailResponse getDetail(Long id) {
-		return bookQueryRepository.getDetail(id);
+	public BookDetailResponse getDetail(Long id, Long memberId) {
+		return bookQueryRepository.getBookDetail(id, memberId);
 	}
 
-	private Location ifDtoHasNoLocationGetMemberLocation(BookRegisterRequest bookRegisterRequest, Member member) {
-		return Optional.ofNullable(bookRegisterRequest.getLocation())
-			.orElseGet(
-				() -> Optional.ofNullable(member.getLocation()).orElseThrow(LocationNotCreatedYetException::new));
+	private Location getMemberLocation(Member member) {
+		return Optional.ofNullable(member.getLocation()).orElseThrow(LocationNotCreatedYetException::new);
 	}
 
 	private Member getMember(Long memberId) {
@@ -84,9 +82,10 @@ public class BookService {
 		return bookCommandRepository.findById(bookId).orElseThrow(BookNotFoundException::new);
 	}
 
-	public ArrayList<BookSectorCountResponse> getSectorBookCounts(BookSearchCondition condition) {
+	public ArrayList<BookSectorCountResponse> getSectorBookCounts(
+		BookSearchCondition condition) {
 
-		List<Double> latRangeList = Location.latRangeList(condition.getLatitude(), condition.getLength(),
+		List<Double> latRangeList = Location.latRangeList(condition.getLatitude(), condition.getHeight(),
 			condition.getLevel());
 		List<Double> lonRangeList = Location.lonRangeList(condition.getLongitude(), condition.getWidth(),
 			condition.getLevel());
@@ -95,19 +94,22 @@ public class BookService {
 		HashMap<Integer, Integer> indexMap = new HashMap<>();
 		int arrIndex = 0;
 
+		if (condition.getLevel()==1) {
+
+		}
+
+
 		for (Location location : sectorBookCounts) {
 			int sector = 0;
-			Double latitude = location.getLatitude();
-			Double longitude = location.getLongitude();
+			Loop :
 			for (int i = 0; i < condition.getLevel(); i++) {
 				for (int j = 0; j < condition.getLevel(); j++) {
 					sector++;
-					if (latRangeList.get(i + 1) <= latitude && latitude <= latRangeList.get(i)
-						&& lonRangeList.get(j) <= longitude
-						&& longitude <= lonRangeList.get(j + 1)) {
+					if (checkRange(latRangeList, lonRangeList, location.getLatitude(), location.getLongitude(), i, j)) {
 						if (makeBookCountResponse(bookSectorCountResponses, sector, arrIndex, location, indexMap)) {
 							arrIndex += 1;
 						}
+						break Loop;
 					}
 				}
 			}
@@ -115,7 +117,10 @@ public class BookService {
 		return bookSectorCountResponses;
 	}
 
-	public SliceImpl<BookSimpleResponse> getList(BookSearchCondition bookSearchCondition, PageRequest pageRequest) {
+
+	public SliceImpl<BookSimpleResponse> getList(
+		BookSearchCondition bookSearchCondition, PageRequest pageRequest) {
+
 		return bookQueryRepository.getAll(bookSearchCondition, pageRequest);
 	}
 
@@ -138,6 +143,18 @@ public class BookService {
 		}
 		return newResponse;
 	}
+
+	private boolean checkRange(List<Double> latRangeList, List<Double> lonRangeList, Double latitude, Double longitude,
+		int i, int j) {
+		return latRangeList.get(i + 1) <= latitude && latitude <= latRangeList.get(i)
+			&& lonRangeList.get(j) <= longitude
+			&& longitude <= lonRangeList.get(j + 1);
+	}
+
+	public SliceImpl<BookSimpleResponse> getListByMember(Long memberId, PageRequest pageRequest) {
+		return bookQueryRepository.getListByMember(memberId,pageRequest);
+	}
+
 	// 섹터 1 :  LatRange 1~0,LonRange 0~1,  00 1
 	// 섹터 2 :  LatRange 1~0,LonRange 1~2,  01 2
 	// 섹터 3 :  LatRange 1~0,LonRange 2~3,  02 3

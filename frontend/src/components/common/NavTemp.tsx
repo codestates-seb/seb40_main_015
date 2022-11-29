@@ -7,11 +7,12 @@ import {
 	HiOutlineUser,
 	HiHome,
 } from 'react-icons/hi';
+import { MdOutlineLogin } from 'react-icons/md';
 import home from '../../assets/image/logo4.png';
 import { Link, useLocation } from 'react-router-dom';
 import theme from '../../styles/theme';
-import { useAppSelector } from '../../redux/hooks';
-import useNotify, { useNotifyHook } from '../../hooks/useNotify';
+import { useAppDispatch, useAppSelector } from '../../redux/hooks';
+import notify from '../../utils/notify';
 
 interface MenuProps {
 	id: number;
@@ -21,10 +22,15 @@ interface MenuProps {
 	selected: boolean;
 }
 const Unrestricted = (id: number) => {
-	// 로그인 버튼이 따로 없어서 마이페이지는 일단 로그인 요청 페이지로 이동시킴
+	// 미로그인시 접근 가능한 페이지
 	return id === 0 || id === 2 || id === 4;
 };
 const NavTemp = () => {
+	// login 체크 로직
+	const isLogin = useAppSelector(state => state.loginInfo.isLogin);
+	const dispatch = useAppDispatch();
+	const location = useLocation();
+
 	const [menus, setMenus] = useState<MenuProps[]>([
 		{
 			id: 0,
@@ -56,21 +62,20 @@ const NavTemp = () => {
 		},
 		{
 			id: 4,
-			icon: <HiOutlineUser size="30" />,
-			text: '마이페이지',
+			icon: isLogin ? (
+				<HiOutlineUser size="30" />
+			) : (
+				<MdOutlineLogin size="30" />
+			),
+			text: isLogin ? '마이페이지' : '로그인',
 			selected: false,
-			path: '/profile',
+			path: isLogin ? '/profile' : '/login',
 		},
 	]);
 
-	// login 체크 로직
-	const notify = useNotifyHook();
-	const isLogin = useAppSelector(state => state.loginInfo.isLogin);
-	const location = useLocation();
-
 	const handleChangeMenu = (id: number): void => {
 		// login 체크 로직
-		if (!Unrestricted(id) && !isLogin) notify('로그인이 필요합니다.');
+		if (!Unrestricted(id) && !isLogin) notify(dispatch, '로그인이 필요합니다.');
 
 		const newMenus = menus.map(menu =>
 			menu.id === id
@@ -113,6 +118,7 @@ const Container = styled.div`
 	padding: 10px 0;
 	border-top: 1px solid ${props => props.theme.colors.headerBorder};
 	background-color: #f6f5ef;
+	z-index: 999;
 `;
 
 interface BoxProps {

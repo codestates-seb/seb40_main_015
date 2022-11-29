@@ -2,36 +2,57 @@ import Lottie from 'lottie-react';
 import animationData from '../../assets/image/lottieloading.json';
 import styled from 'styled-components';
 
-const Animation = () => {
+const Animation = ({
+	width,
+	height,
+	text,
+}: {
+	width?: number | string;
+	height?: number | string;
+	text?: string;
+}) => {
 	return (
-		<Background>
-			<LottieContainer>
+		<Background height={height}>
+			<LottieContainer width={width} height={height}>
 				<Lottie animationData={animationData} loop={true}></Lottie>
+				{text && <Text>{text}</Text>}
 			</LottieContainer>
 		</Background>
 	);
 };
 
-const Background = styled.div`
-	position: absolute;
-	width: 100vw;
-	height: 100vh;
-	top: 0;
-	left: 0;
+interface BackgroundProps {
+	height?: number | string;
+}
+
+const Background = styled.div<BackgroundProps>`
+	width: 100%;
+	height: ${props => (props.height ? '100%' : '100vh')};
 	background: #ffffffb7;
 	z-index: 999;
 	display: flex;
-	flex-direction: column;
 	align-items: center;
 	justify-content: center;
 `;
 
-const LottieContainer = styled.div`
-	width: 150px;
-	height: 150px;
+interface LottieContainerProps {
+	width?: number | string;
+	height?: number | string;
+}
+
+const LottieContainer = styled.div<LottieContainerProps>`
+	width: ${props => (props.width ? props.width : '150px')};
+	height: ${props => (props.height ? props.height : '150px')};
 	margin: 0 auto;
-	position: absolute;
-	z-index: 1000;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	flex-direction: column;
+`;
+
+const Text = styled.p`
+	margin-top: 1rem;
+	font-size: 1.5rem;
 `;
 
 export default Animation;
