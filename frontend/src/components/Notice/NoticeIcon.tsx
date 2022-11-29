@@ -5,6 +5,8 @@ import { useLocation, useNavigate } from 'react-router-dom';
 const NoticeIcon = () => {
 	const { pathname } = useLocation();
 	const navigate = useNavigate();
+	if (pathname === '/books/search') return null;
+
 	const handleButtonClick = () => {
 		if (pathname === '/notice') {
 			navigate(-1);
