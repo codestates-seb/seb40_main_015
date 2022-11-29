@@ -15,8 +15,8 @@ const NoticeItem = ({ noticeData }: NoticeItemType) => {
 			{noticeData?.map(el => {
 				const message = noticeMessages[el.alarmType];
 				return (
-					<Link to={message[3]}>
-						<StyledNoticeItem isViewed={el.isRead} key={el.alarmId}>
+					<Link to={message[3]} key={el.alarmId}>
+						<StyledNoticeItem isRead={el.isRead}>
 							<IconWrapper onClick={() => handleXClick(el.alarmId)}>
 								<HiOutlineX className="icon" />
 							</IconWrapper>
@@ -34,12 +34,12 @@ const NoticeItem = ({ noticeData }: NoticeItemType) => {
 	);
 };
 
-const StyledNoticeItem = styled.div<{ isViewed: boolean }>`
+const StyledNoticeItem = styled.div<{ isRead: boolean }>`
 	width: 95%;
 	max-width: 1000px;
 	min-height: 5rem;
 	background-color: ${props =>
-		props.isViewed ? 'white' : props.theme.colors.unViewedNotice};
+		props.isRead ? 'white' : props.theme.colors.unViewedNotice};
 	border: ${props => props.theme.colors.grey + ' 1px solid'};
 	border-radius: 5px;
 	display: flex;
