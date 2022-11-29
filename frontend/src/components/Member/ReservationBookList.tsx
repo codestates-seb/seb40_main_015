@@ -31,7 +31,6 @@ const ReservationBookList = () => {
 			queryKey: ['reservationbooklist'],
 			queryFn: ({ pageParam = undefined }) => getReservationBookList(pageParam),
 			getNextPageParam: lastPage => {
-				console.log(lastPage);
 				return lastPage?.content?.slice(-1)[0]?.bookInfo.bookId;
 			},
 		});
@@ -53,7 +52,6 @@ const ReservationBookList = () => {
 		return () => observer.disconnect();
 	}, []);
 
-	console.log(data);
 	return (
 		<>
 			{isLoading ? (
