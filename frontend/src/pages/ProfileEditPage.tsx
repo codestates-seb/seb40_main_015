@@ -4,15 +4,15 @@ import Title from '../components/common/Title';
 import Button from '../components/common/Button';
 import Modal from '../components/common/Modal';
 import useGeoLocation from '../hooks/useGeoLocation';
-
+import notify from '../utils/notify';
 import { useNavigate } from 'react-router-dom';
-
 import { useAppDispatch, useAppSelector } from '../redux/hooks';
 import { updateUserInfo } from '../redux/slice/userInfoSlice';
 import Avatar from '../api/hooks/profileedit/Avatar';
 import { useFixInfo } from '../api/hooks/profileedit/useFixInfo';
 
 function ProfileEditPage() {
+	const goNotify = (message: string) => notify(dispatch, message);
 	//현재 위치 수정
 	const [isOpenModal, setOpenModal] = useState<boolean>(false);
 	const onClickToggleModal = useCallback(() => {
@@ -26,7 +26,6 @@ function ProfileEditPage() {
 	const [location, setLocation, handleCurrentLocationMove] = useGeoLocation();
 
 	//유저 이미지 수정
-
 	const { Address, avatarUrl } = userInfo;
 	const [nickname, setNickname] = useState(userInfo.name);
 	const navigate = useNavigate();
@@ -61,12 +60,13 @@ function ProfileEditPage() {
 						<p className="minititle">닉네임</p>
 						<div className="input">
 							<input
-								placeholder="수정할 닉네임을 작성하세요"
+								placeholder="수정할 닉네임을 작성하세요(15자 이하)"
 								disabled={false}
 								type="nickname"
 								value={nickname}
 								onChange={handleChangeNickname}
 								onBlur={handleBlurNickname}
+								maxLength={15}
 							/>
 						</div>
 						<p className="minititle">내 동네 설정</p>
