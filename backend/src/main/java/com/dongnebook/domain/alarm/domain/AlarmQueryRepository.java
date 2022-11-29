@@ -8,6 +8,7 @@ import static com.dongnebook.domain.alarm.domain.QAlarm.*;
 import static com.dongnebook.domain.book.domain.QBook.*;
 
 import java.util.List;
+import java.util.Optional;
 
 import javax.persistence.EntityManager;
 
@@ -37,6 +38,13 @@ public class AlarmQueryRepository {
 			.innerJoin(book.member)
 			.where(alarmMemberIdEq(memberId))
 			.fetch();
+	}
+
+	public Optional<Alarm> findByAlarmWithMemberId(Long alarmId){
+		return Optional.ofNullable(jpaQueryFactory.selectFrom(alarm)
+			.innerJoin(alarm.member).fetchJoin()
+			.where(alarm.id.eq(alarmId))
+			.fetchOne());
 	}
 
 	public void read(Long memberId) {
