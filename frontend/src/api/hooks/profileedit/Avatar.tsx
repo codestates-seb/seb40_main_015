@@ -11,14 +11,15 @@ const Avatar = () => {
 
 	const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
 		const { files } = e.target;
-		const formData = new FormData();
 		if (files) {
+			const formData = new FormData();
 			const fileRef = files[0];
 			formData.append('img', fileRef);
 			mutate(formData, {
 				onSuccess: res => {
 					setImage(res.data);
 					dispatch(updateUserInfo({ key: 'avatarUrl', value: res.data }));
+					console.log(res.data);
 				},
 			});
 		}

@@ -67,7 +67,9 @@ function ProfilePage() {
 				<UserInfoBox>
 					<p>닉네임: {data?.name}</p>
 					<p>주거래 동네:{data?.address ?? '거래 할 동네를 설정해주세요!'}</p>
-					<p>등록한 도서 수: {data?.totalBookCount}</p>
+					<p>
+						<a href="">등록한 도서 수: {data?.totalBookCount}</a>
+					</p>
 					<div className="editprofile">
 						<p className="edit1" onClick={handleEditPage}>
 							수정하기
