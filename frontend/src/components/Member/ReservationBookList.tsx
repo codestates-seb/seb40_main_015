@@ -9,11 +9,14 @@ import { useNavigate } from 'react-router-dom';
 import ButtonStatus from '../Merchant/ButtonStatus';
 
 interface ReservationBook {
+	reservationId: number;
+	rentalExpectedAt: string;
 	bookId: number;
 	title: string;
 	imageUrl: string;
 	rentalFee: number;
 	status: string;
+	merchantName: string;
 }
 
 const ReservationBookList = () => {
