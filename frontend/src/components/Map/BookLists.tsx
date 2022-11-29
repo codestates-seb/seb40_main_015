@@ -5,10 +5,11 @@ import { Dispatch, SetStateAction } from 'react';
 interface Props {
 	bookLists: any;
 	setHoverLists: Dispatch<SetStateAction<any>>;
+	bookListRef: any;
 }
 
 const BookLists = (props: Props) => {
-	const { bookLists, setHoverLists } = props;
+	const { bookLists, setHoverLists, bookListRef } = props;
 
 	const navigate = useNavigate();
 	const handleSearchBookDetailInfo = (id: string) => {
@@ -54,6 +55,7 @@ const BookLists = (props: Props) => {
 						</List>
 					);
 				})}
+				<div ref={bookListRef} style={{ height: '3px' }} />
 			</Box>
 		</>
 	);
