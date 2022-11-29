@@ -17,7 +17,11 @@ const Photo = () => {
 		const formData = new FormData();
 		if (files) {
 			const fileRef = files[0];
-			setImageName(fileRef.name);
+			if (fileRef.name.length > 35) {
+				setImageName(fileRef.name.substring(0, 35) + '...');
+			} else {
+				setImageName(fileRef.name);
+			}
 			resizeImageToBlob(fileRef).then((blob: Blob) => {
 				formData.append('img', blob);
 				mutate(formData, {
