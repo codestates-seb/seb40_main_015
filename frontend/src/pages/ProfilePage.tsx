@@ -2,7 +2,7 @@ import styled from 'styled-components';
 import { useNavigate } from 'react-router-dom';
 import { HiOutlinePencilAlt } from 'react-icons/hi';
 import { useDispatch } from 'react-redux';
-import { useQuery } from '@tanstack/react-query';
+import { useQuery, useQueryClient } from '@tanstack/react-query';
 import { useAppSelector } from '../redux/hooks';
 
 // component
@@ -46,7 +46,7 @@ function ProfilePage() {
 
 	// api mypage member info
 	const { getMyInfo, getPickBookList } = useMypageAPI();
-
+	const queryClient = useQueryClient();
 	const { data, isLoading } = useQuery({
 		queryKey: ['myprofile'],
 		queryFn: () => getMyInfo(id),
@@ -97,8 +97,7 @@ function ProfilePage() {
 							const isTrue = window.confirm('로그아웃 하시겠습니까?');
 							if (!isTrue) return;
 							dispatch(logout());
-							navigate('/books');
-							// window.location.reload();
+							navigate('/login');
 						}}>
 						로그아웃
 					</Button>
