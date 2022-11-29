@@ -2,6 +2,7 @@ package com.dongnebook.domain.book.repository;
 
 import static com.dongnebook.domain.book.domain.QBook.*;
 import static com.dongnebook.domain.dibs.domain.QDibs.*;
+import static com.dongnebook.domain.rental.domain.QRental.*;
 
 import java.util.List;
 import java.util.Objects;
@@ -24,6 +25,8 @@ import com.dongnebook.domain.member.domain.Member;
 import com.dongnebook.domain.member.dto.response.QBookDetailMemberResponse;
 import com.dongnebook.domain.model.Location;
 
+import com.dongnebook.domain.rental.domain.QRental;
+import com.dongnebook.domain.rental.domain.RentalState;
 import com.dongnebook.global.dto.request.PageRequest;
 import com.querydsl.core.types.Expression;
 import com.querydsl.core.types.ExpressionUtils;
@@ -56,7 +59,9 @@ public class BookQueryRepository {
 						book.description,
 						book.bookState,
 						book.ImgUrl,
-						dibsCountSubQuery(bookId,memberId)
+						dibsCountSubQuery(bookId,memberId),
+						rental.rentalStartedAt,
+						rental.rentalDeadLine
 					),
 					new QBookDetailMemberResponse(
 						book.member.id,
@@ -68,10 +73,11 @@ public class BookQueryRepository {
 			)
 			.from(book)
 			.leftJoin(book.member)
+			.leftJoin(rental).on(rental.book.id.eq(bookId),rental.rentalState.eq(RentalState.BEING_RENTED))
 			.leftJoin(book.dibsList, dibs)
 			.where(book.id.eq(bookId))
 			.fetchFirst();
-		//책을 찾는데 찜이 하나라도 있으면 그 찜의 아이디를 찾아서 반환 찜이 없으면 걍 너어감
+		//책을 찾는데 찜이 하나라도 있으면 그 찜의 아이디를 찾아서 반환 찜이 없으면 걍 넘어감
 	}
 
 	/**
