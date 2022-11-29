@@ -4,22 +4,25 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import { useEffect } from 'react';
 import { BASE_URL } from '../../constants/constants';
 import { useAppDispatch, useAppSelector } from '../../redux/hooks';
-import { setState } from '../../redux/slice/alarmSlice';
+import { setListening, setState } from '../../redux/slice/alarmSlice';
 
 const NoticeIcon = () => {
 	const { pathname } = useLocation();
 	const navigate = useNavigate();
 	const dispatch = useAppDispatch();
 	const { id } = useAppSelector(state => state.loginInfo);
-	const { hasNewMessage } = useAppSelector(
+	const { hasNewMessage, isListening } = useAppSelector(
 		state => state.persistedReducer.alarm,
 	);
 
 	useEffect(() => {
-		const eventSource = new EventSource(`${BASE_URL}/sub/${id}`);
-		eventSource.onmessage = () => dispatch(setState(true));
+		if (!isListening) {
+			const eventSource = new EventSource(`${BASE_URL}/sub/${id}`);
+			eventSource.onopen = () => dispatch(setListening(true));
+			eventSource.onmessage = () => dispatch(setState(true));
+		}
 		// eslint-disable-next-line react-hooks/exhaustive-deps
-	}, [id]);
+	}, []);
 
 	const handleButtonClick = () => {
 		if (pathname === '/notice') {
