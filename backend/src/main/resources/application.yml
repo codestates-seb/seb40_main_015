@@ -5,6 +5,10 @@ Spring:
       path: /h2
       settings:
         web-allow-others: true
+  servlet:
+    multipart:
+      max-file-size: 2MB
+      max-request-size: 2MB
   datasource:
     url: jdbc:h2:mem:test
   jpa:
@@ -36,6 +40,7 @@ jwt:
   secret-key: ${JWT_SECRET_KEY}
   access-token-expiration-minutes: 3500
   refresh-token-expiration-minutes: 420
+
 
 logging:
   level:
