@@ -27,6 +27,7 @@ const Layout = styled.div`
 	justify-content: center;
 	background-color: #fbfbfb;
 	margin-top: 1rem;
+
 	h2 {
 		font-size: 2rem;
 		margin-bottom: 1rem;

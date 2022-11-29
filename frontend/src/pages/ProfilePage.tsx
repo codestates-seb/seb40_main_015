@@ -89,6 +89,7 @@ function ProfilePage() {
 				fontSize={'small'}
 				className="logout"
 				onClick={() => {
+					// logout api 아직 없음
 					dispatch(logout());
 					navigate('/books');
 				}}>
@@ -117,6 +118,10 @@ const Layout = styled.div`
 		&:hover {
 			background-color: grey;
 		}
+	}
+	.hidden {
+		/* 무한스크롤 */
+		display: none;
 	}
 `;
 
