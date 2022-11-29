@@ -13,30 +13,22 @@ import notify from '../../utils/notify';
 const BookImage = ({ book, merchant }: BookDetailProps) => {
 	const { id } = useAppSelector(state => state.loginInfo);
 	const dispatch = useAppDispatch();
-	const navigate = useNavigate();
-	const [active, setActive] = useState(false);
-	const { postWishItem, deleteBook } = useBooksAPI();
+
+	const [active, setActive] = useState(book?.isDibs);
+	const { postWishItem } = useBooksAPI();
 
 	// 찜하기 post요청 쿼리
-	const { mutate: mutateWish } = useMutation({
+	const {
+		mutate: mutateWish,
+		isLoading,
+		isSuccess,
+	} = useMutation({
 		mutationFn: () => postWishItem(book?.bookId),
 	});
-
-	// 삭제하기 delete 요청 쿼리
-	const { mutate: mutateDelete } = useMutation({
-		mutationFn: () => deleteBook(book?.bookId),
-	});
-	const HandleDeleteIcon = () => {
-		const result = window.confirm('정말로 삭제하시겠습니까?');
-		result && mutateDelete();
-		result && navigate('/books');
-	};
 
 	const HandleWishIcon = () => {
 		setActive(!active);
 		mutateWish();
-
-		// notify 메시지 계속 남아있는 오류 해결 후에 사용. 삭제버튼에도 알림멘션줄까
 		// active 보다 찜 정보를 이용해서 알림 기능 구현할 것
 		active || notify(dispatch, '찜 목록에 추가되었습니다.');
 	};
@@ -64,18 +56,22 @@ const BookImage = ({ book, merchant }: BookDetailProps) => {
 			) : (
 				''
 			)}
-
+			{/* 
 			{id === merchant?.merchantId ? (
 				<Deleticon onClick={HandleDeleteIcon} />
 			) : (
 				''
-			)}
+			)} */}
 
 			{id && id !== merchant?.merchantId ? (
 				active ? (
-					<WishiconOn onClick={HandleWishIcon} />
+					<WishWrapper>
+						<WishiconOn onClick={HandleWishIcon} />
+					</WishWrapper>
 				) : (
-					<WishiconOff onClick={HandleWishIcon} />
+					<WishWrapper>
+						<WishiconOff onClick={HandleWishIcon} />
+					</WishWrapper>
 				)
 			) : (
 				''
@@ -93,23 +89,33 @@ const BookImgWrapper = styled.div`
 
 	margin-bottom: 2rem;
 `;
-const Deleticon = styled(HiOutlineTrash)`
-	font-size: 30px;
-	color: rgba(0, 0, 0, 0.7);
+// const Deleticon = styled(HiOutlineTrash)`
+// 	font-size: 30px;
+// 	color: rgba(0, 0, 0, 0.7);
+// 	position: absolute;
+// 	top: 0;
+// 	right: 1rem;
+// 	cursor: pointer;
+// `;
+const WishWrapper = styled.div`
+	/* background-color: pink; */
+	width: 34px;
+	height: 34px;
+	border-radius: 50%;
+
+	display: flex;
+	justify-content: center;
+	align-items: center;
+
 	position: absolute;
-	top: 0;
-	right: 1rem;
-	cursor: pointer;
+	right: -1vw;
+	bottom: -80px;
 `;
 
 const WishiconOn = styled(HiHeart)`
 	font-size: 32px;
 	color: ${props => props.theme.colors.logoGreen};
-	position: absolute;
-	right: 1rem;
-	bottom: 0;
 	cursor: pointer;
-
 	@keyframes wishBeat {
 		50% {
 			opacity: 1;
@@ -123,19 +129,18 @@ const WishiconOn = styled(HiHeart)`
 	animation: wishBeat 0.4s linear;
 	animation-fill-mode: forwards;
 `;
+
 const WishiconOff = styled(HiOutlineHeart)`
 	font-size: 30px;
 	color: rgba(0, 0, 0, 0.4);
-	position: absolute;
-	right: 1rem;
-	bottom: 0;
-
 	cursor: pointer;
 `;
+
 const BookImg = styled.img`
 	width: 18rem;
 	height: 21rem;
 `;
+
 const BookNotAvailable = styled.div`
 	width: 18rem;
 	height: 21rem;

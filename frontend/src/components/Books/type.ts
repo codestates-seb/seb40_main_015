@@ -10,6 +10,7 @@ export interface BooksProps {
 	imageUrl?: string;
 	merchantName?: string;
 	rental?: RentalProps;
+	styleGrid?: boolean;
 }
 
 export interface RentalProps {
@@ -32,12 +33,14 @@ export interface IBookDetail {
 	bookId: number;
 	content: string;
 	publisher: string;
+	author: string;
 	rentalEnd: string | null;
 	rentalFee?: number;
 	rentalStart: string | null;
 	state?: string;
 	title: string;
 	bookImgUrl: string;
+	isDibs: boolean;
 }
 export interface BookMerchant {
 	grade: number;

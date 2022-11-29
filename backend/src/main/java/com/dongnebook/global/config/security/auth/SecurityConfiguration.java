@@ -4,6 +4,7 @@ import java.util.Arrays;
 import java.util.List;
 
 import com.dongnebook.domain.member.application.MemberService;
+import com.dongnebook.domain.refreshtoken.repository.RefreshTokenRepository;
 import com.dongnebook.global.config.security.auth.filter.JwtAuthenticationFilter;
 import com.dongnebook.global.config.security.auth.filter.JwtVerificationFilter;
 import com.dongnebook.global.config.security.auth.filter.TokenProvider;
@@ -39,6 +40,7 @@ import static org.springframework.security.config.Customizer.withDefaults;
 @EnableWebSecurity(debug = true)
 @RequiredArgsConstructor
 public class SecurityConfiguration {
+	private final RefreshTokenRepository refreshTokenRepository;
 	private final TokenProvider tokenProvider;
 	private final OAuthService oAuthService;
 
@@ -95,7 +97,7 @@ public class SecurityConfiguration {
 
 			JwtAuthenticationFilter jwtAuthenticationFilter = new JwtAuthenticationFilter(tokenProvider, authenticationManager);
 			jwtAuthenticationFilter.setFilterProcessesUrl("/auth/login");
-			jwtAuthenticationFilter.setAuthenticationSuccessHandler(new MemberAuthenticationSuccessHandler());
+			jwtAuthenticationFilter.setAuthenticationSuccessHandler(new MemberAuthenticationSuccessHandler(refreshTokenRepository));
 			jwtAuthenticationFilter.setAuthenticationFailureHandler(new MemberAuthenticationFailureHandler());
 
 			JwtVerificationFilter jwtVerificationFilter = new JwtVerificationFilter(tokenProvider);
