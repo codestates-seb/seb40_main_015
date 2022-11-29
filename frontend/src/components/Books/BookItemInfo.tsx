@@ -71,7 +71,7 @@ const BookImage = styled.div`
 	}
 `;
 const BookDetail = styled.div`
-	width: 60%;
+	width: 58%;
 	display: flex;
 	flex-direction: column;
 	/* justify-content: space-between; */

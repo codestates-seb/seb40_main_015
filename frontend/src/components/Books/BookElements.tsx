@@ -94,7 +94,7 @@ const BookContainer = styled.div`
 const BookTitle = styled.div`
 	label {
 		/* font-size: ${props => props.theme.fontSizes.maintitle}; */
-		font-size: 1.8rem;
+		font-size: 1.6rem;
 	}
 	margin-bottom: 0.6rem;
 `;
@@ -102,7 +102,7 @@ const BookSubTitle = styled.div`
 	label {
 		font-size: ${props => props.theme.fontSizes.paragraph};
 	}
-	margin-left: 0.3rem;
+	margin-left: 0.2rem;
 `;
 
 const Partition = styled.span`
@@ -148,19 +148,21 @@ const MerchantInfo = styled.div`
 	display: flex;
 	justify-content: space-between;
 	align-items: center;
-
 	a {
 		display: flex;
-		justify-content: space-between;
+		width: 100%;
+		/* justify-content: space-between; */
 		align-items: center;
 		cursor: pointer;
 		span {
+			margin-bottom: 6px;
 			font-size: ${props => props.theme.fontSizes.subtitle};
+			/* font-size: 1.4rem; */
 		}
 	}
 `;
 
-const MerchantGrade = styled.div`
+const Chat = styled.div`
 	display: flex;
 	justify-content: flex-end;
 	/* font-size: 1.1rem; */
@@ -172,10 +174,11 @@ const MerchantGrade = styled.div`
 `;
 
 const BookDsc = styled(Div)`
-	height: 20vh;
+	min-height: 20vh;
 	margin-bottom: 1rem;
 	div {
 		font-size: 1.4rem;
+		line-height: 24px;
 	}
 `;
 const LinkStyled = styled(Link)`
@@ -217,6 +220,9 @@ const RentalCheck = styled.div`
 	label {
 		margin-right: 2rem;
 	}
+	.checkBoxLabel {
+		cursor: pointer;
+	}
 `;
 
 export {
@@ -227,7 +233,7 @@ export {
 	BookInfo,
 	BookRentalFee,
 	MerchantInfo,
-	MerchantGrade,
+	Chat,
 	RentalInfo,
 	BookDsc,
 	LinkStyled,

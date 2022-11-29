@@ -8,6 +8,7 @@ import notify from '../utils/notify';
 import { useNavigate } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from '../redux/hooks';
 import { updateUserInfo } from '../redux/slice/userInfoSlice';
+
 import Avatar from '../api/hooks/profileedit/Avatar';
 import { useFixInfo } from '../api/hooks/profileedit/useFixInfo';
 
