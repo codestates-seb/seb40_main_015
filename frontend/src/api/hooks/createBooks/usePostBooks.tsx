@@ -13,10 +13,18 @@ export interface PayloadType {
 }
 
 const usePostBooks = () => {
+	const persistStorage = window.localStorage.getItem('persist:login');
+	const accessToken: string =
+		persistStorage && JSON.parse(persistStorage).accessToken.replace('"', '');
 	const dispatch = useAppDispatch();
+
 	return useMutation((payload: PayloadType) =>
 		axiosInstance
-			.post('/books', payload)
+			.post('/books', payload, {
+				headers: {
+					Authorization: accessToken,
+				},
+			})
 			.then(res => {
 				console.log(res);
 				notify(dispatch, '게시글이 작성되었습니다.');
