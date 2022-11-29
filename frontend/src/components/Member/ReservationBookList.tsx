@@ -38,12 +38,10 @@ const ReservationBookList = () => {
 		return <Animation width={50} height={50} />;
 	}
 	console.log(data?.content);
+
 	return (
-		<>
-			{/* <EmptyBox>
-				<p>예약한 책이 없어요</p>
-			</EmptyBox> */}
-			{data.content ? (
+		<Box>
+			{data?.content ? (
 				data?.content.map((reservationbook: ReservationBook, i: number) => {
 					const { bookId, title, imageUrl, rentalFee, status } =
 						reservationbook;
@@ -70,9 +68,13 @@ const ReservationBookList = () => {
 					<p>예약한 책이 없어요</p>
 				</EmptyBox>
 			)}
-		</>
+		</Box>
 	);
 };
+
+const Box = styled.div`
+	/* padding: 0 1rem; */
+`;
 
 const Container = styled.div`
 	width: 90%;
@@ -112,4 +114,5 @@ const EmptyBox = styled.div`
 		font-weight: 600;
 	}
 `;
+
 export default ReservationBookList;
