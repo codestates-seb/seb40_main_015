@@ -45,7 +45,8 @@ const RentStatusButton = ({ status, merchantName, rental }: Props) => {
 				}
 				break;
 			case 'RETURN_UNREVIEWED':
-				navigate('/review/create');
+				const istrue = window.confirm(`${id}님에게 리뷰를 작성하시겠습니까?`);
+				istrue && navigate('/review/create');
 				break;
 		}
 	};

@@ -8,32 +8,6 @@ import Animation from '../Loading/Animation';
 import { useEffect, useMemo } from 'react';
 import { useInView } from 'react-intersection-observer';
 
-// interface ListProps {
-// 	bookInfo: {
-// 		bookId: string;
-// 		bookUrl: string;
-// 		title: string;
-// 		author: string;
-// 		publisher: string;
-// 		rental_fee: string;
-// 		bookDescription: string;
-// 		location: {
-// 			lat: string;
-// 			lon: string;
-// 		};
-// 		bookStatus: string;
-// 		merchantName: string;
-// 	};
-// 	rentalInfo: {
-// 		rentalId: string;
-// 		customerName: string;
-// 		rentalState: string;
-// 		rentalStartedAt: string;
-// 		rentalDeadline: string;
-// 		rentalReturnedAt: string;
-// 		rentalCanceledAt: string;
-// 	};
-// }
 const LentBookLists = () => {
 	const { getLendBookLists } = useHistoryAPI();
 	const [ref, inView] = useInView();
@@ -53,7 +27,8 @@ const LentBookLists = () => {
 				getNextPageParam: lastPage => {
 					return lastPage.last
 						? undefined
-						: lastPage.content[lastPage.content.length - 1].rentalInfo.rentalId;
+						: lastPage?.content?.[lastPage.content.length - 1].rentalInfo
+								.rentalId;
 				},
 				retry: false,
 			},
@@ -69,29 +44,31 @@ const LentBookLists = () => {
 
 	return (
 		<Box>
-			{/* 통합본 추가 */}
 			{lists?.length ? (
-				lists?.map((el: any) => (
-					<Wrapper key={el.rentalInfo.rentalId}>
-						<BookItem
-							bookId={el.bookInfo.bookId}
-							title={el.bookInfo.title}
-							bookImage={el.bookInfo.bookUrl}
-							rentalfee={el.bookInfo.rentalFee}
-							author={el.bookInfo.author}
-							publisher={el.bookInfo.publisher}
-							// merchantName={el.bookInfo.merchantName}
-							status={el.rentalInfo.rentalState}
-							rental={el.rentalInfo}
-						/>
-						<LendBookUserInfo rentalInfo={el.rentalInfo} />
-						<LendStatusButton
-							status={el.rentalInfo.rentalState}
-							customerName={el.rentalInfo.customerName}
-							rental={el.rentalInfo}
-						/>
-					</Wrapper>
-				))
+				lists?.map(
+					(el: any) =>
+						el && (
+							<Wrapper key={el.rentalInfo.rentalId}>
+								<BookItem
+									bookId={el.bookInfo.bookId}
+									title={el.bookInfo.title}
+									bookImage={el.bookInfo.bookUrl}
+									rentalfee={el.bookInfo.rentalFee}
+									author={el.bookInfo.author}
+									publisher={el.bookInfo.publisher}
+									// merchantName={el.bookInfo.merchantName}
+									status={el.rentalInfo.rentalState}
+									rental={el.rentalInfo}
+								/>
+								<LendBookUserInfo rentalInfo={el.rentalInfo} />
+								<LendStatusButton
+									status={el.rentalInfo.rentalState}
+									customerName={el.rentalInfo.customerName}
+									rental={el.rentalInfo}
+								/>
+							</Wrapper>
+						),
+				)
 			) : (
 				<EmptyBox>
 					<p>빌려준 책이 없어요</p>

@@ -155,13 +155,14 @@ const MerchantInfo = styled.div`
 		align-items: center;
 		cursor: pointer;
 		span {
+			margin-bottom: 6px;
 			font-size: ${props => props.theme.fontSizes.subtitle};
 			/* font-size: 1.4rem; */
 		}
 	}
 `;
 
-const MerchantGrade = styled.div`
+const Chat = styled.div`
 	display: flex;
 	justify-content: flex-end;
 	/* font-size: 1.1rem; */
@@ -219,6 +220,9 @@ const RentalCheck = styled.div`
 	label {
 		margin-right: 2rem;
 	}
+	.checkBoxLabel {
+		cursor: pointer;
+	}
 `;
 
 export {
@@ -229,7 +233,7 @@ export {
 	BookInfo,
 	BookRentalFee,
 	MerchantInfo,
-	MerchantGrade,
+	Chat,
 	RentalInfo,
 	BookDsc,
 	LinkStyled,

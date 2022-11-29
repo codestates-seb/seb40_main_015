@@ -29,7 +29,6 @@ const BookImage = ({ book, merchant }: BookDetailProps) => {
 	const HandleWishIcon = () => {
 		setActive(!active);
 		mutateWish();
-		// notify 메시지 계속 남아있는 오류 해결 후에 사용. 삭제버튼에도 알림멘션줄까
 		// active 보다 찜 정보를 이용해서 알림 기능 구현할 것
 		active || notify(dispatch, '찜 목록에 추가되었습니다.');
 	};
@@ -42,7 +41,7 @@ const BookImage = ({ book, merchant }: BookDetailProps) => {
 					{book?.state !== '거래중단' ? (
 						<>
 							<span>이미 누가 대여중이에요 😭</span>
-							<span>2022/11/04~2022/11/18</span>
+							<span>2022/1104~2022/11/18</span>
 							<span
 								className={
 									book?.state !== '예약불가' ? 'possible' : 'impossible'
@@ -66,9 +65,13 @@ const BookImage = ({ book, merchant }: BookDetailProps) => {
 
 			{id && id !== merchant?.merchantId ? (
 				active ? (
-					<WishiconOn onClick={HandleWishIcon} />
+					<WishWrapper>
+						<WishiconOn onClick={HandleWishIcon} />
+					</WishWrapper>
 				) : (
-					<WishiconOff onClick={HandleWishIcon} />
+					<WishWrapper>
+						<WishiconOff onClick={HandleWishIcon} />
+					</WishWrapper>
 				)
 			) : (
 				''
@@ -94,13 +97,25 @@ const BookImgWrapper = styled.div`
 // 	right: 1rem;
 // 	cursor: pointer;
 // `;
+const WishWrapper = styled.div`
+	/* background-color: pink; */
+	width: 34px;
+	height: 34px;
+	border-radius: 50%;
+
+	display: flex;
+	justify-content: center;
+	align-items: center;
+
+	position: absolute;
+	right: -1vw;
+	bottom: -80px;
+`;
 
 const WishiconOn = styled(HiHeart)`
 	font-size: 32px;
 	color: ${props => props.theme.colors.logoGreen};
-	position: absolute;
-	right: 1rem;
-	bottom: 0;
+
 	cursor: pointer;
 
 	@keyframes wishBeat {
@@ -119,10 +134,6 @@ const WishiconOn = styled(HiHeart)`
 const WishiconOff = styled(HiOutlineHeart)`
 	font-size: 30px;
 	color: rgba(0, 0, 0, 0.4);
-	position: absolute;
-	right: 1rem;
-	bottom: 0;
-
 	cursor: pointer;
 `;
 const BookImg = styled.img`

@@ -21,7 +21,8 @@ const RentBookLists = () => {
 				getNextPageParam: lastPage => {
 					return lastPage.last
 						? undefined
-						: lastPage.content[lastPage.content.length - 1].rentalInfo.rentalId;
+						: lastPage?.content?.[lastPage.content.length - 1].rentalInfo
+								.rentalId;
 				},
 				retry: false,
 			},
@@ -31,7 +32,6 @@ const RentBookLists = () => {
 		[data?.pages],
 	);
 
-	console.log('rental: ', lists);
 	useEffect(() => {
 		if (inView && hasNextPage) fetchNextPage();
 	}, [inView]);
@@ -40,59 +40,39 @@ const RentBookLists = () => {
 		<Box>
 			{lists?.length ? (
 				<>
-					{lists?.map((el: any) => (
-						<Wrapper key={el.rentalInfo.rentalId}>
-							<BookItem
-								bookId={el.bookInfo.bookId}
-								title={el.bookInfo.title}
-								bookImage={el.bookInfo.bookUrl}
-								rentalfee={el.bookInfo.rentalFee}
-								author={el.bookInfo.author}
-								publisher={el.bookInfo.publisher}
-								// merchantName={el.bookInfo.merchantName}
-								status={el.rentalInfo.rentalState}
-								rental={el.rentalInfo}
-							/>
-							<LendBookUserInfo
-								rentalInfo={el.rentalInfo}
-								merchantName={el.bookInfo.merchantName}
-							/>
-							<RentStatusButton
-								status={el.rentalInfo.rentalState}
-								merchantName={el.bookInfo.merchantName}
-								rental={el.rentalInfo}
-							/>
-						</Wrapper>
-					))}
+					{lists?.map(
+						(el: any) =>
+							el && (
+								<Wrapper key={el.rentalInfo.rentalId}>
+									<BookItem
+										bookId={el.bookInfo.bookId}
+										title={el.bookInfo.title}
+										bookImage={el.bookInfo.bookUrl}
+										rentalfee={el.bookInfo.rentalFee}
+										author={el.bookInfo.author}
+										publisher={el.bookInfo.publisher}
+										// merchantName={el.bookInfo.merchantName}
+										status={el.rentalInfo.rentalState}
+										rental={el.rentalInfo}
+									/>
+									<LendBookUserInfo
+										rentalInfo={el.rentalInfo}
+										merchantName={el.bookInfo.merchantName}
+									/>
+									<RentStatusButton
+										status={el.rentalInfo.rentalState}
+										merchantName={el.bookInfo.merchantName}
+										rental={el.rentalInfo}
+									/>
+								</Wrapper>
+							),
+					)}
 				</>
 			) : (
 				<EmptyBox>
 					<p>빌린 책이 없어요</p>
 				</EmptyBox>
 			)}
-
-			{/* {lists?.length ? (
-				<>
-					{lists?.map((el: any) => (
-						<BookItem
-							key={el.rentalInfo.rentalId}
-							bookId={el.bookInfo.bookId}
-							title={el.bookInfo.title}
-							bookImage={el.bookInfo.bookUrl}
-							rentalfee={el.bookInfo.rentalFee}
-							author={el.bookInfo.author}
-							publisher={el.bookInfo.publisher}
-							merchantName={el.bookInfo.merchantName}
-							status={el.rentalInfo.rentalState}
-							rental={el.rentalInfo}
-						/>
-					))}
-				</>
-			) : (
-				<EmptyBox>
-					<p>빌린 책이 없어요</p>
-				</EmptyBox>
-			)} */}
 			{hasNextPage ? <div ref={ref}>Loading...</div> : null}
 		</Box>
 	);

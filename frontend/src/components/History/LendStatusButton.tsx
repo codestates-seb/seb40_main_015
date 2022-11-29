@@ -26,10 +26,12 @@ const LendStatusButton = ({ status, customerName, rental }: Props) => {
 	) => {
 		switch (status) {
 			case 'TRADING':
-				cancel();
+				const istrue = window.confirm(`${id}님과의 거래를 취소하시겠습니까?`);
+				istrue && cancel();
 				break;
 			case 'BEING_RENTED':
-				returnBook();
+				const isTrue = window.confirm(`도서를 반납처리 하시겠습니까?`);
+				isTrue && returnBook();
 				break;
 		}
 	};

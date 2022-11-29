@@ -82,8 +82,8 @@ const BooksDetailPage = () => {
 						<LinkStyled
 							to={isLogin ? `booking` : ''}
 							state={{
-								rentalStart: data?.book.rentalStart,
-								rentalEnd: data?.book.rentalEnd,
+								rentalStart: data?.book.rentalStart || '2022-11-28',
+								rentalEnd: data?.book.rentalEnd || '2022-12-07',
 							}}>
 							<Button
 								onClick={() =>
