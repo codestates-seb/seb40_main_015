@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.net.URI;
 import java.util.ArrayList;
 import java.util.Objects;
+import java.util.Optional;
 
 import javax.validation.Valid;
 
@@ -66,9 +67,10 @@ public class BookController {
 	}
 
 	@GetMapping("/{id}")
-	public ResponseEntity<BookDetailResponse> getDetail(@PathVariable Long id) {
+	public ResponseEntity<BookDetailResponse> getDetail(@Login AuthMember authMember, @PathVariable Long id) {
+		Long memberId = authMember == null ? null : authMember.getMemberId();
 
-		BookDetailResponse detail = bookService.getDetail(id);
+		BookDetailResponse detail = bookService.getDetail(id, memberId);
 
 		return ResponseEntity.ok(detail);
 	}
@@ -113,7 +115,7 @@ public class BookController {
 		URI uri = UriComponentsBuilder.fromHttpUrl(testurl)
 			.queryParam("query", bookTitle)
 			.queryParam("target", "title")
-			.queryParam("size",50)
+			.queryParam("size", 50)
 			.build().toUri();
 
 		RestTemplate restTemplate = new RestTemplate();
