@@ -9,11 +9,14 @@ import { useNavigate } from 'react-router-dom';
 import ButtonStatus from '../Merchant/ButtonStatus';
 
 interface ReservationBook {
+	reservationId: number;
+	rentalExpectedAt: string;
 	bookId: number;
 	title: string;
 	imageUrl: string;
 	rentalFee: number;
 	status: string;
+	merchantName: string;
 }
 
 const ReservationBookList = () => {
@@ -31,7 +34,8 @@ const ReservationBookList = () => {
 			queryKey: ['reservationbooklist'],
 			queryFn: ({ pageParam = undefined }) => getReservationBookList(pageParam),
 			getNextPageParam: lastPage => {
-				return lastPage?.content?.slice(-1)[0]?.bookInfo.bookId;
+				// console.log('ff: ', lastPage.content?.slice(-1)[0]?.bookInfo.bookId);
+				return lastPage.content?.slice(-1)[0]?.bookInfo.bookId;
 			},
 		});
 
@@ -52,6 +56,7 @@ const ReservationBookList = () => {
 		return () => observer.disconnect();
 	}, []);
 
+	// console.log('reservation: ', data, hasNextPage, isFetchingNextPage);
 	return (
 		<>
 			{isLoading ? (
@@ -93,12 +98,17 @@ const ReservationBookList = () => {
 
 			<ScrollEnd
 				ref={infiniteScrollTarget}
-				className={`${hasNextPage ? '' : 'hidden'}`}>
+				// className={`${hasNextPage ? '' : 'hidden'}`}>
+				className={`${isFetchingNextPage ? '' : 'hidden'}`}>
 				{isFetchingNextPage ? <p>Loading more books ...</p> : ''}
 			</ScrollEnd>
 		</>
 	);
 };
+
+const Box = styled.div`
+	/* padding: 0 1rem; */
+`;
 
 const Container = styled.div`
 	width: 90%;
@@ -134,7 +144,8 @@ const EmptyBox = styled.div`
 	justify-content: center;
 	align-items: center;
 	p {
-		font-size: ${props => props.theme.fontSizes.subtitle};
+		/* font-size: ${props => props.theme.fontSizes.subtitle}; */
+		font-size: 16px;
 		font-weight: 600;
 	}
 `;

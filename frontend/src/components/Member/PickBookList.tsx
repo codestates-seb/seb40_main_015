@@ -107,6 +107,10 @@ const Container = styled.div`
 	&:hover {
 		background-color: ${props => props.theme.colors.grey};
 	}
+
+	@media (min-width: 800px) {
+		width: 800px;
+	}
 `;
 
 const FlexBox = styled.div`
@@ -122,7 +126,8 @@ const InfoWrapped = styled.div`
 	align-items: center;
 	line-height: 20px;
 	.bookname {
-		font-size: ${props => props.theme.fontSizes.subtitle};
+		/* font-size: ${props => props.theme.fontSizes.subtitle}; */
+		font-size: 16px;
 		font-weight: 600;
 	}
 	p {

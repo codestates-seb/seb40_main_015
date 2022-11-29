@@ -8,8 +8,9 @@ import notify from '../utils/notify';
 import { useNavigate } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from '../redux/hooks';
 import { updateUserInfo } from '../redux/slice/userInfoSlice';
-import Avatar from '../api/hooks/profileEdit/Avatar';
-import { useFixInfo } from '../api/hooks/profileEdit/useFixInfo';
+
+import Avatar from '../api/hooks/profileedit/Avatar';
+import { useFixInfo } from '../api/hooks/profileedit/useFixInfo';
 
 function ProfileEditPage() {
 	const goNotify = (message: string) => notify(dispatch, message);
@@ -71,7 +72,6 @@ function ProfileEditPage() {
 						</div>
 						<p className="minititle">내 동네 설정</p>
 						<div className="input">
-							{isOpenModal && <Modal onClickToggleModal={onClickToggleModal} />}
 							<input
 								placeholder="내 동네를 설정하세요"
 								value={Address}
@@ -95,6 +95,7 @@ function ProfileEditPage() {
 							fontSize={'small'}>
 							저장
 						</Button>
+						{isOpenModal && <Modal onClickToggleModal={onClickToggleModal} />}
 					</ProfileBox>
 				</>
 			) : (
@@ -175,6 +176,10 @@ const ProfileBox = styled.div`
 		color: ${props => props.theme.colors.buttonGreen};
 		cursor: pointer;
 		padding-left: 5px;
+	}
+
+	@media (min-width: 800px) {
+		width: 450px;
 	}
 `;
 
