@@ -48,9 +48,10 @@ const PasswordWrapper = styled.div<{ error: boolean }>`
 `;
 
 const AlertSection = styled.div<{ error: boolean }>`
+	width: 10rem;
 	position: relative;
 	left: 1rem;
-	top: 2.3rem;
+	top: 2.4rem;
 	display: ${props => (props.error ? 'none' : 'flex')};
 	flex-direction: ${props => props.error && 'column'};
 	.bubble {

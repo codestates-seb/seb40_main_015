@@ -10,13 +10,12 @@ type IdSectionProps = {
 		setState: Function;
 		validity: boolean;
 		setValidity: Function;
-		type: string;
 	};
 	notify: Function;
 };
 
 const IdSection = ({ data, notify }: IdSectionProps) => {
-	const { label, state, setState, setValidity, type } = data;
+	const { label, state, setState, setValidity } = data;
 
 	const handleValidateClick = (
 		label: string,
@@ -53,13 +52,7 @@ const IdSection = ({ data, notify }: IdSectionProps) => {
 	return (
 		<StyledIdSection>
 			<IdWrapper key={label}>
-				<Input
-					label={label}
-					state={state}
-					setState={setState}
-					type={type}
-					maxLength={15}
-				/>
+				<Input label={label} state={state} setState={setState} maxLength={15} />
 				<div
 					className="overlapCheck"
 					onClick={() => handleValidateClick(label, state, setValidity)}>
@@ -85,7 +78,7 @@ const IdWrapper = styled.div`
 		color: ${props => props.theme.colors.buttonGreen};
 		font-weight: bold;
 		position: relative;
-		top: 3.4rem;
+		top: 4rem;
 		right: 4.1rem;
 		cursor: pointer;
 	}
