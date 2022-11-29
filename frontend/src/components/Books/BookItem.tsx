@@ -1,4 +1,4 @@
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 import { Link, useNavigate } from 'react-router-dom';
 
 //components
@@ -8,6 +8,10 @@ import BookImageDummy from '../../assets/image/dummy.png';
 import BookItemInfo from './BookItemInfo';
 import BookItemState from './BookItemState';
 import { BooksProps } from './type';
+
+interface IBookContainer {
+	styleGrid: boolean;
+}
 
 const BookItem = ({
 	title = '',
@@ -27,6 +31,7 @@ const BookItem = ({
 		rentalReturnedAt: '',
 		rentalCanceledAt: '',
 	},
+	styleGrid = false,
 }: BooksProps) => {
 	const navigate = useNavigate();
 	const handleBookDetailPage = () => {
@@ -34,25 +39,7 @@ const BookItem = ({
 	};
 	return (
 		// <BookContainer to={`/books/${bookId}`}>
-		<BookContainer onClick={handleBookDetailPage}>
-			{/* <BookInfo>
-				<BookImage>
-					<img src={BookImageDummy} alt="Book Image" />
-				</BookImage>
-				<BookDetail>
-					<h1>책 제목은 h1</h1>
-					<p>저자 / 출판사</p>
-					<p>거래 지역</p>
-					<p>상인이름</p>
-					<p>대여료</p>
-					<p>대여기간</p>
-				</BookDetail>
-			</BookInfo>
-
-			<BookStateWrapper>
-				<Button>대여 가능</Button>
-				<Button backgroundColor={'grey'}>대여중</Button>
-			</BookStateWrapper> */}
+		<BookContainer onClick={handleBookDetailPage} styleGrid={styleGrid}>
 			<BookItemInfo
 				title={title}
 				bookImage={bookImage}
@@ -71,7 +58,7 @@ const BookItem = ({
 	);
 };
 
-const BookContainer = styled.div`
+const BookContainer = styled.div<IBookContainer>`
 	display: flex;
 	justify-content: space-between;
 	width: 90vw;
@@ -88,32 +75,15 @@ const BookContainer = styled.div`
 		background-color: ${props => props.theme.colors.grey};
 		/* background-color: rgba(0, 0, 0, 0.1); */
 	}
-`;
-// const BookImage = styled.div`
-// 	background-color: pink;
-// 	margin-right: 20px;
 
-// 	img {
-// 		width: 100px;
-// 		height: 100px;
-// 	}
-// `;
-// const BookInfo = styled.div`
-// 	display: flex;
-// `;
-// const BookStateWrapper = styled.div`
-// 	display: flex;
-// 	justify-content: center;
-// 	align-items: center;
-// `;
-// const BookDetail = styled.div`
-// 	display: flex;
-// 	flex-direction: column;
-// 	justify-content: space-between;
-// 	padding: 5px 0;
-// 	div {
-// 		margin-bottom: 10px;
-// 	}
-// `;
+	// 책전체페이지 그리드
+	${props =>
+		props.styleGrid &&
+		css`
+			@media screen and (min-width: 801px) {
+				width: 380px;
+			}
+		`}
+`;
 
 export default BookItem;

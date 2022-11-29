@@ -20,6 +20,7 @@ const BooksPage = () => {
 	const { getAllBooksListInfinite } = useBooksAPI();
 	const target = useRef<HTMLDivElement>(null);
 
+	//무한스크롤
 	const { data, fetchNextPage, isLoading, hasNextPage, isFetchingNextPage } =
 		useInfiniteQuery({
 			queryKey: ['allBooks'],
@@ -43,6 +44,7 @@ const BooksPage = () => {
 			},
 		);
 		observer.observe(target.current as Element);
+		return () => observer.disconnect();
 	}, []);
 	return (
 		<Main>
@@ -65,7 +67,7 @@ const BooksPage = () => {
 				) : (
 					data?.pages?.map(el =>
 						el?.content?.map(el => {
-							// if (el.status === '거래중단') return;
+							// if (el.status === '거래중단') return '';
 							return (
 								<BookItem
 									key={+el.bookId}
@@ -75,6 +77,7 @@ const BooksPage = () => {
 									status={el.status}
 									rentalfee={el.rentalFee}
 									merchantName={el.merchantName}
+									styleGrid={true}
 								/>
 							);
 						}),
@@ -91,7 +94,9 @@ const BooksPage = () => {
 const Main = styled.div`
 	display: flex;
 	flex-direction: column;
-	/* align-items: center; */
+
+	//가로스크롤 없애기
+	overflow-x: hidden;
 
 	.hidden {
 		display: none;
@@ -107,13 +112,20 @@ const BtnWrapper = styled.div`
 `;
 
 const BooksList = styled.div`
-	height: 75vh;
 	padding: 10px;
 
-	overflow-x: scroll;
-
-	::-webkit-scrollbar {
+	/* height: 75vh; */
+	/* overflow-y: scroll; */
+	/* ::-webkit-scrollbar {
 		display: none;
+	} */
+
+	/* max-width: 1300px; */
+
+	display: grid;
+	grid-gap: 10px;
+	@media screen and (min-width: 801px) {
+		grid-template-columns: repeat(2, 1fr);
 	}
 `;
 

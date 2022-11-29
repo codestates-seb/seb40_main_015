@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import styled from 'styled-components';
-import { useMutation } from '@tanstack/react-query';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
 
 //components
 import Button from '../common/Button';
@@ -39,14 +39,21 @@ const LoginForm = () => {
 	const distpatch = useDispatch();
 	const navigate = useNavigate();
 
+	const queryClient = useQueryClient();
 	// login query
 	const { mutate, data, isLoading, isSuccess, isError } = useMutation({
+		mutationKey: ['loginInfo'],
 		mutationFn: () =>
 			fetchLogin({
 				userId: id,
 				password: password,
 			}),
 		onSuccess: res => {
+			// setTimeout(() => {
+			// 	// queryClient.invalidateQueries(['loginInfo']);
+			// 	mutate();
+			// }, 5000);
+			// 액세스토큰 갱신 요청 -> 리프레시 만료시 강제 로그아웃.
 			const {
 				data,
 				headers: { authorization },

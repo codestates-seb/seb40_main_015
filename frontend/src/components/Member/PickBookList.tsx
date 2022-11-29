@@ -39,6 +39,8 @@ const PickBookList = () => {
 			},
 		);
 		observer.observe(infiniteScrollTarget?.current as Element);
+
+		return () => observer.disconnect();
 	}, []);
 
 	return (

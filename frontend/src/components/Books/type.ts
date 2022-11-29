@@ -10,6 +10,7 @@ export interface BooksProps {
 	imageUrl?: string;
 	merchantName?: string;
 	rental?: RentalProps;
+	styleGrid?: boolean;
 }
 
 export interface RentalProps {
