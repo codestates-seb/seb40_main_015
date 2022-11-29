@@ -29,7 +29,7 @@ const BooksDetailPage = () => {
 	// 책 상세정보 받아오기 쿼리
 	const { data, isLoading } = useQuery({
 		queryKey: ['book'],
-		queryFn: () => getBookDetail(bookId),
+		queryFn: () => getBookDetail(bookId, isLogin),
 		onSuccess: () => {
 			console.log('book detail: ', data);
 		},
