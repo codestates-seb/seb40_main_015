@@ -1,6 +1,6 @@
 import Button from '../common/Button';
-import { useBookReturn } from './hooks/useBookReturn';
-import { useCancelByMerchant } from './hooks/useCancelByMerchant';
+import { useBookReturn } from '../../api/hooks/history/useBookReturn';
+import { useCancelByMerchant } from '../../api/hooks/history/useCancelByMerchant';
 
 interface Props {
 	status: string;

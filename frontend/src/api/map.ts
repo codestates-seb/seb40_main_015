@@ -18,7 +18,13 @@ export const getTotalMerchantQuery = (
 				level,
 			},
 		})
-		.then(res => res.data);
+		.then(res => {
+			if (res.data.length) {
+				return res.data;
+			} else {
+				throw new Error('상인 없음');
+			}
+		});
 };
 
 // 섹터당 상인 목록 // useQuery
@@ -66,7 +72,13 @@ export const getTotalBookQuery = (
 				level,
 			},
 		})
-		.then(res => res.data);
+		.then(res => {
+			if (res.data.length) {
+				return res.data;
+			} else {
+				throw new Error('책 없음');
+			}
+		});
 };
 
 // // 섹터당 책 목록 useQuery
