@@ -67,8 +67,10 @@ function ProfilePage() {
 				<UserInfoBox>
 					<p>닉네임: {data?.name}</p>
 					<p>주거래 동네:{data?.address ?? '거래 할 동네를 설정해주세요!'}</p>
-					<p>
-						<a href="">등록한 도서 수: {data?.totalBookCount}</a>
+					<p className="linkfrom">
+						<a href="http://localhost:3000/profile/merchant/`${id}`">
+							등록한 도서 수: {data?.totalBookCount}
+						</a>
 					</p>
 					<div className="editprofile">
 						<p className="edit1" onClick={handleEditPage}>
@@ -153,6 +155,12 @@ const UserInfoBox = styled.div`
 	.editprofile {
 		display: flex;
 		color: ${props => props.theme.colors.buttonGreen};
+	}
+
+	.linkfrom {
+		&:hover {
+			color: ${props => props.theme.colors.buttonGreen};
+		}
 	}
 `;
 
