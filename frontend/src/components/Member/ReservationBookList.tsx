@@ -34,7 +34,8 @@ const ReservationBookList = () => {
 			queryKey: ['reservationbooklist'],
 			queryFn: ({ pageParam = undefined }) => getReservationBookList(pageParam),
 			getNextPageParam: lastPage => {
-				return lastPage?.content?.slice(-1)[0]?.bookInfo.bookId;
+				// console.log('ff: ', lastPage.content?.slice(-1)[0]?.bookInfo.bookId);
+				return lastPage.content?.slice(-1)[0]?.bookInfo.bookId;
 			},
 		});
 
@@ -55,6 +56,7 @@ const ReservationBookList = () => {
 		return () => observer.disconnect();
 	}, []);
 
+	// console.log('reservation: ', data, hasNextPage, isFetchingNextPage);
 	return (
 		<>
 			{isLoading ? (
@@ -96,7 +98,8 @@ const ReservationBookList = () => {
 
 			<ScrollEnd
 				ref={infiniteScrollTarget}
-				className={`${hasNextPage ? '' : 'hidden'}`}>
+				// className={`${hasNextPage ? '' : 'hidden'}`}>
+				className={`${isFetchingNextPage ? '' : 'hidden'}`}>
 				{isFetchingNextPage ? <p>Loading more books ...</p> : ''}
 			</ScrollEnd>
 		</>
