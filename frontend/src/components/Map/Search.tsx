@@ -1,6 +1,7 @@
 import styled from 'styled-components';
 import { HiSearch } from 'react-icons/hi';
 import { Dispatch, SetStateAction } from 'react';
+
 interface SearchProps {
 	searchInput: string;
 	setSearchInput: Dispatch<SetStateAction<string>>;
