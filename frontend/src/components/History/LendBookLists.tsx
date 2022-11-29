@@ -12,12 +12,6 @@ const LentBookLists = () => {
 	const { getLendBookLists } = useHistoryAPI();
 	const [ref, inView] = useInView();
 
-	// const { data, isLoading } = useQuery(
-	// 	['lendBookList'],
-	// 	() => getLendBookLists().then(res => res.data),
-	// 	{ retry: 1 },
-	// );
-
 	const { data, fetchNextPage, hasNextPage, isFetchingNextPage } =
 		useInfiniteQuery(
 			['lendBookList'],
