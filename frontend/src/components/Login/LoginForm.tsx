@@ -21,7 +21,7 @@ interface loginProps {
 interface userInfo {
 	id: string;
 	userId: string;
-	nickName: string;
+	nickname: string;
 	headers?: { authorization: string };
 }
 
@@ -58,8 +58,9 @@ const LoginForm = () => {
 				data,
 				headers: { authorization },
 			} = res;
+			console.log(data);
 			distpatch(login({ ...data, accessToken: authorization, isLogin: true }));
-			notify(distpatch, `${data.nickName}님 안녕하세요`);
+			notify(distpatch, `${data.nickname}님 안녕하세요`);
 			navigate('/books');
 		},
 		onError: res => {
