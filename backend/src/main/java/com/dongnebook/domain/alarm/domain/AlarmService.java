@@ -74,7 +74,7 @@ public class AlarmService {
 		try {
 			emitter.send(SseEmitter.event()
 				.id(id)
-				.name("sse")
+				.name("open")
 				.data("EventStream Created. [memberId=" + memberId + "]"));
 		} catch (IOException exception) {
 			emitterRepository.deleteById(id);

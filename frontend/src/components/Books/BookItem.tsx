@@ -62,6 +62,7 @@ const BookContainer = styled.div<IBookContainer>`
 	display: flex;
 	justify-content: space-between;
 	width: 90vw;
+	max-width: 800px;
 
 	padding: 14px;
 	margin-bottom: 6px;
@@ -80,8 +81,8 @@ const BookContainer = styled.div<IBookContainer>`
 	${props =>
 		props.styleGrid &&
 		css`
-			@media screen and (min-width: 1101px) {
-				width: 380px;
+			@media screen and (min-width: 801px) {
+				width: 364px;
 			}
 		`}
 `;
