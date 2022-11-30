@@ -36,6 +36,7 @@ const RentBookLists = () => {
 		if (inView && hasNextPage) fetchNextPage();
 	}, [inView]);
 
+	console.log('rentalbook: ', data);
 	return (
 		<Box>
 			{lists?.length ? (
