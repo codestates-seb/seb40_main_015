@@ -33,6 +33,7 @@ interface IBook {
 		rentalStart: string;
 		rentalEnd: string;
 		bookImgUrl: string;
+		isDibs: boolean;
 	};
 	merchant: {
 		merchantId: number;
@@ -57,9 +58,11 @@ export const useBooksAPI = () => {
 	};
 
 	// book detail page
-	const getBookDetail = async (id: string | undefined) =>
-		await axiosInstance.get<IBook>(`/books/${id}`).then(res => res.data);
-
+	const getBookDetail = async (id: string | undefined, isLogin: boolean) => {
+		if (isLogin)
+			return await api.get<IBook>(`/books/${id}`).then(res => res.data);
+		return await axiosInstance.get<IBook>(`/books/${id}`).then(res => res.data);
+	};
 	// book detail page wish
 	const postWishItem = async (bookid: number | undefined) =>
 		await api.post(`/dibs/${bookid}`);
@@ -73,7 +76,8 @@ export const useBooksAPI = () => {
 
 	// book booking
 	const postBookBooking = async (bookId: string | undefined) =>
-		await api.post(`/reservations/${bookId}`);
+		await api.post(`/reservation/${bookId}`);
+
 	return {
 		getAllBooksList,
 		getBookDetail,

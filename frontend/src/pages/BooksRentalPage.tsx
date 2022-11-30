@@ -16,6 +16,8 @@ import { calcCalendarDate } from '../utils/calcCalendarDate';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useBooksAPI } from '../api/books';
 import { useMutation } from '@tanstack/react-query';
+import notify from '../utils/notify';
+import { useDispatch } from 'react-redux';
 
 /*
 //책 상태: 대여가능, 아래 코드 util / calcCalendarDate로 옮김
@@ -47,18 +49,21 @@ const BooksRentalPage = () => {
 	);
 	const { bookId } = useParams();
 	const navigate = useNavigate();
+	const dispatch = useDispatch();
 
 	const { postBookRental } = useBooksAPI();
 	const { mutate } = useMutation({
 		mutationFn: () => postBookRental(bookId),
 		onSuccess: () => {
+			notify(dispatch, '대여 신청이 완료되었습니다.');
 			navigate('/history');
 		},
 	});
 
 	const handleRentalButton = () => {
 		if (!isChecked) return alert('대여 기간을 확인해주세요');
-		mutate();
+		const isTrue = window.confirm('대여 신청 하시겠습니까?');
+		isTrue && mutate();
 	};
 
 	return (
@@ -90,7 +95,9 @@ const BooksRentalPage = () => {
 								setIsChecked(!isChecked);
 							}}
 						/>
-						<label htmlFor="rentalPeriod">확인</label>
+						<label htmlFor="rentalPeriod" className="checkBoxLabel">
+							확인
+						</label>
 						<label>{rentalPeriod}</label>
 					</RentalCheck>
 				</RentalInfo>

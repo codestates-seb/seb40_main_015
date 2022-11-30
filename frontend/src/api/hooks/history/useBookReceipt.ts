@@ -11,7 +11,7 @@ export const useBookReceipt = (rentalId: string) => {
 	const { mutate } = useMutation(() => axiosBookReceipt(rentalId), {
 		onSuccess: () => {
 			queryClient.invalidateQueries({ queryKey: ['rentBookList'] });
-			// notify(dispatch, '수령완료');
+			notify(dispatch, '정상적으로 수령 완료 처리되었습니다.');
 		},
 	});
 

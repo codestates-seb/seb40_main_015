@@ -71,7 +71,7 @@ const SignUpForm = () => {
 					[select]: value,
 				};
 			});
-		const type = select.includes('password') ? 'password' : 'text';
+		const type = select;
 		return { label, state, setState, validity, setValidity, type };
 	};
 

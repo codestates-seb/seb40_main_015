@@ -8,7 +8,7 @@ interface InitProps {
     latitude:string;
     longitude:string;
   };
-  Address: string;
+  address: string;
   totalBookCount: number;
 	avatarUrl:string;
   avgGrade: number;
@@ -21,7 +21,7 @@ const initialState: InitProps = {
     latitude:"",
     longitude:""
   },
-  Address: '',
+  address: '',
   totalBookCount: 0,
 	avatarUrl:"",
   avgGrade: 0
