@@ -35,23 +35,34 @@ const StyledDiv = styled.div`
 	width: 100%;
 	margin-top: 10px;
 	display: flex;
-	flex-direction: column;
+	flex-direction: row;
+	justify-content: space-between;
+	@media screen and (max-width: 800px) {
+		flex-direction: column;
+	}
 `;
 
 const StyledLabel = styled.label`
+	white-space: nowrap;
 	font-size: ${props => props.theme.fontSizes.subtitle};
 	font-weight: bold;
-	margin-bottom: 8px;
+	margin: 0 1.5rem 8px 0;
 `;
 
 const StyledInput = styled.input`
+	box-sizing: border-box;
+	width: 100%;
 	padding: 10px 15px;
 	font-size: ${props => props.theme.fontSizes.paragraph};
 	border-radius: 5px;
-	border: ${props => props.theme.colors.grey + ' 1px solid'};
+	border: ${props => props.theme.colors.buttonGreen + ' 1px solid'};
 	:focus {
 		outline: none;
 		border-color: ${props => props.theme.colors.buttonGreen};
+	}
+
+	@media screen and (min-width: 800px) {
+		width: 60%;
 	}
 `;
 
