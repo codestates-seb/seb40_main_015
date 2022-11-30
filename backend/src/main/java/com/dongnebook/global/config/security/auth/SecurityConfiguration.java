@@ -79,7 +79,7 @@ public class SecurityConfiguration {
 	CorsConfigurationSource corsConfigurationSource() {
 		CorsConfiguration configuration = new CorsConfiguration();
 		configuration.setAllowedOrigins(List.of("http://localhost:3000","https://dongne-book.com"
-		,"http://dongne-book.com"));
+		,"http://dongne-book.com","https://dongne-book-server.com","http://dongne-book-server.com"));
 		configuration.setAllowCredentials(true);
 		configuration.addExposedHeader("Authorization");
 		configuration.addAllowedHeader("*");
