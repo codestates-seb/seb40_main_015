@@ -43,7 +43,7 @@ public class RoomService {
 		ChatRoom savedRoom = roomRepository.save(room);
 		// Redis에 roomId란 이름의 새 토픽을 생성한다.
 		String roomId = "room" + savedRoom.getId();
-
+    log.info("topics={}",topics);
 		if (!topics.containsKey(roomId)) {
 			log.info("토픽 만들어짐");
 			ChannelTopic topic = new ChannelTopic(roomId);

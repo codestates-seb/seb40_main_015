@@ -21,20 +21,25 @@ public class ChatRoomResponse {
 
 	private List<ChatMemberResponse> members;
 
+
 	List<ChatResponse> chatResponses;
 
 	@Builder
 	public ChatRoomResponse(Long bookId, String title, BookState bookState, String bookUrl,
+
 		Member memberA, Member memberB, List<ChatResponse> chatResponses) {
+
 		this.bookId = bookId;
 		this.title = title;
 		this.bookState = bookState;
 		this.bookUrl = bookUrl;
+
 		this.members = List.of(
 			ChatMemberResponse.builder().memberId(memberA.getId()).avatarUrl(memberA.getAvatarUrl())
 			.nickName(memberA.getNickname()).build(),
 			ChatMemberResponse.builder().memberId(memberB.getId()).avatarUrl(memberB.getAvatarUrl()).nickName(
 			memberB.getNickname()).build());
+
 		this.chatResponses = chatResponses;
 	}
 
