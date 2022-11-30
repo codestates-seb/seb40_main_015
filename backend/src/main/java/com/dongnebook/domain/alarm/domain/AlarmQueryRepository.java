@@ -37,6 +37,7 @@ public class AlarmQueryRepository {
 			.innerJoin(alarm.book, book)
 			.innerJoin(book.member)
 			.where(alarmMemberIdEq(memberId))
+			.orderBy(alarm.id.desc())
 			.fetch();
 	}
 
