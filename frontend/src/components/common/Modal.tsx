@@ -34,7 +34,7 @@ function Modal({
 		Geocode.fromLatLng(lat, lng).then(
 			response => {
 				const address = response.results[4].formatted_address;
-				setAd(address);
+				setAd(address.slice(5));
 			},
 			error => {
 				console.log(error);
