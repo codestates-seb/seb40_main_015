@@ -7,18 +7,11 @@ interface ILendBookUserInfo {
 	merchantName?: string;
 }
 
-// export const LendBookUserInfo = ({
-// 	customerName,
-// 	rentalState,
-// 	rentalStartedAt,
-// 	rentalDeadline,
-// 	rentalReturnedAt,
-// 	rentalCanceledAt,
-// }: RentalProps) => {
 export const LendBookUserInfo = ({
 	rentalInfo,
 	merchantName,
 }: ILendBookUserInfo) => {
+	// console.log('rentalinfo: ', rentalInfo);
 	return (
 		<UserInfoBox>
 			<span>
@@ -69,7 +62,8 @@ const UserInfoBox = styled.div`
 	justify-content: space-evenly;
 	/* margin-bottom: 1rem; */
 	padding: 1rem 0;
-	background-color: white;
+	/* background-color: white; */
+	background-color: pink;
 	span {
 		font-size: ${props => props.theme.fontSizes.paragraph};
 	}
