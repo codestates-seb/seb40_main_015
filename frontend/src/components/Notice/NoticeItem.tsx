@@ -1,16 +1,14 @@
-import axios from 'axios';
 import { HiOutlineX } from 'react-icons/hi';
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import { noticeMessages } from '../../api/hooks/notice/noticeMessages';
+import useDeleteNotice from '../../api/hooks/notice/useDeleteNotice';
 import { NoticeItemType } from '../../api/hooks/notice/useGetNotice';
 import logo from '../../assets/image/logo1.png';
-import { BASE_URL } from '../../constants/constants';
-import { useAppSelector } from '../../redux/hooks';
 
 const NoticeItem = ({ noticeData }: NoticeItemType) => {
 	const navigate = useNavigate();
-	const { accessToken } = useAppSelector(state => state.loginInfo);
+	const { mutate } = useDeleteNotice();
 
 	const handleClickIcon = (
 		e: React.MouseEvent<HTMLDivElement, MouseEvent>,
@@ -18,11 +16,7 @@ const NoticeItem = ({ noticeData }: NoticeItemType) => {
 	) => {
 		e.stopPropagation();
 		if (window.confirm('정말 삭제하시겠습니까?')) {
-			axios.delete(`${BASE_URL}/alarm/${alarmId}`, {
-				headers: {
-					Authorization: accessToken,
-				},
-			});
+			mutate(alarmId);
 		} else {
 			return;
 		}
