@@ -58,7 +58,7 @@ public class BookQueryRepository {
 						book.rentalFee.value,
 						book.description,
 						book.bookState,
-						book.ImgUrl,
+						book.imgUrl,
 						dibsCountSubQuery(bookId,memberId),
 						rental.rentalStartedAt,
 						rental.rentalDeadLine
@@ -115,7 +115,7 @@ public class BookQueryRepository {
 			condition.getLevel());
 
 		List<BookSimpleResponse> result = jpaQueryFactory.select(
-				new QBookSimpleResponse(book.id, book.title, book.bookState, book.ImgUrl, book.rentalFee, book.location,
+				new QBookSimpleResponse(book.id, book.title, book.bookState, book.imgUrl, book.rentalFee, book.location,
 					book.member.nickname))
 			.from(book)
 			.innerJoin(book.member)
@@ -141,7 +141,7 @@ public class BookQueryRepository {
 		PageRequest pageRequest) {
 
 		List<BookSimpleResponse> result = jpaQueryFactory.select(
-				new QBookSimpleResponse(dibs.book.id, dibs.book.title, dibs.book.bookState, dibs.book.ImgUrl,
+				new QBookSimpleResponse(dibs.book.id, dibs.book.title, dibs.book.bookState, dibs.book.imgUrl,
 					dibs.book.rentalFee, dibs.book
 					.location, dibs.book.member.nickname))
 			.from(dibs)
@@ -165,7 +165,7 @@ public class BookQueryRepository {
 
 	public SliceImpl<BookSimpleResponse> getListByMember(Long memberId, PageRequest pageRequest) {
 		List<BookSimpleResponse> result = jpaQueryFactory.select(
-				new QBookSimpleResponse(book.id, book.title, book.bookState, book.ImgUrl))
+				new QBookSimpleResponse(book.id, book.title, book.bookState, book.imgUrl))
 			.from(book)
 			.where(ltBookId(pageRequest.getIndex()), book.member.id.eq(memberId)
 				, bookToShow())
