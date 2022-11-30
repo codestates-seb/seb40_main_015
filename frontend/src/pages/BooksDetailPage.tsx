@@ -28,7 +28,7 @@ const BooksDetailPage = () => {
 
 	// 책 상세정보 받아오기 쿼리
 	const { data, isLoading } = useQuery({
-		queryKey: ['book'],
+		queryKey: ['bookDetail'],
 		queryFn: () => getBookDetail(bookId, isLogin),
 		onSuccess: () => {
 			console.log('book detail: ', data);
@@ -82,8 +82,8 @@ const BooksDetailPage = () => {
 						<LinkStyled
 							to={isLogin ? `booking` : ''}
 							state={{
-								rentalStart: data?.book.rentalStart || '2022-11-28',
-								rentalEnd: data?.book.rentalEnd || '2022-12-07',
+								rentalStart: data?.book.rentalStart || '2023-05-01',
+								rentalEnd: data?.book.rentalEnd || '2023-05-11',
 							}}>
 							<Button
 								onClick={() =>

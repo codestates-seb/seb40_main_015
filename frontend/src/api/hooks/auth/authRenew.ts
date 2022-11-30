@@ -12,8 +12,7 @@ interface IAccessTokenRefreshProps extends userInfo {
 }
 
 // token renew
-// 현재까지는 로그인 -> 갱신요청 1회 -> 29분뒤 리패치  방식으로 진행됨.
-// 로그인 이후 29분뒤 갱신요청을 보내는 방법 강구 -로그인 요청과 합치기?
+// 로그인 -> 29분뒤 리덕스 액세스토큰 무효화 -> 갱신요청 -> 29분뒤 리패치 (로그아웃 혹은 리프레시토큰 만료때까지 반복)
 const useGetAccessTokenRefresh = (
 	loginMutationData: IAccessTokenRefreshProps,
 ) => {
