@@ -18,6 +18,7 @@ import usePostBooks from '../api/hooks/createBooks/usePostBooks';
 import { useMypageAPI } from '../api/mypage';
 import { useNavigate } from 'react-router';
 import { useQuery } from '@tanstack/react-query';
+import { resetBookCreateInfo } from '../redux/slice/bookCreateSlice';
 
 const BooksCreatePage = () => {
 	const bookCreate = useAppSelector(state => state.persistedReducer.bookCreate);
@@ -56,6 +57,7 @@ const BooksCreatePage = () => {
 		if (validateBookCreatePayloads(payload)) {
 			mutate(payload, {
 				onSuccess: () => {
+					dispatch(resetBookCreateInfo());
 					goNotify('게시글이 작성되었습니다.');
 					navigate('/books');
 				},
