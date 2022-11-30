@@ -104,8 +104,6 @@ const NavTemp = () => {
 	);
 };
 
-export default NavTemp;
-
 const Container = styled.div`
 	position: fixed;
 	width: 100%;
@@ -131,3 +129,5 @@ const Box = styled.div<BoxProps>`
 	align-items: center;
 	color: ${props => (props.selected ? theme.colors.main : theme.colors.black)};
 `;
+
+export default NavTemp;

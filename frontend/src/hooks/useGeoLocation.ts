@@ -38,7 +38,7 @@ function useGeoLocation(type?: string) {
 
 	useEffect(() => {
 		handleCurrentLocationMove();
-	}, []);
+	}, [location]);
 
 	if (type === 'center') {
 		return [location, setCurrentLocation];
