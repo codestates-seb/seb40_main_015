@@ -1,5 +1,6 @@
 package com.dongnebook.domain.chat.application;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -30,6 +31,12 @@ public class ChatService {
 	//채팅방에 있는 모든 채팅 가져옴
 	public ChatRoomResponse findAllChats(Long roomId) {
 		ChatRoom chatRoom = roomService.findById(roomId);
+		chatRoom.getCustomer().getId();
+		chatRoom.getCustomer().getAvatarUrl();
+		chatRoom.getCustomer().getNickname();
+		chatRoom.getMerchant().getId();
+		chatRoom.getMerchant().getAvatarUrl();
+		chatRoom.getMerchant().getNickname();
 		Book book = chatRoom.getBook();
 
 		List<ChatMessage> chats = chatRepository.findAllChatsInRoom(roomId);
@@ -42,8 +49,8 @@ public class ChatService {
 			.title(book.getTitle())
 			.bookState(book.getBookState())
 			.chatResponses(collect)
-			.member1Id(chatRoom.getCustomer().getId())
-			.member2Id(chatRoom.getMerchant().getId())
+			.memberA(chatRoom.getCustomer())
+			.memberB(chatRoom.getMerchant())
 			.build();
 	}
 
@@ -56,11 +63,11 @@ public class ChatService {
 	}
 
 	@Transactional
-	public void save(Long roomId, ChatMessageDto message) {
+	public void save(Long roomId, ChatMessageDto message,LocalDateTime now) {
 		Member sender = memberService.findById(message.getSenderId());
 		Member receiver = memberService.findById(message.getReceiverId());
 		ChatRoom room = roomService.findById(roomId);
-		ChatMessage chat = new ChatMessage(sender, receiver, message.getContent(), room);
+		ChatMessage chat = new ChatMessage(sender, receiver, message.getContent(), room, now);
 		chatRepository.save(chat);
 	}
 
