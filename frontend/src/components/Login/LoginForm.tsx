@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import styled from 'styled-components';
-import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 
 //components
 import Button from '../common/Button';
@@ -8,27 +8,10 @@ import Input from '../common/Input';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { login } from '../../redux/slice/userSlice';
-import { axiosInstanceAuth } from '../../api';
 
 //etc
 import notify from '../../utils/notify';
-
-//type
-interface loginProps {
-	userId: string;
-	password: string;
-}
-interface userInfo {
-	id: string;
-	userId: string;
-	nickname: string;
-	headers?: { authorization: string };
-}
-
-// login post api
-const fetchLogin = async (payload: loginProps) => {
-	return await axiosInstanceAuth.post<userInfo>('/auth/login', payload);
-};
+import useAuthAPI from '../../api/auth';
 
 const LoginForm = () => {
 	const [id, setId] = useState('');
@@ -36,39 +19,40 @@ const LoginForm = () => {
 	const [isValidID, setIsValidID] = useState(true);
 	const [isValidPW, setIsValidPW] = useState(true);
 
-	const distpatch = useDispatch();
+	const dispatch = useDispatch();
 	const navigate = useNavigate();
 
-	const queryClient = useQueryClient();
+	const { postLogin } = useAuthAPI();
 	// login query
-	const { mutate, data, isLoading, isSuccess, isError } = useMutation({
+	const { mutate, data: userData } = useMutation({
 		mutationKey: ['loginInfo'],
 		mutationFn: () =>
-			fetchLogin({
+			postLogin({
 				userId: id,
 				password: password,
 			}),
 		onSuccess: res => {
-			// setTimeout(() => {
-			// 	// queryClient.invalidateQueries(['loginInfo']);
-			// 	mutate();
-			// }, 5000);
-			// 액세스토큰 갱신 요청 -> 리프레시 만료시 강제 로그아웃.
 			const {
 				data,
 				headers: { authorization },
 			} = res;
-			console.log(data);
-			distpatch(login({ ...data, accessToken: authorization, isLogin: true }));
-			notify(distpatch, `${data.nickname}님 안녕하세요`);
+			console.log('login: ', res, 'cookie', document.cookie);
+			dispatch(login({ ...data, accessToken: authorization, isLogin: true }));
+			notify(dispatch, `${data.nickname}님 안녕하세요`);
 			navigate('/books');
+
+			// 29분 뒤 액세스토큰 삭제
+			// setTimeout(() => {
+			// 	dispatch(
+			// 		login({ ...data, accessToken: authorization, isLogin: true, id: '' }),
+			// 	);
+			// }, 1000 * 10);
 		},
 		onError: res => {
 			console.log('login failed: ', res);
 			alert('아이디 혹은 비밀번호를 다시 한 번 확인해주세요');
 		},
 	});
-
 	const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
 		e.preventDefault();
 
