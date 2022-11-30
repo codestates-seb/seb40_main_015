@@ -35,7 +35,7 @@ function ProfilePage() {
 	};
 
 	const handleMerchantPage = () => {
-		navigate('/merchant');
+		navigate('/profile/merchant/${id}');
 	};
 
 	interface Member {
