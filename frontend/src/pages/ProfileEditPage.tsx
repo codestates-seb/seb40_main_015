@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import Title from '../components/common/Title';
 import Button from '../components/common/Button';
 import Modal from '../components/common/Modal';
-import useGeoLocation from '../hooks/useGeoLocation';
+
 import notify from '../utils/notify';
 import { useNavigate } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from '../redux/hooks';
@@ -11,6 +11,8 @@ import { updateUserInfo } from '../redux/slice/userInfoSlice';
 
 import Avatar from '../api/hooks/profileedit/Avatar';
 import { useFixInfo } from '../api/hooks/profileedit/useFixInfo';
+import useGeolocation2 from '../hooks/useGeoLocation2';
+import useGeoLocation from '../hooks/useGeoLocation';
 
 function ProfileEditPage() {
 	const goNotify = (message: string) => notify(dispatch, message);
@@ -24,10 +26,13 @@ function ProfileEditPage() {
 
 	console.log(userInfo);
 
-	const [location, setLocation, handleCurrentLocationMove] = useGeoLocation();
+	const location = useGeolocation2().coordinates || {
+		latitude: 0,
+		longitude: 0,
+	};
 
 	//유저 이미지 수정
-	const { Address, avatarUrl } = userInfo;
+	const { address, avatarUrl } = userInfo;
 	const [nickname, setNickname] = useState(userInfo.name);
 	const navigate = useNavigate();
 	const dispatch = useAppDispatch();
@@ -36,7 +41,7 @@ function ProfileEditPage() {
 	const { mutate } = useFixInfo({
 		nickname,
 		location,
-		address: Address,
+		address: address,
 		avatarUrl,
 	});
 
@@ -49,7 +54,7 @@ function ProfileEditPage() {
 		dispatch(updateUserInfo({ key: 'nickname', value: nickname }));
 	};
 
-	console.log('결과', Address);
+	console.log('결과', address);
 	return (
 		<Layout>
 			{/*  name -> nickname으로 바뀔 예정 */}
@@ -74,12 +79,13 @@ function ProfileEditPage() {
 						<div className="input">
 							<input
 								placeholder="내 동네를 설정하세요"
-								value={Address}
+								value={address || ''}
 								disabled={false}
 								onClick={() => {
 									onClickToggleModal();
-									handleCurrentLocationMove();
+									// handleCurrentLocationMove();
 								}}
+								readOnly
 							/>
 						</div>
 						<Button
@@ -130,7 +136,8 @@ const Layout = styled.div`
 	.minititle {
 		padding-top: 2rem;
 		padding-bottom: 0.5rem;
-		font-size: 16px;
+		font-size: 15px;
+		color: white;
 	}
 `;
 
@@ -143,9 +150,11 @@ const ProfileBox = styled.div`
 	top: 22%;
 	padding: 1.2rem;
 	border: 1px solid #eaeaea;
-	background-color: rgb(244, 243, 236);
+	/* background-color: rgb(244, 243, 236); */
+	background-color: #016241;
 	padding-top: 50px;
 	padding-bottom: 50px;
+	border-radius: 10px;
 
 	.image {
 		box-sizing: border-box;
@@ -155,7 +164,8 @@ const ProfileBox = styled.div`
 		border: 0.5px solid grey;
 		cursor: pointer;
 		:hover {
-			border: 2px solid ${props => props.theme.colors.buttonGreen};
+			/* border: 2px solid ${props => props.theme.colors.buttonGreen}; */
+			border: 3px solid white;
 		}
 	}
 
@@ -163,6 +173,7 @@ const ProfileBox = styled.div`
 		margin-top: 2.5rem;
 		width: 230px;
 		font-size: 16px;
+		background-color: grey;
 	}
 	.input {
 		display: flex;

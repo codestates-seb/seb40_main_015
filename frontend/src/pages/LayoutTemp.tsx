@@ -44,9 +44,9 @@ const Body = styled.div`
 	padding-bottom: 50px;
 
 	// responsive
-	display: flex;
+	/* display: flex;
 	justify-content: center;
-	align-items: center;
+	align-items: center; */
 `;
 
 const Nav = styled.ul`

@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import Geocode from 'react-geocode'
 interface locationType {
   loaded: boolean;
-  coordinates?: { lat: number; lng: number };
+  coordinates?: { latitude: number; longitude: number };
   error?: { code: number; message: string };
 }
 
@@ -11,7 +11,7 @@ interface locationType {
 const useGeolocation2 = () => {
   const [location, setLocation] = useState<locationType>({
     loaded: false,
-    coordinates: { lat: 0, lng: 0, }
+    coordinates: { latitude: 0, longitude: 0, }
   })
 
   // 성공에 대한 로직
@@ -19,8 +19,8 @@ const useGeolocation2 = () => {
     setLocation({
       loaded: true,
       coordinates: {
-        lat: location.coords.latitude,
-        lng: location.coords.longitude,
+        latitude: location.coords.latitude,
+        longitude: location.coords.longitude,
       }
     })
   }
