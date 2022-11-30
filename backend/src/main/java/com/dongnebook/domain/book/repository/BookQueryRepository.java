@@ -2,6 +2,7 @@ package com.dongnebook.domain.book.repository;
 
 import static com.dongnebook.domain.book.domain.QBook.*;
 import static com.dongnebook.domain.dibs.domain.QDibs.*;
+import static com.dongnebook.domain.rental.domain.QRental.*;
 
 import java.util.List;
 import java.util.Objects;
@@ -24,6 +25,8 @@ import com.dongnebook.domain.member.domain.Member;
 import com.dongnebook.domain.member.dto.response.QBookDetailMemberResponse;
 import com.dongnebook.domain.model.Location;
 
+import com.dongnebook.domain.rental.domain.QRental;
+import com.dongnebook.domain.rental.domain.RentalState;
 import com.dongnebook.global.dto.request.PageRequest;
 import com.querydsl.core.types.Expression;
 import com.querydsl.core.types.ExpressionUtils;
@@ -55,8 +58,10 @@ public class BookQueryRepository {
 						book.rentalFee.value,
 						book.description,
 						book.bookState,
-						book.ImgUrl,
-						dibsCountSubQuery(bookId,memberId)
+						book.imgUrl,
+						dibsCountSubQuery(bookId,memberId),
+						rental.rentalStartedAt,
+						rental.rentalDeadLine
 					),
 					new QBookDetailMemberResponse(
 						book.member.id,
@@ -68,10 +73,11 @@ public class BookQueryRepository {
 			)
 			.from(book)
 			.leftJoin(book.member)
+			.leftJoin(rental).on(rental.book.id.eq(bookId),rental.rentalState.eq(RentalState.BEING_RENTED))
 			.leftJoin(book.dibsList, dibs)
 			.where(book.id.eq(bookId))
 			.fetchFirst();
-		//책을 찾는데 찜이 하나라도 있으면 그 찜의 아이디를 찾아서 반환 찜이 없으면 걍 너어감
+		//책을 찾는데 찜이 하나라도 있으면 그 찜의 아이디를 찾아서 반환 찜이 없으면 걍 넘어감
 	}
 
 	/**
@@ -109,7 +115,7 @@ public class BookQueryRepository {
 			condition.getLevel());
 
 		List<BookSimpleResponse> result = jpaQueryFactory.select(
-				new QBookSimpleResponse(book.id, book.title, book.bookState, book.ImgUrl, book.rentalFee, book.location,
+				new QBookSimpleResponse(book.id, book.title, book.bookState, book.imgUrl, book.rentalFee, book.location,
 					book.member.nickname))
 			.from(book)
 			.innerJoin(book.member)
@@ -135,7 +141,7 @@ public class BookQueryRepository {
 		PageRequest pageRequest) {
 
 		List<BookSimpleResponse> result = jpaQueryFactory.select(
-				new QBookSimpleResponse(dibs.book.id, dibs.book.title, dibs.book.bookState, dibs.book.ImgUrl,
+				new QBookSimpleResponse(dibs.book.id, dibs.book.title, dibs.book.bookState, dibs.book.imgUrl,
 					dibs.book.rentalFee, dibs.book
 					.location, dibs.book.member.nickname))
 			.from(dibs)
@@ -159,7 +165,7 @@ public class BookQueryRepository {
 
 	public SliceImpl<BookSimpleResponse> getListByMember(Long memberId, PageRequest pageRequest) {
 		List<BookSimpleResponse> result = jpaQueryFactory.select(
-				new QBookSimpleResponse(book.id, book.title, book.bookState, book.ImgUrl))
+				new QBookSimpleResponse(book.id, book.title, book.bookState, book.imgUrl))
 			.from(book)
 			.where(ltBookId(pageRequest.getIndex()), book.member.id.eq(memberId)
 				, bookToShow())

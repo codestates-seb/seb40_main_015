@@ -36,6 +36,7 @@ const ModalForTitle = ({
 							<InputWrapper>
 								<input
 									value={searchText}
+									placeholder="검색어를 입력해주세요."
 									onChange={e => {
 										setSearchText(e.target.value);
 									}}

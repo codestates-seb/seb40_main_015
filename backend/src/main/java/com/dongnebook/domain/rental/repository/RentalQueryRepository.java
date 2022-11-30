@@ -28,7 +28,7 @@ public class RentalQueryRepository {
         List<RentalBookResponse> rentals = jpaQueryFactory.select(new QRentalBookResponse(
                     new QBookInfoResponse(
                             book.id,
-                            book.ImgUrl,
+                            book.imgUrl,
                             book.title,
                             book.author,
                             book.publisher,
@@ -75,7 +75,7 @@ public class RentalQueryRepository {
         List<RentalBookResponse> rentals = jpaQueryFactory.select(new QRentalBookResponse(
                                 new QBookInfoResponse(
                                         book.id,
-                                        book.ImgUrl,
+                                        book.imgUrl,
                                         book.title,
                                         book.author,
                                         book.publisher,
