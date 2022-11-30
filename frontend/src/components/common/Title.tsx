@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-// import logo from '../../assets/image/동네북 로고 1.png';
+import logo from '../../assets/image/logo1.png';
 
 const Title = ({ text, isLogo }: { text: string; isLogo?: boolean }) => {
 	return (
@@ -21,13 +21,11 @@ export default Title;
 const Logo = styled.img`
 	width: 50px;
 	height: 50px;
-
 	margin-right: 10px;
 `;
 
 const Text = styled.div`
 	width: 100%;
-	font-size: 2.5rem;
 	/* text-align: center; */
 	padding: 1rem 0;
 	margin-bottom: 1rem;
@@ -36,4 +34,8 @@ const Text = styled.div`
 	display: flex;
 	justify-content: center;
 	align-items: center;
+	span {
+		font-size: ${props => props.theme.fontSizes.title};
+		font-family: 'kotra';
+	}
 `;

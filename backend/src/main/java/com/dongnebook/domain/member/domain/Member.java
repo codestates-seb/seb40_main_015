@@ -1,27 +1,28 @@
 package com.dongnebook.domain.member.domain;
 
-import javax.persistence.Column;
-import javax.persistence.Embedded;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.Table;
-import javax.validation.constraints.Min;
+import javax.persistence.*;
+import javax.validation.constraints.Size;
 
-import com.dongnebook.domain.member.dto.Request.MemberRegisterRequest;
+import com.dongnebook.domain.book.domain.Book;
+import com.dongnebook.domain.chat.domain.ChatRoom;
+import com.dongnebook.domain.dibs.domain.Dibs;
+import com.dongnebook.domain.member.dto.request.MemberEditRequest;
+import com.dongnebook.domain.member.dto.request.MemberRegisterRequest;
+import com.dongnebook.domain.model.BaseTimeEntity;
 import com.dongnebook.domain.model.Location;
+import com.dongnebook.domain.rental.domain.Rental;
 
-import lombok.AccessLevel;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
+
+import java.util.ArrayList;
+import java.util.List;
+
 
 @Entity
 @Getter
 @Table(name = "member")
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class Member {
+public class Member extends BaseTimeEntity {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -31,7 +32,10 @@ public class Member {
 	@Column(name = "user_id", nullable = false, unique = true)
 	private String userId;
 
-	@Min(value = 8)
+	@Column(name = "oauth_id", unique = true)
+	private String oauthId;
+
+	@Size(min = 8)
 	@Column(name = "password", nullable = false)
 	private String password;
 
@@ -41,32 +45,59 @@ public class Member {
 	@Embedded
 	private Location location;
 
+	private String address;
+
 	@Column(name = "avatar_url")
 	private String avatarUrl;
 
 	@Column(name = "avg_grade")
-	private Long avgGrade;
+	private Long avgGrade = 0L;
 
-	@Column(name = "total_book_count")
-	private Long totalBookCount;
+	@Enumerated(EnumType.STRING)
+	private Authority authority;
+
+	@OneToMany(mappedBy = "member",cascade = CascadeType.REMOVE)
+	private List<Dibs> dibsList = new ArrayList<>();
+
+	@OneToMany(mappedBy = "member")
+	private List<Book> bookList = new ArrayList<>();
+
+
+
 
 	@Builder
-	public Member(String userId, String password, String nickname, Location location, String avatarUrl, Long avgGrade,
-				  Long totalBookCount) {
+	public Member(String userId, String password, String nickname, String avatarUrl)  {
 		this.userId = userId;
 		this.password = password;
 		this.nickname = nickname;
+		this.authority = Authority.ROLE_USER;
 		this.avatarUrl = avatarUrl;
-		this.location = location;
-		this.avgGrade = avgGrade;
-		this.totalBookCount = totalBookCount;
 	}
 
 	public static Member create(MemberRegisterRequest memberRegisterRequest) {
 		return Member.builder()
-				.userId(memberRegisterRequest.getUserId())
-				.nickname(memberRegisterRequest.getNickname())
-				.password(memberRegisterRequest.getPassword())
-				.build();
+			.userId(memberRegisterRequest.getUserId())
+			.nickname(memberRegisterRequest.getNickname())
+			.password(memberRegisterRequest.getPassword())
+
+			.build();
 	}
+
+	public void edit(MemberEditRequest memberEditRequest){
+		this.avatarUrl = memberEditRequest.getAvatarUrl()==null ? this.avatarUrl : memberEditRequest.getAvatarUrl();
+		this.location = memberEditRequest.getLocation()==null ? this.location : memberEditRequest.getLocation();
+		this.nickname = memberEditRequest.getNickname()==null ? this.nickname : memberEditRequest.getNickname();
+		this.address= memberEditRequest.getAddress()==null ? this.address : memberEditRequest.getAddress();
+	}
+
+	public Member oauthUpdate(String name, String email) {
+		this.nickname = name;
+		this.userId = email;
+		return this;
+	}
+
+	public boolean hasSameId(Long id) {
+		return this.id.equals(id);
+	}
+
 }

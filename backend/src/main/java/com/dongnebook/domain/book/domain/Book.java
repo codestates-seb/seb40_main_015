@@ -1,22 +1,34 @@
 package com.dongnebook.domain.book.domain;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
+import javax.persistence.AttributeConverter;
 import javax.persistence.AttributeOverride;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
+import javax.persistence.Convert;
+import javax.persistence.Converter;
 import javax.persistence.Embedded;
 import javax.persistence.Entity;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.Lob;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 
-import com.dongnebook.domain.book.dto.Request.BookRegisterRequest;
+import com.dongnebook.domain.book.dto.request.BookEditRequest;
+import com.dongnebook.domain.book.dto.request.BookRegisterRequest;
 import com.dongnebook.domain.book.exception.NotRentableException;
+import com.dongnebook.domain.dibs.domain.Dibs;
 import com.dongnebook.domain.member.domain.Member;
+import com.dongnebook.domain.model.BaseTimeEntity;
 import com.dongnebook.domain.model.Location;
+import com.dongnebook.domain.rental.exception.CanNotChangeStateException;
 
 import lombok.AccessLevel;
 import lombok.Builder;
@@ -26,10 +38,10 @@ import lombok.NoArgsConstructor;
 @Entity
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class Book {
+public class Book extends BaseTimeEntity {
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "id", updatable = false)
 	private Long id;
 
@@ -43,7 +55,7 @@ public class Book {
 	private String publisher;
 
 	@Column(name = "img_url")
-	private String ImgUrl;
+	private String imgUrl;
 
 	@Lob
 	@Column(name = "description")
@@ -56,24 +68,43 @@ public class Book {
 	@Embedded
 	private Location location;
 
-	@Enumerated(EnumType.STRING)
+
+	@Convert(converter = BookStateConverter.class)
 	@Column(name = "book_state")
 	private BookState bookState;
 
+	@ManyToOne(fetch= FetchType.LAZY)
+	@JoinColumn(name = "member_id")
+	private Member member;
+
+	@OneToMany(mappedBy = "book",cascade = CascadeType.REMOVE)
+	private List<Dibs> dibsList = new ArrayList<>();
+
 	@Builder
 	public Book(String title, String author, String publisher, String imgUrl, String description, Money rentalFee,
-		Location location, BookState bookState) {
+		Location location, BookState bookState, Member member) {
 		this.title = title;
 		this.author = author;
 		this.publisher = publisher;
-		this.ImgUrl = imgUrl;
+		this.imgUrl = imgUrl;
 		this.description = description;
 		this.rentalFee = rentalFee;
 		this.location = location;
 		this.bookState = bookState;
+		this.member = member;
 	}
 
-	public static Book create(BookRegisterRequest bookRegisterRequest, Location location, Member memberId) {
+	public void changeBookStateFromTo(BookState from, BookState to) {
+		if (this.bookState.equals(from)) {
+			this.bookState=to;
+			return;
+		}
+		throw new CanNotChangeStateException();
+	}
+
+
+
+	public static Book create(BookRegisterRequest bookRegisterRequest, Location location, Member member) {
 		return Book.builder()
 			.title(bookRegisterRequest.getTitle())
 			.author(bookRegisterRequest.getAuthor())
@@ -83,7 +114,7 @@ public class Book {
 			.rentalFee(Money.of(bookRegisterRequest.getRentalFee()))
 			.location(location)
 			.bookState(BookState.RENTABLE)
-			//.member(memberId)
+			.member(member)
 			.build();
 	}
 
@@ -95,6 +126,25 @@ public class Book {
 		}
 		throw new NotRentableException();
 	}
+
+	public void edit(BookEditRequest bookEditRequest){
+		this.imgUrl = bookEditRequest.getImageUrl()==null ? this.imgUrl : bookEditRequest.getImageUrl();
+		this.description = bookEditRequest.getDescription();
+	}
+}
+@Converter
+class BookStateConverter implements AttributeConverter<BookState, String> {
+
+	@Override
+	public String convertToDatabaseColumn(BookState attribute) {
+		return String.valueOf(attribute);
+	}
+
+	@Override
+	public BookState convertToEntityAttribute(String dbData) {
+		return BookState.valueOf(dbData);
+	}
+
 }
 
 
