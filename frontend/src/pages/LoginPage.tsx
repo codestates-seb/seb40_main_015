@@ -35,10 +35,3 @@ const StyledOauth = styled(Oauth)`
 `;
 
 export default LoginPage;
-
-const StyledLoginPage = styled.div`
-	padding: 70px 0;
-	display: flex;
-	flex-direction: column;
-	align-items: center;
-`;
