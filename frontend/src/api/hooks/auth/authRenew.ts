@@ -25,7 +25,7 @@ const useGetAccessTokenRefresh = (
 		useQuery({
 			queryKey: ['renew', 'loginInfo'],
 			queryFn: getAccessTokenRefresh,
-			enabled: loginMutationData.isLogin && !loginMutationData?.accessToken,
+			enabled: loginMutationData.isLogin && !loginMutationData?.id,
 			// staleTime: 1000 * 60 * 28,
 			staleTime: 1000 * 10,
 			onSuccess: res => {

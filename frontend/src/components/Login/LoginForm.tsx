@@ -36,21 +36,23 @@ const LoginForm = () => {
 				data,
 				headers: { authorization },
 			} = res;
+			console.log('login: ', res, 'cookie', document.cookie);
 			dispatch(login({ ...data, accessToken: authorization, isLogin: true }));
 			notify(dispatch, `${data.nickname}님 안녕하세요`);
 			navigate('/books');
 
 			// 29분 뒤 액세스토큰 삭제
-			setTimeout(() => {
-				dispatch(login({ ...data, accessToken: '', isLogin: true }));
-			}, 1000 * 10);
+			// setTimeout(() => {
+			// 	dispatch(
+			// 		login({ ...data, accessToken: authorization, isLogin: true, id: '' }),
+			// 	);
+			// }, 1000 * 10);
 		},
 		onError: res => {
 			console.log('login failed: ', res);
 			alert('아이디 혹은 비밀번호를 다시 한 번 확인해주세요');
 		},
 	});
-
 	const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
 		e.preventDefault();
 
