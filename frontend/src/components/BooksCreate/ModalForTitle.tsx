@@ -41,6 +41,7 @@ const ModalForTitle = ({
 										setSearchText(e.target.value);
 									}}
 									id="book-search"
+									autoFocus
 								/>
 								<StyledButton type="submit" fontSize="small">
 									검색
