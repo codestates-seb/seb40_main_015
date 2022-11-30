@@ -13,10 +13,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
-import org.hibernate.annotations.CreationTimestamp;
-
 import com.dongnebook.domain.member.domain.Member;
-import com.dongnebook.domain.model.Location;
 
 import lombok.AccessLevel;
 import lombok.Builder;
@@ -48,15 +45,16 @@ public class ChatMessage {
 	@JoinColumn(nullable = false, name = "room")
 	private ChatRoom room;
 
-	@CreationTimestamp
+
 	@Column(name = "created_at")
 	private LocalDateTime createdAt;
 
 	@Builder
-	public ChatMessage(Member sender, Member receiver, String content, ChatRoom room) {
+	public ChatMessage(Member sender, Member receiver, String content, ChatRoom room, LocalDateTime createdAt) {
 		this.sender = sender;
 		this.receiver = receiver;
 		this.content = content;
 		this.room = room;
+		this.createdAt = createdAt;
 	}
 }

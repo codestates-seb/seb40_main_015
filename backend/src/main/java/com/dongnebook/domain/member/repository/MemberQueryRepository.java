@@ -1,13 +1,17 @@
 package com.dongnebook.domain.member.repository;
 
 
+import static com.dongnebook.domain.book.domain.QBook.*;
 import static com.dongnebook.domain.member.domain.QMember.*;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.data.domain.SliceImpl;
 import org.springframework.stereotype.Repository;
 
+import com.dongnebook.domain.book.domain.BookState;
+import com.dongnebook.domain.member.domain.Member;
 import com.dongnebook.domain.member.dto.request.MerchantSearchRequest;
 
 import com.dongnebook.domain.member.dto.response.MemberResponse;
@@ -64,6 +68,15 @@ public class MemberQueryRepository {
 		}
 
 		return new SliceImpl<>(result, pageRequest.of(), hasNext);
+	}
+
+	//대여중인 책이 없는 회원만 가져온다.
+	public Optional<Member> findByMemberWithRental(Long memberId){
+		return Optional.ofNullable(jpaQueryFactory.select(member)
+			.from(member)
+			.leftJoin(member.bookList, book).fetchJoin()
+			.where(member.id.eq(memberId))
+			.fetchFirst());
 	}
 
 

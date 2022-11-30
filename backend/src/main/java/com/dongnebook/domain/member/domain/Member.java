@@ -10,7 +10,7 @@ import com.dongnebook.domain.member.dto.request.MemberEditRequest;
 import com.dongnebook.domain.member.dto.request.MemberRegisterRequest;
 import com.dongnebook.domain.model.BaseTimeEntity;
 import com.dongnebook.domain.model.Location;
-
+import com.dongnebook.domain.rental.domain.Rental;
 
 import lombok.*;
 
@@ -61,6 +61,7 @@ public class Member extends BaseTimeEntity {
 
 	@OneToMany(mappedBy = "member")
 	private List<Book> bookList = new ArrayList<>();
+
 
 
 

@@ -47,6 +47,7 @@ const BooksPage = () => {
 		return () => observer.disconnect();
 	}, []);
 
+	console.log('books: ', data);
 	return (
 		<Main>
 			<TitleWrapper>
@@ -96,6 +97,8 @@ const Main = styled.div`
 	display: flex;
 	flex-direction: column;
 
+	align-items: center;
+
 	//가로스크롤 없애기
 	overflow-x: hidden;
 
@@ -104,16 +107,21 @@ const Main = styled.div`
 	}
 `;
 
-const TitleWrapper = styled.div``;
+const TitleWrapper = styled.div`
+	width: 100%;
+`;
 
 const BtnWrapper = styled.div`
+	width: 100%;
+	max-width: 800px;
 	display: flex;
 	flex-direction: column;
 	padding: 10px 20px;
+	margin-bottom: 10px;
 `;
 
 const BooksList = styled.div`
-	padding: 10px;
+	/* padding: 10px; */
 
 	/* height: 75vh; */
 	/* overflow-y: scroll; */
@@ -121,11 +129,11 @@ const BooksList = styled.div`
 		display: none;
 	} */
 
-	/* max-width: 1300px; */
-
+	max-width: 800px;
 	display: grid;
+	place-items: center;
 	grid-gap: 10px;
-	@media screen and (min-width: 1101px) {
+	@media screen and (min-width: 801px) {
 		grid-template-columns: repeat(2, 1fr);
 	}
 `;

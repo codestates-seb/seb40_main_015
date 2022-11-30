@@ -35,7 +35,7 @@ public class ChatRepository {
 			.selectFrom(chatMessage)
 			.where(Expressions.list(chatMessage.room, chatMessage.createdAt)
 				.in((JPAExpressions.select(chatMessage.room, chatMessage.createdAt
-					.max()).from(chatMessage).groupBy(chatMessage.room))
+					.max()).from(chatMessage).where(chatMessage.room.in(rooms)).groupBy(chatMessage.room))
 				)).fetch();
 	}
 
