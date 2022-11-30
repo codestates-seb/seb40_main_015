@@ -17,8 +17,12 @@ import {
 	Partition,
 	BookRentalInfo,
 } from './BookElements';
+import { useAppSelector } from '../../redux/hooks';
 
 const BookDetail = ({ book, merchant }: BookDetailProps) => {
+	const { id, isLogin } = useAppSelector(state => state.loginInfo);
+
+	console.log(book, merchant, id);
 	return (
 		<>
 			<BookInfo>
@@ -46,7 +50,11 @@ const BookDetail = ({ book, merchant }: BookDetailProps) => {
 						</MerchantName>
 					</Link>
 					<Chat>
-						<span>(채팅하기)</span>
+						{isLogin && merchant?.merchantId !== id ? (
+							<span>(채팅하기)</span>
+						) : (
+							''
+						)}
 					</Chat>
 				</MerchantInfo>
 			</BookInfo>

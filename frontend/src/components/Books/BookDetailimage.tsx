@@ -41,7 +41,7 @@ const BookImage = ({ book, merchant }: BookDetailProps) => {
 					{book?.state !== '거래중단' ? (
 						<>
 							<span>이미 누가 대여중이에요 😭</span>
-							<span>2022/1104~2022/11/18</span>
+							<span>{`${book?.rentalStart} ~ ${book?.rentalEnd}`}</span>
 							<span
 								className={
 									book?.state !== '예약불가' ? 'possible' : 'impossible'
@@ -109,7 +109,7 @@ const WishWrapper = styled.div`
 
 	position: absolute;
 	right: -1vw;
-	bottom: -80px;
+	bottom: -90px;
 `;
 
 const WishiconOn = styled(HiHeart)`

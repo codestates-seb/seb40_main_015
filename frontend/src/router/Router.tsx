@@ -3,7 +3,7 @@ import { Suspense } from 'react';
 
 // import LoginOnly from '../components/LoginOnly';
 // import Layout from '../pages/Layout';
-import LayoutTemp from '../pages/LayoutTemp';
+import Layout from '../components/common/Layout';
 import Animation from '../components/Loading/Animation';
 import {
 	MainPage,
@@ -36,7 +36,7 @@ function Router() {
 				<Routes>
 					{/* <Route element={<HeroSection />} /> */}
 					{/* <Route path="" element={<MainPage />} /> */}
-					<Route path="/" element={<LayoutTemp />}>
+					<Route path="/" element={<Layout />}>
 						{/* <Route index element={<MainPage />} /> */}
 						<Route element={<LoginOnly />}>
 							<Route path="books/create" element={<BooksCreatePage />} />
