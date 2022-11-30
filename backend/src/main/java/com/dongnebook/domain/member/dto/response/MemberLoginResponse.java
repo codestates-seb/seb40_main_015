@@ -12,14 +12,14 @@ import lombok.Getter;
 public class MemberLoginResponse {
     private Long id;
     private String userId;
-    private String nickName;
+    private String nickname;
     private Location location;
 
     @Builder
-    public MemberLoginResponse(Long id, String userId, String nickName, Location location) {
+    public MemberLoginResponse(Long id, String userId, String nickname, Location location) {
         this.id = id;
         this.userId = userId;
-        this.nickName = nickName;
+        this.nickname = nickname;
         this.location = location;
     }
 
@@ -27,7 +27,7 @@ public class MemberLoginResponse {
         return MemberLoginResponse.builder()
             .id(authMember.getMemberId())
             .userId(authMember.getUserId())
-            .nickName(authMember.getNickname())
+            .nickname(authMember.getNickname())
             .location(authMember.getLocation())
             .build();
     }

@@ -2,7 +2,7 @@ import styled from 'styled-components';
 import { useNavigate } from 'react-router-dom';
 import { HiOutlinePencilAlt } from 'react-icons/hi';
 import { useDispatch } from 'react-redux';
-import { useQuery } from '@tanstack/react-query';
+import { useQuery, useQueryClient } from '@tanstack/react-query';
 import { useAppSelector } from '../redux/hooks';
 
 // component
@@ -19,6 +19,8 @@ import useTabs from '../hooks/useTabs';
 // etc
 import { logout } from '../redux/slice/userSlice';
 import { useState } from 'react';
+import { FiExternalLink } from 'react-icons/fi';
+
 function ProfilePage() {
 	const dispatch = useDispatch();
 	const navigate = useNavigate();
@@ -32,13 +34,17 @@ function ProfilePage() {
 		navigate('/profile/edit');
 	};
 
+	const handleMerchantPage = () => {
+		navigate('/merchant');
+	};
+
 	interface Member {
 		memberId: number;
 		name: string;
 		location: {
-			lat: string | number;
-			lon: string | number;
-		} | null;
+			latitude: string | number;
+			longitude: string | number;
+		};
 		address: string | null;
 		totalBookCount: number;
 		avatarUrl: string | null;
@@ -46,51 +52,66 @@ function ProfilePage() {
 
 	// api mypage member info
 	const { getMyInfo, getPickBookList } = useMypageAPI();
-
+	const queryClient = useQueryClient();
 	const { data, isLoading } = useQuery({
 		queryKey: ['myprofile'],
 		queryFn: () => getMyInfo(id),
 		retry: false,
 	});
-	console.log('data: ', data);
+	// console.log('data: ', data);
 
 	if (isLoading) return <Animation width={50} height={50} />;
 
 	return (
-		<Layout>
-			<Title text="마이페이지" />
-			<ProfileBox>
-				<img
-					src={data?.avatarUrl}
-					className="profileimage"
-					alt="프로필 이미지가 없습니다"></img>
-				<UserInfoBox>
-					<p>닉네임: {data?.name}</p>
-					<p>주거래 동네:{data?.address ?? '거래 할 동네를 설정해주세요!'}</p>
-					<p>등록한 도서 수: {data?.totalBookCount}</p>
-					<div className="editprofile">
-						<p className="edit1" onClick={handleEditPage}>
-							수정하기
-						</p>
-						<HiOutlinePencilAlt className="edit" onClick={handleEditPage} />
-					</div>
-				</UserInfoBox>
-			</ProfileBox>
+		<>
+			{data && (
+				<Layout>
+					<Title text="마이페이지" />
+					<ProfileBox>
+						<img
+							src={data?.avatarUrl}
+							className="profileimage"
+							alt="프로필 이미지가 없습니다"></img>
+						<UserInfoBox>
+							<p>닉네임: {data?.name}</p>
+							<p>
+								주거래 동네:{data?.address ?? '거래 할 동네를 설정해주세요!'}
+							</p>
+							<p className="linkfrom" onClick={handleMerchantPage}>
+								등록한 도서 수: {data?.totalBookCount}
+								<FiExternalLink
+									className="click"
+									onClick={handleMerchantPage}
+								/>
+							</p>
+							<div className="editprofile">
+								<p className="edit1" onClick={handleEditPage}>
+									수정하기
+								</p>
+								<HiOutlinePencilAlt className="edit" onClick={handleEditPage} />
+							</div>
+						</UserInfoBox>
+					</ProfileBox>
 
-			<TabLists tabs={tab} handleChange={handleChange} />
-			{curTab === '찜 목록' && <PickBookList />}
-			{curTab === '예약 목록' && <ReservationBookList />}
-			{/* <MyList /> */}
-			<Button
-				fontSize={'small'}
-				className="logout"
-				onClick={() => {
-					dispatch(logout());
-					navigate('/books');
-				}}>
-				로그아웃
-			</Button>
-		</Layout>
+					<TabLists tabs={tab} handleChange={handleChange} />
+					{curTab === '찜 목록' && <PickBookList />}
+					{curTab === '예약 목록' && <ReservationBookList />}
+					{/* <MyList /> */}
+					<Button
+						fontSize={'small'}
+						className="logout"
+						onClick={() => {
+							// logout api 아직 없음
+							const isTrue = window.confirm('로그아웃 하시겠습니까?');
+							if (!isTrue) return;
+							dispatch(logout());
+							navigate('/login');
+						}}>
+						로그아웃
+					</Button>
+				</Layout>
+			)}
+		</>
 	);
 }
 
@@ -114,6 +135,10 @@ const Layout = styled.div`
 			background-color: grey;
 		}
 	}
+	.hidden {
+		/* 무한스크롤 */
+		display: none;
+	}
 `;
 
 const ProfileBox = styled.div`
@@ -121,6 +146,7 @@ const ProfileBox = styled.div`
 	display: flex;
 	padding: 1.2rem;
 	border: 1px solid #eaeaea;
+
 	.profileimage {
 		box-sizing: border-box;
 		width: 100px;
@@ -140,6 +166,9 @@ const ProfileBox = styled.div`
 		padding-left: 5px;
 		cursor: pointer;
 	}
+	@media (min-width: 800px) {
+		width: 800px;
+	}
 `;
 
 const UserInfoBox = styled.div`
@@ -152,6 +181,19 @@ const UserInfoBox = styled.div`
 		display: flex;
 		color: ${props => props.theme.colors.buttonGreen};
 	}
+	.linkfrom {
+		color: ${props => props.theme.colors.buttonGreen};
+		cursor: pointer;
+	}
+	.click {
+		padding-left: 6px;
+		cursor: pointer;
+	}
+	/* .linkfrom {
+		&:hover {
+			color: ${props => props.theme.colors.buttonGreen};
+		}
+	} */
 `;
 
 export default ProfilePage;

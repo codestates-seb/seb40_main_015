@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import styled from 'styled-components';
-import { useMutation } from '@tanstack/react-query';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
 
 //components
 import Button from '../common/Button';
@@ -21,7 +21,7 @@ interface loginProps {
 interface userInfo {
 	id: string;
 	userId: string;
-	nickName: string;
+	nickname: string;
 	headers?: { authorization: string };
 }
 
@@ -39,20 +39,28 @@ const LoginForm = () => {
 	const distpatch = useDispatch();
 	const navigate = useNavigate();
 
+	const queryClient = useQueryClient();
 	// login query
 	const { mutate, data, isLoading, isSuccess, isError } = useMutation({
+		mutationKey: ['loginInfo'],
 		mutationFn: () =>
 			fetchLogin({
 				userId: id,
 				password: password,
 			}),
 		onSuccess: res => {
+			// setTimeout(() => {
+			// 	// queryClient.invalidateQueries(['loginInfo']);
+			// 	mutate();
+			// }, 5000);
+			// 액세스토큰 갱신 요청 -> 리프레시 만료시 강제 로그아웃.
 			const {
 				data,
 				headers: { authorization },
 			} = res;
+			console.log(data);
 			distpatch(login({ ...data, accessToken: authorization, isLogin: true }));
-			notify(distpatch, `${data.nickName}님 안녕하세요`);
+			notify(distpatch, `${data.nickname}님 안녕하세요`);
 			navigate('/books');
 		},
 		onError: res => {
@@ -71,18 +79,6 @@ const LoginForm = () => {
 		if (id === '' || password === '') return;
 
 		mutate();
-		/*
-		axios({
-			method: 'post',
-			url: BASE_URL + '/auth/login',
-			withCredentials: true,
-			data: payload,
-			timeout: 5000,
-			headers: { ContentType: 'application/json' },
-		})
-			.then(data => console.log('res: ', data))
-			.then(err => console.error(err));
-      */
 	};
 
 	return (

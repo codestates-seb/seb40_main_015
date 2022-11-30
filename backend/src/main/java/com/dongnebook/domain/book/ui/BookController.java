@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.net.URI;
 import java.util.ArrayList;
 import java.util.Objects;
+import java.util.Optional;
 
 import javax.validation.Valid;
 
@@ -16,6 +17,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -28,6 +30,7 @@ import org.springframework.web.util.UriComponentsBuilder;
 
 import com.dongnebook.domain.book.application.BookService;
 import com.dongnebook.domain.book.dto.KaKaoBookInfoResponse;
+import com.dongnebook.domain.book.dto.request.BookEditRequest;
 import com.dongnebook.domain.book.dto.request.BookRegisterRequest;
 import com.dongnebook.domain.book.dto.request.BookSearchCondition;
 import com.dongnebook.domain.book.dto.response.BookDetailResponse;
@@ -65,10 +68,16 @@ public class BookController {
 		return ResponseEntity.created(createdUri).build();
 	}
 
-	@GetMapping("/{id}")
-	public ResponseEntity<BookDetailResponse> getDetail(@PathVariable Long id) {
+	@PatchMapping("/{id}")
+	public void edit(@Login AuthMember authMember, @PathVariable Long id, @Valid @RequestBody BookEditRequest bookEditRequest){
+		bookService.edit(authMember.getMemberId(), id,bookEditRequest);
+	}
 
-		BookDetailResponse detail = bookService.getDetail(id);
+	@GetMapping("/{id}")
+	public ResponseEntity<BookDetailResponse> getDetail(@Login AuthMember authMember, @PathVariable Long id) {
+		Long memberId = authMember == null ? null : authMember.getMemberId();
+
+		BookDetailResponse detail = bookService.getDetail(id, memberId);
 
 		return ResponseEntity.ok(detail);
 	}
@@ -113,7 +122,7 @@ public class BookController {
 		URI uri = UriComponentsBuilder.fromHttpUrl(testurl)
 			.queryParam("query", bookTitle)
 			.queryParam("target", "title")
-			.queryParam("size",50)
+			.queryParam("size", 50)
 			.build().toUri();
 
 		RestTemplate restTemplate = new RestTemplate();

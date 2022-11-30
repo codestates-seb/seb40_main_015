@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.dongnebook.domain.book.domain.Book;
+import com.dongnebook.domain.book.dto.request.BookEditRequest;
 import com.dongnebook.domain.book.dto.request.BookRegisterRequest;
 
 import com.dongnebook.domain.book.dto.request.BookSearchCondition;
@@ -65,9 +66,19 @@ public class BookService {
 
 		return bookId;
 	}
+	@Transactional
+	public void edit(Long memberId, Long id, BookEditRequest bookEditRequest) {
 
-	public BookDetailResponse getDetail(Long id) {
-		return bookQueryRepository.getDetail(id);
+		Book book = getByBookId(id);
+		if (!Objects.equals(book.getMember().getId(), memberId)) {
+			throw new NotOwnerException();
+		}
+		book.edit(bookEditRequest);
+
+	}
+
+	public BookDetailResponse getDetail(Long id, Long memberId) {
+		return bookQueryRepository.getBookDetail(id, memberId);
 	}
 
 	private Location getMemberLocation(Member member) {
@@ -78,7 +89,7 @@ public class BookService {
 		return memberRepository.findById(memberId).orElseThrow(MemberNotFoundException::new);
 	}
 
-	private Book getByBookId(Long bookId) {
+	public Book getByBookId(Long bookId) {
 		return bookCommandRepository.findById(bookId).orElseThrow(BookNotFoundException::new);
 	}
 
@@ -93,10 +104,6 @@ public class BookService {
 		ArrayList<BookSectorCountResponse> bookSectorCountResponses = new ArrayList<>();
 		HashMap<Integer, Integer> indexMap = new HashMap<>();
 		int arrIndex = 0;
-
-		if (condition.getLevel()==1) {
-
-		}
 
 
 		for (Location location : sectorBookCounts) {
@@ -154,6 +161,8 @@ public class BookService {
 	public SliceImpl<BookSimpleResponse> getListByMember(Long memberId, PageRequest pageRequest) {
 		return bookQueryRepository.getListByMember(memberId,pageRequest);
 	}
+
+
 
 	// 섹터 1 :  LatRange 1~0,LonRange 0~1,  00 1
 	// 섹터 2 :  LatRange 1~0,LonRange 1~2,  01 2

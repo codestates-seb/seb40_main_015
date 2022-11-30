@@ -19,21 +19,24 @@ public class LastChatResponse {
 
 	private String name;
 
-	private String imageUrl;
-
 	private String latestMessage;
 
 	private LocalDateTime createdAt;
 
+	private String avatarUrl;
+
+	private String bookImageUrl;
+
 	@Builder
-	public LastChatResponse(Long roomId, Long receiverId, String name, String imageUrl, String latestMessage,
-		LocalDateTime createdAt) {
+	public LastChatResponse(Long roomId, Long receiverId, String name, String avatarUrl, String latestMessage,
+		LocalDateTime createdAt, String bookImageUrl) {
 		this.roomId = roomId;
 		this.receiverId = receiverId;
 		this.name = name;
-		this.imageUrl = imageUrl;
+		this.avatarUrl = avatarUrl;
 		this.latestMessage = latestMessage;
 		this.createdAt = createdAt;
+		this.bookImageUrl = bookImageUrl;
 	}
 
 	public static LastChatResponse of(Member partner, ChatMessage latestChat) {
@@ -41,7 +44,8 @@ public class LastChatResponse {
 			.roomId(latestChat.getRoom().getId())
 			.receiverId(partner.getId())
 			.name(partner.getNickname())
-			.imageUrl(partner.getAvatarUrl())
+			.avatarUrl(partner.getAvatarUrl())
+			.bookImageUrl(latestChat.getRoom().getBook().getImgUrl())
 			.latestMessage(latestChat.getContent())
 			.createdAt(latestChat.getCreatedAt())
 			.build();
