@@ -1,13 +1,48 @@
+import axios from 'axios';
 import { HiOutlineX } from 'react-icons/hi';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import { noticeMessages } from '../../api/hooks/notice/noticeMessages';
 import { NoticeItemType } from '../../api/hooks/notice/useGetNotice';
 import logo from '../../assets/image/logo1.png';
+import { BASE_URL } from '../../constants/constants';
+import { useAppSelector } from '../../redux/hooks';
 
 const NoticeItem = ({ noticeData }: NoticeItemType) => {
-	const handleXClick = (alarmId: number) => {
-		//알람삭제기능
+	const navigate = useNavigate();
+	const { accessToken } = useAppSelector(state => state.loginInfo);
+
+	// const handleXClick = (alarmId: number) => {
+	// 	if (window.confirm('정말 삭제하시겠습니까?')) {
+	// 		axios.delete(`${BASE_URL}/alarm/${alarmId}`, {
+	// 			headers: {
+	// 				Authorization: accessToken,
+	// 			},
+	// 		});
+	// 	} else {
+	// 		return;
+	// 	}
+	// 	navigate('/notice');
+	// };
+
+	const handleClick = (
+		e: React.MouseEvent<HTMLDivElement, MouseEvent>,
+		alarmId: number,
+		link: string,
+	) => {
+		if ((e.target as Element).classList.value === 'icon') {
+			if (window.confirm('정말 삭제하시겠습니까?')) {
+				axios.delete(`${BASE_URL}/alarm/${alarmId}`, {
+					headers: {
+						Authorization: accessToken,
+					},
+				});
+			} else {
+				return;
+			}
+		} else {
+			navigate(link);
+		}
 	};
 
 	return (
@@ -15,19 +50,21 @@ const NoticeItem = ({ noticeData }: NoticeItemType) => {
 			{noticeData?.map(el => {
 				const message = noticeMessages[el.alarmType];
 				return (
-					<Link to={message[3]} key={el.alarmId}>
-						<StyledNoticeItem isRead={el.isRead}>
-							<IconWrapper onClick={() => handleXClick(el.alarmId)}>
-								<HiOutlineX className="icon" />
-							</IconWrapper>
-							<Logo src={logo} alt="로고" />
-							<Notice>
-								{`${message[0]} ${message[1]}하신 `}
-								<span>{el.bookTitle}</span>
-								{`${message[2]}`}
-							</Notice>
-						</StyledNoticeItem>
-					</Link>
+					<StyledNoticeItem
+						className="notice-item"
+						onClick={e => handleClick(e, el.alarmId, message[3])}
+						isRead={el.isRead}
+						key={el.alarmId}>
+						<IconWrapper>
+							<HiOutlineX className="icon" />
+						</IconWrapper>
+						<Logo src={logo} alt="로고" />
+						<Notice>
+							{`${message[0]} ${message[1]}하신 `}
+							<span>{el.bookTitle}</span>
+							{`${message[2]}`}
+						</Notice>
+					</StyledNoticeItem>
 				);
 			})}
 		</>
@@ -47,6 +84,10 @@ const StyledNoticeItem = styled.div<{ isRead: boolean }>`
 	padding: 0.5rem 1.5rem 0.5rem 0.5rem;
 	margin-bottom: 1rem;
 	position: relative;
+
+	:hover {
+		background-color: ${props => props.theme.colors.buttonGrey};
+	}
 `;
 
 const IconWrapper = styled.div`
