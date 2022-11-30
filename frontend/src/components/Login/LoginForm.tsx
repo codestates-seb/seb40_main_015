@@ -39,6 +39,11 @@ const LoginForm = () => {
 			dispatch(login({ ...data, accessToken: authorization, isLogin: true }));
 			notify(dispatch, `${data.nickname}님 안녕하세요`);
 			navigate('/books');
+
+			// 29분 뒤 액세스토큰 삭제
+			setTimeout(() => {
+				dispatch(login({ ...data, accessToken: '', isLogin: true }));
+			}, 1000 * 10);
 		},
 		onError: res => {
 			console.log('login failed: ', res);

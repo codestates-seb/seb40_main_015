@@ -19,23 +19,6 @@ const LayoutTemp = () => {
 				<Outlet />
 			</Body>
 			<NavTemp />
-			{/* <Nav>
-					<li>
-					<Link to={'/books/search'}>검색</Link>
-					</li>
-					<li>
-					<Link to={'/history'}>대여목록</Link>
-					</li>
-					<li>
-						<Link to={'/books'}>홈</Link>
-						</li>
-						<li>
-						<Link to={'/chats'}>채팅</Link>
-						</li>
-						<li>
-						<Link to={'/profile'}>마이페이지</Link>
-						</li>
-					</Nav> */}
 		</Main>
 	);
 };
@@ -49,11 +32,6 @@ const Main = styled.div`
 const Body = styled.div`
 	width: 100%;
 	padding-bottom: 50px;
-
-	// responsive
-	display: flex;
-	justify-content: center;
-	align-items: center;
 `;
 
 const Nav = styled.ul`
