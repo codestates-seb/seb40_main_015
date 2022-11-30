@@ -89,7 +89,7 @@ public class BookService {
 		return memberRepository.findById(memberId).orElseThrow(MemberNotFoundException::new);
 	}
 
-	private Book getByBookId(Long bookId) {
+	public Book getByBookId(Long bookId) {
 		return bookCommandRepository.findById(bookId).orElseThrow(BookNotFoundException::new);
 	}
 
@@ -104,10 +104,6 @@ public class BookService {
 		ArrayList<BookSectorCountResponse> bookSectorCountResponses = new ArrayList<>();
 		HashMap<Integer, Integer> indexMap = new HashMap<>();
 		int arrIndex = 0;
-
-		if (condition.getLevel()==1) {
-
-		}
 
 
 		for (Location location : sectorBookCounts) {
