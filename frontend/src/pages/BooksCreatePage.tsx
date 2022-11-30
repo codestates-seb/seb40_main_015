@@ -18,7 +18,6 @@ import usePostBooks from '../api/hooks/createBooks/usePostBooks';
 import { useMypageAPI } from '../api/mypage';
 import { useNavigate } from 'react-router';
 import { useQuery } from '@tanstack/react-query';
-import { useEffect } from 'react';
 
 const BooksCreatePage = () => {
 	const bookCreate = useAppSelector(state => state.persistedReducer.bookCreate);
@@ -66,13 +65,6 @@ const BooksCreatePage = () => {
 			});
 		}
 	};
-
-	useEffect(() => {
-		if (!data?.address) {
-			goNotify('책 등록을 위해 위치 정보를 등록해주세요.');
-			navigate('/profile/edit');
-		}
-	});
 
 	return (
 		<Main>
