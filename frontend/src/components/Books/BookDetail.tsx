@@ -10,7 +10,7 @@ import {
 	BookInfo,
 	BookRentalFee,
 	MerchantInfo,
-	MerchantGrade,
+	Chat,
 	BookContainer,
 	BookTitle,
 	BookSubTitle,
@@ -23,39 +23,31 @@ const BookDetail = ({ book, merchant }: BookDetailProps) => {
 		<>
 			<BookInfo>
 				<legend>도서 정보</legend>
-				{/* <label>{book?.title}</label>
-				<label>author</label>
-				<span className="partition">{''}</span>
-				<label>{book?.publisher}</label> */}
 				<BookContainer>
 					<BookTitle>
 						<label>{book?.title}</label>
 					</BookTitle>
 					<BookSubTitle>
-						<label>author</label>
+						<label>{book?.author}</label>
 						<Partition>|</Partition>
 						<label>{book?.publisher}</label>
 					</BookSubTitle>
 				</BookContainer>
 			</BookInfo>
 
-			{/* <BookInfo>
-				<legend>저자/출판사</legend>
-				<label>author</label>
-				<span className="partition">{''}</span>
-				<label>{book?.publisher}</label>
-			</BookInfo> */}
-
 			<BookInfo>
 				<legend>상인 정보</legend>
 				<MerchantInfo>
 					<Link to={`/profile/merchant/${merchant?.merchantId}`}>
 						<MerchantImg src={merchant?.avatarUrl} />
-						<span>{merchant?.name}</span>
+						<MerchantName>
+							<span>{merchant?.name}</span>
+							<span>평점: {merchant?.grade} /5</span>
+						</MerchantName>
 					</Link>
-					<MerchantGrade>
-						<span>평점: {merchant?.grade}★★★★★</span>
-					</MerchantGrade>
+					<Chat>
+						<span>(채팅하기)</span>
+					</Chat>
 				</MerchantInfo>
 			</BookInfo>
 
@@ -68,18 +60,6 @@ const BookDetail = ({ book, merchant }: BookDetailProps) => {
 				</BookRentalInfo>
 			</BookInfo>
 
-			{/* <BookRentalFee>
-				<label htmlFor="fee">대여료{book?.rentalFee}</label>
-				<input
-					id="fee"
-					type="number"
-					step="100"
-					defaultValue={book?.rentalFee}
-					disabled
-				/>
-				<span>원</span>
-			</BookRentalFee> */}
-
 			<BookDsc>
 				<legend>내용</legend>
 				<div>{book?.content}</div>
@@ -90,11 +70,19 @@ const BookDetail = ({ book, merchant }: BookDetailProps) => {
 
 const MerchantImg = styled.img`
 	border-radius: 0.3rem;
-	/* border-radius: 50%; */
-	width: 2.6rem;
-	height: 2.6rem;
+	border-radius: 50%;
+	width: 2.2rem;
+	height: 2.2rem;
 
-	margin-right: 10px;
+	margin-right: 8px;
+`;
+const MerchantName = styled.div`
+	display: flex;
+	flex-direction: column;
+	span:last-child {
+		margin-left: 2px;
+		font-size: 12px;
+	}
 `;
 
 export default BookDetail;

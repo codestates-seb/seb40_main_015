@@ -62,11 +62,17 @@ const rentalCalc = (date: Date, month: number[], day: number[]): string => {
 interface CalendarProps {
 	month: number[];
 	day: number[];
+	year?: number;
 }
 
-const BookCalendar = ({ month, day }: CalendarProps) => {
-	// console.log(month, day);
-	const [value, setValue] = useState(new Date());
+const BookCalendar = ({
+	year = new Date().getFullYear(),
+	month,
+	day,
+}: CalendarProps) => {
+	const [value, setValue] = useState(
+		year ? new Date(year, month[1] - 1, day[1]) : new Date(),
+	);
 
 	return (
 		<CalendarWrapper>

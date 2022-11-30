@@ -8,12 +8,15 @@ import lombok.Getter;
 
 @Getter
 public class ChatResponse {
+	private Long memberId;
 	private String avatarUrl;
 	private String nickName;
 	private String content;
 	private LocalDateTime dateTime;
 
-	public ChatResponse(String avatarUrl, String nickName, String content, LocalDateTime dateTime) {
+
+	public ChatResponse(Long memberId, String avatarUrl, String nickName, String content, LocalDateTime dateTime) {
+		this.memberId = memberId;
 		this.avatarUrl = avatarUrl;
 		this.nickName = nickName;
 		this.content = content;
@@ -21,7 +24,7 @@ public class ChatResponse {
 	}
 
 	public static ChatResponse of(ChatMessage chatMessage){
-		return new ChatResponse(chatMessage.getSender().getAvatarUrl(), chatMessage.getSender().getNickname(), chatMessage.getContent(), chatMessage.getCreatedAt());
+		return new ChatResponse(chatMessage.getSender().getId(), chatMessage.getSender().getAvatarUrl(), chatMessage.getSender().getNickname(), chatMessage.getContent(), chatMessage.getCreatedAt());
 	}
 
 

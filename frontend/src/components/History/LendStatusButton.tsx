@@ -26,10 +26,12 @@ const LendStatusButton = ({ status, customerName, rental }: Props) => {
 	) => {
 		switch (status) {
 			case 'TRADING':
-				cancel();
+				const istrue = window.confirm(`${id}님과의 거래를 취소하시겠습니까?`);
+				istrue && cancel();
 				break;
 			case 'BEING_RENTED':
-				returnBook();
+				const isTrue = window.confirm(`도서를 반납처리 하시겠습니까?`);
+				isTrue && returnBook();
 				break;
 		}
 	};
@@ -41,7 +43,7 @@ const LendStatusButton = ({ status, customerName, rental }: Props) => {
 					onClick={() => {
 						handleStatusChange(status, customerName);
 					}}>
-					취소
+					거래 취소
 				</Button>
 			)}
 			{status === 'BEING_RENTED' && (
@@ -55,12 +57,12 @@ const LendStatusButton = ({ status, customerName, rental }: Props) => {
 			)}
 			{(status === 'RETURN_UNREVIEWED' || status === 'RETURN_REVIEWED') && (
 				<Button padding="0.8rem" backgroundColor="grey" disabled>
-					반납완료
+					반납 완료
 				</Button>
 			)}
 			{status === 'CANCELED' && (
 				<Button padding="0.8rem" backgroundColor="grey" disabled>
-					취소완료
+					취소 완료
 				</Button>
 			)}
 		</>

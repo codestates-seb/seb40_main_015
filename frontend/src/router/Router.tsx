@@ -25,11 +25,15 @@ import {
 	LoginOnly,
 	ChatRoomPage,
 } from '../pages';
+import NoticeIcon from '../components/Notice/NoticeIcon';
+import { useAppSelector } from '../redux/hooks';
 
 function Router() {
+	const isLogin = useAppSelector(state => state.loginInfo.isLogin);
 	return (
 		<BrowserRouter>
 			<Suspense fallback={<Animation />}>
+				{isLogin && <NoticeIcon />}
 				<Routes>
 					{/* <Route element={<HeroSection />} /> */}
 					{/* <Route path="" element={<MainPage />} /> */}

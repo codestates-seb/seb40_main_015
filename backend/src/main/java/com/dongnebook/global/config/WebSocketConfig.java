@@ -1,5 +1,7 @@
 package com.dongnebook.global.config;
 
+import java.util.List;
+
 import org.springframework.context.annotation.Configuration;
 import org.springframework.messaging.simp.config.MessageBrokerRegistry;
 import org.springframework.web.socket.config.annotation.EnableWebSocket;
@@ -24,8 +26,9 @@ public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
 
 	@Override
 	public void registerStompEndpoints(StompEndpointRegistry registry) {
-		registry.addEndpoint("stomp/chat")
-			.setAllowedOrigins("http://localhost:8080")
+		registry.addEndpoint("/stomp/chat")
+			.setAllowedOrigins("http://localhost:3000","https://dongne-book.com"
+				,"http://dongne-book.com","https://dongne-book-server.com","http://dongne-book-server.com")
 			.withSockJS();
 	}
 }

@@ -10,7 +10,7 @@ import com.dongnebook.domain.member.dto.request.MemberEditRequest;
 import com.dongnebook.domain.member.dto.request.MemberRegisterRequest;
 import com.dongnebook.domain.model.BaseTimeEntity;
 import com.dongnebook.domain.model.Location;
-
+import com.dongnebook.domain.rental.domain.Rental;
 
 import lombok.*;
 
@@ -51,7 +51,7 @@ public class Member extends BaseTimeEntity {
 	private String avatarUrl;
 
 	@Column(name = "avg_grade")
-	private Long avgGrade = 4L;
+	private Long avgGrade = 0L;
 
 	@Enumerated(EnumType.STRING)
 	private Authority authority;
@@ -64,12 +64,14 @@ public class Member extends BaseTimeEntity {
 
 
 
+
 	@Builder
-	public Member(String userId, String password, String nickname)  {
+	public Member(String userId, String password, String nickname, String avatarUrl)  {
 		this.userId = userId;
 		this.password = password;
 		this.nickname = nickname;
 		this.authority = Authority.ROLE_USER;
+		this.avatarUrl = avatarUrl;
 	}
 
 	public static Member create(MemberRegisterRequest memberRegisterRequest) {
@@ -77,6 +79,7 @@ public class Member extends BaseTimeEntity {
 			.userId(memberRegisterRequest.getUserId())
 			.nickname(memberRegisterRequest.getNickname())
 			.password(memberRegisterRequest.getPassword())
+
 			.build();
 	}
 

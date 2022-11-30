@@ -25,6 +25,8 @@ import lombok.extern.slf4j.Slf4j;
 
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 import java.net.URI;
 import java.util.ArrayList;
@@ -37,6 +39,7 @@ import java.util.Map;
 public class MemberController {
     private final MemberService memberService;
     private final BookService bookService;
+
 
     @PostMapping("/auth/signup")
     public ResponseEntity<Map<String, Long>> create(@Valid @RequestBody MemberRegisterRequest memberRegisterRequest) {
@@ -112,5 +115,22 @@ public class MemberController {
     public SliceImpl<BookSimpleResponse> getMemberBooks(@PathVariable Long id, PageRequest pageRequest){
         return bookService.getListByMember(id,pageRequest);
     }
+
+    @GetMapping("/reissue")
+    public ResponseEntity<Long> reissue(@CookieValue(value = "refreshToken", required = false) String refreshToken,
+        HttpServletResponse response) {
+        return ResponseEntity.ok(memberService.reissue(refreshToken, response));
+    }
+
+    // 로그아웃
+    @DeleteMapping("/logout")
+    public ResponseEntity<Void> logout(@CookieValue(value = "refreshToken",required = false) String refreshToken,
+        HttpServletRequest request,
+        HttpServletResponse response)  {
+        memberService.logout(refreshToken ,request, response);
+        return ResponseEntity.ok().build();
+    }
+
+
 
 }

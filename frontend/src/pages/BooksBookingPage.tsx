@@ -16,6 +16,8 @@ import BookCalendar from '../components/Books/BookCalendar';
 import { calcCalendarDate } from '../utils/calcCalendarDate';
 import { useBooksAPI } from '../api/books';
 import { useMutation } from '@tanstack/react-query';
+import { useDispatch } from 'react-redux';
+import notify from '../utils/notify';
 
 //책 상태: 예약가능
 
@@ -27,28 +29,31 @@ interface LinkProps {
 }
 const BooksBookingPage = () => {
 	const [isChecked, setIsChecked] = useState(false);
+	// const { state } = useLocation() as LinkProps;
 	const { state } = useLocation() as LinkProps;
 	const navigate = useNavigate();
 	const { bookId } = useParams();
-	const { postBookRental } = useBooksAPI();
+	const { postBookBooking } = useBooksAPI();
+	const dispatch = useDispatch();
 	const { mutate } = useMutation({
-		mutationFn: () => postBookRental(bookId),
+		mutationFn: () => postBookBooking(bookId),
 		onSuccess: res => {
-			console.log(res);
+			notify(dispatch, '예약 신청이 완료되었습니다.');
 			navigate('/history');
 		},
+		onError: res => {
+			notify(dispatch, '이미 대여 신청한 도서 입니다.');
+		},
 	});
-
 	// 외부에서 예약하기 페이지 접근시
-	if (state.rentalStart === null) return <h1>Not found</h1>;
+	if (state === null) return <h1>Page Not found</h1>;
 
 	const { month, day, rentalPeriod } = calcCalendarDate(state.rentalEnd);
-
 	// 예약 요청
-
 	const handleRentalButton = () => {
 		if (!isChecked) return alert('대여 기간을 확인해주세요');
-		mutate();
+		const isTrue = window.confirm('예약 신청 하시겠습니까?');
+		isTrue && mutate();
 	};
 
 	return (
@@ -59,7 +64,11 @@ const BooksBookingPage = () => {
 
 			<BodyContainer>
 				<CalendarWrapper>
-					<BookCalendar month={month} day={day} />
+					<BookCalendar
+						year={+state.rentalEnd.slice(0, 4)}
+						month={month}
+						day={day}
+					/>
 					<p>
 						* 대여 기간은 반납일로부터 <strong>10일</strong> 입니다.
 					</p>
