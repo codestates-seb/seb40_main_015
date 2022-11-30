@@ -12,6 +12,7 @@ import com.dongnebook.domain.member.dto.response.MerchantSectorCountResponse;
 import com.dongnebook.domain.member.repository.MemberQueryRepository;
 
 import org.springframework.data.domain.SliceImpl;
+import org.springframework.http.ResponseCookie;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -20,8 +21,16 @@ import com.dongnebook.domain.member.dto.request.MemberRegisterRequest;
 import com.dongnebook.domain.member.exception.MemberNotFoundException;
 import com.dongnebook.domain.member.repository.MemberRepository;
 import com.dongnebook.domain.model.Location;
+import com.dongnebook.domain.refreshtoken.domain.RefreshToken;
+import com.dongnebook.domain.refreshtoken.exception.TokenInvalid;
+import com.dongnebook.domain.refreshtoken.exception.TokenNotFound;
+import com.dongnebook.domain.refreshtoken.repository.RefreshTokenRepository;
+import com.dongnebook.global.config.security.auth.filter.TokenProvider;
+import com.dongnebook.global.config.security.auth.userdetails.AuthMember;
+import com.dongnebook.global.dto.TokenDto;
 import com.dongnebook.global.dto.request.PageRequest;
 
+import io.jsonwebtoken.Claims;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -36,6 +45,8 @@ import java.util.Objects;
 import java.util.Optional;
 
 import javax.persistence.EntityManager;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 @Slf4j
 @Getter
@@ -47,6 +58,8 @@ public class MemberService {
 	private final PasswordEncoder passwordEncoder;
 	private final MemberQueryRepository memberQueryRepository;
 	private final BookQueryRepository bookQueryRepository;
+	private final RefreshTokenRepository refreshTokenRepository;
+	private final TokenProvider tokenProvider;
 	private final EntityManager em;
 
 	@Transactional
@@ -80,7 +93,69 @@ public class MemberService {
 		em.flush();
 		bookQueryRepository.updateBookLocation(member,memberEditRequest.getLocation());
 
+	}
 
+	@Transactional
+	public Long reissue(String refreshToken,
+		HttpServletResponse response) {
+
+		refreshToken = Optional.ofNullable(refreshToken)
+			.orElseThrow(TokenNotFound::new);
+
+		Claims claims = tokenProvider.parseClaims(refreshToken);
+
+
+		Member member = findById(Long.parseLong(claims.getSubject()));
+
+		AuthMember authMember = AuthMember.of(member);
+
+		Long memberId = authMember.getMemberId();
+
+		TokenDto tokenDto = tokenProvider.generateTokenDto(authMember);
+		String newRTK = tokenDto.getRefreshToken();
+		String newATK = tokenDto.getAccessToken();
+
+		RefreshToken savedRefreshToken = refreshTokenRepository.findById(memberId)
+			.orElseThrow(MemberNotFoundException::new);
+
+		if (!savedRefreshToken.getValue().equals(refreshToken)) {
+			throw new TokenInvalid();
+		}
+
+		RefreshToken newRefreshToken = savedRefreshToken.updateValue(newRTK);
+		refreshTokenRepository.save(newRefreshToken);
+
+		ResponseCookie cookie = ResponseCookie.from("refreshToken", newRTK)
+			.maxAge(7 * 24 * 60 * 60)
+			.path("/")
+			.secure(true)
+			.sameSite("None")
+			.httpOnly(true)
+			.build();
+		response.setHeader("Set-Cookie", cookie.toString());
+
+
+		response.setHeader("Authorization", "Bearer " + newATK);
+
+		return member.getId();
+	}
+
+	// 로그아웃
+	@Transactional
+	public void logout(String refreshToken, HttpServletRequest request, HttpServletResponse response) {
+
+		refreshToken = Optional.ofNullable(refreshToken)
+			.orElseThrow(TokenNotFound::new);
+		ResponseCookie cookie = ResponseCookie.from("refreshToken", refreshToken)
+			.maxAge(0)
+			.path("/")
+			.secure(true)
+			.sameSite("None")
+			.httpOnly(true)
+			.build();
+		response.setHeader("Set-Cookie", cookie.toString());
+
+		refreshTokenRepository.deleteByKey(Long.valueOf(tokenProvider.parseClaims(refreshToken).getSubject()));
 	}
 
 	public ArrayList<MerchantSectorCountResponse> getSectorMerchantCounts(MerchantSearchRequest request) {

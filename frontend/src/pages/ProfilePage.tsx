@@ -2,7 +2,7 @@ import styled from 'styled-components';
 import { useNavigate } from 'react-router-dom';
 import { HiOutlinePencilAlt } from 'react-icons/hi';
 import { useDispatch } from 'react-redux';
-import { useQuery } from '@tanstack/react-query';
+import { useQuery, useQueryClient } from '@tanstack/react-query';
 import { useAppSelector } from '../redux/hooks';
 
 // component
@@ -46,56 +46,64 @@ function ProfilePage() {
 
 	// api mypage member info
 	const { getMyInfo, getPickBookList } = useMypageAPI();
-
+	const queryClient = useQueryClient();
 	const { data, isLoading } = useQuery({
 		queryKey: ['myprofile'],
 		queryFn: () => getMyInfo(id),
 		retry: false,
 	});
-	console.log('data: ', data);
+	// console.log('data: ', data);
 
 	if (isLoading) return <Animation width={50} height={50} />;
 
 	return (
-		<Layout>
-			<Title text="마이페이지" />
-			<ProfileBox>
-				<img
-					src={data?.avatarUrl}
-					className="profileimage"
-					alt="프로필 이미지가 없습니다"></img>
-				<UserInfoBox>
-					<p>닉네임: {data?.name}</p>
-					<p>주거래 동네:{data?.address ?? '거래 할 동네를 설정해주세요!'}</p>
-					<p className="linkfrom">
-						<a href="http://localhost:3000/profile/merchant/`${id}`">
-							등록한 도서 수: {data?.totalBookCount}
-						</a>
-					</p>
-					<div className="editprofile">
-						<p className="edit1" onClick={handleEditPage}>
-							수정하기
-						</p>
-						<HiOutlinePencilAlt className="edit" onClick={handleEditPage} />
-					</div>
-				</UserInfoBox>
-			</ProfileBox>
+		<>
+			{data && (
+				<Layout>
+					<Title text="마이페이지" />
+					<ProfileBox>
+						<img
+							src={data?.avatarUrl}
+							className="profileimage"
+							alt="프로필 이미지가 없습니다"></img>
+						<UserInfoBox>
+							<p>닉네임: {data?.name}</p>
+							<p>
+								주거래 동네:{data?.address ?? '거래 할 동네를 설정해주세요!'}
+							</p>
+							<p className="linkfrom">
+								<a href="http://localhost:3000/profile/merchant/`${id}`">
+									등록한 도서 수: {data?.totalBookCount}
+								</a>
+							</p>
+							<div className="editprofile">
+								<p className="edit1" onClick={handleEditPage}>
+									수정하기
+								</p>
+								<HiOutlinePencilAlt className="edit" onClick={handleEditPage} />
+							</div>
+						</UserInfoBox>
+					</ProfileBox>
 
-			<TabLists tabs={tab} handleChange={handleChange} />
-			{curTab === '찜 목록' && <PickBookList />}
-			{curTab === '예약 목록' && <ReservationBookList />}
-			{/* <MyList /> */}
-			<Button
-				fontSize={'small'}
-				className="logout"
-				onClick={() => {
-					// logout api 아직 없음
-					dispatch(logout());
-					navigate('/books');
-				}}>
-				로그아웃
-			</Button>
-		</Layout>
+					<TabLists tabs={tab} handleChange={handleChange} />
+					{curTab === '찜 목록' && <PickBookList />}
+					{curTab === '예약 목록' && <ReservationBookList />}
+					{/* <MyList /> */}
+					<Button
+						fontSize={'small'}
+						className="logout"
+						onClick={() => {
+							// logout api 아직 없음
+							const isTrue = window.confirm('로그아웃 하시겠습니까?');
+							if (!isTrue) return;
+							dispatch(logout());
+							navigate('/login');
+						}}>
+						로그아웃
+					</Button>
+				</Layout>
+			)}
+		</>
 	);
 }
 

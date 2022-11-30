@@ -15,6 +15,10 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.stereotype.Component;
 
+import com.dongnebook.domain.refreshtoken.exception.TokenEmpty;
+import com.dongnebook.domain.refreshtoken.exception.TokenMalformed;
+import com.dongnebook.domain.refreshtoken.exception.TokenSignatureInvalid;
+import com.dongnebook.domain.refreshtoken.exception.TokenUnsupported;
 import com.dongnebook.global.config.security.auth.userdetails.AuthMember;
 import com.dongnebook.global.dto.TokenDto;
 
@@ -117,11 +121,11 @@ public class TokenProvider {
 		} catch (SignatureException e) {
 			log.info("Invalid JWT signature");
 			log.trace("Invalid JWT signature trace: {}", e);
-
+			throw new TokenSignatureInvalid();
 		} catch (MalformedJwtException e) {
 			log.info("Invalid JWT token");
 			log.trace("Invalid JWT token trace: {}", e);
-
+			throw new TokenMalformed();
 		} catch (ExpiredJwtException e) {
 			log.info("Expired JWT token");
 			log.trace("Expired JWT token trace: {}", e);
@@ -129,10 +133,11 @@ public class TokenProvider {
 		} catch (UnsupportedJwtException e) {
 			log.info("Unsupported JWT token");
 			log.trace("Unsupported JWT token trace: {}", e);
-
+			throw new TokenUnsupported();
 		} catch (IllegalArgumentException e) {
 			log.info("JWT claims string is empty.");
 			log.trace("JWT claims string is empty trace: {}", e);
+			throw new TokenEmpty();
 		}
 	return false;
 	}

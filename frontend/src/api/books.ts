@@ -58,10 +58,11 @@ export const useBooksAPI = () => {
 	};
 
 	// book detail page
-	const getBookDetail = async (id: string | undefined) =>
-		// await axiosInstance.get<IBook>(`/books/${id}`).then(res => res.data);
-		await api.get<IBook>(`/books/${id}`).then(res => res.data);
-
+	const getBookDetail = async (id: string | undefined, isLogin: boolean) => {
+		if (isLogin)
+			return await api.get<IBook>(`/books/${id}`).then(res => res.data);
+		return await axiosInstance.get<IBook>(`/books/${id}`).then(res => res.data);
+	};
 	// book detail page wish
 	const postWishItem = async (bookid: number | undefined) =>
 		await api.post(`/dibs/${bookid}`);

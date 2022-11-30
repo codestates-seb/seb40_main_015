@@ -9,6 +9,7 @@ import loginInfoReducer from './slice/userSlice';
 import bookCreateReducer from './slice/bookCreateSlice';
 import geoLocationSlice from './slice/geoLocationSlice';
 import userInfoReducer from './slice/userInfoSlice';
+import alarmReducer from './slice/alarmSlice';
 
 const persistConfig = {
 	key: 'root',
@@ -27,6 +28,7 @@ const rootReducer = combineReducers({
 	bookCreate: bookCreateReducer,
 	getLocation: geoLocationSlice,
 	userInfo: userInfoReducer,
+	alarm: alarmReducer,
 });
 
 export const store = configureStore({

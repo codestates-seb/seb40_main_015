@@ -46,6 +46,7 @@ const BooksPage = () => {
 		observer.observe(target.current as Element);
 		return () => observer.disconnect();
 	}, []);
+
 	return (
 		<Main>
 			<TitleWrapper>
