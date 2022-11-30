@@ -19,6 +19,8 @@ import useTabs from '../hooks/useTabs';
 // etc
 import { logout } from '../redux/slice/userSlice';
 import { useState } from 'react';
+import { FiExternalLink } from 'react-icons/fi';
+
 function ProfilePage() {
 	const dispatch = useDispatch();
 	const navigate = useNavigate();
@@ -32,13 +34,17 @@ function ProfilePage() {
 		navigate('/profile/edit');
 	};
 
+	const handleMerchantPage = () => {
+		navigate('/merchant');
+	};
+
 	interface Member {
 		memberId: number;
 		name: string;
 		location: {
-			lat: string | number;
-			lon: string | number;
-		} | null;
+			latitude: string | number;
+			longitude: string | number;
+		};
 		address: string | null;
 		totalBookCount: number;
 		avatarUrl: string | null;
@@ -71,10 +77,12 @@ function ProfilePage() {
 							<p>
 								주거래 동네:{data?.address ?? '거래 할 동네를 설정해주세요!'}
 							</p>
-							<p className="linkfrom">
-								<a href="http://localhost:3000/profile/merchant/`${id}`">
-									등록한 도서 수: {data?.totalBookCount}
-								</a>
+							<p className="linkfrom" onClick={handleMerchantPage}>
+								등록한 도서 수: {data?.totalBookCount}
+								<FiExternalLink
+									className="click"
+									onClick={handleMerchantPage}
+								/>
 							</p>
 							<div className="editprofile">
 								<p className="edit1" onClick={handleEditPage}>
@@ -173,12 +181,19 @@ const UserInfoBox = styled.div`
 		display: flex;
 		color: ${props => props.theme.colors.buttonGreen};
 	}
-
 	.linkfrom {
+		color: ${props => props.theme.colors.buttonGreen};
+		cursor: pointer;
+	}
+	.click {
+		padding-left: 6px;
+		cursor: pointer;
+	}
+	/* .linkfrom {
 		&:hover {
 			color: ${props => props.theme.colors.buttonGreen};
 		}
-	}
+	} */
 `;
 
 export default ProfilePage;

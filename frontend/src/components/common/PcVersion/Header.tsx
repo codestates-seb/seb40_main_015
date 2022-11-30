@@ -1,6 +1,5 @@
 import { useState } from 'react';
 import styled from 'styled-components';
-import home from '../../assets/image/logo4.png';
 
 interface MenuProps {
 	id: number;
@@ -26,7 +25,6 @@ const Header = () => {
 		},
 		{
 			id: 2,
-
 			text: '대여목록',
 			selected: false,
 		},
