@@ -9,11 +9,14 @@ import { useNavigate } from 'react-router-dom';
 import ButtonStatus from '../Merchant/ButtonStatus';
 
 interface ReservationBook {
+	reservationId: number;
+	rentalExpectedAt: string;
 	bookId: number;
 	title: string;
 	imageUrl: string;
 	rentalFee: number;
 	status: string;
+	merchantName: string;
 }
 
 const ReservationBookList = () => {
@@ -103,6 +106,10 @@ const ReservationBookList = () => {
 	);
 };
 
+const Box = styled.div`
+	/* padding: 0 1rem; */
+`;
+
 const Container = styled.div`
 	width: 90%;
 	display: flex;
@@ -137,7 +144,8 @@ const EmptyBox = styled.div`
 	justify-content: center;
 	align-items: center;
 	p {
-		font-size: ${props => props.theme.fontSizes.subtitle};
+		/* font-size: ${props => props.theme.fontSizes.subtitle}; */
+		font-size: 16px;
 		font-weight: 600;
 	}
 `;

@@ -138,6 +138,7 @@ const ProfileBox = styled.div`
 	display: flex;
 	padding: 1.2rem;
 	border: 1px solid #eaeaea;
+
 	.profileimage {
 		box-sizing: border-box;
 		width: 100px;
@@ -156,6 +157,9 @@ const ProfileBox = styled.div`
 		color: ${props => props.theme.colors.buttonGreen};
 		padding-left: 5px;
 		cursor: pointer;
+	}
+	@media (min-width: 800px) {
+		width: 800px;
 	}
 `;
 

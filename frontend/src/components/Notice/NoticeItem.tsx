@@ -1,63 +1,74 @@
+import { HiOutlineX } from 'react-icons/hi';
+import { Link } from 'react-router-dom';
 import styled from 'styled-components';
+import { noticeMessages } from '../../api/hooks/notice/noticeMessages';
+import { NoticeItemType } from '../../api/hooks/notice/useGetNotice';
 import logo from '../../assets/image/logo1.png';
 
-export type NoticeItemType = {
-	noticeData: noticeDataType[];
-};
-
-export type noticeDataType = {
-	[key: string]: string | number | boolean;
-	id: number;
-	type:
-		| 'reservation'
-		| 'return'
-		| 'rental'
-		| 'merchantCancellation'
-		| 'residentCancellation';
-	title: string;
-	isViewed: boolean;
-};
-
 const NoticeItem = ({ noticeData }: NoticeItemType) => {
+	const handleXClick = (alarmId: number) => {
+		//알람삭제기능
+	};
+
 	return (
 		<>
-			{noticeData.map(el => {
-				const message = noticeMessages[el.type];
+			{noticeData?.map(el => {
+				const message = noticeMessages[el.alarmType];
 				return (
-					<StyledNoticeItem isViewed={el.isViewed} key={el.id}>
-						<Logo src={logo} alt="로고" />
-						<Notice>
-							{`${message[0]} ${message[1]}하신 `}
-							<span>{el.title}</span>
-							{`${message[2]}`}
-						</Notice>
-					</StyledNoticeItem>
+					<Link to={message[3]} key={el.alarmId}>
+						<StyledNoticeItem isRead={el.isRead}>
+							<IconWrapper onClick={() => handleXClick(el.alarmId)}>
+								<HiOutlineX className="icon" />
+							</IconWrapper>
+							<Logo src={logo} alt="로고" />
+							<Notice>
+								{`${message[0]} ${message[1]}하신 `}
+								<span>{el.bookTitle}</span>
+								{`${message[2]}`}
+							</Notice>
+						</StyledNoticeItem>
+					</Link>
 				);
 			})}
 		</>
 	);
 };
 
-const noticeMessages = {
-	reservation: ['💌', '예약', '의 대여가 가능합니다.'],
-	return: ['⏰', '대여', '의 대여 반납이 하루 남았습니다.'],
-	rental: ['📚', '등록', '대여 신청이 접수되었습니다.'],
-	merchantCancellation: ['❌', '신청', '의 대여가 취소되었습니다.'],
-	residentCancellation: ['❌', '등록', '의 대여가 취소되었습니다.'],
-};
-
-const StyledNoticeItem = styled.div<{ isViewed: boolean }>`
-	width: 95%;
-	max-width: 1000px;
+const StyledNoticeItem = styled.div<{ isRead: boolean }>`
+	width: 90vw;
+	max-width: 800px;
 	min-height: 5rem;
 	background-color: ${props =>
-		props.isViewed ? 'white' : props.theme.colors.unViewedNotice};
+		props.isRead ? 'white' : props.theme.colors.unViewedNotice};
 	border: ${props => props.theme.colors.grey + ' 1px solid'};
 	border-radius: 5px;
 	display: flex;
 	align-items: center;
-	padding: 0.5rem;
-	margin: 0 0.5rem 1rem 0.5rem;
+	padding: 0.5rem 1.5rem 0.5rem 0.5rem;
+	margin-bottom: 1rem;
+	position: relative;
+`;
+
+const IconWrapper = styled.div`
+	height: 1.5rem;
+	width: 1.5rem;
+	position: absolute;
+	top: 8px;
+	right: 8px;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+
+	.icon {
+		color: ${props => props.theme.colors.buttonGrey};
+		font-size: 1.3rem;
+	}
+	:hover {
+		.icon {
+			color: ${props => props.theme.colors.errorColor};
+			font-size: 1.5rem;
+		}
+	}
 `;
 
 const Logo = styled.img`
