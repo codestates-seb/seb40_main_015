@@ -109,7 +109,7 @@ const WishWrapper = styled.div`
 
 	position: absolute;
 	right: -1vw;
-	bottom: -80px;
+	bottom: -90px;
 `;
 
 const WishiconOn = styled(HiHeart)`

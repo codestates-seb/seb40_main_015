@@ -1,5 +1,6 @@
 package com.dongnebook.domain.chat.ui;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 import javax.validation.Valid;
@@ -12,7 +13,6 @@ import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.dongnebook.domain.chat.application.ChatService;
@@ -38,10 +38,11 @@ public class ChatController {
 	@MessageMapping("/chats/message/{roomId}")
 	public void chat(@DestinationVariable Long roomId, ChatMessageDto message) {
 
-		chatService.save(roomId,message);
+		LocalDateTime now = LocalDateTime.now();
+		chatService.save(roomId,message,now);
 
-		redisPublisher.publish(ChannelTopic.of(String.valueOf(roomId)), new RedisChat(roomId,message.getSenderId(),message.getReceiverId(),
-			message.getContent()));
+		redisPublisher.publish(ChannelTopic.of("room"+roomId), new RedisChat(roomId,message.getSenderId(),
+			message.getContent(), LocalDateTime.now()));
 	}
 
 	//채팅방에 있는 대화를 모두 가져옴
