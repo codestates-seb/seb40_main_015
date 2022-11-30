@@ -19,29 +19,6 @@ import { useMutation } from '@tanstack/react-query';
 import notify from '../utils/notify';
 import { useDispatch } from 'react-redux';
 
-/*
-//책 상태: 대여가능, 아래 코드 util / calcCalendarDate로 옮김
-const today = new Date();
-const marks = {
-	rentalStatedAt: today.toISOString(),
-	rentalDeadline: new Date(
-		today.getFullYear(),
-		today.getMonth(),
-		today.getDate() + 9,
-	).toISOString(),
-};
-const rentalPeriod = convertDate(marks.rentalStatedAt, marks.rentalDeadline);
-const month = rentalPeriod
-	.split('~')
-	.map(el => el.trim().slice(5))
-	.map(el => +el.split('.')[0]);
-
-const day = rentalPeriod
-	.split('~')
-	.map(el => el.trim().slice(5))
-	.map(el => +el.split('.')[1]);
-
-  */
 const BooksRentalPage = () => {
 	const [isChecked, setIsChecked] = useState(false);
 	const { month, day, rentalPeriod } = calcCalendarDate(
@@ -81,10 +58,6 @@ const BooksRentalPage = () => {
 				</CalendarWrapper>
 				<RentalInfo>
 					<legend>대여 기간</legend>
-					{/* <label>✅</label> */}
-					{/* <label>대여일 : {marks.rentalStatedAt.slice(0, 10)}</label> */}
-					{/* <label>~</label> */}
-					{/* <label>반납일 : {marks.rentalDeadline.slice(0, 10)}</label> */}
 
 					<RentalCheck>
 						<input

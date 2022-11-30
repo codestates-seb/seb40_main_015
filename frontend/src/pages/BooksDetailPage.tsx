@@ -28,7 +28,7 @@ const BooksDetailPage = () => {
 
 	// 책 상세정보 받아오기 쿼리
 	const { data, isLoading } = useQuery({
-		queryKey: ['book'],
+		queryKey: ['bookDetail'],
 		queryFn: () => getBookDetail(bookId, isLogin),
 		onSuccess: () => {
 			console.log('book detail: ', data);
@@ -41,10 +41,19 @@ const BooksDetailPage = () => {
 
 	// event handler
 	const HandleDelete = () => {
+		if (data?.book.rentalStart) {
+			notify(
+				dispatch,
+				'현재 대여 중 상태의 도서는 대여를 종료 할 수 없습니다.',
+			);
+			return;
+		}
+
 		const result = window.confirm('대여 종료하시겠습니까?');
-		result && mutateDelete();
-		result && navigate('/books');
-		result && notify(dispatch, '삭제가 완료되었습니다.');
+		if (!result) return;
+		mutateDelete();
+		navigate('/books');
+		notify(dispatch, '해당 도서의 대여 종료 처리가 완료되었습니다.');
 	};
 
 	if (isLoading)
@@ -82,8 +91,8 @@ const BooksDetailPage = () => {
 						<LinkStyled
 							to={isLogin ? `booking` : ''}
 							state={{
-								rentalStart: data?.book.rentalStart || '2022-11-28',
-								rentalEnd: data?.book.rentalEnd || '2022-12-07',
+								rentalStart: data?.book.rentalStart || '2023-05-01',
+								rentalEnd: data?.book.rentalEnd || '2023-05-11',
 							}}>
 							<Button
 								onClick={() =>
