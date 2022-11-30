@@ -34,6 +34,7 @@ export default SortButton;
 
 const Layout = styled.div`
 	width: 100%;
+	max-width: 800px;
 	display: inline-flex;
 	justify-content: flex-end;
 `;

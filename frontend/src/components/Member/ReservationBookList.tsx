@@ -4,20 +4,9 @@ import Animation from '../Loading/Animation';
 import dummyImage3 from '../../assets/image/dummy3.png';
 import Button from '../common/Button';
 import { useMypageAPI } from '../../api/mypage';
-import { useInfiniteQuery, useQuery } from '@tanstack/react-query';
+import { useInfiniteQuery } from '@tanstack/react-query';
 import { useNavigate } from 'react-router-dom';
 import ButtonStatus from '../Merchant/ButtonStatus';
-
-interface ReservationBook {
-	reservationId: number;
-	rentalExpectedAt: string;
-	bookId: number;
-	title: string;
-	imageUrl: string;
-	rentalFee: number;
-	status: string;
-	merchantName: string;
-}
 
 const ReservationBookList = () => {
 	const navigate = useNavigate();
@@ -35,7 +24,7 @@ const ReservationBookList = () => {
 			queryFn: ({ pageParam = undefined }) => getReservationBookList(pageParam),
 			getNextPageParam: lastPage => {
 				// console.log('ff: ', lastPage.content?.slice(-1)[0]?.bookInfo.bookId);
-				return lastPage.content?.slice(-1)[0]?.bookInfo.bookId;
+				return lastPage.content?.slice(-1)[0]?.reservationInfo.reservationId;
 			},
 		});
 
@@ -56,7 +45,7 @@ const ReservationBookList = () => {
 		return () => observer.disconnect();
 	}, []);
 
-	// console.log('reservation: ', data, hasNextPage, isFetchingNextPage);
+	console.log('reservation: ', data, hasNextPage, isFetchingNextPage);
 	return (
 		<>
 			{isLoading ? (
@@ -98,8 +87,8 @@ const ReservationBookList = () => {
 
 			<ScrollEnd
 				ref={infiniteScrollTarget}
-				// className={`${hasNextPage ? '' : 'hidden'}`}>
-				className={`${isFetchingNextPage ? '' : 'hidden'}`}>
+				className={`${hasNextPage ? '' : 'hidden'}`}>
+				{/* className={`${isFetchingNextPage ? '' : 'hidden'}`}> */}
 				{isFetchingNextPage ? <p>Loading more books ...</p> : ''}
 			</ScrollEnd>
 		</>

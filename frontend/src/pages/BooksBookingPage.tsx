@@ -85,7 +85,9 @@ const BooksBookingPage = () => {
 								setIsChecked(!isChecked);
 							}}
 						/>
-						<label htmlFor="rentalPeriod">확인</label>
+						<label htmlFor="rentalPeriod" className="checkBoxLabel">
+							확인
+						</label>
 						<label>{rentalPeriod}</label>
 					</RentalCheck>
 				</RentalInfo>
