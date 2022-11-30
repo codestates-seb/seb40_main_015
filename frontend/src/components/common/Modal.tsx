@@ -17,7 +17,7 @@ function Modal({
 	const location = useGeoLocation2();
 	const dispatch = useAppDispatch();
 
-	const { lat, lng }: any = location.coordinates;
+	const { latitude, longitude }: any = location.coordinates;
 
 	const [ad, setAd] = useState('');
 
@@ -31,7 +31,7 @@ function Modal({
 	Geocode.enableDebug();
 
 	const getAddressFromLatLng = () => {
-		Geocode.fromLatLng(lat, lng).then(
+		Geocode.fromLatLng(latitude, longitude).then(
 			response => {
 				const address = response.results[4].formatted_address;
 				setAd(address.slice(5));

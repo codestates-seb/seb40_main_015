@@ -48,7 +48,7 @@ public class ReservationQueryRepository {
                             reservation.book.id,
                             reservation.book.title,
                             reservation.book.rentalFee,
-                            reservation.book.ImgUrl,
+                            reservation.book.imgUrl,
                             reservation.book.member.nickname
                         )
                     )

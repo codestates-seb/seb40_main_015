@@ -17,6 +17,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -29,6 +30,7 @@ import org.springframework.web.util.UriComponentsBuilder;
 
 import com.dongnebook.domain.book.application.BookService;
 import com.dongnebook.domain.book.dto.KaKaoBookInfoResponse;
+import com.dongnebook.domain.book.dto.request.BookEditRequest;
 import com.dongnebook.domain.book.dto.request.BookRegisterRequest;
 import com.dongnebook.domain.book.dto.request.BookSearchCondition;
 import com.dongnebook.domain.book.dto.response.BookDetailResponse;
@@ -64,6 +66,11 @@ public class BookController {
 			.buildAndExpand(bookId)
 			.toUri();
 		return ResponseEntity.created(createdUri).build();
+	}
+
+	@PatchMapping("/{id}")
+	public void edit(@Login AuthMember authMember, @PathVariable Long id, @Valid @RequestBody BookEditRequest bookEditRequest){
+		bookService.edit(authMember.getMemberId(), id,bookEditRequest);
 	}
 
 	@GetMapping("/{id}")

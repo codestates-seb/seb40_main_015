@@ -21,6 +21,7 @@ import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 
+import com.dongnebook.domain.book.dto.request.BookEditRequest;
 import com.dongnebook.domain.book.dto.request.BookRegisterRequest;
 import com.dongnebook.domain.book.exception.NotRentableException;
 import com.dongnebook.domain.dibs.domain.Dibs;
@@ -54,7 +55,7 @@ public class Book extends BaseTimeEntity {
 	private String publisher;
 
 	@Column(name = "img_url")
-	private String ImgUrl;
+	private String imgUrl;
 
 	@Lob
 	@Column(name = "description")
@@ -85,7 +86,7 @@ public class Book extends BaseTimeEntity {
 		this.title = title;
 		this.author = author;
 		this.publisher = publisher;
-		this.ImgUrl = imgUrl;
+		this.imgUrl = imgUrl;
 		this.description = description;
 		this.rentalFee = rentalFee;
 		this.location = location;
@@ -124,6 +125,11 @@ public class Book extends BaseTimeEntity {
 			return;
 		}
 		throw new NotRentableException();
+	}
+
+	public void edit(BookEditRequest bookEditRequest){
+		this.imgUrl = bookEditRequest.getImageUrl()==null ? this.imgUrl : bookEditRequest.getImageUrl();
+		this.description = bookEditRequest.getDescription();
 	}
 }
 @Converter
