@@ -1,6 +1,6 @@
 import axios from 'axios';
 import { HiOutlineX } from 'react-icons/hi';
-import { Link, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import { noticeMessages } from '../../api/hooks/notice/noticeMessages';
 import { NoticeItemType } from '../../api/hooks/notice/useGetNotice';
@@ -12,36 +12,19 @@ const NoticeItem = ({ noticeData }: NoticeItemType) => {
 	const navigate = useNavigate();
 	const { accessToken } = useAppSelector(state => state.loginInfo);
 
-	// const handleXClick = (alarmId: number) => {
-	// 	if (window.confirm('정말 삭제하시겠습니까?')) {
-	// 		axios.delete(`${BASE_URL}/alarm/${alarmId}`, {
-	// 			headers: {
-	// 				Authorization: accessToken,
-	// 			},
-	// 		});
-	// 	} else {
-	// 		return;
-	// 	}
-	// 	navigate('/notice');
-	// };
-
-	const handleClick = (
+	const handleClickIcon = (
 		e: React.MouseEvent<HTMLDivElement, MouseEvent>,
 		alarmId: number,
-		link: string,
 	) => {
-		if ((e.target as Element).classList.value === 'icon') {
-			if (window.confirm('정말 삭제하시겠습니까?')) {
-				axios.delete(`${BASE_URL}/alarm/${alarmId}`, {
-					headers: {
-						Authorization: accessToken,
-					},
-				});
-			} else {
-				return;
-			}
+		e.stopPropagation();
+		if (window.confirm('정말 삭제하시겠습니까?')) {
+			axios.delete(`${BASE_URL}/alarm/${alarmId}`, {
+				headers: {
+					Authorization: accessToken,
+				},
+			});
 		} else {
-			navigate(link);
+			return;
 		}
 	};
 
@@ -52,10 +35,12 @@ const NoticeItem = ({ noticeData }: NoticeItemType) => {
 				return (
 					<StyledNoticeItem
 						className="notice-item"
-						onClick={e => handleClick(e, el.alarmId, message[3])}
+						onClick={() => navigate(message[3])}
 						isRead={el.isRead}
 						key={el.alarmId}>
-						<IconWrapper>
+						<IconWrapper
+							className="icon"
+							onClick={e => handleClickIcon(e, el.alarmId)}>
 							<HiOutlineX className="icon" />
 						</IconWrapper>
 						<Logo src={logo} alt="로고" />
@@ -91,11 +76,11 @@ const StyledNoticeItem = styled.div<{ isRead: boolean }>`
 `;
 
 const IconWrapper = styled.div`
-	height: 1.5rem;
-	width: 1.5rem;
+	height: 3rem;
+	width: 3em;
 	position: absolute;
-	top: 8px;
-	right: 8px;
+	top: 0;
+	right: 0;
 	display: flex;
 	justify-content: center;
 	align-items: center;
