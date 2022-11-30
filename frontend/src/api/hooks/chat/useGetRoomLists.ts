@@ -4,7 +4,7 @@ import { useChatAPI } from '../../chat';
 const useGetRoomLists = () => {
 	const { getAllRoomLists } = useChatAPI();
 
-	const { data: roomListsData } = useQuery({
+	const { data: roomListsData, isLoading: isLoadingRoomList } = useQuery({
 		queryKey: ['roomLists'],
 		queryFn: () => {
 			return getAllRoomLists();
@@ -14,7 +14,7 @@ const useGetRoomLists = () => {
 		},
 	});
 
-	return { roomListsData };
+	return { roomListsData, isLoadingRoomList };
 };
 
 export default useGetRoomLists;

@@ -4,6 +4,7 @@ import useCreateRoom from '../api/hooks/chat/useCreateRoom';
 import useGetRoomLists from '../api/hooks/chat/useGetRoomLists';
 import ChatLists from '../components/Chat/ChatLists';
 import Title from '../components/common/Title';
+import Animation from '../components/Loading/Animation';
 
 interface RoomList {
 	createdAt: string;
@@ -21,7 +22,7 @@ const ChatsPage = () => {
 	const bookId = 3;
 	const roomId = 1;
 	const { roomData } = useCreateRoom({ merchantId, customerId, bookId });
-	const { roomListsData } = useGetRoomLists();
+	const { roomListsData, isLoadingRoomList } = useGetRoomLists();
 
 	console.log(roomData, roomListsData);
 	useEffect(() => {}, []);
@@ -29,7 +30,9 @@ const ChatsPage = () => {
 		<Container>
 			<Title text="채팅창 목록" marginBottom={false} />
 			<Box>
-				{roomListsData ? (
+				{isLoadingRoomList ? (
+					<Animation />
+				) : roomListsData ? (
 					roomListsData.map((list: RoomList) => {
 						return <ChatLists list={list} key={list.roomId} />;
 					})
