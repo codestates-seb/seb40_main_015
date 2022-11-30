@@ -14,6 +14,7 @@ public class ChatResponse {
 	private String content;
 	private LocalDateTime dateTime;
 
+
 	public ChatResponse(Long memberId, String avatarUrl, String nickName, String content, LocalDateTime dateTime) {
 		this.memberId = memberId;
 		this.avatarUrl = avatarUrl;

@@ -42,6 +42,8 @@ public class ChatService {
 			.title(book.getTitle())
 			.bookState(book.getBookState())
 			.chatResponses(collect)
+			.member1Id(chatRoom.getCustomer().getId())
+			.member2Id(chatRoom.getMerchant().getId())
 			.build();
 	}
 

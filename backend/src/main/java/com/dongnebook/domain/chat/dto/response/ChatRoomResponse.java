@@ -1,6 +1,5 @@
 package com.dongnebook.domain.chat.dto.response;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import com.dongnebook.domain.book.domain.BookState;
@@ -19,15 +18,21 @@ public class ChatRoomResponse {
 
 	private String bookUrl;
 
+	private Long member1Id;
+	private Long member2Id;
+
 	List<ChatResponse> chatResponses;
 
 	@Builder
 	public ChatRoomResponse(Long bookId, String title, BookState bookState, String bookUrl,
-		List<ChatResponse> chatResponses) {
+		Long member1Id, Long member2Id, List<ChatResponse> chatResponses) {
 		this.bookId = bookId;
 		this.title = title;
 		this.bookState = bookState;
 		this.bookUrl = bookUrl;
+		this.member1Id = member1Id;
+		this.member2Id = member2Id;
+
 		this.chatResponses = chatResponses;
 	}
 
