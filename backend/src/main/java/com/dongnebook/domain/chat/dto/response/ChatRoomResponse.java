@@ -3,6 +3,7 @@ package com.dongnebook.domain.chat.dto.response;
 import java.util.List;
 
 import com.dongnebook.domain.book.domain.BookState;
+import com.dongnebook.domain.member.domain.Member;
 
 import lombok.Builder;
 import lombok.Getter;
@@ -18,23 +19,23 @@ public class ChatRoomResponse {
 
 	private String bookUrl;
 
-	private Long member1Id;
-	private Long member2Id;
+	private List<ChatMemberResponse> members;
 
 	List<ChatResponse> chatResponses;
 
 	@Builder
 	public ChatRoomResponse(Long bookId, String title, BookState bookState, String bookUrl,
-		Long member1Id, Long member2Id, List<ChatResponse> chatResponses) {
+		Member memberA, Member memberB, List<ChatResponse> chatResponses) {
 		this.bookId = bookId;
 		this.title = title;
 		this.bookState = bookState;
 		this.bookUrl = bookUrl;
-		this.member1Id = member1Id;
-		this.member2Id = member2Id;
-
+		this.members = List.of(
+			ChatMemberResponse.builder().memberId(memberA.getId()).avatarUrl(memberA.getAvatarUrl())
+			.nickName(memberA.getNickname()).build(),
+			ChatMemberResponse.builder().memberId(memberB.getId()).avatarUrl(memberB.getAvatarUrl()).nickName(
+			memberB.getNickname()).build());
 		this.chatResponses = chatResponses;
 	}
-
 
 }

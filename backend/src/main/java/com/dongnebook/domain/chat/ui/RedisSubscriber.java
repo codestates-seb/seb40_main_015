@@ -30,7 +30,7 @@ public class RedisSubscriber implements MessageListener {
 			//레디스 에서 받은 데이터를 역직렬화
 			String publishMessage = String.valueOf(redisTemplate.getStringSerializer().deserialize(message.getBody()));
 			RedisChat redisChat = objectMapper.readValue(publishMessage, RedisChat.class);
-			messagingTemplate.convertAndSend("/sub/room/" + redisChat.getRoomId(), redisChat.getMessage());
+			messagingTemplate.convertAndSend("/sub/room/" + redisChat.getRoomId(), redisChat);
 			log.info("레디스에서 받아옴");
 		}
 		catch (Exception e){
