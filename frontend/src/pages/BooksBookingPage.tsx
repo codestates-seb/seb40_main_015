@@ -39,7 +39,7 @@ const BooksBookingPage = () => {
 		mutationFn: () => postBookBooking(bookId),
 		onSuccess: res => {
 			notify(dispatch, '예약 신청이 완료되었습니다.');
-			navigate('/history');
+			navigate('/profile');
 		},
 		onError: res => {
 			notify(dispatch, '이미 대여 신청한 도서 입니다.');

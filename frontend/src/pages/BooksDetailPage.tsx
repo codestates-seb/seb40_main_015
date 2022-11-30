@@ -41,10 +41,19 @@ const BooksDetailPage = () => {
 
 	// event handler
 	const HandleDelete = () => {
+		if (data?.book.rentalStart) {
+			notify(
+				dispatch,
+				'현재 대여 중 상태의 도서는 대여를 종료 할 수 없습니다.',
+			);
+			return;
+		}
+
 		const result = window.confirm('대여 종료하시겠습니까?');
-		result && mutateDelete();
-		result && navigate('/books');
-		result && notify(dispatch, '삭제가 완료되었습니다.');
+		if (!result) return;
+		mutateDelete();
+		navigate('/books');
+		notify(dispatch, '해당 도서의 대여 종료 처리가 완료되었습니다.');
 	};
 
 	if (isLoading)
