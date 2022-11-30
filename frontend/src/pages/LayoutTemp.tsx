@@ -4,7 +4,14 @@ import NavBar from '../components/common/NavBar';
 import NavTemp from '../components/common/NavTemp';
 import ScrollToTop from '../components/common/ScrollToTop';
 
+import { useAppSelector } from '../redux/hooks';
+import useGetAccessTokenRefresh from '../api/hooks/auth/authRenew';
+
 const LayoutTemp = () => {
+	const data = useAppSelector(state => state.loginInfo);
+	console.log('log: ', data);
+	useGetAccessTokenRefresh(data);
+
 	return (
 		<Main>
 			<Body>

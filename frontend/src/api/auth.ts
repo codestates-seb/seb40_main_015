@@ -2,20 +2,20 @@ import { axiosInstanceAuth } from '.';
 import useAPI from '../hooks/useAPI';
 
 //type
-interface loginProps {
+export interface loginProps {
 	userId: string;
 	password: string;
 }
-interface IAccessToken {
+export interface IAccessToken {
 	authorization: string;
 }
-interface userInfo {
+export interface userInfo {
 	id: string;
 	userId: string;
 	nickname: string;
 	headers?: IAccessToken;
 }
-interface IAccessTokenRefresh {
+export interface IAccessTokenRefresh {
 	headers: IAccessToken;
 }
 
