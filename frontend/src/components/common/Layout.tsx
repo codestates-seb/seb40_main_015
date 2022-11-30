@@ -1,13 +1,12 @@
 import { Outlet } from 'react-router-dom';
 import styled from 'styled-components';
-import NavBar from '../components/common/NavBar';
-import NavTemp from '../components/common/NavTemp';
-import ScrollToTop from '../components/common/ScrollToTop';
+import NavBar from './NavBar';
+import ScrollToTop from './ScrollToTop';
 
-import { useAppSelector } from '../redux/hooks';
-import useGetAccessTokenRefresh from '../api/hooks/auth/authRenew';
+import { useAppSelector } from '../../redux/hooks';
+import useGetAccessTokenRefresh from '../../api/hooks/auth/authRenew';
 
-const LayoutTemp = () => {
+const Layout = () => {
 	const data = useAppSelector(state => state.loginInfo);
 	// console.log('log: ', data);
 	// useGetAccessTokenRefresh(data);
@@ -18,7 +17,7 @@ const LayoutTemp = () => {
 				<ScrollToTop />
 				<Outlet />
 			</Body>
-			<NavTemp />
+			<NavBar />
 		</Main>
 	);
 };
@@ -45,4 +44,4 @@ const Nav = styled.ul`
 	}
 `;
 
-export default LayoutTemp;
+export default Layout;
