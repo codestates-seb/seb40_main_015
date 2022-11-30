@@ -1,10 +1,10 @@
 import { useAppDispatch, useAppSelector } from '../redux/hooks';
 import Title from '../components/common/Title';
 import {
-	BookInfo,
 	Main,
 	BodyContainer,
 	TitleWrapper,
+	BookInfo,
 } from '../components/Books/BookElements';
 import Button from '../components/common/Button';
 import SearchForm from '../components/BooksCreate/SearchForm';
@@ -19,6 +19,7 @@ import { useMypageAPI } from '../api/mypage';
 import { useNavigate } from 'react-router';
 import { useQuery } from '@tanstack/react-query';
 import { resetBookCreateInfo } from '../redux/slice/bookCreateSlice';
+import styled from 'styled-components';
 
 const BooksCreatePage = () => {
 	const bookCreate = useAppSelector(state => state.persistedReducer.bookCreate);
@@ -69,22 +70,47 @@ const BooksCreatePage = () => {
 	};
 
 	return (
-		<Main>
+		<>
 			<TitleWrapper>
 				<Title text="책 등록하기" />
 			</TitleWrapper>
-			<BodyContainer>
-				<SearchForm />
-				<RentalFee />
-				<Description />
-				<BookInfo>
-					<span>거래 위치 : {data?.address}</span>
-				</BookInfo>
-				<Photo />
-			</BodyContainer>
-			<Button onClick={handleCreate}>등록하기</Button>
-		</Main>
+			<StyledMain>
+				<StyledBodyContainer>
+					<SearchForm />
+					<RentalFee />
+					<Description />
+					<StyledBookInfo>
+						<span>거래 위치 : {data?.address}</span>
+					</StyledBookInfo>
+					<Photo />
+					<StyledButton onClick={handleCreate}>등록하기</StyledButton>
+				</StyledBodyContainer>
+			</StyledMain>
+		</>
 	);
 };
+
+export const StyledBookInfo = styled(BookInfo)`
+	box-sizing: border-box;
+	width: 100%;
+`;
+
+const StyledBodyContainer = styled(BodyContainer)`
+	width: 70%;
+	max-width: 800px;
+	@media screen and (max-width: 800px) {
+		gap: 1rem;
+	}
+`;
+
+const StyledButton = styled(Button)`
+	height: 3rem;
+	width: 100%;
+`;
+
+const StyledMain = styled(Main)`
+	height: 100%;
+	align-items: center;
+`;
 
 export default BooksCreatePage;

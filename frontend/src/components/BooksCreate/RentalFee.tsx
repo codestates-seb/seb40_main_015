@@ -1,9 +1,9 @@
 import { useState } from 'react';
 import styled from 'styled-components';
+import { StyledBookInfo } from '../../pages/BooksCreatePage';
 import { useAppDispatch } from '../../redux/hooks';
 import { updateRentalInfo } from '../../redux/slice/bookCreateSlice';
 import notify from '../../utils/notify';
-import { BookInfo } from '../Books/BookElements';
 
 const RentalFee = () => {
 	const [fee, setFee] = useState<number | undefined>();
@@ -26,7 +26,7 @@ const RentalFee = () => {
 	};
 
 	return (
-		<BookInfo>
+		<StyledBookInfo>
 			<StyledInput
 				className="book--info__fee"
 				type="number"
@@ -38,7 +38,7 @@ const RentalFee = () => {
 				max={100000000}
 			/>
 			<span>원 </span>
-		</BookInfo>
+		</StyledBookInfo>
 	);
 };
 
