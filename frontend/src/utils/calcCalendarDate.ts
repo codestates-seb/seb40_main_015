@@ -13,7 +13,7 @@ export const calcCalendarDate = (start: string): IcalcCalendarDate => {
 		rentalDeadline: new Date(
 			+start.slice(0, 4),
 			+start.slice(5, 7) - 1,
-			+start.slice(8, 10) + 9,
+			+start.slice(8, 10) + 9, //월말이 30일냐 31이냐에 따라 다름
 		).toISOString(),
 	};
 
