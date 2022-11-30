@@ -13,10 +13,7 @@ import Avatar from '../api/hooks/profileedit/Avatar';
 import { useFixInfo } from '../api/hooks/profileedit/useFixInfo';
 import useGeolocation2 from '../hooks/useGeoLocation2';
 import useGeoLocation from '../hooks/useGeoLocation';
-<<<<<<< HEAD
 import IdSection from '../components/SignUp/IdSection';
-=======
->>>>>>> dev
 
 function ProfileEditPage() {
 	const goNotify = (message: string) => notify(dispatch, message);
