@@ -11,7 +11,9 @@ const RentalFee = () => {
 	const dispatch = useAppDispatch();
 
 	const handleChangeFee = (e: React.ChangeEvent<HTMLInputElement>) => {
-		setFee(Number(e.target.value));
+		if (String(e.target.value).length > 9) {
+			notify(dispatch, '대여료는 1억 원을 넘을 수 없습니다.');
+		} else setFee(Number(e.target.value));
 	};
 	const handleBlurInput = () => {
 		if (fee && fee / 100 !== Math.floor(fee / 100)) {
@@ -33,6 +35,7 @@ const RentalFee = () => {
 				onChange={handleChangeFee}
 				onBlur={handleBlurInput}
 				isValid={isValid}
+				max={100000000}
 			/>
 			<span>원 </span>
 		</BookInfo>
