@@ -66,6 +66,10 @@ const StyledNoticeItem = styled.div<{ isRead: boolean }>`
 
 	:hover {
 		background-color: ${props => props.theme.colors.buttonGrey};
+		cursor: pointer;
+		.icon {
+			color: black;
+		}
 	}
 `;
 
