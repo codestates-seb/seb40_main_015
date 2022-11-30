@@ -13,7 +13,7 @@ interface IAccessTokenRefreshProps extends userInfo {
 
 // token renew
 // 현재까지는 로그인 -> 갱신요청 1회 -> 29분뒤 리패치  방식으로 진행됨.
-// 로그인 이후 29분뒤 갱신요청을 보내는 방법 강구
+// 로그인 이후 29분뒤 갱신요청을 보내는 방법 강구 -로그인 요청과 합치기?
 const useGetAccessTokenRefresh = (
 	loginMutationData: IAccessTokenRefreshProps,
 ) => {
@@ -25,7 +25,7 @@ const useGetAccessTokenRefresh = (
 		useQuery({
 			queryKey: ['renew', 'loginInfo'],
 			queryFn: getAccessTokenRefresh,
-			enabled: loginMutationData.isLogin && window.document.hasFocus(),
+			enabled: loginMutationData.isLogin,
 			// staleTime: 1000 * 60 * 28,
 			staleTime: 1000 * 10,
 			onSuccess: res => {
@@ -33,6 +33,7 @@ const useGetAccessTokenRefresh = (
 				const {
 					headers: { authorization },
 				} = res;
+				console.log('auth: ', authorization);
 				dispatch(
 					login({
 						...loginMutationData,
@@ -45,6 +46,7 @@ const useGetAccessTokenRefresh = (
 				// }, 1000 * 60 * 29);
 			},
 			onError: err => {
+				//리프레시 만료 에러일때만 로그아웃
 				console.error('token renew error: ', err);
 				notify(
 					dispatch,
