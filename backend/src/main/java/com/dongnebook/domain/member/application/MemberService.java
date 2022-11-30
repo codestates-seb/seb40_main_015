@@ -1,5 +1,7 @@
 package com.dongnebook.domain.member.application;
 
+import com.dongnebook.domain.book.domain.Book;
+import com.dongnebook.domain.book.domain.BookState;
 import com.dongnebook.domain.book.repository.BookQueryRepository;
 import com.dongnebook.domain.member.dto.request.MerchantSearchRequest;
 
@@ -29,6 +31,8 @@ import com.dongnebook.global.config.security.auth.filter.TokenProvider;
 import com.dongnebook.global.config.security.auth.userdetails.AuthMember;
 import com.dongnebook.global.dto.TokenDto;
 import com.dongnebook.global.dto.request.PageRequest;
+import com.dongnebook.global.error.exception.BusinessException;
+import com.dongnebook.global.error.exception.ErrorCode;
 
 import io.jsonwebtoken.Claims;
 import lombok.Getter;
@@ -88,12 +92,21 @@ public class MemberService {
 	@Transactional
 	public void edit(Long memberId, MemberEditRequest memberEditRequest) {
 
-		Member member = memberRepository.findById(memberId).orElseThrow(MemberNotFoundException::new);
+		//어떤 회원의 대여중인책 -> 책 상태가 RENTABLE 이나 DELETE 가 아닌거
+		Member member = memberQueryRepository.findByMemberWithRental(memberId)
+			.orElseThrow(MemberNotFoundException::new);
+		if (member.getBookList()
+			.stream()
+			.anyMatch(this::isBeingRental)) {
+			throw new BusinessException("대여중인 책이 있어서 변경할 수 없습니다.", ErrorCode.MEMBER_HAS_BOOK_ON_LOAN);
+		}
+
 		member.edit(memberEditRequest);
 		em.flush();
-		bookQueryRepository.updateBookLocation(member,memberEditRequest.getLocation());
+		bookQueryRepository.updateBookLocation(member, memberEditRequest.getLocation());
 
 	}
+
 
 	@Transactional
 	public Long reissue(String refreshToken,
@@ -103,7 +116,6 @@ public class MemberService {
 			.orElseThrow(TokenNotFound::new);
 
 		Claims claims = tokenProvider.parseClaims(refreshToken);
-
 
 		Member member = findById(Long.parseLong(claims.getSubject()));
 
@@ -133,7 +145,6 @@ public class MemberService {
 			.httpOnly(true)
 			.build();
 		response.setHeader("Set-Cookie", cookie.toString());
-
 
 		response.setHeader("Authorization", "Bearer " + newATK);
 
@@ -173,7 +184,7 @@ public class MemberService {
 			Double latitude = location.getLatitude();
 			Double longitude = location.getLongitude();
 			int sector = 0;
-			Loop :
+			Loop:
 			for (int i = 0; i < request.getLevel(); i++) {
 				for (int j = 0; j < request.getLevel(); j++) {
 					sector++;
@@ -218,13 +229,19 @@ public class MemberService {
 			.orElseThrow(MemberNotFoundException::new);
 	}
 
-	public Member findById(Long memberId){
+	public Member findById(Long memberId) {
 		return memberRepository.findById(memberId).orElseThrow(MemberNotFoundException::new);
 	}
 
 	public SliceImpl<MemberResponse> getList(MerchantSearchRequest merchantSearchRequest, PageRequest pageRequest) {
 		return memberQueryRepository.getAll(merchantSearchRequest, pageRequest);
 	}
+
+	private boolean isBeingRental(Book book) {
+		return book.getBookState().equals(BookState.TRADING) || book.getBookState()
+			.equals(BookState.UNRENTABLE_RESERVABLE) || book.getBookState().equals(BookState.UNRENTABLE_UNRESERVABLE);
+	}
+
 
 }
 
