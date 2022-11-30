@@ -33,6 +33,7 @@ const Container = styled.div`
 	display: flex;
 	justify-content: space-evenly;
 	margin: 1rem 0;
+	max-width: 800px;
 `;
 
 interface TabProps {
@@ -42,7 +43,7 @@ interface TabProps {
 const Tab = styled.button<TabProps>`
 	width: 45%;
 	height: 3rem;
-	max-width: 300px;
+	max-width: 380px;
 	background-color: ${props =>
 		props.selected
 			? props.theme.colors.buttonGreen
