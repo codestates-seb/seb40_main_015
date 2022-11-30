@@ -1,39 +1,67 @@
-import React from 'react';
+import { useEffect } from 'react';
 import styled from 'styled-components';
+import useCreateRoom from '../api/hooks/chat/useCreateRoom';
+import useGetRoomLists from '../api/hooks/chat/useGetRoomLists';
+import ChatLists from '../components/Chat/ChatLists';
+import Title from '../components/common/Title';
+
+interface RoomList {
+	createdAt: string;
+	avatarUrl: string;
+	bookImageUrl: string;
+	latestMessage: string;
+	name: string;
+	receiverId: number;
+	roomId: number;
+}
 
 const ChatsPage = () => {
+	const merchantId = 4;
+	const customerId = 1;
+	const bookId = 3;
+	const roomId = 1;
+	const { roomData } = useCreateRoom({ merchantId, customerId, bookId });
+	const { roomListsData } = useGetRoomLists();
+
+	console.log(roomData, roomListsData);
+	useEffect(() => {}, []);
 	return (
 		<Container>
-			<div className="modal">
-				<h1 className="title">현재 페이지는 서비스 준비중입니다</h1>
-			</div>
+			<Title text="채팅창 목록" marginBottom={false} />
+			<Box>
+				{roomListsData ? (
+					roomListsData.map((list: RoomList) => {
+						return <ChatLists list={list} key={list.roomId} />;
+					})
+				) : (
+					<Empty>
+						<p>대화중인 방이 없어요</p>
+					</Empty>
+				)}
+			</Box>
 		</Container>
 	);
 };
 
 const Container = styled.div`
-	.modal {
-		position: absolute;
-		top: 0;
-		left: 0;
-		width: 100%;
-		background-color: grey;
-		display: block;
-		z-index: 200;
-		top: 20%;
-		left: 30%;
-		width: 40%;
-		background: #eaeaea;
-		padding: 3rem;
-		border: 1px solid #ccc;
-		box-shadow: 1px 1px 1px rgba(0, 0, 0, 0.5);
-	}
+	width: 100vw;
+`;
 
-	.title {
-		align-items: center;
-		text-align: center;
-		margin-top: 30px;
-		margin-bottom: 30px;
+const Box = styled.div`
+	width: 100vw;
+	height: 100%;
+	overflow-y: auto;
+`;
+
+const Empty = styled.div`
+	width: 100%;
+	height: 75vh;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	p {
+		font-size: ${props => props.theme.fontSizes.subtitle};
+		font-weight: 600;
 	}
 `;
 

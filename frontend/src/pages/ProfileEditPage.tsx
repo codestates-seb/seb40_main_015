@@ -40,6 +40,8 @@ function ProfileEditPage() {
 		avatarUrl,
 	});
 
+	console.log(location);
+
 	//닉네임
 	const handleChangeNickname = (e: React.ChangeEvent<HTMLInputElement>) => {
 		setNickname(e.target.value);
