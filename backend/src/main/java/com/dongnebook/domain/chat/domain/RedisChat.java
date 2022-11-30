@@ -1,5 +1,7 @@
 package com.dongnebook.domain.chat.domain;
 
+import java.time.LocalDateTime;
+
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
@@ -16,16 +18,16 @@ public class RedisChat {
 	@NotNull
 	private Long senderId;
 
-	@NotNull
-	private Long receiverId;
-
 	@NotBlank
 	private String message;
 
-	public RedisChat(@NotNull Long roomId, @NotNull Long senderId, @NotNull Long receiverId, @NotBlank String message) {
+	private LocalDateTime createdAt;
+
+	public RedisChat(@NotNull Long roomId, @NotNull Long senderId, @NotBlank String message,
+		LocalDateTime createdAt) {
 		this.roomId = roomId;
 		this.senderId = senderId;
-		this.receiverId = receiverId;
 		this.message = message;
+		this.createdAt = createdAt;
 	}
 }
