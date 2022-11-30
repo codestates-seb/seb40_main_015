@@ -35,7 +35,8 @@ function ProfilePage() {
 	};
 
 	const handleMerchantPage = () => {
-		navigate('/profile/merchant/${id}');
+		// eslint-disable-next-line no-template-curly-in-string
+		navigate(`/profile/merchant/${id}`);
 	};
 
 	interface Member {
