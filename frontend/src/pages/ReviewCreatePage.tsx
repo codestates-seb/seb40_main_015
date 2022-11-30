@@ -12,10 +12,10 @@ const ReviewCreatePage = () => {
 					<p>상인명 : </p>
 					<p>상인평점 : </p>
 					<p>리뷰 : </p>
+					<input type="text"></input>
 				</Container>
 			</Layout>
 			<Button>리뷰 등록</Button>
-			<input type="text"></input>
 		</>
 	);
 };

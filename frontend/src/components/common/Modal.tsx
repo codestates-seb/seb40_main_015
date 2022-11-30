@@ -54,7 +54,7 @@ function Modal({
 					<Button
 						className="btn1"
 						onClick={() => {
-							dispatch(updateUserInfo({ key: 'Address', value: ad }));
+							dispatch(updateUserInfo({ key: 'address', value: ad }));
 
 							onClickToggleModal();
 						}}>
