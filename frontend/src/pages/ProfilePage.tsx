@@ -20,6 +20,7 @@ import useTabs from '../hooks/useTabs';
 import { logout } from '../redux/slice/userSlice';
 import { useState } from 'react';
 import { FiExternalLink } from 'react-icons/fi';
+import { setListening } from '../redux/slice/alarmSlice';
 
 function ProfilePage() {
 	const dispatch = useDispatch();
@@ -105,6 +106,7 @@ function ProfilePage() {
 							const isTrue = window.confirm('로그아웃 하시겠습니까?');
 							if (!isTrue) return;
 							dispatch(logout());
+							dispatch(setListening(false));
 							navigate('/login');
 						}}>
 						로그아웃
