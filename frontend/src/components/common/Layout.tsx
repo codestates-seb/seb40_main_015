@@ -8,7 +8,7 @@ import useGetAccessTokenRefresh from '../../api/hooks/auth/authRenew';
 
 const Layout = () => {
 	const data = useAppSelector(state => state.loginInfo);
-	// console.log('log: ', data);
+	console.log('log: ', data);
 	// useGetAccessTokenRefresh(data);
 
 	return (

@@ -8,7 +8,6 @@ import { BookDetailProps } from './type';
 import {
 	BookDsc,
 	BookInfo,
-	BookRentalFee,
 	MerchantInfo,
 	Chat,
 	BookContainer,
@@ -16,16 +15,24 @@ import {
 	BookSubTitle,
 	Partition,
 	BookRentalInfo,
+	LinkStyled,
 } from './BookElements';
 import { useAppDispatch, useAppSelector } from '../../redux/hooks';
 import notify from '../../utils/notify';
 import { useChatAPI } from '../../api/chat';
+import { HiHeart, HiOutlineHeart } from 'react-icons/hi';
+import { useEffect, useState } from 'react';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { useBooksAPI } from '../../api/books';
+import Button from '../common/Button';
 
 const BookDetail = ({ book, merchant }: BookDetailProps) => {
 	const { id, isLogin } = useAppSelector(state => state.loginInfo);
 	const { axiosCreateRoom } = useChatAPI();
 	const dispatch = useAppDispatch();
 	const navigate = useNavigate();
+
+	const { deleteBook, postWishItem } = useBooksAPI();
 
 	const handleChatClick = () => {
 		if (!isLogin) {
@@ -40,10 +47,53 @@ const BookDetail = ({ book, merchant }: BookDetailProps) => {
 		}
 	};
 
-	console.log(book, merchant, id);
+	// 삭제하기 delete 요청 쿼리
+	const { mutate: mutateDelete } = useMutation({
+		mutationFn: () => deleteBook(book?.bookId),
+	});
+
+	// event handler
+	const HandleDelete = () => {
+		if (book?.rentalStart) {
+			notify(
+				dispatch,
+				'현재 대여 중 상태의 도서는 대여를 종료 할 수 없습니다.',
+			);
+			return;
+		}
+
+		const result = window.confirm('대여 종료하시겠습니까?');
+		if (!result) return;
+		mutateDelete();
+		navigate('/books');
+		notify(dispatch, '해당 도서의 대여 종료 처리가 완료되었습니다.');
+	};
+
+	// 찜하기
+	const [active, setActive] = useState(false);
+
+	// 찜하기 post요청 쿼리
+	const queryClient = useQueryClient();
+	const { mutate: mutateWish } = useMutation({
+		mutationFn: () => postWishItem(book?.bookId),
+		onSuccess: () => {
+			queryClient.invalidateQueries(['bookDetail']);
+		},
+	});
+
+	const HandleWishIcon = () => {
+		setActive(!active);
+		active || notify(dispatch, '찜 목록에 추가되었습니다.');
+		mutateWish();
+	};
+
+	useEffect(() => {
+		book?.isDibs && setActive(true);
+	}, []);
+
 	return (
-		<>
-			<BookInfo>
+		<BookDetailContainer>
+			<BookDetailTitleContainer>
 				<legend>도서 정보</legend>
 				<BookContainer>
 					<BookTitle>
@@ -55,7 +105,22 @@ const BookDetail = ({ book, merchant }: BookDetailProps) => {
 						<label>{book?.publisher}</label>
 					</BookSubTitle>
 				</BookContainer>
-			</BookInfo>
+
+				{/* ffffff */}
+				{id && id !== merchant?.merchantId ? (
+					active ? (
+						<WishWrapper>
+							<WishiconOn onClick={HandleWishIcon} />
+						</WishWrapper>
+					) : (
+						<WishWrapper>
+							<WishiconOff onClick={HandleWishIcon} />
+						</WishWrapper>
+					)
+				) : (
+					''
+				)}
+			</BookDetailTitleContainer>
 
 			<BookInfo>
 				<legend>상인 정보</legend>
@@ -94,10 +159,45 @@ const BookDetail = ({ book, merchant }: BookDetailProps) => {
 				<legend>내용</legend>
 				<div>{book?.content}</div>
 			</BookDsc>
-		</>
+
+			<BtnWrapper>
+				{id === merchant?.merchantId && book?.state !== '거래중단' ? (
+					<Button onClick={HandleDelete}>대여 종료</Button>
+				) : book?.state === '대여가능' ? (
+					<LinkStyled to={isLogin ? `rental` : ''}>
+						<Button
+							onClick={() =>
+								isLogin || notify(dispatch, '로그인이 필요합니다')
+							}>
+							책 대여하기
+						</Button>
+					</LinkStyled>
+				) : book?.state === '대여중&예약가능' ? (
+					<LinkStyled
+						to={isLogin ? `booking` : ''}
+						state={{
+							rentalStart: book.rentalStart || '2023-05-01',
+							rentalEnd: book.rentalEnd || '2023-05-11',
+						}}>
+						<Button
+							onClick={() =>
+								isLogin || notify(dispatch, '로그인이 필요합니다')
+							}>
+							책 예약하기
+						</Button>
+					</LinkStyled>
+				) : (
+					<Button backgroundColor={'grey'}>대여/예약 불가</Button>
+				)}
+			</BtnWrapper>
+		</BookDetailContainer>
 	);
 };
 
+const BookDetailContainer = styled.div``;
+const BookDetailTitleContainer = styled(BookInfo)`
+	position: relative;
+`;
 const MerchantImg = styled.img`
 	border-radius: 0.3rem;
 	border-radius: 50%;
@@ -130,4 +230,58 @@ const ChatButton = styled.button<ChatButtonProps>`
 	}
 `;
 
+const WishWrapper = styled.div`
+	width: 10px;
+	display: flex;
+	justify-content: flex-end;
+	align-items: center;
+
+	position: absolute;
+	right: -5px;
+	bottom: 5px;
+`;
+
+const WishiconOn = styled(HiHeart)`
+	font-size: 32px;
+	color: ${props => props.theme.colors.logoGreen};
+	margin-right: 16px;
+	cursor: pointer;
+	@keyframes wishBeat {
+		50% {
+			opacity: 1;
+			transform: scale(1.2);
+		}
+		100% {
+			transform: none;
+		}
+	}
+	will-change: transform;
+	animation: wishBeat 0.4s linear;
+	animation-fill-mode: forwards;
+`;
+
+const WishiconOff = styled(HiOutlineHeart)`
+	font-size: 30px;
+	color: rgba(0, 0, 0, 0.4);
+
+	margin-right: 16px;
+	cursor: pointer;
+`;
+
+const BtnWrapper = styled.div`
+	margin: 10px 0;
+	width: 400px;
+	display: flex;
+	justify-content: center;
+	a {
+		width: inherit;
+		@media screen and (min-width: 801px) {
+			margin-top: 1rem;
+		}
+	}
+	button {
+		height: 3rem;
+		width: inherit;
+	}
+`;
 export default BookDetail;

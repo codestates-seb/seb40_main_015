@@ -92,14 +92,14 @@ const BooksBookingPage = () => {
 					</RentalCheck>
 				</RentalInfo>
 
-				<RentalInfo>
+				{/* <RentalInfo>
 					<legend>주의 사항</legend>
 					<label>*아직 준비중 입니다*</label>
 				</RentalInfo>
 				<RentalInfo>
 					<legend>결제 내용</legend>
 					<label>*아직 준비중 입니다*</label>
-				</RentalInfo>
+				</RentalInfo> */}
 			</BodyContainer>
 
 			<Button onClick={handleRentalButton}>예약 신청</Button>
