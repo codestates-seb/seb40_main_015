@@ -18,6 +18,7 @@ import { useBooksAPI } from '../api/books';
 import { useMutation } from '@tanstack/react-query';
 import { useDispatch } from 'react-redux';
 import notify from '../utils/notify';
+import styled from 'styled-components';
 
 //책 상태: 예약가능
 
@@ -61,7 +62,6 @@ const BooksBookingPage = () => {
 			<TitleWrapper>
 				<Title text={'예약하기'} />
 			</TitleWrapper>
-
 			<BodyContainer>
 				<CalendarWrapper>
 					<BookCalendar
@@ -75,7 +75,6 @@ const BooksBookingPage = () => {
 				</CalendarWrapper>
 				<RentalInfo>
 					<legend>대여 기간</legend>
-
 					<RentalCheck>
 						<input
 							type="checkbox"
@@ -102,9 +101,24 @@ const BooksBookingPage = () => {
 				</RentalInfo> */}
 			</BodyContainer>
 
-			<Button onClick={handleRentalButton}>예약 신청</Button>
+			<BtnWrapper>
+				<Button onClick={handleRentalButton}>예약 신청</Button>
+			</BtnWrapper>
 		</Main>
 	);
 };
+
+const BtnWrapper = styled.div`
+	/* margin: 10px 0; */
+	width: 400px;
+
+	display: flex;
+	justify-content: center;
+
+	button {
+		height: 3rem;
+		width: inherit;
+	}
+`;
 
 export default BooksBookingPage;

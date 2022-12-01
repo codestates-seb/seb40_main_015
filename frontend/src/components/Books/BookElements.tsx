@@ -236,6 +236,9 @@ const RentalCheck = styled.div`
 	}
 	label {
 		margin-right: 2rem;
+		@media screen and (min-width: 801px) {
+			font-size: 22px;
+		}
 	}
 	.checkBoxLabel {
 		cursor: pointer;
