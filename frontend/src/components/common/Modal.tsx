@@ -2,23 +2,22 @@ import React, { PropsWithChildren, useEffect, useState } from 'react';
 import styled from 'styled-components';
 import Button from '../common/Button';
 import useGeoLocation2 from '../../hooks/useGeoLocation2';
-import { useNavigate } from 'react-router-dom';
 import Geocode from 'react-geocode';
+import { useAppDispatch } from '../../redux/hooks';
+import { updateUserInfo } from '../../redux/slice/userInfoSlice';
 
 interface ModalDefaultType {
 	onClickToggleModal: () => void;
-	getAdress: (ad: string) => void;
 }
 
 function Modal({
 	onClickToggleModal,
-	getAdress,
 	children,
 }: PropsWithChildren<ModalDefaultType>) {
 	const location = useGeoLocation2();
-	const navigate = useNavigate();
+	const dispatch = useAppDispatch();
 
-	const { lat, lng }: any = location.coordinates;
+	const { latitude, longitude }: any = location.coordinates;
 
 	const [ad, setAd] = useState('');
 
@@ -32,10 +31,10 @@ function Modal({
 	Geocode.enableDebug();
 
 	const getAddressFromLatLng = () => {
-		Geocode.fromLatLng(lat, lng).then(
+		Geocode.fromLatLng(latitude, longitude).then(
 			response => {
-				const address = response.results[0].formatted_address;
-				setAd(address);
+				const address = response.results[4].formatted_address;
+				setAd(address.slice(5));
 			},
 			error => {
 				console.log(error);
@@ -54,19 +53,16 @@ function Modal({
 				<div className="btn">
 					<Button
 						className="btn1"
-						onClick={(e: React.MouseEvent) => {
-							getAdress(ad);
-							e.preventDefault();
-							if (onClickToggleModal) {
-								onClickToggleModal();
-							}
+						onClick={() => {
+							dispatch(updateUserInfo({ key: 'address', value: ad }));
+
+							onClickToggleModal();
 						}}>
 						예
 					</Button>
 					<Button
 						className="btn2"
-						onClick={(e: React.MouseEvent) => {
-							e.preventDefault();
+						onClick={() => {
 							if (onClickToggleModal) {
 								onClickToggleModal();
 							}
@@ -76,8 +72,7 @@ function Modal({
 				</div>
 			</DialogBox>
 			<Backdrop
-				onClick={(e: React.MouseEvent) => {
-					e.preventDefault();
+				onClick={() => {
 					if (onClickToggleModal) {
 						onClickToggleModal();
 					}

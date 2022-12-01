@@ -1,16 +1,17 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
-import { useHistoryAPI } from '../../../api/history';
+import { useHistoryAPI } from '../../history';
 import { useAppDispatch } from '../../../redux/hooks';
 import notify from '../../../utils/notify';
 
-export const useCancelByCustomer = (rentalId: string) => {
-	const { axiosCancleByCustomer } = useHistoryAPI();
+// 주민 전용
+export const useBookReceipt = (rentalId: string) => {
+	const { axiosBookReceipt } = useHistoryAPI();
 	const queryClient = useQueryClient();
 	const dispatch = useAppDispatch();
-	const { mutate } = useMutation(() => axiosCancleByCustomer(rentalId), {
+	const { mutate } = useMutation(() => axiosBookReceipt(rentalId), {
 		onSuccess: () => {
 			queryClient.invalidateQueries({ queryKey: ['rentBookList'] });
-			// notify(dispatch, '취소완료');
+			notify(dispatch, '정상적으로 수령 완료 처리되었습니다.');
 		},
 	});
 

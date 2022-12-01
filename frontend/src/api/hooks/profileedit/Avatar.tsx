@@ -1,29 +1,26 @@
-import axios from 'axios';
 import { useState } from 'react';
-import { HiPhotograph } from 'react-icons/hi';
-import styled from 'styled-components';
-
-import { BASE_URL } from '../../../constants/constants';
-import { useAppDispatch } from '../../../redux/hooks';
-import { updateRentalInfo } from '../../../redux/slice/bookCreateSlice';
+import { useAppDispatch, useAppSelector } from '../../../redux/hooks';
+import { updateUserInfo } from '../../../redux/slice/userInfoSlice';
 import useGetPhotoUrl from '../common/useGetPhotoUrl';
 
 const Avatar = () => {
-	const [imageName, setImageName] = useState('');
-	const dispatch = useAppDispatch();
 	const { mutate } = useGetPhotoUrl();
-	const [Image, setImage] = useState<string>(
-		'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png',
-	);
+	const userInfo = useAppSelector(state => state.persistedReducer.userInfo);
+	const [Image, setImage] = useState<string>(userInfo.avatarUrl);
+	const dispatch = useAppDispatch();
+
 	const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
 		const { files } = e.target;
-		const formData = new FormData();
 		if (files) {
+			const formData = new FormData();
 			const fileRef = files[0];
-			setImageName(fileRef.name);
 			formData.append('img', fileRef);
 			mutate(formData, {
-				onSuccess: res => setImage(res.data),
+				onSuccess: res => {
+					setImage(res.data);
+					dispatch(updateUserInfo({ key: 'avatarUrl', value: res.data }));
+					console.log(res.data);
+				},
 			});
 		}
 	};

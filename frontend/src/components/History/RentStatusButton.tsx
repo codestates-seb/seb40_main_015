@@ -1,8 +1,8 @@
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import Button from '../common/Button';
-import { useBookReceipt } from './hooks/useBookReceipt';
-import { useCancelByCustomer } from './hooks/useCancelByCustomer';
+import { useBookReceipt } from '../../api/hooks/history/useBookReceipt';
+import { useCancelByCustomer } from '../../api/hooks/history/useCancelByCustomer';
 
 interface Props {
 	status: string;
@@ -29,20 +29,24 @@ const RentStatusButton = ({ status, merchantName, rental }: Props) => {
 		id: string,
 		e?: React.SyntheticEvent,
 	) => {
-		console.log(e);
 		// e?.stopPropagation();
 		switch (status) {
 			case 'TRADING':
 				const action = (e?.target as HTMLButtonElement).textContent;
-				if (action === '취소') {
-					cancel();
+				if (action === '취소 하기') {
+					const istrue = window.confirm(`${id}님과의 거래를 취소하시겠습니까?`);
+					istrue && cancel();
 				}
 				if (action === '수령 완료') {
-					receipt();
+					const istrue = window.confirm(
+						`${id}님으로부터 대여 신청한 도서를 받으셨나요?`,
+					);
+					istrue && receipt();
 				}
 				break;
 			case 'RETURN_UNREVIEWED':
-				navigate('/review/create');
+				const istrue = window.confirm(`${id}님에게 리뷰를 작성하시겠습니까?`);
+				istrue && navigate('/review/create');
 				break;
 		}
 	};

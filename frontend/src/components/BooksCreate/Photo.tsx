@@ -2,9 +2,10 @@ import { useState } from 'react';
 import { HiPhotograph } from 'react-icons/hi';
 import styled from 'styled-components';
 import useGetPhotoUrl from '../../api/hooks/common/useGetPhotoUrl';
+import { StyledBookInfo } from '../../pages/BooksCreatePage';
 import { useAppDispatch } from '../../redux/hooks';
 import { updateRentalInfo } from '../../redux/slice/bookCreateSlice';
-import { BookInfo } from '../Books/BookElements';
+import resizeImageToBlob from '../../utils/resizeImage';
 
 const Photo = () => {
 	const [imageName, setImageName] = useState('');
@@ -16,17 +17,23 @@ const Photo = () => {
 		const formData = new FormData();
 		if (files) {
 			const fileRef = files[0];
-			setImageName(fileRef.name);
-			formData.append('img', fileRef);
-			mutate(formData, {
-				onSuccess: res =>
-					dispatch(updateRentalInfo({ key: 'imageUrl', value: res.data })),
+			if (fileRef.name.length > 35) {
+				setImageName(fileRef.name.substring(0, 35) + '...');
+			} else {
+				setImageName(fileRef.name);
+			}
+			resizeImageToBlob(fileRef).then((blob: Blob) => {
+				formData.append('img', blob);
+				mutate(formData, {
+					onSuccess: res =>
+						dispatch(updateRentalInfo({ key: 'imageUrl', value: res.data })),
+				});
 			});
 		}
 	};
 
 	return (
-		<BookInfo>
+		<StyledBookInfo>
 			<div className="book--info__photo">
 				<label htmlFor="photo">
 					<Photicon />
@@ -40,7 +47,7 @@ const Photo = () => {
 					onChange={handleChange}
 				/>
 			</div>
-		</BookInfo>
+		</StyledBookInfo>
 	);
 };
 

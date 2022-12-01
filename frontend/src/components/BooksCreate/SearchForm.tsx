@@ -46,6 +46,9 @@ const SearchForm = () => {
 };
 
 const StyledBookInfo = styled(BookInfo)`
+	box-sizing: border-box;
+	width: 100%;
+	background-color: white;
 	display: grid;
 `;
 

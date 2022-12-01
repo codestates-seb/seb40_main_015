@@ -3,15 +3,14 @@ import { useHistoryAPI } from '../../../api/history';
 import { useAppDispatch } from '../../../redux/hooks';
 import notify from '../../../utils/notify';
 
-// 주민 전용
-export const useBookReceipt = (rentalId: string) => {
-	const { axiosBookReceipt } = useHistoryAPI();
+export const useCancelByMerchant = (rentalId: string) => {
+	const { axiosCancleByMerchant } = useHistoryAPI();
 	const queryClient = useQueryClient();
 	const dispatch = useAppDispatch();
-	const { mutate } = useMutation(() => axiosBookReceipt(rentalId), {
+	const { mutate } = useMutation(() => axiosCancleByMerchant(rentalId), {
 		onSuccess: () => {
-			queryClient.invalidateQueries({ queryKey: ['rentBookList'] });
-			// notify(dispatch, '수령완료');
+			queryClient.invalidateQueries({ queryKey: ['lendBookList'] });
+			notify(dispatch, '정상적으로 취소 처리되었습니다.');
 		},
 	});
 

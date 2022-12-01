@@ -1,8 +1,7 @@
 import { useState } from 'react';
+import { StyledBookInfo } from '../../pages/BooksCreatePage';
 import { useAppDispatch } from '../../redux/hooks';
 import { updateRentalInfo } from '../../redux/slice/bookCreateSlice';
-import notify from '../../utils/notify';
-import { BookInfo } from '../Books/BookElements';
 
 const Description = () => {
 	const [text, setText] = useState('');
@@ -17,14 +16,14 @@ const Description = () => {
 	};
 
 	return (
-		<BookInfo>
+		<StyledBookInfo>
 			<textarea
 				placeholder="등록하실 책과 관련된 내용을 입력해주세요"
 				value={text}
 				onChange={handleChange}
 				onBlur={handleBlur}
 			/>
-		</BookInfo>
+		</StyledBookInfo>
 	);
 };
 

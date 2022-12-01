@@ -1,12 +1,20 @@
 import styled from 'styled-components';
 import logo from '../../assets/image/logo1.png';
 
-const Title = ({ text, isLogo }: { text: string; isLogo?: boolean }) => {
+const Title = ({
+	text,
+	isLogo,
+	marginBottom = true,
+}: {
+	text: string;
+	isLogo?: boolean;
+	marginBottom?: boolean;
+}) => {
 	return (
-		<Text>
+		<Text marginBottom={marginBottom}>
 			{isLogo ? (
 				<>
-					<Logo src={logo} />
+					{/* <Logo src={logo} /> */}
 					<span>{text}</span>
 				</>
 			) : (
@@ -24,11 +32,15 @@ const Logo = styled.img`
 	margin-right: 10px;
 `;
 
-const Text = styled.div`
+interface TextProps {
+	marginBottom: boolean;
+}
+
+const Text = styled.div<TextProps>`
 	width: 100%;
 	/* text-align: center; */
 	padding: 1rem 0;
-	margin-bottom: 1rem;
+	margin-bottom: ${props => (props.marginBottom ? '1rem' : 0)};
 	border-bottom: 1px solid #a7a7a7;
 
 	display: flex;

@@ -3,7 +3,7 @@ import { Suspense } from 'react';
 
 // import LoginOnly from '../components/LoginOnly';
 // import Layout from '../pages/Layout';
-import LayoutTemp from '../pages/LayoutTemp';
+import Layout from '../components/common/Layout';
 import Animation from '../components/Loading/Animation';
 import {
 	MainPage,
@@ -23,16 +23,21 @@ import {
 	ReviewCreatePage,
 	SignupPage,
 	LoginOnly,
+	ChatRoomPage,
 } from '../pages';
+import NoticeIcon from '../components/Notice/NoticeIcon';
+import { useAppSelector } from '../redux/hooks';
 
 function Router() {
+	const isLogin = useAppSelector(state => state.loginInfo.isLogin);
 	return (
 		<BrowserRouter>
 			<Suspense fallback={<Animation />}>
+				{isLogin && <NoticeIcon />}
 				<Routes>
 					{/* <Route element={<HeroSection />} /> */}
 					{/* <Route path="" element={<MainPage />} /> */}
-					<Route path="/" element={<LayoutTemp />}>
+					<Route path="/" element={<Layout />}>
 						{/* <Route index element={<MainPage />} /> */}
 						<Route element={<LoginOnly />}>
 							<Route path="books/create" element={<BooksCreatePage />} />
@@ -49,6 +54,7 @@ function Router() {
 							<Route path="history" element={<HistoryPage />} />
 							<Route path="review/create" element={<ReviewCreatePage />} />
 							<Route path="chats" element={<ChatsPage />} />
+							<Route path="chats/:roomId" element={<ChatRoomPage />} />
 							<Route path="notice" element={<NoticePage />} />
 						</Route>
 						<Route path="books" element={<BooksPage />} />

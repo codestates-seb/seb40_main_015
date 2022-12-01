@@ -7,8 +7,8 @@ const Animation = ({
 	height,
 	text,
 }: {
-	width?: number;
-	height?: number;
+	width?: number | string;
+	height?: number | string;
 	text?: string;
 }) => {
 	return (
@@ -22,7 +22,7 @@ const Animation = ({
 };
 
 interface BackgroundProps {
-	height?: number;
+	height?: number | string;
 }
 
 const Background = styled.div<BackgroundProps>`
@@ -33,11 +33,12 @@ const Background = styled.div<BackgroundProps>`
 	display: flex;
 	align-items: center;
 	justify-content: center;
+	background-color: #fbfbfb;
 `;
 
 interface LottieContainerProps {
-	width?: number;
-	height?: number;
+	width?: number | string;
+	height?: number | string;
 }
 
 const LottieContainer = styled.div<LottieContainerProps>`

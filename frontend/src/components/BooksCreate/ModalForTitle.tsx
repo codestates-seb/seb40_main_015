@@ -36,10 +36,12 @@ const ModalForTitle = ({
 							<InputWrapper>
 								<input
 									value={searchText}
+									placeholder="검색어를 입력해주세요."
 									onChange={e => {
 										setSearchText(e.target.value);
 									}}
 									id="book-search"
+									autoFocus
 								/>
 								<StyledButton type="submit" fontSize="small">
 									검색
@@ -128,8 +130,9 @@ const InputWrapper = styled.div`
 const DialogBox = styled.dialog`
 	box-sizing: border-box;
 	background-color: white;
-	width: 400px;
-	height: 500px;
+	width: 40%;
+	min-width: 400px;
+	height: 60%;
 	border: none;
 	border-radius: 10px;
 	padding: 0;

@@ -1,6 +1,4 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { PURGE } from 'redux-persist';
-import storage from 'redux-persist/lib/storage';
 
 interface InitProps {
 	isLogin: boolean;

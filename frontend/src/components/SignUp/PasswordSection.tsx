@@ -36,9 +36,10 @@ const PasswordSection = ({ data }: PasswordSectionProps) => {
 };
 
 const PasswordWrapper = styled.div<{ error: boolean }>`
-	display: grid;
+	display: flex;
 	align-items: flex-end;
 	grid-template-columns: 22rem 1px;
+	position: relative;
 	.icon {
 		font-size: 25px;
 		color: ${props => props.theme.colors.errorColor};
@@ -48,9 +49,11 @@ const PasswordWrapper = styled.div<{ error: boolean }>`
 `;
 
 const AlertSection = styled.div<{ error: boolean }>`
-	position: relative;
-	left: 1rem;
-	top: 2.3rem;
+	height: 1px;
+	width: 1px;
+	position: absolute;
+	right: -1rem;
+	top: 1rem;
 	display: ${props => (props.error ? 'none' : 'flex')};
 	flex-direction: ${props => props.error && 'column'};
 	.bubble {
@@ -60,6 +63,10 @@ const AlertSection = styled.div<{ error: boolean }>`
 		.bubble {
 			visibility: visible;
 		}
+	}
+
+	@media screen and (max-width: 800px) {
+		top: 3.5rem;
 	}
 `;
 
