@@ -1,6 +1,8 @@
 import { useEffect, useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import styled from 'styled-components';
+import { useAppDispatch } from '../../../../redux/hooks';
+import notify from '../../../../utils/notify';
 import Logo from './Logo';
 
 interface MenuProps {
@@ -43,15 +45,19 @@ const Header = () => {
 	]);
 
 	const { pathname } = useLocation();
+	const dispatch = useAppDispatch();
 
 	useEffect(() => {
+		const loginOnly = ['/history', '/chats', '/profile'];
 		const newMenus = menus.map(menu =>
 			menu.link === pathname
 				? { ...menu, selected: true }
 				: { ...menu, selected: false },
 		);
 		setMenus(newMenus);
-		console.log(newMenus);
+
+		if (loginOnly.includes(pathname)) notify(dispatch, '로그인이 필요합니다.');
+		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [pathname]);
 
 	return (
