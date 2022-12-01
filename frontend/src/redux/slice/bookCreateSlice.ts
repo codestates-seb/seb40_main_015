@@ -39,9 +39,11 @@ const bookCreateSlice = createSlice({
 			const { key } = action.payload;
 			state.rentalInfo[key] = action.payload.value;
 		},
+		resetBookCreateInfo: () => initialState,
 	},
 });
 
-export const { updateBookInfo, updateRentalInfo } = bookCreateSlice.actions;
+export const { updateBookInfo, updateRentalInfo, resetBookCreateInfo } =
+	bookCreateSlice.actions;
 
 export default bookCreateSlice.reducer;
