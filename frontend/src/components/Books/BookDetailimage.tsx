@@ -1,8 +1,8 @@
 import styled from 'styled-components';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { HiHeart, HiOutlineHeart, HiOutlineTrash } from 'react-icons/hi';
 import { useNavigate } from 'react-router-dom';
-import { useMutation } from '@tanstack/react-query';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { useAppDispatch, useAppSelector } from '../../redux/hooks';
 import { useBooksAPI } from '../../api/books';
 
@@ -14,24 +14,28 @@ const BookImage = ({ book, merchant }: BookDetailProps) => {
 	const { id } = useAppSelector(state => state.loginInfo);
 	const dispatch = useAppDispatch();
 
-	const [active, setActive] = useState(book?.isDibs);
+	const [active, setActive] = useState(false);
 	const { postWishItem } = useBooksAPI();
 
 	// 찜하기 post요청 쿼리
-	const {
-		mutate: mutateWish,
-		isLoading,
-		isSuccess,
-	} = useMutation({
+	const queryClient = useQueryClient();
+	const { mutate: mutateWish } = useMutation({
 		mutationFn: () => postWishItem(book?.bookId),
+		onSuccess: () => {
+			queryClient.invalidateQueries(['bookDetail']);
+		},
 	});
 
 	const HandleWishIcon = () => {
 		setActive(!active);
-		mutateWish();
-		// active 보다 찜 정보를 이용해서 알림 기능 구현할 것
 		active || notify(dispatch, '찜 목록에 추가되었습니다.');
+		mutateWish();
 	};
+
+	useEffect(() => {
+		book?.isDibs && setActive(true);
+	}, []);
+
 	return (
 		<BookImgWrapper>
 			<BookImg src={book?.bookImgUrl} alt="Book_image" />
@@ -56,13 +60,6 @@ const BookImage = ({ book, merchant }: BookDetailProps) => {
 			) : (
 				''
 			)}
-			{/* 
-			{id === merchant?.merchantId ? (
-				<Deleticon onClick={HandleDeleteIcon} />
-			) : (
-				''
-			)} */}
-
 			{id && id !== merchant?.merchantId ? (
 				active ? (
 					<WishWrapper>
