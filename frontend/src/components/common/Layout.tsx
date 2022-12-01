@@ -5,6 +5,7 @@ import ScrollToTop from './ScrollToTop';
 
 import { useAppSelector } from '../../redux/hooks';
 import useGetAccessTokenRefresh from '../../api/hooks/auth/authRenew';
+import Header from './PcVersion/Header/Header';
 
 const Layout = () => {
 	const data = useAppSelector(state => state.loginInfo);
@@ -13,6 +14,7 @@ const Layout = () => {
 
 	return (
 		<Main>
+			<Header />
 			<Body>
 				<ScrollToTop />
 				<Outlet />
@@ -31,6 +33,7 @@ const Main = styled.div`
 
 const Body = styled.div`
 	width: 100%;
+	height: 100%;
 	padding-bottom: 50px;
 `;
 

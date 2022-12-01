@@ -18,7 +18,7 @@ import { useMypageAPI } from '../api/mypage';
 import useTabs from '../hooks/useTabs';
 // etc
 import { logout } from '../redux/slice/userSlice';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { FiExternalLink } from 'react-icons/fi';
 
 function ProfilePage() {
@@ -60,6 +60,17 @@ function ProfilePage() {
 		retry: false,
 	});
 	// console.log('data: ', data);
+
+	useEffect(() => {
+		window.addEventListener('scroll', handleScroll);
+		return () => {
+			window.removeEventListener('scroll', handleScroll); //clean up
+		};
+	}, []);
+
+	const handleScroll = () => {
+		console.log('scrolled');
+	};
 
 	if (isLoading) return <Animation width={50} height={50} />;
 
@@ -130,6 +141,8 @@ const Layout = styled.div`
 		margin-bottom: 20px;
 		background-color: #a4a4a4;
 		padding: 10px 48px;
+		height: 3rem;
+		/* width: 39rem; */
 		&:hover {
 			background-color: grey;
 		}

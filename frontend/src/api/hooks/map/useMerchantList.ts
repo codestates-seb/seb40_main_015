@@ -30,7 +30,7 @@ const useMerchantList = (props: IProps) => {
 			if (!!searchInput) {
 				return [];
 			}
-			let reqZoomLevel = 8 - zoomLevel;
+			let reqZoomLevel = 7 - zoomLevel;
 			return getMerchantListQuery(
 				centerCoord.lat ? centerCoord.lat : current.lat,
 				centerCoord.lon ? centerCoord.lon : current.lon,
