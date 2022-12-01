@@ -50,10 +50,11 @@ public class ChatRepository {
 			.fetch();
 	}
 
-	public Optional<ChatRoom> getOrCreate(Long merchantId, Long customerId) {
+	public Optional<ChatRoom> getOrCreate(Long merchantId, Long customerId, Long bookId) {
 		return Optional.ofNullable(jpaQueryFactory
 			.selectFrom(chatRoom)
-			.where(chatRoom.customer.id.eq(customerId).and(chatRoom.merchant.id.eq(merchantId)))
+			.where(chatRoom.customer.id.eq(customerId).and(chatRoom.merchant.id.eq(merchantId))
+				.and(chatRoom.book.id.eq(bookId)))
 			.fetchFirst());
 
 	}

@@ -23,13 +23,14 @@ const useBookSector = (props: IProps) => {
 			if (!searchInput) {
 				return [];
 			}
+			let reqZoomLevel = 8 - zoomLevel;
 			return getTotalBookQuery(
 				searchInput,
 				centerCoord.lat ? centerCoord.lat : current.lat,
 				centerCoord.lon ? centerCoord.lon : current.lon,
 				size.width,
 				size.height,
-				zoomLevel < 3 ? 3 : zoomLevel,
+				reqZoomLevel,
 			);
 		},
 		onSuccess: data => {

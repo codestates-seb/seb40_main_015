@@ -26,6 +26,7 @@ const Main = styled.div`
 	height: 100%;
 	width: 100%;
 	justify-content: center;
+	background-color: #fbfbfb;
 `;
 
 const Body = styled.div`

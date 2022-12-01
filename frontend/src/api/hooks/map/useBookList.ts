@@ -30,12 +30,13 @@ const useBookList = (props: IProps) => {
 			if (!searchInput) {
 				return [];
 			}
+			let reqZoomLevel = 8 - zoomLevel;
 			return getBookListQuery(
 				searchInput,
 				centerCoord.lat ? centerCoord.lat : current.lat,
 				centerCoord.lon ? centerCoord.lon : current.lon,
 				sector,
-				zoomLevel < 3 ? 3 : zoomLevel,
+				reqZoomLevel,
 				size.width,
 				size.height,
 				pageParam,
