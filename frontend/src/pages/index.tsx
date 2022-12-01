@@ -17,3 +17,4 @@ export const ProfilePage = lazy(() => import('./ProfilePage'));
 export const ProfileEditPage = lazy(() => import('./ProfileEditPage'));
 export const ReviewCreatePage = lazy(() => import('./ReviewCreatePage'));
 export const SignupPage = lazy(() => import('./SignupPage'));
+export const ChatRoomPage = lazy(() => import('./ChatRoomPage'));

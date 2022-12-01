@@ -6,9 +6,18 @@ import styled from 'styled-components';
 const Main = styled.div`
 	display: flex;
 	flex-direction: column;
+	align-items: center;
+
 	padding-bottom: 30px;
+
+	.books__detail--btn {
+		width: 100%;
+		max-width: 408px;
+	}
 `;
-const TitleWrapper = styled.div``;
+const TitleWrapper = styled.div`
+	width: 100%;
+`;
 
 const BodyContainer = styled.div`
 	display: flex;
