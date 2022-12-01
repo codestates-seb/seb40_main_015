@@ -124,7 +124,15 @@ const KakaoMap = (props: KakaoMapProps) => {
 			isPanto={true}
 			style={{ width: '100%', height: '100%', position: 'absolute' }}
 			level={zoomLevel}
-			onZoomChanged={map => setZoomLevel(map.getLevel())}
+			onZoomChanged={map => {
+				setZoomLevel(map.getLevel());
+				dispatch(
+					change({
+						lat: map.getCenter().getLat(),
+						lon: map.getCenter().getLng(),
+					}),
+				);
+			}}
 			onDragEnd={map => {
 				dispatch(
 					change({

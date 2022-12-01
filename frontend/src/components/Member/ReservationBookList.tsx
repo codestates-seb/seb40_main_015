@@ -16,6 +16,8 @@ const ReservationBookList = () => {
 		navigate(`/books/${id}`);
 	};
 
+	const handleBookCancel = (id: number) => {};
+
 	// 예약목록 무한스크롤
 	const infiniteScrollTarget = useRef<HTMLDivElement>(null);
 	const { data, fetchNextPage, isLoading, hasNextPage, isFetchingNextPage } =
@@ -71,7 +73,13 @@ const ReservationBookList = () => {
 											<p className="bookname">{title}</p>
 											<p>{rentalFee}원</p>
 										</div>
-										<ButtonStatus status={'대여중'} bookId={bookId} />
+										<Button
+											fontSize={'small'}
+											onClick={() => {
+												handleBookCancel(bookId);
+											}}>
+											예약 취소
+										</Button>
 									</InfoWrapped>
 								</FlexBox>
 							</Container>
@@ -106,6 +114,15 @@ const Container = styled.div`
 	border-radius: 5px;
 	padding: 1rem;
 	margin-bottom: 0.5rem;
+	cursor: pointer;
+
+	&:hover {
+		background-color: ${props => props.theme.colors.grey};
+	}
+
+	@media (min-width: 800px) {
+		width: 800px;
+	}
 `;
 
 const FlexBox = styled.div`
@@ -120,8 +137,19 @@ const InfoWrapped = styled.div`
 	justify-content: space-between;
 	align-items: center;
 	p {
-		font-size: ${props => props.theme.fontSizes.paragraph};
+		/* font-size: ${props => props.theme.fontSizes.paragraph};
+		margin-left: 1rem; */
+		font-size: 13px;
 		margin-left: 1rem;
+		display: flex;
+		flex-direction: column;
+		padding-top: 10px;
+	}
+	.bookname {
+		/* font-size: ${props => props.theme.fontSizes.subtitle}; */
+		font-size: 16px;
+		font-weight: 600;
+		padding-top: 0px;
 	}
 `;
 
