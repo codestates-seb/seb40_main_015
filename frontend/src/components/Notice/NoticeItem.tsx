@@ -16,7 +16,12 @@ const NoticeItem = ({ noticeData }: NoticeItemType) => {
 	) => {
 		e.stopPropagation();
 		if (window.confirm('정말 삭제하시겠습니까?')) {
-			mutate(alarmId);
+			mutate(alarmId, {
+				onSuccess: () => {
+					// 알림삭제시 리프레쉬
+					window.location.reload();
+				},
+			});
 		} else {
 			return;
 		}

@@ -1,4 +1,4 @@
-import { useState, useCallback } from 'react';
+import { useState, useCallback, useEffect } from 'react';
 import styled from 'styled-components';
 import Title from '../components/common/Title';
 import Button from '../components/common/Button';
@@ -58,6 +58,7 @@ function ProfileEditPage() {
 	};
 
 	console.log('결과', address);
+
 	return (
 		<Layout>
 			{/*  name -> nickname으로 바뀔 예정 */}

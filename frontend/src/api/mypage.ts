@@ -57,7 +57,7 @@ interface FixmemberInfo {
 	avatarUrl: string;
 }
 
-//예약취소
+
 
 
 export const useMypageAPI = () => {
@@ -105,14 +105,8 @@ export const useMypageAPI = () => {
 
 		
 	// 예약 취소
-	const axiosCancleReservation = async (reservationId: string) => {
-		try {
-			const result = await api.delete(`/reservation/cancel/${reservationId}`);
-			console.log(result);
-			return result.data;
-		} catch (err) {
-			return err;
-		}
+	const axiosCancleReservation = (reservationId: string) => {
+		api.delete(`/reservation/cancel/${reservationId}`);
 	};
 
 	// 사진 등록(endpoint 수정)

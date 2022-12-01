@@ -28,7 +28,7 @@ const ScrollBottomButton = () => {
 	);
 
 	const moveTop = () => {
-		window.scrollTo({ top: 0, behavior: 'smooth' });
+		window.scrollTo({ top: 5000, behavior: 'smooth' });
 	};
 
 	return (
