@@ -88,7 +88,9 @@ const BooksCreatePage = () => {
 				</BookInfo>
 				<Photo />
 			</BodyContainer>
-			<Button onClick={handleCreate}>등록하기</Button>
+			<Button className="books__detail--btn" onClick={handleCreate}>
+				등록하기
+			</Button>
 		</Main>
 	);
 };

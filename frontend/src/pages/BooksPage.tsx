@@ -47,7 +47,6 @@ const BooksPage = () => {
 		return () => observer.disconnect();
 	}, []);
 
-	console.log('books: ', data);
 	return (
 		<Main>
 			<TitleWrapper>

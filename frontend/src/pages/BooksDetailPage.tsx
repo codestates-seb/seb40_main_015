@@ -18,6 +18,7 @@ import { useBooksAPI } from '../api/books';
 import BookImage from '../components/Books/BookDetailimage';
 import notify from '../utils/notify';
 import { useAppDispatch, useAppSelector } from '../redux/hooks';
+import styled from 'styled-components';
 
 const BooksDetailPage = () => {
 	const dispatch = useAppDispatch();
@@ -75,39 +76,43 @@ const BooksDetailPage = () => {
 						<BookDetail book={data?.book} merchant={data?.merchant} />
 					</BodyContainer>
 
-					{id === data.merchant?.merchantId &&
-					data?.book?.state !== '거래중단' ? (
-						<Button onClick={HandleDelete}>대여 종료</Button>
-					) : data?.book?.state === '대여가능' ? (
-						<LinkStyled to={isLogin ? `rental` : ''}>
-							<Button
-								onClick={() =>
-									isLogin || notify(dispatch, '로그인이 필요합니다')
-								}>
-								책 대여하기
-							</Button>
-						</LinkStyled>
-					) : data?.book?.state === '대여중&예약가능' ? (
-						<LinkStyled
-							to={isLogin ? `booking` : ''}
-							state={{
-								rentalStart: data?.book.rentalStart || '2023-05-01',
-								rentalEnd: data?.book.rentalEnd || '2023-05-11',
-							}}>
-							<Button
-								onClick={() =>
-									isLogin || notify(dispatch, '로그인이 필요합니다')
-								}>
-								책 예약하기
-							</Button>
-						</LinkStyled>
-					) : (
-						<Button backgroundColor={'grey'}>대여/예약 불가</Button>
-					)}
+					<BtnWrapper className="books__detail--btn">
+						{id === data.merchant?.merchantId &&
+						data?.book?.state !== '거래중단' ? (
+							<Button onClick={HandleDelete}>대여 종료</Button>
+						) : data?.book?.state === '대여가능' ? (
+							<LinkStyled to={isLogin ? `rental` : ''}>
+								<Button
+									onClick={() =>
+										isLogin || notify(dispatch, '로그인이 필요합니다')
+									}>
+									책 대여하기
+								</Button>
+							</LinkStyled>
+						) : data?.book?.state === '대여중&예약가능' ? (
+							<LinkStyled
+								to={isLogin ? `booking` : ''}
+								state={{
+									rentalStart: data?.book.rentalStart || '2023-05-01',
+									rentalEnd: data?.book.rentalEnd || '2023-05-11',
+								}}>
+								<Button
+									onClick={() =>
+										isLogin || notify(dispatch, '로그인이 필요합니다')
+									}>
+									책 예약하기
+								</Button>
+							</LinkStyled>
+						) : (
+							<Button backgroundColor={'grey'}>대여/예약 불가</Button>
+						)}
+					</BtnWrapper>
 				</Main>
 			)}
 		</>
 	);
 };
+
+const BtnWrapper = styled.div``;
 
 export default BooksDetailPage;

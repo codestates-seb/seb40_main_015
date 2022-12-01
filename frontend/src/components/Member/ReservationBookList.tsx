@@ -45,7 +45,6 @@ const ReservationBookList = () => {
 		return () => observer.disconnect();
 	}, []);
 
-	console.log('reservation: ', data, hasNextPage, isFetchingNextPage);
 	return (
 		<>
 			{isLoading ? (
