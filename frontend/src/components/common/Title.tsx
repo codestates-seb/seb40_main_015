@@ -14,7 +14,7 @@ const Title = ({
 		<Text marginBottom={marginBottom}>
 			{isLogo ? (
 				<>
-					{/* <Logo src={logo} /> */}
+					<Logo src={logo} />
 					<span>{text}</span>
 				</>
 			) : (
@@ -38,16 +38,18 @@ interface TextProps {
 
 const Text = styled.div<TextProps>`
 	width: 100%;
-	/* text-align: center; */
 	padding: 1rem 0;
 	margin-bottom: ${props => (props.marginBottom ? '1rem' : 0)};
 	border-bottom: 1px solid #a7a7a7;
-
 	display: flex;
 	justify-content: center;
 	align-items: center;
 	span {
 		font-size: ${props => props.theme.fontSizes.title};
 		font-family: 'kotra';
+	}
+
+	@media screen and (min-width: 800px) {
+		visibility: hidden;
 	}
 `;
