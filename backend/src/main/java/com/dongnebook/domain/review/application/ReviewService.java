@@ -1,5 +1,6 @@
 package com.dongnebook.domain.review.application;
 
+import com.dongnebook.domain.member.domain.Member;
 import com.dongnebook.domain.rental.domain.Rental;
 import com.dongnebook.domain.rental.domain.RentalState;
 import com.dongnebook.domain.rental.exception.RentalNotFoundException;
@@ -34,6 +35,8 @@ public class ReviewService {
         checkRentalPerson(rental, customerId);
         rental.changeRentalStateFromTo(RentalState.RETURN_UNREVIEWED, RentalState.RETURN_REVIEWED);
 
+        setAvgGradeAndUpCount(reviewRequest.getGrade(), rental.getBook().getMember());
+
         Review review = Review.create(reviewRequest.getReviewMessage(), reviewRequest.getGrade(), rental, rental.getBook().getMember());
         reviewRepository.save(review);
     }
@@ -61,5 +64,12 @@ public class ReviewService {
             throw new RentalNotFoundException();
         }
         return rental;
+    }
+
+    private static void setAvgGradeAndUpCount(Long grade, Member merchant) {
+        Double pastAvgGrade = merchant.getAvgGrade();
+        Double newAvgGrade = (pastAvgGrade*merchant.getReceivedReviewCount() + grade)/(merchant.getReceivedReviewCount() + 1);
+        merchant.setAvgGrade(newAvgGrade);
+        merchant.upReviewCount();
     }
 }

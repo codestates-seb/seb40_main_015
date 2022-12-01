@@ -4,13 +4,11 @@ import javax.persistence.*;
 import javax.validation.constraints.Size;
 
 import com.dongnebook.domain.book.domain.Book;
-import com.dongnebook.domain.chat.domain.ChatRoom;
 import com.dongnebook.domain.dibs.domain.Dibs;
 import com.dongnebook.domain.member.dto.request.MemberEditRequest;
 import com.dongnebook.domain.member.dto.request.MemberRegisterRequest;
 import com.dongnebook.domain.model.BaseTimeEntity;
 import com.dongnebook.domain.model.Location;
-import com.dongnebook.domain.rental.domain.Rental;
 
 import lombok.*;
 
@@ -51,7 +49,10 @@ public class Member extends BaseTimeEntity {
 	private String avatarUrl;
 
 	@Column(name = "avg_grade")
-	private Long avgGrade = 0L;
+	private Double avgGrade = 0.0;
+
+	@Column(name = "received_review_count")
+	private Long receivedReviewCount = 0L;
 
 	@Enumerated(EnumType.STRING)
 	private Authority authority;
@@ -98,6 +99,14 @@ public class Member extends BaseTimeEntity {
 
 	public boolean hasSameId(Long id) {
 		return this.id.equals(id);
+	}
+
+	public void setAvgGrade(Double avgGrade){
+		this.avgGrade = avgGrade;
+	}
+
+	public void upReviewCount() {
+		this.receivedReviewCount++;
 	}
 
 }
