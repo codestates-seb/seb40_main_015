@@ -54,9 +54,9 @@ const Box = styled.div`
 	max-width: 800px;
 	height: 100%;
 	overflow-y: auto;
+	background-color: white;
 	@media screen and (min-width: 800px) {
-		border-left: 1px solid black;
-		border-right: 1px solid black;
+		border: 1px solid #eaeaea;
 		border-radius: 5px;
 	}
 `;

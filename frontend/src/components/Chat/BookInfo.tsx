@@ -1,4 +1,3 @@
-import bookImage from '../../assets/image/dummy.png';
 import styled from 'styled-components';
 import Button from '../common/Button';
 import { useNavigate } from 'react-router';

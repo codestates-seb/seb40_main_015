@@ -35,9 +35,10 @@ const Container = styled.div`
 	background-color: white;
 	padding: 1rem 0;
 	@media screen and (min-width: 800px) {
-		max-width: 800px;
+		width: 800px;
 		bottom: 0;
-		justify-content: center;
+		box-sizing: border-box;
+		border: 1px solid #eaeaea;
 	}
 `;
 
