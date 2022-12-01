@@ -15,8 +15,8 @@ function useGeoLocation(type?: string) {
 	);
 
 	const [current, setCurrent] = useState<any>({
-		lat: persistLocation.latitude ? persistLocation.latitude : location.lat,
-		lon: persistLocation.longitude ? persistLocation.longitude : location.lon,
+		lat: persistLocation?.latitude ? persistLocation.latitude : location.lat,
+		lon: persistLocation?.longitude ? persistLocation.longitude : location.lon,
 	});
 	const [loading, setLoading] = useState(false);
 
@@ -40,9 +40,9 @@ function useGeoLocation(type?: string) {
 		dispatch(change({ lat, lon }));
 	};
 
-	// useEffect(() => {
-	// 	handleCurrentLocationMove();
-	// }, []);
+	useEffect(() => {
+		handleCurrentLocationMove();
+	}, []);
 
 	if (type === 'center') {
 		return [location, setCurrentLocation];

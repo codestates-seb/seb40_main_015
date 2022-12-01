@@ -53,11 +53,11 @@ const Box = styled.div`
 	margin-left: 0.5rem;
 	span {
 		font-weight: bold;
-		margin-left: 0.3rem;
+		/* margin-left: 0.3rem; */
 		&:first-child {
 			margin-bottom: 0.5rem;
 			padding-top: 0.5rem;
-			padding-left: 0.5rem;
+			/* padding-left: 0.5rem; */
 		}
 	}
 `;
