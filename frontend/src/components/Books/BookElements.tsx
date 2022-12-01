@@ -49,7 +49,7 @@ const Div = styled.fieldset`
 const BookInfo = styled(Div)`
 	display: flex;
 	align-items: center;
-	margin: 1rem 0;
+	margin: 0.6rem 0;
 
 	.book--info__photo {
 		width: 100%;

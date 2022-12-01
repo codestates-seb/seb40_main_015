@@ -46,8 +46,9 @@ const BookImg = styled.img`
 	height: 100%;
 
 	max-width: 340px;
+
 	@media screen and (min-width: 800px) {
-		margin-top: 23px;
+		margin-top: 21px;
 	}
 `;
 
@@ -56,9 +57,10 @@ const BookNotAvailable = styled.div`
 	height: 100%;
 
 	max-width: 340px;
+
 	@media screen and (min-width: 801px) {
-		margin-top: 23px;
-		height: 95%;
+		margin-top: 21px;
+		height: 96%;
 	}
 
 	position: absolute;
