@@ -129,26 +129,18 @@ const ChatRoomPage = () => {
 
 	return (
 		<Container>
+			<Title text="대화내역" marginBottom={false} />
 			<TopBox>
-				<Title text="대화내역" marginBottom={false} />
 				<BookInfo
 					bookState={bookState}
 					bookUrl={bookUrl}
+					bookId={bookId}
 					title={title}
 					onClick={handleClickEndOfChat}
 				/>
 			</TopBox>
 			<MessageArea>
-				{/* {chatResponses
-					? chatResponses.map((list: any) => {
-							const currentDate = new Date(list.dateTime).toLocaleDateString();
-							if (currentDate !== prevDate) {
-								prevDate = currentDate;
-								return <DateDisplay>{prevDate}</DateDisplay>;
-							}
-					  })
-					: null} */}
-				{messageList ? (
+				{messageList.length ? (
 					<>
 						{messageList?.map((list: any, i: number) => {
 							const { dateTime, content } = list;
@@ -192,18 +184,39 @@ const ChatRoomPage = () => {
 };
 
 const Container = styled.div`
-	height: 100%;
+	display: flex;
+	flex-direction: column;
+	@media screen and (min-width: 800px) {
+		width: 100%;
+		justify-content: center;
+		align-items: center;
+	}
 `;
 
 const TopBox = styled.div`
 	position: sticky;
 	top: 0;
 	background-color: white;
+	@media screen and (min-width: 800px) {
+		top: 80px;
+		width: 800px;
+		border: 1px solid #eaeaea;
+		border-bottom: none;
+		box-sizing: border-box;
+	}
 `;
 
 const MessageArea = styled.div`
 	padding: 1rem;
+	box-sizing: border-box;
 	margin-bottom: 80px;
+	@media screen and (min-width: 800px) {
+		width: 800px;
+		height: 70vh;
+		border: 1px solid #eaeaea;
+		border-top: none;
+		background-color: white;
+	}
 `;
 
 const DateDisplay = styled.p`
