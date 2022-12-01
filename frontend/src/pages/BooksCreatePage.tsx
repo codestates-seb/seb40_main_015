@@ -93,19 +93,18 @@ const BooksCreatePage = () => {
 export const StyledBookInfo = styled(BookInfo)`
 	box-sizing: border-box;
 	width: 100%;
+	background-color: white;
 `;
 
 const StyledBodyContainer = styled(BodyContainer)`
 	width: 70%;
 	max-width: 800px;
-	@media screen and (max-width: 800px) {
-		gap: 1rem;
-	}
 `;
 
 const StyledButton = styled(Button)`
 	height: 3rem;
 	width: 100%;
+	margin-top: 1rem;
 `;
 
 const StyledMain = styled(Main)`
