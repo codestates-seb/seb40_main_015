@@ -14,7 +14,7 @@ const Title = ({
 		<Text marginBottom={marginBottom}>
 			{isLogo ? (
 				<>
-					{/* <Logo src={logo} /> */}
+					<Logo src={logo} />
 					<span>{text}</span>
 				</>
 			) : (
@@ -50,4 +50,8 @@ const Text = styled.div<TextProps>`
 		font-size: ${props => props.theme.fontSizes.title};
 		font-family: 'kotra';
 	}
+	@media screen and (min-width: 800px) {
+		transform: translateY(-100%);
+	}
+	transition: all 0.6s;
 `;
