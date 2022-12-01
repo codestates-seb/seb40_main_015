@@ -19,6 +19,7 @@ const Bubble = ({ type }: BubbleProps) => {
 
 const StyledBubble = styled.div`
 	max-width: 10rem;
+	min-width: 10rem;
 	width: 10rem;
 	height: 4rem;
 	text-align: center;

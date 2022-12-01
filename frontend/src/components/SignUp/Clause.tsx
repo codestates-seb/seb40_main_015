@@ -10,7 +10,7 @@ const Clause = (props: { isChecked: boolean; setIsChecked: Function }) => {
 
 	return (
 		<StyledClause>
-			<Textarea value={clause} readOnly />
+			<Textarea>{clause}</Textarea>
 			<CheckContainer onClick={handleCheckBoxClick}>
 				{isChecked ? (
 					<HiCheckCircle className="icon checked" />
@@ -29,9 +29,30 @@ const StyledClause = styled.div`
 	flex-direction: column;
 `;
 
-const Textarea = styled.textarea`
+const Textarea = styled.pre`
+	box-sizing: border-box;
+	width: 100%;
 	height: 13rem;
-	resize: none;
+	white-space: pre-wrap;
+	overflow-y: scroll;
+	border-radius: 5px;
+	border: ${props => props.theme.colors.buttonGreen + ' solid 1px'};
+	padding: 1rem;
+	::-webkit-scrollbar {
+		width: 8px;
+	}
+
+	::-webkit-scrollbar-thumb {
+		background: rgb(179, 179, 179);
+		border-radius: 5px;
+	}
+
+	::-webkit-scrollbar-track {
+		background: rgba(0, 0, 0, 0);
+	}
+	@media screen and (min-width: 800px) {
+		height: 18rem;
+	}
 `;
 
 const CheckContainer = styled.div`

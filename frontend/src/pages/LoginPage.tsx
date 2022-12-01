@@ -7,24 +7,35 @@ import Oauth from '../components/common/Oauth';
 const LoginPage = () => {
 	return (
 		<StyledLoginPage>
-			<Logo />
-			<LoginForm />
-			<StyledOauth />
-			<LinkToSign
-				message="회원이 아니신가요?"
-				link="/signup"
-				linkText="회원가입"
-			/>
+			<Contents>
+				<Logo />
+				<LoginForm />
+				<StyledOauth />
+				<LinkToSign
+					message="회원이 아니신가요?"
+					link="/signup"
+					linkText="회원가입"
+				/>
+			</Contents>
 		</StyledLoginPage>
 	);
 };
 
 const StyledLoginPage = styled.div`
+	width: 100%;
 	height: 100vh;
 	display: flex;
 	flex-direction: column;
 	align-items: center;
 	justify-content: center;
+`;
+
+const Contents = styled.div`
+	width: 60%;
+	max-width: 600px;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
 `;
 
 const StyledOauth = styled(Oauth)`

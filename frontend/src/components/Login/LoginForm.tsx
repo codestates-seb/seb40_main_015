@@ -101,7 +101,7 @@ const StyledLoginForm = styled.form`
 `;
 
 const StyledButton = styled(Button)`
-	height: 3.5rem;
+	height: 3rem;
 	margin: 2rem 0;
 `;
 
