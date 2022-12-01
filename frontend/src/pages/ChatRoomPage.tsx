@@ -9,6 +9,7 @@ import * as StompJs from '@stomp/stompjs';
 import useGetRoomMessage from '../api/hooks/chat/useGetRoomMessage';
 import { useAppSelector } from '../redux/hooks';
 import { useParams } from 'react-router';
+import ScrollToBottom from '../utils/scrollToBottom';
 
 interface Member {
 	avatarUrl: string;
@@ -20,15 +21,23 @@ const ChatRoomPage = () => {
 	const [text, setText] = useState('');
 	const { nickname, id } = useAppSelector(state => state.loginInfo);
 	const { roomId } = useParams(); // 채널을 구분하는 식별자를 URL 파라미터로 받는다.
-	const { chatList, setChatList } = useGetRoomMessage(roomId!);
+	const {
+		chatList,
+		setChatList,
+		refetch,
+		messageList,
+		setMessageList,
+		myInfo,
+		receiverInfo,
+	} = useGetRoomMessage(roomId!);
 	const { bookId, bookState, bookUrl, title, chatResponses, members } =
 		chatList;
 	const client: any = useRef({});
 	let prevNickname = { nickName: '' };
 	let prevDate = '';
-	const [myInfo, setMyInfo] = useState<Member>();
-	const [receiverInfo, setReceiverInfo] = useState<Member>();
-	console.log(chatList);
+	// console.log(chatList);
+	console.log(myInfo, receiverInfo);
+	// console.log(chatHistory);
 
 	const handleChangeText = (e: React.ChangeEvent<HTMLInputElement>) => {
 		setText(e.target.value);
@@ -36,20 +45,26 @@ const ChatRoomPage = () => {
 
 	const handleSendMessage = (e: KeyboardEvent<HTMLInputElement>) => {
 		if (e.nativeEvent.isComposing) return;
-		if (e.key === 'Enter') {
+		if (e.key === 'Enter' && text) {
 			publish(text);
 		}
 	};
 
+	const handleClickSendMessage = () => {
+		if (!text) return;
+		publish(text);
+	};
+
+	const handleClickEndOfChat = () => {
+		let isEnd = window.confirm('정말 종료하시겠어요?');
+		if (isEnd) {
+			disconnect();
+		}
+	};
+
 	useEffect(() => {
-		members?.map((member: Member) => {
-			if (member.memberId === id) {
-				return setMyInfo(member);
-			} else {
-				return setReceiverInfo(member);
-			}
-		});
-	}, [members]);
+		ScrollToBottom();
+	}, [messageList]);
 
 	const connect = () => {
 		client.current = new StompJs.Client({
@@ -87,15 +102,22 @@ const ChatRoomPage = () => {
 	const subscribe = () => {
 		client.current.subscribe(`/sub/room/${roomId}`, (body: any) => {
 			// const json_body = JSON.parse(body.body);
-			console.log('답장옴');
-			console.log(body);
-			// console.log(json_body);
-			// setChatList((_chat_list: any) => [..._chat_list, json_body]);
+			// const newMessage = {
+			// 	content: json_body.message,
+			// 	dateTime: json_body.createdAt,
+			// };
+			// console.log('구독');
+			// if (json_body.senderId === myInfo?.memberId) {
+			// 	setMessageList([...messageList, { ...myInfo, ...newMessage }]);
+			// } else {
+			// 	setMessageList([...messageList, { ...receiverInfo, ...newMessage }]);
+			// }
+			refetch();
 		});
 	};
 
 	const disconnect = () => {
-		console.log('연결 끊김');
+		console.log('상대와 연결 종료');
 		client.current.deactivate();
 	};
 
@@ -113,7 +135,7 @@ const ChatRoomPage = () => {
 					bookState={bookState}
 					bookUrl={bookUrl}
 					title={title}
-					disconnect={disconnect}
+					onClick={handleClickEndOfChat}
 				/>
 			</TopBox>
 			<MessageArea>
@@ -126,9 +148,9 @@ const ChatRoomPage = () => {
 							}
 					  })
 					: null} */}
-				{chatResponses ? (
+				{messageList ? (
 					<>
-						{chatResponses?.map((list: any, i: number) => {
+						{messageList?.map((list: any, i: number) => {
 							const { dateTime, content } = list;
 							const newList = { content, dateTime };
 							// const currentDate = new Date(dateTime).toLocaleDateString();
@@ -163,12 +185,15 @@ const ChatRoomPage = () => {
 				text={text}
 				onChange={handleChangeText}
 				onKeyDown={handleSendMessage}
+				onCick={handleClickSendMessage}
 			/>
 		</Container>
 	);
 };
 
-const Container = styled.div``;
+const Container = styled.div`
+	height: 100%;
+`;
 
 const TopBox = styled.div`
 	position: sticky;
