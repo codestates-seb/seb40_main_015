@@ -35,9 +35,10 @@ public class ReviewService {
         checkRentalPerson(rental, customerId);
         rental.changeRentalStateFromTo(RentalState.RETURN_UNREVIEWED, RentalState.RETURN_REVIEWED);
 
-        setAvgGradeAndUpCount(reviewRequest.getGrade(), rental.getBook().getMember());
+        Member merchant = rental.getBook().getMember();
+        merchant.setAvgGradeAndUpCount(reviewRequest.getGrade());
 
-        Review review = Review.create(reviewRequest.getReviewMessage(), reviewRequest.getGrade(), rental, rental.getBook().getMember());
+        Review review = Review.create(reviewRequest.getReviewMessage(), reviewRequest.getGrade(), rental, merchant);
         reviewRepository.save(review);
     }
 
@@ -66,10 +67,4 @@ public class ReviewService {
         return rental;
     }
 
-    private void setAvgGradeAndUpCount(Long grade, Member merchant) {
-        Double pastAvgGrade = merchant.getAvgGrade();
-        Double newAvgGrade = (pastAvgGrade*merchant.getReceivedReviewCount() + grade)/(merchant.getReceivedReviewCount() + 1);
-        merchant.setAvgGrade(newAvgGrade);
-        merchant.upReviewCount();
-    }
 }

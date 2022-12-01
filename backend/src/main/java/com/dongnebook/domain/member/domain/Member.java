@@ -109,4 +109,11 @@ public class Member extends BaseTimeEntity {
 		this.receivedReviewCount++;
 	}
 
+	public void setAvgGradeAndUpCount(Long grade) {
+		Double pastAvgGrade = this.getAvgGrade();
+		Double newAvgGrade = (pastAvgGrade*this.getReceivedReviewCount() + grade)/(this.getReceivedReviewCount() + 1);
+		this.setAvgGrade(newAvgGrade);
+		this.upReviewCount();
+	}
+
 }
