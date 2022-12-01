@@ -145,7 +145,7 @@ const InfoWrapped = styled.div`
 
 const EmptyBox = styled.div`
 	width: 100%;
-	height: 75vh;
+	height: 55vh;
 	display: flex;
 	justify-content: center;
 	align-items: center;

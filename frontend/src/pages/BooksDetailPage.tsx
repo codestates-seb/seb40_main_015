@@ -18,6 +18,7 @@ import { useBooksAPI } from '../api/books';
 import BookImage from '../components/Books/BookDetailimage';
 import notify from '../utils/notify';
 import { useAppDispatch, useAppSelector } from '../redux/hooks';
+import styled from 'styled-components';
 
 const BooksDetailPage = () => {
 	const dispatch = useAppDispatch();
@@ -109,5 +110,7 @@ const BooksDetailPage = () => {
 		</>
 	);
 };
+
+const BtnWrapper = styled.div``;
 
 export default BooksDetailPage;
