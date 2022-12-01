@@ -33,7 +33,7 @@ const MerchantLists = (props: Props) => {
 						onClick={() => handleSearchMerchantInfo(merchantId)}
 						onMouseOver={() => handleHoverMap(location)}
 						onMouseOut={() => setHoverLists({ latitude: 0, longitude: 0 })}>
-						<div className="book">{merchantName}</div>
+						<span className="book">{merchantName}</span>
 					</List>
 				);
 			})}
