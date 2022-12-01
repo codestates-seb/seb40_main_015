@@ -128,18 +128,21 @@ const ChatRoomPage = () => {
 	}, []);
 
 	return (
-		<Container>
-			<TopBox>
+		<>
+			<Container>
 				<Title text="대화내역" marginBottom={false} />
-				<BookInfo
-					bookState={bookState}
-					bookUrl={bookUrl}
-					title={title}
-					onClick={handleClickEndOfChat}
-				/>
-			</TopBox>
-			<MessageArea>
-				{/* {chatResponses
+				<FlexBox>
+					<TopBox>
+						<BookInfo
+							bookState={bookState}
+							bookUrl={bookUrl}
+							bookId={bookId}
+							title={title}
+							onClick={handleClickEndOfChat}
+						/>
+					</TopBox>
+					<MessageArea>
+						{/* {chatResponses
 					? chatResponses.map((list: any) => {
 							const currentDate = new Date(list.dateTime).toLocaleDateString();
 							if (currentDate !== prevDate) {
@@ -148,62 +151,89 @@ const ChatRoomPage = () => {
 							}
 					  })
 					: null} */}
-				{messageList ? (
-					<>
-						{messageList?.map((list: any, i: number) => {
-							const { dateTime, content } = list;
-							const newList = { content, dateTime };
-							// const currentDate = new Date(dateTime).toLocaleDateString();
-							// if (currentDate !== prevDate) {
-							// 	prevDate = currentDate;
-							// 	return <DateDisplay>{prevDate}</DateDisplay>;
-							// }
-							if (list?.nickName === nickname) {
-								if (prevNickname === list.nickName) {
-									return <SendingMessage key={dateTime} list={newList} />;
-								} else {
-									prevNickname = list.nickName;
-									return <SendingMessage key={dateTime} list={list} />;
-								}
-							} else {
-								if (prevNickname === list.nickName) {
-									return <ReceptionMessage key={dateTime} list={newList} />;
-								} else {
-									prevNickname = list.nickName;
-									return <ReceptionMessage key={dateTime} list={list} />;
-								}
-							}
-						})}
-					</>
-				) : (
-					<Empty>
-						<p>대화를 시작해보세요</p>
-					</Empty>
-				)}
-			</MessageArea>
-			<Input
-				text={text}
-				onChange={handleChangeText}
-				onKeyDown={handleSendMessage}
-				onCick={handleClickSendMessage}
-			/>
-		</Container>
+						{messageList ? (
+							<>
+								{messageList?.map((list: any, i: number) => {
+									const { dateTime, content } = list;
+									const newList = { content, dateTime };
+									// const currentDate = new Date(dateTime).toLocaleDateString();
+									// if (currentDate !== prevDate) {
+									// 	prevDate = currentDate;
+									// 	return <DateDisplay>{prevDate}</DateDisplay>;
+									// }
+									if (list?.nickName === nickname) {
+										if (prevNickname === list.nickName) {
+											return <SendingMessage key={dateTime} list={newList} />;
+										} else {
+											prevNickname = list.nickName;
+											return <SendingMessage key={dateTime} list={list} />;
+										}
+									} else {
+										if (prevNickname === list.nickName) {
+											return <ReceptionMessage key={dateTime} list={newList} />;
+										} else {
+											prevNickname = list.nickName;
+											return <ReceptionMessage key={dateTime} list={list} />;
+										}
+									}
+								})}
+							</>
+						) : (
+							<Empty>
+								<p>대화를 시작해보세요</p>
+							</Empty>
+						)}
+					</MessageArea>
+					<Input
+						text={text}
+						onChange={handleChangeText}
+						onKeyDown={handleSendMessage}
+						onCick={handleClickSendMessage}
+					/>
+				</FlexBox>
+			</Container>
+		</>
 	);
 };
 
 const Container = styled.div`
+	width: 100vw;
+	display: flex;
+	justify-content: center;
+	flex-direction: column;
+	align-items: center;
+`;
+
+const FlexBox = styled.div`
+	width: 100vw;
 	height: 100%;
+	max-width: 800px;
+	@media screen and (min-width: 800px) {
+		border-left: 1px solid black;
+		border-right: 1px solid black;
+	}
 `;
 
 const TopBox = styled.div`
 	position: sticky;
 	top: 0;
 	background-color: white;
+	width: 100%;
+	max-width: 800px;
 `;
 
 const MessageArea = styled.div`
 	padding: 1rem;
+	height: 100%;
 	margin-bottom: 80px;
+	background-color: white;
+	display: flex;
+	flex-direction: column;
+	/* justify-content: flex-end; */
+	@media screen and (min-width: 800px) {
+		margin-bottom: 30px;
+		padding-bottom: 0;
+	}
 `;
 
 const DateDisplay = styled.p`

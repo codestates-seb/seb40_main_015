@@ -43,12 +43,22 @@ const ChatsPage = () => {
 
 const Container = styled.div`
 	width: 100vw;
+	display: flex;
+	justify-content: center;
+	flex-direction: column;
+	align-items: center;
 `;
 
 const Box = styled.div`
 	width: 100vw;
+	max-width: 800px;
 	height: 100%;
 	overflow-y: auto;
+	@media screen and (min-width: 800px) {
+		border-left: 1px solid black;
+		border-right: 1px solid black;
+		border-radius: 5px;
+	}
 `;
 
 const Empty = styled.div`

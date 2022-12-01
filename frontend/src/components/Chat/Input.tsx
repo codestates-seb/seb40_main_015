@@ -34,6 +34,11 @@ const Container = styled.div`
 	align-items: center;
 	background-color: white;
 	padding: 1rem 0;
+	@media screen and (min-width: 800px) {
+		max-width: 800px;
+		bottom: 0;
+		justify-content: center;
+	}
 `;
 
 const TextInput = styled.input`

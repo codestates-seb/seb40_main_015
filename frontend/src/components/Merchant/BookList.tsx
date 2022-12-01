@@ -85,6 +85,7 @@ const Container = styled.div`
 	border-radius: 5px;
 	padding: 1rem;
 	margin-bottom: 0.5rem;
+	background-color: white;
 	:hover {
 		background-color: ${props => props.theme.colors.grey};
 	}
