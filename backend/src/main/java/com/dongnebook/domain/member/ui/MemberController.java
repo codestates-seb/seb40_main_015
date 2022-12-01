@@ -53,7 +53,7 @@ public class MemberController {
         return ResponseEntity.created(createdMemberUri).body(createdResult);
     } // /members/{id} 자원 생성
 
-    @GetMapping("/auth/signup/checkId") //API로 중복체크하는 로직
+    @GetMapping("/auth/signup/checkid") //API로 중복체크하는 로직
     public ResponseEntity<MemberExistsCheckResponse> checkSameUserId(@RequestParam String id) {
         boolean userIdExists = memberService.checkUserIdDuplication(id);
 

@@ -37,7 +37,7 @@ import lombok.RequiredArgsConstructor;
 import static org.springframework.security.config.Customizer.withDefaults;
 
 @Configuration
-@EnableWebSecurity(debug = true)
+@EnableWebSecurity
 @RequiredArgsConstructor
 public class SecurityConfiguration {
 	private final RefreshTokenRepository refreshTokenRepository;
