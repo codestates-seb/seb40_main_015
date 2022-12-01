@@ -130,6 +130,8 @@ const Layout = styled.div`
 		margin-bottom: 20px;
 		background-color: #a4a4a4;
 		padding: 10px 48px;
+		height: 3rem;
+		/* width: 39rem; */
 		&:hover {
 			background-color: grey;
 		}
