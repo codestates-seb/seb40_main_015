@@ -107,7 +107,6 @@ const BookDetail = ({ book, merchant }: BookDetailProps) => {
 					</BookSubTitle>
 				</BookContainer>
 
-				{/* ffffff */}
 				{id && id !== merchant?.merchantId ? (
 					active ? (
 						<WishWrapper>
