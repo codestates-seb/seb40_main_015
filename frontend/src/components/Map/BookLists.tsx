@@ -149,6 +149,11 @@ const List = styled.div`
 	.book {
 		padding-left: 15px;
 		font-size: 1.16rem;
+		max-width: 20rem;
+		word-break: keep-all;
+		text-overflow: ellipsis;
+		white-space: nowrap;
+		overflow: hidden;
 	}
 
 	.state1 {
