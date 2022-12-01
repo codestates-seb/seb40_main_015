@@ -1,4 +1,4 @@
-import { useState, useCallback } from 'react';
+import { useState, useCallback, useEffect } from 'react';
 import styled from 'styled-components';
 import Title from '../components/common/Title';
 import Button from '../components/common/Button';
@@ -58,6 +58,7 @@ function ProfileEditPage() {
 	};
 
 	console.log('결과', address);
+
 	return (
 		<Layout>
 			{/*  name -> nickname으로 바뀔 예정 */}
@@ -78,7 +79,11 @@ function ProfileEditPage() {
 								maxLength={15}
 								className="nickname"
 							/>
-							<button className="check" onClick={() => {}}>
+							<button
+								className="check"
+								onClick={() => {
+									notify(dispatch, '사용 가능한 닉네임입니다');
+								}}>
 								중복확인
 							</button>
 						</div>
