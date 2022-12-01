@@ -3,16 +3,20 @@ import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '../redux/store';
 import { change } from '../redux/slice/geoLocationSlice';
 import getLocation from '../utils/getLocation';
+import { useAppSelector } from '../redux/hooks';
 
 function useGeoLocation(type?: string) {
 	const dispatch = useDispatch();
 	const location = useSelector((state: RootState) => {
 		return state.persistedReducer.getLocation;
 	});
+	const { location: persistLocation } = useAppSelector(
+		state => state.loginInfo,
+	);
 
 	const [current, setCurrent] = useState<any>({
-		lat: 33.452612905667934,
-		lon: 126.57087765868735,
+		lat: persistLocation.latitude ? persistLocation.latitude : location.lat,
+		lon: persistLocation.longitude ? persistLocation.longitude : location.lon,
 	});
 	const [loading, setLoading] = useState(false);
 
@@ -36,9 +40,9 @@ function useGeoLocation(type?: string) {
 		dispatch(change({ lat, lon }));
 	};
 
-	useEffect(() => {
-		handleCurrentLocationMove();
-	}, []);
+	// useEffect(() => {
+	// 	handleCurrentLocationMove();
+	// }, []);
 
 	if (type === 'center') {
 		return [location, setCurrentLocation];

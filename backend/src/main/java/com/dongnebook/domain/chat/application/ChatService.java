@@ -1,11 +1,14 @@
 package com.dongnebook.domain.chat.application;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.dongnebook.domain.alarm.domain.AlarmService;
+import com.dongnebook.domain.alarm.domain.AlarmType;
 import com.dongnebook.domain.book.domain.Book;
 import com.dongnebook.domain.chat.Repository.ChatRepository;
 import com.dongnebook.domain.chat.domain.ChatMessage;
@@ -26,6 +29,7 @@ public class ChatService {
 	private final ChatRepository chatRepository;
 	private final RoomService roomService;
 	private final MemberService memberService;
+	private final AlarmService alarmService;
 
 	//채팅방에 있는 모든 채팅 가져옴
 	public ChatRoomResponse findAllChats(Long roomId) {
@@ -42,8 +46,8 @@ public class ChatService {
 			.title(book.getTitle())
 			.bookState(book.getBookState())
 			.chatResponses(collect)
-			.member1Id(chatRoom.getCustomer().getId())
-			.member2Id(chatRoom.getMerchant().getId())
+			.memberA(chatRoom.getCustomer())
+			.memberB(chatRoom.getMerchant())
 			.build();
 	}
 
@@ -56,12 +60,13 @@ public class ChatService {
 	}
 
 	@Transactional
-	public void save(Long roomId, ChatMessageDto message) {
+	public void save(Long roomId, ChatMessageDto message,LocalDateTime now) {
 		Member sender = memberService.findById(message.getSenderId());
 		Member receiver = memberService.findById(message.getReceiverId());
 		ChatRoom room = roomService.findById(roomId);
-		ChatMessage chat = new ChatMessage(sender, receiver, message.getContent(), room);
+		ChatMessage chat = new ChatMessage(sender, receiver, message.getContent(), room, now);
 		chatRepository.save(chat);
+		alarmService.sendAlarm(receiver,room.getBook(), AlarmType.MESSAGE);
 	}
 
 }

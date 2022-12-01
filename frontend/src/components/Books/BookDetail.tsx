@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 // types
 import { BookDetailProps } from './type';
@@ -17,8 +17,30 @@ import {
 	Partition,
 	BookRentalInfo,
 } from './BookElements';
+import { useAppDispatch, useAppSelector } from '../../redux/hooks';
+import notify from '../../utils/notify';
+import { useChatAPI } from '../../api/chat';
 
 const BookDetail = ({ book, merchant }: BookDetailProps) => {
+	const { id, isLogin } = useAppSelector(state => state.loginInfo);
+	const { axiosCreateRoom } = useChatAPI();
+	const dispatch = useAppDispatch();
+	const navigate = useNavigate();
+
+	const handleChatClick = () => {
+		if (!isLogin) {
+			notify(dispatch, '로그인 후 이용이 가능합니다.');
+			navigate('/login');
+			return;
+		}
+		if (merchant && book) {
+			axiosCreateRoom(merchant?.merchantId, id, book?.bookId).then(res =>
+				navigate(`/chats/${res}`),
+			);
+		}
+	};
+
+	console.log(book, merchant, id);
 	return (
 		<>
 			<BookInfo>
@@ -46,7 +68,15 @@ const BookDetail = ({ book, merchant }: BookDetailProps) => {
 						</MerchantName>
 					</Link>
 					<Chat>
-						<span>(채팅하기)</span>
+						{isLogin && merchant?.merchantId !== id ? (
+							<ChatButton isLogin={isLogin} onClick={handleChatClick}>
+								채팅
+							</ChatButton>
+						) : (
+							<ChatButton isLogin={isLogin} onClick={handleChatClick}>
+								채팅
+							</ChatButton>
+						)}
 					</Chat>
 				</MerchantInfo>
 			</BookInfo>
@@ -82,6 +112,21 @@ const MerchantName = styled.div`
 	span:last-child {
 		margin-left: 2px;
 		font-size: 12px;
+	}
+`;
+
+interface ChatButtonProps {
+	isLogin: boolean;
+}
+
+const ChatButton = styled.button<ChatButtonProps>`
+	background-color: ${props => (props.isLogin ? '#ffc700' : '#a7a7a7')};
+	border: none;
+	padding: 0.5rem 1rem;
+	border-radius: 5px;
+	cursor: pointer;
+	:hover {
+		background-color: ${props => (props.isLogin ? '#e8b601' : '#8c8c8c')};
 	}
 `;
 

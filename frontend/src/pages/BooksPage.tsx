@@ -1,6 +1,6 @@
 import styled from 'styled-components';
-import { Link } from 'react-router-dom';
-import { useInfiniteQuery } from '@tanstack/react-query';
+import { useNavigate } from 'react-router-dom';
+import { useInfiniteQuery, useQuery } from '@tanstack/react-query';
 import { useEffect, useRef } from 'react';
 
 //components
@@ -13,11 +13,14 @@ import Animation from '../components/Loading/Animation';
 import { useBooksAPI } from '../api/books';
 import { useAppDispatch, useAppSelector } from '../redux/hooks';
 import notify from '../utils/notify';
+import { useMypageAPI } from '../api/mypage';
 
 const BooksPage = () => {
-	const { isLogin } = useAppSelector(state => state.loginInfo);
+	const { isLogin, id } = useAppSelector(state => state.loginInfo);
 	const dispatch = useAppDispatch();
 	const { getAllBooksListInfinite } = useBooksAPI();
+	const { getMyInfo } = useMypageAPI();
+	const navigate = useNavigate();
 	const target = useRef<HTMLDivElement>(null);
 
 	//무한스크롤
@@ -47,6 +50,28 @@ const BooksPage = () => {
 		return () => observer.disconnect();
 	}, []);
 
+	const address = useQuery({
+		queryKey: ['myprofile'],
+		queryFn: () => getMyInfo(id),
+		retry: false,
+	}).data?.address;
+
+	const handleClickCreate = () => {
+		if (!isLogin) notify(dispatch, '로그인이 필요합니다');
+		else if (!address) {
+			if (
+				window.confirm(
+					'책 등록을 위해 위치정보 등록이 필요합니다.\n마이페이지로 이동할까요?',
+				)
+			) {
+				navigate('/profile');
+				notify(dispatch, '위치정보 등록을 위해 회원 정보를 수정해 주세요.');
+			} else {
+				return;
+			}
+		} else navigate('/books/create');
+	};
+
 	return (
 		<Main>
 			<TitleWrapper>
@@ -54,11 +79,8 @@ const BooksPage = () => {
 			</TitleWrapper>
 
 			<BtnWrapper>
-				<LinkStyled to={isLogin ? '/books/create' : ''}>
-					<Button
-						onClick={() => isLogin || notify(dispatch, '로그인이 필요합니다')}>
-						책 등록하기
-					</Button>
+				<LinkStyled>
+					<Button onClick={handleClickCreate}>책 등록하기</Button>
 				</LinkStyled>
 			</BtnWrapper>
 
@@ -96,6 +118,8 @@ const Main = styled.div`
 	display: flex;
 	flex-direction: column;
 
+	align-items: center;
+
 	//가로스크롤 없애기
 	overflow-x: hidden;
 
@@ -104,16 +128,21 @@ const Main = styled.div`
 	}
 `;
 
-const TitleWrapper = styled.div``;
+const TitleWrapper = styled.div`
+	width: 100%;
+`;
 
 const BtnWrapper = styled.div`
+	width: 100%;
+	max-width: 800px;
 	display: flex;
 	flex-direction: column;
 	padding: 10px 20px;
+	margin-bottom: 10px;
 `;
 
 const BooksList = styled.div`
-	padding: 10px;
+	/* padding: 10px; */
 
 	/* height: 75vh; */
 	/* overflow-y: scroll; */
@@ -121,16 +150,16 @@ const BooksList = styled.div`
 		display: none;
 	} */
 
-	/* max-width: 1300px; */
-
+	max-width: 800px;
 	display: grid;
+	place-items: center;
 	grid-gap: 10px;
-	@media screen and (min-width: 1101px) {
+	@media screen and (min-width: 801px) {
 		grid-template-columns: repeat(2, 1fr);
 	}
 `;
 
-const LinkStyled = styled(Link)`
+const LinkStyled = styled.div`
 	display: flex;
 	flex-direction: column;
 `;

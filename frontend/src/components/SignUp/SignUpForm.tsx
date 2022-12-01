@@ -103,10 +103,14 @@ const SignUpForm = () => {
 
 const StyledSignUpForm = styled.form`
 	width: 100%;
-	max-width: 22rem;
+	max-width: 800px;
 	margin-top: 2rem;
 	display: flex;
 	flex-direction: column;
+	gap: 1.5rem;
+	@media screen and (max-width: 800px) {
+		gap: 0;
+	}
 `;
 
 const StyledButton = styled(Button)`

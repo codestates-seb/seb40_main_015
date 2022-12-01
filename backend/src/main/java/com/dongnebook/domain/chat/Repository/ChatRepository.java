@@ -35,7 +35,7 @@ public class ChatRepository {
 			.selectFrom(chatMessage)
 			.where(Expressions.list(chatMessage.room, chatMessage.createdAt)
 				.in((JPAExpressions.select(chatMessage.room, chatMessage.createdAt
-					.max()).from(chatMessage).groupBy(chatMessage.room))
+					.max()).from(chatMessage).where(chatMessage.room.in(rooms)).groupBy(chatMessage.room))
 				)).fetch();
 	}
 
@@ -50,10 +50,11 @@ public class ChatRepository {
 			.fetch();
 	}
 
-	public Optional<ChatRoom> getOrCreate(Long merchantId, Long customerId) {
+	public Optional<ChatRoom> getOrCreate(Long merchantId, Long customerId, Long bookId) {
 		return Optional.ofNullable(jpaQueryFactory
 			.selectFrom(chatRoom)
-			.where(chatRoom.customer.id.eq(customerId).and(chatRoom.merchant.id.eq(merchantId)))
+			.where(chatRoom.customer.id.eq(customerId).and(chatRoom.merchant.id.eq(merchantId))
+				.and(chatRoom.book.id.eq(bookId)))
 			.fetchFirst());
 
 	}

@@ -4,20 +4,9 @@ import Animation from '../Loading/Animation';
 import dummyImage3 from '../../assets/image/dummy3.png';
 import Button from '../common/Button';
 import { useMypageAPI } from '../../api/mypage';
-import { useInfiniteQuery, useQuery } from '@tanstack/react-query';
+import { useInfiniteQuery } from '@tanstack/react-query';
 import { useNavigate } from 'react-router-dom';
 import ButtonStatus from '../Merchant/ButtonStatus';
-
-interface ReservationBook {
-	reservationId: number;
-	rentalExpectedAt: string;
-	bookId: number;
-	title: string;
-	imageUrl: string;
-	rentalFee: number;
-	status: string;
-	merchantName: string;
-}
 
 const ReservationBookList = () => {
 	const navigate = useNavigate();
@@ -27,6 +16,8 @@ const ReservationBookList = () => {
 		navigate(`/books/${id}`);
 	};
 
+	const handleBookCancel = (id: number) => {};
+
 	// 예약목록 무한스크롤
 	const infiniteScrollTarget = useRef<HTMLDivElement>(null);
 	const { data, fetchNextPage, isLoading, hasNextPage, isFetchingNextPage } =
@@ -35,7 +26,7 @@ const ReservationBookList = () => {
 			queryFn: ({ pageParam = undefined }) => getReservationBookList(pageParam),
 			getNextPageParam: lastPage => {
 				// console.log('ff: ', lastPage.content?.slice(-1)[0]?.bookInfo.bookId);
-				return lastPage.content?.slice(-1)[0]?.bookInfo.bookId;
+				return lastPage.content?.slice(-1)[0]?.reservationInfo.reservationId;
 			},
 		});
 
@@ -56,7 +47,6 @@ const ReservationBookList = () => {
 		return () => observer.disconnect();
 	}, []);
 
-	// console.log('reservation: ', data, hasNextPage, isFetchingNextPage);
 	return (
 		<>
 			{isLoading ? (
@@ -83,7 +73,13 @@ const ReservationBookList = () => {
 											<p className="bookname">{title}</p>
 											<p>{rentalFee}원</p>
 										</div>
-										<ButtonStatus status={'대여중'} bookId={bookId} />
+										<Button
+											fontSize={'small'}
+											onClick={() => {
+												handleBookCancel(bookId);
+											}}>
+											예약 취소
+										</Button>
 									</InfoWrapped>
 								</FlexBox>
 							</Container>
@@ -98,8 +94,8 @@ const ReservationBookList = () => {
 
 			<ScrollEnd
 				ref={infiniteScrollTarget}
-				// className={`${hasNextPage ? '' : 'hidden'}`}>
-				className={`${isFetchingNextPage ? '' : 'hidden'}`}>
+				className={`${hasNextPage ? '' : 'hidden'}`}>
+				{/* className={`${isFetchingNextPage ? '' : 'hidden'}`}> */}
 				{isFetchingNextPage ? <p>Loading more books ...</p> : ''}
 			</ScrollEnd>
 		</>
@@ -118,6 +114,15 @@ const Container = styled.div`
 	border-radius: 5px;
 	padding: 1rem;
 	margin-bottom: 0.5rem;
+	cursor: pointer;
+
+	&:hover {
+		background-color: ${props => props.theme.colors.grey};
+	}
+
+	@media (min-width: 800px) {
+		width: 800px;
+	}
 `;
 
 const FlexBox = styled.div`
@@ -132,20 +137,31 @@ const InfoWrapped = styled.div`
 	justify-content: space-between;
 	align-items: center;
 	p {
-		font-size: ${props => props.theme.fontSizes.paragraph};
+		/* font-size: ${props => props.theme.fontSizes.paragraph};
+		margin-left: 1rem; */
+		font-size: 13px;
 		margin-left: 1rem;
+		display: flex;
+		flex-direction: column;
+		padding-top: 10px;
+	}
+	.bookname {
+		/* font-size: ${props => props.theme.fontSizes.subtitle}; */
+		font-size: 16px;
+		font-weight: 600;
+		padding-top: 0px;
 	}
 `;
 
 const EmptyBox = styled.div`
 	width: 100%;
-	height: 65vh;
+	height: 55vh;
 	display: flex;
 	justify-content: center;
 	align-items: center;
 	p {
-		/* font-size: ${props => props.theme.fontSizes.subtitle}; */
-		font-size: 16px;
+		font-size: ${props => props.theme.fontSizes.subtitle};
+		/* font-size: 16px; */
 		font-weight: 600;
 	}
 `;
