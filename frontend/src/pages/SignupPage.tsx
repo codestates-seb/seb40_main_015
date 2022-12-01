@@ -53,6 +53,8 @@ const StyledOauth = styled(Oauth)`
 `;
 
 const Main = styled.div`
+	width: 80%;
+	max-width: 800px;
 	display: flex;
 	flex-direction: column;
 	align-items: center;

@@ -1,13 +1,25 @@
 import { HiOutlineX } from 'react-icons/hi';
-import { Link } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import { noticeMessages } from '../../api/hooks/notice/noticeMessages';
+import useDeleteNotice from '../../api/hooks/notice/useDeleteNotice';
 import { NoticeItemType } from '../../api/hooks/notice/useGetNotice';
 import logo from '../../assets/image/logo1.png';
 
 const NoticeItem = ({ noticeData }: NoticeItemType) => {
-	const handleXClick = (alarmId: number) => {
-		//알람삭제기능
+	const navigate = useNavigate();
+	const { mutate } = useDeleteNotice();
+
+	const handleClickIcon = (
+		e: React.MouseEvent<HTMLDivElement, MouseEvent>,
+		alarmId: number,
+	) => {
+		e.stopPropagation();
+		if (window.confirm('정말 삭제하시겠습니까?')) {
+			mutate(alarmId);
+		} else {
+			return;
+		}
 	};
 
 	return (
@@ -15,19 +27,23 @@ const NoticeItem = ({ noticeData }: NoticeItemType) => {
 			{noticeData?.map(el => {
 				const message = noticeMessages[el.alarmType];
 				return (
-					<Link to={message[3]} key={el.alarmId}>
-						<StyledNoticeItem isRead={el.isRead}>
-							<IconWrapper onClick={() => handleXClick(el.alarmId)}>
-								<HiOutlineX className="icon" />
-							</IconWrapper>
-							<Logo src={logo} alt="로고" />
-							<Notice>
-								{`${message[0]} ${message[1]}하신 `}
-								<span>{el.bookTitle}</span>
-								{`${message[2]}`}
-							</Notice>
-						</StyledNoticeItem>
-					</Link>
+					<StyledNoticeItem
+						className="notice-item"
+						onClick={() => navigate(message[3])}
+						isRead={el.isRead}
+						key={el.alarmId}>
+						<IconWrapper
+							className="icon"
+							onClick={e => handleClickIcon(e, el.alarmId)}>
+							<HiOutlineX className="icon" />
+						</IconWrapper>
+						<Logo src={logo} alt="로고" />
+						<Notice>
+							{`${message[0]} ${message[1]}하신 `}
+							<span>{el.bookTitle}</span>
+							{`${message[2]}`}
+						</Notice>
+					</StyledNoticeItem>
 				);
 			})}
 		</>
@@ -47,14 +63,22 @@ const StyledNoticeItem = styled.div<{ isRead: boolean }>`
 	padding: 0.5rem 1.5rem 0.5rem 0.5rem;
 	margin-bottom: 1rem;
 	position: relative;
+
+	:hover {
+		background-color: ${props => props.theme.colors.buttonGrey};
+		cursor: pointer;
+		.icon {
+			color: black;
+		}
+	}
 `;
 
 const IconWrapper = styled.div`
-	height: 1.5rem;
-	width: 1.5rem;
+	height: 3rem;
+	width: 3em;
 	position: absolute;
-	top: 8px;
-	right: 8px;
+	top: 0;
+	right: 0;
 	display: flex;
 	justify-content: center;
 	align-items: center;

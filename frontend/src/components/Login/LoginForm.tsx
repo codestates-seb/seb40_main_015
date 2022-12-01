@@ -39,6 +39,7 @@ const LoginForm = () => {
 			console.log('login: ', res, 'cookie', document.cookie);
 			dispatch(login({ ...data, accessToken: authorization, isLogin: true }));
 			notify(dispatch, `${data.nickname}님 안녕하세요`);
+			// navigate('/books');
 			navigate(-1);
 
 			// 29분 뒤 액세스토큰 삭제
@@ -100,7 +101,7 @@ const StyledLoginForm = styled.form`
 `;
 
 const StyledButton = styled(Button)`
-	height: 3.5rem;
+	height: 3rem;
 	margin: 2rem 0;
 `;
 

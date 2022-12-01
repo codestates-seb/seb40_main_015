@@ -46,6 +46,8 @@ const SearchForm = () => {
 };
 
 const StyledBookInfo = styled(BookInfo)`
+	box-sizing: border-box;
+	width: 100%;
 	display: grid;
 `;
 
