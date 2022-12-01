@@ -4,7 +4,7 @@ import logo from '../../../../assets/image/logo4.png';
 
 const Logo = () => {
 	return (
-		<Link to="/books">
+		<Link to="/">
 			<StyledLogo>
 				<StyledImg src={logo} />
 				<StyledDiv>동네북</StyledDiv>
@@ -30,6 +30,10 @@ const StyledDiv = styled.div`
 	font-size: 2.5rem;
 	text-align: center;
 	white-space: nowrap;
+
+	@media screen and (max-width: 1000px) {
+		display: none;
+	}
 `;
 
 export default Logo;
