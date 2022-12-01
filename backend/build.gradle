@@ -41,7 +41,7 @@ dependencies {
     testAnnotationProcessor 'org.projectlombok:lombok:1.18.12' // 테스트 의존성 추가
 
     implementation 'com.google.code.gson:gson'
-
+    implementation 'com.github.gavlyukovskiy:p6spy-spring-boot-starter:1.5.7'
     //쿼리 dsl
     implementation 'com.querydsl:querydsl-jpa'
     annotationProcessor "com.querydsl:querydsl-apt:${dependencyManagement.importedProperties['querydsl.version']}:jpa"

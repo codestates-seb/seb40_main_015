@@ -7,6 +7,8 @@ import java.util.stream.Collectors;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.dongnebook.domain.alarm.domain.AlarmService;
+import com.dongnebook.domain.alarm.domain.AlarmType;
 import com.dongnebook.domain.book.domain.Book;
 import com.dongnebook.domain.chat.Repository.ChatRepository;
 import com.dongnebook.domain.chat.domain.ChatMessage;
@@ -27,16 +29,11 @@ public class ChatService {
 	private final ChatRepository chatRepository;
 	private final RoomService roomService;
 	private final MemberService memberService;
+	private final AlarmService alarmService;
 
 	//채팅방에 있는 모든 채팅 가져옴
 	public ChatRoomResponse findAllChats(Long roomId) {
 		ChatRoom chatRoom = roomService.findById(roomId);
-		chatRoom.getCustomer().getId();
-		chatRoom.getCustomer().getAvatarUrl();
-		chatRoom.getCustomer().getNickname();
-		chatRoom.getMerchant().getId();
-		chatRoom.getMerchant().getAvatarUrl();
-		chatRoom.getMerchant().getNickname();
 		Book book = chatRoom.getBook();
 
 		List<ChatMessage> chats = chatRepository.findAllChatsInRoom(roomId);
@@ -69,6 +66,7 @@ public class ChatService {
 		ChatRoom room = roomService.findById(roomId);
 		ChatMessage chat = new ChatMessage(sender, receiver, message.getContent(), room, now);
 		chatRepository.save(chat);
+		alarmService.sendAlarm(receiver,room.getBook(), AlarmType.MESSAGE);
 	}
 
 }

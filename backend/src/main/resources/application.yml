@@ -42,14 +42,7 @@ jwt:
   refresh-token-expiration-minutes: 20160
 
 
-logging:
-  level:
-    org:
-      hibernate:
-        type : trace
-      springframework:
-        orm:
-          jpa: DEBUG
+
 
 server:
   servlet:
