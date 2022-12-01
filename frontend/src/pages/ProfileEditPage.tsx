@@ -59,17 +59,6 @@ function ProfileEditPage() {
 
 	console.log('결과', address);
 
-	useEffect(() => {
-		window.addEventListener('scroll', handleScroll);
-		return () => {
-			window.removeEventListener('scroll', handleScroll); //clean up
-		};
-	}, []);
-
-	const handleScroll = () => {
-		console.log('scrolled');
-	};
-
 	return (
 		<Layout>
 			{/*  name -> nickname으로 바뀔 예정 */}
