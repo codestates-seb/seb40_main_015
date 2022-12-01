@@ -6,10 +6,10 @@ interface IProps {
 	bookState: string;
 	bookUrl: string;
 	title: string;
-	disconnect: () => void;
+	onClick: () => void;
 }
 
-const BookInfo = ({ bookState, bookUrl, title, disconnect }: IProps) => {
+const BookInfo = ({ bookState, bookUrl, title, onClick }: IProps) => {
 	switch (bookState) {
 		case 'RENTABLE':
 			bookState = '대여가능';
@@ -38,7 +38,7 @@ const BookInfo = ({ bookState, bookUrl, title, disconnect }: IProps) => {
 						<p>{bookState}</p>
 					</LeftContent>
 				</LeftBox>
-				<Button fontSize="small" onClick={disconnect}>
+				<Button fontSize="small" onClick={onClick}>
 					채팅 종료
 				</Button>
 			</Container>
