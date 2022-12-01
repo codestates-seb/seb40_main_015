@@ -35,7 +35,8 @@ function ProfilePage() {
 	};
 
 	const handleMerchantPage = () => {
-		navigate('/merchant');
+		// eslint-disable-next-line no-template-curly-in-string
+		navigate(`/profile/merchant/${id}`);
 	};
 
 	interface Member {
@@ -73,7 +74,7 @@ function ProfilePage() {
 							className="profileimage"
 							alt="프로필 이미지가 없습니다"></img>
 						<UserInfoBox>
-							<p>닉네임: {data?.name}</p>
+							<p>닉네임: {data?.name} </p>
 							<p>
 								주거래 동네:{data?.address ?? '거래 할 동네를 설정해주세요!'}
 							</p>
@@ -101,7 +102,6 @@ function ProfilePage() {
 						fontSize={'small'}
 						className="logout"
 						onClick={() => {
-							// logout api 아직 없음
 							const isTrue = window.confirm('로그아웃 하시겠습니까?');
 							if (!isTrue) return;
 							dispatch(logout());
@@ -123,7 +123,6 @@ const Layout = styled.div`
 	display: flex;
 	align-items: center;
 	flex-direction: column;
-	padding: 1rem;
 	min-width: 90%;
 
 	.logout {
@@ -146,6 +145,7 @@ const ProfileBox = styled.div`
 	display: flex;
 	padding: 1.2rem;
 	border: 1px solid #eaeaea;
+	background-color: white;
 
 	.profileimage {
 		box-sizing: border-box;

@@ -36,7 +36,7 @@ public class RoomService {
 	public Long getOrCreate(RoomRequest roomRequest) {
 
 		Book book = bookService.getByBookId(roomRequest.getBookId());
-		ChatRoom room = chatRepository.getOrCreate(roomRequest.getMerchantId(), roomRequest.getCustomerId())
+		ChatRoom room = chatRepository.getOrCreate(roomRequest.getMerchantId(), roomRequest.getCustomerId(),roomRequest.getBookId())
 			.orElseGet(() -> new ChatRoom(memberService.findById(roomRequest.getMerchantId()
 			), memberService.findById(roomRequest.getCustomerId()), book));
 
