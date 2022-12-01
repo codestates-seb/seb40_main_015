@@ -53,6 +53,7 @@ const StyledNoticeIcon = styled.div`
 	justify-content: center;
 	align-items: center;
 	box-shadow: 0 0 5px rgba(0, 0, 0, 0.6);
+	z-index: 10;
 	cursor: pointer;
 
 	.icon {
@@ -60,7 +61,9 @@ const StyledNoticeIcon = styled.div`
 		color: ${props => props.theme.colors.grey};
 	}
 
-	z-index: 10;
+	@media screen and (min-width: 800px) {
+		top: calc(1rem + 110px);
+	}
 `;
 
 const Red = styled.div<{ hasNewMessage: boolean }>`
