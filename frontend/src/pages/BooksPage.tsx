@@ -14,6 +14,7 @@ import { useBooksAPI } from '../api/books';
 import { useAppDispatch, useAppSelector } from '../redux/hooks';
 import notify from '../utils/notify';
 import { useMypageAPI } from '../api/mypage';
+import LogoImage from '../assets/image/logo4.png';
 
 const BooksPage = () => {
 	const { isLogin, id } = useAppSelector(state => state.loginInfo);
