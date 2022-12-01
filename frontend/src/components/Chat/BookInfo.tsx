@@ -1,15 +1,22 @@
-import bookImage from '../../assets/image/dummy.png';
 import styled from 'styled-components';
 import Button from '../common/Button';
+import { useNavigate } from 'react-router';
 
 interface IProps {
 	bookState: string;
 	bookUrl: string;
+	bookId: number;
 	title: string;
 	onClick: () => void;
 }
 
-const BookInfo = ({ bookState, bookUrl, title, onClick }: IProps) => {
+const BookInfo = ({ bookState, bookUrl, bookId, title, onClick }: IProps) => {
+	const navigate = useNavigate();
+
+	const handleMoveBookDetail = () => {
+		navigate(`/books/${bookId}`);
+	};
+
 	switch (bookState) {
 		case 'RENTABLE':
 			bookState = '대여가능';
@@ -30,7 +37,7 @@ const BookInfo = ({ bookState, bookUrl, title, onClick }: IProps) => {
 
 	return (
 		<>
-			<Container>
+			<Container onClick={handleMoveBookDetail}>
 				<LeftBox>
 					<BookImage src={bookUrl} alt="상대 이미지" />
 					<LeftContent>
@@ -52,6 +59,7 @@ const Container = styled.div`
 	align-items: center;
 	padding: 1.5rem 2rem;
 	border-bottom: 1px solid #c7c6c6;
+	cursor: pointer;
 	:hover {
 		background-color: ${props => props.theme.colors.grey};
 	}
@@ -76,6 +84,14 @@ const LeftContent = styled.div`
 		&:first-child {
 			margin-bottom: 1rem;
 			font-weight: bold;
+			max-width: 20rem;
+			word-break: keep-all;
+			text-overflow: ellipsis;
+			white-space: nowrap;
+			overflow: hidden;
+			@media screen and (min-width: 800px) {
+				max-width: 30rem;
+			}
 		}
 		font-size: 1.2rem;
 	}
