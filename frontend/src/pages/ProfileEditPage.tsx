@@ -14,6 +14,8 @@ import { useFixInfo } from '../api/hooks/profileedit/useFixInfo';
 import useGeolocation2 from '../hooks/useGeoLocation2';
 import useGeoLocation from '../hooks/useGeoLocation';
 import IdSection from '../components/SignUp/IdSection';
+import { throttle } from 'lodash';
+import ScrollToTop from '../components/common/ScrollToTop';
 
 function ProfileEditPage() {
 	const goNotify = (message: string) => notify(dispatch, message);
@@ -55,6 +57,17 @@ function ProfileEditPage() {
 
 	const handleBlurNickname = () => {
 		dispatch(updateUserInfo({ key: 'nickname', value: nickname }));
+	};
+
+	useEffect(() => {
+		window.addEventListener('scroll', handleScroll);
+		return () => {
+			window.removeEventListener('scroll', handleScroll); //clean up
+		};
+	}, []);
+
+	const handleScroll = () => {
+		console.log('scrolled');
 	};
 
 	console.log('결과', address);
@@ -165,7 +178,7 @@ const ProfileBox = styled.div`
 	/* background-color: rgb(244, 243, 236); */
 	background-color: #016241;
 	padding-top: 50px;
-	padding-bottom: 50px;
+	padding-bottom: 100px;
 	border-radius: 10px;
 
 	.check {
