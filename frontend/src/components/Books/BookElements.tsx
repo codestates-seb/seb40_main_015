@@ -51,6 +51,7 @@ const BookInfo = styled(Div)`
 	align-items: center;
 	margin: 0.6rem 0;
 
+	background-color: white;
 	.book--info__photo {
 		width: 100%;
 		display: flex;
@@ -193,6 +194,7 @@ const Chat = styled.div`
 const BookDsc = styled(Div)`
 	min-height: 20vh;
 	margin-bottom: 1.4rem;
+	background-color: white;
 	div {
 		font-size: 1.4rem;
 		line-height: 24px;
@@ -218,11 +220,14 @@ const CalendarWrapper = styled.div`
 	}
 `;
 const RentalInfo = styled(BookInfo)`
-	/* width: 30rem; */
+	/* width: 366px; */
+	width: inherit;
+	min-width: 366px;
 	margin-bottom: 2rem;
 	display: flex;
 	justify-content: space-between;
 	align-items: center;
+	background-color: white;
 `;
 
 const RentalCheck = styled.div`

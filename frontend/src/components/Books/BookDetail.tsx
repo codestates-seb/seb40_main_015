@@ -202,6 +202,7 @@ const BookDetailContainer = styled.div`
 `;
 const BookDetailTitleContainer = styled(BookInfo)`
 	position: relative;
+	background-color: white;
 `;
 const MerchantImg = styled.img`
 	border-radius: 0.3rem;
