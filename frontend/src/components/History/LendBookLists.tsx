@@ -86,6 +86,10 @@ const Wrapper = styled.div`
 
 	/* padding-bottom: 2rem; */
 	/* border-bottom: 1px solid rgba(0, 0, 0, 0.2); */
+
+	button {
+		height: 3rem;
+	}
 `;
 
 const EmptyBox = styled.div`

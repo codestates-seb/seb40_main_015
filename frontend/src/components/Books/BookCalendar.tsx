@@ -99,6 +99,7 @@ const CalendarWrapper = styled.div`
 	.react-calendar {
 		border: none;
 		margin: 4px 0;
+		width: 400px;
 	}
 	.react-calendar__navigation {
 		margin: 0;
