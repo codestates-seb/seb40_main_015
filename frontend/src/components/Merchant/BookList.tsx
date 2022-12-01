@@ -88,6 +88,9 @@ const Container = styled.div`
 	:hover {
 		background-color: ${props => props.theme.colors.grey};
 	}
+	@media (min-width: 800px) {
+		width: 800px;
+	}
 `;
 
 const FlexBox = styled.div`

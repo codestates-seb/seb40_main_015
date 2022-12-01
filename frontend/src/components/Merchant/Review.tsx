@@ -20,4 +20,7 @@ const Container = styled.div`
 		font-size: ${props => props.theme.fontSizes.subtitle};
 		font-weight: 600;
 	}
+	@media (min-width: 800px) {
+		width: 800px;
+	}
 `;
