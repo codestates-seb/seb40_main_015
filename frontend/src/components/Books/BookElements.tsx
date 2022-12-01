@@ -6,20 +6,39 @@ import styled from 'styled-components';
 const Main = styled.div`
 	display: flex;
 	flex-direction: column;
+	align-items: center;
+
 	padding-bottom: 30px;
+
+	.books__detail--btn {
+		width: 100%;
+		max-width: 408px;
+	}
 `;
-const TitleWrapper = styled.div``;
+const TitleWrapper = styled.div`
+	width: 100%;
+
+	@media screen and (min-width: 800px) {
+		transform: translateY(-100%);
+	}
+	transition: all 0.6s;
+`;
 
 const BodyContainer = styled.div`
 	display: flex;
 	flex-direction: column;
 	justify-content: center;
 	align-items: center;
-	margin: 2rem 0;
+	/* margin: 2rem 0; */
+
+	/* @media screen and (min-width: 801px) {
+		flex-direction: row;
+	} */
 `;
 
 const Div = styled.fieldset`
 	width: 40vh;
+	/* max-width: 800px; */
 	border-radius: 4px;
 	border: 1px solid rgba(1, 1, 1, 0.2);
 
@@ -35,7 +54,9 @@ const Div = styled.fieldset`
 const BookInfo = styled(Div)`
 	display: flex;
 	align-items: center;
+	margin: 0.6rem 0;
 
+	background-color: white;
 	.book--info__photo {
 		width: 100%;
 		display: flex;
@@ -90,11 +111,13 @@ const BookContainer = styled.div`
 	display: flex;
 	flex-direction: column;
 	justify-content: flex-start;
+
+	/* max-width: 340px; */
 `;
 const BookTitle = styled.div`
 	label {
 		/* font-size: ${props => props.theme.fontSizes.maintitle}; */
-		font-size: 1.6rem;
+		font-size: 1.5rem;
 	}
 	margin-bottom: 0.6rem;
 `;
@@ -102,7 +125,7 @@ const BookSubTitle = styled.div`
 	label {
 		font-size: ${props => props.theme.fontSizes.paragraph};
 	}
-	margin-left: 0.3rem;
+	margin-left: 0.2rem;
 `;
 
 const Partition = styled.span`
@@ -148,20 +171,21 @@ const MerchantInfo = styled.div`
 	display: flex;
 	justify-content: space-between;
 	align-items: center;
-
 	a {
 		display: flex;
-		justify-content: space-between;
+		width: 100%;
+		/* justify-content: space-between; */
 		align-items: center;
 		cursor: pointer;
 		span {
+			margin-bottom: 6px;
 			font-size: ${props => props.theme.fontSizes.subtitle};
 			/* font-size: 1.4rem; */
 		}
 	}
 `;
 
-const MerchantGrade = styled.div`
+const Chat = styled.div`
 	display: flex;
 	justify-content: flex-end;
 	/* font-size: 1.1rem; */
@@ -173,10 +197,12 @@ const MerchantGrade = styled.div`
 `;
 
 const BookDsc = styled(Div)`
-	height: 20vh;
-	margin-bottom: 1rem;
+	min-height: 20vh;
+	margin-bottom: 1.4rem;
+	background-color: white;
 	div {
 		font-size: 1.4rem;
+		line-height: 24px;
 	}
 `;
 const LinkStyled = styled(Link)`
@@ -199,11 +225,14 @@ const CalendarWrapper = styled.div`
 	}
 `;
 const RentalInfo = styled(BookInfo)`
-	/* width: 30rem; */
+	/* width: 366px; */
+	width: inherit;
+	min-width: 366px;
 	margin-bottom: 2rem;
 	display: flex;
 	justify-content: space-between;
 	align-items: center;
+	background-color: white;
 `;
 
 const RentalCheck = styled.div`
@@ -217,6 +246,12 @@ const RentalCheck = styled.div`
 	}
 	label {
 		margin-right: 2rem;
+		@media screen and (min-width: 801px) {
+			font-size: 22px;
+		}
+	}
+	.checkBoxLabel {
+		cursor: pointer;
 	}
 `;
 
@@ -228,7 +263,7 @@ export {
 	BookInfo,
 	BookRentalFee,
 	MerchantInfo,
-	MerchantGrade,
+	Chat,
 	RentalInfo,
 	BookDsc,
 	LinkStyled,

@@ -1,9 +1,17 @@
 import styled from 'styled-components';
 import logo from '../../assets/image/logo1.png';
 
-const Title = ({ text, isLogo }: { text: string; isLogo?: boolean }) => {
+const Title = ({
+	text,
+	isLogo,
+	marginBottom = true,
+}: {
+	text: string;
+	isLogo?: boolean;
+	marginBottom?: boolean;
+}) => {
 	return (
-		<Text>
+		<Text marginBottom={marginBottom}>
 			{isLogo ? (
 				<>
 					<Logo src={logo} />
@@ -24,13 +32,15 @@ const Logo = styled.img`
 	margin-right: 10px;
 `;
 
-const Text = styled.div`
-	width: 100%;
-	/* text-align: center; */
-	padding: 1rem 0;
-	margin-bottom: 1rem;
-	border-bottom: 1px solid #a7a7a7;
+interface TextProps {
+	marginBottom: boolean;
+}
 
+const Text = styled.div<TextProps>`
+	width: 100%;
+	padding: 1rem 0;
+	margin-bottom: ${props => (props.marginBottom ? '1rem' : 0)};
+	border-bottom: 1px solid #a7a7a7;
 	display: flex;
 	justify-content: center;
 	align-items: center;
@@ -38,4 +48,9 @@ const Text = styled.div`
 		font-size: ${props => props.theme.fontSizes.title};
 		font-family: 'kotra';
 	}
+	@media screen and (min-width: 800px) {
+		transform: translateY(-100%);
+		/* visibility: hidden; */
+	}
+	transition: all 0.6s;
 `;

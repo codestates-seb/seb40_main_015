@@ -18,7 +18,13 @@ export const getTotalMerchantQuery = (
 				level,
 			},
 		})
-		.then(res => res.data);
+		.then(res => {
+			if (res.data.length) {
+				return res.data;
+			} else {
+				throw new Error('상인 없음');
+			}
+		});
 };
 
 // 섹터당 상인 목록 // useQuery
@@ -28,7 +34,7 @@ export const getMerchantListQuery = (
 	sector: number,
 	level: number,
 	width: number,
-	heigth: number,
+	height: number,
 	index?: number | string,
 ) => {
 	return axiosInstance
@@ -39,7 +45,7 @@ export const getMerchantListQuery = (
 				sector,
 				level,
 				width,
-				heigth,
+				height,
 				index,
 			},
 		})
@@ -66,7 +72,13 @@ export const getTotalBookQuery = (
 				level,
 			},
 		})
-		.then(res => res.data);
+		.then(res => {
+			if (res.data.length) {
+				return res.data;
+			} else {
+				throw new Error('책 없음');
+			}
+		});
 };
 
 // // 섹터당 책 목록 useQuery
@@ -77,7 +89,7 @@ export const getBookListQuery = (
 	sector: number,
 	level: number,
 	width: number,
-	heigth: number,
+	height: number,
 	index?: number | string,
 ) =>
 	axiosInstance
@@ -89,7 +101,7 @@ export const getBookListQuery = (
 				sector,
 				level,
 				width,
-				heigth,
+				height,
 				index,
 			},
 		})

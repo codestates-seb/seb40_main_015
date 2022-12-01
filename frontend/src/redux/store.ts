@@ -7,12 +7,15 @@ import persistReducer from 'redux-persist/lib/persistReducer';
 import notificationReducer from './slice/notificationSlice';
 import loginInfoReducer from './slice/userSlice';
 import bookCreateReducer from './slice/bookCreateSlice';
+import geoLocationSlice from './slice/geoLocationSlice';
+import userInfoReducer from './slice/userInfoSlice';
+import alarmReducer from './slice/alarmSlice';
 
 const persistConfig = {
 	key: 'root',
 	version: 1,
 	storage,
-	blacklist: ['bookCreate'],
+	blacklist: ['notification', 'bookCreate', 'userInfo'],
 };
 
 const loginPersistConfig = {
@@ -23,12 +26,12 @@ const loginPersistConfig = {
 const rootReducer = combineReducers({
 	notification: notificationReducer,
 	bookCreate: bookCreateReducer,
+	getLocation: geoLocationSlice,
+	userInfo: userInfoReducer,
+	alarm: alarmReducer,
 });
 
-// const persistedReducer = persistReducer(persistConfig, rootReducer);
-
 export const store = configureStore({
-	// reducer: persistedReducer,
 	reducer: {
 		persistedReducer: persistReducer(persistConfig, rootReducer),
 		loginInfo: persistReducer(loginPersistConfig, loginInfoReducer),

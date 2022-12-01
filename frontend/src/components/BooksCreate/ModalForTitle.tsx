@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import styled from 'styled-components';
-import useGetBooksByTitle from '../../api/hooks/useGetBooksByTitle';
+import useGetBooksByTitle from '../../api/hooks/createBooks/useGetBooksByTitle';
 import { useAppDispatch } from '../../redux/hooks';
 import notify from '../../utils/notify';
 import Button from '../common/Button';
@@ -36,10 +36,12 @@ const ModalForTitle = ({
 							<InputWrapper>
 								<input
 									value={searchText}
+									placeholder="검색어를 입력해주세요."
 									onChange={e => {
 										setSearchText(e.target.value);
 									}}
 									id="book-search"
+									autoFocus
 								/>
 								<StyledButton type="submit" fontSize="small">
 									검색
@@ -95,6 +97,7 @@ const ModalContainer = styled.div`
 	align-items: center;
 	justify-content: center;
 	position: fixed;
+	z-index: 999;
 `;
 
 const SearchItems = styled.div`
@@ -128,8 +131,9 @@ const InputWrapper = styled.div`
 const DialogBox = styled.dialog`
 	box-sizing: border-box;
 	background-color: white;
-	width: 400px;
-	height: 500px;
+	width: 40%;
+	min-width: 400px;
+	height: 60%;
 	border: none;
 	border-radius: 10px;
 	padding: 0;

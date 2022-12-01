@@ -1,8 +1,6 @@
 import styled from 'styled-components';
 import { HiSearch } from 'react-icons/hi';
 import { Dispatch, SetStateAction } from 'react';
-import notify from '../../utils/notify';
-import { useAppDispatch } from '../../redux/hooks';
 
 interface SearchProps {
 	searchInput: string;
@@ -33,8 +31,6 @@ const Search = (props: SearchProps) => {
 		bookCurrentRefetch,
 	} = props;
 
-	const dispatch = useAppDispatch();
-
 	const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
 		setSearchInput(e.target.value);
 	};
@@ -45,42 +41,10 @@ const Search = (props: SearchProps) => {
 				merchantCurrentRefetch();
 				setBookSector([]);
 				setBookLists([]);
-				// getTotalMerchant(
-				// 	current.lat,
-				// 	current.lon,
-				// 	size.width,
-				// 	size.height,
-				// 	zoomLevel < 3 ? 3 : zoomLevel,
-				// ).then(res => {
-				// 	console.log(res);
-				// 	setMerchantSector(res);
-				// setBookSector([]);
-				// setBookLists([]);
-				// });
 			} else {
 				bookCurrentRefetch();
 				setMerchantSector([]);
 				setMerchantLists([]);
-				// getTotalBook(
-				// 	searchInput,
-				// 	current.lat,
-				// 	current.lon,
-				// 	size.width,
-				// 	size.height,
-				// 	zoomLevel < 3 ? 3 : zoomLevel,
-				// ).then(res => {
-				// 	if (res) {
-				// 		setBookSector(res);
-				// 		setMerchantSector([]);
-				// 		setMerchantLists([]);
-				// 	} else {
-				// 		notify(dispatch, `검색한 ${searchInput}가 주변에 없어요`);
-				// 		setBookSector([]);
-				// 		setBookLists([]);
-				// 		setMerchantSector([]);
-				// 		setMerchantLists([]);
-				// 	}
-				// });
 			}
 		}
 	};

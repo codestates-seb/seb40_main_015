@@ -1,8 +1,10 @@
-import React, { PropsWithChildren } from 'react';
+import React, { PropsWithChildren, useEffect, useState } from 'react';
 import styled from 'styled-components';
 import Button from '../common/Button';
 import useGeoLocation2 from '../../hooks/useGeoLocation2';
-import { useNavigate } from 'react-router-dom';
+import Geocode from 'react-geocode';
+import { useAppDispatch } from '../../redux/hooks';
+import { updateUserInfo } from '../../redux/slice/userInfoSlice';
 
 interface ModalDefaultType {
 	onClickToggleModal: () => void;
@@ -13,7 +15,32 @@ function Modal({
 	children,
 }: PropsWithChildren<ModalDefaultType>) {
 	const location = useGeoLocation2();
-	const navigate = useNavigate();
+	const dispatch = useAppDispatch();
+
+	const { latitude, longitude }: any = location.coordinates;
+
+	const [ad, setAd] = useState('');
+
+	useEffect(() => {
+		if (location.loaded === true) getAddressFromLatLng();
+	}, [location]);
+
+	const GEOCODER_KEY: any = process.env.REACT_APP_GEOCODER_KEY;
+	Geocode.setLanguage('ko');
+	Geocode.setApiKey(GEOCODER_KEY);
+	Geocode.enableDebug();
+
+	const getAddressFromLatLng = () => {
+		Geocode.fromLatLng(latitude, longitude).then(
+			response => {
+				const address = response.results[4].formatted_address;
+				setAd(address.slice(5));
+			},
+			error => {
+				console.log(error);
+			},
+		);
+	};
 
 	return (
 		<ModalContainer>
@@ -21,18 +48,21 @@ function Modal({
 				{children}
 				<h1>현재 위치를 주거래 지역으로 설정할까요?</h1>
 				<div className="currentplace">
-					{location.loaded
-						? JSON.stringify(location)
-						: '현재 위치를 확인 중입니다'}
+					{location.loaded ? ad : '- 현재 위치를 확인 중입니다 -'}
 				</div>
 				<div className="btn">
-					<Button className="btn1" onClick={() => {}}>
+					<Button
+						className="btn1"
+						onClick={() => {
+							dispatch(updateUserInfo({ key: 'address', value: ad }));
+
+							onClickToggleModal();
+						}}>
 						예
 					</Button>
 					<Button
 						className="btn2"
-						onClick={(e: React.MouseEvent) => {
-							e.preventDefault();
+						onClick={() => {
 							if (onClickToggleModal) {
 								onClickToggleModal();
 							}
@@ -42,8 +72,7 @@ function Modal({
 				</div>
 			</DialogBox>
 			<Backdrop
-				onClick={(e: React.MouseEvent) => {
-					e.preventDefault();
+				onClick={() => {
 					if (onClickToggleModal) {
 						onClickToggleModal();
 					}
@@ -76,6 +105,7 @@ const DialogBox = styled.dialog`
 	align-items: center;
 	justify-content: center;
 	top: 30%;
+	padding-top: 20px;
 
 	h1 {
 		font-size: 20px;
@@ -101,6 +131,9 @@ const DialogBox = styled.dialog`
 		background-color: rgb(43, 103, 74);
 		border-radius: 3px;
 		color: white;
+		align-items: center;
+		text-align: center;
+		padding-top: 14px;
 	}
 `;
 

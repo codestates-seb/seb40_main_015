@@ -2,11 +2,8 @@ package com.dongnebook.domain.chat.domain;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Set;
-import java.util.UUID;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.ForeignKey;
@@ -15,8 +12,6 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
 
 import org.hibernate.annotations.CreationTimestamp;
 
@@ -44,19 +39,25 @@ public class ChatRoom implements Serializable {
 	@JoinColumn(nullable = false, foreignKey = @ForeignKey(name = "fk_room_to_customer"))
 	private Member customer;
 
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(nullable = false, foreignKey = @ForeignKey(name = "fk_room_to_book"))
+	private Book book;
+
 
 	@CreationTimestamp
-	private LocalDateTime created_at;
+	@Column(name = "created_at")
+	private LocalDateTime createdAt;
 
-	public ChatRoom(Member merchant, Member customer) {
+	public ChatRoom(Member merchant, Member customer, Book book) {
 		this.merchant = merchant;
 		this.customer = customer;
+		this.book = book;
 	}
 
 	public Member getPartner(Long id) {
 		if (customer.hasSameId(id)) {
-			return customer;
+			return merchant;
 		}
-		return merchant;
+		return customer;
 	}
 }

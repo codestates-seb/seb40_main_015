@@ -20,6 +20,7 @@ public class BookResponse {
 	private String content;
 	private String state;
 	private String bookImgUrl;
+	private Boolean isDibs;
 	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd", timezone = "Asia/Seoul")
 	private LocalDateTime rentalStart;
 	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd", timezone = "Asia/Seoul")
@@ -27,7 +28,7 @@ public class BookResponse {
 
 	@QueryProjection
 	public BookResponse(Long bookId, String title, String author, String publisher, Integer rentalFee, String content, BookState state,
-		String bookImgUrl) {
+		String bookImgUrl, Long dibsId, LocalDateTime rentalStart, LocalDateTime rentalEnd) {
 		this.bookId = bookId;
 		this.title = title;
 		this.author = author;
@@ -36,5 +37,8 @@ public class BookResponse {
 		this.content = content;
 		this.state = state.getMessage();
 		this.bookImgUrl = bookImgUrl;
+		this.isDibs = dibsId == 0L ? Boolean.FALSE : Boolean.TRUE;
+		this.rentalStart = rentalStart;
+		this.rentalEnd = rentalEnd;
 	}
 }

@@ -5,6 +5,10 @@ Spring:
       path: /h2
       settings:
         web-allow-others: true
+  servlet:
+    multipart:
+      max-file-size: 2MB
+      max-request-size: 2MB
   datasource:
     url: jdbc:h2:mem:test
   jpa:
@@ -13,7 +17,7 @@ Spring:
     hibernate:
       ddl-auto: create  # (1) 스키마 자동 생성
       type: trace
-    show-sql: true      # (2) SQL 쿼리 출력
+      # (2) SQL 쿼리 출력
     properties:
       hibernate:
         format_sql: true  # (3) SQL pretty print
@@ -22,19 +26,23 @@ Spring:
   redis:
     host: localhost
     port: 6379
+  security:
+    oauth2:
+      client:
+        registration:
+          google:
+            clientId: ${GOOGLE_OAUTH2_CLIENT_ID}
+            clientSecret: ${GOOGLE_OAUTH2_CLIENT_SECRET}
+            scope:
+              - profile
+              - email
 jwt:
   secret-key: ${JWT_SECRET_KEY}
-  access-token-expiration-minutes: 3500
-  refresh-token-expiration-minutes: 420
+  access-token-expiration-minutes: 30
+  refresh-token-expiration-minutes: 20160
 
-logging:
-  level:
-    org:
-      hibernate:
-        type : trace
-      springframework:
-        orm:
-          jpa: DEBUG
+
+
 
 server:
   servlet:
