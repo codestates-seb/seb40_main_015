@@ -1,5 +1,5 @@
-import { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { useEffect, useState } from 'react';
+import { Link, useLocation } from 'react-router-dom';
 import styled from 'styled-components';
 import Logo from './Logo';
 
@@ -31,33 +31,43 @@ const Header = () => {
 		{
 			id: 3,
 			text: '채팅',
-			selected: true,
+			selected: false,
 			link: '/chats',
 		},
 	]);
 
-	const handleChangeMenu = (id: number): void => {
+	const { pathname } = useLocation();
+
+	useEffect(() => {
 		const newMenus = menus.map(menu =>
-			menu.id === id
+			menu.link === pathname
 				? { ...menu, selected: true }
 				: { ...menu, selected: false },
 		);
 		setMenus(newMenus);
-	};
+		console.log(newMenus);
+	}, [pathname]);
 
 	return (
 		<Container>
-			<Logo />
-			{menus.map(menu => {
-				const { id, text, selected, link } = menu;
-				return (
-					<Link to={link} key={id}>
-						<Box selected={selected} onClick={() => handleChangeMenu(id)}>
-							<p>{text}</p>
-						</Box>
-					</Link>
-				);
-			})}
+			<Left>
+				<Logo />
+				{menus.map(menu => {
+					const { id, text, selected, link } = menu;
+					return (
+						<Link to={link} key={id}>
+							<Box selected={selected}>
+								<StyledP>{text}</StyledP>
+							</Box>
+						</Link>
+					);
+				})}
+			</Left>
+			<Link to="/profile">
+				<Box selected={pathname === '/profile'}>
+					<StyledP>마이페이지</StyledP>
+				</Box>
+			</Link>
 		</Container>
 	);
 };
@@ -72,16 +82,28 @@ const Container = styled.div`
 	top: 0;
 	display: flex;
 	align-items: center;
+	justify-content: space-between;
+	z-index: 1;
+
+	@media screen and (max-width: 800px) {
+		display: none;
+	}
+`;
+
+const Left = styled.div`
+	display: flex;
+	align-items: center;
 `;
 
 const Box = styled.div<BoxProps>`
 	color: ${props => (props.selected ? '#26795D' : '#000000')};
 	margin: 0 3rem;
+`;
 
-	p {
-		font-size: 1.4rem;
-		font-weight: bold;
-	}
+const StyledP = styled.p`
+	font-size: 1.4rem;
+	font-weight: bold;
+	white-space: nowrap;
 `;
 
 export default Header;

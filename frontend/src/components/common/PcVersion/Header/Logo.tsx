@@ -17,7 +17,7 @@ const StyledLogo = styled.div`
 	height: 70px;
 	display: flex;
 	align-items: center;
-	margin: 0 4rem 0 8rem;
+	margin: 0 4rem 0 5rem;
 `;
 
 const StyledImg = styled.img`
