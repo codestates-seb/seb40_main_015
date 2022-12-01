@@ -36,7 +36,7 @@ const LoginForm = () => {
 				data,
 				headers: { authorization },
 			} = res;
-			console.log('login: ', res, 'cookie', document.cookie);
+			// console.log('login: ', res, 'cookie', document.cookie);
 			dispatch(login({ ...data, accessToken: authorization, isLogin: true }));
 			notify(dispatch, `${data.nickname}님 안녕하세요`);
 			// navigate('/books');
@@ -44,7 +44,7 @@ const LoginForm = () => {
 
 			//29분 뒤 액세스토큰 갱신
 			// setTimeout(() => {
-			// 	dispatch(login({ ...data, accessToken: '', isLogin: true }));
+			// 	dispatch(login({ ...data, accessToken: 'Bearer ', isLogin: true }));
 			// }, 1000 * 10);
 		},
 		onError: res => {
