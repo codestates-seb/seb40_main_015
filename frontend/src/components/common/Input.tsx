@@ -37,8 +37,10 @@ const StyledDiv = styled.div`
 	display: flex;
 	flex-direction: row;
 	justify-content: space-between;
+	align-items: center;
 	@media screen and (max-width: 800px) {
 		flex-direction: column;
+		align-items: normal;
 	}
 `;
 
@@ -46,7 +48,10 @@ const StyledLabel = styled.label`
 	white-space: nowrap;
 	font-size: ${props => props.theme.fontSizes.subtitle};
 	font-weight: bold;
-	margin: 0 1.5rem 8px 0;
+	margin: 0 1.5rem 0 0;
+	@media screen and (max-width: 800px) {
+		margin-bottom: 7px;
+	}
 `;
 
 const StyledInput = styled.input`

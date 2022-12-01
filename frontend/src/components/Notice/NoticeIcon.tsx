@@ -47,7 +47,7 @@ const StyledNoticeIcon = styled.div`
 	width: 4rem;
 	position: fixed;
 	right: 2rem;
-	top: 2rem;
+	top: 1rem;
 	border-radius: 50%;
 	display: flex;
 	justify-content: center;
