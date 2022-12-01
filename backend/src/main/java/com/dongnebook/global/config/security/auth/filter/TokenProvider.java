@@ -16,6 +16,7 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.stereotype.Component;
 
 import com.dongnebook.domain.refreshtoken.exception.TokenEmpty;
+import com.dongnebook.domain.refreshtoken.exception.TokenExpired;
 import com.dongnebook.domain.refreshtoken.exception.TokenMalformed;
 import com.dongnebook.domain.refreshtoken.exception.TokenSignatureInvalid;
 import com.dongnebook.domain.refreshtoken.exception.TokenUnsupported;
@@ -129,7 +130,7 @@ public class TokenProvider {
 		} catch (ExpiredJwtException e) {
 			log.info("Expired JWT token");
 			log.trace("Expired JWT token trace: {}", e);
-
+			throw new TokenExpired();
 		} catch (UnsupportedJwtException e) {
 			log.info("Unsupported JWT token");
 			log.trace("Unsupported JWT token trace: {}", e);
@@ -139,7 +140,7 @@ public class TokenProvider {
 			log.trace("JWT claims string is empty trace: {}", e);
 			throw new TokenEmpty();
 		}
-	return false;
+
 	}
 
 	public Claims parseClaims(String accessToken)  {
