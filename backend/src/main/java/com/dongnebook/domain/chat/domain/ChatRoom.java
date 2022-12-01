@@ -56,8 +56,8 @@ public class ChatRoom implements Serializable {
 
 	public Member getPartner(Long id) {
 		if (customer.hasSameId(id)) {
-			return customer;
+			return merchant;
 		}
-		return merchant;
+		return customer;
 	}
 }
