@@ -1,6 +1,8 @@
 import { useEffect, useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import styled from 'styled-components';
+import { useAppDispatch } from '../../../../redux/hooks';
+import notify from '../../../../utils/notify';
 import Logo from './Logo';
 
 interface MenuProps {
@@ -16,6 +18,12 @@ interface BoxProps {
 
 const Header = () => {
 	const [menus, setMenus] = useState<MenuProps[]>([
+		{
+			id: 0,
+			text: '전체도서목록',
+			selected: false,
+			link: '/books',
+		},
 		{
 			id: 1,
 			text: '지도검색',
@@ -37,15 +45,19 @@ const Header = () => {
 	]);
 
 	const { pathname } = useLocation();
+	const dispatch = useAppDispatch();
 
 	useEffect(() => {
+		const loginOnly = ['/history', '/chats', '/profile'];
 		const newMenus = menus.map(menu =>
 			menu.link === pathname
 				? { ...menu, selected: true }
 				: { ...menu, selected: false },
 		);
 		setMenus(newMenus);
-		console.log(newMenus);
+
+		if (loginOnly.includes(pathname)) notify(dispatch, '로그인이 필요합니다.');
+		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [pathname]);
 
 	return (
@@ -83,8 +95,9 @@ const Container = styled.div`
 	display: flex;
 	align-items: center;
 	justify-content: space-between;
-	z-index: 1;
+	z-index: 91;
 	transform: translateY(-100%);
+
 	@media screen and (min-width: 800px) {
 		/* display: none; */
 		transform: translateY(0);
@@ -100,12 +113,20 @@ const Left = styled.div`
 const Box = styled.div<BoxProps>`
 	color: ${props => (props.selected ? '#26795D' : '#000000')};
 	margin: 0 3rem;
+
+	@media screen and (max-width: 1000px) {
+		margin: 0 2.5rem;
+	}
 `;
 
 const StyledP = styled.p`
 	font-size: 1.4rem;
 	font-weight: bold;
 	white-space: nowrap;
+
+	@media screen and (max-width: 1000px) {
+		font-size: 1.3rem;
+	}
 `;
 
 export default Header;
