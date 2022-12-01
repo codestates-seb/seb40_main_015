@@ -17,6 +17,12 @@ interface BoxProps {
 const Header = () => {
 	const [menus, setMenus] = useState<MenuProps[]>([
 		{
+			id: 0,
+			text: '전체도서목록',
+			selected: false,
+			link: '/books',
+		},
+		{
 			id: 1,
 			text: '지도검색',
 			selected: false,
@@ -98,12 +104,20 @@ const Left = styled.div`
 const Box = styled.div<BoxProps>`
 	color: ${props => (props.selected ? '#26795D' : '#000000')};
 	margin: 0 3rem;
+
+	@media screen and (max-width: 1000px) {
+		margin: 0 2.5rem;
+	}
 `;
 
 const StyledP = styled.p`
 	font-size: 1.4rem;
 	font-weight: bold;
 	white-space: nowrap;
+
+	@media screen and (max-width: 1000px) {
+		font-size: 1.3rem;
+	}
 `;
 
 export default Header;
