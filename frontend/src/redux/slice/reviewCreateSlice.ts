@@ -16,17 +16,13 @@ const ReviewCreateSlice = createSlice({
 	name: 'ReviewCreate',
 	initialState,
 	reducers: {
-		updateBookInfo: (state, action) => {
-			const { title, authors, publisher } = action.payload;
-			// state.bookInfo = { title, authors, publisher };
-		},
-		updateRentalInfo: (state, action) => {
-			const { key } = action.payload;
-			// state.rentalInfo[key] = action.payload.value;
-		},
-	},
+		updateReviewInfo: (state, action) => {
+			const { bookId, reviewMessage, grade } = action.payload;
+			state = {bookId, reviewMessage, grade };
+		}
+	}
 });
 
-export const { updateBookInfo, updateRentalInfo } = ReviewCreateSlice.actions;
+export const { updateReviewInfo } = ReviewCreateSlice.actions;
 
 export default ReviewCreateSlice.reducer;
