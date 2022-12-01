@@ -171,15 +171,15 @@ const ProfileBox = styled.div`
 	align-items: center;
 	flex-direction: column;
 	width: 60%;
-	position: fixed;
 	top: 22%;
 	padding: 1.2rem;
 	border: 1px solid #eaeaea;
 	/* background-color: rgb(244, 243, 236); */
 	background-color: #016241;
 	padding-top: 50px;
-	padding-bottom: 100px;
+	padding-bottom: 50px;
 	border-radius: 10px;
+	margin-top: 120px;
 
 	.check {
 		width: 60px;
@@ -204,8 +204,8 @@ const ProfileBox = styled.div`
 
 	.image {
 		box-sizing: border-box;
-		width: 220px;
-		height: 220px;
+		width: 200px;
+		height: 200px;
 		border-radius: 1000px;
 		border: 0.5px solid grey;
 		cursor: pointer;
@@ -238,6 +238,9 @@ const ProfileBox = styled.div`
 
 	@media (min-width: 800px) {
 		width: 450px;
+	}
+	@media (max-width: 414px) {
+		width: 270px;
 	}
 `;
 
