@@ -14,12 +14,12 @@ public class MemberDetailResponse {
 	private String address;
 	private Integer totalBookCount;
 	private String avatarUrl;
-	private Long avgGrade;
+	private Double avgGrade;
 
 
 	@QueryProjection
 	public MemberDetailResponse(Long memberId, String name, Location location, String address, Integer totalBookCount, String avatarUrl,
-		Long avgGrade) {
+		Double avgGrade) {
 		this.memberId = memberId;
 		this.name = name;
 		this.location = location;
