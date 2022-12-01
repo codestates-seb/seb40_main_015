@@ -46,13 +46,13 @@ public class ReviewService {
     }
 
 
-    private static void checkRentalPerson(Rental rental, Long customerId) {
+    private void checkRentalPerson(Rental rental, Long customerId) {
         if(!rental.getCustomer().getId().equals(customerId)){
             throw new RentalNotFoundException();
         }
     }
 
-    private static void checkBookRentalMatch(Rental rental, Long bookId) {
+    private void checkBookRentalMatch(Rental rental, Long bookId) {
         if(!rental.getBook().getId().equals(bookId)){
             throw new BookRentalNotMatchException();
         }
@@ -66,7 +66,7 @@ public class ReviewService {
         return rental;
     }
 
-    private static void setAvgGradeAndUpCount(Long grade, Member merchant) {
+    private void setAvgGradeAndUpCount(Long grade, Member merchant) {
         Double pastAvgGrade = merchant.getAvgGrade();
         Double newAvgGrade = (pastAvgGrade*merchant.getReceivedReviewCount() + grade)/(merchant.getReceivedReviewCount() + 1);
         merchant.setAvgGrade(newAvgGrade);
