@@ -23,10 +23,9 @@ const BooksDetailPage = () => {
 	const { data, isLoading } = useQuery({
 		queryKey: ['bookDetail'],
 		queryFn: () => getBookDetail(bookId, isLogin),
-		onSuccess: () => {
+		onSuccess: data => {
 			console.log('book detail: ', data);
 		},
-		refetchOnWindowFocus: false,
 	});
 
 	if (isLoading)
