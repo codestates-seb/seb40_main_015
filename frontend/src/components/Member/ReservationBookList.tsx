@@ -106,6 +106,15 @@ const Container = styled.div`
 	border-radius: 5px;
 	padding: 1rem;
 	margin-bottom: 0.5rem;
+	cursor: pointer;
+
+	&:hover {
+		background-color: ${props => props.theme.colors.grey};
+	}
+
+	@media (min-width: 800px) {
+		width: 800px;
+	}
 `;
 
 const FlexBox = styled.div`
@@ -120,8 +129,19 @@ const InfoWrapped = styled.div`
 	justify-content: space-between;
 	align-items: center;
 	p {
-		font-size: ${props => props.theme.fontSizes.paragraph};
+		/* font-size: ${props => props.theme.fontSizes.paragraph};
+		margin-left: 1rem; */
+		font-size: 13px;
 		margin-left: 1rem;
+		display: flex;
+		flex-direction: column;
+		padding-top: 10px;
+	}
+	.bookname {
+		/* font-size: ${props => props.theme.fontSizes.subtitle}; */
+		font-size: 16px;
+		font-weight: 600;
+		padding-top: 0px;
 	}
 `;
 
