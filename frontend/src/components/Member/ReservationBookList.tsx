@@ -71,7 +71,7 @@ const ReservationBookList = () => {
 											<p className="bookname">{title}</p>
 											<p>{rentalFee}원</p>
 										</div>
-										<ButtonStatus status={'대여중'} bookId={bookId} />
+										<Button fontSize={'small'}>예약 취소</Button>
 									</InfoWrapped>
 								</FlexBox>
 							</Container>
