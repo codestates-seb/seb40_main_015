@@ -1,10 +1,13 @@
 import { useState } from 'react';
+import { Link } from 'react-router-dom';
 import styled from 'styled-components';
+import Logo from './Logo';
 
 interface MenuProps {
 	id: number;
 	text: string;
 	selected: boolean;
+	link: string;
 }
 
 interface BoxProps {
@@ -14,37 +17,22 @@ interface BoxProps {
 const Header = () => {
 	const [menus, setMenus] = useState<MenuProps[]>([
 		{
-			id: 0,
-			text: '동네북',
-			selected: false,
-		},
-		{
 			id: 1,
-			text: '전체조회',
+			text: '지도검색',
 			selected: false,
+			link: '/books/search',
 		},
 		{
 			id: 2,
 			text: '대여목록',
 			selected: false,
+			link: '/history',
 		},
 		{
 			id: 3,
-
 			text: '채팅',
 			selected: true,
-		},
-		{
-			id: 4,
-
-			text: '지도검색',
-			selected: false,
-		},
-		{
-			id: 5,
-
-			text: '마이페이지',
-			selected: false,
+			link: '/chats',
 		},
 	]);
 
@@ -59,15 +47,15 @@ const Header = () => {
 
 	return (
 		<Container>
+			<Logo />
 			{menus.map(menu => {
-				const { id, text, selected } = menu;
+				const { id, text, selected, link } = menu;
 				return (
-					<Box
-						key={id}
-						selected={selected}
-						onClick={() => handleChangeMenu(id)}>
-						<p>{text}</p>
-					</Box>
+					<Link to={link} key={id}>
+						<Box selected={selected} onClick={() => handleChangeMenu(id)}>
+							<p>{text}</p>
+						</Box>
+					</Link>
 				);
 			})}
 		</Container>
@@ -75,19 +63,25 @@ const Header = () => {
 };
 
 const Container = styled.div`
-	position: fixed;
 	width: 100%;
-	display: flex;
-	justify-content: space-around;
-	align-items: center;
-	text-align: center;
-	bottom: 0;
+	height: 70px;
+	background-color: white;
+	border-bottom: 1px solid #a7a7a7;
 	padding: 10px 0;
-	border-top: 1px solid #a7a7a7;
+	position: fixed;
+	top: 0;
+	display: flex;
+	align-items: center;
 `;
 
 const Box = styled.div<BoxProps>`
 	color: ${props => (props.selected ? '#26795D' : '#000000')};
+	margin: 0 3rem;
+
+	p {
+		font-size: 1.4rem;
+		font-weight: bold;
+	}
 `;
 
 export default Header;
