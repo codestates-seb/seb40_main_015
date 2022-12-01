@@ -1,9 +1,8 @@
 import axios from 'axios';
 import styled from 'styled-components';
-import { BASE_URL, USERID_REGEX } from '../../constants/constants';
 import Input from '../common/Input';
 
-type IdSectionProps = {
+type NicknameSectionProps = {
 	data: {
 		label: string;
 		state: string;
@@ -14,25 +13,22 @@ type IdSectionProps = {
 	notify: Function;
 };
 
-const IdSection = ({ data, notify }: IdSectionProps) => {
+const IdSection = ({ data, notify }: NicknameSectionProps) => {
 	const { label, state, setState, setValidity } = data;
 
-	const handleValidateClick = (
+	const handleValidateNickname = (
 		label: string,
 		state: string,
 		validate: Function,
 	) => {
-		// 아이디 중복확인 부분 서버 엔드포인트 소문자 변경 작업중으로 임시 사용 불가 -> 다음 배포 때 적용 예정
-		if (label === '아이디' && !USERID_REGEX.test(state)) {
-			notify('아이디는 영문과 숫자로만 입력해주세요.');
+		if (label === '닉네임') {
+			notify('닉네임은 15자 이하입니다');
 		} else {
-			const endPoint = label === '아이디' ? 'id' : 'nickname';
-			const endPointTemp = label === '아이디' ? 'Id' : 'nickname';
+			const endPoint = label === '닉네임' ? 'nickname' : 'null';
+			const endPointTemp = label === '닉네임' ? 'nickname' : 'null';
 			state
 				? axios
-						.get(
-							`${BASE_URL}/auth/signup/check${endPointTemp}?${endPoint}=${state}`,
-						)
+						.get(`/auth/signup/check${endPointTemp}?${endPoint}=${state}`)
 						.then(res => {
 							if (res.data.success) {
 								validate(true);
@@ -43,9 +39,7 @@ const IdSection = ({ data, notify }: IdSectionProps) => {
 						.catch(e => {
 							notify(e.message);
 						})
-				: notify(
-						`${label === '아이디' ? '아이디를' : '닉네임을'} 입력해주세요.`,
-				  );
+				: notify(`${label === '닉네임을'} 입력해주세요.`);
 		}
 	};
 
@@ -55,7 +49,7 @@ const IdSection = ({ data, notify }: IdSectionProps) => {
 				<Input label={label} state={state} setState={setState} maxLength={15} />
 				<div
 					className="overlapCheck"
-					onClick={() => handleValidateClick(label, state, setValidity)}>
+					onClick={() => handleValidateNickname(label, state, setValidity)}>
 					중복확인
 				</div>
 			</IdWrapper>
@@ -64,31 +58,23 @@ const IdSection = ({ data, notify }: IdSectionProps) => {
 };
 
 const StyledIdSection = styled.div`
-	width: 100%;
 	display: grid;
 `;
 
 const IdWrapper = styled.div`
-	/* min-width: 117.5%; */
-	width: 100%;
-	display: flex;
-	flex-wrap: wrap;
-	position: relative;
-	/* grid-template-columns: 22rem 1px; */
+	min-width: 117.5%;
+	display: grid;
+	grid-template-columns: 22rem 1px;
 	.overlapCheck {
 		width: 4.1rem;
 		height: 1rem;
 		background-color: transparent;
 		color: ${props => props.theme.colors.buttonGreen};
 		font-weight: bold;
-		position: absolute;
-		top: 45%;
-		right: 0.5rem;
+		position: relative;
+		top: 4rem;
+		right: 4.1rem;
 		cursor: pointer;
-
-		@media screen and (max-width: 800px) {
-			top: 65%;
-		}
 	}
 `;
 

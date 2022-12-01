@@ -14,7 +14,7 @@ const Title = ({
 		<Text marginBottom={marginBottom}>
 			{isLogo ? (
 				<>
-					<Logo src={logo} />
+					{/* <Logo src={logo} /> */}
 					<span>{text}</span>
 				</>
 			) : (

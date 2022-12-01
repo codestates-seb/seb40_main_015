@@ -13,6 +13,7 @@ import Avatar from '../api/hooks/profileedit/Avatar';
 import { useFixInfo } from '../api/hooks/profileedit/useFixInfo';
 import useGeolocation2 from '../hooks/useGeoLocation2';
 import useGeoLocation from '../hooks/useGeoLocation';
+import IdSection from '../components/SignUp/IdSection';
 
 function ProfileEditPage() {
 	const goNotify = (message: string) => notify(dispatch, message);
@@ -75,7 +76,11 @@ function ProfileEditPage() {
 								onChange={handleChangeNickname}
 								onBlur={handleBlurNickname}
 								maxLength={15}
+								className="nickname"
 							/>
+							<button className="check" onClick={() => {}}>
+								중복확인
+							</button>
 						</div>
 						<p className="minititle">내 동네 설정</p>
 						<div className="input">
@@ -158,6 +163,27 @@ const ProfileBox = styled.div`
 	padding-bottom: 50px;
 	border-radius: 10px;
 
+	.check {
+		width: 60px;
+		font-size: 12px;
+		padding-top: 4px;
+		padding-bottom: 4px;
+		border-radius: 5px;
+		border: 0.5px solid grey;
+		background-color: #eaeaea;
+		color: #016241;
+		font-weight: bold;
+		cursor: pointer;
+		:hover {
+			background-color: grey;
+			color: #eaeaea;
+		}
+	}
+
+	.nickname {
+		width: 160px;
+	}
+
 	.image {
 		box-sizing: border-box;
 		width: 220px;
@@ -177,6 +203,7 @@ const ProfileBox = styled.div`
 		font-size: 16px;
 		background-color: grey;
 	}
+
 	.input {
 		display: flex;
 		text-align: center;
