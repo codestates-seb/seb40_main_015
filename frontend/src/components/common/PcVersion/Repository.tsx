@@ -10,7 +10,7 @@ const Repository = () => {
 };
 
 const StyledImg = styled.img`
-	width: 80%;
+	width: 13rem;
 	margin: 10rem 2rem 0 4.5vw;
 	position: sticky;
 	top: 8rem;

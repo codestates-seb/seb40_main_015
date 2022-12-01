@@ -7,6 +7,7 @@ import { useAppSelector } from '../../redux/hooks';
 import useGetAccessTokenRefresh from '../../api/hooks/auth/authRenew';
 import Header from './PcVersion/Header/Header';
 import Repository from './PcVersion/Repository';
+import TeamMember from './PcVersion/TeamMember';
 
 const Layout = () => {
 	const data = useAppSelector(state => state.loginInfo);
@@ -16,11 +17,14 @@ const Layout = () => {
 	return (
 		<Main>
 			<Header />
-			<Repository />
-			<Body>
-				<ScrollToTop />
-				<Outlet />
-			</Body>
+			<Content>
+				<Repository />
+				<Body>
+					<ScrollToTop />
+					<Outlet />
+				</Body>
+				<TeamMember />
+			</Content>
 			<NavBar />
 		</Main>
 	);
@@ -31,6 +35,14 @@ const Main = styled.div`
 	width: 100%;
 	justify-content: center;
 	background-color: #fbfbfb;
+`;
+
+const Content = styled.div`
+	width: 100%;
+	max-width: 1800px;
+	height: 100%;
+	display: flex;
+	justify-content: space-between;
 `;
 
 const Body = styled.div`
