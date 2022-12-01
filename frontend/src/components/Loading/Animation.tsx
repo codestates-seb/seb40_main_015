@@ -33,6 +33,7 @@ const Background = styled.div<BackgroundProps>`
 	display: flex;
 	align-items: center;
 	justify-content: center;
+	background-color: #fbfbfb;
 `;
 
 interface LottieContainerProps {

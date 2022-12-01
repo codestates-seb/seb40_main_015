@@ -78,7 +78,11 @@ function ProfileEditPage() {
 								maxLength={15}
 								className="nickname"
 							/>
-							<button className="check" onClick={() => {}}>
+							<button
+								className="check"
+								onClick={() => {
+									notify(dispatch, '사용 가능한 닉네임입니다');
+								}}>
 								중복확인
 							</button>
 						</div>
