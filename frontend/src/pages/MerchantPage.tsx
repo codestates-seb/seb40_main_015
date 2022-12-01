@@ -36,6 +36,7 @@ function MerchantPage() {
 							alt="유저이미지"
 							width={80}
 							height={100}
+							className="profileimage"
 						/>
 						<UserInfoBox>
 							<p>닉네임: {data?.name}</p>
@@ -66,6 +67,14 @@ const ProfileBox = styled.div`
 	display: flex;
 	padding: 1.2rem;
 	border: 1px solid #eaeaea;
+
+	.profileimage {
+		box-sizing: border-box;
+		width: 100px;
+		height: 100px;
+		border-radius: 1000px;
+		border: 0.5px solid grey;
+	}
 
 	@media (min-width: 800px) {
 		width: 800px;
