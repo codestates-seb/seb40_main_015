@@ -34,6 +34,12 @@ const Container = styled.div`
 	align-items: center;
 	background-color: white;
 	padding: 1rem 0;
+	@media screen and (min-width: 800px) {
+		width: 800px;
+		bottom: 0;
+		box-sizing: border-box;
+		border: 1px solid #eaeaea;
+	}
 `;
 
 const TextInput = styled.input`
