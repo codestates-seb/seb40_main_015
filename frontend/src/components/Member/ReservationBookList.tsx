@@ -7,14 +7,28 @@ import { useMypageAPI } from '../../api/mypage';
 import { useInfiniteQuery } from '@tanstack/react-query';
 import { useNavigate } from 'react-router-dom';
 import ButtonStatus from '../Merchant/ButtonStatus';
+import { useMutation } from '@tanstack/react-query';
 
 const ReservationBookList = () => {
 	const navigate = useNavigate();
 	const { getReservationBookList } = useMypageAPI();
+	const mutate = useMypageAPI();
 
 	const handleBookDetailPageMove = (id: number) => {
 		navigate(`/books/${id}`);
 	};
+
+	// const handleClickIcon = (
+	// 	e: React.MouseEvent<HTMLDivElement, MouseEvent>,
+	// 	bookId: number,
+	// ) => {
+	// 	e.stopPropagation();
+	// 	if (window.confirm('정말 취소하시겠습니까?')) {
+	// 		mutate(bookId);
+	// 	} else {
+	// 		return;
+	// 	}
+	// };
 
 	const handleBookCancel = (id: number) => {};
 
@@ -61,7 +75,9 @@ const ReservationBookList = () => {
 								<FlexBox
 									onClick={() => {
 										handleBookDetailPageMove(bookId);
-									}}>
+									}}
+									// onClick={e => handleClickIcon(e, el.bookId)}
+								>
 									<img
 										src={bookImage}
 										alt="도서 이미지"
