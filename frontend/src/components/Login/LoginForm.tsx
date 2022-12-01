@@ -42,11 +42,9 @@ const LoginForm = () => {
 			// navigate('/books');
 			navigate(-1);
 
-			// 29분 뒤 액세스토큰 삭제
+			//29분 뒤 액세스토큰 갱신
 			// setTimeout(() => {
-			// 	dispatch(
-			// 		login({ ...data, accessToken: authorization, isLogin: true, id: '' }),
-			// 	);
+			// 	dispatch(login({ ...data, accessToken: '', isLogin: true }));
 			// }, 1000 * 10);
 		},
 		onError: res => {

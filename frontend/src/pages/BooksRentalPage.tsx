@@ -18,6 +18,7 @@ import { useBooksAPI } from '../api/books';
 import { useMutation } from '@tanstack/react-query';
 import notify from '../utils/notify';
 import { useDispatch } from 'react-redux';
+import styled from 'styled-components';
 
 const BooksRentalPage = () => {
 	const [isChecked, setIsChecked] = useState(false);
@@ -48,7 +49,6 @@ const BooksRentalPage = () => {
 			<TitleWrapper>
 				<Title text={'대여하기'} />
 			</TitleWrapper>
-
 			<BodyContainer>
 				<CalendarWrapper>
 					<BookCalendar month={month} day={day} />
@@ -58,7 +58,6 @@ const BooksRentalPage = () => {
 				</CalendarWrapper>
 				<RentalInfo>
 					<legend>대여 기간</legend>
-
 					<RentalCheck>
 						<input
 							type="checkbox"
@@ -74,19 +73,33 @@ const BooksRentalPage = () => {
 						<label>{rentalPeriod}</label>
 					</RentalCheck>
 				</RentalInfo>
-				<RentalInfo>
+				{/* <RentalInfo>
 					<legend>주의 사항</legend>
 					<label>*아직 준비중 입니다*</label>
 				</RentalInfo>
 				<RentalInfo>
 					<legend>결제 내용</legend>
 					<label>*아직 준비중 입니다*</label>
-				</RentalInfo>
+				</RentalInfo> */}
 			</BodyContainer>
-
-			<Button onClick={handleRentalButton}>대여 신청</Button>
+			<BtnWrapper>
+				<Button onClick={handleRentalButton}>대여 신청</Button>
+			</BtnWrapper>
 		</Main>
 	);
 };
+
+const BtnWrapper = styled.div`
+	/* margin: 10px 0; */
+	width: 400px;
+
+	display: flex;
+	justify-content: center;
+
+	button {
+		height: 3rem;
+		width: inherit;
+	}
+`;
 
 export default BooksRentalPage;

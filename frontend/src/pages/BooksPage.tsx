@@ -143,14 +143,6 @@ const BtnWrapper = styled.div`
 `;
 
 const BooksList = styled.div`
-	/* padding: 10px; */
-
-	/* height: 75vh; */
-	/* overflow-y: scroll; */
-	/* ::-webkit-scrollbar {
-		display: none;
-	} */
-
 	max-width: 800px;
 	display: grid;
 	place-items: center;
@@ -163,6 +155,10 @@ const BooksList = styled.div`
 const LinkStyled = styled.div`
 	display: flex;
 	flex-direction: column;
+
+	button {
+		height: 3rem;
+	}
 `;
 
 const ScrollEnd = styled.div`

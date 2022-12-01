@@ -40,6 +40,7 @@ const StyledSignupPage = styled.div`
 	width: 100%;
 	min-width: 250px;
 	padding: 0 20px;
+	background-color: #fbfbfb;
 	display: flex;
 	flex-direction: column;
 	align-items: center;
