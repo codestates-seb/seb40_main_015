@@ -38,7 +38,7 @@ const StyledOauth = styled(Oauth)`
 `;
 
 const Main = styled.div`
-	width: 60%;
+	width: 80%;
 	max-width: 800px;
 	display: flex;
 	flex-direction: column;
