@@ -131,6 +131,10 @@ const Main = styled.div`
 
 const TitleWrapper = styled.div`
 	width: 100%;
+	@media screen and (min-width: 800px) {
+		transform: translateY(-100%);
+	}
+	transition: all 0.6s;
 `;
 
 const BtnWrapper = styled.div`

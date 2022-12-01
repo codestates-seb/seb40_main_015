@@ -34,9 +34,14 @@ public class ChatRepository {
 		return jpaQueryFactory
 			.selectFrom(chatMessage)
 			.where(Expressions.list(chatMessage.room, chatMessage.createdAt)
-				.in((JPAExpressions.select(chatMessage.room, chatMessage.createdAt
-					.max()).from(chatMessage).where(chatMessage.room.in(rooms)).groupBy(chatMessage.room))
-				)).fetch();
+				.in((JPAExpressions
+					.select(chatMessage.room, chatMessage.createdAt.max())
+					.from(chatMessage)
+					.where(chatMessage.room.in(rooms))
+					.groupBy(chatMessage.room))
+				))
+			.orderBy(chatMessage.createdAt.desc())
+			.fetch();
 	}
 
 	public void save(ChatMessage message) {
