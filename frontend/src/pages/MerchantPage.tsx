@@ -40,7 +40,7 @@ function MerchantPage() {
 						<UserInfoBox>
 							<p>닉네임: {data?.name}</p>
 							<p>주거래 동네: {data?.address}</p>
-							<p>빌려주는 도서 수: {data?.totalBookCount}</p>
+							<p>등록한 도서 수: {data?.totalBookCount}</p>
 							<p>평점(평균): {data?.avgGrade}</p>
 						</UserInfoBox>
 					</>
