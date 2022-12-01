@@ -66,6 +66,10 @@ const ProfileBox = styled.div`
 	display: flex;
 	padding: 1.2rem;
 	border: 1px solid #eaeaea;
+
+	@media (min-width: 800px) {
+		width: 800px;
+	}
 `;
 
 const UserInfoBox = styled.div`
