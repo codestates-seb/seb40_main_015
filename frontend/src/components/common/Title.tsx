@@ -48,8 +48,9 @@ const Text = styled.div<TextProps>`
 		font-size: ${props => props.theme.fontSizes.title};
 		font-family: 'kotra';
 	}
-
 	@media screen and (min-width: 800px) {
-		visibility: hidden;
+		transform: translateY(-100%);
+		/* visibility: hidden; */
 	}
+	transition: all 0.6s;
 `;

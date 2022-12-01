@@ -96,10 +96,13 @@ const Container = styled.div`
 	align-items: center;
 	justify-content: space-between;
 	z-index: 91;
+	transform: translateY(-100%);
 
-	@media screen and (max-width: 800px) {
-		display: none;
+	@media screen and (min-width: 800px) {
+		/* display: none; */
+		transform: translateY(0);
 	}
+	transition: all 1s;
 `;
 
 const Left = styled.div`

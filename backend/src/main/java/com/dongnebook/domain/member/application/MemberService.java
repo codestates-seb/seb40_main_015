@@ -140,7 +140,6 @@ public class MemberService {
 		ResponseCookie cookie = ResponseCookie.from("refreshToken", newRTK)
 			.maxAge(7 * 24 * 60 * 60)
 			.path("/")
-			.sameSite("None")
 			.httpOnly(true)
 			.build();
 		response.setHeader("Set-Cookie", cookie.toString());
@@ -159,7 +158,6 @@ public class MemberService {
 		ResponseCookie cookie = ResponseCookie.from("refreshToken", refreshToken)
 			.maxAge(0)
 			.path("/")
-			.sameSite("None")
 			.httpOnly(true)
 			.build();
 		response.setHeader("Set-Cookie", cookie.toString());
