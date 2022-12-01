@@ -26,6 +26,7 @@ const BooksDetailPage = () => {
 		onSuccess: () => {
 			console.log('book detail: ', data);
 		},
+		refetchOnWindowFocus: false,
 	});
 
 	if (isLoading)

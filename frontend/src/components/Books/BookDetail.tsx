@@ -82,9 +82,9 @@ const BookDetail = ({ book, merchant }: BookDetailProps) => {
 	});
 
 	const HandleWishIcon = () => {
+		mutateWish();
 		setActive(!active);
 		active || notify(dispatch, '찜 목록에 추가되었습니다.');
-		mutateWish();
 	};
 
 	useEffect(() => {
@@ -194,7 +194,12 @@ const BookDetail = ({ book, merchant }: BookDetailProps) => {
 	);
 };
 
-const BookDetailContainer = styled.div``;
+const BookDetailContainer = styled.div`
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+`;
 const BookDetailTitleContainer = styled(BookInfo)`
 	position: relative;
 `;

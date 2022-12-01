@@ -38,7 +38,7 @@ const BookImgWrapper = styled.div`
 	align-items: center;
 	position: relative;
 
-	/* margin-bottom: 2rem; */
+	min-width: 230px;
 `;
 
 const BookImg = styled.img`
@@ -47,7 +47,7 @@ const BookImg = styled.img`
 
 	max-width: 340px;
 	@media screen and (min-width: 800px) {
-		margin-top: 22px;
+		margin-top: 23px;
 	}
 `;
 
@@ -57,7 +57,8 @@ const BookNotAvailable = styled.div`
 
 	max-width: 340px;
 	@media screen and (min-width: 801px) {
-		margin-top: 22px;
+		margin-top: 23px;
+		height: 95%;
 	}
 
 	position: absolute;

@@ -41,7 +41,10 @@ const BookItemInfo = ({
 				<img src={bookImage} alt="Book" />
 			</BookImage>
 			<BookDetail>
-				<BookTitle>{title}</BookTitle>
+				{/* <BookTitle>{title}</BookTitle> */}
+				<BookTitle>
+					{title.length < 15 ? title : title.slice(0, 15) + '...'}
+				</BookTitle>
 				{author !== '' ? (
 					<p>
 						{author} / {publisher}
@@ -84,6 +87,9 @@ const BookDetail = styled.div`
 
 const BookTitle = styled.h1`
 	font-size: ${props => props.theme.fontSizes.subtitle};
+	@media screen and (min-width: 801px) {
+		font-size: 20px;
+	}
 	padding: 5px 0;
 `;
 
