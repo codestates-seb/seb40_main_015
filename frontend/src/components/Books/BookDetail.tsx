@@ -41,9 +41,10 @@ const BookDetail = ({ book, merchant }: BookDetailProps) => {
 			return;
 		}
 		if (merchant && book) {
-			axiosCreateRoom(merchant?.merchantId, id, book?.bookId).then(res =>
-				navigate(`/chats/${res}`),
-			);
+			axiosCreateRoom(merchant?.merchantId, id, book?.bookId).then(res => {
+				console.log(res);
+				navigate(`/chats/${res}`);
+			});
 		}
 	};
 
