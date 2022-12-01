@@ -108,6 +108,10 @@ const Wrapper = styled.div`
 			background-color: ${props => props.theme.colors.grey};
 		}
 	}
+
+	button {
+		height: 3rem;
+	}
 `;
 
 const EmptyBox = styled.div`
