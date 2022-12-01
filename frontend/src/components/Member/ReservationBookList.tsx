@@ -16,6 +16,8 @@ const ReservationBookList = () => {
 		navigate(`/books/${id}`);
 	};
 
+	const handleBookCancel = (id: number) => {};
+
 	// 예약목록 무한스크롤
 	const infiniteScrollTarget = useRef<HTMLDivElement>(null);
 	const { data, fetchNextPage, isLoading, hasNextPage, isFetchingNextPage } =
@@ -71,7 +73,13 @@ const ReservationBookList = () => {
 											<p className="bookname">{title}</p>
 											<p>{rentalFee}원</p>
 										</div>
-										<Button fontSize={'small'}>예약 취소</Button>
+										<Button
+											fontSize={'small'}
+											onClick={() => {
+												handleBookCancel(bookId);
+											}}>
+											예약 취소
+										</Button>
 									</InfoWrapped>
 								</FlexBox>
 							</Container>
