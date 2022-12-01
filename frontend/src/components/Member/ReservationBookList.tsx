@@ -128,13 +128,13 @@ const InfoWrapped = styled.div`
 
 const EmptyBox = styled.div`
 	width: 100%;
-	height: 65vh;
+	height: 55vh;
 	display: flex;
 	justify-content: center;
 	align-items: center;
 	p {
-		/* font-size: ${props => props.theme.fontSizes.subtitle}; */
-		font-size: 16px;
+		font-size: ${props => props.theme.fontSizes.subtitle};
+		/* font-size: 16px; */
 		font-weight: 600;
 	}
 `;
