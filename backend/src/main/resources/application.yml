@@ -17,7 +17,7 @@ Spring:
     hibernate:
       ddl-auto: create  # (1) 스키마 자동 생성
       type: trace
-    show-sql: true      # (2) SQL 쿼리 출력
+      # (2) SQL 쿼리 출력
     properties:
       hibernate:
         format_sql: true  # (3) SQL pretty print

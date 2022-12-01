@@ -24,9 +24,11 @@ const useGetAccessTokenRefresh = (
 		useQuery({
 			queryKey: ['renew', 'loginInfo'],
 			queryFn: getAccessTokenRefresh,
-			enabled: loginMutationData.isLogin && !loginMutationData?.accessToken,
+			enabled:
+				loginMutationData.isLogin &&
+				loginMutationData?.accessToken === 'Bearer ',
 			// staleTime: 1000 * 60 * 28,
-			staleTime: 1000 * 10,
+			staleTime: 1000 * 30,
 			onSuccess: res => {
 				console.log('token renew complete');
 				const {
@@ -39,10 +41,6 @@ const useGetAccessTokenRefresh = (
 						accessToken: authorization,
 					}),
 				);
-				// setTimeout(() => {
-				// 	// queryClient.invalidateQueries(['loginInfo']);
-				// 	// setIsTokenStaled(true);
-				// }, 1000 * 60 * 29);
 			},
 			onError: err => {
 				//리프레시 만료 에러일때만 로그아웃

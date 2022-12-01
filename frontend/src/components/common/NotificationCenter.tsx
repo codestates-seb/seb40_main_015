@@ -21,8 +21,16 @@ const StyledNotificationCenter = styled.div`
 	font-size: 1rem;
 	position: fixed;
 	z-index: 999999;
-	left: calc(50% - 180px);
-	top: 5px;
+
+	@media screen and (max-width: 800px) {
+		left: calc(50% - 12.5rem);
+		top: 5px;
+	}
+
+	@media screen and (min-width: 800px) {
+		right: 10px;
+		top: 7rem;
+	}
 `;
 
 export default NotificationCenter;
