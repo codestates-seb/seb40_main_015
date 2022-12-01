@@ -10,15 +10,24 @@ import useGetRoomMessage from '../api/hooks/chat/useGetRoomMessage';
 import { useAppSelector } from '../redux/hooks';
 import { useParams } from 'react-router';
 
+interface Member {
+	avatarUrl: string;
+	memberId: number;
+	nickName: string;
+}
+
 const ChatRoomPage = () => {
 	const [text, setText] = useState('');
 	const { nickname, id } = useAppSelector(state => state.loginInfo);
 	const { roomId } = useParams(); // 채널을 구분하는 식별자를 URL 파라미터로 받는다.
 	const { chatList, setChatList } = useGetRoomMessage(roomId!);
-	const { bookId, bookState, bookUrl, title, chatResponses } = chatList;
+	const { bookId, bookState, bookUrl, title, chatResponses, members } =
+		chatList;
 	const client: any = useRef({});
 	let prevNickname = { nickName: '' };
 	let prevDate = '';
+	const [myInfo, setMyInfo] = useState<Member>();
+	const [receiverInfo, setReceiverInfo] = useState<Member>();
 	console.log(chatList);
 
 	const handleChangeText = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -28,10 +37,19 @@ const ChatRoomPage = () => {
 	const handleSendMessage = (e: KeyboardEvent<HTMLInputElement>) => {
 		if (e.nativeEvent.isComposing) return;
 		if (e.key === 'Enter') {
-			// console.log('전송');
 			publish(text);
 		}
 	};
+
+	useEffect(() => {
+		members?.map((member: Member) => {
+			if (member.memberId === id) {
+				return setMyInfo(member);
+			} else {
+				return setReceiverInfo(member);
+			}
+		});
+	}, [members]);
 
 	const connect = () => {
 		client.current = new StompJs.Client({
@@ -59,7 +77,7 @@ const ChatRoomPage = () => {
 			destination: `/pub/chats/message/${roomId}`,
 			body: JSON.stringify({
 				senderId: id,
-				receiverId: 12,
+				receiverId: receiverInfo?.memberId,
 				content: text,
 			}),
 		});

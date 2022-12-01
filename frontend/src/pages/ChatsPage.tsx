@@ -17,14 +17,9 @@ interface RoomList {
 }
 
 const ChatsPage = () => {
-	const merchantId = 4;
-	const customerId = 1;
-	const bookId = 3;
-	const roomId = 1;
-	const { roomData } = useCreateRoom({ merchantId, customerId, bookId });
 	const { roomListsData, isLoadingRoomList } = useGetRoomLists();
 
-	console.log(roomData, roomListsData);
+	// console.log(roomListsData);
 	useEffect(() => {}, []);
 	return (
 		<Container>
