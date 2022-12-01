@@ -11,13 +11,21 @@ const BookImage = ({ book, merchant }: BookDetailProps) => {
 				<BookNotAvailable>
 					{book?.state !== '거래중단' ? (
 						<>
-							<span>이미 누가 대여중이에요 😭</span>
-							<span>{`${book?.rentalStart} ~ ${book?.rentalEnd}`}</span>
+							{book?.state === '거래중' ? (
+								''
+							) : (
+								<>
+									<span>이미 누가 대여중이에요 😭</span>
+									<span>{`${book?.rentalStart} ~ ${book?.rentalEnd}`}</span>
+								</>
+							)}
 							<span
 								className={
-									book?.state !== '예약불가' ? 'possible' : 'impossible'
+									book?.state === '대여중&예약기능' ? 'possible' : 'impossible'
 								}>
-								{book?.state !== '예약불가' ? '예약가능' : '예약불가'}
+								{book?.state === '대여중&예약가능' && '예약가능'}
+								{book?.state === '대여중&예약불가' && '예약불가'}
+								{book?.state === '거래중' && '거래중'}
 							</span>
 						</>
 					) : (

@@ -157,7 +157,8 @@ const EmptyBox = styled.div`
 // infinite scroll
 const ScrollEnd = styled.div`
 	width: 100%;
-	background-color: ${props => props.theme.colors.grey};
+	background-color: #fbfbfb;
 	height: 10rem;
 `;
+
 export default PickBookList;
