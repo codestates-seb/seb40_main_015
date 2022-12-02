@@ -21,7 +21,7 @@ const BookImage = ({ book, merchant }: BookDetailProps) => {
 							)}
 							<span
 								className={
-									book?.state === '대여중&예약기능' ? 'possible' : 'impossible'
+									book?.state === '대여중&예약가능' ? 'possible' : 'impossible'
 								}>
 								{book?.state === '대여중&예약가능' && '예약가능'}
 								{book?.state === '대여중&예약불가' && '예약불가'}
