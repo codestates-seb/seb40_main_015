@@ -5,20 +5,19 @@ interface Iprops {
 	list: {
 		avatarUrl?: string;
 		content: string;
-		dateTime?: string;
+		dateTime: string;
 		nickName?: string;
 	};
 }
 
 const SendingMessage = ({ list }: Iprops) => {
 	const { avatarUrl, content, dateTime, nickName } = list;
-	// console.log(list);
 	return (
 		<Container avatarUrl={avatarUrl}>
 			<Box>
 				{nickName ? <NickNameBox>{nickName}</NickNameBox> : null}
 				<MessageInfoBox>
-					{dateTime ? <DateBox>{convertDateForChat(dateTime)}</DateBox> : null}
+					<DateBox>{convertDateForChat(dateTime)}</DateBox>
 					<MessageArea>
 						<p>{content}</p>
 					</MessageArea>

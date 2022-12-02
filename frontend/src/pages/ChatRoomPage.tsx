@@ -163,7 +163,7 @@ const ChatRoomPage = () => {
 										return (
 											<React.Fragment key={currentDate}>
 												<DateDisplay>{currentDate}</DateDisplay>
-												<SendingMessage list={list} />;
+												<SendingMessage list={list} />
 											</React.Fragment>
 										);
 									}
@@ -180,7 +180,7 @@ const ChatRoomPage = () => {
 										return (
 											<React.Fragment key={currentDate}>
 												<DateDisplay>{currentDate}</DateDisplay>
-												<ReceptionMessage list={list} />;
+												<ReceptionMessage list={list} />
 											</React.Fragment>
 										);
 									}

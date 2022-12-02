@@ -67,7 +67,9 @@ export const LendBookUserInfo = ({
 					)}
 				</span>
 			)}
-			<ChatButton onClick={handleChatClick}>채팅</ChatButton>
+			{merchantName ? (
+				<ChatButton onClick={handleChatClick}>채팅</ChatButton>
+			) : null}
 		</UserInfoBox>
 	);
 };

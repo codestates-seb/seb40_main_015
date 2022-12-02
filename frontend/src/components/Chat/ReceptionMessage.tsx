@@ -5,7 +5,7 @@ interface Iprops {
 	list: {
 		avatarUrl?: string;
 		content: string;
-		dateTime?: string;
+		dateTime: string;
 		nickName?: string;
 	};
 }
@@ -25,7 +25,7 @@ const ReceptionMessage = ({ list }: Iprops) => {
 					<MessageArea>
 						<p>{content}</p>
 					</MessageArea>
-					{dateTime ? <span>{convertDateForChat(dateTime)}</span> : null}
+					<span>{convertDateForChat(dateTime)}</span>
 				</MessageInfoBox>
 			</Box>
 		</Container>
