@@ -39,7 +39,6 @@ const Body = styled.div`
 		img {
 			width: 100%;
 			height: 375px;
-			background-color: red;
 			height: 100%;
 			text-align: center;
 		}
