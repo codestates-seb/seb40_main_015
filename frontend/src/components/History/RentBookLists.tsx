@@ -58,6 +58,7 @@ const RentBookLists = () => {
 									<LendBookUserInfo
 										rentalInfo={el.rentalInfo}
 										merchantName={el.bookInfo.merchantName}
+										bookId={el.bookInfo.bookId}
 									/>
 									<RentStatusButton
 										status={el.rentalInfo.rentalState}

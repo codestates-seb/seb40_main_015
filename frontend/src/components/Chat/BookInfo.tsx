@@ -45,9 +45,9 @@ const BookInfo = ({ bookState, bookUrl, bookId, title, onClick }: IProps) => {
 						<p>{bookState}</p>
 					</LeftContent>
 				</LeftBox>
-				<Button fontSize="small" onClick={onClick}>
+				{/* <Button fontSize="small" onClick={onClick}>
 					채팅 종료
-				</Button>
+				</Button> */}
 			</Container>
 		</>
 	);

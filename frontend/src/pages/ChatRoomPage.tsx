@@ -10,6 +10,8 @@ import useGetRoomMessage from '../api/hooks/chat/useGetRoomMessage';
 import { useAppSelector } from '../redux/hooks';
 import { useParams } from 'react-router';
 import ScrollToBottom from '../utils/scrollToBottom';
+import ScrollBottomButton from '../components/common/ScrollBottomButton';
+import { convertDateForChat2 } from '../utils/convertDateForChat';
 
 interface Member {
 	avatarUrl: string;
@@ -36,7 +38,7 @@ const ChatRoomPage = () => {
 	let prevNickname = { nickName: '' };
 	let prevDate = '';
 	// console.log(chatList);
-	console.log(myInfo, receiverInfo);
+	// console.log(myInfo, receiverInfo);
 	// console.log(chatHistory);
 
 	const handleChangeText = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -145,24 +147,59 @@ const ChatRoomPage = () => {
 						{messageList?.map((list: any, i: number) => {
 							const { dateTime, content } = list;
 							const newList = { content, dateTime };
-							// const currentDate = new Date(dateTime).toLocaleDateString();
-							// if (currentDate !== prevDate) {
-							// 	prevDate = currentDate;
-							// 	return <DateDisplay>{prevDate}</DateDisplay>;
-							// }
-							if (list?.nickName === nickname) {
-								if (prevNickname === list.nickName) {
-									return <SendingMessage key={dateTime} list={newList} />;
+							const currentDate = convertDateForChat2(dateTime);
+							if (currentDate !== prevDate) {
+								prevDate = currentDate;
+								if (list?.nickName === nickname) {
+									if (prevNickname === list.nickName) {
+										return (
+											<React.Fragment key={currentDate}>
+												<DateDisplay>{currentDate}</DateDisplay>
+												<SendingMessage list={newList} />
+											</React.Fragment>
+										);
+									} else {
+										prevNickname = list.nickName;
+										return (
+											<React.Fragment key={currentDate}>
+												<DateDisplay>{currentDate}</DateDisplay>
+												<SendingMessage list={list} />
+											</React.Fragment>
+										);
+									}
 								} else {
-									prevNickname = list.nickName;
-									return <SendingMessage key={dateTime} list={list} />;
+									if (prevNickname === list.nickName) {
+										return (
+											<React.Fragment key={currentDate}>
+												<DateDisplay>{currentDate}</DateDisplay>
+												<ReceptionMessage list={newList} />
+											</React.Fragment>
+										);
+									} else {
+										prevNickname = list.nickName;
+										return (
+											<React.Fragment key={currentDate}>
+												<DateDisplay>{currentDate}</DateDisplay>
+												<ReceptionMessage list={list} />
+											</React.Fragment>
+										);
+									}
 								}
 							} else {
-								if (prevNickname === list.nickName) {
-									return <ReceptionMessage key={dateTime} list={newList} />;
+								if (list?.nickName === nickname) {
+									if (prevNickname === list.nickName) {
+										return <SendingMessage key={dateTime} list={newList} />;
+									} else {
+										prevNickname = list.nickName;
+										return <SendingMessage key={dateTime} list={list} />;
+									}
 								} else {
-									prevNickname = list.nickName;
-									return <ReceptionMessage key={dateTime} list={list} />;
+									if (prevNickname === list.nickName) {
+										return <ReceptionMessage key={dateTime} list={newList} />;
+									} else {
+										prevNickname = list.nickName;
+										return <ReceptionMessage key={dateTime} list={list} />;
+									}
 								}
 							}
 						})}
@@ -179,6 +216,7 @@ const ChatRoomPage = () => {
 				onKeyDown={handleSendMessage}
 				onCick={handleClickSendMessage}
 			/>
+			<ScrollBottomButton />
 		</Container>
 	);
 };
@@ -212,7 +250,7 @@ const MessageArea = styled.div`
 	margin-bottom: 80px;
 	@media screen and (min-width: 800px) {
 		width: 800px;
-		height: 70vh;
+		/* height: 70vh; */
 		border: 1px solid #eaeaea;
 		border-top: none;
 		background-color: white;
@@ -222,6 +260,7 @@ const MessageArea = styled.div`
 const DateDisplay = styled.p`
 	text-align: center;
 	font-size: 1.5rem;
+	margin: 1rem 0;
 `;
 
 const Empty = styled.div`
