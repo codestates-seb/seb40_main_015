@@ -42,12 +42,10 @@ const HeroSectionDeskTop = () => {
 			content: <div className="heroimage"></div>,
 			style: {
 				backgroundImage:
-					'url("https://velog.velcdn.com/images/2pandi/post/1070b9b0-b8cf-4b8f-8041-78ad40ed629f/image.png")',
+					'url("https://velog.velcdn.com/images/2pandi/post/fd8d6902-7420-4aa8-8d0d-771c1dda81df/image.png")',
 			},
 		},
 	];
-
-	// <img src={hero2} alt="동네북이란" className="heroimage" />
 
 	return (
 		<StyledHeroSection>
@@ -71,39 +69,19 @@ const StyledHeroSection = styled.div`
 	align-items: center;
 	position: relative;
 
+	.rps-slide-background {
+		background-size: 100% !important;
+		background-repeat: no-repeat;
+		background-position: center center;
+	}
+
 	.heroimage {
-		position: relative;
 		width: 100vw;
-		background-size: 100%;
 	}
 
-	/* .box p {
-		width: 50%;
-		height: 50%;
-		background: rgba(0, 0, 0, 0.3);
-		position: absolute;
-		font-size: 200px;
-		left: 50%;
-		top: 50%;
-		transform: translate(-50%, -50%);
-		margin: 0;
-		opacity: 0;
-		text-align: center;
+	@media screen and (max-width: 800px) {
+		display: none;
 	}
-	.move p {
-		animation: fade_in 0.5s 1.5s forwards;
-	}
-
-	@keyframes fade_in {
-		0% {
-			opacity: 0;
-			left: 40%;
-		}
-		100% {
-			opacity: 1;
-			left: 50%;
-		}
-	} */
 `;
 
 export default HeroSectionDeskTop;

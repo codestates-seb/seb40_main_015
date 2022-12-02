@@ -1,7 +1,14 @@
+import { useLocation } from 'react-router';
 import styled from 'styled-components';
 import repository from '../../../../assets/image/repository.png';
+import { useAppSelector } from '../../../../redux/hooks';
 
 const Repository = () => {
+	const { pathname } = useLocation();
+	const { isLogin } = useAppSelector(state => state.loginInfo);
+
+	if (pathname === '/history' && !isLogin) return null;
+
 	return (
 		<a href="https://github.com/codestates-seb/seb40_main_015">
 			<StyledImg src={repository} alt="" />

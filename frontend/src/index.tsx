@@ -1,5 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
+import * as serviceWorkerRegistration from './serviceWorkerRegistration';
 import { store, persistor } from './redux/store';
 import { Provider } from 'react-redux';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
@@ -33,3 +34,5 @@ root.render(
 		</Provider>
 	</React.StrictMode>,
 );
+
+serviceWorkerRegistration.register();

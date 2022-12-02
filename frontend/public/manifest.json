@@ -1,25 +1,67 @@
 {
-  "short_name": "React App",
-  "name": "Create React App Sample",
-  "icons": [
-    {
-      "src": "favicon.ico",
-      "sizes": "64x64 32x32 24x24 16x16",
-      "type": "image/x-icon"
-    },
-    {
-      "src": "logo192.png",
-      "type": "image/png",
-      "sizes": "192x192"
-    },
-    {
-      "src": "logo512.png",
-      "type": "image/png",
-      "sizes": "512x512"
-    }
-  ],
-  "start_url": ".",
-  "display": "standalone",
-  "theme_color": "#000000",
-  "background_color": "#ffffff"
+	"version": "1.0",
+	"short_name": "동네북",
+	"name": "동네북",
+	"icons": [
+		{
+			"src": "./icons/favicon-16x16.png",
+			"sizes": "16x16",
+			"type": "image/png"
+		},
+		{
+			"src": "./icons/favicon-32x32.png",
+			"sizes": "32x32",
+			"type": "image/png"
+		},
+		{
+			"src": "./icons/apple-touch-icon-57x57.png",
+			"sizes": "57x57",
+			"type": "image/png"
+		},
+		{
+			"src": "./icons/apple-touch-icon-60x60.png",
+			"sizes": "60x60",
+			"type": "image/png"
+		},
+		{
+			"src": "./icons/apple-touch-icon-72x72.png",
+			"sizes": "72x72",
+			"type": "image/png"
+		},
+		{
+			"src": "./icons/apple-touch-icon-76x76.png",
+			"sizes": "76x76",
+			"type": "image/png"
+		},
+		{
+			"src": "./icons/apple-touch-icon-114x114.png",
+			"sizes": "114x114",
+			"type": "image/png"
+		},
+		{
+			"src": "./icons/apple-touch-icon-120x120.png",
+			"sizes": "120x120",
+			"type": "image/png"
+		},
+
+		{
+			"src": "./icons/apple-touch-icon-144x144.png",
+			"sizes": "144x144",
+			"type": "image/png"
+		},
+		{
+			"src": "./icons/apple-touch-icon-152x152.png",
+			"sizes": "152x152",
+			"type": "image/png"
+		},
+		{
+			"src": "./icons/favicon-512x512.png",
+			"sizes": "512x512",
+			"type": "image/png"
+		}
+	],
+	"start_url": "/",
+	"display": "standalone",
+	"theme_color": "#000000",
+	"background_color": "#ffffff"
 }
