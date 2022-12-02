@@ -44,6 +44,10 @@ jwt:
   access-token-expiration-minutes: 30
   refresh-token-expiration-minutes: 20160
 
+decorator:
+  datasource:
+    p6spy:
+      enable-logging: false
 
 
 server:

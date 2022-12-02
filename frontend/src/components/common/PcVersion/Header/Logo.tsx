@@ -18,6 +18,9 @@ const StyledLogo = styled.div`
 	display: flex;
 	align-items: center;
 	margin: 0 4rem 0 5rem;
+	@media screen and (max-width: 1000px) {
+		margin: 0 0 0 5rem;
+	}
 `;
 
 const StyledImg = styled.img`

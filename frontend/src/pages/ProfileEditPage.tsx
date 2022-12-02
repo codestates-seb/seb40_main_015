@@ -79,6 +79,7 @@ function ProfileEditPage() {
 				<>
 					<Title text="내 정보 수정하기" />
 					<ProfileBox>
+						<SubTitle>회원정보 수정</SubTitle>
 						<Avatar />
 						<p className="minititle">닉네임</p>
 						<div className="input">
@@ -165,7 +166,15 @@ const Layout = styled.div`
 		color: white;
 	}
 `;
+const SubTitle = styled.p`
+	font-size: 30px;
+	color: white;
+	margin-bottom: 35px;
 
+	@media screen and (max-width: 800px) {
+		display: none;
+	}
+`;
 const ProfileBox = styled.div`
 	display: flex;
 	align-items: center;

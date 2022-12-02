@@ -35,10 +35,12 @@ public class ReviewService {
         checkRentalPerson(rental, customerId);
         rental.changeRentalStateFromTo(RentalState.RETURN_UNREVIEWED, RentalState.RETURN_REVIEWED);
 
+
         Member merchant = rental.getBook().getMember();
         merchant.setAvgGradeAndUpCount(reviewRequest.getGrade());
 
         Review review = Review.create(reviewRequest.getReviewMessage(), reviewRequest.getGrade(), rental, merchant);
+
         reviewRepository.save(review);
     }
 
