@@ -57,9 +57,6 @@ interface FixmemberInfo {
 	avatarUrl: string;
 }
 
-
-
-
 export const useMypageAPI = () => {
 	const api = useAPI();
 	const dispatch = useAppDispatch();
@@ -103,11 +100,9 @@ export const useMypageAPI = () => {
 	const patchFixMemberInfo = (data: FixmemberInfo) =>
 		api.patch(`/member/edit`, data);
 
-		
 	// 예약 취소
-	const axiosCancleReservation = (reservationId: string) => {
+	const deleteReservation = (reservationId: number) =>
 		api.delete(`/reservation/cancel/${reservationId}`);
-	};
 
 	// 사진 등록(endpoint 수정)
 	const axiosAddPhoto = (data: any) => {
@@ -120,7 +115,7 @@ export const useMypageAPI = () => {
 		patchFixMemberInfo,
 		getPickBookList,
 		getReservationBookList,
-		axiosCancleReservation,
+		deleteReservation,
 		getMerchantBookLists,
 		axiosAddPhoto,
 	};

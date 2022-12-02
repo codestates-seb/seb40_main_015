@@ -43,9 +43,9 @@ const LoginForm = () => {
 			navigate(-1);
 
 			//29분 뒤 액세스토큰 갱신
-			// setTimeout(() => {
-			// 	dispatch(login({ ...data, accessToken: 'Bearer ', isLogin: true }));
-			// }, 1000 * 10);
+			setTimeout(() => {
+				dispatch(login({ ...data, accessToken: 'Bearer ', isLogin: true }));
+			}, 1000 * 60 * 29);
 		},
 		onError: res => {
 			console.log('login failed: ', res);
