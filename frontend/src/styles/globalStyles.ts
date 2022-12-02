@@ -63,6 +63,7 @@ const GlobalStyle = createGlobalStyle`
   body {
     line-height: 1;
     background-color: #FBFBFB;
+    overflow-y: scroll !important;
   }
   ol, ul {
     list-style: none;

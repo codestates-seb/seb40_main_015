@@ -1,12 +1,13 @@
 import styled from 'styled-components';
 import Header from '../components/common/PcVersion/Header/Header';
-import MobileHeroSection from '../components/HeroSection/MobileHeroSection';
+import HeroSectionDeskTop from '../components/HeroSection/HeroSectionDeskTop';
 
 const MainPage = () => {
 	return (
 		<StyledMainPage>
 			<Header />
 			<Body>
+				<HeroSectionDeskTop />
 				<MobileHeroSection />
 			</Body>
 		</StyledMainPage>
@@ -16,11 +17,12 @@ const MainPage = () => {
 const StyledMainPage = styled.div`
 	overflow: hidden;
 `;
+
 const Body = styled.div`
 	transition-duration: 0.8s;
 	background-color: #016241;
-	width: 100vw;
-	height: 100vh;
+	/* width: 100vw; */
+	/* height: 100vh; */
 	body {
 		margin: 0;
 		padding: 0;
