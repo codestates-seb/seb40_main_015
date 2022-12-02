@@ -62,7 +62,7 @@ const StyledNoticeIcon = styled.div`
 	}
 
 	@media screen and (min-width: 800px) {
-		top: calc(1rem + 110px);
+		top: calc(1rem + 80px);
 	}
 `;
 
