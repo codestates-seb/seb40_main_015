@@ -24,11 +24,12 @@ const useGetAccessTokenRefresh = (
 		useQuery({
 			queryKey: ['renew', 'loginInfo'],
 			queryFn: getAccessTokenRefresh,
+
 			enabled:
 				loginMutationData.isLogin &&
 				loginMutationData?.accessToken === 'Bearer ',
 			// staleTime: 1000 * 60 * 28,
-			staleTime: 1000 * 30,
+			// staleTime: 1000 * 30,
 			onSuccess: res => {
 				console.log('token renew complete');
 				const {

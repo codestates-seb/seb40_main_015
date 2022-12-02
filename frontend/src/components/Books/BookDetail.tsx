@@ -74,9 +74,6 @@ const BookDetail = ({ book, merchant }: BookDetailProps) => {
 		notify(dispatch, '해당 도서의 대여 종료 처리가 완료되었습니다.');
 	};
 
-	// 찜하기
-	const [active, setActive] = useState(false);
-
 	// 찜하기 post요청 쿼리
 	const queryClient = useQueryClient();
 	const { mutate: mutateWish } = useMutation({
@@ -87,14 +84,9 @@ const BookDetail = ({ book, merchant }: BookDetailProps) => {
 	});
 
 	const HandleWishIcon = () => {
+		book?.isDibs || notify(dispatch, '찜 목록에 추가되었습니다.');
 		mutateWish();
-		setActive(!active);
-		active || notify(dispatch, '찜 목록에 추가되었습니다.');
 	};
-
-	useEffect(() => {
-		book?.isDibs && setActive(true);
-	}, []);
 
 	return (
 		<BookDetailContainer>
@@ -111,9 +103,8 @@ const BookDetail = ({ book, merchant }: BookDetailProps) => {
 					</BookSubTitle>
 				</BookContainer>
 
-				{/* ffffff */}
 				{id && id !== merchant?.merchantId ? (
-					active ? (
+					book?.isDibs ? (
 						<WishWrapper>
 							<WishiconOn onClick={HandleWishIcon} />
 						</WishWrapper>
