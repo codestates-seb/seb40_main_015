@@ -11,8 +11,7 @@ import { useMutation } from '@tanstack/react-query';
 
 const ReservationBookList = () => {
 	const navigate = useNavigate();
-	const { getReservationBookList } = useMypageAPI();
-	const mutate = useMypageAPI();
+	const { getReservationBookList, deleteReservation } = useMypageAPI();
 
 	const handleBookDetailPageMove = (id: number) => {
 		navigate(`/books/${id}`);
@@ -30,7 +29,7 @@ const ReservationBookList = () => {
 	// 	}
 	// };
 
-	const handleBookCancel = (id: number) => {};
+	const handleBookCancel = (reservationId: number) => {};
 
 	// 예약목록 무한스크롤
 	const infiniteScrollTarget = useRef<HTMLDivElement>(null);
@@ -43,6 +42,12 @@ const ReservationBookList = () => {
 				return lastPage.content?.slice(-1)[0]?.reservationInfo.reservationId;
 			},
 		});
+
+	//예약취소
+
+	// const {mutate:deleteMutate} = useMutation({
+	//   mutationFn: ()=>deleteReservation(),
+	// })
 
 	useEffect(() => {
 		const observer = new IntersectionObserver(
@@ -91,8 +96,11 @@ const ReservationBookList = () => {
 										</div>
 										<Button
 											fontSize={'small'}
-											onClick={() => {
-												handleBookCancel(bookId);
+											onClick={(e: React.MouseEvent<HTMLButtonElement>) => {
+												e.stopPropagation();
+												handleBookCancel(
+													reservationbook.reservationInfo.reservationId,
+												);
 											}}>
 											예약 취소
 										</Button>
