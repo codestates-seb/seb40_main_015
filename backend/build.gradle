@@ -40,7 +40,8 @@ dependencies {
     implementation "com.h2database:h2"
     testCompileOnly 'org.projectlombok:lombok:1.18.12' // 테스트 의존성 추가
     testAnnotationProcessor 'org.projectlombok:lombok:1.18.12' // 테스트 의존성 추가
-
+// build.gradle
+    implementation 'com.github.gavlyukovskiy:p6spy-spring-boot-starter:1.7.1'
     implementation 'com.google.code.gson:gson'
 
     //쿼리 dsl

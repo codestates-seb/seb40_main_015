@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router';
 import styled from 'styled-components';
 import LinkToSign from '../components/common/LinkToSign';
 import Oauth from '../components/common/Oauth';
+import Header from '../components/common/PcVersion/Header/Header';
 import Title from '../components/common/Title';
 import Animation from '../components/Loading/Animation';
 import SignUpForm from '../components/SignUp/SignUpForm';
@@ -21,7 +22,9 @@ function SignupPage() {
 			{isLogin || (
 				<StyledSignupPage>
 					<Title text="회원가입" />
+					<Header />
 					<Main>
+						<SubTitle>동네북 회원가입</SubTitle>
 						<SignUpForm />
 						<StyledOauth />
 						<LinkToSign
@@ -59,6 +62,20 @@ const Main = styled.div`
 	display: flex;
 	flex-direction: column;
 	align-items: center;
+`;
+
+const SubTitle = styled.p`
+	font-size: ${props => props.theme.fontSizes.maintitle};
+	font-weight: bold;
+	color: black;
+
+	width: 100%;
+	display: flex;
+	justify-content: flex-start;
+
+	@media screen and (max-width: 800px) {
+		display: none;
+	}
 `;
 
 export default SignupPage;
