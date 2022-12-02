@@ -28,6 +28,11 @@ const StyledCard = styled.a`
 	align-items: center;
 	justify-content: space-between;
 
+	:hover {
+		background-color: white;
+		box-shadow: 1px 1px 1px 1px rgb(182, 182, 182);
+	}
+
 	img {
 		width: 4rem;
 	}
