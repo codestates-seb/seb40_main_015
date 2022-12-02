@@ -2,7 +2,8 @@ package com.dongnebook.domain.rental.ui;
 
 
 import com.dongnebook.domain.rental.application.RentalService;
-import com.dongnebook.domain.rental.dto.Response.RentalBookResponse;
+import com.dongnebook.domain.rental.dto.request.RentalSearchCondition;
+import com.dongnebook.domain.rental.dto.response.RentalBookResponse;
 import com.dongnebook.global.config.security.auth.userdetails.AuthMember;
 import com.dongnebook.global.dto.request.PageRequest;
 import lombok.RequiredArgsConstructor;
@@ -11,6 +12,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
+
+import javax.validation.Valid;
 
 @RestController
 @RequiredArgsConstructor
@@ -54,13 +57,13 @@ public class RentalController {
     }
 
     @GetMapping("from")
-    public ResponseEntity<SliceImpl<RentalBookResponse>> getRentalsByMerchant(@AuthenticationPrincipal AuthMember merchant, PageRequest pageRequest){
-        return new ResponseEntity<>(rentalService.getRentalsByMerchant(merchant.getMemberId(), pageRequest), HttpStatus.OK);
+    public ResponseEntity<SliceImpl<RentalBookResponse>> getRentalsByMerchant(@AuthenticationPrincipal AuthMember merchant, @Valid RentalSearchCondition RentalSearchCondition, PageRequest pageRequest){
+        return new ResponseEntity<>(rentalService.getRentalsByMerchant(merchant.getMemberId(), RentalSearchCondition.getRentalState(), pageRequest), HttpStatus.OK);
     }
 
     @GetMapping("to")
-    public ResponseEntity<SliceImpl<RentalBookResponse>> getRentalsByCustomer(@AuthenticationPrincipal AuthMember customer, PageRequest pageRequest){
-        return new ResponseEntity<>(rentalService.getRentalsByCustomer(customer.getMemberId(), pageRequest), HttpStatus.OK);
+    public ResponseEntity<SliceImpl<RentalBookResponse>> getRentalsByCustomer(@AuthenticationPrincipal AuthMember customer, @Valid RentalSearchCondition RentalSearchCondition, PageRequest pageRequest){
+        return new ResponseEntity<>(rentalService.getRentalsByCustomer(customer.getMemberId(), RentalSearchCondition.getRentalState(), pageRequest), HttpStatus.OK);
     }
 
 }

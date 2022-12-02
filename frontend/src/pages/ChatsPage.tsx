@@ -12,15 +12,15 @@ interface RoomList {
 	bookImageUrl: string;
 	latestMessage: string;
 	name: string;
-	receiverId: number;
+	customerId: number;
+	merchantId: number;
 	roomId: number;
+	bookId: number;
 }
 
 const ChatsPage = () => {
 	const { roomListsData, isLoadingRoomList } = useGetRoomLists();
 
-	// console.log(roomListsData);
-	useEffect(() => {}, []);
 	return (
 		<Container>
 			<Title text="채팅창 목록" marginBottom={false} />
