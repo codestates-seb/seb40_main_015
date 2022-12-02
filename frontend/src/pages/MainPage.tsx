@@ -8,6 +8,7 @@ const MainPage = () => {
 			<Header />
 			<Body>
 				<HeroSectionDeskTop />
+				<MobileHeroSection />
 			</Body>
 		</StyledMainPage>
 	);
@@ -26,26 +27,34 @@ const Body = styled.div`
 		margin: 0;
 		padding: 0;
 	}
-	img {
-		width: 100%;
-		height: 100%;
-		text-align: center;
+	.heroimage {
+		transition-duration: 0.8s;
+		body {
+			margin: 0;
+			padding: 0;
+		}
+		img {
+			width: 100%;
+			height: 375px;
+			background-color: red;
+			height: 100%;
+			text-align: center;
+		}
 	}
 `;
-
 export default MainPage;
 
-// const Body = styled.div`
-// 	width: 100vw;
-// 	height: 100vh;
+// const Body = styled.div
+//     width: 100vw;
+//     height: 100vh;
 
-// 	.phone {
-// 		background-color: #ffffff;
-// 		width: 307px;
-// 		height: 664px;
-// 		border-radius: 20px;
-// 		align-items: center;
-// 		justify-content: center;
-// 		display: flex;
-// 	}
-// `;
+//     .phone {
+//         background-color: #ffffff;
+//         width: 307px;
+//         height: 664px;
+//         border-radius: 20px;
+//         align-items: center;
+//         justify-content: center;
+//         display: flex;
+//     }
+// ;
