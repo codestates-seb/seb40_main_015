@@ -15,6 +15,7 @@ const noAsidePaths = [
 	'/profile',
 	'/',
 	'/profile/edit',
+	'/notice',
 ];
 
 const Layout = () => {
