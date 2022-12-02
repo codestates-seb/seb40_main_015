@@ -57,6 +57,9 @@ const MobileHeroSection = () => {
 						))}
 					</div>
 				</div>
+				<div className="skip" onClick={() => {}}>
+					skip
+				</div>
 				<div
 					className="btn"
 					onClick={() => {
@@ -80,6 +83,12 @@ const Container = styled.div`
 	align-items: center;
 	background-color: #016241;
 	height: 100vh;
+
+	.skip {
+		color: white;
+		font-size: 15px;
+		padding-bottom: 850px;
+	}
 
 	body {
 		display: flex;
