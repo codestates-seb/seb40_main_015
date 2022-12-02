@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router';
 import styled from 'styled-components';
 import LinkToSign from '../components/common/LinkToSign';
 import Oauth from '../components/common/Oauth';
+import Header from '../components/common/PcVersion/Header/Header';
 import Title from '../components/common/Title';
 import Animation from '../components/Loading/Animation';
 import SignUpForm from '../components/SignUp/SignUpForm';
@@ -21,6 +22,7 @@ function SignupPage() {
 			{isLogin || (
 				<StyledSignupPage>
 					<Title text="회원가입" />
+					<Header />
 					<Main>
 						<SubTitle>동네북 회원가입</SubTitle>
 						<SignUpForm />
