@@ -37,7 +37,6 @@ const MobileHeroSection = () => {
 	useEffect(() => {
 		setStyle({ marginLeft: `-${current}00%` });
 	}, [current]);
-
 	return (
 		<Container>
 			<div className="slide">
