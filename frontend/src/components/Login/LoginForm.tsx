@@ -42,7 +42,7 @@ const LoginForm = () => {
 			// navigate('/books');
 			navigate(-1);
 
-			//29분 뒤 액세스토큰 갱신
+			//29분 뒤 액세스토큰 초기화
 			setTimeout(() => {
 				dispatch(login({ ...data, accessToken: 'Bearer ', isLogin: true }));
 			}, 1000 * 60 * 29);
