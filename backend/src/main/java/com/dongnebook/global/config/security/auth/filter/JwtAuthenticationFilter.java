@@ -12,6 +12,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 
+import org.springframework.http.ResponseCookie;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -56,14 +57,17 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
 
         String refreshToken = tokenDto.getRefreshToken();
 
-        Cookie refreshTokenToCookie = new Cookie("refreshToken", refreshToken);
-        refreshTokenToCookie.setMaxAge(60 * 60 * 24 * 14);
-        //        refreshTokenToCookie.setHttpOnly(true);
-        refreshTokenToCookie.setPath("/");
+        ResponseCookie cookie = ResponseCookie.from("refreshToken", refreshToken)
+            .maxAge(7 * 24 * 60 * 60)
+            .path("/")
+            .secure(true)
+            .sameSite("None")
+            .httpOnly(true)
+            .build();
 
-        response.addCookie(refreshTokenToCookie);
-
+        response.setHeader("Set-Cookie", cookie.toString());
         response.setHeader("Authorization", "Bearer " + tokenDto.getAccessToken());
+
         ObjectMapper objectMapper = new ObjectMapper();
         String memberLoginResponse = objectMapper.writeValueAsString(
             MemberLoginResponse.of(authMember)
