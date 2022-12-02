@@ -59,6 +59,7 @@ const RentBookLists = () => {
 										rentalInfo={el.rentalInfo}
 										merchantName={el.bookInfo.merchantName}
 										bookId={el.bookInfo.bookId}
+										merchantId={el.bookInfo.merchantId}
 									/>
 									<RentStatusButton
 										status={el.rentalInfo.rentalState}
@@ -107,10 +108,6 @@ const Wrapper = styled.div`
 		:hover {
 			background-color: ${props => props.theme.colors.grey};
 		}
-	}
-
-	button {
-		height: 3rem;
 	}
 `;
 
