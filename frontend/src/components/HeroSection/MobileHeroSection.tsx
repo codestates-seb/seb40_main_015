@@ -82,6 +82,7 @@ const Container = styled.div`
 	flex-direction: column;
 	align-items: center;
 	background-color: #016241;
+	height: 100vh;
 
 	.skip {
 		color: white;
@@ -152,6 +153,10 @@ const Container = styled.div`
 	.current {
 		background: gray;
 	}
+
+	@media screen and (min-width: 800px) {
+		display: none;
+	}
 `;
 
 // const Body = styled.div`
@@ -174,5 +179,5 @@ const Container = styled.div`
 // 			flex: none;
 // 		}
 // 	}
-ReactDOM.render(<MobileHeroSection />, document.getElementById('root'));
+// ReactDOM.render(<MobileHeroSection />, document.getElementById('root'));
 export default MobileHeroSection;

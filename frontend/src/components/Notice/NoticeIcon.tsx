@@ -31,7 +31,7 @@ const NoticeIcon = () => {
 		}
 	};
 
-	if (pathname === '/books/search') return null;
+	if (pathname === '/books/search' || pathname === '/') return null;
 
 	return (
 		<StyledNoticeIcon onClick={handleButtonClick}>
