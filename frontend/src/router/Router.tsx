@@ -36,9 +36,9 @@ function Router() {
 				{isLogin && <NoticeIcon />}
 				<Routes>
 					{/* <Route element={<HeroSection />} /> */}
-					{/* <Route path="" element={<MainPage />} /> */}
+					<Route path="" element={<MainPage />} />
 					<Route path="/" element={<Layout />}>
-						{/* <Route index element={<MainPage />} /> */}
+						<Route index element={<MainPage />} />
 						<Route element={<LoginOnly />}>
 							<Route path="books/create" element={<BooksCreatePage />} />
 							<Route

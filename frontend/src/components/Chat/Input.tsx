@@ -6,9 +6,10 @@ interface IProps {
 	text: string;
 	onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
 	onKeyDown: (e: React.KeyboardEvent<HTMLInputElement>) => void;
+	onCick: () => void;
 }
 
-const Input = ({ text, onChange, onKeyDown }: IProps) => {
+const Input = ({ text, onChange, onKeyDown, onCick }: IProps) => {
 	return (
 		<Container>
 			<TextInput
@@ -19,7 +20,7 @@ const Input = ({ text, onChange, onKeyDown }: IProps) => {
 				placeholder="메시지 보내기"
 				maxLength={200}
 			/>
-			<SendIcon text={text} />
+			<SendIcon text={text} onClick={onCick} />
 		</Container>
 	);
 };
@@ -33,6 +34,12 @@ const Container = styled.div`
 	align-items: center;
 	background-color: white;
 	padding: 1rem 0;
+	@media screen and (min-width: 800px) {
+		width: 800px;
+		bottom: 0;
+		box-sizing: border-box;
+		border: 1px solid #eaeaea;
+	}
 `;
 
 const TextInput = styled.input`

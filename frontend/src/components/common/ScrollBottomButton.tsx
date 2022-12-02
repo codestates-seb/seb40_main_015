@@ -1,11 +1,15 @@
 import styled from 'styled-components';
-import { FaArrowUp } from 'react-icons/fa';
+import { FaArrowDown } from 'react-icons/fa';
 import { useEffect, useState, useMemo, useRef } from 'react';
 import { throttle } from 'lodash';
 // 아직 안됨
 const ScrollBottomButton = () => {
 	const [scroll, setScroll] = useState(false);
-	const beforeScrollY = useRef(100);
+	const beforeScrollY = useRef(
+		window.innerWidth > 500
+			? document.body.scrollHeight
+			: document.body.scrollHeight - 300,
+	);
 
 	useEffect(() => {
 		window.addEventListener('scroll', handleScroll);
@@ -18,7 +22,7 @@ const ScrollBottomButton = () => {
 		() =>
 			throttle(() => {
 				const currentScrollY = window.scrollY;
-				if (beforeScrollY.current <= currentScrollY) {
+				if (beforeScrollY.current >= currentScrollY) {
 					setScroll(true);
 				} else {
 					setScroll(false);
@@ -27,15 +31,15 @@ const ScrollBottomButton = () => {
 		[beforeScrollY],
 	);
 
-	const moveTop = () => {
-		window.scrollTo({ top: 0, behavior: 'smooth' });
+	const moveBottom = () => {
+		window.scrollTo(0, document.body.scrollHeight);
 	};
 
 	return (
 		<CustomBox>
 			<CircleFab
-				aria-label="scroll to top"
-				onClick={moveTop}
+				aria-label="scroll to bottom"
+				onClick={moveBottom}
 				scroll={scroll ? 'true' : ''}>
 				<StyledIcon />
 			</CircleFab>
@@ -47,8 +51,8 @@ const CustomBox = styled.div`
 	position: fixed;
 	z-index: 1000;
 	opacity: 0.9;
-	right: 4%;
-	bottom: 5%;
+	right: 3%;
+	bottom: 15%;
 `;
 
 interface CircleFabProps {
@@ -63,7 +67,7 @@ const CircleFab = styled.div<CircleFabProps>`
 	width: 4rem;
 	height: 4rem;
 	border-radius: 50%;
-	background-color: #f48225;
+	background-color: ${props => props.theme.colors.main};
 	opacity: ${props => (props.scroll ? 1 : 0)};
 	visibility: ${props => (props.scroll ? '' : 'hidden')};
 	transition: ${props =>
@@ -71,11 +75,11 @@ const CircleFab = styled.div<CircleFabProps>`
 			? 'all 225ms cubic-bezier(0.4, 0, 0.2, 1) 0ms'
 			: 'all 195ms cubic-bezier(0.4, 0, 0.2, 1) 0ms'};
 	:hover {
-		background-color: #da680c;
+		background-color: ${props => props.theme.colors.logoGreen};
 	}
 `;
 
-const StyledIcon = styled(FaArrowUp)`
+const StyledIcon = styled(FaArrowDown)`
 	width: 2rem;
 	height: 2rem;
 	color: white;

@@ -36,18 +36,16 @@ const LoginForm = () => {
 				data,
 				headers: { authorization },
 			} = res;
-			console.log('login: ', res, 'cookie', document.cookie);
+			// console.log('login: ', res, 'cookie', document.cookie);
 			dispatch(login({ ...data, accessToken: authorization, isLogin: true }));
 			notify(dispatch, `${data.nickname}님 안녕하세요`);
 			// navigate('/books');
 			navigate(-1);
 
-			// 29분 뒤 액세스토큰 삭제
-			// setTimeout(() => {
-			// 	dispatch(
-			// 		login({ ...data, accessToken: authorization, isLogin: true, id: '' }),
-			// 	);
-			// }, 1000 * 10);
+			//29분 뒤 액세스토큰 초기화
+			setTimeout(() => {
+				dispatch(login({ ...data, accessToken: 'Bearer ', isLogin: true }));
+			}, 1000 * 60 * 29);
 		},
 		onError: res => {
 			console.log('login failed: ', res);

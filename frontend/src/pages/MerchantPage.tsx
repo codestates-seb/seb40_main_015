@@ -58,7 +58,6 @@ const Layout = styled.div`
 	display: flex;
 	align-items: center;
 	flex-direction: column;
-	padding: 1rem;
 	min-width: 90%;
 `;
 
@@ -67,6 +66,7 @@ const ProfileBox = styled.div`
 	display: flex;
 	padding: 1.2rem;
 	border: 1px solid #eaeaea;
+	background-color: white;
 
 	.profileimage {
 		box-sizing: border-box;

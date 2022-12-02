@@ -14,6 +14,7 @@ import { useBooksAPI } from '../api/books';
 import { useAppDispatch, useAppSelector } from '../redux/hooks';
 import notify from '../utils/notify';
 import { useMypageAPI } from '../api/mypage';
+import LogoImage from '../assets/image/logo4.png';
 
 const BooksPage = () => {
 	const { isLogin, id } = useAppSelector(state => state.loginInfo);
@@ -130,6 +131,10 @@ const Main = styled.div`
 
 const TitleWrapper = styled.div`
 	width: 100%;
+	@media screen and (min-width: 800px) {
+		transform: translateY(-100%);
+	}
+	transition: all 0.6s;
 `;
 
 const BtnWrapper = styled.div`
@@ -142,14 +147,6 @@ const BtnWrapper = styled.div`
 `;
 
 const BooksList = styled.div`
-	/* padding: 10px; */
-
-	/* height: 75vh; */
-	/* overflow-y: scroll; */
-	/* ::-webkit-scrollbar {
-		display: none;
-	} */
-
 	max-width: 800px;
 	display: grid;
 	place-items: center;
@@ -162,10 +159,14 @@ const BooksList = styled.div`
 const LinkStyled = styled.div`
 	display: flex;
 	flex-direction: column;
+
+	button {
+		height: 3rem;
+	}
 `;
 
 const ScrollEnd = styled.div`
-	background-color: ${props => props.theme.colors.grey};
+	background-color: #fbfbfb;
 	height: 10rem;
 `;
 

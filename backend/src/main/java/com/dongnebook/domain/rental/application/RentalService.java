@@ -13,7 +13,7 @@ import com.dongnebook.domain.rental.domain.Rental;
 
 import com.dongnebook.domain.rental.domain.RentalState;
 
-import com.dongnebook.domain.rental.dto.Response.RentalBookResponse;
+import com.dongnebook.domain.rental.dto.response.RentalBookResponse;
 import com.dongnebook.domain.rental.exception.*;
 
 import com.dongnebook.domain.rental.repository.RentalQueryRepository;
@@ -51,12 +51,11 @@ public class RentalService {
 	public void createRental(Long bookId, Long customerId) {
 		Member customer = getMemberById(customerId);
 		Book book = getBookById(bookId);
-
 		blockRentMyBook(customerId, book);
 		book.changeBookStateFromTo(BookState.RENTABLE, BookState.TRADING);
-		alarmService.sendAlarm(book.getMember(),book, AlarmType.RENTAL);
 		Rental rental = Rental.create(book, customer);
 		rentalRepository.save(rental);
+		alarmService.sendAlarm(book.getMember(),book, AlarmType.RENTAL);
 	}
 
 	// 해당 주민이 취소하는 경우
@@ -128,12 +127,12 @@ public class RentalService {
 		}
 	}
 
-	public SliceImpl<RentalBookResponse> getRentalsByMerchant(Long merchantId, PageRequest pageRequest) {
-		return rentalQueryRepository.findAllByMerchantIdOrderByIdDesc(merchantId, pageRequest);
+	public SliceImpl<RentalBookResponse> getRentalsByMerchant(Long merchantId, String rentalState, PageRequest pageRequest) {
+		return rentalQueryRepository.findAllByMerchantIdOrderByIdDesc(merchantId, rentalState, pageRequest);
 	}
 
-	public SliceImpl<RentalBookResponse> getRentalsByCustomer(Long customerId, PageRequest pageRequest) {
-		return rentalQueryRepository.findAllByCustomerIdOrderByIdDesc(customerId, pageRequest);
+	public SliceImpl<RentalBookResponse> getRentalsByCustomer(Long customerId, String rentalState, PageRequest pageRequest) {
+		return rentalQueryRepository.findAllByCustomerIdOrderByIdDesc(customerId, rentalState, pageRequest);
 	}
 
 	private Book getBookById(Long bookId) {

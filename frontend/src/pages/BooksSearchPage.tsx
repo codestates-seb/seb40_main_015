@@ -161,6 +161,11 @@ const FlexBox = styled.div`
 	align-items: center;
 	z-index: 90;
 	padding: 0 20px;
+
+	@media screen and (min-width: 800px) {
+		width: 70%;
+		top: 100px;
+	}
 `;
 
 const IconBox = styled.div`

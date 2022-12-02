@@ -60,8 +60,17 @@ const BookList = ({ merchantId }: { merchantId?: string }) => {
 								}}>
 								<img src={bookImage} alt="" width={50} height={70} />
 								<InfoWrapped>
-									<p>{title}</p>
-									<ButtonStatus status={status} bookId={bookId} />
+									<p>
+										{title.length < 17 ? title : title.slice(0, 17) + '...'}
+									</p>
+									{/* <ButtonStatus status={status} bookId={bookId} /> */}
+									<BookStatus status={status}>
+										{status === '대여가능'
+											? '대여가능'
+											: status === '대여중&예약가능'
+											? '예약가능'
+											: '예약불가'}
+									</BookStatus>
 								</InfoWrapped>
 							</FlexBox>
 						</Container>
@@ -72,7 +81,7 @@ const BookList = ({ merchantId }: { merchantId?: string }) => {
 					<p>등록한 책이 없어요</p>
 				</EmptyBox>
 			)}
-			{hasNextPage ? <div ref={ref}>Loading...</div> : null}
+			{hasNextPage ? <ScrollEnd ref={ref}>Loading...</ScrollEnd> : null}
 		</>
 	);
 };
@@ -85,6 +94,7 @@ const Container = styled.div`
 	border-radius: 5px;
 	padding: 1rem;
 	margin-bottom: 0.5rem;
+	background-color: white;
 	:hover {
 		background-color: ${props => props.theme.colors.grey};
 	}
@@ -96,6 +106,7 @@ const Container = styled.div`
 const FlexBox = styled.div`
 	display: flex;
 	width: 100%;
+	cursor: pointer;
 `;
 
 const InfoWrapped = styled.div`
@@ -122,4 +133,28 @@ const EmptyBox = styled.div`
 	}
 `;
 
+const ScrollEnd = styled.div`
+	background-color: #fbfbfb;
+`;
+
+//책 전체조회페이지와 같음
+interface IBookstatus {
+	status: string;
+}
+const BookStatus = styled.div<IBookstatus>`
+	width: 30px;
+	height: 30px;
+	border: none;
+	border-radius: 50%;
+	padding: 10px;
+	color: black;
+	display: flex;
+	text-align: center;
+	font-size: 14px;
+	background-color: ${props => {
+		if (props.status === '대여가능') return '#DEF5E5';
+		else if (props.status === '대여중&예약가능') return '#FFFAD7';
+		else return '#FF9F9F';
+	}};
+`;
 export default BookList;

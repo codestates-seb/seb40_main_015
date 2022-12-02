@@ -119,6 +119,11 @@ const Container = styled.div`
 	border-top: 1px solid ${props => props.theme.colors.headerBorder};
 	background-color: #f6f5ef;
 	z-index: 999;
+	@media (min-width: 800px) {
+		transform: translateY(100%);
+		/* display: none; */
+	}
+	transition: all 0.6s;
 `;
 
 interface BoxProps {

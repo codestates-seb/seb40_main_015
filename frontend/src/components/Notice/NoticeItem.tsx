@@ -16,7 +16,12 @@ const NoticeItem = ({ noticeData }: NoticeItemType) => {
 	) => {
 		e.stopPropagation();
 		if (window.confirm('정말 삭제하시겠습니까?')) {
-			mutate(alarmId);
+			mutate(alarmId, {
+				onSuccess: () => {
+					// 윈도우 환경 알림삭제시 리프레쉬
+					if (navigator.userAgent.includes('Windows')) window.location.reload();
+				},
+			});
 		} else {
 			return;
 		}
@@ -39,7 +44,7 @@ const NoticeItem = ({ noticeData }: NoticeItemType) => {
 						</IconWrapper>
 						<Logo src={logo} alt="로고" />
 						<Notice>
-							{`${message[0]} ${message[1]}하신 `}
+							{`${message[0]} ${message[1]}${message[1] && '하신'} `}
 							<span>{el.bookTitle}</span>
 							{`${message[2]}`}
 						</Notice>

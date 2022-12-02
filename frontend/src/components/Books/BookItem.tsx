@@ -63,7 +63,7 @@ const BookContainer = styled.div<IBookContainer>`
 	justify-content: space-between;
 	width: 90vw;
 	max-width: 800px;
-
+	background-color: white;
 	padding: 14px;
 	margin-bottom: 6px;
 

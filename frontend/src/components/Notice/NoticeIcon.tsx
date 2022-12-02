@@ -47,12 +47,13 @@ const StyledNoticeIcon = styled.div`
 	width: 4rem;
 	position: fixed;
 	right: 2rem;
-	top: 2rem;
+	top: 1rem;
 	border-radius: 50%;
 	display: flex;
 	justify-content: center;
 	align-items: center;
 	box-shadow: 0 0 5px rgba(0, 0, 0, 0.6);
+	z-index: 10;
 	cursor: pointer;
 
 	.icon {
@@ -60,7 +61,9 @@ const StyledNoticeIcon = styled.div`
 		color: ${props => props.theme.colors.grey};
 	}
 
-	z-index: 10;
+	@media screen and (min-width: 800px) {
+		top: calc(1rem + 80px);
+	}
 `;
 
 const Red = styled.div<{ hasNewMessage: boolean }>`

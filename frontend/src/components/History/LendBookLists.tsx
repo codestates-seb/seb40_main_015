@@ -68,7 +68,7 @@ const LentBookLists = () => {
 					<p>빌려준 책이 없어요</p>
 				</EmptyBox>
 			)}
-			{hasNextPage ? <div ref={ref}>Loading...</div> : null}
+			{hasNextPage ? <ScrollEnd ref={ref}>Loading...</ScrollEnd> : null}
 		</Box>
 	);
 };
@@ -86,6 +86,10 @@ const Wrapper = styled.div`
 
 	/* padding-bottom: 2rem; */
 	/* border-bottom: 1px solid rgba(0, 0, 0, 0.2); */
+
+	button {
+		height: 3rem;
+	}
 `;
 
 const EmptyBox = styled.div`
@@ -99,5 +103,7 @@ const EmptyBox = styled.div`
 		font-weight: 600;
 	}
 `;
-
+const ScrollEnd = styled.div`
+	background-color: #fbfbfb;
+`;
 export default LentBookLists;
