@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import repository from '../../../assets/image/repository.png';
+import repository from '../../../../assets/image/repository.png';
 
 const Repository = () => {
 	return (

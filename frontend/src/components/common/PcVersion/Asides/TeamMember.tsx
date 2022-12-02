@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
-import { memberInfo } from './TeamMembers/memberInfo';
-import MemberCard, { MemberInfo } from './TeamMembers/MemberCard';
+import { memberInfo } from './memberInfo';
+import MemberCard, { MemberInfo } from './MemberCard';
 
 const TeamMember = () => {
 	return (

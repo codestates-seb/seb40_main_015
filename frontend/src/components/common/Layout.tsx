@@ -6,8 +6,8 @@ import ScrollToTop from './ScrollToTop';
 import { useAppSelector } from '../../redux/hooks';
 import useGetAccessTokenRefresh from '../../api/hooks/auth/authRenew';
 import Header from './PcVersion/Header/Header';
-import Repository from './PcVersion/Repository';
-import TeamMember from './PcVersion/TeamMember';
+import Repository from './PcVersion/Asides/Repository';
+import TeamMember from './PcVersion/Asides/TeamMember';
 
 const noAsidePaths = [
 	'/books/search',
