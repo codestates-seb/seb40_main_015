@@ -1,11 +1,14 @@
-import React from 'react';
 import styled from 'styled-components';
+import Header from '../components/common/PcVersion/Header/Header';
+import HeroSectionDeskTop from '../components/HeroSection/HeroSectionDeskTop';
 
 const MainPage = () => {
 	return (
 		<div>
+			<Header />
 			<Body>
-				<div className="phone"></div>
+				<HeroSectionDeskTop />
+				{/* <div className="phone"></div> */}
 			</Body>
 		</div>
 	);
