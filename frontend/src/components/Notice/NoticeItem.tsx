@@ -44,7 +44,7 @@ const NoticeItem = ({ noticeData }: NoticeItemType) => {
 						</IconWrapper>
 						<Logo src={logo} alt="로고" />
 						<Notice>
-							{`${message[0]} ${message[1]}하신 `}
+							{`${message[0]} ${message[1]}${message[1] && '하신'} `}
 							<span>{el.bookTitle}</span>
 							{`${message[2]}`}
 						</Notice>

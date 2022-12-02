@@ -18,18 +18,6 @@ const ReservationBookList = () => {
 		navigate(`/books/${id}`);
 	};
 
-	// const handleClickIcon = (
-	// 	e: React.MouseEvent<HTMLDivElement, MouseEvent>,
-	// 	bookId: number,
-	// ) => {
-	// 	e.stopPropagation();
-	// 	if (window.confirm('정말 취소하시겠습니까?')) {
-	// 		mutate(bookId);
-	// 	} else {
-	// 		return;
-	// 	}
-	// };
-
 	const handleBookCancel = (id: number) => {};
 
 	// 예약목록 무한스크롤
@@ -86,7 +74,9 @@ const ReservationBookList = () => {
 									/>
 									<InfoWrapped>
 										<div className="list">
-											<p className="bookname">{title}</p>
+											<p className="bookname">
+												{title.length < 17 ? title : title.slice(0, 17) + '...'}
+											</p>
 											<p>{rentalFee}원</p>
 										</div>
 										<Button
