@@ -4,25 +4,50 @@ import { ISlideConfig, PageSlides, SlideParallaxType } from 'react-page-slides';
 const HeroSectionDeskTop = () => {
 	const slides: ISlideConfig[] = [
 		{
-			content: <div className="box a"></div>,
+			content: <div className="heroimage"></div>,
 			style: {
 				backgroundImage:
-					'url("https://kr-media.apjonlinecdn.com/magefan_blog/25-best-hd-wallpapers-laptops159561982840438.jpg")',
+					'url("https://velog.velcdn.com/images/2pandi/post/56e3171d-9620-49a6-9cb1-4f1e3a6b9d91/image.png")',
 			},
 		},
 		{
-			content: <div className="box b"></div>,
+			content: <div className="heroimage"></div>,
 			style: {
-				backgroundImage: 'url("public/photo/photo_2.jpg")',
+				backgroundImage:
+					'url("https://velog.velcdn.com/images/2pandi/post/367941fa-964f-405a-9b25-0074d3c3c0d4/image.png")',
 			},
 		},
 		{
-			content: <div className="box c"></div>,
+			content: <div className="heroimage"></div>,
 			style: {
-				backgroundImage: 'url("public/photo/photo_2.jpg")',
+				backgroundImage:
+					'url("https://velog.velcdn.com/images/2pandi/post/f094b5fb-589c-4c16-a83d-117f4a10343b/image.png")',
+			},
+		},
+		{
+			content: <div className="heroimage"></div>,
+			style: {
+				backgroundImage:
+					'url("https://velog.velcdn.com/images/2pandi/post/799f9d34-3f78-4311-a3f6-c7b9637e3753/image.png")',
+			},
+		},
+		{
+			content: <div className="heroimage"></div>,
+			style: {
+				backgroundImage:
+					'url("https://velog.velcdn.com/images/2pandi/post/d2709aee-aa41-48e3-b9e9-81fd00be45b1/image.png")',
+			},
+		},
+		{
+			content: <div className="heroimage"></div>,
+			style: {
+				backgroundImage:
+					'url("https://velog.velcdn.com/images/2pandi/post/1070b9b0-b8cf-4b8f-8041-78ad40ed629f/image.png")',
 			},
 		},
 	];
+
+	// <img src={hero2} alt="동네북이란" className="heroimage" />
 
 	return (
 		<StyledHeroSection>
@@ -40,26 +65,19 @@ const HeroSectionDeskTop = () => {
 };
 
 const StyledHeroSection = styled.div`
-	width: 100%;
-	height: 100%;
-	.a {
-		background-color: red;
-	}
-	.b {
-		background-color: orange;
-	}
-	.c {
-		background-color: yellow;
-	}
-	.box {
-		width: 100%;
-		height: 100%;
+	width: 100vw;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	position: relative;
+
+	.heroimage {
 		position: relative;
-		color: #ffffff;
-		font-size: 24pt;
+		width: 100vw;
+		background-size: 100%;
 	}
-	/* .box:first-of-type p { opacity:1;} */
-	.box p {
+
+	/* .box p {
 		width: 50%;
 		height: 50%;
 		background: rgba(0, 0, 0, 0.3);
@@ -85,7 +103,7 @@ const StyledHeroSection = styled.div`
 			opacity: 1;
 			left: 50%;
 		}
-	}
+	} */
 `;
 
 export default HeroSectionDeskTop;
