@@ -20,7 +20,7 @@ interface RoomList {
 
 const ChatsPage = () => {
 	const { roomListsData, isLoadingRoomList } = useGetRoomLists();
-
+	console.log(roomListsData);
 	return (
 		<Container>
 			<Title text="채팅창 목록" marginBottom={false} />

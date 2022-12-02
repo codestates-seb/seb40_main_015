@@ -37,7 +37,6 @@ const useGetRoomMessage = (roomId: number | string) => {
 
 	return {
 		chatList,
-		setChatList,
 		refetch,
 		messageList,
 		setMessageList,
