@@ -14,6 +14,8 @@ import { useFixInfo } from '../api/hooks/profileedit/useFixInfo';
 import useGeolocation2 from '../hooks/useGeoLocation2';
 import useGeoLocation from '../hooks/useGeoLocation';
 import IdSection from '../components/SignUp/IdSection';
+import { throttle } from 'lodash';
+import ScrollToTop from '../components/common/ScrollToTop';
 
 function ProfileEditPage() {
 	const goNotify = (message: string) => notify(dispatch, message);
@@ -55,6 +57,17 @@ function ProfileEditPage() {
 
 	const handleBlurNickname = () => {
 		dispatch(updateUserInfo({ key: 'nickname', value: nickname }));
+	};
+
+	useEffect(() => {
+		window.addEventListener('scroll', handleScroll);
+		return () => {
+			window.removeEventListener('scroll', handleScroll); //clean up
+		};
+	}, []);
+
+	const handleScroll = () => {
+		console.log('scrolled');
 	};
 
 	console.log('결과', address);
@@ -158,7 +171,6 @@ const ProfileBox = styled.div`
 	align-items: center;
 	flex-direction: column;
 	width: 60%;
-	position: fixed;
 	top: 22%;
 	padding: 1.2rem;
 	border: 1px solid #eaeaea;
@@ -167,6 +179,7 @@ const ProfileBox = styled.div`
 	padding-top: 50px;
 	padding-bottom: 50px;
 	border-radius: 10px;
+	margin-top: 120px;
 
 	.check {
 		width: 60px;
@@ -191,8 +204,8 @@ const ProfileBox = styled.div`
 
 	.image {
 		box-sizing: border-box;
-		width: 220px;
-		height: 220px;
+		width: 200px;
+		height: 200px;
 		border-radius: 1000px;
 		border: 0.5px solid grey;
 		cursor: pointer;
@@ -225,6 +238,9 @@ const ProfileBox = styled.div`
 
 	@media (min-width: 800px) {
 		width: 450px;
+	}
+	@media (max-width: 414px) {
+		width: 270px;
 	}
 `;
 

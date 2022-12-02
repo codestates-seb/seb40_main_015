@@ -1,5 +1,6 @@
 package com.dongnebook.domain.review.application;
 
+import com.dongnebook.domain.member.domain.Member;
 import com.dongnebook.domain.rental.domain.Rental;
 import com.dongnebook.domain.rental.domain.RentalState;
 import com.dongnebook.domain.rental.exception.RentalNotFoundException;
@@ -35,7 +36,11 @@ public class ReviewService {
         rental.changeRentalStateFromTo(RentalState.RETURN_UNREVIEWED, RentalState.RETURN_REVIEWED);
 
 
-        Review review = Review.create(reviewRequest.getReviewMessage(), reviewRequest.getGrade(), rental, rental.getBook().getMember());
+        Member merchant = rental.getBook().getMember();
+        merchant.setAvgGradeAndUpCount(reviewRequest.getGrade());
+
+        Review review = Review.create(reviewRequest.getReviewMessage(), reviewRequest.getGrade(), rental, merchant);
+
         reviewRepository.save(review);
     }
 
@@ -44,13 +49,13 @@ public class ReviewService {
     }
 
 
-    private static void checkRentalPerson(Rental rental, Long customerId) {
+    private void checkRentalPerson(Rental rental, Long customerId) {
         if(!rental.getCustomer().getId().equals(customerId)){
             throw new RentalNotFoundException();
         }
     }
 
-    private static void checkBookRentalMatch(Rental rental, Long bookId) {
+    private void checkBookRentalMatch(Rental rental, Long bookId) {
         if(!rental.getBook().getId().equals(bookId)){
             throw new BookRentalNotMatchException();
         }
@@ -63,4 +68,5 @@ public class ReviewService {
         }
         return rental;
     }
+
 }

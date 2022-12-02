@@ -39,7 +39,6 @@ const ToastWrapper = styled.div`
 	.notification {
 		box-sizing: border-box;
 		transition: transform 0.6s ease-in-out;
-		animation: toast-in-top 0.6s;
 		background: ${props => props.theme.colors.buttonGreen};
 		transition: 0.3s ease;
 		border-radius: 20px;
@@ -48,12 +47,17 @@ const ToastWrapper = styled.div`
 		opacity: 0.9;
 		font-weight: 600;
 		text-align: center;
-
-		height: 50px;
-		width: 360px;
+		min-height: 50px;
+		max-width: 90%;
+		width: 25rem;
 		color: #fff;
 		padding: 15px;
 		margin: 10px;
+		animation: toast-in-top 0.6s;
+
+		@media screen and (min-width: 800px) {
+			animation: toast-in-right 0.6s;
+		}
 	}
 
 	.fade-out {
@@ -64,6 +68,15 @@ const ToastWrapper = styled.div`
 	@keyframes toast-in-top {
 		from {
 			transform: translateY(-100%);
+		}
+		to {
+			transform: translateY(0);
+		}
+	}
+
+	@keyframes toast-in-right {
+		from {
+			transform: translateX(100%);
 		}
 		to {
 			transform: translateY(0);

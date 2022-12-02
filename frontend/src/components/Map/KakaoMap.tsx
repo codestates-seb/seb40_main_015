@@ -254,6 +254,7 @@ const Search = styled.div<SearchProps>`
 		margin: 0 auto;
 		left: 0;
 		right: 0;
+		bottom: 0;
 	}
 `;
 
