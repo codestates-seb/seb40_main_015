@@ -51,12 +51,11 @@ public class RentalService {
 	public void createRental(Long bookId, Long customerId) {
 		Member customer = getMemberById(customerId);
 		Book book = getBookById(bookId);
-
 		blockRentMyBook(customerId, book);
 		book.changeBookStateFromTo(BookState.RENTABLE, BookState.TRADING);
-		alarmService.sendAlarm(book.getMember(),book, AlarmType.RENTAL);
 		Rental rental = Rental.create(book, customer);
 		rentalRepository.save(rental);
+		alarmService.sendAlarm(book.getMember(),book, AlarmType.RENTAL);
 	}
 
 	// 해당 주민이 취소하는 경우
