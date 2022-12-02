@@ -91,7 +91,9 @@ const ReservationBookList = () => {
 									/>
 									<InfoWrapped>
 										<div className="list">
-											<p className="bookname">{title}</p>
+											<p className="bookname">
+												{title.length < 17 ? title : title.slice(0, 17) + '...'}
+											</p>
 											<p>{rentalFee}원</p>
 										</div>
 										<Button
