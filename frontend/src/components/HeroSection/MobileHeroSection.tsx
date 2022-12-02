@@ -41,7 +41,7 @@ const MobileHeroSection = () => {
 		<Container>
 			<div className="slide">
 				<div
-					className="btn"
+					className="btn left"
 					onClick={() => {
 						moveSlide(-1);
 					}}>
@@ -61,7 +61,7 @@ const MobileHeroSection = () => {
 					skip
 				</div> */}
 				<div
-					className="btn"
+					className="btn right"
 					onClick={() => {
 						moveSlide(1);
 					}}>
@@ -138,6 +138,16 @@ const Container = styled.div`
 		cursor: pointer;
 		font-size: 3.3rem;
 		color: gray;
+	}
+
+	.left {
+		position: relative;
+		left: 4rem;
+	}
+
+	.right {
+		position: relative;
+		right: 4rem;
 	}
 
 	.position {
