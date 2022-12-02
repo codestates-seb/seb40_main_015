@@ -26,7 +26,7 @@ import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { useBooksAPI } from '../../api/books';
 import Button from '../common/Button';
 
-const BookDetail = ({ book, merchant }: BookDetailProps) => {
+const BookDetail = ({ book, merchant, refetchBookDetail }: BookDetailProps) => {
 	const { id, isLogin } = useAppSelector(state => state.loginInfo);
 	const { axiosCreateRoom } = useChatAPI();
 	const dispatch = useAppDispatch();
@@ -69,9 +69,9 @@ const BookDetail = ({ book, merchant }: BookDetailProps) => {
 
 		const result = window.confirm('대여 종료하시겠습니까?');
 		if (!result) return;
+		notify(dispatch, '해당 도서의 대여 종료 처리가 완료되었습니다.');
 		mutateDelete();
 		navigate('/books');
-		notify(dispatch, '해당 도서의 대여 종료 처리가 완료되었습니다.');
 	};
 
 	// 찜하기 post요청 쿼리
@@ -79,7 +79,8 @@ const BookDetail = ({ book, merchant }: BookDetailProps) => {
 	const { mutate: mutateWish } = useMutation({
 		mutationFn: () => postWishItem(book?.bookId),
 		onSuccess: () => {
-			queryClient.invalidateQueries(['bookDetail']);
+			queryClient.invalidateQueries([book?.bookId]);
+			refetchBookDetail?.();
 		},
 	});
 

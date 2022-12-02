@@ -28,14 +28,14 @@ const useGetAccessTokenRefresh = (
 			enabled:
 				loginMutationData.isLogin &&
 				loginMutationData?.accessToken === 'Bearer ',
-			// staleTime: 1000 * 60 * 28,
-			// staleTime: 1000 * 30,
+			staleTime: 1000 * 60 * 28,
+			// staleTime: 1000 * 10,
 			onSuccess: res => {
 				console.log('token renew complete');
 				const {
 					headers: { authorization },
 				} = res;
-				console.log('auth: ', authorization);
+				// console.log('auth: ', authorization);
 				dispatch(
 					login({
 						...loginMutationData,

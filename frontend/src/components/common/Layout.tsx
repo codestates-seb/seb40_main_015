@@ -26,7 +26,7 @@ const Layout = () => {
 		pathname.replace(REGEXP, ''),
 	);
 	// console.log('log: ', data);
-	// useGetAccessTokenRefresh(data);
+	useGetAccessTokenRefresh(data);
 
 	return (
 		<Main>
