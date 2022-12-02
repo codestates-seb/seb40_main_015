@@ -1,6 +1,8 @@
 import styled from 'styled-components';
 import timeForToday from '../../utils/timeForToday';
 import { useNavigate } from 'react-router';
+import { useChatAPI } from '../../api/chat';
+import { useAppSelector } from '../../redux/hooks';
 
 interface IProps {
 	createdAt: string;
@@ -8,24 +10,36 @@ interface IProps {
 	bookImageUrl: string;
 	latestMessage: string;
 	name: string;
-	receiverId: number;
+	customerId: number;
+	merchantId: number;
 	roomId: number;
+	bookId: number;
 }
 
 const ChatLists = ({ list }: { list: IProps }) => {
-	const { avatarUrl, bookImageUrl, name, createdAt, latestMessage, roomId } =
-		list;
+	const { id } = useAppSelector(state => state.loginInfo);
+	const { axiosCreateRoom } = useChatAPI();
+	const {
+		avatarUrl,
+		bookImageUrl,
+		name,
+		createdAt,
+		latestMessage,
+		roomId,
+		customerId,
+		merchantId,
+		bookId,
+	} = list;
 
 	const navigate = useNavigate();
-	const handleMoveChatRoom = (id: number) => {
-		navigate(`/chats/${id}`);
+	const handleMoveChatRoom = () => {
+		axiosCreateRoom(merchantId, id, bookId).then(res => {
+			navigate(`/chats/${res}`);
+		});
 	};
 	return (
 		<>
-			<Container
-				onClick={() => {
-					handleMoveChatRoom(roomId);
-				}}>
+			<Container onClick={handleMoveChatRoom}>
 				<LeftBox>
 					<UserImage src={avatarUrl} alt="상대 이미지" />
 					<LeftContent>

@@ -17,7 +17,7 @@ const useMerchantList = (props: IProps) => {
 		props;
 	const [merchantLists, setMerchantLists] = useState<any>([]);
 	const [ref, inView] = useInView();
-
+	const level = [0, 9, 7, 5, 3, 3];
 	const {
 		fetchNextPage,
 		hasNextPage,
@@ -30,12 +30,11 @@ const useMerchantList = (props: IProps) => {
 			if (!!searchInput) {
 				return [];
 			}
-			let reqZoomLevel = 7 - zoomLevel;
 			return getMerchantListQuery(
 				centerCoord.lat ? centerCoord.lat : current.lat,
 				centerCoord.lon ? centerCoord.lon : current.lon,
 				sector,
-				reqZoomLevel,
+				level[zoomLevel],
 				size.width,
 				size.height,
 				pageParam,

@@ -17,7 +17,7 @@ const useBookList = (props: IProps) => {
 		props;
 	const [bookLists, setBookLists] = useState<any>([]);
 	const [ref, inView] = useInView();
-
+	const level = [0, 9, 7, 5, 3, 3];
 	const {
 		fetchNextPage,
 		hasNextPage,
@@ -30,13 +30,12 @@ const useBookList = (props: IProps) => {
 			if (!searchInput) {
 				return [];
 			}
-			let reqZoomLevel = 7 - zoomLevel;
 			return getBookListQuery(
 				searchInput,
 				centerCoord.lat ? centerCoord.lat : current.lat,
 				centerCoord.lon ? centerCoord.lon : current.lon,
 				sector,
-				reqZoomLevel,
+				level[zoomLevel],
 				size.width,
 				size.height,
 				pageParam,
