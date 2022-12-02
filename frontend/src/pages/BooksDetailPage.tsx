@@ -21,12 +21,11 @@ const BooksDetailPage = () => {
 
 	// 책 상세정보 받아오기 쿼리
 	const { data, isLoading, isFetching } = useQuery({
-		queryKey: ['bookDetail'],
+		queryKey: [bookId, 'bookDetail'],
 		queryFn: () => getBookDetail(bookId, isLogin),
 		onSuccess: data => {
 			console.log('book detail: ', data);
 		},
-		keepPreviousData: false,
 	});
 
 	if (isFetching)
