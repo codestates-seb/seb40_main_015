@@ -10,7 +10,7 @@ import Header from './PcVersion/Header/Header';
 const Layout = () => {
 	const data = useAppSelector(state => state.loginInfo);
 	// console.log('log: ', data);
-	// useGetAccessTokenRefresh(data);
+	useGetAccessTokenRefresh(data);
 
 	return (
 		<Main>

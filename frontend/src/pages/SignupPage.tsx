@@ -22,6 +22,7 @@ function SignupPage() {
 				<StyledSignupPage>
 					<Title text="회원가입" />
 					<Main>
+						<SubTitle>동네북 회원가입</SubTitle>
 						<SignUpForm />
 						<StyledOauth />
 						<LinkToSign
@@ -59,6 +60,20 @@ const Main = styled.div`
 	display: flex;
 	flex-direction: column;
 	align-items: center;
+`;
+
+const SubTitle = styled.p`
+	font-size: ${props => props.theme.fontSizes.maintitle};
+	font-weight: bold;
+	color: black;
+
+	width: 100%;
+	display: flex;
+	justify-content: flex-start;
+
+	@media screen and (max-width: 800px) {
+		display: none;
+	}
 `;
 
 export default SignupPage;
