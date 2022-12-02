@@ -60,7 +60,9 @@ const BookList = ({ merchantId }: { merchantId?: string }) => {
 								}}>
 								<img src={bookImage} alt="" width={50} height={70} />
 								<InfoWrapped>
-									<p>{title}</p>
+									<p>
+										{title.length < 17 ? title : title.slice(0, 17) + '...'}
+									</p>
 									<ButtonStatus status={status} bookId={bookId} />
 								</InfoWrapped>
 							</FlexBox>
@@ -85,6 +87,7 @@ const Container = styled.div`
 	border-radius: 5px;
 	padding: 1rem;
 	margin-bottom: 0.5rem;
+	background-color: white;
 	:hover {
 		background-color: ${props => props.theme.colors.grey};
 	}

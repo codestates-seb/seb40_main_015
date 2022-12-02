@@ -40,6 +40,10 @@ const BookDetail = ({ book, merchant }: BookDetailProps) => {
 			navigate('/login');
 			return;
 		}
+		if (id === merchant?.merchantId) {
+			notify(dispatch, '본인에게는 채팅할 수 없습니다.');
+			return;
+		}
 		if (merchant && book) {
 			axiosCreateRoom(merchant?.merchantId, id, book?.bookId).then(res => {
 				console.log(res);
