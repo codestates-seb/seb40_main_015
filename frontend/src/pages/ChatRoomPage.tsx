@@ -19,27 +19,32 @@ interface Member {
 	nickName: string;
 }
 
+interface NewMessage {
+	createdAt: string;
+	message: string;
+	roomId: number;
+	senderId: number;
+}
+
 const ChatRoomPage = () => {
 	const [text, setText] = useState('');
 	const { nickname, id } = useAppSelector(state => state.loginInfo);
 	const { roomId } = useParams(); // 채널을 구분하는 식별자를 URL 파라미터로 받는다.
 	const {
 		chatList,
-		setChatList,
 		refetch,
 		messageList,
 		setMessageList,
 		myInfo,
 		receiverInfo,
 	} = useGetRoomMessage(roomId!);
-	const { bookId, bookState, bookUrl, title, chatResponses, members } =
-		chatList;
+	const { bookId, bookState, bookUrl, title } = chatList;
 	const client: any = useRef({});
 	let prevNickname = { nickName: '' };
 	let prevDate = '';
-	// console.log(chatList);
-	// console.log(myInfo, receiverInfo);
-	// console.log(chatHistory);
+	const [newMessage, setNewMessage] = useState<NewMessage>();
+
+	console.log(messageList);
 
 	const handleChangeText = (e: React.ChangeEvent<HTMLInputElement>) => {
 		setText(e.target.value);
@@ -103,18 +108,11 @@ const ChatRoomPage = () => {
 
 	const subscribe = () => {
 		client.current.subscribe(`/sub/room/${roomId}`, (body: any) => {
-			// const json_body = JSON.parse(body.body);
-			// const newMessage = {
-			// 	content: json_body.message,
-			// 	dateTime: json_body.createdAt,
-			// };
-			// console.log('구독');
-			// if (json_body.senderId === myInfo?.memberId) {
-			// 	setMessageList([...messageList, { ...myInfo, ...newMessage }]);
-			// } else {
-			// 	setMessageList([...messageList, { ...receiverInfo, ...newMessage }]);
-			// }
-			refetch();
+			const json_body = JSON.parse(body.body);
+			setNewMessage(json_body);
+			console.log('구독');
+
+			// refetch();
 		});
 	};
 
@@ -122,6 +120,18 @@ const ChatRoomPage = () => {
 		console.log('상대와 연결 종료');
 		client.current.deactivate();
 	};
+
+	useEffect(() => {
+		const data = {
+			content: newMessage?.message,
+			dateTime: newMessage?.createdAt,
+		};
+		if (newMessage?.senderId === myInfo?.memberId) {
+			setMessageList([...messageList, { ...myInfo, ...data }]);
+		} else {
+			setMessageList([...messageList, { ...receiverInfo, ...data }]);
+		}
+	}, [newMessage]);
 
 	useEffect(() => {
 		connect();
