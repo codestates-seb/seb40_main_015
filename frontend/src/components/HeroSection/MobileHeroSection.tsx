@@ -57,9 +57,9 @@ const MobileHeroSection = () => {
 						))}
 					</div>
 				</div>
-				<div className="skip" onClick={() => {}}>
+				{/* <div className="skip" onClick={() => {}}>
 					skip
-				</div>
+				</div> */}
 				<div
 					className="btn"
 					onClick={() => {

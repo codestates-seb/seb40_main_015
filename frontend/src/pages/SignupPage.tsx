@@ -26,7 +26,7 @@ function SignupPage() {
 					<Main>
 						<SubTitle>동네북 회원가입</SubTitle>
 						<SignUpForm />
-						<StyledOauth />
+						{/* <StyledOauth /> */}
 						<LinkToSign
 							message="이미 회원이신가요?"
 							link="/login"
