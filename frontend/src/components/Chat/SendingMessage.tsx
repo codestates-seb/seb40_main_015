@@ -65,7 +65,7 @@ const NickNameBox = styled.span`
 	margin-right: 0.3rem;
 	margin-bottom: 0.5rem;
 	padding-top: 0.5rem;
-	padding-right: 0.5rem;
+	/* padding-right: 0.5rem; */
 `;
 
 const MessageInfoBox = styled.div`

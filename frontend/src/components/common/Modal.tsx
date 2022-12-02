@@ -52,6 +52,7 @@ function Modal({
 				</div>
 				<div className="btn">
 					<Button
+						fontSize={'small'}
 						className="btn1"
 						onClick={() => {
 							dispatch(updateUserInfo({ key: 'address', value: ad }));
@@ -61,6 +62,7 @@ function Modal({
 						예
 					</Button>
 					<Button
+						fontSize={'small'}
 						className="btn2"
 						onClick={() => {
 							if (onClickToggleModal) {
@@ -87,11 +89,13 @@ const ModalContainer = styled.div`
 	height: 100%;
 	align-items: center;
 	justify-content: center;
+	position: fixed;
+	top: 10%;
 `;
 
 const DialogBox = styled.dialog`
-	width: 400px;
-	height: 200px;
+	width: 25rem;
+	height: 12.5rem;
 	display: flex;
 	flex-direction: column;
 	align-items: center;
@@ -108,26 +112,29 @@ const DialogBox = styled.dialog`
 	padding-top: 20px;
 
 	h1 {
-		font-size: 20px;
+		font-size: 1.25rem;
+		padding-bottom: 15px;
 	}
 	.btn {
 		justify-content: space-between;
 		padding-top: 20px;
 	}
 	.btn1 {
-		margin-right: 40px;
-		margin-top: 10px;
+		margin-right: 2.5rem;
+		margin-top: 0px;
+		margin-bottom: 6px;
 	}
 
 	.btn2 {
 		background-color: #a4a4a4;
-		margin-top: 10px;
+		margin-top: 0px;
+		margin-bottom: 6px;
 	}
 
 	.currentplace {
-		margin-top: 15px;
-		width: 320px;
-		height: 30px;
+		padding-bottom: 12px;
+		width: 20rem;
+		height: 2rem;
 		background-color: rgb(43, 103, 74);
 		border-radius: 3px;
 		color: white;

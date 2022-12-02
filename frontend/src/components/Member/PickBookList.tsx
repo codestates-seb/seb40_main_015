@@ -68,7 +68,9 @@ const PickBookList = () => {
 									<img src={bookImage} alt="" width={50} height={70} />
 									<InfoWrapped>
 										<div className="list">
-											<p className="bookname">{title}</p>
+											<p className="bookname">
+												{title.length < 17 ? title : title.slice(0, 17) + '...'}
+											</p>
 											<p>{rentalFee}원</p>
 											<p>{merchantName}</p>
 										</div>
@@ -110,6 +112,9 @@ const Container = styled.div`
 
 	@media (min-width: 800px) {
 		width: 800px;
+	}
+	@media (max-width: 375px) {
+		width: 300px;
 	}
 `;
 
