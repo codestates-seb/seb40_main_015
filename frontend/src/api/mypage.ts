@@ -101,9 +101,8 @@ export const useMypageAPI = () => {
 		api.patch(`/member/edit`, data);
 
 	// 예약 취소
-	const deleteReservation = (reservationId: string) => {
+	const deleteReservation = (reservationId: number) =>
 		api.delete(`/reservation/cancel/${reservationId}`);
-	};
 
 	// 사진 등록(endpoint 수정)
 	const axiosAddPhoto = (data: any) => {
