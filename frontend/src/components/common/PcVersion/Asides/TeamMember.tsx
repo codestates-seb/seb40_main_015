@@ -1,9 +1,15 @@
-import React from 'react';
 import styled from 'styled-components';
 import { memberInfo } from './memberInfo';
 import MemberCard, { MemberInfo } from './MemberCard';
+import { useLocation } from 'react-router';
+import { useAppSelector } from '../../../../redux/hooks';
 
 const TeamMember = () => {
+	const { pathname } = useLocation();
+	const { isLogin } = useAppSelector(state => state.loginInfo);
+
+	if (pathname === '/history' && !isLogin) return null;
+
 	return (
 		<Container>
 			{memberInfo
