@@ -41,17 +41,13 @@ const BookStateWrapper = styled.div`
 const BookStatus = styled.div<IBookstatus>`
 	width: 30px;
 	height: 30px;
-	/* height: 100%; */
 	border: none;
 	border-radius: 50%;
 	padding: 10px;
-	/* color: white; */
 	color: black;
 	display: flex;
 	text-align: center;
-	/* font-size: ${props => props.theme.fontSizes.paragraph}; */
 	font-size: 14px;
-	/* background-color: ${props => props.theme.colors.buttonGreen}; */
 	background-color: ${props => {
 		if (props.status === '대여가능') return '#DEF5E5';
 		else if (props.status === '대여중&예약가능') return '#FFFAD7';

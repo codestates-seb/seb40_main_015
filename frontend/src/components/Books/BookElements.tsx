@@ -228,6 +228,7 @@ const RentalInfo = styled(BookInfo)`
 	/* width: 366px; */
 	width: inherit;
 	min-width: 366px;
+	max-width: 366px;
 	margin-bottom: 2rem;
 	display: flex;
 	justify-content: space-between;
@@ -236,7 +237,7 @@ const RentalInfo = styled(BookInfo)`
 `;
 
 const RentalCheck = styled.div`
-	width: 1rem;
+	/* width: 1rem; */
 	display: flex;
 	align-items: center;
 
@@ -245,12 +246,13 @@ const RentalCheck = styled.div`
 		cursor: pointer;
 	}
 	label {
-		margin-right: 2rem;
+		margin-right: 1rem;
 		@media screen and (min-width: 801px) {
 			font-size: 22px;
 		}
 	}
 	.checkBoxLabel {
+		min-width: 60px;
 		cursor: pointer;
 	}
 `;

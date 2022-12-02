@@ -1,4 +1,4 @@
-package com.dongnebook.domain.rental.dto.Response;
+package com.dongnebook.domain.rental.dto.response;
 
 import com.dongnebook.domain.book.dto.response.BookInfoResponse;
 import com.querydsl.core.annotations.QueryProjection;
