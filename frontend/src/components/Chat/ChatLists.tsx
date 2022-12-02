@@ -33,7 +33,8 @@ const ChatLists = ({ list }: { list: IProps }) => {
 
 	const navigate = useNavigate();
 	const handleMoveChatRoom = () => {
-		axiosCreateRoom(merchantId, id, bookId).then(res => {
+		axiosCreateRoom(merchantId, customerId, bookId).then(res => {
+			console.log(res);
 			navigate(`/chats/${res}`);
 		});
 	};
