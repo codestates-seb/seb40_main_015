@@ -10,6 +10,8 @@ function NoticePage() {
 	const { data } = useGetNotice();
 	const dispatch = useAppDispatch();
 
+	console.log(navigator.userAgent);
+
 	useEffect(() => {
 		dispatch(setState(false));
 		// eslint-disable-next-line react-hooks/exhaustive-deps
