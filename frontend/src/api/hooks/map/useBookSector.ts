@@ -39,7 +39,7 @@ const useBookSector = (props: IProps) => {
 		onError: (err: any) => {
 			// console.log(err.message);
 			if (err.message === '책 없음') {
-				notify(dispatch, '찾으시는 책이 없어요');
+				notify(dispatch, '우리 동네에는 찾으시는 책이 없어요');
 			}
 		},
 		retry: false,
