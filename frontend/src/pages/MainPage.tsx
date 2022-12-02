@@ -15,7 +15,7 @@ import mohero5 from '../assets/image/mo5.png';
 
 const MainPage = () => {
 	return (
-		<div>
+		<Container>
 			<Body>
 				<img src={mohero1} alt="동네북이란" className="moheroimage" />
 				<img src={mohero2} alt="지도검색" className="moheroimage" />
@@ -31,10 +31,13 @@ const MainPage = () => {
 				<img src={hero7} alt="반응형 웹앱" className="heroimage" />
 				<img src={hero1} alt="메인 동네북" className="heroimage" /> */}
 			</Body>
-		</div>
+		</Container>
 	);
 };
 
+const Container = styled.div`
+	background-color: #016241;
+`;
 const Body = styled.div`
 	.moheroimage {
 		width: 414px;
