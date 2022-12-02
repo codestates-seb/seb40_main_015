@@ -145,7 +145,7 @@ public class RentalQueryRepository {
     }
 
     private BooleanExpression rentalStateEq(String rentalState){
-        if(rentalState.equals("ALL")){
+        if(rentalState == null){
             return null;
         }
         return rental.rentalState.eq(RentalState.valueOf(rentalState));

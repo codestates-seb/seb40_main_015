@@ -1,5 +1,6 @@
 package com.dongnebook.global.utils;
 
+import com.dongnebook.domain.rental.exception.RentalNotFoundException;
 import org.springframework.util.ObjectUtils;
 
 import javax.validation.ConstraintValidator;
@@ -15,7 +16,7 @@ public class EnumValidator implements ConstraintValidator<Enum, String> {
 
     @Override
     public boolean isValid(String value, ConstraintValidatorContext context){
-        if(ObjectUtils.isEmpty(value)) return false;
+        if(ObjectUtils.isEmpty(value)) return true;
 
         boolean result = false;
         Object[] enumValues = this.annotation.enumClass().getEnumConstants();

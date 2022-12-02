@@ -1,5 +1,7 @@
 package com.dongnebook.global.utils;
 
+import com.dongnebook.domain.rental.exception.RentalNotFoundException;
+
 import javax.validation.Constraint;
 import javax.validation.Payload;
 import java.lang.annotation.ElementType;
