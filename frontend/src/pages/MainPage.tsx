@@ -1,6 +1,7 @@
 import styled from 'styled-components';
 import Header from '../components/common/PcVersion/Header/Header';
 import HeroSectionDeskTop from '../components/HeroSection/HeroSectionDeskTop';
+import MobileHeroSection from '../components/HeroSection/MobileHeroSection';
 
 const MainPage = () => {
 	return (
