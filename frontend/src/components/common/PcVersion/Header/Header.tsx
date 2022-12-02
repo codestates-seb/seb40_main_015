@@ -77,9 +77,9 @@ const Header = () => {
 					);
 				})}
 			</Left>
-			<Link to="/profile">
-				<Box selected={pathname === '/profile'}>
-					<StyledP>마이페이지</StyledP>
+			<Link to={isLogin ? '/profile' : '/login'}>
+				<Box selected={pathname === '/profile' || pathname === '/login'}>
+					<StyledP>{isLogin ? '마이페이지' : '로그인'}</StyledP>
 				</Box>
 			</Link>
 		</Container>
@@ -122,13 +122,9 @@ const Box = styled.div<BoxProps>`
 `;
 
 const StyledP = styled.p`
-	font-size: 1.4rem;
+	font-size: 1.3rem;
 	font-weight: bold;
 	white-space: nowrap;
-
-	@media screen and (max-width: 1000px) {
-		font-size: 1.3rem;
-	}
 `;
 
 export default Header;

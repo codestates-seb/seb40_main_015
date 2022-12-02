@@ -18,6 +18,7 @@ const StyledLogo = styled.div`
 `;
 
 const StyledImg = styled.img`
+	max-width: 120px;
 	width: 9rem;
 	margin-bottom: 5px;
 `;

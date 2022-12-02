@@ -74,7 +74,9 @@ const PickBookList = () => {
 											<p>{rentalFee}원</p>
 											<p>{merchantName}</p>
 										</div>
-										<ButtonStatus status={status} bookId={bookId} />
+										<ButtonWrapper>
+											<ButtonStatus status={status} bookId={bookId} />
+										</ButtonWrapper>
 									</InfoWrapped>
 								</FlexBox>
 							</Container>
@@ -159,10 +161,21 @@ const EmptyBox = styled.div`
 		font-weight: 600;
 	}
 `;
+
+const ButtonWrapper = styled.div`
+	min-width: 68px;
+	height: 2.4rem;
+	button {
+		width: 100%;
+		height: 100%;
+	}
+`;
+
 // infinite scroll
 const ScrollEnd = styled.div`
 	width: 100%;
-	background-color: ${props => props.theme.colors.grey};
+	background-color: #fbfbfb;
 	height: 10rem;
 `;
+
 export default PickBookList;

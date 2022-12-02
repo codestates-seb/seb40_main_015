@@ -4,21 +4,33 @@ import Animation from '../Loading/Animation';
 import dummyImage3 from '../../assets/image/dummy3.png';
 import Button from '../common/Button';
 import { useMypageAPI } from '../../api/mypage';
-import { useInfiniteQuery } from '@tanstack/react-query';
+import { useInfiniteQuery, useMutation } from '@tanstack/react-query';
 import { useNavigate } from 'react-router-dom';
 import ButtonStatus from '../Merchant/ButtonStatus';
-import { useMutation } from '@tanstack/react-query';
+import notify from '../../utils/notify';
+import { useDispatch } from 'react-redux';
 
 const ReservationBookList = () => {
+	const [cancelId, setCancelId] = useState(-1);
 	const navigate = useNavigate();
-	const { getReservationBookList } = useMypageAPI();
-	const mutate = useMypageAPI();
+	const { getReservationBookList, deleteReservation } = useMypageAPI();
+	const dispatch = useDispatch();
 
 	const handleBookDetailPageMove = (id: number) => {
 		navigate(`/books/${id}`);
 	};
 
-	const handleBookCancel = (id: number) => {};
+	// const handleClickIcon = (
+	// 	e: React.MouseEvent<HTMLDivElement, MouseEvent>,
+	// 	bookId: number,
+	// ) => {
+	// 	e.stopPropagation();
+	// 	if (window.confirm('정말 취소하시겠습니까?')) {
+	// 		mutate(bookId);
+	// 	} else {
+	// 		return;
+	// 	}
+	// };
 
 	// 예약목록 무한스크롤
 	const infiniteScrollTarget = useRef<HTMLDivElement>(null);
@@ -48,6 +60,27 @@ const ReservationBookList = () => {
 
 		return () => observer.disconnect();
 	}, []);
+
+	//예약취소
+	const { mutate: deleteMutate } = useMutation({
+		mutationFn: () => deleteReservation(cancelId),
+		onSuccess: () => {
+			notify(dispatch, '예약이 취소되었습니다.');
+		},
+		retry: false,
+	});
+
+	const handleBookCancel = (title: string, reservationId: number) => {
+		const isTrue = window.confirm(`'${title}' 도서의 예약을 취소하시겠습니까?`);
+		if (!isTrue) return;
+		setCancelId(reservationId);
+		// deleteMutate();
+	};
+
+	useEffect(() => {
+		if (cancelId === -1) return;
+		deleteMutate();
+	}, [cancelId]);
 
 	return (
 		<>
@@ -79,13 +112,19 @@ const ReservationBookList = () => {
 											</p>
 											<p>{rentalFee}원</p>
 										</div>
-										<Button
-											fontSize={'small'}
-											onClick={() => {
-												handleBookCancel(bookId);
-											}}>
-											예약 취소
-										</Button>
+										<ButtonWrapper>
+											<Button
+												fontSize={'small'}
+												onClick={(e: React.MouseEvent<HTMLButtonElement>) => {
+													e.stopPropagation();
+													handleBookCancel(
+														title,
+														reservationbook.reservationInfo.reservationId,
+													);
+												}}>
+												예약 취소
+											</Button>
+										</ButtonWrapper>
 									</InfoWrapped>
 								</FlexBox>
 							</Container>
@@ -171,11 +210,19 @@ const EmptyBox = styled.div`
 		font-weight: 600;
 	}
 `;
+const ButtonWrapper = styled.div`
+	min-width: 68px;
+	height: 2.4rem;
+	button {
+		width: 100%;
+		height: 100%;
+	}
+`;
 
 // infinite scroll
 const ScrollEnd = styled.div`
 	width: 100%;
-	background-color: ${props => props.theme.colors.grey};
+	background-color: #fbfbfb;
 	height: 10rem;
 `;
 export default ReservationBookList;
