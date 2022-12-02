@@ -1,4 +1,4 @@
-import { Outlet } from 'react-router-dom';
+import { Outlet, useLocation } from 'react-router-dom';
 import styled from 'styled-components';
 import NavBar from './NavBar';
 import ScrollToTop from './ScrollToTop';
@@ -9,8 +9,21 @@ import Header from './PcVersion/Header/Header';
 import Repository from './PcVersion/Repository';
 import TeamMember from './PcVersion/TeamMember';
 
+const noAsidePaths = [
+	'/books/search',
+	'/chats',
+	'/profile',
+	'/',
+	'/profile/edit',
+];
+
 const Layout = () => {
 	const data = useAppSelector(state => state.loginInfo);
+	const { pathname } = useLocation();
+	const REGEXP = /\/\d+/;
+	const isPathnameIncludesNoAsidePaths = noAsidePaths.includes(
+		pathname.replace(REGEXP, ''),
+	);
 	// console.log('log: ', data);
 	// useGetAccessTokenRefresh(data);
 
@@ -18,12 +31,12 @@ const Layout = () => {
 		<Main>
 			<Header />
 			<Content>
-				<Repository />
+				{!isPathnameIncludesNoAsidePaths && <Repository />}
 				<Body>
 					<ScrollToTop />
 					<Outlet />
 				</Body>
-				<TeamMember />
+				{!isPathnameIncludesNoAsidePaths && <TeamMember />}
 			</Content>
 			<NavBar />
 		</Main>
