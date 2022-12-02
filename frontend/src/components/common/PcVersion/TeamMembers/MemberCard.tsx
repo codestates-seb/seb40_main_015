@@ -21,7 +21,7 @@ const StyledCard = styled.a`
 	height: 4.5rem;
 	background-color: white;
 	border-radius: 5px;
-	box-shadow: 1px 1px 5px 1px rgb(77, 71, 71);
+	box-shadow: 1px 1px 5px 1px rgb(182, 182, 182);
 	padding: 0 30px 0 10px;
 	margin-bottom: 1rem;
 	display: flex;
