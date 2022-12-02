@@ -101,6 +101,7 @@ public class Member extends BaseTimeEntity {
 		return this.id.equals(id);
 	}
 
+
 	public void setAvgGrade(Double avgGrade){
 		this.avgGrade = avgGrade;
 	}
@@ -115,5 +116,6 @@ public class Member extends BaseTimeEntity {
 		this.setAvgGrade(newAvgGrade);
 		this.upReviewCount();
 	}
+
 
 }

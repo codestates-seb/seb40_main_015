@@ -169,7 +169,7 @@ const Layout = styled.div`
 const SubTitle = styled.p`
 	font-size: 30px;
 	color: white;
-	margin-bottom: 26px;
+	margin-bottom: 35px;
 
 	@media screen and (max-width: 800px) {
 		display: none;

@@ -58,7 +58,6 @@ const Layout = styled.div`
 	display: flex;
 	align-items: center;
 	flex-direction: column;
-	padding: 1rem;
 	min-width: 90%;
 `;
 
