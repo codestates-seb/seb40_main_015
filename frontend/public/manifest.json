@@ -1,5 +1,5 @@
 {
-	"version": "1.0",
+	"version": "1.0.1",
 	"short_name": "동네북",
 	"name": "동네북",
 	"icons": [
@@ -55,9 +55,16 @@
 			"type": "image/png"
 		},
 		{
+			"src": "./icons/apple-touch-icon-192x192.png",
+			"sizes": "192x192",
+			"type": "image/png",
+			"purpose": "any maskable"
+		},
+		{
 			"src": "./icons/favicon-512x512.png",
 			"sizes": "512x512",
-			"type": "image/png"
+			"type": "image/png",
+			"purpose": "any maskable"
 		}
 	],
 	"start_url": "/",
