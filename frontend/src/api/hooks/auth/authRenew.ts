@@ -29,7 +29,7 @@ const useGetAccessTokenRefresh = (
 				loginMutationData.isLogin &&
 				loginMutationData?.accessToken === 'Bearer ',
 			staleTime: 1000 * 60 * 28,
-			retry: 1,
+			retry: false,
 			onSuccess: res => {
 				console.log('token renew complete');
 				const {
