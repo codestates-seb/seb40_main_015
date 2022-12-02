@@ -24,7 +24,7 @@ const LoginPage = () => {
 					<Contents>
 						<Logo />
 						<LoginForm />
-						<StyledOauth />
+						{/* <StyledOauth /> */}
 						<LinkToSign
 							message="회원이 아니신가요?"
 							link="/signup"
