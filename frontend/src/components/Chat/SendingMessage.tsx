@@ -1,23 +1,24 @@
 import styled from 'styled-components';
-import convertDateForChat from '../../utils/convertDateForChat';
+import { convertDateForChat } from '../../utils/convertDateForChat';
 
 interface Iprops {
 	list: {
 		avatarUrl?: string;
 		content: string;
-		dateTime: string;
+		dateTime?: string;
 		nickName?: string;
 	};
 }
 
 const SendingMessage = ({ list }: Iprops) => {
 	const { avatarUrl, content, dateTime, nickName } = list;
+	// console.log(list);
 	return (
 		<Container avatarUrl={avatarUrl}>
 			<Box>
 				{nickName ? <NickNameBox>{nickName}</NickNameBox> : null}
 				<MessageInfoBox>
-					<DateBox>{convertDateForChat(dateTime)}</DateBox>
+					{dateTime ? <DateBox>{convertDateForChat(dateTime)}</DateBox> : null}
 					<MessageArea>
 						<p>{content}</p>
 					</MessageArea>
@@ -38,17 +39,17 @@ interface ContainerProps {
 
 const Container = styled.div<ContainerProps>`
 	display: flex;
-	/* margin-bottom: ${props => (props.avatarUrl ? '1rem' : 0)}; */
 	justify-content: flex-end;
 	align-items: flex-end;
+	margin-bottom: 0.2rem;
 	&:last-child {
 		margin-bottom: 1rem;
 	}
 `;
 
 const UserImage = styled.img`
-	width: 4rem;
-	height: 4rem;
+	width: 3.5rem;
+	height: 3.5rem;
 	border-radius: 50%;
 `;
 
@@ -76,12 +77,13 @@ const MessageInfoBox = styled.div`
 const DateBox = styled.span`
 	font-weight: bold;
 	margin-right: 0.3rem;
+	font-size: 0.8rem;
 `;
 
 const MessageArea = styled.div`
 	max-width: 15rem;
 	background-color: #26795d;
-	border-radius: 10px;
+	border-radius: 15px;
 	padding: 0.7rem;
 
 	p {
@@ -92,8 +94,7 @@ const MessageArea = styled.div`
 `;
 
 const EmptyImageBox = styled.div`
-	width: 4rem;
-	height: 3.3rem;
+	width: 3.5rem;
 `;
 
 export default SendingMessage;
