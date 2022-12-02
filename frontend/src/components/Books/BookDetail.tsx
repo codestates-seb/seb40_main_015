@@ -161,7 +161,12 @@ const BookDetail = ({ book, merchant, refetchBookDetail }: BookDetailProps) => {
 				{id === merchant?.merchantId && book?.state !== '거래중단' ? (
 					<Button onClick={HandleDelete}>대여 종료</Button>
 				) : book?.state === '대여가능' ? (
-					<LinkStyled to={isLogin ? `rental` : ''}>
+					<LinkStyled
+						to={isLogin ? `rental` : ''}
+						state={{
+							bookTitle: book?.title,
+							rentalFee: book?.rentalFee,
+						}}>
 						<Button
 							onClick={() =>
 								isLogin || notify(dispatch, '로그인이 필요합니다')
@@ -175,6 +180,8 @@ const BookDetail = ({ book, merchant, refetchBookDetail }: BookDetailProps) => {
 						state={{
 							rentalStart: book.rentalStart || '2023-05-01',
 							rentalEnd: book.rentalEnd || '2023-05-11',
+							bookTitle: book?.title,
+							rentalFee: book?.rentalFee,
 						}}>
 						<Button
 							onClick={() =>
