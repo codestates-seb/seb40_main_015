@@ -67,7 +67,7 @@ const ReservationBookList = () => {
 		onSuccess: () => {
 			notify(dispatch, '예약이 취소되었습니다.');
 		},
-		retry: 0,
+		retry: false,
 	});
 
 	const handleBookCancel = (title: string, reservationId: number) => {

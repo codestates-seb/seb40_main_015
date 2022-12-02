@@ -20,15 +20,16 @@ const BooksDetailPage = () => {
 	const { getBookDetail, deleteBook } = useBooksAPI();
 
 	// 책 상세정보 받아오기 쿼리
-	const { data, isLoading } = useQuery({
+	const { data, isLoading, isFetching } = useQuery({
 		queryKey: ['bookDetail'],
 		queryFn: () => getBookDetail(bookId, isLogin),
 		onSuccess: data => {
 			console.log('book detail: ', data);
 		},
+		keepPreviousData: false,
 	});
 
-	if (isLoading)
+	if (isFetching)
 		return (
 			<Main>
 				<Animation width={20} height={20} />
