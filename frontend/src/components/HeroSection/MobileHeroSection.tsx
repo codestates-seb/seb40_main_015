@@ -37,6 +37,7 @@ const MobileHeroSection = () => {
 	useEffect(() => {
 		setStyle({ marginLeft: `-${current}00%` });
 	}, [current]);
+
 	return (
 		<Container>
 			<div className="slide">
@@ -56,6 +57,9 @@ const MobileHeroSection = () => {
 								style={{ backgroundImage: `url(${img.src})` }}></div>
 						))}
 					</div>
+				</div>
+				<div className="skip" onClick={() => {}}>
+					skip
 				</div>
 				<div
 					className="btn"
@@ -79,6 +83,12 @@ const Container = styled.div`
 	flex-direction: column;
 	align-items: center;
 	background-color: #016241;
+
+	.skip {
+		color: white;
+		font-size: 15px;
+		padding-bottom: 850px;
+	}
 
 	body {
 		display: flex;
