@@ -35,6 +35,9 @@ const Body = styled.div`
 	width: 100%;
 	height: 100%;
 	padding-bottom: 50px;
+	@media screen and (min-width: 800px) {
+		padding-bottom: 0;
+	}
 `;
 
 const Nav = styled.ul`
