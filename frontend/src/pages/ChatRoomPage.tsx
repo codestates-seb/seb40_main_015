@@ -153,43 +153,35 @@ const ChatRoomPage = () => {
 								if (list?.nickName === nickname) {
 									if (prevNickname === list.nickName) {
 										return (
-											<>
-												<DateDisplay key={currentDate}>
-													{currentDate}
-												</DateDisplay>
-												<SendingMessage key={dateTime} list={newList} />
-											</>
+											<React.Fragment key={currentDate}>
+												<DateDisplay>{currentDate}</DateDisplay>
+												<SendingMessage list={newList} />
+											</React.Fragment>
 										);
 									} else {
 										prevNickname = list.nickName;
 										return (
-											<>
-												<DateDisplay key={currentDate}>
-													{currentDate}
-												</DateDisplay>
-												<SendingMessage key={dateTime} list={list} />;
-											</>
+											<React.Fragment key={currentDate}>
+												<DateDisplay>{currentDate}</DateDisplay>
+												<SendingMessage list={list} />;
+											</React.Fragment>
 										);
 									}
 								} else {
 									if (prevNickname === list.nickName) {
 										return (
-											<>
-												<DateDisplay key={currentDate}>
-													{currentDate}
-												</DateDisplay>
-												<ReceptionMessage key={dateTime} list={newList} />
-											</>
+											<React.Fragment key={currentDate}>
+												<DateDisplay>{currentDate}</DateDisplay>
+												<ReceptionMessage list={newList} />
+											</React.Fragment>
 										);
 									} else {
 										prevNickname = list.nickName;
 										return (
-											<>
-												<DateDisplay key={currentDate}>
-													{currentDate}
-												</DateDisplay>
-												<ReceptionMessage key={dateTime} list={list} />;
-											</>
+											<React.Fragment key={currentDate}>
+												<DateDisplay>{currentDate}</DateDisplay>
+												<ReceptionMessage list={list} />;
+											</React.Fragment>
 										);
 									}
 								}
