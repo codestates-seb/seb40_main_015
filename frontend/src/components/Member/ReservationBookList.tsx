@@ -112,17 +112,19 @@ const ReservationBookList = () => {
 											</p>
 											<p>{rentalFee}원</p>
 										</div>
-										<Button
-											fontSize={'small'}
-											onClick={(e: React.MouseEvent<HTMLButtonElement>) => {
-												e.stopPropagation();
-												handleBookCancel(
-													title,
-													reservationbook.reservationInfo.reservationId,
-												);
-											}}>
-											예약 취소
-										</Button>
+										<ButtonWrapper>
+											<Button
+												fontSize={'small'}
+												onClick={(e: React.MouseEvent<HTMLButtonElement>) => {
+													e.stopPropagation();
+													handleBookCancel(
+														title,
+														reservationbook.reservationInfo.reservationId,
+													);
+												}}>
+												예약 취소
+											</Button>
+										</ButtonWrapper>
 									</InfoWrapped>
 								</FlexBox>
 							</Container>
@@ -206,6 +208,14 @@ const EmptyBox = styled.div`
 		font-size: ${props => props.theme.fontSizes.subtitle};
 		/* font-size: 16px; */
 		font-weight: 600;
+	}
+`;
+const ButtonWrapper = styled.div`
+	min-width: 68px;
+	height: 2.4rem;
+	button {
+		width: 100%;
+		height: 100%;
 	}
 `;
 

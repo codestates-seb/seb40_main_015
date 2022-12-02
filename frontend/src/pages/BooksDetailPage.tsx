@@ -20,7 +20,11 @@ const BooksDetailPage = () => {
 	const { getBookDetail, deleteBook } = useBooksAPI();
 
 	// 책 상세정보 받아오기 쿼리
-	const { data, isLoading, isFetching } = useQuery({
+	const {
+		data,
+		isLoading,
+		refetch: refetchBookDetail,
+	} = useQuery({
 		queryKey: [bookId, 'bookDetail'],
 		queryFn: () => getBookDetail(bookId, isLogin),
 		onSuccess: data => {
@@ -28,27 +32,28 @@ const BooksDetailPage = () => {
 		},
 	});
 
-	if (isFetching)
-		return (
-			<Main>
-				<Animation width={20} height={20} />
-			</Main>
-		);
 	return (
-		<>
-			{data && (
-				<Main>
-					<TitleWrapper>
-						<Title text="상세 조회" />
-					</TitleWrapper>
-
+		<Main>
+			<TitleWrapper>
+				<Title text="상세 조회" />
+			</TitleWrapper>
+			{isLoading ? (
+				<LoadingSpinnerWrapper>
+					<Animation width={20} height={20} />
+				</LoadingSpinnerWrapper>
+			) : (
+				data && (
 					<BodyContainer>
 						<BookImage book={data?.book} merchant={data?.merchant} />
-						<BookDetail book={data?.book} merchant={data?.merchant} />
+						<BookDetail
+							book={data?.book}
+							merchant={data?.merchant}
+							refetchBookDetail={refetchBookDetail}
+						/>
 					</BodyContainer>
-				</Main>
+				)
 			)}
-		</>
+		</Main>
 	);
 };
 
@@ -64,6 +69,10 @@ const BodyContainer = styled.div`
 		justify-content: space-between;
 		align-items: flex-start;
 	}
+`;
+
+const LoadingSpinnerWrapper = styled.div`
+	height: 70vh;
 `;
 
 export default BooksDetailPage;

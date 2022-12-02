@@ -48,7 +48,13 @@ export interface BookMerchant {
 	name: string;
 	avatarUrl: string;
 }
+
+interface IRefetchBookDetail {
+	(): void;
+}
+
 export interface BookDetailProps {
 	book: IBookDetail | undefined;
 	merchant: BookMerchant | undefined;
+	refetchBookDetail?: IRefetchBookDetail;
 }
