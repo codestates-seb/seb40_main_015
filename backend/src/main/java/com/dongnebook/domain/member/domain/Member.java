@@ -100,4 +100,6 @@ public class Member extends BaseTimeEntity {
 		return this.id.equals(id);
 	}
 
+
+
 }

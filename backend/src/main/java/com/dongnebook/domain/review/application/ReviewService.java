@@ -34,6 +34,7 @@ public class ReviewService {
         checkRentalPerson(rental, customerId);
         rental.changeRentalStateFromTo(RentalState.RETURN_UNREVIEWED, RentalState.RETURN_REVIEWED);
 
+
         Review review = Review.create(reviewRequest.getReviewMessage(), reviewRequest.getGrade(), rental, rental.getBook().getMember());
         reviewRepository.save(review);
     }
