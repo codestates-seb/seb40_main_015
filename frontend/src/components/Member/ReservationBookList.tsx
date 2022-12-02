@@ -217,6 +217,10 @@ const ButtonWrapper = styled.div`
 		width: 100%;
 		height: 100%;
 	}
+
+	@media screen and (min-width: 800px) {
+		width: 80px;
+	}
 `;
 
 // infinite scroll

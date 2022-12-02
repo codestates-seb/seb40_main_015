@@ -26,12 +26,17 @@ interface LinkProps {
 	state: {
 		rentalStart: string;
 		rentalEnd: string;
+		bookTitle: string;
+		rentalFee?: number;
 	};
 }
 const BooksBookingPage = () => {
-	const [isChecked, setIsChecked] = useState(false);
-	// const { state } = useLocation() as LinkProps;
+	const [isCheckedPeriod, setIsCheckedPeriod] = useState(false);
+	const [isCheckedTitle, setIsCheckedTitle] = useState(false);
+	const [isCheckedFee, setIsCheckedFee] = useState(false);
+
 	const { state } = useLocation() as LinkProps;
+	console.log(state);
 	const navigate = useNavigate();
 	const { bookId } = useParams();
 	const { postBookBooking } = useBooksAPI();
@@ -52,7 +57,10 @@ const BooksBookingPage = () => {
 	const { month, day, rentalPeriod } = calcCalendarDate(state.rentalEnd);
 	// 예약 요청
 	const handleRentalButton = () => {
-		if (!isChecked) return alert('대여 기간을 확인해주세요');
+		if (!isCheckedPeriod) return alert('대여 기간을 확인해주세요');
+		if (!isCheckedTitle) return alert('도서 제목을 확인해주세요');
+		if (!isCheckedFee) return alert('대여료를 확인해주세요');
+
 		const isTrue = window.confirm('예약 신청 하시겠습니까?');
 		isTrue && mutate();
 	};
@@ -81,7 +89,7 @@ const BooksBookingPage = () => {
 							required
 							id="rentalPeriod"
 							onInput={() => {
-								setIsChecked(!isChecked);
+								setIsCheckedPeriod(!isCheckedPeriod);
 							}}
 						/>
 						<label htmlFor="rentalPeriod" className="checkBoxLabel">
@@ -90,7 +98,41 @@ const BooksBookingPage = () => {
 						<label>{rentalPeriod}</label>
 					</RentalCheck>
 				</RentalInfo>
+				<RentalInfo>
+					<legend>도서 제목</legend>
+					<RentalCheck>
+						<input
+							type="checkbox"
+							required
+							id="book_title"
+							onInput={() => {
+								setIsCheckedTitle(!isCheckedTitle);
+							}}
+						/>
+						<label htmlFor="book_title" className="checkBoxLabel">
+							확인
+						</label>
+						<label>{state.bookTitle}</label>
+					</RentalCheck>
+				</RentalInfo>
 
+				<RentalInfo>
+					<legend>대여료</legend>
+					<RentalCheck>
+						<input
+							type="checkbox"
+							required
+							id="book_fee"
+							onInput={() => {
+								setIsCheckedFee(!isCheckedFee);
+							}}
+						/>
+						<label htmlFor="book_fee" className="checkBoxLabel">
+							확인
+						</label>
+						<label>{state.rentalFee}원</label>
+					</RentalCheck>
+				</RentalInfo>
 				{/* <RentalInfo>
 					<legend>주의 사항</legend>
 					<label>*아직 준비중 입니다*</label>
@@ -109,7 +151,7 @@ const BooksBookingPage = () => {
 };
 
 const BtnWrapper = styled.div`
-	/* margin: 10px 0; */
+	margin-top: 20px;
 	width: 400px;
 
 	display: flex;
