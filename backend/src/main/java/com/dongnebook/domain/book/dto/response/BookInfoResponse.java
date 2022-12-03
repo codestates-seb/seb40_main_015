@@ -29,10 +29,12 @@ public class BookInfoResponse {
 
     private String merchantName;
 
+    private Long merchantId;
+
     @QueryProjection
     public BookInfoResponse(Long bookId, String bookUrl, String title, String author,
                             String publisher, Integer rentalFee, String content,
-                            Location location, BookState bookState, String merchantName){
+                            Location location, BookState bookState, String merchantName, Long merchantId){
         this.bookId = bookId;
         this.bookUrl = bookUrl;
         this.title = title;
@@ -43,12 +45,13 @@ public class BookInfoResponse {
         this.location = location;
         this.bookState = bookState;
         this.merchantName = merchantName;
+        this.merchantId = merchantId;
     }
 
     public static BookInfoResponse of(Book book) {
         return new BookInfoResponse(book.getId(), book.getImgUrl(), book.getTitle(),
                 book.getAuthor(), book.getPublisher(), book.getRentalFee().getValue(), book.getDescription(),
-                book.getLocation(), book.getBookState(), book.getMember().getNickname());
+                book.getLocation(), book.getBookState(), book.getMember().getNickname(), book.getMember().getId());
     }
 
 }

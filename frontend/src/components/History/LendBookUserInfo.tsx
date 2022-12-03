@@ -91,7 +91,7 @@ const UserInfoBox = styled.div`
 const ChatButton = styled.button`
 	background-color: #ffc700;
 	border: none;
-	padding: 0 1rem;
+	padding: 0.3rem 1rem;
 	border-radius: 5px;
 	cursor: pointer;
 	:hover {
