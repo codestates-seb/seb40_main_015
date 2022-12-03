@@ -18,11 +18,16 @@ import java.time.LocalDateTime;
 @EntityListeners(AuditingEntityListener.class)
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Rental {
+    // @Version
+    // @Column(name = "rental_version")
+    // private Long version;
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", updatable = false)
     private Long id;
+
+
 
     @CreatedDate
     @Column(name = "rental_started_at", nullable = false)

@@ -22,6 +22,7 @@ import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.persistence.Version;
 
 import com.dongnebook.domain.book.dto.request.BookEditRequest;
 import com.dongnebook.domain.book.dto.request.BookRegisterRequest;
@@ -47,6 +48,10 @@ public class Book extends BaseTimeEntity {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "id", updatable = false)
 	private Long id;
+
+	@Version
+	@Column(name = "book_version")
+	private Long version;
 
 	@Column(name = "title", nullable = false)
 	private String title;

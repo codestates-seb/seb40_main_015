@@ -6,6 +6,7 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.concurrent.atomic.AtomicLong;
 
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.servlet.mvc.method.annotation.SseEmitter;
@@ -36,6 +37,7 @@ public class AlarmService {
 	 *
 	 * @return
 	 */
+	@Async
 	@Transactional
 	public void sendAlarm(Member member, Book book, AlarmType type) {
 		Alarm alarm = Alarm.create(member, book, type);
