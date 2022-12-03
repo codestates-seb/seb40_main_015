@@ -2,7 +2,7 @@ import styled from 'styled-components';
 import { useNavigate } from 'react-router-dom';
 import { HiOutlinePencilAlt } from 'react-icons/hi';
 import { useDispatch } from 'react-redux';
-import { useQuery, useQueryClient } from '@tanstack/react-query';
+import { useQuery } from '@tanstack/react-query';
 import { useAppSelector } from '../redux/hooks';
 
 // component
@@ -18,7 +18,7 @@ import { useMypageAPI } from '../api/mypage';
 import useTabs from '../hooks/useTabs';
 // etc
 import { logout } from '../redux/slice/userSlice';
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import { FiExternalLink } from 'react-icons/fi';
 
 function ProfilePage() {
