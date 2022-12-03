@@ -39,10 +39,10 @@ public class ChatController {
 	public void chat(@DestinationVariable Long roomId, ChatMessageDto message) {
 
 		LocalDateTime now = LocalDateTime.now();
-		chatService.save(roomId,message,now);
 
 		redisPublisher.publish(ChannelTopic.of("room"+roomId), new RedisChat(roomId,message.getSenderId(),
 			message.getContent(), LocalDateTime.now()));
+		chatService.save(roomId,message,now);
 	}
 
 	//채팅방에 있는 대화를 모두 가져옴
