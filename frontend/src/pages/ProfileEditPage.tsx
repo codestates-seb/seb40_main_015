@@ -12,13 +12,8 @@ import { updateUserInfo } from '../redux/slice/userInfoSlice';
 import Avatar from '../api/hooks/profileedit/Avatar';
 import { useFixInfo } from '../api/hooks/profileedit/useFixInfo';
 import useGeolocation2 from '../hooks/useGeoLocation2';
-import useGeoLocation from '../hooks/useGeoLocation';
-import IdSection from '../components/SignUp/IdSection';
-import { throttle } from 'lodash';
-import ScrollToTop from '../components/common/ScrollToTop';
 
 function ProfileEditPage() {
-	const goNotify = (message: string) => notify(dispatch, message);
 	//현재 위치 수정
 	const [isOpenModal, setOpenModal] = useState<boolean>(false);
 	const onClickToggleModal = useCallback(() => {
