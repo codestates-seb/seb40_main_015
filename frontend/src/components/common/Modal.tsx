@@ -132,7 +132,7 @@ const DialogBox = styled.dialog`
 	}
 
 	.currentplace {
-		padding-bottom: 12px;
+		padding-bottom: 3px;
 		width: 20rem;
 		height: 2rem;
 		background-color: rgb(43, 103, 74);

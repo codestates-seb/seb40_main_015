@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import Geocode from 'react-geocode'
+
 interface locationType {
   loaded: boolean;
   coordinates?: { latitude: number; longitude: number };
