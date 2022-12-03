@@ -33,7 +33,6 @@ const useBookSector = (props: IProps) => {
 			);
 		},
 		onSuccess: data => {
-			console.log(data);
 			setBookSector(data);
 		},
 		onError: (err: any) => {
