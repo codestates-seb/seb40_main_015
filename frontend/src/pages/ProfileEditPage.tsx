@@ -142,7 +142,7 @@ const Layout = styled.div`
 	align-items: center;
 	flex-direction: column;
 	font-size: 1.25rem;
-	padding: 1rem;
+	/* padding: 1rem; */
 	min-width: 90%;
 	text-align: center;
 
