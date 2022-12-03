@@ -6,12 +6,16 @@ import static com.dongnebook.domain.rental.domain.QRental.*;
 
 import java.util.List;
 import java.util.Objects;
+import java.util.Optional;
 
 import javax.persistence.EntityManager;
+import javax.persistence.LockModeType;
 
 import org.springframework.data.domain.SliceImpl;
+import org.springframework.data.jpa.repository.Lock;
 import org.springframework.stereotype.Repository;
 
+import com.dongnebook.domain.book.domain.Book;
 import com.dongnebook.domain.book.domain.BookState;
 import com.dongnebook.domain.book.dto.request.BookSearchCondition;
 import com.dongnebook.domain.book.dto.response.BookDetailResponse;
@@ -25,7 +29,6 @@ import com.dongnebook.domain.member.domain.Member;
 import com.dongnebook.domain.member.dto.response.QBookDetailMemberResponse;
 import com.dongnebook.domain.model.Location;
 
-import com.dongnebook.domain.rental.domain.QRental;
 import com.dongnebook.domain.rental.domain.RentalState;
 import com.dongnebook.global.dto.request.PageRequest;
 import com.querydsl.core.types.Expression;
@@ -46,6 +49,15 @@ public class BookQueryRepository {
 
 	private final JPAQueryFactory jpaQueryFactory;
 	private final EntityManager em;
+
+
+	public Optional<Book> findByBookIdWithMember(Long bookId){
+		return Optional.ofNullable(jpaQueryFactory.select(book)
+			.from(book)
+			.innerJoin(book.member).fetchJoin()
+			.where(book.id.eq(bookId))
+			.fetchFirst());
+	}
 
 	public BookDetailResponse getBookDetail(Long bookId, Long memberId) {
 
