@@ -39,21 +39,8 @@ function ProfilePage() {
 		navigate(`/profile/merchant/${id}`);
 	};
 
-	interface Member {
-		memberId: number;
-		name: string;
-		location: {
-			latitude: string | number;
-			longitude: string | number;
-		};
-		address: string | null;
-		totalBookCount: number;
-		avatarUrl: string | null;
-	}
-
 	// api mypage member info
 	const { getMyInfo, getPickBookList } = useMypageAPI();
-	const queryClient = useQueryClient();
 	const { data, isLoading } = useQuery({
 		queryKey: ['myprofile'],
 		queryFn: () => getMyInfo(id),
