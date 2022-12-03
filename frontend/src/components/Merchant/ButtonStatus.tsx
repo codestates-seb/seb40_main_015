@@ -11,12 +11,12 @@ const ButtonStatus = ({ status, bookId }: Props) => {
 
 	const handleRentalPageMove = (e: React.SyntheticEvent) => {
 		e.stopPropagation();
-		navigate(`/books/${bookId}/rental`);
+		navigate(`/books/${bookId}`);
 	};
 
 	const handleBookingPageMove = (e: React.SyntheticEvent) => {
 		e.stopPropagation();
-		navigate(`/books/${bookId}/booking`);
+		navigate(`/books/${bookId}`);
 	};
 	return (
 		<>
