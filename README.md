@@ -47,7 +47,7 @@
 ## 기술스택
 ![image](https://user-images.githubusercontent.com/62760166/205436492-fc83a538-b111-4478-800e-f30ef147b199.png)
 
-### 아키텍처
+### Architecture
 ![스크린샷 2022-12-03 오후 4 59 19](https://user-images.githubusercontent.com/62760166/205433155-02938f34-357a-420b-bcf0-3e859d59e414.png)
 
 ## 문서
