@@ -28,7 +28,6 @@ export interface RentalProps {
 // rentalfee type: number vs string
 
 // book detail
-//type
 export interface IBookDetail {
 	bookId: number;
 	content: string;
