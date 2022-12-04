@@ -8,6 +8,18 @@ interface Props {
 }
 
 const ButtonStatus = ({ status, bookId }: Props) => {
+	const navigate = useNavigate();
+
+	// const handleRentalPageMove = (e: React.SyntheticEvent) => {
+	// 	e.stopPropagation();
+	// 	navigate(`/books/${bookId}`);
+	// };
+
+	// const handleBookingPageMove = (e: React.SyntheticEvent) => {
+	// 	e.stopPropagation();
+	// 	navigate(`/books/${bookId}`);
+	// };
+
 	return (
 		<>
 			{status === '대여가능' && <StatusDisplay>대여 가능</StatusDisplay>}

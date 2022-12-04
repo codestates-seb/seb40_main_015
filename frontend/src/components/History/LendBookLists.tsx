@@ -8,25 +8,28 @@ import Animation from '../Loading/Animation';
 import { useEffect, useMemo } from 'react';
 import { useInView } from 'react-intersection-observer';
 
-const LentBookLists = () => {
+interface ILentBookListsProps {
+	filters: string;
+}
+
+const LentBookLists = ({ filters }: ILentBookListsProps) => {
 	const { getLendBookLists } = useHistoryAPI();
 	const [ref, inView] = useInView();
 
-	const { data, fetchNextPage, hasNextPage, isFetchingNextPage } =
-		useInfiniteQuery(
-			['lendBookList'],
-			({ pageParam = undefined }) =>
-				getLendBookLists(pageParam).then(res => res.data),
-			{
-				getNextPageParam: lastPage => {
-					return lastPage.last
-						? undefined
-						: lastPage?.content?.[lastPage.content.length - 1].rentalInfo
-								.rentalId;
-				},
-				retry: false,
+	const { data, fetchNextPage, hasNextPage } = useInfiniteQuery(
+		['lendBookList', filters],
+		({ pageParam = undefined }) =>
+			getLendBookLists(pageParam, filters).then(res => res.data),
+		{
+			getNextPageParam: lastPage => {
+				return lastPage.last
+					? undefined
+					: lastPage?.content?.[lastPage.content.length - 1].rentalInfo
+							.rentalId;
 			},
-		);
+			retry: false,
+		},
+	);
 	const lists: any = useMemo(
 		() => data?.pages.flatMap(page => page.content),
 		[data?.pages],
