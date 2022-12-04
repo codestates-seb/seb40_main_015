@@ -6,8 +6,6 @@ interface locationType {
   error?: { code: number; message: string };
 }
 
-	//test
-
 const useGeolocation2 = () => {
   const [location, setLocation] = useState<locationType>({
     loaded: false,

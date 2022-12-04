@@ -26,9 +26,6 @@ function ProfilePage() {
 	const navigate = useNavigate();
 	const [tab, curTab, handleChange] = useTabs(['찜 목록', '예약 목록']);
 	const { id } = useAppSelector(state => state.loginInfo);
-	// const [Image, setImage] = useState<string>(
-	// 	'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png',
-	// );
 
 	const handleEditPage = () => {
 		navigate('/profile/edit');
@@ -46,7 +43,6 @@ function ProfilePage() {
 		queryFn: () => getMyInfo(id),
 		retry: false,
 	});
-	// console.log('data: ', data);
 
 	useEffect(() => {
 		window.addEventListener('scroll', handleScroll);
@@ -95,7 +91,6 @@ function ProfilePage() {
 					<TabLists tabs={tab} handleChange={handleChange} />
 					{curTab === '찜 목록' && <PickBookList />}
 					{curTab === '예약 목록' && <ReservationBookList />}
-					{/* <MyList /> */}
 					<Button
 						fontSize={'small'}
 						className="logout"
@@ -189,11 +184,6 @@ const UserInfoBox = styled.div`
 		padding-left: 6px;
 		cursor: pointer;
 	}
-	/* .linkfrom {
-		&:hover {
-			color: ${props => props.theme.colors.buttonGreen};
-		}
-	} */
 `;
 
 export default ProfilePage;
