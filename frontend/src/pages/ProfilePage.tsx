@@ -59,7 +59,6 @@ function ProfilePage() {
 		queryFn: () => getMyInfo(id),
 		retry: false,
 	});
-	// console.log('data: ', data);
 
 	useEffect(() => {
 		window.addEventListener('scroll', handleScroll);

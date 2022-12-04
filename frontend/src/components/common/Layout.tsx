@@ -25,7 +25,6 @@ const Layout = () => {
 	const isPathnameIncludesNoAsidePaths = noAsidePaths.includes(
 		pathname.replace(REGEXP, ''),
 	);
-	// console.log('log: ', data);
 	useGetAccessTokenRefresh(data);
 
 	return (

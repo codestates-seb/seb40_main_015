@@ -12,6 +12,7 @@ const useGetRoomLists = () => {
 		onSuccess: data => {
 			// console.log(data);
 		},
+		cacheTime: 0,
 	});
 
 	return { roomListsData, isLoadingRoomList };

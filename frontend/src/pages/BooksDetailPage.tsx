@@ -1,18 +1,17 @@
+import styled from 'styled-components';
 import { useQuery } from '@tanstack/react-query';
-import { useNavigate, useParams } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
+import { useAppSelector } from '../redux/hooks';
 
 //conmponents
 import Title from '../components/common/Title';
 import BookDetail from '../components/Books/BookDetail';
 import Animation from '../components/Loading/Animation';
 import { Main, TitleWrapper } from '../components/Books/BookElements';
+import BookImage from '../components/Books/BookDetailimage';
 
 //hooks
 import { useBooksAPI } from '../api/books';
-import BookImage from '../components/Books/BookDetailimage';
-import notify from '../utils/notify';
-import { useAppDispatch, useAppSelector } from '../redux/hooks';
-import styled from 'styled-components';
 
 const BooksDetailPage = () => {
 	const { isLogin, id } = useAppSelector(state => state.loginInfo);
@@ -27,9 +26,6 @@ const BooksDetailPage = () => {
 	} = useQuery({
 		queryKey: [bookId, 'bookDetail'],
 		queryFn: () => getBookDetail(bookId, isLogin),
-		onSuccess: data => {
-			console.log('book detail: ', data);
-		},
 	});
 
 	return (

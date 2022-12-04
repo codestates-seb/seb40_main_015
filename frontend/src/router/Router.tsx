@@ -1,8 +1,5 @@
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import { Suspense } from 'react';
-
-// import LoginOnly from '../components/LoginOnly';
-// import Layout from '../pages/Layout';
 import Layout from '../components/common/Layout';
 import Animation from '../components/Loading/Animation';
 import {
@@ -35,8 +32,7 @@ function Router() {
 			<Suspense fallback={<Animation />}>
 				{isLogin && <NoticeIcon />}
 				<Routes>
-					{/* <Route element={<HeroSection />} /> */}
-					<Route path="" element={<MainPage />} />
+					<Route element={<MainPage />} />
 					<Route path="/" element={<Layout />}>
 						<Route index element={<MainPage />} />
 						<Route element={<LoginOnly />}>
@@ -64,7 +60,6 @@ function Router() {
 							path="profile/merchant/:merchantId"
 							element={<MerchantPage />}
 						/>
-						{/* merchant -> :userId ? */}
 					</Route>
 
 					<Route path="/login" element={<LoginPage />} />
