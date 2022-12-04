@@ -131,8 +131,8 @@ const InputWrapper = styled.div`
 const DialogBox = styled.dialog`
 	box-sizing: border-box;
 	background-color: white;
-	width: 40%;
-	min-width: 400px;
+	width: 70%;
+	max-width: 400px;
 	height: 60%;
 	border: none;
 	border-radius: 10px;
