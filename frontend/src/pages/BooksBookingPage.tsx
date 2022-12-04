@@ -51,7 +51,12 @@ const BooksBookingPage = () => {
 		},
 	});
 	// 외부에서 예약하기 페이지 접근시
-	if (state === null) return <h1>Page Not found</h1>;
+	if (state === null)
+		return (
+			<Main>
+				<h1>Page Not found</h1>
+			</Main>
+		);
 
 	const { month, day, rentalPeriod } = calcCalendarDate(state.rentalEnd);
 	// 예약 요청
