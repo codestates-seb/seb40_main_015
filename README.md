@@ -82,7 +82,7 @@
  <ul>
    <li><a href="https://www.notion.so/codestates/a6c492bb425a4ae589e870e21a7db9d6" target='_blank'>팀 노션 페이지</a></li>
    <li><a href="https://docs.google.com/spreadsheets/d/1UoY9hS5uM0awAp1wNGv6SeW9Zwq647SiNcRko21yUlg/edit#gid=0" target='_blank'>사용자 요구사항 정의서</a></li>
-   <li><a href="https://www.notion.so/codestates/API-3a5beed784544635a41bf1fa7796dd15" target='_blank'>API 명세서</a></li>
+   <li><a href="https://www.notion.so/API-3ce5b61adf944355846a561fbd11808b" target='_blank'>API 명세서</a></li>
   <li><a href="https://www.figma.com/file/LDBIyFZYFKpWtTs9rW6RX6/%EB%8F%99%EB%84%A4%EB%B6%81" target='_blank'>Figma</a></li>
  </ul>
 </br>
