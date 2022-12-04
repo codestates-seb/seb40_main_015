@@ -2,7 +2,7 @@
 # 📚동네북
 📗 우리동네 직거래 도서 대여 서비스<br />
 배포링크 : https://dongne-book.com/<br />
-QR코드 : ![](https://velog.velcdn.com/images/fejigu/post/e1960487-f1a5-4937-a787-b1721e4ab891/image.png)<br />
+
 ---
 
 ## 프로젝트 소개
@@ -20,6 +20,7 @@ QR코드 : ![](https://velog.velcdn.com/images/fejigu/post/e1960487-f1a5-4937-a7
 
  ### " 누구나 동네북 서비스를 통해 자유롭게 책을 빌려줄 수 있는 개인 서점을 가질 수 있다! "
 <br>
+QR코드 : ![](https://velog.velcdn.com/images/fejigu/post/e1960487-f1a5-4937-a787-b1721e4ab891/image.png)<br />
 
 ## 👨‍👩‍👧‍👦 팀원 소개
 <!-- ALL-CONTRIBUTORS-LIST:START - Do not remove or modify this section -->
