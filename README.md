@@ -1,7 +1,8 @@
 
 # 📚동네북
 📗 우리동네 직거래 도서 대여 서비스
-
+배포링크 : https://dongne-book.com/
+QR코드 : ![](https://velog.velcdn.com/images/fejigu/post/e1960487-f1a5-4937-a787-b1721e4ab891/image.png)
 ---
 
 ## 프로젝트 소개
