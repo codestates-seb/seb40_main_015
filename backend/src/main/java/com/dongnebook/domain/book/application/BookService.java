@@ -42,6 +42,7 @@ public class BookService {
 	private final BookQueryRepository bookQueryRepository;
 	private final MemberRepository memberRepository;
 
+
 	@Transactional
 	public Long create(BookRegisterRequest bookRegisterRequest, Long memberId) {
 
@@ -91,6 +92,10 @@ public class BookService {
 
 	public Book getByBookId(Long bookId) {
 		return bookCommandRepository.findById(bookId).orElseThrow(BookNotFoundException::new);
+	}
+
+	public Book getByBookIdWithMerchant(Long bookId) {
+		return bookQueryRepository.findByBookIdWithMember(bookId).orElseThrow(BookNotFoundException::new);
 	}
 
 	public ArrayList<BookSectorCountResponse> getSectorBookCounts(

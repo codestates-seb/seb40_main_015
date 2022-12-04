@@ -1,4 +1,4 @@
-import { Dispatch, SetStateAction, useState } from 'react';
+import { Dispatch, SetStateAction, useEffect, useState } from 'react';
 import { CustomOverlayMap } from 'react-kakao-maps-sdk';
 import styled from 'styled-components';
 
@@ -16,10 +16,16 @@ const CustomOverlay = ({
 	sector,
 	selectOverlay,
 	setSelectOverlay,
+	centerCoord,
+	current,
+	zoomLevel,
 }: {
 	sector: MarkerProps[];
 	selectOverlay: any;
 	setSelectOverlay: Dispatch<SetStateAction<any>>;
+	centerCoord: any;
+	current: any;
+	zoomLevel: number;
 }) => {
 	const [active, setActive] = useState<number>(-1);
 
@@ -39,6 +45,10 @@ const CustomOverlay = ({
 			setActive(idx);
 		}
 	};
+
+	useEffect(() => {
+		handleToggleActive(-2);
+	}, [centerCoord, current, zoomLevel]);
 
 	// console.log(sector);
 	return (

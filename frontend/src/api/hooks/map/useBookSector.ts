@@ -18,7 +18,7 @@ const useBookSector = (props: IProps) => {
 	const dispatch = useAppDispatch();
 	const level = [0, 9, 7, 5, 3, 3];
 	const { refetch: bookCurrentRefetch } = useQuery({
-		queryKey: ['bookSectorByCurrent', centerCoord],
+		queryKey: ['bookSectorByCurrent', centerCoord, zoomLevel, size],
 		queryFn: () => {
 			if (!searchInput) {
 				return [];
@@ -33,7 +33,6 @@ const useBookSector = (props: IProps) => {
 			);
 		},
 		onSuccess: data => {
-			console.log(data);
 			setBookSector(data);
 		},
 		onError: (err: any) => {
