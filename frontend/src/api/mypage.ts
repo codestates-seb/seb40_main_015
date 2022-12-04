@@ -75,11 +75,11 @@ export const useMypageAPI = () => {
 		}
 	};
 
-	// 마이페이지 - 회원정보 열람(주용님)
+	// 마이페이지 - 회원정보 열람(주용)
 	const getMemberInfo = async (id: string | undefined) =>
 		await api.get(`/member/${id}`).then(res => res.data);
 
-	// 마이페이지 - 회원정보 열람(지구)
+	// 마이페이지 - 회원정보 열람(지수)
 	const getMyInfo = async (id: string | undefined) =>
 		await api.get<Member>(`/member/${id}`).then(res => {
 			dispatch(setUserInfo(res.data));

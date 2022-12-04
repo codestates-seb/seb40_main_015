@@ -16,7 +16,6 @@ const MainPage = () => {
 const Body = styled.div`
 	transition-duration: 0.8s;
 	background-color: #016241;
-
 	body {
 		margin: 0;
 		padding: 0;
