@@ -16,31 +16,29 @@ const useBookSector = (props: IProps) => {
 	const { centerCoord, current, searchInput, zoomLevel, size } = props;
 	const [bookSector, setBookSector] = useState<any>([]);
 	const dispatch = useAppDispatch();
-
+	const level = [0, 9, 7, 5, 3, 3];
 	const { refetch: bookCurrentRefetch } = useQuery({
-		queryKey: ['bookSectorByCurrent', centerCoord],
+		queryKey: ['bookSectorByCurrent', centerCoord, zoomLevel, size],
 		queryFn: () => {
 			if (!searchInput) {
 				return [];
 			}
-			let reqZoomLevel = 7 - zoomLevel;
 			return getTotalBookQuery(
 				searchInput,
 				centerCoord.lat ? centerCoord.lat : current.lat,
 				centerCoord.lon ? centerCoord.lon : current.lon,
 				size.width,
 				size.height,
-				reqZoomLevel,
+				level[zoomLevel],
 			);
 		},
 		onSuccess: data => {
-			console.log(data);
 			setBookSector(data);
 		},
 		onError: (err: any) => {
 			// console.log(err.message);
 			if (err.message === '책 없음') {
-				notify(dispatch, '찾으시는 책이 없어요');
+				notify(dispatch, '우리 동네에는 찾으시는 책이 없어요');
 			}
 		},
 		retry: false,

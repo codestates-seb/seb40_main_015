@@ -1,4 +1,4 @@
-package com.dongnebook.domain.rental.dto.Response;
+package com.dongnebook.domain.rental.dto.response;
 
 import com.dongnebook.domain.rental.domain.Rental;
 import com.dongnebook.domain.rental.domain.RentalState;

@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import styled from 'styled-components';
-import { useAppDispatch } from '../../../../redux/hooks';
+import { useAppDispatch, useAppSelector } from '../../../../redux/hooks';
 import notify from '../../../../utils/notify';
 import Logo from './Logo';
 
@@ -46,6 +46,7 @@ const Header = () => {
 
 	const { pathname } = useLocation();
 	const dispatch = useAppDispatch();
+	const { isLogin } = useAppSelector(state => state.loginInfo);
 
 	useEffect(() => {
 		const loginOnly = ['/history', '/chats', '/profile'];
@@ -56,7 +57,8 @@ const Header = () => {
 		);
 		setMenus(newMenus);
 
-		if (loginOnly.includes(pathname)) notify(dispatch, '로그인이 필요합니다.');
+		if (!isLogin && loginOnly.includes(pathname))
+			notify(dispatch, '로그인이 필요합니다.');
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [pathname]);
 
@@ -75,9 +77,9 @@ const Header = () => {
 					);
 				})}
 			</Left>
-			<Link to="/profile">
-				<Box selected={pathname === '/profile'}>
-					<StyledP>마이페이지</StyledP>
+			<Link to={isLogin ? '/profile' : '/login'}>
+				<Box selected={pathname === '/profile' || pathname === '/login'}>
+					<StyledP>{isLogin ? '마이페이지' : '로그인'}</StyledP>
 				</Box>
 			</Link>
 		</Container>
@@ -120,13 +122,9 @@ const Box = styled.div<BoxProps>`
 `;
 
 const StyledP = styled.p`
-	font-size: 1.4rem;
+	font-size: 1.3rem;
 	font-weight: bold;
 	white-space: nowrap;
-
-	@media screen and (max-width: 1000px) {
-		font-size: 1.3rem;
-	}
 `;
 
 export default Header;

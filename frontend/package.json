@@ -50,6 +50,7 @@
 		"react-icons": "^4.6.0",
 		"react-intersection-observer": "^9.4.1",
 		"react-kakao-maps-sdk": "^1.1.5",
+		"react-page-slides": "^0.1.3",
 		"react-redux": "^8.0.5",
 		"react-router": "^6.4.3",
 		"react-router-dom": "^6.4.3",
@@ -57,7 +58,19 @@
 		"sockjs-client": "^1.6.1",
 		"styled-components": "^5.3.6",
 		"typescript": "^4.8.4",
-		"web-vitals": "^2.1.4"
+		"web-vitals": "^2.1.4",
+		"workbox-background-sync": "^5.1.4",
+		"workbox-broadcast-update": "^5.1.4",
+		"workbox-cacheable-response": "^5.1.4",
+		"workbox-core": "^5.1.4",
+		"workbox-expiration": "^5.1.4",
+		"workbox-google-analytics": "^5.1.4",
+		"workbox-navigation-preload": "^5.1.4",
+		"workbox-precaching": "^5.1.4",
+		"workbox-range-requests": "^5.1.4",
+		"workbox-routing": "^5.1.4",
+		"workbox-strategies": "^5.1.4",
+		"workbox-streams": "^5.1.4"
 	},
 	"scripts": {
 		"start": "react-scripts start",

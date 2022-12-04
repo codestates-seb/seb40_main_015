@@ -2,11 +2,12 @@ import React from 'react';
 import styled from 'styled-components';
 import Title from '../components/common/Title';
 import Button from '../components/common/Button';
+import Review from '../components/Merchant/Review';
 
 const ReviewCreatePage = () => {
 	return (
 		<>
-			<Layout>
+			{/* <Layout>
 				<Title text="리뷰 남기기" />
 				<Container>
 					<p>상인명 : </p>
@@ -15,7 +16,8 @@ const ReviewCreatePage = () => {
 					<input type="text"></input>
 				</Container>
 			</Layout>
-			<Button>리뷰 등록</Button>
+			<Button>리뷰 등록</Button> */}
+			<Review />
 		</>
 	);
 };

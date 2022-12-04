@@ -26,7 +26,7 @@ import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { useBooksAPI } from '../../api/books';
 import Button from '../common/Button';
 
-const BookDetail = ({ book, merchant }: BookDetailProps) => {
+const BookDetail = ({ book, merchant, refetchBookDetail }: BookDetailProps) => {
 	const { id, isLogin } = useAppSelector(state => state.loginInfo);
 	const { axiosCreateRoom } = useChatAPI();
 	const dispatch = useAppDispatch();
@@ -38,6 +38,10 @@ const BookDetail = ({ book, merchant }: BookDetailProps) => {
 		if (!isLogin) {
 			notify(dispatch, '로그인 후 이용이 가능합니다.');
 			navigate('/login');
+			return;
+		}
+		if (id === merchant?.merchantId) {
+			notify(dispatch, '본인에게는 채팅할 수 없습니다.');
 			return;
 		}
 		if (merchant && book) {
@@ -65,32 +69,25 @@ const BookDetail = ({ book, merchant }: BookDetailProps) => {
 
 		const result = window.confirm('대여 종료하시겠습니까?');
 		if (!result) return;
+		notify(dispatch, '해당 도서의 대여 종료 처리가 완료되었습니다.');
 		mutateDelete();
 		navigate('/books');
-		notify(dispatch, '해당 도서의 대여 종료 처리가 완료되었습니다.');
 	};
-
-	// 찜하기
-	const [active, setActive] = useState(false);
 
 	// 찜하기 post요청 쿼리
 	const queryClient = useQueryClient();
 	const { mutate: mutateWish } = useMutation({
 		mutationFn: () => postWishItem(book?.bookId),
 		onSuccess: () => {
-			queryClient.invalidateQueries(['bookDetail']);
+			queryClient.invalidateQueries([book?.bookId]);
+			refetchBookDetail?.();
 		},
 	});
 
 	const HandleWishIcon = () => {
+		book?.isDibs || notify(dispatch, '찜 목록에 추가되었습니다.');
 		mutateWish();
-		setActive(!active);
-		active || notify(dispatch, '찜 목록에 추가되었습니다.');
 	};
-
-	useEffect(() => {
-		book?.isDibs && setActive(true);
-	}, []);
 
 	return (
 		<BookDetailContainer>
@@ -107,9 +104,8 @@ const BookDetail = ({ book, merchant }: BookDetailProps) => {
 					</BookSubTitle>
 				</BookContainer>
 
-				{/* ffffff */}
 				{id && id !== merchant?.merchantId ? (
-					active ? (
+					book?.isDibs ? (
 						<WishWrapper>
 							<WishiconOn onClick={HandleWishIcon} />
 						</WishWrapper>
@@ -165,7 +161,12 @@ const BookDetail = ({ book, merchant }: BookDetailProps) => {
 				{id === merchant?.merchantId && book?.state !== '거래중단' ? (
 					<Button onClick={HandleDelete}>대여 종료</Button>
 				) : book?.state === '대여가능' ? (
-					<LinkStyled to={isLogin ? `rental` : ''}>
+					<LinkStyled
+						to={isLogin ? `rental` : ''}
+						state={{
+							bookTitle: book?.title,
+							rentalFee: book?.rentalFee,
+						}}>
 						<Button
 							onClick={() =>
 								isLogin || notify(dispatch, '로그인이 필요합니다')
@@ -179,6 +180,8 @@ const BookDetail = ({ book, merchant }: BookDetailProps) => {
 						state={{
 							rentalStart: book.rentalStart || '2023-05-01',
 							rentalEnd: book.rentalEnd || '2023-05-11',
+							bookTitle: book?.title,
+							rentalFee: book?.rentalFee,
 						}}>
 						<Button
 							onClick={() =>

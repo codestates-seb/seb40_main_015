@@ -166,7 +166,7 @@ const LinkStyled = styled.div`
 `;
 
 const ScrollEnd = styled.div`
-	background-color: ${props => props.theme.colors.grey};
+	background-color: #fbfbfb;
 	height: 10rem;
 `;
 

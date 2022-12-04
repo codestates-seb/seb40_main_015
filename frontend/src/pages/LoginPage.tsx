@@ -6,6 +6,7 @@ import Oauth from '../components/common/Oauth';
 import { useAppSelector } from '../redux/hooks';
 import { useNavigate } from 'react-router';
 import { useEffect } from 'react';
+import Header from '../components/common/PcVersion/Header/Header';
 
 const LoginPage = () => {
 	const { isLogin } = useAppSelector(state => state.loginInfo);
@@ -19,10 +20,11 @@ const LoginPage = () => {
 		<>
 			{isLogin || (
 				<StyledLoginPage>
+					<Header />
 					<Contents>
 						<Logo />
 						<LoginForm />
-						<StyledOauth />
+						{/* <StyledOauth /> */}
 						<LinkToSign
 							message="회원이 아니신가요?"
 							link="/signup"
@@ -51,6 +53,9 @@ const Contents = styled.div`
 	display: flex;
 	flex-direction: column;
 	align-items: center;
+	@media screen and (min-width: 800px) {
+		margin-top: 10rem;
+	}
 `;
 
 const StyledOauth = styled(Oauth)`

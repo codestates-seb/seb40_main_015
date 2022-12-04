@@ -1,15 +1,20 @@
 package com.dongnebook.domain.rental.repository;
 
+
+
 import com.dongnebook.domain.book.dto.response.QBookInfoResponse;
 import com.dongnebook.domain.rental.domain.Rental;
-import com.dongnebook.domain.rental.dto.Response.QRentalBookResponse;
-import com.dongnebook.domain.rental.dto.Response.QRentalInfoResponse;
-import com.dongnebook.domain.rental.dto.Response.RentalBookResponse;
+import com.dongnebook.domain.rental.domain.RentalState;
+
+import com.dongnebook.domain.rental.dto.response.QRentalBookResponse;
+import com.dongnebook.domain.rental.dto.response.QRentalInfoResponse;
+import com.dongnebook.domain.rental.dto.response.RentalBookResponse;
 import com.dongnebook.global.dto.request.PageRequest;
 import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.domain.*;
+
+import org.springframework.data.domain.SliceImpl;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -23,7 +28,7 @@ public class RentalQueryRepository {
 
     private final JPAQueryFactory jpaQueryFactory;
 
-    public SliceImpl<RentalBookResponse> findAllByMerchantIdOrderByIdDesc(Long merchantId, PageRequest pageRequest){
+    public SliceImpl<RentalBookResponse> findAllByMerchantIdOrderByIdDesc(Long merchantId, String rentalState, PageRequest pageRequest){
 
         List<RentalBookResponse> rentals = jpaQueryFactory.select(new QRentalBookResponse(
                     new QBookInfoResponse(
@@ -36,7 +41,8 @@ public class RentalQueryRepository {
                             book.description,
                             book.location,
                             book.bookState,
-                            book.member.nickname
+                            book.member.nickname,
+                            book.member.id
                     ),
                     new QRentalInfoResponse(
                             rental.id,
@@ -51,7 +57,8 @@ public class RentalQueryRepository {
                 )
                 .from(rental)
                 .where(ltRentalId(pageRequest.getIndex()),
-                        (rental.merchantId.eq(merchantId))
+                        rentalStateEq(rentalState),
+                        rental.merchantId.eq(merchantId)
                 )
                 .innerJoin(rental.book, book)
                 .innerJoin(book.member)
@@ -70,7 +77,7 @@ public class RentalQueryRepository {
         return new SliceImpl<>(rentals, pageRequest.of(), hasNext);
     }
 
-    public SliceImpl<RentalBookResponse> findAllByCustomerIdOrderByIdDesc(Long customerId, PageRequest pageRequest){
+    public SliceImpl<RentalBookResponse> findAllByCustomerIdOrderByIdDesc(Long customerId, String rentalState, PageRequest pageRequest){
 
         List<RentalBookResponse> rentals = jpaQueryFactory.select(new QRentalBookResponse(
                                 new QBookInfoResponse(
@@ -83,7 +90,8 @@ public class RentalQueryRepository {
                                         book.description,
                                         book.location,
                                         book.bookState,
-                                        book.member.nickname
+                                        book.member.nickname,
+                                        book.member.id
                                 ),
                                 new QRentalInfoResponse(
                                         rental.id,
@@ -98,6 +106,7 @@ public class RentalQueryRepository {
                 )
                 .from(rental)
                 .where(ltRentalId(pageRequest.getIndex()),
+                        rentalStateEq(rentalState),
                         (rental.customer.id.eq(customerId))
                 )
                 .innerJoin(rental.book, book)
@@ -137,6 +146,13 @@ public class RentalQueryRepository {
             return null;
         }
         return rental.id.lt(rentalId);
+    }
+
+    private BooleanExpression rentalStateEq(String rentalState){
+        if(rentalState == null){
+            return null;
+        }
+        return rental.rentalState.eq(RentalState.valueOf(rentalState));
     }
 
 }

@@ -13,7 +13,7 @@ const HistoryPage = () => {
 		<Layout>
 			<Title text="대여 목록" />
 			<TabLists tabs={tab} handleChange={handleChange} />
-			<SortButton />
+			{/* <SortButton /> */}
 			{curTab === '빌린 책' && <RentBookLists />}
 			{curTab === '빌려준 책' && <LendBookLists />}
 		</Layout>

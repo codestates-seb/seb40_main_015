@@ -164,6 +164,7 @@ const FlexBox = styled.div`
 
 	@media screen and (min-width: 800px) {
 		width: 70%;
+		top: 100px;
 	}
 `;
 

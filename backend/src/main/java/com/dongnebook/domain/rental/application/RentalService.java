@@ -2,10 +2,9 @@ package com.dongnebook.domain.rental.application;
 
 import com.dongnebook.domain.alarm.domain.AlarmService;
 import com.dongnebook.domain.alarm.domain.AlarmType;
+import com.dongnebook.domain.book.application.BookService;
 import com.dongnebook.domain.book.domain.Book;
 import com.dongnebook.domain.book.domain.BookState;
-import com.dongnebook.domain.book.exception.BookNotFoundException;
-import com.dongnebook.domain.book.repository.BookCommandRepository;
 import com.dongnebook.domain.member.domain.Member;
 import com.dongnebook.domain.member.exception.MemberNotFoundException;
 import com.dongnebook.domain.member.repository.MemberRepository;
@@ -13,7 +12,7 @@ import com.dongnebook.domain.rental.domain.Rental;
 
 import com.dongnebook.domain.rental.domain.RentalState;
 
-import com.dongnebook.domain.rental.dto.Response.RentalBookResponse;
+import com.dongnebook.domain.rental.dto.response.RentalBookResponse;
 import com.dongnebook.domain.rental.exception.*;
 
 import com.dongnebook.domain.rental.repository.RentalQueryRepository;
@@ -26,12 +25,15 @@ import com.dongnebook.global.dto.request.PageRequest;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
+import org.springframework.context.ApplicationEventPublisher;
+import org.springframework.dao.ConcurrencyFailureException;
 import org.springframework.data.domain.*;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 
+import javax.persistence.OptimisticLockException;
 
 @Slf4j
 @Service
@@ -42,21 +44,24 @@ public class RentalService {
 	private final RentalRepository rentalRepository;
 	private final AlarmService alarmService;
 	private final RentalQueryRepository rentalQueryRepository;
-	private final BookCommandRepository bookCommandRepository;
+	private final BookService bookService;
 	private final MemberRepository memberRepository;
 	private final ReservationQueryRepository reservationQueryRepository;
 	private final ReservationRepository reservationRepository;
+	private final ApplicationEventPublisher applicationEventPublisher;
 
 	@Transactional
 	public void createRental(Long bookId, Long customerId) {
 		Member customer = getMemberById(customerId);
-		Book book = getBookById(bookId);
-
+		Book book =  bookService.getByBookIdWithMerchant(bookId);
 		blockRentMyBook(customerId, book);
-		book.changeBookStateFromTo(BookState.RENTABLE, BookState.TRADING);
-		alarmService.sendAlarm(book.getMember(),book, AlarmType.RENTAL);
+
+			book.changeBookStateFromTo(BookState.RENTABLE, BookState.TRADING);
+
 		Rental rental = Rental.create(book, customer);
-		rentalRepository.save(rental);
+		applicationEventPublisher.publishEvent(new RentalCreateEvent(rental));
+
+		alarmService.sendAlarm(book.getMember(), book, AlarmType.RENTAL);
 	}
 
 	// 해당 주민이 취소하는 경우
@@ -128,20 +133,17 @@ public class RentalService {
 		}
 	}
 
-	public SliceImpl<RentalBookResponse> getRentalsByMerchant(Long merchantId, PageRequest pageRequest) {
-		return rentalQueryRepository.findAllByMerchantIdOrderByIdDesc(merchantId, pageRequest);
+	public SliceImpl<RentalBookResponse> getRentalsByMerchant(Long merchantId, String rentalState, PageRequest pageRequest) {
+		return rentalQueryRepository.findAllByMerchantIdOrderByIdDesc(merchantId, rentalState, pageRequest);
 	}
 
-	public SliceImpl<RentalBookResponse> getRentalsByCustomer(Long customerId, PageRequest pageRequest) {
-		return rentalQueryRepository.findAllByCustomerIdOrderByIdDesc(customerId, pageRequest);
+	public SliceImpl<RentalBookResponse> getRentalsByCustomer(Long customerId, String rentalState, PageRequest pageRequest) {
+		return rentalQueryRepository.findAllByCustomerIdOrderByIdDesc(customerId, rentalState, pageRequest);
 	}
 
-	private Book getBookById(Long bookId) {
-		return bookCommandRepository.findById(bookId)
-			.orElseThrow(BookNotFoundException::new);
-	}
 
 	private Member getMemberById(Long memberId) {
+		log.info("memberId={}",memberId);
 		return memberRepository.findById(memberId)
 			.orElseThrow(MemberNotFoundException::new);
 	}
@@ -152,7 +154,7 @@ public class RentalService {
 	}
 
 	private Book getBookFromRental(Rental rental) {
-		return getBookById(rental.getBook().getId());
+		return bookService.getByBookId(rental.getBook().getId());
 	}
 
 	// 상인이 본인 책을 대여하는 경우 예외 처리

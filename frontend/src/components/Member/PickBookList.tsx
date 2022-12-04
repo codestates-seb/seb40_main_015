@@ -68,11 +68,15 @@ const PickBookList = () => {
 									<img src={bookImage} alt="" width={50} height={70} />
 									<InfoWrapped>
 										<div className="list">
-											<p className="bookname">{title}</p>
+											<p className="bookname">
+												{title.length < 17 ? title : title.slice(0, 17) + '...'}
+											</p>
 											<p>{rentalFee}원</p>
 											<p>{merchantName}</p>
 										</div>
-										<ButtonStatus status={status} bookId={bookId} />
+										<ButtonWrapper>
+											<ButtonStatus status={status} bookId={bookId} />
+										</ButtonWrapper>
 									</InfoWrapped>
 								</FlexBox>
 							</Container>
@@ -110,6 +114,9 @@ const Container = styled.div`
 
 	@media (min-width: 800px) {
 		width: 800px;
+	}
+	@media (max-width: 375px) {
+		width: 300px;
 	}
 `;
 
@@ -154,10 +161,20 @@ const EmptyBox = styled.div`
 		font-weight: 600;
 	}
 `;
+
+const ButtonWrapper = styled.div`
+	/* width: 68px;
+	height: 2.4rem;
+	@media screen and (min-width: 800px) {
+		width: 80px;
+	} */
+`;
+
 // infinite scroll
 const ScrollEnd = styled.div`
 	width: 100%;
-	background-color: ${props => props.theme.colors.grey};
+	background-color: #fbfbfb;
 	height: 10rem;
 `;
+
 export default PickBookList;

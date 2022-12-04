@@ -16,10 +16,13 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.Index;
 import javax.persistence.JoinColumn;
 import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.Table;
+import javax.persistence.Version;
 
 import com.dongnebook.domain.book.dto.request.BookEditRequest;
 import com.dongnebook.domain.book.dto.request.BookRegisterRequest;
@@ -38,12 +41,17 @@ import lombok.NoArgsConstructor;
 @Entity
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
+@Table(name = "book", indexes = @Index(name = "idx_book", columnList = "latitude,longitude,book_state"))
 public class Book extends BaseTimeEntity {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "id", updatable = false)
 	private Long id;
+
+	@Version
+	@Column(name = "book_version")
+	private Long version;
 
 	@Column(name = "title", nullable = false)
 	private String title;

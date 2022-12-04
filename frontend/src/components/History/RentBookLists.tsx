@@ -36,7 +36,6 @@ const RentBookLists = () => {
 		if (inView && hasNextPage) fetchNextPage();
 	}, [inView]);
 
-	console.log('rentalbook: ', data);
 	return (
 		<Box>
 			{lists?.length ? (
@@ -59,6 +58,8 @@ const RentBookLists = () => {
 									<LendBookUserInfo
 										rentalInfo={el.rentalInfo}
 										merchantName={el.bookInfo.merchantName}
+										bookId={el.bookInfo.bookId}
+										merchantId={el.bookInfo.merchantId}
 									/>
 									<RentStatusButton
 										status={el.rentalInfo.rentalState}
@@ -74,7 +75,7 @@ const RentBookLists = () => {
 					<p>빌린 책이 없어요</p>
 				</EmptyBox>
 			)}
-			{hasNextPage ? <div ref={ref}>Loading...</div> : null}
+			{hasNextPage ? <ScrollEnd ref={ref}>Loading...</ScrollEnd> : null}
 		</Box>
 	);
 };
@@ -108,10 +109,6 @@ const Wrapper = styled.div`
 			background-color: ${props => props.theme.colors.grey};
 		}
 	}
-
-	button {
-		height: 3rem;
-	}
 `;
 
 const EmptyBox = styled.div`
@@ -126,4 +123,7 @@ const EmptyBox = styled.div`
 	}
 `;
 
+const ScrollEnd = styled.div`
+	background-color: #fbfbfb;
+`;
 export default RentBookLists;

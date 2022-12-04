@@ -132,6 +132,9 @@ const KakaoMap = (props: KakaoMapProps) => {
 							lon: map.getCenter().getLng(),
 						}),
 					);
+					setBookLists([]);
+					setMerchantLists([]);
+					setSelectOverlay(null);
 				}}
 				onDragEnd={(map: any) => {
 					dispatch(
@@ -140,6 +143,9 @@ const KakaoMap = (props: KakaoMapProps) => {
 							lon: map.getCenter().getLng(),
 						}),
 					);
+					setBookLists([]);
+					setMerchantLists([]);
+					setSelectOverlay(null);
 				}}
 				disableDoubleClick={true}
 				// onClick={() => {
@@ -172,6 +178,9 @@ const KakaoMap = (props: KakaoMapProps) => {
 						sector={merchantSector}
 						selectOverlay={selectOverlay}
 						setSelectOverlay={setSelectOverlay}
+						centerCoord={centerCoord}
+						current={current}
+						zoomLevel={zoomLevel}
 					/>
 				)}
 				{bookSector.length && (
@@ -179,6 +188,9 @@ const KakaoMap = (props: KakaoMapProps) => {
 						sector={bookSector}
 						selectOverlay={selectOverlay}
 						setSelectOverlay={setSelectOverlay}
+						centerCoord={centerCoord}
+						current={current}
+						zoomLevel={zoomLevel}
 					/>
 				)}
 				{hoverList && <CustomOverlayHover hoverList={hoverList} />}
@@ -254,6 +266,7 @@ const Search = styled.div<SearchProps>`
 		margin: 0 auto;
 		left: 0;
 		right: 0;
+		bottom: 0;
 	}
 `;
 
