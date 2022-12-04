@@ -17,6 +17,7 @@ const OPTIONS = [
 
 const SortButton = ({ setFilters }: IsetFilter) => {
 	const handleOption = (e: React.ChangeEvent<HTMLSelectElement>) => {
+		// switch
 		e.target.value === '전체' && setFilters('');
 		e.target.value === '거래중' && setFilters('TRADING');
 		e.target.value === '대여중' && setFilters('BEING_RENTED');
