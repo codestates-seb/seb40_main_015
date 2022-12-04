@@ -36,7 +36,6 @@ const BooksBookingPage = () => {
 	const [isCheckedFee, setIsCheckedFee] = useState(false);
 
 	const { state } = useLocation() as LinkProps;
-	console.log(state);
 	const navigate = useNavigate();
 	const { bookId } = useParams();
 	const { postBookBooking } = useBooksAPI();
