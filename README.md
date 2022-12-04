@@ -22,7 +22,7 @@
 
 <br />
 
-## 🖥 QR 코드
+## 🖥 동네북 QR 코드
 ![](https://velog.velcdn.com/images/fejigu/post/e1960487-f1a5-4937-a787-b1721e4ab891/image.png)
 
 <br />
