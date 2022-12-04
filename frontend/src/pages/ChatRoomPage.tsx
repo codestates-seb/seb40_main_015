@@ -141,8 +141,8 @@ const ChatRoomPage = () => {
 
 	return (
 		<Container>
-			<Title text="대화내역" marginBottom={false} />
 			<TopBox>
+				<Title text="대화내역" marginBottom={false} />
 				<BookInfo
 					bookState={bookState}
 					bookUrl={bookUrl}
@@ -246,7 +246,6 @@ const TopBox = styled.div`
 	top: 0;
 	background-color: white;
 	@media screen and (min-width: 800px) {
-		top: 80px;
 		width: 800px;
 		border: 1px solid #eaeaea;
 		border-bottom: none;
