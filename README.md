@@ -1,8 +1,26 @@
 
 # 📚동네북
-📗 우리동네 직거래 도서 대여 서비스 
+📗 우리동네 직거래 도서 대여 서비스
 
 ---
+
+## 프로젝트 소개
+![스크린샷 2022-12-03 오후 7 44 41](https://user-images.githubusercontent.com/62760166/205436979-a63c63a0-7c61-4fea-93e8-829937db006b.png)
+
+ 한 권의 책을 소비할 때 우리가 생각해봐야 할 비용은 책의 가격뿐만 아니라 그것을 오랫동안 보관할 공간까지도 고려해야 합니다.
+
+ 책을 읽는 행위는 일종의 체험 활동이라고 볼 수 있는데요, 대부분의 사람들은 책을 여러번 반복하여 읽지는 않죠, 책 중에서도 특히 만화책이 그렇습니다.
+
+ 우리가 어린 시절 즐겨 읽었던 만화책은 실물 책을 구매해야합니다. 이 만화책은 그 권수가 상당하죠. 제가 좋아하는 일본만화 원피스의 경우에는 권 수가 무려 100권이 넘습니다. 가격은 둘 째 치더라도 이를 보관할 공간을 확보하는 것이 쉽지 않죠.
+
+ 그런데 만약 100권의 책을 구매하고 그것을 내 공간이 아닌 다른 사람의 공간에 보관하는 것은 어떨까요? 그것도 돈을 받으면서 말이죠. 
+ 
+ 이러한 생각에서 시작된 것이 동네북 프로젝트입니다.
+
+ 본인이 구매해서 가지고 있는 도서를 통해 수익을 얻을 수 있는 개인 대여점을 갖게되고, 타인은 구매하지 않고도 적은 돈으로 여러권의 책을 읽을 수 있게 해보자는 목적으로 C2C 도서대여 플랫폼 서비스를 만들게 되었습니다.
+
+ ### " 누구나 동네북 서비스를 통해 자유롭게 책을 빌려줄 수 있는 개인 서점을 가질 수 있다! "
+<br>
 
 ## 👨‍👩‍👧‍👦 팀원 소개
 <!-- ALL-CONTRIBUTORS-LIST:START - Do not remove or modify this section -->
@@ -24,4 +42,25 @@
 </table>
 <br />
 <br />
+
 <br />
+
+## 기술스택
+![image](https://user-images.githubusercontent.com/62760166/205436492-fc83a538-b111-4478-800e-f30ef147b199.png)
+
+## 아키텍쳐
+![스크린샷 2022-12-03 오후 4 59 19](https://user-images.githubusercontent.com/62760166/205433155-02938f34-357a-420b-bcf0-3e859d59e414.png)
+
+## 문서
+ <ul>
+   <li><a href="https://www.notion.so/codestates/a6c492bb425a4ae589e870e21a7db9d6" target='_blank'>팀 노션 페이지</a></li>
+   <li><a href="https://docs.google.com/spreadsheets/d/1UoY9hS5uM0awAp1wNGv6SeW9Zwq647SiNcRko21yUlg/edit#gid=0" target='_blank'>사용자 요구사항 정의서</a></li>
+   <li><a href="https://www.notion.so/codestates/API-3a5beed784544635a41bf1fa7796dd15" target='_blank'>API 명세서</a></li>
+  <li><a href="https://www.figma.com/file/LDBIyFZYFKpWtTs9rW6RX6/%EB%8F%99%EB%84%A4%EB%B6%81" target='_blank'>Figma</a></li>
+ </ul>
+
+
+## 깃 컨벤션
+![image](https://user-images.githubusercontent.com/62760166/205436829-7d580b00-03c7-4fc9-94ca-af2804d94c43.png)
+
+

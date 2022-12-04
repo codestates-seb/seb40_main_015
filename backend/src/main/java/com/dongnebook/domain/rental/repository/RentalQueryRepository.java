@@ -1,8 +1,11 @@
 package com.dongnebook.domain.rental.repository;
 
+
+
 import com.dongnebook.domain.book.dto.response.QBookInfoResponse;
 import com.dongnebook.domain.rental.domain.Rental;
 import com.dongnebook.domain.rental.domain.RentalState;
+
 import com.dongnebook.domain.rental.dto.response.QRentalBookResponse;
 import com.dongnebook.domain.rental.dto.response.QRentalInfoResponse;
 import com.dongnebook.domain.rental.dto.response.RentalBookResponse;
@@ -10,7 +13,8 @@ import com.dongnebook.global.dto.request.PageRequest;
 import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.domain.*;
+
+import org.springframework.data.domain.SliceImpl;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;

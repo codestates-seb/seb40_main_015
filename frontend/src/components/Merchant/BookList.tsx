@@ -78,7 +78,7 @@ const BookList = ({ merchantId }: { merchantId?: string }) => {
 				})
 			) : (
 				<EmptyBox>
-					<p>등록한 책이 없어요</p>
+					<p>대여 가능한 책이 없어요</p>
 				</EmptyBox>
 			)}
 			{hasNextPage ? <ScrollEnd ref={ref}>Loading...</ScrollEnd> : null}
