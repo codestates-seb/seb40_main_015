@@ -1,0 +1,68 @@
+Spring:
+  h2:
+    console:
+      enabled: true
+      path: /h2
+      settings:
+        web-allow-others: true
+  servlet:
+    multipart:
+      max-file-size: 2MB
+      max-request-size: 2MB
+#    datasource:
+#      url : jdbc:h2:mem:test
+  datasource:
+      url: jdbc:mysql://localhost:3306/root?characterEncoding=UTF-8&serverTimezone=Asia/Seoul
+      username: root
+      password: asdf1234
+  jpa:
+    defer-datasource-initialization: true
+    open-in-view: false
+    hibernate:
+      ddl-auto: create  # (1) 스키마 자동 생성
+      type: trace
+    properties:
+      hibernate:
+        format_sql: true  # (3) SQL pretty print
+  cache:
+    type: redis
+  redis:
+    host: localhost
+    port: 6379
+  security:
+    oauth2:
+      client:
+        registration:
+          google:
+            clientId: ${GOOGLE_OAUTH2_CLIENT_ID}
+            clientSecret: ${GOOGLE_OAUTH2_CLIENT_SECRET}
+            scope:
+              - profile
+              - email
+jwt:
+  secret-key: ${JWT_SECRET_KEY}
+  access-token-expiration-minutes: 30
+  refresh-token-expiration-minutes: 20160
+
+decorator:
+  datasource:
+    p6spy:
+      enable-logging: true
+
+server:
+  servlet:
+    encoding:
+      force-response: true
+
+cloud:
+  aws:
+    credentials:
+      access-key: ${S3_ACCESS_KEY}
+      secret-key: ${S3_SECRET_KEY}
+    s3:
+      bucket: codestates-dongnebook
+    region:
+      static: ap-northeast-2
+    stack:
+      auto: false
+
