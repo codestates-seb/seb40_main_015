@@ -28,7 +28,10 @@ const NoticeItem = ({ noticeData }: NoticeItemType) => {
 	};
 
 	return (
-		<>
+		<Container>
+			{noticeData && noticeData.length === 0 && (
+				<NoData>도착한 알림이 없어요</NoData>
+			)}
 			{noticeData?.map(el => {
 				const message = noticeMessages[el.alarmType];
 				return (
@@ -51,9 +54,14 @@ const NoticeItem = ({ noticeData }: NoticeItemType) => {
 					</StyledNoticeItem>
 				);
 			})}
-		</>
+		</Container>
 	);
 };
+
+const Container = styled.div`
+	display: flex;
+	flex-direction: column;
+`;
 
 const StyledNoticeItem = styled.div<{ isRead: boolean }>`
 	width: 90vw;
@@ -76,6 +84,14 @@ const StyledNoticeItem = styled.div<{ isRead: boolean }>`
 			color: black;
 		}
 	}
+`;
+
+const NoData = styled.div`
+	height: 50vh;
+	font-size: 1.5625rem;
+	font-weight: bold;
+	text-align: center;
+	margin-top: 30vh;
 `;
 
 const IconWrapper = styled.div`

@@ -1,12 +1,10 @@
 import { useState, useEffect } from 'react';
-import Geocode from 'react-geocode'
+
 interface locationType {
   loaded: boolean;
   coordinates?: { latitude: number; longitude: number };
   error?: { code: number; message: string };
 }
-
-	//test
 
 const useGeolocation2 = () => {
   const [location, setLocation] = useState<locationType>({

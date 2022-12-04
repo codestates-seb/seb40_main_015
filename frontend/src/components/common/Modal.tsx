@@ -18,7 +18,6 @@ function Modal({
 	const dispatch = useAppDispatch();
 
 	const { latitude, longitude }: any = location.coordinates;
-
 	const [ad, setAd] = useState('');
 
 	useEffect(() => {
@@ -56,7 +55,6 @@ function Modal({
 						className="btn1"
 						onClick={() => {
 							dispatch(updateUserInfo({ key: 'address', value: ad }));
-
 							onClickToggleModal();
 						}}>
 						예
@@ -132,7 +130,7 @@ const DialogBox = styled.dialog`
 	}
 
 	.currentplace {
-		padding-bottom: 12px;
+		padding-bottom: 5px;
 		width: 20rem;
 		height: 2rem;
 		background-color: rgb(43, 103, 74);

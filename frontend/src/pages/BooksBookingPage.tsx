@@ -50,13 +50,6 @@ const BooksBookingPage = () => {
 			notify(dispatch, '이미 대여 신청한 도서 입니다.');
 		},
 	});
-	// 외부에서 예약하기 페이지 접근시
-	if (state === null)
-		return (
-			<Main>
-				<h1>Page Not found</h1>
-			</Main>
-		);
 
 	const { month, day, rentalPeriod } = calcCalendarDate(state.rentalEnd);
 	// 예약 요청
@@ -68,6 +61,14 @@ const BooksBookingPage = () => {
 		const isTrue = window.confirm('예약 신청 하시겠습니까?');
 		isTrue && mutate();
 	};
+
+	// 외부에서 예약하기 페이지 접근시
+	if (state === null)
+		return (
+			<Main>
+				<h1>Page Not found</h1>
+			</Main>
+		);
 
 	return (
 		<Main>
