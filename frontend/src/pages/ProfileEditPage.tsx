@@ -12,13 +12,8 @@ import { updateUserInfo } from '../redux/slice/userInfoSlice';
 import Avatar from '../api/hooks/profileedit/Avatar';
 import { useFixInfo } from '../api/hooks/profileedit/useFixInfo';
 import useGeolocation2 from '../hooks/useGeoLocation2';
-import useGeoLocation from '../hooks/useGeoLocation';
-import IdSection from '../components/SignUp/IdSection';
-import { throttle } from 'lodash';
-import ScrollToTop from '../components/common/ScrollToTop';
 
 function ProfileEditPage() {
-	const goNotify = (message: string) => notify(dispatch, message);
 	//현재 위치 수정
 	const [isOpenModal, setOpenModal] = useState<boolean>(false);
 	const onClickToggleModal = useCallback(() => {
@@ -109,7 +104,6 @@ function ProfileEditPage() {
 								disabled={false}
 								onClick={() => {
 									onClickToggleModal();
-									// handleCurrentLocationMove();
 								}}
 								readOnly
 							/>
@@ -183,7 +177,6 @@ const ProfileBox = styled.div`
 	top: 22%;
 	padding: 1.2rem;
 	border: 1px solid #eaeaea;
-	/* background-color: rgb(244, 243, 236); */
 	background-color: #016241;
 	padding-top: 50px;
 	padding-bottom: 50px;
@@ -219,7 +212,6 @@ const ProfileBox = styled.div`
 		border: 0.5px solid grey;
 		cursor: pointer;
 		:hover {
-			/* border: 2px solid ${props => props.theme.colors.buttonGreen}; */
 			border: 3px solid white;
 		}
 	}

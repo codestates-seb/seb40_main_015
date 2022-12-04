@@ -107,7 +107,7 @@ class RentalServiceTest {
 
 	}
 
-	@Test
+	//@Test
 	void createRental() throws InterruptedException {
 		for (Member member : memberRepository.findAll()) {
 			System.out.println(member.getId());
