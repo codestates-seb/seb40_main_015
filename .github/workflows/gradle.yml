@@ -11,6 +11,9 @@ on:
   push:
     paths: [ 'backend/**' ]
     branches: [ 'Infra/be/AutoDeploy' ]
+  pull_request::
+    paths: [ 'backend/**' ]
+    branches: [ 'Infra/be/AutoDeploy' ]
 
 permissions:
   contents: read
