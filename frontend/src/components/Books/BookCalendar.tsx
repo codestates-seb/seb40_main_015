@@ -3,37 +3,6 @@ import Calendar from 'react-calendar';
 import 'react-calendar/dist/Calendar.css';
 import { useState } from 'react';
 
-//책 상태: 대여가능
-// const today = new Date();
-// const marks = {
-// 	rentalStatedAt: today.toISOString(),
-// 	rentalDeadline: new Date(
-// 		today.getFullYear(),
-// 		today.getMonth(),
-// 		today.getDate() + 9,
-// 	).toISOString(),
-// };
-
-//날짜형식: https://gurtn.tistory.com/65
-
-// 책 상태: 대여중
-// const mark = {
-// 	rentalStatedAt: '2022-11-24T00:17:34.045376400',
-// 	rentalDeadline: '2022-12-03T23:59:59.045376400',
-// };
-
-// const rentalPeriod = convertDate(marks.rentalStatedAt, marks.rentalDeadline);
-
-// const month = rentalPeriod
-// 	.split('~')
-// 	.map(el => el.trim().slice(5))
-// 	.map(el => +el.split('.')[0]);
-
-// const day = rentalPeriod
-// 	.split('~')
-// 	.map(el => el.trim().slice(5))
-// 	.map(el => +el.split('.')[1]);
-
 const rentalCalc = (date: Date, month: number[], day: number[]): string => {
 	const thisYear = new Date().getFullYear();
 	const y = date.getFullYear();

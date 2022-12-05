@@ -90,6 +90,12 @@ const Container = styled.div`
 		padding-bottom: 850px;
 	}
 
+	.skip {
+		color: white;
+		font-size: 15px;
+		padding-bottom: 850px;
+	}
+
 	body {
 		display: flex;
 		align-items: center;

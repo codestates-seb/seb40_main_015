@@ -1,10 +1,12 @@
 import styled from 'styled-components';
 import { Link, useNavigate } from 'react-router-dom';
-
-// types
-import { BookDetailProps } from './type';
+import { useAppDispatch, useAppSelector } from '../../redux/hooks';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { HiHeart, HiOutlineHeart } from 'react-icons/hi';
 
 //components
+import notify from '../../utils/notify';
+import Button from '../common/Button';
 import {
 	BookDsc,
 	BookInfo,
@@ -17,14 +19,13 @@ import {
 	BookRentalInfo,
 	LinkStyled,
 } from './BookElements';
-import { useAppDispatch, useAppSelector } from '../../redux/hooks';
-import notify from '../../utils/notify';
+
+// hooks
 import { useChatAPI } from '../../api/chat';
-import { HiHeart, HiOutlineHeart } from 'react-icons/hi';
-import { useEffect, useState } from 'react';
-import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { useBooksAPI } from '../../api/books';
-import Button from '../common/Button';
+
+// types
+import { BookDetailProps } from './type';
 
 const BookDetail = ({ book, merchant, refetchBookDetail }: BookDetailProps) => {
 	const { id, isLogin } = useAppSelector(state => state.loginInfo);

@@ -17,7 +17,9 @@ const loginInfoSlice = createSlice({
 	name: 'loginInfo',
 	initialState,
 	reducers: {
-		login: (_, action: PayloadAction<InitProps>) => action.payload,
+		login: (state, action: PayloadAction<InitProps>) => {
+			return { ...state, ...action.payload };
+		},
 		logout: () => initialState,
 	},
 });

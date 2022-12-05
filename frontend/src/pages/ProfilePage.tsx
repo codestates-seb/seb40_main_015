@@ -2,7 +2,7 @@ import styled from 'styled-components';
 import { useNavigate } from 'react-router-dom';
 import { HiOutlinePencilAlt } from 'react-icons/hi';
 import { useDispatch } from 'react-redux';
-import { useQuery, useQueryClient } from '@tanstack/react-query';
+import { useQuery } from '@tanstack/react-query';
 import { useAppSelector } from '../redux/hooks';
 
 // component
@@ -18,7 +18,7 @@ import { useMypageAPI } from '../api/mypage';
 import useTabs from '../hooks/useTabs';
 // etc
 import { logout } from '../redux/slice/userSlice';
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import { FiExternalLink } from 'react-icons/fi';
 
 function ProfilePage() {
@@ -26,9 +26,6 @@ function ProfilePage() {
 	const navigate = useNavigate();
 	const [tab, curTab, handleChange] = useTabs(['찜 목록', '예약 목록']);
 	const { id } = useAppSelector(state => state.loginInfo);
-	// const [Image, setImage] = useState<string>(
-	// 	'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png',
-	// );
 
 	const handleEditPage = () => {
 		navigate('/profile/edit');
@@ -39,27 +36,13 @@ function ProfilePage() {
 		navigate(`/profile/merchant/${id}`);
 	};
 
-	interface Member {
-		memberId: number;
-		name: string;
-		location: {
-			latitude: string | number;
-			longitude: string | number;
-		};
-		address: string | null;
-		totalBookCount: number;
-		avatarUrl: string | null;
-	}
-
 	// api mypage member info
 	const { getMyInfo, getPickBookList } = useMypageAPI();
-	const queryClient = useQueryClient();
 	const { data, isLoading } = useQuery({
 		queryKey: ['myprofile'],
 		queryFn: () => getMyInfo(id),
 		retry: false,
 	});
-	// console.log('data: ', data);
 
 	useEffect(() => {
 		window.addEventListener('scroll', handleScroll);
@@ -108,7 +91,6 @@ function ProfilePage() {
 					<TabLists tabs={tab} handleChange={handleChange} />
 					{curTab === '찜 목록' && <PickBookList />}
 					{curTab === '예약 목록' && <ReservationBookList />}
-					{/* <MyList /> */}
 					<Button
 						fontSize={'small'}
 						className="logout"
@@ -202,11 +184,6 @@ const UserInfoBox = styled.div`
 		padding-left: 6px;
 		cursor: pointer;
 	}
-	/* .linkfrom {
-		&:hover {
-			color: ${props => props.theme.colors.buttonGreen};
-		}
-	} */
 `;
 
 export default ProfilePage;
