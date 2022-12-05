@@ -17,7 +17,7 @@ permissions:
 
 env:
   S3_BUCKET_NAME: github-actions-bucket-dongnebook
-  RESOURCE_PATH: ./server/src/main/resouce/application-rds.yml
+  RESOURCE_PATH: ./backend/src/main/resouce/application-rds.yml
   RESOURCE_PATH_KAKAO: ./backend/src/main/java/com/dongnebook/domain/book/ui/bookController.java
 
 
