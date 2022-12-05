@@ -55,3 +55,10 @@ jobs:
         
       - name: Upload to S3
         run: aws s3 cp --region ap-northeast-2 ./main-015-deploy.zip s3://$S3_BUCKET_NAME/main-015-deploy.zip
+        
+      - name: Code Deploy
+        run: >
+          aws deploy create-deployment --application-name dongnebook-deploy
+          --deployment-config-name CodeDeployDefault.AllAtOnce
+          --deployment-group-name Deploy-dongnebook-EC2-sub
+          --s3-location bucket=$S3_BUCKET_NAME,bundleType=zip,key=main-015-deploy.zip
