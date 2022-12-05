@@ -1,43 +1,15 @@
 import styled from 'styled-components';
 import BookItem from '../Books/BookItem';
-import { useHistoryAPI } from '../../api/history';
-import { useInfiniteQuery } from '@tanstack/react-query';
-import Animation from '../Loading/Animation';
 import LendBookUserInfo from './LendBookUserInfo';
 import RentStatusButton from './RentStatusButton';
-import { useEffect, useMemo } from 'react';
-import { useInView } from 'react-intersection-observer';
+import useRentalBookLists from '../../api/hooks/history/useRentalBookLists';
 
 interface IRentBookListsProps {
 	filters: string;
 }
 
 const RentBookLists = ({ filters }: IRentBookListsProps) => {
-	const { getRentalBookLists } = useHistoryAPI();
-	const [ref, inView] = useInView();
-
-	const { data, fetchNextPage, hasNextPage } = useInfiniteQuery(
-		['rentBookList', filters],
-		({ pageParam = undefined }) =>
-			getRentalBookLists(pageParam, filters).then(res => res.data),
-		{
-			getNextPageParam: lastPage => {
-				return lastPage.last
-					? undefined
-					: lastPage?.content?.[lastPage.content.length - 1].rentalInfo
-							.rentalId;
-			},
-			retry: false,
-		},
-	);
-	const lists: any = useMemo(
-		() => data?.pages.flatMap(page => page.content),
-		[data?.pages],
-	);
-
-	useEffect(() => {
-		if (inView && hasNextPage) fetchNextPage();
-	}, [inView]);
+	const { lists, hasNextPage, ref } = useRentalBookLists(filters);
 
 	return (
 		<Box>
