@@ -42,7 +42,7 @@ const LoginForm = () => {
 
 			//29min, accesstoken invalidate
 			setTimeout(() => {
-				dispatch(login({ ...data, accessToken: 'Bearer ', isLogin: true }));
+				dispatch(login({ accessToken: 'Bearer ', isLogin: true }));
 			}, 1000 * 60 * 29);
 		},
 		onError: res => {
