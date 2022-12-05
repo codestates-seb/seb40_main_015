@@ -87,6 +87,15 @@ const LeftContent = styled.div`
 	p {
 		font-weight: bold;
 		font-size: 1.3rem;
+		word-break: break-word;
+		max-width: 30rem;
+		overflow: hidden;
+		text-overflow: ellipsis;
+		display: -webkit-box;
+		line-height: 1.3rem;
+		max-height: 3rem;
+		-webkit-line-clamp: 2;
+		-webkit-box-orient: vertical;
 	}
 `;
 
