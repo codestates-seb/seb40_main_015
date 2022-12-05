@@ -28,8 +28,6 @@ const BooksDetailPage = () => {
 		queryFn: () => getBookDetail(bookId, isLogin),
 	});
 
-	console.log(data);
-
 	return (
 		<Main>
 			<TitleWrapper>
