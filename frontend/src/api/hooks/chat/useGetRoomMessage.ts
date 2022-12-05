@@ -16,7 +16,11 @@ const useGetRoomMessage = (roomId: number | string) => {
 	const [messageList, setMessageList] = useState<any[]>([]);
 	const [myInfo, setMyInfo] = useState<Member>();
 	const [receiverInfo, setReceiverInfo] = useState<Member>();
-	const { data: messageData, refetch } = useQuery({
+	const {
+		data: messageData,
+		refetch,
+		isLoading,
+	} = useQuery({
 		queryKey: ['message', roomId],
 		queryFn: () => {
 			return getRoomAllMessage(roomId);
@@ -24,7 +28,7 @@ const useGetRoomMessage = (roomId: number | string) => {
 		onSuccess: data => {
 			setChatList(data);
 			setMessageList(data.chatResponses);
-			data.members.map((member: any) => {
+			data.members.forEach((member: any) => {
 				if (member.memberId === id) {
 					setMyInfo(member);
 				} else {
@@ -42,6 +46,7 @@ const useGetRoomMessage = (roomId: number | string) => {
 		setMessageList,
 		myInfo,
 		receiverInfo,
+		isLoading,
 	};
 };
 

@@ -39,7 +39,7 @@ interface ContainerProps {
 const Container = styled.div<ContainerProps>`
 	display: flex;
 	justify-content: flex-end;
-	align-items: flex-end;
+	align-items: flex-start;
 	margin-bottom: 0.2rem;
 	&:last-child {
 		margin-bottom: 1rem;
@@ -89,6 +89,7 @@ const MessageArea = styled.div`
 		font-size: 1.2rem;
 		line-height: 1.5rem;
 		color: white;
+		word-break: break-word;
 	}
 `;
 
