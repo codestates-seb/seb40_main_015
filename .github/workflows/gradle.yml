@@ -60,7 +60,7 @@ jobs:
         with:
           files: ${{ env.RESOURCE_PATH_KAKAO }}
         env:
-          KAKAO_KEY: ${{ secrets.KAKAO_KEY }}
+          KAKAO_KEYS: ${{ secrets.KAKAO_KEY }}
         
         
       - name: Make zip file
