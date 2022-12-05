@@ -35,7 +35,7 @@ dependencies {
     implementation 'org.springframework.cloud:spring-cloud-starter-aws:2.2.6.RELEASE'
     implementation 'com.fasterxml.jackson.datatype:jackson-datatype-jsr310'
     implementation 'com.fasterxml.jackson.core:jackson-databind'
-    implementation 'org.springframework.cloud:spring-cloud-starter-aws-parameter-store-config'
+    implementation 'org.springframework.cloud:spring-cloud-starter-aws-parameter-store-config:2.2.3.RELEASE'
 
 //    runtimeOnly 'com.h2database:h2'
     implementation "com.h2database:h2"
