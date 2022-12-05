@@ -33,7 +33,7 @@ const RentStatusButton = ({ status, merchantName, rental }: Props) => {
 		switch (status) {
 			case 'TRADING':
 				const action = (e?.target as HTMLButtonElement).textContent;
-				if (action === '취소 하기') {
+				if (action === '취소하기') {
 					const istrue = window.confirm(`${id}님과의 거래를 취소하시겠습니까?`);
 					istrue && cancel();
 				}

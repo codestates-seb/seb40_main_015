@@ -42,9 +42,13 @@ const BooksRentalPage = () => {
 	const { postBookRental } = useBooksAPI();
 	const { mutate } = useMutation({
 		mutationFn: () => postBookRental(bookId),
-		onSuccess: () => {
+		onSuccess: res => {
+			console.log('rental res: ', res);
 			notify(dispatch, '대여 신청이 완료되었습니다.');
 			navigate('/history');
+		},
+		onError: err => {
+			console.log('rental error: ', err);
 		},
 	});
 
