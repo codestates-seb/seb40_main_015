@@ -31,13 +31,13 @@ const ButtonStatus = ({ status, bookId }: Props) => {
 };
 
 const StatusDisplay = styled.div`
-	font-size: 0.7;
+	font-size: 0.7rem;
 	color: white;
 	background-color: ${props => props.theme.colors.main};
 	border-radius: 5px;
 	border: none;
-	padding: 5px 15px;
-	width: 4rem;
+	padding: 7px 15px;
+	width: 3.1rem;
 	text-align: center;
 `;
 
