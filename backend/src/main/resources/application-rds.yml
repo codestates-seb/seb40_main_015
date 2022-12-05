@@ -39,6 +39,8 @@ Spring:
             scope:
               - profile
               - email
+  profiles:
+    include: API-KEY
 jwt:
   secret-key: ${JWT_SECRET_KEY}
   access-token-expiration-minutes: 30
