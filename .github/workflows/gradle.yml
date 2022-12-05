@@ -16,7 +16,7 @@ permissions:
   contents: read
 
 env:
-  S3_BUCKET_NAME: github-actions-dongnebook
+  S3_BUCKET_NAME: github-actions-bucket-dongnebook
 
 
 jobs:
