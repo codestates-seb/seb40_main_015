@@ -39,7 +39,6 @@ Spring:
               - email
   config:
     location: classpath:kakao.yml
-    import: 'aws-parameterstore:'
 jwt:
   secret-key: ${JWT_SECRET_KEY}
   access-token-expiration-minutes: 30
@@ -69,10 +68,3 @@ cloud:
 
 kakao:
   KAKAO_KEY: ${KAKAO_KEY}
-
-aws:
-  paramstore:
-    enabled: true
-    prefix: /config
-    name: EC2_codestates_mainPJ_sub
-    profileSeparator: _
