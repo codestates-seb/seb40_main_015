@@ -1,30 +1,38 @@
-import React from 'react';
 import styled from 'styled-components';
+import HeroSectionDeskTop from '../components/HeroSection/HeroSectionDeskTop';
+import MobileHeroSection from '../components/HeroSection/MobileHeroSection';
 
 const MainPage = () => {
 	return (
 		<div>
 			<Body>
-				<div className="phone"></div>
+				<HeroSectionDeskTop />
+				<MobileHeroSection />
 			</Body>
 		</div>
 	);
 };
 
 const Body = styled.div`
+	transition-duration: 0.8s;
 	background-color: #016241;
-	width: 100vw;
-	height: 100vh;
+	body {
+		margin: 0;
+		padding: 0;
+	}
 
-	.phone {
-		background-color: #ffffff;
-		width: 307px;
-		height: 664px;
-		border-radius: 20px;
-		align-items: center;
-		justify-content: center;
-		display: flex;
+	.heroimage {
+		transition-duration: 0.8s;
+		body {
+			margin: 0;
+			padding: 0;
+		}
+		img {
+			width: 100%;
+			height: 375px;
+			height: 100%;
+			text-align: center;
+		}
 	}
 `;
-
 export default MainPage;

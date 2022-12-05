@@ -18,7 +18,7 @@ const TabLists = (props: TabListsProps) => {
 						onClick={() => {
 							handleChange(id);
 						}}>
-						{name}
+						<span>{name}</span>
 					</Tab>
 				);
 			})}
@@ -33,6 +33,7 @@ const Container = styled.div`
 	display: flex;
 	justify-content: space-evenly;
 	margin: 1rem 0;
+	max-width: 800px;
 `;
 
 interface TabProps {
@@ -40,21 +41,28 @@ interface TabProps {
 }
 
 const Tab = styled.button<TabProps>`
-	padding: 0.8rem 5rem;
-	width: 40%;
-	max-width: 300px;
+	width: 45%;
+	height: 3rem;
+	max-width: 380px;
 	background-color: ${props =>
 		props.selected
 			? props.theme.colors.buttonGreen
 			: props.theme.colors.buttonGrey};
 	border: none;
 	border-radius: 5px;
-	box-shadow: nonoe;
+	box-shadow: none;
 	color: ${props => (props.selected ? '#FFFFFF' : '#000000')};
 	cursor: pointer;
 	font-size: ${props => props.theme.fontSizes.paragraph};
 	:hover {
 		background-color: ${props =>
 			props.selected ? props.theme.colors.buttonHoverGreen : '#CFCFCF'};
+	}
+	.span {
+		width: 100%;
+	}
+	@media (min-width: 800px) {
+		width: 450px;
+		justify-content: center;
 	}
 `;

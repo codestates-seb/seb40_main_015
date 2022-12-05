@@ -2,12 +2,12 @@ package com.dongnebook.domain.rental.domain;
 
 import com.dongnebook.domain.book.domain.Book;
 import com.dongnebook.domain.member.domain.Member;
-import lombok.AccessLevel;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import com.dongnebook.domain.rental.exception.CanNotChangeStateException;
+
+import lombok.*;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
@@ -15,13 +15,19 @@ import java.time.LocalDateTime;
 @Entity
 @Getter
 @Table(name = "rental")
+@EntityListeners(AuditingEntityListener.class)
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Rental {
+    // @Version
+    // @Column(name = "rental_version")
+    // private Long version;
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", updatable = false)
     private Long id;
+
+
 
     @CreatedDate
     @Column(name = "rental_started_at", nullable = false)
@@ -30,42 +36,82 @@ public class Rental {
     @Column(name = "rental_deadLine", nullable = false)
     private LocalDateTime rentalDeadLine;
 
-    @LastModifiedDate
     @Column(name = "rental_returned_at")
     private LocalDateTime rentalReturnedAt;
 
     @Column(name = "canceled_at")
     private LocalDateTime canceledAt;
 
+    @LastModifiedDate
     @Column(name = "last_modified_at")
     private LocalDateTime modifiedAt;
 
-    @Column(name = "is_returned", nullable = false)
-    private boolean isReturned;
+    @Column(name = "merchant_id")
+    private Long merchantId;
 
-    @Column(name = "is_canceled", nullable = false)
-    private boolean isCanceled;
+    @Convert(converter = RentalStateConverter.class)
+    @Column(name = "rental_state", nullable = false)
+    private RentalState rentalState;
 
-    @Column(name = "is_reviewed", nullable = false)
-    private boolean isReviewed;
-
-    @OneToOne
+    @ManyToOne
     @JoinColumn(name = "book_id", nullable = false)
     private Book book;
 
     @ManyToOne
-    @JoinColumn(name = "member_id", nullable = false)
-    private Member member;
+    @JoinColumn(name = "customer_id", nullable = false)
+    private Member customer;
 
     @Builder
-    public Rental(boolean isReturned, boolean isCanceled, boolean isReviewed,
-                  Book book, Member member) {
-        this.rentalDeadLine = LocalDateTime.now().plusDays(9).withHour(23).withMinute(59).withSecond(59);
-        this.isReturned = isReturned;
-        this.isCanceled = isCanceled;
-        this.isReviewed = isReviewed;
+    public Rental(LocalDateTime rentalDeadLine, RentalState rentalState,
+                  Long merchantId, Book book, Member customer) {
+        this.rentalDeadLine = rentalDeadLine;
+        this.rentalState = rentalState;
+        this.merchantId = merchantId;
         this.book = book;
-        this.member = member;
+        this.customer = customer;
     }
 
+    public void changeRentalStateFromTo(RentalState from, RentalState to) {
+        if(to.equals(RentalState.CANCELED)){
+            this.canceledAt=LocalDateTime.now();
+        }
+        if (this.rentalState.equals(from)) { // 대여가능 , 거래중, 반납완료, 취소
+            this.rentalState=to;
+            return;
+        }
+        throw new CanNotChangeStateException();
+    }
+
+
+    public void setCanceledAt(LocalDateTime canceledAt) {
+        this.canceledAt = canceledAt;
+    }
+
+    public void setReturnedAt(LocalDateTime rentalReturnedAt) {
+        this.rentalReturnedAt = rentalReturnedAt;
+    }
+
+    public static Rental create(Book book, Member customer) {
+        return Rental.builder()
+                .rentalDeadLine(LocalDateTime.now().plusDays(9).withHour(23).withMinute(59).withSecond(59))
+                .rentalState(RentalState.TRADING)
+                .merchantId(book.getMember().getId())
+                .book(book)
+                .customer(customer)
+                .build();
+    }
+}
+
+@Converter
+class RentalStateConverter implements AttributeConverter<RentalState, String> {
+
+    @Override
+    public String convertToDatabaseColumn(RentalState attribute) {
+        return String.valueOf(attribute);
+    }
+
+    @Override
+    public RentalState convertToEntityAttribute(String dbDate){
+        return RentalState.valueOf(dbDate);
+    }
 }

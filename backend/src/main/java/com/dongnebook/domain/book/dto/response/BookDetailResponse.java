@@ -8,7 +8,6 @@ import lombok.Getter;
 
 @Getter
 public class BookDetailResponse {
-
 	private BookResponse book;
 	private BookDetailMemberResponse merchant;
 

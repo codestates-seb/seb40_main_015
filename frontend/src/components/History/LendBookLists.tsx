@@ -1,109 +1,112 @@
-import { useState } from 'react';
 import styled from 'styled-components';
-import dummyImage from '../../assets/image/dummy.png';
-import convertDate from '../../utils/convertDate';
 import LendStatusButton from './LendStatusButton';
+import BookItem from '../Books/BookItem';
+import LendBookUserInfo from './LendBookUserInfo';
+import { useHistoryAPI } from '../../api/history';
+import { useInfiniteQuery } from '@tanstack/react-query';
+import Animation from '../Loading/Animation';
+import { useEffect, useMemo } from 'react';
+import { useInView } from 'react-intersection-observer';
 
-const LentBookLists = () => {
-	const [test, setTest] = useState<number[]>([1, 2, 3, 4, 5]);
-	const [state, setState] = useState([
-		'TRADING',
-		'BEING_RENTED',
-		'RETURN_UNREVIEWED',
-		'RETURN_REVIEWED',
-		'CANCELED',
-	]);
-	const from = '2022-11-15T00:17:34.045376400';
-	const to = '2022-11-21T00:17:34.045376400';
+interface ILentBookListsProps {
+	filters: string;
+}
+
+const LentBookLists = ({ filters }: ILentBookListsProps) => {
+	const { getLendBookLists } = useHistoryAPI();
+	const [ref, inView] = useInView();
+
+	const { data, fetchNextPage, hasNextPage } = useInfiniteQuery(
+		['lendBookList', filters],
+		({ pageParam = undefined }) =>
+			getLendBookLists(pageParam, filters).then(res => res.data),
+		{
+			getNextPageParam: lastPage => {
+				return lastPage.last
+					? undefined
+					: lastPage?.content?.[lastPage.content.length - 1].rentalInfo
+							.rentalId;
+			},
+			retry: false,
+		},
+	);
+	const lists: any = useMemo(
+		() => data?.pages.flatMap(page => page.content),
+		[data?.pages],
+	);
+
+	useEffect(() => {
+		if (inView && hasNextPage) fetchNextPage();
+	}, [inView]);
 
 	return (
-		<>
-			{test
-				? test.map((item, i) => {
-						return (
-							<Wrapper key={item}>
-								<Container>
-									<FlexBox>
-										<img src={dummyImage} alt="" width={90} height={105} />
-										<InfoWrapped>
-											<p>모던 자바스크립트</p>
-											<p>상인 이름</p>
-											<p>저자 / 출판사</p>
-											<p>대여기간</p>
-											<p>{convertDate(from, to, true)}</p>
-										</InfoWrapped>
-									</FlexBox>
-								</Container>
-								<BottomContainer>
-									<UserInfoBox>
-										<span>주민: 김주민</span>
-										<span>대여기간: {convertDate(from, to)}</span>
-									</UserInfoBox>
-									<LendStatusButton status={state[i]} />
-								</BottomContainer>
+		<Box>
+			{lists?.length ? (
+				lists?.map(
+					(el: any) =>
+						el && (
+							<Wrapper key={el.rentalInfo.rentalId}>
+								<BookItem
+									bookId={el.bookInfo.bookId}
+									title={el.bookInfo.title}
+									bookImage={el.bookInfo.bookUrl}
+									rentalfee={el.bookInfo.rentalFee}
+									author={el.bookInfo.author}
+									publisher={el.bookInfo.publisher}
+									// merchantName={el.bookInfo.merchantName}
+									status={el.rentalInfo.rentalState}
+									rental={el.rentalInfo}
+								/>
+								<LendBookUserInfo rentalInfo={el.rentalInfo} />
+								<LendStatusButton
+									status={el.rentalInfo.rentalState}
+									customerName={el.rentalInfo.customerName}
+									rental={el.rentalInfo}
+								/>
 							</Wrapper>
-						);
-				  })
-				: null}
-		</>
+						),
+				)
+			) : (
+				<EmptyBox>
+					<p>빌려준 책이 없어요</p>
+				</EmptyBox>
+			)}
+			{hasNextPage ? <ScrollEnd ref={ref}>Loading...</ScrollEnd> : null}
+		</Box>
 	);
 };
 
+const Box = styled.div`
+	/* padding: 0 1rem; */
+`;
+
 const Wrapper = styled.div`
 	width: 100%;
-	max-width: 850px;
+	/* max-width: 850px; */
 	display: flex;
 	flex-direction: column;
-	margin-bottom: 1rem;
-`;
+	margin-bottom: 3rem;
 
-const Container = styled.div`
-	display: flex;
-	justify-content: space-between;
-	border: 1px solid #eaeaea;
-	border-radius: 5px;
-	padding: 1rem;
-	margin-bottom: 0.5rem;
-	background-color: white;
-`;
+	/* padding-bottom: 2rem; */
+	/* border-bottom: 1px solid rgba(0, 0, 0, 0.2); */
 
-const FlexBox = styled.div`
-	display: flex;
-`;
-
-const InfoWrapped = styled.div`
-	display: flex;
-	margin-left: 0.3rem;
-	flex-direction: column;
-	justify-content: space-evenly;
-	justify-items: stretch;
-	p {
-		font-size: ${props => props.theme.fontSizes.paragraph};
-		margin-left: 1rem;
+	button {
+		height: 3rem;
 	}
 `;
 
-const BottomContainer = styled.div`
-	width: 90vw;
-	max-width: 800px;
+const EmptyBox = styled.div`
+	width: 100%;
+	height: 75vh;
 	display: flex;
 	justify-content: center;
-	flex-direction: column;
-	margin: auto;
-	margin-bottom: 1rem;
-`;
-
-const UserInfoBox = styled.div`
-	border: 1px solid #eaeaea;
-	border-radius: 5px;
-	display: flex;
-	justify-content: space-evenly;
-	margin-bottom: 1rem;
-	padding: 1rem 0;
-	background-color: white;
-	span {
-		font-size: ${props => props.theme.fontSizes.paragraph};
+	align-items: center;
+	p {
+		font-size: ${props => props.theme.fontSizes.subtitle};
+		font-weight: 600;
 	}
 `;
-
+const ScrollEnd = styled.div`
+	background-color: #fbfbfb;
+`;
 export default LentBookLists;

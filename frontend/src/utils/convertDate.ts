@@ -4,13 +4,19 @@ const convertDate = (from: string, to: string, day: boolean = false) => {
 	const toDate = new Date(to);
 	let result = '';
 	if (day) {
-		result = `${fromDate.getFullYear()}.${fromDate.getMonth()}.${fromDate.getDate()} ${
+		result = `${fromDate.getFullYear()}.${
+			fromDate.getMonth() + 1
+		}.${fromDate.getDate()} ${
 			week[fromDate.getDay()]
-		} ~ ${toDate.getFullYear()}.${toDate.getMonth()}.${toDate.getDate()} ${
+		} ~ ${toDate.getFullYear()}.${toDate.getMonth() + 1}.${toDate.getDate()} ${
 			week[toDate.getDay()]
 		}`;
 	} else {
-		result = `${fromDate.getFullYear()}.${fromDate.getMonth()}.${fromDate.getDate()} ~ ${toDate.getFullYear()}.${toDate.getMonth()}.${toDate.getDate()}`;
+		result = `${fromDate.getFullYear()}. ${
+			fromDate.getMonth() + 1
+		}. ${fromDate.getDate()} ~ ${toDate.getFullYear()}. ${
+			toDate.getMonth() + 1
+		}. ${toDate.getDate()}`;
 	}
 
 	return result;

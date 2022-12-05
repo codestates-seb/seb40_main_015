@@ -1,20 +1,24 @@
+import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import logo from '../../assets/image/logo4.png';
 
 const Logo = () => {
 	return (
-		<StyledLogo>
-			<StyledImg src={logo} />
-			<StyledDiv>동네북</StyledDiv>
-		</StyledLogo>
+		<Link to="/books">
+			<StyledLogo>
+				<StyledImg src={logo} />
+				<StyledDiv>동네북</StyledDiv>
+			</StyledLogo>
+		</Link>
 	);
 };
 
 const StyledLogo = styled.div`
-	margin-bottom: 20px;
+	margin-bottom: 3rem;
 `;
 
 const StyledImg = styled.img`
+	max-width: 120px;
 	width: 9rem;
 	margin-bottom: 5px;
 `;

@@ -10,7 +10,7 @@ const Clause = (props: { isChecked: boolean; setIsChecked: Function }) => {
 
 	return (
 		<StyledClause>
-			<Textarea value={clause} readOnly />
+			<Textarea>{clause}</Textarea>
 			<CheckContainer onClick={handleCheckBoxClick}>
 				{isChecked ? (
 					<HiCheckCircle className="icon checked" />
@@ -29,9 +29,30 @@ const StyledClause = styled.div`
 	flex-direction: column;
 `;
 
-const Textarea = styled.textarea`
+const Textarea = styled.pre`
+	box-sizing: border-box;
+	width: 100%;
 	height: 13rem;
-	resize: none;
+	white-space: pre-wrap;
+	overflow-y: scroll;
+	border-radius: 5px;
+	border: ${props => props.theme.colors.buttonGreen + ' solid 1px'};
+	padding: 1rem;
+	::-webkit-scrollbar {
+		width: 8px;
+	}
+
+	::-webkit-scrollbar-thumb {
+		background: rgb(179, 179, 179);
+		border-radius: 5px;
+	}
+
+	::-webkit-scrollbar-track {
+		background: rgba(0, 0, 0, 0);
+	}
+	@media screen and (min-width: 800px) {
+		height: 18rem;
+	}
 `;
 
 const CheckContainer = styled.div`
@@ -54,7 +75,7 @@ const CheckContainer = styled.div`
 `;
 
 // 배포 후 url 수정 필요함
-const clause = `*< 친구네다락방 >('https://dongne.book'이하 '동네북')*은(는) 「개인정보 보호법」 제30조에 따라 정보주체의 개인정보를 보호하고 이와 관련한 고충을 신속하고 원활하게 처리할 수 있도록 하기 위하여 다음과 같이 개인정보 처리방침을 수립·공개합니다.
+const clause = `*< 친구네다락방 >('https://dongne-book.com'이하 '동네북')*은(는) 「개인정보 보호법」 제30조에 따라 정보주체의 개인정보를 보호하고 이와 관련한 고충을 신속하고 원활하게 처리할 수 있도록 하기 위하여 다음과 같이 개인정보 처리방침을 수립·공개합니다.
 제1조(개인정보의 처리목적)< 친구네다락방 >(이)가 개인정보 보호법 제32조에 따라 등록․공개하는 개인정보파일의 처리목적은 다음과 같습니다.
 1. 개인정보 파일명 : 동네북 개인정보
 수집방법 : 홈페이지

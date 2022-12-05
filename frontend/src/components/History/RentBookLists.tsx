@@ -1,83 +1,132 @@
-import { useState } from 'react';
 import styled from 'styled-components';
-import dummyImage from '../../assets/image/dummy.png';
-import convertDate from '../../utils/convertDate';
+import BookItem from '../Books/BookItem';
+import { useHistoryAPI } from '../../api/history';
+import { useInfiniteQuery } from '@tanstack/react-query';
+import Animation from '../Loading/Animation';
+import LendBookUserInfo from './LendBookUserInfo';
 import RentStatusButton from './RentStatusButton';
+import { useEffect, useMemo } from 'react';
+import { useInView } from 'react-intersection-observer';
 
-const RentBookLists = () => {
-	const [test, setTest] = useState<number[]>([1, 2, 3, 4, 5]);
-	const [state, setState] = useState([
-		'TRADING',
-		'BEING_RENTED',
-		'RETURN_UNREVIEWED',
-		'RETURN_REVIEWED',
-		'CANCELED',
-	]);
-	const from = '2022-11-15T00:17:34.045376400';
-	const to = '2022-11-21T00:17:34.045376400';
+interface IRentBookListsProps {
+	filters: string;
+}
+
+const RentBookLists = ({ filters }: IRentBookListsProps) => {
+	const { getRentalBookLists } = useHistoryAPI();
+	const [ref, inView] = useInView();
+
+	const { data, fetchNextPage, hasNextPage } = useInfiniteQuery(
+		['rentBookList', filters],
+		({ pageParam = undefined }) =>
+			getRentalBookLists(pageParam, filters).then(res => res.data),
+		{
+			getNextPageParam: lastPage => {
+				return lastPage.last
+					? undefined
+					: lastPage?.content?.[lastPage.content.length - 1].rentalInfo
+							.rentalId;
+			},
+			retry: false,
+		},
+	);
+	const lists: any = useMemo(
+		() => data?.pages.flatMap(page => page.content),
+		[data?.pages],
+	);
+
+	useEffect(() => {
+		if (inView && hasNextPage) fetchNextPage();
+	}, [inView]);
+
 	return (
-		<>
-			{test
-				? test.map((item, i) => {
-						return (
-							<Wrapper key={item}>
-								<Container>
-									<FlexBox>
-										<img src={dummyImage} alt="" width={90} height={105} />
-										<InfoWrapped>
-											<p>모던 자바스크립트</p>
-											<p>상인 이름</p>
-											<p>저자 / 출판사</p>
-											<p>대여기간</p>
-											<p>{convertDate(from, to, true)}</p>
-										</InfoWrapped>
-									</FlexBox>
-									<RentStatusButton status={state[i]} />
-								</Container>
-							</Wrapper>
-						);
-				  })
-				: null}
-		</>
+		<Box>
+			{lists?.length ? (
+				<>
+					{lists?.map(
+						(el: any) =>
+							el && (
+								<Wrapper key={el.rentalInfo.rentalId}>
+									<BookItem
+										bookId={el.bookInfo.bookId}
+										title={el.bookInfo.title}
+										bookImage={el.bookInfo.bookUrl}
+										rentalfee={el.bookInfo.rentalFee}
+										author={el.bookInfo.author}
+										publisher={el.bookInfo.publisher}
+										// merchantName={el.bookInfo.merchantName}
+										status={el.rentalInfo.rentalState}
+										rental={el.rentalInfo}
+									/>
+									<LendBookUserInfo
+										rentalInfo={el.rentalInfo}
+										merchantName={el.bookInfo.merchantName}
+										bookId={el.bookInfo.bookId}
+										merchantId={el.bookInfo.merchantId}
+									/>
+									<RentStatusButton
+										status={el.rentalInfo.rentalState}
+										merchantName={el.bookInfo.merchantName}
+										rental={el.rentalInfo}
+									/>
+								</Wrapper>
+							),
+					)}
+				</>
+			) : (
+				<EmptyBox>
+					<p>빌린 책이 없어요</p>
+				</EmptyBox>
+			)}
+			{hasNextPage ? <ScrollEnd ref={ref}>Loading...</ScrollEnd> : null}
+		</Box>
 	);
 };
 
+const Box = styled.div`
+	/* padding: 0 1rem; */
+	height: 100%;
+`;
+
 const Wrapper = styled.div`
 	width: 100%;
+	/* max-width: 850px; */
 	display: flex;
 	flex-direction: column;
-	align-items: center;
-	margin-bottom: 1rem;
-`;
+	margin-bottom: 3rem;
 
-const Container = styled.div`
-	width: 90vw;
-	max-width: 850px;
-	display: flex;
-	justify-content: space-between;
-	margin-bottom: 0.5rem;
-	border: 1px solid #eaeaea;
-	border-radius: 5px;
-	padding: 1rem;
-	background-color: white;
-`;
+	position: relative;
+	.cancel {
+		color: black;
+		padding: 0.6rem 0.8rem;
+		background-color: inherit;
+		border-radius: 0 5px 0 5px;
+		/* border: 1px solid rgba(1, 1, 1, 0.1); */
+		border-left: 1px solid rgba(1, 1, 1, 0.1);
+		border-bottom: 1px solid rgba(1, 1, 1, 0.1);
 
-const FlexBox = styled.div`
-	display: flex;
-`;
-
-const InfoWrapped = styled.div`
-	display: flex;
-	margin-left: 0.3rem;
-	flex-direction: column;
-	justify-content: space-evenly;
-	justify-items: stretch;
-	background-color: white;
-	p {
-		font-size: ${props => props.theme.fontSizes.paragraph};
-		margin-left: 1rem;
-		background-color: white;
+		position: absolute;
+		top: 0;
+		right: 0;
+		:hover {
+			background-color: ${props => props.theme.colors.grey};
+		}
 	}
 `;
 
+const EmptyBox = styled.div`
+	width: 100%;
+	height: 75vh;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	p {
+		font-size: ${props => props.theme.fontSizes.subtitle};
+		font-weight: 600;
+	}
+`;
+
+const ScrollEnd = styled.div`
+	background-color: #fbfbfb;
+`;
 export default RentBookLists;
