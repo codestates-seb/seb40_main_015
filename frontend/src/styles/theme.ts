@@ -23,6 +23,7 @@ const colors = {
 	grey: '#EAEAEA',
 	main: '#26795D',
 	background: '#FBFBFB',
+	backgroundGreen: '#C6DDD5',
 	logoGreen: '#016241',
 	buttonGreen: '#26795D',
 	buttonGrey: '#D9D9D9',
