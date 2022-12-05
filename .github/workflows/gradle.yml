@@ -11,7 +11,7 @@ on:
   push:
     paths: [ 'backend/**' ]
     branches: [ 'Infra/be/AutoDeploy' ]
-  pull_request::
+  pull_request:
     paths: [ 'backend/**' ]
     branches: [ 'Infra/be/AutoDeploy' ]
 
