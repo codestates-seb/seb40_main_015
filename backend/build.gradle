@@ -35,6 +35,7 @@ dependencies {
     implementation 'org.springframework.cloud:spring-cloud-starter-aws:2.2.6.RELEASE'
     implementation 'com.fasterxml.jackson.datatype:jackson-datatype-jsr310'
     implementation 'com.fasterxml.jackson.core:jackson-databind'
+    implementation 'org.springframework.cloud:spring-cloud-starter-aws-parameter-store-config'
 
 //    runtimeOnly 'com.h2database:h2'
     implementation "com.h2database:h2"
@@ -53,6 +54,12 @@ dependencies {
     implementation 'io.jsonwebtoken:jjwt-api:0.11.5'
     runtimeOnly 'io.jsonwebtoken:jjwt-impl:0.11.5'
     runtimeOnly 'io.jsonwebtoken:jjwt-jackson:0.11.5'
+}
+
+dependencyManagement {
+    imports {
+        mavenBom "org.springframework.cloud:spring-cloud-starter-parent:Hoxton.SR12"
+    }
 }
 
 tasks.named('test') {
