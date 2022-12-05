@@ -10,15 +10,18 @@ const Repository = () => {
 	if (pathname === '/history' && !isLogin) return null;
 
 	return (
-		<a href="https://github.com/codestates-seb/seb40_main_015">
+		<StyledRepository href="https://github.com/codestates-seb/seb40_main_015">
 			<StyledImg src={repository} alt="" />
-		</a>
+		</StyledRepository>
 	);
 };
 
+const StyledRepository = styled.a`
+	margin: 10rem 2rem 0 4.5vw;
+`;
+
 const StyledImg = styled.img`
 	width: 13rem;
-	margin: 10rem 2rem 0 4.5vw;
 	position: sticky;
 	top: 8rem;
 	display: none;
