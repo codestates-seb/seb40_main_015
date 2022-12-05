@@ -1,9 +1,4 @@
-import { AiOutlineConsoleSql } from 'react-icons/ai';
 import styled from 'styled-components';
-import { useAppSelector } from '../../redux/hooks';
-import Button from '../common/Button';
-import LendStatusButton from '../History/LendStatusButton';
-import RentStatusButton from '../History/RentStatusButton';
 import { BooksProps } from './type';
 
 const BookItemState = ({
@@ -11,13 +6,9 @@ const BookItemState = ({
 	merchantName = '',
 	rental,
 }: BooksProps) => {
-	const nickname = useAppSelector(state => state.loginInfo.nickname);
 	return (
 		<BookStateWrapper>
-			{/* <Button>{status}</Button> */}
-			{/* <BookStatus>{status}</BookStatus> */}
-			{rental?.rentalId ? null : ( // ) // 	/> // 		rental={rental} // 		merchantName={merchantName} // 		status={status} // 	<RentStatusButton // merchantName === '' ? null : ( // nickName === merchantName ? null : ( // rental 정보가 있는 대여내역페이지에서는 상태 버튼이 보이지 않음.
-				// rental 정보가 없는 전체조회, 마이페이지에서 상태 버튼 렌더링
+			{rental?.rentalId ? null : (
 				<BookStatus status={status}>
 					{status === '대여가능'
 						? '대여가능'

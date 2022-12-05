@@ -9,9 +9,8 @@ import { ThemeProvider } from 'styled-components';
 import { PersistGate } from 'redux-persist/integration/react';
 
 //components
-// import App from './App';
+import App from './App';
 import theme from '../src/styles/theme';
-import DevApp from './DevApp';
 import NotificationCenter from './components/common/NotificationCenter';
 
 const queryClient = new QueryClient();
@@ -25,7 +24,7 @@ root.render(
 			<PersistGate loading={null} persistor={persistor}>
 				<QueryClientProvider client={queryClient}>
 					<ThemeProvider theme={theme}>
-						<DevApp />
+						<App />
 						<NotificationCenter />
 					</ThemeProvider>
 					<ReactQueryDevtools initialIsOpen={false} />

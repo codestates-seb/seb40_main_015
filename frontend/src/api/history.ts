@@ -1,32 +1,66 @@
 import useAPI from '../hooks/useAPI';
 
 // 예시)
-export const    useHistoryAPI = () => {
+export const useHistoryAPI = () => {
 	const api = useAPI();
 	// const id = useAppSelector(state => state.loginInfo.userId);
 	// 대여내역 - 빌린 책
-	const getRentalBookLists = (index?: string) => {
-		if (index) {
-			return api.get(`/rental/to`, {
-				params: {
-					index,
-				},
-			});
+	const getRentalBookLists = (index?: string, rentalState?: string) => {
+		if (rentalState === '') {
+			if (index) {
+				return api.get(`/rental/to`, {
+					params: {
+						index,
+					},
+				});
+			} else {
+				return api.get(`/rental/to`);
+			}
 		} else {
-			return api.get(`/rental/to`);
+			if (index) {
+				return api.get(`/rental/to`, {
+					params: {
+						index,
+						rentalState,
+					},
+				});
+			} else {
+				return api.get(`/rental/to`, {
+					params: {
+						rentalState,
+					},
+				});
+			}
 		}
 	};
 
 	// 대여내역 - 빌려준 책
-	const getLendBookLists = (index?: string) => {
-		if (index) {
-			return api.get(`/rental/from`, {
-				params: {
-					index,
-				},
-			});
+	const getLendBookLists = (index?: string, rentalState?: string) => {
+		if (rentalState === '') {
+			if (index) {
+				return api.get(`/rental/from`, {
+					params: {
+						index,
+					},
+				});
+			} else {
+				return api.get(`/rental/from`);
+			}
 		} else {
-			return api.get(`/rental/from`);
+			if (index) {
+				return api.get(`/rental/from`, {
+					params: {
+						index,
+						rentalState,
+					},
+				});
+			} else {
+				return api.get(`/rental/from`, {
+					params: {
+						rentalState,
+					},
+				});
+			}
 		}
 	};
 	// 대여 취소 by 상인
