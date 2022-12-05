@@ -22,5 +22,4 @@ public class DongnebookApplication {
 		SpringApplication.run(DongnebookApplication.class, args);
 	}
 
-	
 }
