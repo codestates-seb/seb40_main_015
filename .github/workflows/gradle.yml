@@ -17,6 +17,8 @@ permissions:
 
 env:
   S3_BUCKET_NAME: github-actions-bucket-dongnebook
+  RESOURCE_PATH: ./server/src/main/resouce/application-rds.yml
+  RESOURCE_PATH_KAKAO: ./backend/src/main/java/com/dongnebook/domain/book/ui/bookController.java
 
 
 jobs:
@@ -41,6 +43,25 @@ jobs:
         run: ./gradlew build
         working-directory: ./backend/
 
+      - name: Set Yaml
+        uses: microsoft/variable-substitution@v1
+        with:
+          files: ${{ env.RESOURCE_PATH }}
+        env:
+          Spring.datasource.password: ${{ secrets.RDS_PASSWORD }}
+          Spring.security.oauth2.client.registration.google.clientId: ${{ secrets.GOOGLE_OAUTH2_CLIENT_ID }}
+          Spring.security.oauth2.client.registration.google.clientSecret: ${{ secrets.GOOGLE_OAUTH2_CLIENT_SECRET }}
+          jwt.secret-key: ${{ secrets.JWT_SECRET_KEY }}
+          cloud.aws.credentials.access-key: ${{ secrets.S3_ACCESS_KEY }}
+          cloud.aws.credentials.secret-key: ${{ secrets.S3_SECRET_KEY }}
+
+      - name: Set kakao
+        uses: microsoft/variable-substitution@v1
+        with:
+          files: ${{ env.RESOURCE_PATH_KAKAO }}
+        env:
+          KAKAO_KEY: ${{ secrets.KAKAO_KEY }}
+        
         
       - name: Make zip file
         run: zip -r ./main-015-deploy.zip .
