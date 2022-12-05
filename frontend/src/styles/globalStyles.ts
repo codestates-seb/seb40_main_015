@@ -2,6 +2,7 @@ import { createGlobalStyle } from 'styled-components';
 import kotra from '../assets/fonts/kotra.ttf';
 import AppleNormal from '../assets/fonts/AppleSDGothicNeoL.ttf';
 import AppleBold from '../assets/fonts/AppleSDGothicNeoB.ttf';
+
 const GlobalStyle = createGlobalStyle`
   @font-face {
         font-family: 'Apple SD';
@@ -63,7 +64,7 @@ const GlobalStyle = createGlobalStyle`
   body {
     line-height: 1;
     background-color: #FBFBFB;
-    overflow-y: scroll !important;
+    overflow-y: overlay !important;
   }
   ol, ul {
     list-style: none;
@@ -87,7 +88,7 @@ const GlobalStyle = createGlobalStyle`
 }
 
 body::-webkit-scrollbar-thumb {
-    background: rgba(0, 0, 0, 0.3);
+    background: rgba(0, 0, 0, 0.0);
     border-radius: 100px;
 }
 `;
