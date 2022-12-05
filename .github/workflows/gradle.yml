@@ -44,6 +44,8 @@ jobs:
         working-directory: ./backend/
 
       - name: Set Yaml
+        run: |
+          echo "jwt.secret-key=$JWT_SECRET_KEY"
         #uses: microsoft/variable-substitution@v1
         #with:
           #files: ${{ env.RESOURCE_PATH }}
