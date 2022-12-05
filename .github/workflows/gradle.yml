@@ -17,7 +17,7 @@ permissions:
 
 env:
   S3_BUCKET_NAME: github-actions-bucket-dongnebook
-  RESOURCE_PATH: ./backend/src/main/resources/application-rds.yml
+  #RESOURCE_PATH: ./backend/src/main/resources/application-rds.yml
   #RESOURCE_PATH_KAKAO: ./backend/src/main/resources/application-API-KEY.yml
 
 
@@ -45,8 +45,8 @@ jobs:
 
       - name: Set Yaml
         uses: microsoft/variable-substitution@v1
-        with:
-          files: ${{ env.RESOURCE_PATH }}
+        #with:
+          #files: ${{ env.RESOURCE_PATH }}
         env:
           Spring.datasource.password: ${{ secrets.RDS_PASSWORD }}
           Spring.security.oauth2.client.registration.google.clientId: ${{ secrets.GOOGLE_OAUTH2_CLIENT_ID }}
