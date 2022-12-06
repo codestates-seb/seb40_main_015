@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 import { useNavigate } from 'react-router-dom';
-import { useInfiniteQuery, useQuery } from '@tanstack/react-query';
+import { useQuery } from '@tanstack/react-query';
 import { useEffect, useRef } from 'react';
 
 //components
@@ -10,30 +10,27 @@ import Title from '../components/common/Title';
 import Animation from '../components/Loading/Animation';
 
 //hooks
-import { useBooksAPI } from '../api/books';
 import { useAppDispatch, useAppSelector } from '../redux/hooks';
-import notify from '../utils/notify';
 import { useMypageAPI } from '../api/mypage';
-import LogoImage from '../assets/image/logo4.png';
+import { useGetBooksList } from '../api/hooks/books/useGetBooksList';
+
+//etc
+import notify from '../utils/notify';
 
 const BooksPage = () => {
 	const { isLogin, id } = useAppSelector(state => state.loginInfo);
 	const dispatch = useAppDispatch();
-	const { getAllBooksListInfinite } = useBooksAPI();
 	const { getMyInfo } = useMypageAPI();
 	const navigate = useNavigate();
 	const target = useRef<HTMLDivElement>(null);
 
-	//무한스크롤
-	const { data, fetchNextPage, isLoading, hasNextPage, isFetchingNextPage } =
-		useInfiniteQuery({
-			queryKey: ['allBooks'],
-			queryFn: ({ pageParam = undefined }) =>
-				getAllBooksListInfinite(pageParam),
-			getNextPageParam: lastPage => {
-				return lastPage?.content?.slice(-1)[0]?.bookId;
-			},
-		});
+	const {
+		booksListData,
+		fetchNextPage,
+		isLoading,
+		hasNextPage,
+		isFetchingNextPage,
+	} = useGetBooksList();
 
 	useEffect(() => {
 		const observer = new IntersectionObserver(
@@ -89,7 +86,7 @@ const BooksPage = () => {
 				{isLoading ? (
 					<Animation width={20} height={20} />
 				) : (
-					data?.pages?.map(el =>
+					booksListData?.pages?.map(el =>
 						el?.content?.map(el => {
 							// if (el.status === '거래중단') return '';
 							return (

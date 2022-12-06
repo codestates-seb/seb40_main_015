@@ -4,7 +4,7 @@ import NavBar from './NavBar';
 import ScrollToTop from './ScrollToTop';
 
 import { useAppSelector } from '../../redux/hooks';
-import useGetAccessTokenRefresh from '../../api/hooks/auth/authRenew';
+import useGetAccessTokenRefresh from '../../api/hooks/auth/useAuthRenew';
 import Header from './PcVersion/Header/Header';
 import Repository from './PcVersion/Asides/Repository';
 import TeamMember from './PcVersion/Asides/TeamMember';
