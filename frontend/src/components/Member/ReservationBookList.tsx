@@ -1,20 +1,18 @@
-import { useEffect, useRef, useState } from 'react';
 import styled from 'styled-components';
-import Animation from '../Loading/Animation';
-import dummyImage3 from '../../assets/image/dummy3.png';
-import Button from '../common/Button';
-import { useMypageAPI } from '../../api/mypage';
-import { useInfiniteQuery, useMutation } from '@tanstack/react-query';
+import { useEffect, useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+
+import Animation from '../Loading/Animation';
+import Button from '../common/Button';
 import ButtonStatus from '../Merchant/ButtonStatus';
-import notify from '../../utils/notify';
-import { useDispatch } from 'react-redux';
+
+import { useGetReservList } from '../../api/hooks/member/useGetReservList';
+import { useDeleteReserv } from '../../api/hooks/books/useDeleteReserv';
 
 const ReservationBookList = () => {
 	const [cancelId, setCancelId] = useState(-1);
 	const navigate = useNavigate();
-	const { getReservationBookList, deleteReservation } = useMypageAPI();
-	const dispatch = useDispatch();
+	const infiniteScrollTarget = useRef<HTMLDivElement>(null);
 
 	const handleBookDetailPageMove = (id: number) => {
 		navigate(`/books/${id}`);
@@ -32,17 +30,15 @@ const ReservationBookList = () => {
 	// 	}
 	// };
 
-	// 예약목록 무한스크롤
-	const infiniteScrollTarget = useRef<HTMLDivElement>(null);
-	const { data, fetchNextPage, isLoading, hasNextPage, isFetchingNextPage } =
-		useInfiniteQuery({
-			queryKey: ['reservationbooklist'],
-			queryFn: ({ pageParam = undefined }) => getReservationBookList(pageParam),
-			getNextPageParam: lastPage => {
-				// console.log('ff: ', lastPage.content?.slice(-1)[0]?.bookInfo.bookId);
-				return lastPage.content?.slice(-1)[0]?.reservationInfo.reservationId;
-			},
-		});
+	const { deleteMutate } = useDeleteReserv(cancelId);
+
+	const {
+		reservBookData,
+		fetchNextPage,
+		isLoading,
+		hasNextPage,
+		isFetchingNextPage,
+	} = useGetReservList();
 
 	useEffect(() => {
 		const observer = new IntersectionObserver(
@@ -61,15 +57,6 @@ const ReservationBookList = () => {
 		return () => observer.disconnect();
 	}, []);
 
-	//예약취소
-	const { mutate: deleteMutate } = useMutation({
-		mutationFn: () => deleteReservation(cancelId),
-		onSuccess: () => {
-			notify(dispatch, '예약이 취소되었습니다.');
-		},
-		retry: false,
-	});
-
 	const handleBookCancel = (title: string, reservationId: number) => {
 		const isTrue = window.confirm(`'${title}' 도서의 예약을 취소하시겠습니까?`);
 		if (!isTrue) return;
@@ -86,8 +73,8 @@ const ReservationBookList = () => {
 		<>
 			{isLoading ? (
 				<Animation width={20} height={20} />
-			) : data?.pages[0].content[0]?.bookInfo.bookId ? (
-				data?.pages.map(el =>
+			) : reservBookData?.pages[0].content[0]?.bookInfo.bookId ? (
+				reservBookData?.pages.map(el =>
 					el?.content.map((reservationbook, i: number) => {
 						const { bookId, title, bookImage, rentalFee } =
 							reservationbook.bookInfo;

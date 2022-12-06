@@ -1,6 +1,7 @@
+import styled from 'styled-components';
 import { useState } from 'react';
+import { useLocation, useParams } from 'react-router-dom';
 
-// components
 import Title from '../components/common/Title';
 import Button from '../components/common/Button';
 import {
@@ -12,13 +13,9 @@ import {
 	RentalInfo,
 } from '../components/Books/BookElements';
 import BookCalendar from '../components/Books/BookCalendar';
+
+import { usePostBookRental } from '../api/hooks/books/usePostBookRental';
 import { calcCalendarDate } from '../utils/calcCalendarDate';
-import { useLocation, useNavigate, useParams } from 'react-router-dom';
-import { useBooksAPI } from '../api/books';
-import { useMutation } from '@tanstack/react-query';
-import notify from '../utils/notify';
-import { useDispatch } from 'react-redux';
-import styled from 'styled-components';
 
 interface LinkProps {
 	state: {
@@ -36,17 +33,8 @@ const BooksRentalPage = () => {
 	);
 	const { bookId } = useParams();
 	const { state } = useLocation() as LinkProps;
-	const navigate = useNavigate();
-	const dispatch = useDispatch();
 
-	const { postBookRental } = useBooksAPI();
-	const { mutate } = useMutation({
-		mutationFn: () => postBookRental(bookId),
-		onSuccess: () => {
-			notify(dispatch, '대여 신청이 완료되었습니다.');
-			navigate('/history');
-		},
-	});
+	const { mutateBookRental } = usePostBookRental(bookId);
 
 	const handleRentalButton = () => {
 		if (!isCheckedPeriod) return alert('대여 기간을 확인해주세요');
@@ -54,7 +42,7 @@ const BooksRentalPage = () => {
 		if (!isCheckedFee) return alert('대여료를 확인해주세요');
 
 		const isTrue = window.confirm('대여 신청 하시겠습니까?');
-		isTrue && mutate();
+		isTrue && mutateBookRental();
 	};
 
 	return (
