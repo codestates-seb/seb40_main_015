@@ -41,8 +41,7 @@ spring:
               - profile
               - email
   profiles:
-    include:
-      - API-KEY
+    include: API-KEY
 
 jwt:
   secret-key: ${JWT_SECRET_KEY}

@@ -28,5 +28,4 @@ fi
 DEPLOY_JAR=$DEPLOY_PATH$JAR_NAME
 echo "> DEPLOY_JAR 배포 $DEPLOY_JAR" >> /home/ubuntu/action/backend/deploy.log
 #sudo nohup java -jar $DEPLOY_JAR --spring.profiles.active=rds 1> /home/ubuntu/action/backend/deploy.log 2>/home/ubuntu/action/backend/deploy_err.log
-#sudo nohup java -jar $DEPLOY_JAR --spring.profiles.active=rds > /home/ubuntu/action/backend/deploy.log 2>&1 &
-sudo nohup java -jar $DEPLOY_JAR > /home/ubuntu/action/backend/deploy.log 2>&1 &
+sudo nohup java -jar $DEPLOY_JAR --spring.profiles.active=rds > /home/ubuntu/action/backend/deploy.log 2>&1 &
