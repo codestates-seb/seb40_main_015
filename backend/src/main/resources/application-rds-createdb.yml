@@ -1,4 +1,4 @@
-Spring:
+spring:
   h2:
     console:
       enabled: true
@@ -8,7 +8,7 @@ Spring:
   cache:
     type: redis
   redis:
-    host: localhost
+    host: 3.36.157.238
     port: 6379
   servlet:
     multipart:
@@ -28,6 +28,7 @@ Spring:
      # (2) SQL 쿼리 출력
     properties:
       hibernate:
+        default_batch_fetch_size: 100
         format_sql: true  # (3) SQL pretty print
   security:
     oauth2:
