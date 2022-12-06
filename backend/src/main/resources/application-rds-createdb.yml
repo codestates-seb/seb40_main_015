@@ -40,6 +40,8 @@ spring:
             scope:
               - profile
               - email
+  config:
+    use-legacy-processing: true
   profiles:
     include: API-KEY
 

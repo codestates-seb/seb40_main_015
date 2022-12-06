@@ -10,8 +10,7 @@ name: Java CI with Gradle
 on:
   push:
     paths: [ 'backend/**' ]
-    branches: [ 'Infra/be/AutoDeploySetting' ]
-    #branches: [ 'main' ]
+    branches: [ 'main' ]
 
 permissions:
   contents: read
