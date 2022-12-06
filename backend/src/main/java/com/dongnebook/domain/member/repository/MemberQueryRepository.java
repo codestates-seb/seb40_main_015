@@ -22,7 +22,12 @@ import com.dongnebook.domain.member.dto.response.QMemberDetailResponse;
 import com.dongnebook.domain.member.dto.response.QMemberResponse;
 import com.dongnebook.domain.model.Location;
 import com.dongnebook.global.dto.request.PageRequest;
+import com.querydsl.core.types.Expression;
+import com.querydsl.core.types.ExpressionUtils;
+import com.querydsl.core.types.SubQueryExpression;
+import com.querydsl.core.types.SubQueryExpressionImpl;
 import com.querydsl.core.types.dsl.BooleanExpression;
+import com.querydsl.jpa.JPAExpressions;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 
 import lombok.RequiredArgsConstructor;
@@ -81,9 +86,11 @@ public class MemberQueryRepository {
 
 
 	public  MemberDetailResponse getMyInfo(Long memberId){
-
+		Expression<Integer> totalBookCount = ExpressionUtils.as(JPAExpressions.select(book.id.count().intValue())
+			.from(book)
+			.where(book.member.id.eq(memberId), book.bookState.ne(BookState.DELETED)), "totalBookCount");
 		return jpaQueryFactory.select(
-				new QMemberDetailResponse(member.id, member.nickname, member.location, member.address, member.bookList.size(),
+				new QMemberDetailResponse(member.id, member.nickname, member.location, member.address,totalBookCount,
 					member.avatarUrl, member.avgGrade))
 			.from(member)
 			.where(member.id.eq(memberId))

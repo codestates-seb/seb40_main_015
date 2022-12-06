@@ -1,31 +1,30 @@
 import styled from 'styled-components';
-import { useEffect, useRef, useState } from 'react';
-import { useInfiniteQuery, useQuery } from '@tanstack/react-query';
+import { useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 //component
-import { useMypageAPI } from '../../api/mypage';
 import ButtonStatus from '../Merchant/ButtonStatus';
 import Animation from '../Loading/Animation';
 
+import { useGetPickList } from '../../api/hooks/member/useGetPickList';
+import BookItemState from '../Books/BookItemState';
+
 const PickBookList = () => {
 	const navigate = useNavigate();
-	const { getPickBookList } = useMypageAPI();
+	const infiniteScrollTarget = useRef<HTMLDivElement>(null);
 
 	const handleBookDetailPageMove = (id: number) => {
 		navigate(`/books/${id}`);
 	};
 
-	// 찜목록 무한스크롤
-	const infiniteScrollTarget = useRef<HTMLDivElement>(null);
-	const { data, fetchNextPage, isLoading, hasNextPage, isFetchingNextPage } =
-		useInfiniteQuery({
-			queryKey: ['pickbooklist'],
-			queryFn: ({ pageParam = undefined }) => getPickBookList(pageParam),
-			getNextPageParam: lastPage => {
-				return lastPage?.content?.slice(-1)[0]?.bookId;
-			},
-		});
+	const {
+		pickBookData,
+		fetchNextPage,
+		isLoading,
+		hasNextPage,
+		isFetchingNextPage,
+	} = useGetPickList();
+
 	useEffect(() => {
 		const observer = new IntersectionObserver(
 			entries => {
@@ -42,13 +41,12 @@ const PickBookList = () => {
 
 		return () => observer.disconnect();
 	}, []);
-
 	return (
 		<>
 			{isLoading ? (
 				<Animation width={20} height={20} />
-			) : data?.pages[0].content[0]?.bookId ? (
-				data?.pages.map(el =>
+			) : pickBookData?.pages[0].content[0]?.bookId ? (
+				pickBookData?.pages.map(el =>
 					el?.content.map((pickbook, i: number) => {
 						const {
 							bookId,
@@ -58,7 +56,6 @@ const PickBookList = () => {
 							rentalFee,
 							merchantName,
 						} = pickbook;
-						// 대여가능, 예약가능, 대여/예약 불가능
 						return (
 							<Container key={bookId}>
 								<FlexBox
@@ -75,7 +72,8 @@ const PickBookList = () => {
 											<p>{merchantName}</p>
 										</div>
 										<ButtonWrapper>
-											<ButtonStatus status={status} bookId={bookId} />
+											{/* <ButtonStatus status={status} bookId={bookId} /> */}
+											<BookItemState status={status} rental={undefined} />
 										</ButtonWrapper>
 									</InfoWrapped>
 								</FlexBox>
@@ -88,7 +86,6 @@ const PickBookList = () => {
 					<p>찜한 책이 없어요</p>
 				</EmptyBox>
 			)}
-			{/* 무한스크롤 */}
 			<ScrollEnd
 				ref={infiniteScrollTarget}
 				className={`${hasNextPage ? '' : 'hidden'}`}>
@@ -163,17 +160,12 @@ const EmptyBox = styled.div`
 `;
 
 const ButtonWrapper = styled.div`
-	min-width: 68px;
-	height: 2.4rem;
-	button {
-		width: 100%;
-		height: 100%;
+	div {
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		line-height: 15px;
 	}
-	/* width: 68px;
-	height: 2.4rem;
-	@media screen and (min-width: 800px) {
-		width: 80px;
-	} */
 `;
 
 // infinite scroll

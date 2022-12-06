@@ -1,4 +1,5 @@
-import { useLocation, useNavigate, useParams } from 'react-router-dom';
+import styled from 'styled-components';
+import { useLocation, useParams } from 'react-router-dom';
 import { useState } from 'react';
 
 // components
@@ -13,14 +14,9 @@ import {
 	RentalInfo,
 } from '../components/Books/BookElements';
 import BookCalendar from '../components/Books/BookCalendar';
-import { calcCalendarDate } from '../utils/calcCalendarDate';
-import { useBooksAPI } from '../api/books';
-import { useMutation } from '@tanstack/react-query';
-import { useDispatch } from 'react-redux';
-import notify from '../utils/notify';
-import styled from 'styled-components';
 
-//책 상태: 예약가능
+import { calcCalendarDate } from '../utils/calcCalendarDate';
+import { usePostBookBooking } from '../api/hooks/books/usePostBookBooking';
 
 interface LinkProps {
 	state: {
@@ -36,22 +32,12 @@ const BooksBookingPage = () => {
 	const [isCheckedFee, setIsCheckedFee] = useState(false);
 
 	const { state } = useLocation() as LinkProps;
-	const navigate = useNavigate();
 	const { bookId } = useParams();
-	const { postBookBooking } = useBooksAPI();
-	const dispatch = useDispatch();
-	const { mutate } = useMutation({
-		mutationFn: () => postBookBooking(bookId),
-		onSuccess: res => {
-			notify(dispatch, '예약 신청이 완료되었습니다.');
-			navigate('/profile');
-		},
-		onError: res => {
-			notify(dispatch, '이미 대여 신청한 도서 입니다.');
-		},
-	});
 
 	const { month, day, rentalPeriod } = calcCalendarDate(state.rentalEnd);
+
+	const { mutateBookBooking } = usePostBookBooking(bookId);
+
 	// 예약 요청
 	const handleRentalButton = () => {
 		if (!isCheckedPeriod) return alert('대여 기간을 확인해주세요');
@@ -59,7 +45,7 @@ const BooksBookingPage = () => {
 		if (!isCheckedFee) return alert('대여료를 확인해주세요');
 
 		const isTrue = window.confirm('예약 신청 하시겠습니까?');
-		isTrue && mutate();
+		isTrue && mutateBookBooking();
 	};
 
 	// 외부에서 예약하기 페이지 접근시
@@ -138,14 +124,6 @@ const BooksBookingPage = () => {
 						<label>{state.rentalFee}원</label>
 					</RentalCheck>
 				</RentalInfo>
-				{/* <RentalInfo>
-					<legend>주의 사항</legend>
-					<label>*아직 준비중 입니다*</label>
-				</RentalInfo>
-				<RentalInfo>
-					<legend>결제 내용</legend>
-					<label>*아직 준비중 입니다*</label>
-				</RentalInfo> */}
 			</BodyContainer>
 
 			<BtnWrapper>
