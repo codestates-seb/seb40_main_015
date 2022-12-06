@@ -88,7 +88,6 @@ const BooksPage = () => {
 				) : (
 					booksListData?.pages?.map(el =>
 						el?.content?.map(el => {
-							// if (el.status === '거래중단') return '';
 							return (
 								<BookItem
 									key={+el.bookId}

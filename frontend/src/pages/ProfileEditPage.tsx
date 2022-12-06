@@ -9,8 +9,8 @@ import { useNavigate } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from '../redux/hooks';
 import { updateUserInfo } from '../redux/slice/userInfoSlice';
 
-import Avatar from '../api/hooks/profileedit/Avatar';
-import { useFixInfo } from '../api/hooks/profileedit/useFixInfo';
+import Avatar from '../components/Member/Avatar';
+import { useFixInfo } from '../api/hooks/member/useFixInfo';
 import useGeolocation2 from '../hooks/useGeoLocation2';
 
 function ProfileEditPage() {

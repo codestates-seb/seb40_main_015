@@ -1,7 +1,7 @@
 import { useState } from 'react';
-import { useAppDispatch, useAppSelector } from '../../../redux/hooks';
-import { updateUserInfo } from '../../../redux/slice/userInfoSlice';
-import useGetPhotoUrl from '../common/useGetPhotoUrl';
+import { useAppDispatch, useAppSelector } from '../../redux/hooks';
+import { updateUserInfo } from '../../redux/slice/userInfoSlice';
+import useGetPhotoUrl from '../../api/hooks/common/useGetPhotoUrl';
 
 const Avatar = () => {
 	const { mutate } = useGetPhotoUrl();
@@ -19,7 +19,7 @@ const Avatar = () => {
 				onSuccess: res => {
 					setImage(res.data);
 					dispatch(updateUserInfo({ key: 'avatarUrl', value: res.data }));
-					console.log(res.data);
+					// console.log(res.data);
 				},
 			});
 		}
@@ -28,7 +28,7 @@ const Avatar = () => {
 	return (
 		<div className="avatar">
 			<label htmlFor="photo">
-				<img className="image" src={Image} alt="profile image" />
+				<img className="image" src={Image} alt="profile_image" />
 			</label>
 			<input
 				id="photo"
