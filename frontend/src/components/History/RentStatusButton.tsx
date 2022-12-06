@@ -58,7 +58,7 @@ const RentStatusButton = ({ status, merchantName, rental }: Props) => {
 					<Button
 						className="cancel"
 						onClick={e => handleStatusChange(status, merchantName, e)}>
-						취소 하기
+						취소하기
 					</Button>
 					<Button onClick={e => handleStatusChange(status, merchantName, e)}>
 						수령 완료
