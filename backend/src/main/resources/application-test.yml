@@ -1,4 +1,4 @@
-Spring:
+spring:
   profiles:
     active: test
   h2:
@@ -26,6 +26,7 @@ Spring:
     properties:
       hibernate:
         format_sql: true  # (3) SQL pretty print
+        default_batch_fetch_size: 100
   cache:
     type: redis
   redis:
