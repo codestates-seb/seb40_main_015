@@ -26,14 +26,14 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
 import org.springframework.context.ApplicationEventPublisher;
-import org.springframework.dao.ConcurrencyFailureException;
 import org.springframework.data.domain.*;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
-
-import javax.persistence.OptimisticLockException;
+import java.util.List;
 
 @Slf4j
 @Service
@@ -139,6 +139,22 @@ public class RentalService {
 
 	public SliceImpl<RentalBookResponse> getRentalsByCustomer(Long customerId, String rentalState, PageRequest pageRequest) {
 		return rentalQueryRepository.findAllByCustomerIdOrderByIdDesc(customerId, rentalState, pageRequest);
+	}
+
+	//매일 1시마다 자동실행
+	@Scheduled(cron = "0 5 13 * * *")
+	public void oneDayBeforeReturn() {
+		LocalDate alarmDate = LocalDate.now().plusDays(1);
+		List<Rental> allDeadLineRental = rentalQueryRepository.findAllDeadLineRental(alarmDate);
+		Member customer;
+		Book book;
+		//벌크 인서트로 고쳐야함
+		for (Rental rental : allDeadLineRental) {
+			customer = rental.getCustomer();
+			book = rental.getBook();
+			alarmService.sendAlarm(customer, book, AlarmType.RETURN);
+		}
+
 	}
 
 

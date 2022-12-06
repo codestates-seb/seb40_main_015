@@ -1,4 +1,4 @@
-Spring:
+spring:
   h2:
     console:
       enabled: true
@@ -23,6 +23,7 @@ Spring:
       type: trace
     properties:
       hibernate:
+        default_batch_fetch_size: 100
         format_sql: true  # (3) SQL pretty print
   cache:
     type: redis
