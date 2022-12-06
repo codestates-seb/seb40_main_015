@@ -22,6 +22,8 @@
 
 </br>
 
+---
+
 ## 🖥 동네북 QR 코드
 ![](https://velog.velcdn.com/images/fejigu/post/e1960487-f1a5-4937-a787-b1721e4ab891/image.png)
 </br>
@@ -29,6 +31,8 @@
 '설정-개인정보 보호 및 보안-위치서비스'에서 'safari 웹사이트 위치 접근 허용'을 하셔야</br>
 "지도 검색" 및 "내 동네 설정"을 이용하실 수 있습니다.<b>
 </br>
+
+---
 
 ## 👨‍👩‍👧‍👦 팀원 소개
 <!-- ALL-CONTRIBUTORS-LIST:START - Do not remove or modify this section -->
@@ -51,16 +55,21 @@
 </br>
 </br>
 
+---
 
 ## 기술스택
 ![image](https://user-images.githubusercontent.com/62760166/205436492-fc83a538-b111-4478-800e-f30ef147b199.png)
 
 </br>
 
+---
+
 ## 아키텍쳐
 ![스크린샷 2022-12-03 오후 4 59 19](https://user-images.githubusercontent.com/62760166/205433155-02938f34-357a-420b-bcf0-3e859d59e414.png)
 
 </br>
+
+---
 
 ## 기술시연
 
@@ -82,6 +91,8 @@
 
 </br>
 
+---
+
 ## 문서
  <ul>
    <li><a href="https://www.notion.so/codestates/a6c492bb425a4ae589e870e21a7db9d6" target='_blank'>팀 노션 페이지</a></li>
@@ -91,6 +102,8 @@
  </ul>
 
 </br>
+
+---
 
 ## 깃 컨벤션
 ![image](https://user-images.githubusercontent.com/62760166/205436829-7d580b00-03c7-4fc9-94ca-af2804d94c43.png)
