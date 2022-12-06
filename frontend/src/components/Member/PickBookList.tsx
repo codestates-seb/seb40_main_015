@@ -1,31 +1,29 @@
 import styled from 'styled-components';
-import { useEffect, useRef, useState } from 'react';
-import { useInfiniteQuery, useQuery } from '@tanstack/react-query';
+import { useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 //component
-import { useMypageAPI } from '../../api/mypage';
 import ButtonStatus from '../Merchant/ButtonStatus';
 import Animation from '../Loading/Animation';
 
+import { useGetPickList } from '../../api/hooks/member/useGetPickList';
+
 const PickBookList = () => {
 	const navigate = useNavigate();
-	const { getPickBookList } = useMypageAPI();
+	const infiniteScrollTarget = useRef<HTMLDivElement>(null);
 
 	const handleBookDetailPageMove = (id: number) => {
 		navigate(`/books/${id}`);
 	};
 
-	// 찜목록 무한스크롤
-	const infiniteScrollTarget = useRef<HTMLDivElement>(null);
-	const { data, fetchNextPage, isLoading, hasNextPage, isFetchingNextPage } =
-		useInfiniteQuery({
-			queryKey: ['pickbooklist'],
-			queryFn: ({ pageParam = undefined }) => getPickBookList(pageParam),
-			getNextPageParam: lastPage => {
-				return lastPage?.content?.slice(-1)[0]?.bookId;
-			},
-		});
+	const {
+		pickBookData,
+		fetchNextPage,
+		isLoading,
+		hasNextPage,
+		isFetchingNextPage,
+	} = useGetPickList();
+
 	useEffect(() => {
 		const observer = new IntersectionObserver(
 			entries => {
@@ -47,8 +45,8 @@ const PickBookList = () => {
 		<>
 			{isLoading ? (
 				<Animation width={20} height={20} />
-			) : data?.pages[0].content[0]?.bookId ? (
-				data?.pages.map(el =>
+			) : pickBookData?.pages[0].content[0]?.bookId ? (
+				pickBookData?.pages.map(el =>
 					el?.content.map((pickbook, i: number) => {
 						const {
 							bookId,
