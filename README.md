@@ -67,7 +67,7 @@
 
 |                         책 예약하기                         |                  책 찜하기                  |                         회원정보 수정하기                         |
 | :----------------------------------------------------------: | :----------------------------------------------------------: | :----------------------------------------------------------: |
-| <img src="https://user-images.githubusercontent.com/98410418/205497205-225f9fa9-5996-4669-89cb-6f58f27e0dfe.gif" alt="책예약및찜하기" width=70%> | <img src="https://user-images.githubusercontent.com/98410418/205497534-c8f12ea9-7ab1-457e-b068-9fc9be48322c.gif" alt="책찜하기" width=70%> | <img src="https://user-images.githubusercontent.com/98410418/205815199-740237d0-f898-4768-a962-928c0bbcc010.gif" alt="회원정보수정하기" width=70%> |
+| <img src="https://user-images.githubusercontent.com/98410418/205497205-225f9fa9-5996-4669-89cb-6f58f27e0dfe.gif" alt="책예약및찜하기" width=70%> | <img src="https://user-images.githubusercontent.com/98410418/205497534-c8f12ea9-7ab1-457e-b068-9fc9be48322c.gif" alt="책찜하기" width=70%> | <img src="https://user-images.githubusercontent.com/98410418/205815604-43c1efe8-dd8b-46be-8594-31a4dc473dcd.gif" alt="회원정보수정하기" width=70%> |
 
 |                책 대여하기                 |                     책 등록하기                      |                     알림페이지                     |
 | :----------------------------------------------------------: | :----------------------------------------------------------: | :----------------------------------------------------------: |
