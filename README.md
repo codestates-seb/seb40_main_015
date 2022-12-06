@@ -2,6 +2,8 @@
 # 📚동네북
 📗 우리동네 직거래 도서 대여 서비스<br />
 배포링크 : https://dongne-book.com/<br />
+*test ID/PW : guest1 / 1q2w3e4r! <br />
+
 
 ---
 
