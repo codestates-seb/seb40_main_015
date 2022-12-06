@@ -44,9 +44,9 @@ jobs:
         with:
           files: ${{ env.RESOURCE_PATH }}
         env:
-          Spring.datasource.password: ${{ secrets.RDS_PASSWORD }}
-          Spring.security.oauth2.client.registration.google.clientId: ${{ secrets.GOOGLE_OAUTH2_CLIENT_ID }}
-          Spring.security.oauth2.client.registration.google.clientSecret: ${{ secrets.GOOGLE_OAUTH2_CLIENT_SECRET }}
+          spring.datasource.password: ${{ secrets.RDS_PASSWORD }}
+          spring.security.oauth2.client.registration.google.clientId: ${{ secrets.GOOGLE_OAUTH2_CLIENT_ID }}
+          spring.security.oauth2.client.registration.google.clientSecret: ${{ secrets.GOOGLE_OAUTH2_CLIENT_SECRET }}
           jwt.secret-key: ${{ secrets.JWT_SECRET_KEY }}
           cloud.aws.credentials.access-key: ${{ secrets.S3_ACCESS_KEY }}
           cloud.aws.credentials.secret-key: ${{ secrets.S3_SECRET_KEY }}
