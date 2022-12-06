@@ -10,7 +10,6 @@ import Animation from '../components/Loading/Animation';
 
 //hooks
 import { useAppDispatch, useAppSelector } from '../redux/hooks';
-import { useMypageAPI } from '../api/mypage';
 import { useGetBooksList } from '../api/hooks/books/useGetBooksList';
 import { useGetAddress } from '../api/hooks/member/useGetAddress';
 
@@ -20,7 +19,6 @@ import notify from '../utils/notify';
 const BooksPage = () => {
 	const { isLogin, id } = useAppSelector(state => state.loginInfo);
 	const dispatch = useAppDispatch();
-	const { getMyInfo } = useMypageAPI();
 	const navigate = useNavigate();
 	const target = useRef<HTMLDivElement>(null);
 
