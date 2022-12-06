@@ -44,11 +44,6 @@
 			"type": "image/png"
 		},
 		{
-			"src": "./icons/favicon-128x128.png",
-			"sizes": "128x128",
-			"type": "image/png"
-		},
-		{
 			"src": "./icons/favicon-512x512.png",
 			"sizes": "512x512",
 			"type": "image/png",
@@ -58,5 +53,6 @@
 	"start_url": "/",
 	"display": "standalone",
 	"theme_color": "#016241",
-	"background_color": "#016241"
+	"background_color": "#016241",
+	"orientation": "portrait"
 }
