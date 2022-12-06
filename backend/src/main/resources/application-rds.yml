@@ -1,8 +1,4 @@
 spring:
-  profiles:
-    include: API-KEY
----
-spring:
   h2:
     console:
       enabled: true
@@ -44,6 +40,10 @@ spring:
             scope:
               - profile
               - email
+  config:
+    use-legacy-processing: true
+  profiles:
+    include: API-KEY
 
 jwt:
   secret-key: ${JWT_SECRET_KEY}
