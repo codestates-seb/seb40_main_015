@@ -1,6 +1,5 @@
 package com.dongnebook.domain.member.repository;
 
-
 import static com.dongnebook.domain.book.domain.QBook.*;
 import static com.dongnebook.domain.member.domain.QMember.*;
 
@@ -55,7 +54,8 @@ public class MemberQueryRepository {
 		List<Double> LatRange = Location.latRangeList(request.getLatitude(), request.getHeight(), request.getLevel());
 		List<Double> LonRange = Location.lonRangeList(request.getLongitude(), request.getWidth(), request.getLevel());
 
-		List<MemberResponse> result = jpaQueryFactory.select(new QMemberResponse(member.id, member.nickname,member.location))
+		List<MemberResponse> result = jpaQueryFactory.select(
+				new QMemberResponse(member.id, member.nickname, member.location))
 			.from(member)
 			.where((member.location.latitude.between(LatRange.get(request.getLevel()), LatRange.get(0))),
 				(member.location.longitude.between(LonRange.get(0), LonRange.get(request.getLevel()))),
@@ -76,7 +76,7 @@ public class MemberQueryRepository {
 	}
 
 	//대여중인 책이 없는 회원만 가져온다.
-	public Optional<Member> findByMemberWithRental(Long memberId){
+	public Optional<Member> findByMemberWithRental(Long memberId) {
 		return Optional.ofNullable(jpaQueryFactory.select(member)
 			.from(member)
 			.leftJoin(member.bookList, book).fetchJoin()
@@ -84,19 +84,17 @@ public class MemberQueryRepository {
 			.fetchFirst());
 	}
 
-
-	public  MemberDetailResponse getMyInfo(Long memberId){
+	public MemberDetailResponse getMyInfo(Long memberId) {
 		Expression<Integer> totalBookCount = ExpressionUtils.as(JPAExpressions.select(book.id.count().intValue())
 			.from(book)
 			.where(book.member.id.eq(memberId), book.bookState.ne(BookState.DELETED)), "totalBookCount");
 		return jpaQueryFactory.select(
-				new QMemberDetailResponse(member.id, member.nickname, member.location, member.address,totalBookCount,
+				new QMemberDetailResponse(member.id, member.nickname, member.location, member.address, totalBookCount,
 					member.avatarUrl, member.avgGrade))
 			.from(member)
 			.where(member.id.eq(memberId))
 			.fetchOne();
 	}
-
 
 	private BooleanExpression ltMemberId(Long memberId) {
 		if (memberId == null) {
