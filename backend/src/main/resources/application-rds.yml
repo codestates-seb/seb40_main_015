@@ -1,4 +1,8 @@
 spring:
+  profiles:
+    include: API-KEY
+---
+spring:
   h2:
     console:
       enabled: true
@@ -40,8 +44,6 @@ spring:
             scope:
               - profile
               - email
-  profiles:
-    include: API-KEY
 
 jwt:
   secret-key: ${JWT_SECRET_KEY}
