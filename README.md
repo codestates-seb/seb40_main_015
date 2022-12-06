@@ -8,7 +8,8 @@
 ## 프로젝트 소개
 ![스크린샷 2022-12-03 오후 7 44 41](https://user-images.githubusercontent.com/62760166/205436979-a63c63a0-7c61-4fea-93e8-829937db006b.png)
  ### " 누구나 동네북 서비스를 통해 자유롭게 책을 빌려줄 수 있는 개인 서점을 가질 수 있다! "
- 
+</br>
+
  한 권의 책을 소비할 때 우리가 생각해봐야 할 비용은 책의 가격뿐만 아니라 그것을 오랫동안 보관할 공간까지 고려해야 합니다.
 
 책을 읽는 행위는 일종의 단발성 체험 활동입니다. 대부분의 사람들은 책을 여러 번 반복하여 읽지 않죠. 책 중에서도 특히 만화책이 그렇습니다. 웹툰 산업이 발전한 것도 이러한 이유가 큰데, 웹툰은 빠르고 편리하며 시공간의 제약 없이 재미를 제공하기 때문입니다.
@@ -20,11 +21,10 @@
 이러한 생각에서 동네북 프로젝트가 탄생하게 됐습니다.
 
 </br>
-</br>
 
 ## 🖥 동네북 QR 코드
 ![](https://velog.velcdn.com/images/fejigu/post/e1960487-f1a5-4937-a787-b1721e4ab891/image.png)
-</br>
+
 </br>
 
 ## 👨‍👩‍👧‍👦 팀원 소개
@@ -52,10 +52,11 @@
 ## 기술스택
 ![image](https://user-images.githubusercontent.com/62760166/205436492-fc83a538-b111-4478-800e-f30ef147b199.png)
 
+</br>
+
 ## 아키텍쳐
 ![스크린샷 2022-12-03 오후 4 59 19](https://user-images.githubusercontent.com/62760166/205433155-02938f34-357a-420b-bcf0-3e859d59e414.png)
 
-</br>
 </br>
 
 ## 기술시연
@@ -66,7 +67,7 @@
 
 |                         책 예약하기                         |                  책 찜하기                  |                         회원정보 수정하기                         |
 | :----------------------------------------------------------: | :----------------------------------------------------------: | :----------------------------------------------------------: |
-| <img src="https://user-images.githubusercontent.com/98410418/205497205-225f9fa9-5996-4669-89cb-6f58f27e0dfe.gif" alt="책예약및찜하기" width=70%> | <img src="https://user-images.githubusercontent.com/98410418/205497534-c8f12ea9-7ab1-457e-b068-9fc9be48322c.gif" alt="책찜하기" width=70%> | <img src="https://user-images.githubusercontent.com/98410418/205497197-4ba20c9a-c41f-4cb7-aa45-c2a54ddc8eb2.gif" alt="회원정보수정하기" width=70%> |
+| <img src="https://user-images.githubusercontent.com/98410418/205497205-225f9fa9-5996-4669-89cb-6f58f27e0dfe.gif" alt="책예약및찜하기" width=70%> | <img src="https://user-images.githubusercontent.com/98410418/205497534-c8f12ea9-7ab1-457e-b068-9fc9be48322c.gif" alt="책찜하기" width=70%> | <img src="https://user-images.githubusercontent.com/98410418/205815199-740237d0-f898-4768-a962-928c0bbcc010.gif" alt="회원정보수정하기" width=70%> |
 
 |                책 대여하기                 |                     책 등록하기                      |                     알림페이지                     |
 | :----------------------------------------------------------: | :----------------------------------------------------------: | :----------------------------------------------------------: |
@@ -75,7 +76,7 @@
 |                       채팅하기                        |
 | :----------------------------------------------------------: |
 | <img src="https://user-images.githubusercontent.com/98410418/205497206-a38bd7a6-8c7c-45bc-b0f9-0d0233ea2ffd.gif" alt="채팅하기" width=40%> | 
-</br>
+
 </br>
 
 ## 문서
@@ -85,7 +86,7 @@
    <li><a href="https://www.notion.so/API-3ce5b61adf944355846a561fbd11808b" target='_blank'>API 명세서</a></li>
   <li><a href="https://www.figma.com/file/LDBIyFZYFKpWtTs9rW6RX6/%EB%8F%99%EB%84%A4%EB%B6%81" target='_blank'>Figma</a></li>
  </ul>
-</br>
+
 </br>
 
 ## 깃 컨벤션
