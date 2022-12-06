@@ -52,6 +52,7 @@ jobs:
           #KAKAO_KEY: ${{ secrets.KAKAO_KEY }}
         
       - name: Set kakao
+        uses: microsoft/variable-substitution@v1
         with:
           files: ${{ env.RESOURCE_PATH_KAKAO }}
         env:
