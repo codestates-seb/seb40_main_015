@@ -1,6 +1,5 @@
 import styled from 'styled-components';
 import { useNavigate } from 'react-router-dom';
-import { useQuery } from '@tanstack/react-query';
 import { useEffect, useRef } from 'react';
 
 //components
@@ -13,6 +12,7 @@ import Animation from '../components/Loading/Animation';
 import { useAppDispatch, useAppSelector } from '../redux/hooks';
 import { useMypageAPI } from '../api/mypage';
 import { useGetBooksList } from '../api/hooks/books/useGetBooksList';
+import { useGetAddress } from '../api/hooks/member/useGetAddress';
 
 //etc
 import notify from '../utils/notify';
@@ -48,11 +48,7 @@ const BooksPage = () => {
 		return () => observer.disconnect();
 	}, []);
 
-	const address = useQuery({
-		queryKey: ['myprofile'],
-		queryFn: () => getMyInfo(id),
-		retry: false,
-	}).data?.address;
+	const address = useGetAddress(id);
 
 	const handleClickCreate = () => {
 		if (!isLogin) notify(dispatch, '로그인이 필요합니다');
