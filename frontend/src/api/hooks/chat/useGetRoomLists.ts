@@ -13,6 +13,7 @@ const useGetRoomLists = () => {
 			// console.log(data);
 		},
 		cacheTime: 0,
+		retry: false,
 	});
 
 	return { roomListsData, isLoadingRoomList };

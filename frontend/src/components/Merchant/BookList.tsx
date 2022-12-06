@@ -1,11 +1,6 @@
-import { ReactElement, useEffect, useMemo } from 'react';
-import { useMypageAPI } from '../../api/mypage';
-import { useInfiniteQuery } from '@tanstack/react-query';
-import { useInView } from 'react-intersection-observer';
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
-import ButtonStatus from './ButtonStatus';
-import Animation from '../Loading/Animation';
+import useMerchantBookList from '../../api/hooks/merchant/useMerchantBookList';
 
 interface Item {
 	bookId: string;
@@ -14,33 +9,9 @@ interface Item {
 	status: string;
 }
 
-const BookList = ({ merchantId }: { merchantId?: string }) => {
-	const { getMerchantBookLists } = useMypageAPI();
-	const [ref, inView] = useInView();
+const BookList = ({ merchantId }: { merchantId: string }) => {
+	const { lists, hasNextPage, ref } = useMerchantBookList(merchantId);
 	const navigate = useNavigate();
-
-	const { data, fetchNextPage, hasNextPage, isFetchingNextPage } =
-		useInfiniteQuery(
-			['merchantBookList'],
-			({ pageParam = undefined }) =>
-				getMerchantBookLists(merchantId, pageParam),
-			{
-				getNextPageParam: lastPage => {
-					return lastPage.last
-						? undefined
-						: lastPage.content[lastPage.content.length - 1].bookId;
-				},
-				retry: false,
-			},
-		);
-	const lists: any = useMemo(
-		() => data?.pages.flatMap(page => page.content),
-		[data?.pages],
-	);
-
-	useEffect(() => {
-		if (inView && hasNextPage) fetchNextPage();
-	}, [inView]);
 
 	const handleBookDetailPageMove = (id: string) => {
 		navigate(`/books/${id}`);

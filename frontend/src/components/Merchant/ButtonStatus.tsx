@@ -37,7 +37,7 @@ const StatusDisplay = styled.div`
 	border-radius: 5px;
 	border: none;
 	padding: 7px 15px;
-	width: 3.1rem;
+	width: 3.4rem;
 	text-align: center;
 `;
 

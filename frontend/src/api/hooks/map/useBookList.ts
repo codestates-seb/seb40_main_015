@@ -17,7 +17,7 @@ const useBookList = (props: IProps) => {
 		props;
 	const [bookLists, setBookLists] = useState<any>([]);
 	const [ref, inView] = useInView();
-	const level = [0, 9, 7, 5, 3, 3];
+	const level = [0, 9, 7, 5, 3, 3, 3];
 	const {
 		fetchNextPage,
 		hasNextPage,

@@ -2,13 +2,13 @@ import styled from 'styled-components';
 import { FaArrowDown } from 'react-icons/fa';
 import { useEffect, useState, useMemo, useRef } from 'react';
 import { throttle } from 'lodash';
-// 아직 안됨
+
 const ScrollBottomButton = () => {
 	const [scroll, setScroll] = useState(false);
 	const beforeScrollY = useRef(
 		window.innerWidth > 500
 			? document.body.scrollHeight
-			: document.body.scrollHeight - 300,
+			: document.body.scrollHeight + 300,
 	);
 
 	useEffect(() => {
@@ -52,7 +52,10 @@ const CustomBox = styled.div`
 	z-index: 1000;
 	opacity: 0.9;
 	right: 3%;
-	bottom: 15%;
+	bottom: 20%;
+	@media screen and (min-width: 800px) {
+		bottom: 10%;
+	}
 `;
 
 interface CircleFabProps {

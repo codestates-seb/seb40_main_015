@@ -232,6 +232,7 @@ interface ChatButtonProps {
 
 const ChatButton = styled.button<ChatButtonProps>`
 	background-color: ${props => (props.isLogin ? '#ffc700' : '#a7a7a7')};
+	color: black;
 	border: none;
 	padding: 0.5rem 1rem;
 	border-radius: 5px;
