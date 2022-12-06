@@ -2,7 +2,7 @@ import styled from 'styled-components';
 import { useNavigate } from 'react-router-dom';
 import { HiOutlinePencilAlt } from 'react-icons/hi';
 import { useDispatch } from 'react-redux';
-import { useQuery } from '@tanstack/react-query';
+import { useMutation, useQuery } from '@tanstack/react-query';
 import { useAppSelector } from '../redux/hooks';
 
 // component
@@ -20,12 +20,17 @@ import useTabs from '../hooks/useTabs';
 import { logout } from '../redux/slice/userSlice';
 import { useEffect } from 'react';
 import { FiExternalLink } from 'react-icons/fi';
+import useAuthAPI from '../api/auth';
 
 function ProfilePage() {
 	const dispatch = useDispatch();
 	const navigate = useNavigate();
 	const [tab, curTab, handleChange] = useTabs(['찜 목록', '예약 목록']);
 	const { id } = useAppSelector(state => state.loginInfo);
+	const { deleteLogout } = useAuthAPI();
+
+	//logout
+	const { mutate: mutateLogout } = useMutation(deleteLogout);
 
 	const handleEditPage = () => {
 		navigate('/profile/edit');
@@ -97,6 +102,7 @@ function ProfilePage() {
 						onClick={() => {
 							const isTrue = window.confirm('로그아웃 하시겠습니까?');
 							if (!isTrue) return;
+							mutateLogout();
 							dispatch(logout());
 							navigate('/login');
 						}}>

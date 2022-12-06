@@ -31,7 +31,10 @@ const useAuthAPI = () => {
 	const getAccessTokenRefresh = async () =>
 		await api.get<IAccessTokenRefresh>('/reissue');
 
-	return { getAccessTokenRefresh, postLogin };
+	// logout
+	const deleteLogout = async () => await api.delete('/logout');
+
+	return { getAccessTokenRefresh, postLogin, deleteLogout };
 };
 
 export default useAuthAPI;
