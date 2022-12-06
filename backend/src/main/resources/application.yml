@@ -5,16 +5,17 @@ spring:
       path: /h2
       settings:
         web-allow-others: true
+  cache:
+    type: redis
+  redis:
+    host: localhost
+    port: 6379
   servlet:
     multipart:
       max-file-size: 2MB
       max-request-size: 2MB
-#    datasource:
-#      url : jdbc:h2:mem:test
   datasource:
-      url: jdbc:mysql://localhost:3306/root?characterEncoding=UTF-8&serverTimezone=Asia/Seoul
-      username: root
-      password: asdf1234
+    url : jdbc:h2:mem:test
   jpa:
     defer-datasource-initialization: true
     open-in-view: false
@@ -25,11 +26,6 @@ spring:
       hibernate:
         default_batch_fetch_size: 100
         format_sql: true  # (3) SQL pretty print
-  cache:
-    type: redis
-  redis:
-    host: localhost
-    port: 6379
   security:
     oauth2:
       client:
@@ -40,6 +36,10 @@ spring:
             scope:
               - profile
               - email
+  profiles:
+    include:
+      - API-KEY
+
 jwt:
   secret-key: ${JWT_SECRET_KEY}
   access-token-expiration-minutes: 30
