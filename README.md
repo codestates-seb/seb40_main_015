@@ -25,7 +25,8 @@
 ## 🖥 동네북 QR 코드
 ![](https://velog.velcdn.com/images/fejigu/post/e1960487-f1a5-4937-a787-b1721e4ab891/image.png)
 </br>
-→ <b>iphone, mac user는 '설정-개인정보 보호 및 보안-위치서비스'에서 'safari 웹사이트 위치 접근 허용'을 하셔야</br>
+→ <b>iphone, mac user는 </br>
+'설정-개인정보 보호 및 보안-위치서비스'에서 'safari 웹사이트 위치 접근 허용'을 하셔야</br>
 지도 검색 및 내 동네 설정을 이용하실 수 있습니다.<b>
 </br>
 
