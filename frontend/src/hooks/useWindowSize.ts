@@ -5,7 +5,7 @@ export default function useWindowSize(level: number = 5) {
 		width: +(((window.innerWidth / 150) * 150) / 50).toFixed(),
 		height: +(((window.innerHeight / 150) * 150) / 50).toFixed(),
 	});
-	const levelMenu = [0, 38, 70, 150, 330, 550];
+	const levelMenu = [0, 38, 70, 150, 330, 550, 1100];
 
 	useEffect(() => {
 		function handleResize() {

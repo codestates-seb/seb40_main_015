@@ -212,7 +212,7 @@ const EmptyBox = styled.div`
 `;
 const ButtonWrapper = styled.div`
 	min-width: 68px;
-	height: 2.4rem;
+	height: 2.1rem;
 	button {
 		width: 100%;
 		height: 100%;

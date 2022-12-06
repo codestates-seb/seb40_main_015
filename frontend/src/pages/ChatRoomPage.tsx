@@ -12,12 +12,7 @@ import { useParams } from 'react-router';
 import ScrollToBottom from '../utils/scrollToBottom';
 import ScrollBottomButton from '../components/common/ScrollBottomButton';
 import { convertDateForChat2 } from '../utils/convertDateForChat';
-
-interface Member {
-	avatarUrl: string;
-	memberId: number;
-	nickName: string;
-}
+import Animation from '../components/Loading/Animation';
 
 interface NewMessage {
 	createdAt: string;
@@ -37,6 +32,7 @@ const ChatRoomPage = () => {
 		setMessageList,
 		myInfo,
 		receiverInfo,
+		isLoading,
 	} = useGetRoomMessage(roomId!);
 	const { bookId, bookState, bookUrl, title } = chatList;
 	const client: any = useRef({});
@@ -44,21 +40,19 @@ const ChatRoomPage = () => {
 	let prevDate = '';
 	const [newMessage, setNewMessage] = useState<NewMessage>();
 
-	console.log(messageList);
-
 	const handleChangeText = (e: React.ChangeEvent<HTMLInputElement>) => {
 		setText(e.target.value);
 	};
 
 	const handleSendMessage = (e: KeyboardEvent<HTMLInputElement>) => {
-		if (e.nativeEvent.isComposing) return;
+		if (e.nativeEvent.isComposing || !text.trim()) return;
 		if (e.key === 'Enter' && text) {
 			publish(text);
 		}
 	};
 
 	const handleClickSendMessage = () => {
-		if (!text) return;
+		if (!text.trim()) return;
 		publish(text);
 	};
 
@@ -110,14 +104,10 @@ const ChatRoomPage = () => {
 		client.current.subscribe(`/sub/room/${roomId}`, (body: any) => {
 			const json_body = JSON.parse(body.body);
 			setNewMessage(json_body);
-			console.log('구독');
-
-			// refetch();
 		});
 	};
 
 	const disconnect = () => {
-		console.log('상대와 연결 종료');
 		client.current.deactivate();
 	};
 
@@ -143,90 +133,105 @@ const ChatRoomPage = () => {
 		<Container>
 			<TopBox>
 				<Title text="대화내역" marginBottom={false} />
-				<BookInfo
-					bookState={bookState}
-					bookUrl={bookUrl}
-					bookId={bookId}
-					title={title}
-					onClick={handleClickEndOfChat}
-				/>
+				{!isLoading && chatList ? (
+					<BookInfo
+						bookState={bookState}
+						bookUrl={bookUrl}
+						bookId={bookId}
+						title={title}
+						onClick={handleClickEndOfChat}
+					/>
+				) : null}
 			</TopBox>
 			<MessageArea>
-				{messageList.length ? (
+				{!isLoading ? (
 					<>
-						{messageList?.map((list: any, i: number) => {
-							const { dateTime, content } = list;
-							const newList = { content, dateTime };
-							const currentDate = convertDateForChat2(dateTime);
-							if (currentDate !== prevDate) {
-								prevDate = currentDate;
-								if (list?.nickName === nickname) {
-									if (prevNickname === list.nickName) {
-										return (
-											<React.Fragment key={currentDate}>
-												<DateDisplay>{currentDate}</DateDisplay>
-												<SendingMessage list={newList} />
-											</React.Fragment>
-										);
+						{messageList.length ? (
+							messageList.map((list: any) => {
+								const { dateTime, content } = list;
+								const newList = { content, dateTime };
+								const currentDate = convertDateForChat2(dateTime);
+								if (currentDate !== prevDate) {
+									prevDate = currentDate;
+									if (list?.nickName === nickname) {
+										if (prevNickname === list.nickName) {
+											return (
+												<React.Fragment key={currentDate}>
+													<DateDisplay>{currentDate}</DateDisplay>
+													<SendingMessage list={newList} />
+												</React.Fragment>
+											);
+										} else {
+											prevNickname = list.nickName;
+											return (
+												<React.Fragment key={currentDate}>
+													<DateDisplay>{currentDate}</DateDisplay>
+													<SendingMessage list={list} />
+												</React.Fragment>
+											);
+										}
 									} else {
-										prevNickname = list.nickName;
-										return (
-											<React.Fragment key={currentDate}>
-												<DateDisplay>{currentDate}</DateDisplay>
-												<SendingMessage list={list} />
-											</React.Fragment>
-										);
+										if (prevNickname === list.nickName) {
+											return (
+												<React.Fragment key={currentDate}>
+													<DateDisplay>{currentDate}</DateDisplay>
+													<ReceptionMessage list={newList} />
+												</React.Fragment>
+											);
+										} else {
+											prevNickname = list.nickName;
+											return (
+												<React.Fragment key={currentDate}>
+													<DateDisplay>{currentDate}</DateDisplay>
+													<ReceptionMessage list={list} />
+												</React.Fragment>
+											);
+										}
 									}
 								} else {
-									if (prevNickname === list.nickName) {
-										return (
-											<React.Fragment key={currentDate}>
-												<DateDisplay>{currentDate}</DateDisplay>
-												<ReceptionMessage list={newList} />
-											</React.Fragment>
-										);
+									if (list?.nickName === nickname) {
+										if (prevNickname === list.nickName) {
+											return <SendingMessage key={dateTime} list={newList} />;
+										} else {
+											prevNickname = list.nickName;
+											return <SendingMessage key={dateTime} list={list} />;
+										}
 									} else {
-										prevNickname = list.nickName;
-										return (
-											<React.Fragment key={currentDate}>
-												<DateDisplay>{currentDate}</DateDisplay>
-												<ReceptionMessage list={list} />
-											</React.Fragment>
-										);
+										if (prevNickname === list.nickName) {
+											return <ReceptionMessage key={dateTime} list={newList} />;
+										} else {
+											prevNickname = list.nickName;
+											return <ReceptionMessage key={dateTime} list={list} />;
+										}
 									}
 								}
-							} else {
-								if (list?.nickName === nickname) {
-									if (prevNickname === list.nickName) {
-										return <SendingMessage key={dateTime} list={newList} />;
-									} else {
-										prevNickname = list.nickName;
-										return <SendingMessage key={dateTime} list={list} />;
-									}
-								} else {
-									if (prevNickname === list.nickName) {
-										return <ReceptionMessage key={dateTime} list={newList} />;
-									} else {
-										prevNickname = list.nickName;
-										return <ReceptionMessage key={dateTime} list={list} />;
-									}
-								}
-							}
-						})}
+							})
+						) : (
+							<Empty>
+								<p>대화를 시작해보세요</p>
+							</Empty>
+						)}
 					</>
 				) : (
-					<Empty>
-						<p>대화를 시작해보세요</p>
-					</Empty>
+					<Animation />
 				)}
 			</MessageArea>
-			<Input
-				text={text}
-				onChange={handleChangeText}
-				onKeyDown={handleSendMessage}
-				onCick={handleClickSendMessage}
-			/>
-			<ScrollBottomButton />
+			<div
+				style={{
+					position: 'fixed',
+					width: '100%',
+					bottom: '60px',
+					display: 'flex',
+					justifyContent: 'center',
+				}}>
+				<Input
+					text={text}
+					onChange={handleChangeText}
+					onKeyDown={handleSendMessage}
+					onCick={handleClickSendMessage}
+				/>
+				<ScrollBottomButton />
+			</div>
 		</Container>
 	);
 };

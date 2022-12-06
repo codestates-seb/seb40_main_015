@@ -1,6 +1,7 @@
 import { useLocation } from 'react-router';
 import styled from 'styled-components';
 import repository from '../../../../assets/image/repository.png';
+import qr from '../../../../assets/image/qr.png';
 import { useAppSelector } from '../../../../redux/hooks';
 
 const Repository = () => {
@@ -10,17 +11,20 @@ const Repository = () => {
 	if (pathname === '/history' && !isLogin) return null;
 
 	return (
-		<a href="https://github.com/codestates-seb/seb40_main_015">
-			<StyledImg src={repository} alt="" />
-		</a>
+		<StyledRepository>
+			<Container>
+				<div>
+					<QrImg src={qr} alt="동네북 qr코드" />
+				</div>
+				<a href="https://github.com/codestates-seb/seb40_main_015">
+					<RepoImg src={repository} alt="동네북 레포지토리 바로가기" />
+				</a>
+			</Container>
+		</StyledRepository>
 	);
 };
 
-const StyledImg = styled.img`
-	width: 13rem;
-	margin: 10rem 2rem 0 4.5vw;
-	position: sticky;
-	top: 8rem;
+const StyledRepository = styled.div`
 	display: none;
 	@media screen and (min-width: 1400px) {
 		animation: fadeInLeft 1s;
@@ -36,6 +40,24 @@ const StyledImg = styled.img`
 			transform: translateZ(0);
 		}
 	}
+`;
+
+const Container = styled.div`
+	position: sticky;
+	top: 6rem;
+	margin: 6rem 2rem 0 4.5vw;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+`;
+
+const QrImg = styled.img`
+	width: 10rem;
+	margin-bottom: 1rem;
+`;
+
+const RepoImg = styled.img`
+	width: 12rem;
 `;
 
 export default Repository;

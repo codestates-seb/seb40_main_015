@@ -76,7 +76,7 @@ export const useMypageAPI = () => {
 	};
 
 	// 마이페이지 - 회원정보 열람(주용)
-	const getMemberInfo = async (id: string | undefined) =>
+	const getMemberInfo = async (id: string | number | undefined) =>
 		await api.get(`/member/${id}`).then(res => res.data);
 
 	// 마이페이지 - 회원정보 열람(지수)

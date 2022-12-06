@@ -54,18 +54,18 @@ function ProfileEditPage() {
 		dispatch(updateUserInfo({ key: 'nickname', value: nickname }));
 	};
 
-	useEffect(() => {
-		window.addEventListener('scroll', handleScroll);
-		return () => {
-			window.removeEventListener('scroll', handleScroll); //clean up
-		};
-	}, []);
+	// useEffect(() => {
+	// 	window.addEventListener('scroll', handleScroll);
+	// 	return () => {
+	// 		window.removeEventListener('scroll', handleScroll); //clean up
+	// 	};
+	// }, []);
 
-	const handleScroll = () => {
-		console.log('scrolled');
-	};
+	// const handleScroll = () => {
+	// 	console.log('scrolled');
+	// };
 
-	console.log('결과', address);
+	// console.log('결과', address);
 
 	return (
 		<Layout>

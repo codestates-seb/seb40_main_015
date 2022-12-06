@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { useAppDispatch, useAppSelector } from '../../../redux/hooks';
 import { updateUserInfo } from '../../../redux/slice/userInfoSlice';
 import useGetPhotoUrl from '../common/useGetPhotoUrl';
+import resizeImageToBlob from '../../../utils/resizeImage';
 
 const Avatar = () => {
 	const { mutate } = useGetPhotoUrl();
