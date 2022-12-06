@@ -8,7 +8,7 @@ spring:
   cache:
     type: redis
   redis:
-    host: localhost
+    host: 3.36.157.238
     port: 6379
   servlet:
     multipart:
