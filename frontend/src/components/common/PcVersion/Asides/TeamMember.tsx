@@ -24,7 +24,7 @@ const TeamMember = () => {
 
 const Container = styled.div`
 	height: 100%;
-	margin: 10rem 4.5vw 0 2rem;
+	margin: 8rem 4.5vw 0 2rem;
 	position: sticky;
 	top: 8rem;
 	display: none;

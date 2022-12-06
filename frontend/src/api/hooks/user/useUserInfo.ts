@@ -1,0 +1,16 @@
+import { useQuery } from '@tanstack/react-query';
+import { MemberInfo } from '../../../queryType/members';
+import { useMypageAPI } from '../../mypage';
+
+const useUserInfo = (merchantId: number | string) => {
+	const { getMemberInfo } = useMypageAPI();
+	const { data, isLoading } = useQuery<MemberInfo>(
+		['merchant', merchantId],
+		() => getMemberInfo(merchantId),
+		{ retry: false },
+	);
+
+	return { data, isLoading };
+};
+
+export default useUserInfo;

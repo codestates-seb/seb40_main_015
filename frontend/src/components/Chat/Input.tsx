@@ -19,6 +19,7 @@ const Input = ({ text, onChange, onKeyDown, onCick }: IProps) => {
 				onKeyDown={onKeyDown}
 				placeholder="메시지 보내기"
 				maxLength={200}
+				autoFocus
 			/>
 			<SendIcon text={text} onClick={onCick} />
 		</Container>
@@ -49,7 +50,6 @@ const TextInput = styled.input`
 	background-color: #eaeaea;
 	border-radius: 50px;
 	padding: 0.5rem 2rem;
-
 	:focus {
 		outline: none;
 	}

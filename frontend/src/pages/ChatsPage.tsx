@@ -27,7 +27,7 @@ const ChatsPage = () => {
 			<Box>
 				{isLoadingRoomList ? (
 					<Animation />
-				) : roomListsData.length ? (
+				) : roomListsData?.length ? (
 					roomListsData.map((list: RoomList) => {
 						return <ChatLists list={list} key={list.roomId} />;
 					})

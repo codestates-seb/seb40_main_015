@@ -14,13 +14,10 @@ const useAPI = () => {
 		// timeout: 10000,
 	};
 	const axiosWithAccessToken = axios.create(config);
-	axiosWithAccessToken.interceptors.response.use(
-		response => response,
-		err => {
-			if (err.response.data.message !== 'Token Expired') return;
-			dispatch(login({ accessToken: 'Bearer ', isLogin: true }));
-		},
-	);
+	axiosWithAccessToken.interceptors.response.use(undefined, err => {
+		if (err.response.data.message !== 'Token Expired') return;
+		dispatch(login({ accessToken: 'Bearer ', isLogin: true }));
+	});
 
 	return axiosWithAccessToken;
 };

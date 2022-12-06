@@ -26,7 +26,7 @@ const useMerchantSector = (props: IProps) => {
 	const { centerCoord, current, searchInput, zoomLevel, size } = props;
 	const [merchantSector, setMerchantSector] = useState<any>([]);
 	const dispatch = useAppDispatch();
-	const level = [0, 9, 7, 5, 3, 3];
+	const level = [0, 9, 7, 5, 3, 3, 3];
 	const { refetch: merchantCurrentRefetch } = useQuery({
 		queryKey: ['merchantSectorByCurrent', centerCoord, zoomLevel, size],
 		queryFn: () => {

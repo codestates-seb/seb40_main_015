@@ -34,7 +34,7 @@ const ReceptionMessage = ({ list }: Iprops) => {
 
 const Container = styled.div`
 	display: flex;
-	align-items: flex-end;
+	align-items: flex-start;
 	margin-bottom: 0.2rem;
 	&:last-child {
 		margin-bottom: 1rem;
@@ -80,6 +80,7 @@ const MessageArea = styled.div`
 	p {
 		font-size: 1.2rem;
 		line-height: 1.5rem;
+		word-break: break-word;
 	}
 `;
 
