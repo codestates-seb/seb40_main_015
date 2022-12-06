@@ -41,6 +41,9 @@ Spring:
     #include: API-KEY
   config:
     location: classpath:kakao.yml
+  profiles:
+    include:
+     - API-KEY
 jwt:
   secret-key: ${JWT_SECRET_KEY}
   access-token-expiration-minutes: 30
@@ -55,7 +58,6 @@ server:
   servlet:
     encoding:
       force-response: true
-  port: 808
 
 cloud:
   aws:

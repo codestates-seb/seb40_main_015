@@ -1,2 +1,2 @@
-kakao:
-  KAKAO_KEY: ${KAKAO_KEY}
+#kakao:
+  #KAKAO_KEY: ${KAKAO_KEY}
