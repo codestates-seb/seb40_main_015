@@ -18,7 +18,7 @@ permissions:
 env:
   S3_BUCKET_NAME: github-actions-bucket-dongnebook
   RESOURCE_PATH: ./backend/src/main/resources/application-rds.yml
-  #RESOURCE_PATH_KAKAO: ./backend/src/main/resources/application-API-KEY.yml
+  RESOURCE_PATH_KAKAO: ./backend/src/main/resources/application-API-KEY.yml
 
 
 jobs:
@@ -49,20 +49,19 @@ jobs:
           jwt.secret-key: ${{ secrets.JWT_SECRET_KEY }}
           cloud.aws.credentials.access-key: ${{ secrets.S3_ACCESS_KEY }}
           cloud.aws.credentials.secret-key: ${{ secrets.S3_SECRET_KEY }}
+          #KAKAO_KEY: ${{ secrets.KAKAO_KEY }}
+        
+      - name: Set kakao
+        uses: microsoft/variable-substitution@v1
+        with:
+          files: ${{ env.RESOURCE_PATH_KAKAO }}
+        env:
           KAKAO_KEY: ${{ secrets.KAKAO_KEY }}
         
         
       - name: Build with Gradle
         run: ./gradlew build
         working-directory: ./backend/
-
-
-      #- name: Set kakao
-        #uses: microsoft/variable-substitution@v1
-        #with:
-          #files: ${{ env.RESOURCE_PATH_KAKAO }}
-        #env:
-          #KAKAO_KEY: ${{ secrets.KAKAO_KEY }}
         
         
       - name: Make zip file
