@@ -7,6 +7,7 @@ import ButtonStatus from '../Merchant/ButtonStatus';
 import Animation from '../Loading/Animation';
 
 import { useGetPickList } from '../../api/hooks/member/useGetPickList';
+import BookItemState from '../Books/BookItemState';
 
 const PickBookList = () => {
 	const navigate = useNavigate();
@@ -40,7 +41,6 @@ const PickBookList = () => {
 
 		return () => observer.disconnect();
 	}, []);
-
 	return (
 		<>
 			{isLoading ? (
@@ -56,7 +56,6 @@ const PickBookList = () => {
 							rentalFee,
 							merchantName,
 						} = pickbook;
-						// 대여가능, 예약가능, 대여/예약 불가능
 						return (
 							<Container key={bookId}>
 								<FlexBox
@@ -73,7 +72,8 @@ const PickBookList = () => {
 											<p>{merchantName}</p>
 										</div>
 										<ButtonWrapper>
-											<ButtonStatus status={status} bookId={bookId} />
+											{/* <ButtonStatus status={status} bookId={bookId} /> */}
+											<BookItemState status={status} rental={undefined} />
 										</ButtonWrapper>
 									</InfoWrapped>
 								</FlexBox>
@@ -86,7 +86,6 @@ const PickBookList = () => {
 					<p>찜한 책이 없어요</p>
 				</EmptyBox>
 			)}
-			{/* 무한스크롤 */}
 			<ScrollEnd
 				ref={infiniteScrollTarget}
 				className={`${hasNextPage ? '' : 'hidden'}`}>
@@ -161,17 +160,12 @@ const EmptyBox = styled.div`
 `;
 
 const ButtonWrapper = styled.div`
-	min-width: 68px;
-	height: 2.4rem;
-	button {
-		width: 100%;
-		height: 100%;
+	div {
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		line-height: 15px;
 	}
-	/* width: 68px;
-	height: 2.4rem;
-	@media screen and (min-width: 800px) {
-		width: 80px;
-	} */
 `;
 
 // infinite scroll
