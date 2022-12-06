@@ -64,7 +64,6 @@ const Container = styled.div`
 	width: 100%;
 	height: 25px;
 	background-color: ${props => props.theme.colors.main};
-	/* border-radius: 1000px; */
 	display: flex;
 	flex-wrap: nowrap;
 	justify-content: flex-end;

@@ -40,6 +40,11 @@ spring:
             scope:
               - profile
               - email
+  config:
+    use-legacy-processing: true
+  profiles:
+    include: API-KEY
+
 jwt:
   secret-key: ${JWT_SECRET_KEY}
   access-token-expiration-minutes: 30

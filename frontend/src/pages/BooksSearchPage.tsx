@@ -11,16 +11,6 @@ import useMerchantSector from '../api/hooks/map/useMerchantSector';
 import useBookList from '../api/hooks/map/useBookList';
 import useBookSector from '../api/hooks/map/useBookSector';
 
-interface MerchantSectorProps {
-	merchantCount: number;
-	totalBookCount?: number;
-	sector: number;
-	location: {
-		latitude: number;
-		longitude: number;
-	};
-}
-
 interface selectOverlayProps {
 	merchantCount?: number;
 	bookCount?: number;
@@ -92,13 +82,10 @@ const BooksSearchPage = () => {
 						<Search
 							searchInput={searchInput}
 							setSearchInput={setSearchInput}
-							current={current}
 							setMerchantSector={setMerchantSector}
 							setBookSector={setBookSector}
 							setMerchantLists={setMerchantLists}
 							setBookLists={setBookLists}
-							zoomLevel={zoomLevel}
-							size={size}
 							merchantCurrentRefetch={merchantCurrentRefetch}
 							bookCurrentRefetch={bookCurrentRefetch}
 						/>
