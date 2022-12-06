@@ -22,7 +22,7 @@ function ProfileEditPage() {
 
 	const userInfo = useAppSelector(state => state.persistedReducer.userInfo);
 
-	console.log(userInfo);
+	// console.log(userInfo);
 
 	const location = useGeolocation2().coordinates || {
 		latitude: 0,
@@ -43,7 +43,7 @@ function ProfileEditPage() {
 		avatarUrl,
 	});
 
-	console.log(location);
+	// console.log(location);
 
 	//닉네임
 	const handleChangeNickname = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -62,10 +62,10 @@ function ProfileEditPage() {
 	}, []);
 
 	const handleScroll = () => {
-		console.log('scrolled');
+		// console.log('scrolled');
 	};
 
-	console.log('결과', address);
+	// console.log('결과', address);
 
 	return (
 		<Layout>
