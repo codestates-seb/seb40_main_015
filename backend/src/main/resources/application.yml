@@ -8,20 +8,24 @@ spring:
   cache:
     type: redis
   redis:
-    host: localhost
+    host: 3.36.157.238
     port: 6379
   servlet:
     multipart:
       max-file-size: 2MB
       max-request-size: 2MB
   datasource:
-    url : jdbc:h2:mem:test
+    #    url: jdbc:h2:mem:test
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://codestates-mainpj-mysql.clwvdgya13lr.ap-northeast-2.rds.amazonaws.com:3306/dongnebook
+    username: admin
+    password: ${RDS_PASSWORD}
   jpa:
     defer-datasource-initialization: true
-    open-in-view: false
     hibernate:
-      ddl-auto: create  # (1) 스키마 자동 생성
+      ddl-auto: update  # (1) 스키마 자동 생성 X
       type: trace
+       # (2) SQL 쿼리 출력
     properties:
       hibernate:
         default_batch_fetch_size: 100
@@ -48,7 +52,7 @@ jwt:
 decorator:
   datasource:
     p6spy:
-      enable-logging: true
+      enable-logging: false
 
 server:
   servlet:
@@ -66,4 +70,3 @@ cloud:
       static: ap-northeast-2
     stack:
       auto: false
-
