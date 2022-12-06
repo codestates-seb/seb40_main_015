@@ -19,6 +19,7 @@ env:
   S3_BUCKET_NAME: github-actions-bucket-dongnebook
   RESOURCE_PATH: ./backend/src/main/resources/application-rds.yml
   RESOURCE_PATH_KAKAO: ./backend/src/main/resources/kakao.yml
+  #RESOURCE_PATH_KAKAO: ./backend/src/main/resources/application-API-KEY.yml
 
 
 jobs:
@@ -56,7 +57,7 @@ jobs:
         with:
           files: ${{ env.RESOURCE_PATH_KAKAO }}
         env:
-          KAKAO_KEY: ${{ secrets.KAKAO_KEY }}
+          kakao.KAKAO_KEY: ${{ secrets.KAKAO_KEY }}
         
         
       - name: Build with Gradle
