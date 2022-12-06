@@ -14,7 +14,7 @@
 
 책을 읽는 행위는 일종의 단발성 체험 활동입니다. 대부분의 사람들은 책을 여러 번 반복하여 읽지 않죠. 책 중에서도 특히 만화책이 그렇습니다. 웹툰 산업이 발전한 것도 이러한 이유가 큰데, 웹툰은 빠르고 편리하며 시공간의 제약 없이 재미를 제공하기 때문입니다.
 
-하지만 우리가 어린 시절 즐겨 읽었던 만화책, 특히 일본 만화는 실물 책을 구매해서 봐야 합니다. 연재되는 만화책은 그 권수가 상당합니다. 일본 만화에서 가장 인기 있는 원피스는 권 수가 무려 100권이 넘습니다. 가격은 둘째 치더라도 이를 보관할 공간을 확보하는 것이 쉽지 않죠.
+하지만 우리가 어린 시절 즐겨 읽었던 만화책, 특히 일본 만화는 실물 책을 구매해서 봐야 합니다. 연재되는 만화책은 그 권 수가 상당합니다. 일본 만화에서 가장 인기 있는 원피스는 권 수가 무려 100권이 넘습니다. 가격은 둘째 치더라도 이를 보관할 공간을 확보하는 것이 쉽지 않죠.
 
 그런데 만약 100권의 책을 구매하고 그것을 내 공간이 아닌 다른 사람의 공간에 보관할 수 있다면 어떨까요? 그것도 돈을 받으면서 말이에요.
 
@@ -65,13 +65,13 @@
 | :----------------------------------------------------------: | :----------------------------------------------------------: | :----------------------------------------------------------: |
 | <img src="https://user-images.githubusercontent.com/98410418/205496968-c08a0775-4670-4a63-9ee7-918e5ef13423.gif" alt="책전체조회" width=70%> | <img src="https://user-images.githubusercontent.com/98410418/205497124-8307aae6-7c5f-4bcd-a089-babf4d5efec8.gif" alt="책검색하기" width=70%> | <img src="https://user-images.githubusercontent.com/98410418/205497161-0f11a63a-2724-4801-9592-a668fec57f11.gif" alt="책검색하기2" width=70%> |
 
-|                         책 예약하기                         |                  책 찜하기                  |                         회원정보 수정하기                         |
+|                         책 대여하기                         |                  책 찜하기                  |                         회원정보 수정하기                         |
 | :----------------------------------------------------------: | :----------------------------------------------------------: | :----------------------------------------------------------: |
-| <img src="https://user-images.githubusercontent.com/98410418/205497205-225f9fa9-5996-4669-89cb-6f58f27e0dfe.gif" alt="책예약및찜하기" width=70%> | <img src="https://user-images.githubusercontent.com/98410418/205497534-c8f12ea9-7ab1-457e-b068-9fc9be48322c.gif" alt="책찜하기" width=70%> | <img src="https://user-images.githubusercontent.com/98410418/205815604-43c1efe8-dd8b-46be-8594-31a4dc473dcd.gif" alt="회원정보수정하기" width=70%> |
+| <img src="https://user-images.githubusercontent.com/98410418/205497193-b967cb75-f3ed-4d19-8f99-fd1d4302d5b4.gif" alt="책대여하기" width=70%> | <img src="https://user-images.githubusercontent.com/98410418/205497534-c8f12ea9-7ab1-457e-b068-9fc9be48322c.gif" alt="책찜하기" width=70%> | <img src="https://user-images.githubusercontent.com/98410418/205815604-43c1efe8-dd8b-46be-8594-31a4dc473dcd.gif" alt="회원정보수정하기" width=70%> |
 
-|                책 대여하기                 |                     책 등록하기                      |                     알림페이지                     |
+|                책 예약하기                 |                     책 등록하기                      |                     알림페이지                     |
 | :----------------------------------------------------------: | :----------------------------------------------------------: | :----------------------------------------------------------: |
-| <img src="https://user-images.githubusercontent.com/98410418/205497193-b967cb75-f3ed-4d19-8f99-fd1d4302d5b4.gif" alt="책대여하기" width=70%> | <img src="https://user-images.githubusercontent.com/98410418/205497208-0ad67323-7d4f-4320-a842-df8e6bfd001a.gif" alt="책등록하기" width=70%> | <img src="https://user-images.githubusercontent.com/98410418/205497203-a16403d0-5f53-4058-95cb-d733a99bc088.gif" alt="알림페이지" width=70%> |
+| <img src="https://user-images.githubusercontent.com/98410418/205497205-225f9fa9-5996-4669-89cb-6f58f27e0dfe.gif" alt="책예약하기" width=70%> | <img src="https://user-images.githubusercontent.com/98410418/205497208-0ad67323-7d4f-4320-a842-df8e6bfd001a.gif" alt="책등록하기" width=70%> | <img src="https://user-images.githubusercontent.com/98410418/205497203-a16403d0-5f53-4058-95cb-d733a99bc088.gif" alt="알림페이지" width=70%> |
 
 |                       채팅하기                        |
 | :----------------------------------------------------------: |
