@@ -18,7 +18,7 @@ permissions:
 env:
   S3_BUCKET_NAME: github-actions-bucket-dongnebook
   RESOURCE_PATH: ./backend/src/main/resources/application-rds.yml
-  RESOURCE_PATH_KAKAO: ./backend/src/main/resources/application-API-KEY.yml
+  RESOURCE_PATH_KAKAO: ./backend/src/main/resources/kakao.yml
 
 
 jobs:
@@ -52,7 +52,6 @@ jobs:
           #KAKAO_KEY: ${{ secrets.KAKAO_KEY }}
         
       - name: Set kakao
-        uses: microsoft/variable-substitution@v1
         with:
           files: ${{ env.RESOURCE_PATH_KAKAO }}
         env:

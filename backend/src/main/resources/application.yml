@@ -37,10 +37,10 @@ Spring:
             scope:
               - profile
               - email
-  profiles:
-    include: API-KEY
-  #config:
-    #location: classpath:kakao.yml
+  #profiles:
+    #include: API-KEY
+  config:
+    location: classpath:kakao.yml
 jwt:
   secret-key: ${JWT_SECRET_KEY}
   access-token-expiration-minutes: 30
@@ -68,6 +68,3 @@ cloud:
       static: ap-northeast-2
     stack:
       auto: false
-
-#kakao:
-#  KAKAO_KEY: ${KAKAO_KEY}
