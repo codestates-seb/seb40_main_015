@@ -28,6 +28,11 @@ interface MerchantSectorProps {
 	};
 }
 
+interface SizeProps {
+	width: number;
+	height: number;
+}
+
 interface KakaoMapProps {
 	current: { lat: number; lon: number };
 	selectOverlay: any;
@@ -40,7 +45,7 @@ interface KakaoMapProps {
 	setBookLists: any;
 	zoomLevel: number;
 	setZoomLevel: Dispatch<SetStateAction<number>>;
-	size: any;
+	size: SizeProps;
 	searchInput: string;
 	centerCoord: {
 		lat: number;

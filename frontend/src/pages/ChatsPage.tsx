@@ -1,6 +1,4 @@
-import { useEffect } from 'react';
 import styled from 'styled-components';
-import useCreateRoom from '../api/hooks/chat/useCreateRoom';
 import useGetRoomLists from '../api/hooks/chat/useGetRoomLists';
 import ChatLists from '../components/Chat/ChatLists';
 import Title from '../components/common/Title';

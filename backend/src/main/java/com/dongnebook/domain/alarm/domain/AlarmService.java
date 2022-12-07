@@ -1,10 +1,10 @@
 package com.dongnebook.domain.alarm.domain;
 
 import java.io.IOException;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
-import java.util.concurrent.atomic.AtomicLong;
 
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
@@ -106,13 +106,17 @@ public class AlarmService {
 	}
 
 	@Transactional
-	public void deleteAlarm(Long memberId, Long alarmId) {
+	public void deleteAlarmById(Long memberId, Long alarmId) {
 		Alarm alarm = alarmQueryRepository.findByAlarmWithMemberId(alarmId).orElseThrow(AlarmNotFound::new);
 		if (Objects.equals(alarm.getMember().getId(), memberId)) {
 			alarmRepository.delete(alarm);
 			return;
 		}
 		throw new NotOwnerException();
+	}
+
+	public void deleteAllById(Long memberId) {
+		alarmQueryRepository.deleteAllByMemberId(memberId);
 	}
 }
 

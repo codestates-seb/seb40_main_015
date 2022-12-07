@@ -68,4 +68,10 @@ public class AlarmQueryRepository {
 	private BooleanExpression alarmMemberIdEq(Long memberId) {
 		return alarm.member.id.eq(memberId);
 	}
+
+	public void deleteAllByMemberId(Long memberId) {
+		jpaQueryFactory.delete(alarm)
+			.where(alarm.member.id.eq(memberId))
+			.execute();
+	}
 }
