@@ -11,7 +11,7 @@ import useMerchantSector from '../api/hooks/map/useMerchantSector';
 import useBookList from '../api/hooks/map/useBookList';
 import useBookSector from '../api/hooks/map/useBookSector';
 
-interface selectOverlayProps {
+interface SelectOverlay {
 	merchantCount?: number;
 	bookCount?: number;
 	sector: number;
@@ -26,7 +26,7 @@ const BooksSearchPage = () => {
 		useGeoLocation();
 	const [centerCoord, setCenterCoord] = useGeoLocation('center');
 	const [searchInput, setSearchInput] = useState('');
-	const [selectOverlay, setSelectOverlay] = useState<selectOverlayProps>();
+	const [selectOverlay, setSelectOverlay] = useState<SelectOverlay>();
 	const [zoomLevel, setZoomLevel] = useState(5);
 	const size = useWindowSize(zoomLevel);
 	const [merchantSector, setMerchantSector, merchantCurrentRefetch] =

@@ -3,7 +3,7 @@ import { CustomOverlayMap } from 'react-kakao-maps-sdk';
 import styled from 'styled-components';
 
 interface MarkerProps {
-	merchantCount: number;
+	merchantCount?: number;
 	bookCount?: number;
 	sector: number;
 	location: {
