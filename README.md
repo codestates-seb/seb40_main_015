@@ -68,7 +68,7 @@
 </br>
 
 ## ⚙️기술스택
-![image](https://user-images.githubusercontent.com/62760166/205436492-fc83a538-b111-4478-800e-f30ef147b199.png)
+![image](https://user-images.githubusercontent.com/46420915/206159779-0897f8a3-df43-47d8-925b-e25981da3ebd.png)
 
 </br>
 
