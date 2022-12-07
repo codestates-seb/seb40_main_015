@@ -47,7 +47,7 @@ const BookDetail = ({ book, merchant, refetchBookDetail }: BookDetailProps) => {
 		}
 		if (merchant && book) {
 			axiosCreateRoom(merchant?.merchantId, id, book?.bookId).then(res => {
-				console.log(res);
+				// console.log(res);
 				navigate(`/chats/${res}`);
 			});
 		}
