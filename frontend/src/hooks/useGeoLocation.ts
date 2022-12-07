@@ -40,9 +40,9 @@ function useGeoLocation(type?: string) {
 		dispatch(change({ lat, lon }));
 	};
 
-	useEffect(() => {
-		handleCurrentLocationMove();
-	}, []);
+	// useEffect(() => {
+	// 	handleCurrentLocationMove();
+	// }, []);
 
 	if (type === 'center') {
 		return [location, setCurrentLocation];

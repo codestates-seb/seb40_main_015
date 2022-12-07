@@ -1,18 +1,18 @@
+import React, { KeyboardEvent, useEffect, useRef, useState } from 'react';
 import styled from 'styled-components';
 import BookInfo from '../components/Chat/BookInfo';
 import ReceptionMessage from '../components/Chat/ReceptionMessage';
 import SendingMessage from '../components/Chat/SendingMessage';
-import Title from '../components/common/Title';
-import React, { KeyboardEvent, useEffect, useRef, useState } from 'react';
 import Input from '../components/Chat/Input';
-import * as StompJs from '@stomp/stompjs';
+import Title from '../components/common/Title';
 import useGetRoomMessage from '../api/hooks/chat/useGetRoomMessage';
 import { useAppSelector } from '../redux/hooks';
 import { useParams } from 'react-router';
+import { convertDateForChat2 } from '../utils/convertDateForChat';
 import ScrollToBottom from '../utils/scrollToBottom';
 import ScrollBottomButton from '../components/common/ScrollBottomButton';
-import { convertDateForChat2 } from '../utils/convertDateForChat';
 import Animation from '../components/Loading/Animation';
+import * as StompJs from '@stomp/stompjs';
 
 interface NewMessage {
 	createdAt: string;
@@ -27,7 +27,6 @@ const ChatRoomPage = () => {
 	const { roomId } = useParams(); // 채널을 구분하는 식별자를 URL 파라미터로 받는다.
 	const {
 		chatList,
-		refetch,
 		messageList,
 		setMessageList,
 		myInfo,
@@ -35,10 +34,10 @@ const ChatRoomPage = () => {
 		isLoading,
 	} = useGetRoomMessage(roomId!);
 	const { bookId, bookState, bookUrl, title } = chatList;
+	const [newMessage, setNewMessage] = useState<NewMessage>();
 	const client: any = useRef({});
 	let prevNickname = { nickName: '' };
 	let prevDate = '';
-	const [newMessage, setNewMessage] = useState<NewMessage>();
 
 	const handleChangeText = (e: React.ChangeEvent<HTMLInputElement>) => {
 		setText(e.target.value);
@@ -148,8 +147,8 @@ const ChatRoomPage = () => {
 					<>
 						{messageList.length ? (
 							messageList.map((list: any) => {
-								const { dateTime, content } = list;
-								const newList = { content, dateTime };
+								const { dateTime, content, memberId } = list;
+								const newList = { content, dateTime, memberId };
 								const currentDate = convertDateForChat2(dateTime);
 								if (currentDate !== prevDate) {
 									prevDate = currentDate;
