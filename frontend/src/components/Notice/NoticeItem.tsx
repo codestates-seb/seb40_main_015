@@ -18,7 +18,6 @@ const NoticeItem = ({ noticeData }: NoticeItemType) => {
 		if (window.confirm('정말 삭제하시겠습니까?')) {
 			mutate(alarmId, {
 				onSuccess: () => {
-					// 윈도우 환경 알림삭제시 리프레쉬
 					if (navigator.userAgent.includes('Windows')) window.location.reload();
 				},
 			});

@@ -66,12 +66,10 @@ const StyledIdSection = styled.div`
 `;
 
 const IdWrapper = styled.div`
-	/* min-width: 117.5%; */
 	width: 100%;
 	display: flex;
 	flex-wrap: wrap;
 	position: relative;
-	/* grid-template-columns: 22rem 1px; */
 	.overlapCheck {
 		width: 4.1rem;
 		height: 1rem;

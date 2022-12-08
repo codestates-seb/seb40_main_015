@@ -1,7 +1,7 @@
 import { useState } from 'react';
-import { StyledBookInfo } from '../../pages/BooksCreatePage';
 import { useAppDispatch } from '../../redux/hooks';
 import { updateRentalInfo } from '../../redux/slice/bookCreateSlice';
+import { StyledBookInfo } from '../../pages/BooksCreatePage';
 
 const Description = () => {
 	const [text, setText] = useState('');
