@@ -75,7 +75,6 @@ const SearchInput = styled.input`
 	outline: none;
 	padding-left: 10px;
 	font-size: ${props => props.theme.fontSizes.paragraph};
-	// height: 5rem;
 `;
 
 export default Search;
