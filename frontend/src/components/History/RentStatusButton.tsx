@@ -88,16 +88,13 @@ interface StatusBoxProps {
 }
 
 const StatusBox = styled.div<StatusBoxProps>`
-	/* height: 100%; */
-	/* width: 7rem; */
-
 	display: flex;
 	flex-direction: column;
 	flex-wrap: wrap;
-
 	justify-content: ${props =>
 		props.status === 'TRADING' ? 'space-evenly' : 'center'};
 	word-break: keep-all;
+
 	:hover {
 		background-color: ${props => props.theme.colors.grey};
 	}

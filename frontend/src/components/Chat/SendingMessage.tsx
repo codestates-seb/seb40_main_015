@@ -2,7 +2,7 @@ import { useNavigate } from 'react-router';
 import styled from 'styled-components';
 import { convertDateForChat } from '../../utils/convertDateForChat';
 
-interface Iprops {
+interface IProps {
 	list: {
 		avatarUrl?: string;
 		content: string;
@@ -12,7 +12,7 @@ interface Iprops {
 	};
 }
 
-const SendingMessage = ({ list }: Iprops) => {
+const SendingMessage = ({ list }: IProps) => {
 	const { avatarUrl, content, dateTime, nickName, memberId } = list;
 
 	const navigate = useNavigate();
