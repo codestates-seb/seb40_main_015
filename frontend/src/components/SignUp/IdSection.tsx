@@ -3,16 +3,16 @@ import styled from 'styled-components';
 import { BASE_URL, USERID_REGEX } from '../../constants/constants';
 import Input from '../common/Input';
 
-type IdSectionProps = {
+interface IdSectionProps {
 	data: {
 		label: string;
 		state: string;
-		setState: Function;
 		validity: boolean;
+		setState: Function;
 		setValidity: Function;
 	};
 	notify: Function;
-};
+}
 
 const IdSection = ({ data, notify }: IdSectionProps) => {
 	const { label, state, setState, setValidity } = data;
