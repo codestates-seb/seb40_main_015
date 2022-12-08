@@ -35,7 +35,6 @@ const IdSection = ({ data, notify }: IdSectionProps) => {
 							if (res.data.success) {
 								validate(true);
 								notify(`사용가능한 ${label}입니다.`);
-								console.log(res);
 							} else notify(res.data.message);
 						})
 						.catch(e => {
