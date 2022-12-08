@@ -1,4 +1,4 @@
-export const noticeMessages = {
+export const NOTICE_MESSAGES = {
 	RESERVATION: [
 		'💌',
 		'예약',

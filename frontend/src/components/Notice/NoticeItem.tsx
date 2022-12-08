@@ -1,10 +1,13 @@
 import { HiOutlineX } from 'react-icons/hi';
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
-import { noticeMessages } from '../../api/hooks/notice/noticeMessages';
+import { NOTICE_MESSAGES } from '../../api/hooks/notice/noticeMessages';
 import useDeleteNotice from '../../api/hooks/notice/useDeleteNotice';
 import { NoticeItemType } from '../../api/hooks/notice/useGetNotice';
 import logo from '../../assets/image/logo1.png';
+import { CONFIRM_MESSAGES, MESSAGES } from '../../constants/constants';
+
+const WINDOWS = 'Windows';
 
 const NoticeItem = ({ noticeData }: NoticeItemType) => {
 	const navigate = useNavigate();
@@ -15,10 +18,10 @@ const NoticeItem = ({ noticeData }: NoticeItemType) => {
 		alarmId: number,
 	) => {
 		e.stopPropagation();
-		if (window.confirm('정말 삭제하시겠습니까?')) {
+		if (window.confirm(CONFIRM_MESSAGES.delete)) {
 			mutate(alarmId, {
 				onSuccess: () => {
-					if (navigator.userAgent.includes('Windows')) window.location.reload();
+					if (navigator.userAgent.includes(WINDOWS)) window.location.reload();
 				},
 			});
 		} else {
@@ -29,10 +32,10 @@ const NoticeItem = ({ noticeData }: NoticeItemType) => {
 	return (
 		<Container>
 			{noticeData && noticeData.length === 0 && (
-				<NoData>도착한 알림이 없어요</NoData>
+				<NoData>{MESSAGES.noNotice}</NoData>
 			)}
 			{noticeData?.map(el => {
-				const message = noticeMessages[el.alarmType];
+				const message = NOTICE_MESSAGES[el.alarmType];
 				return (
 					<StyledNoticeItem
 						className="notice-item"
