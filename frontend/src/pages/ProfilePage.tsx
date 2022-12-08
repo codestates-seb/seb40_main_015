@@ -57,7 +57,7 @@ function ProfilePage() {
 	}, []);
 
 	const handleScroll = () => {
-		console.log('scrolled');
+		// console.log('scrolled');
 	};
 
 	if (isLoading) return <Animation width={50} height={50} />;
