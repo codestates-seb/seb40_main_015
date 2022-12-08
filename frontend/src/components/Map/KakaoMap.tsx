@@ -7,31 +7,7 @@ import CustomOverlay from './CustomOverlay';
 import CustomOverlayHover from './CustomOverlayHover';
 import { useDispatch } from 'react-redux';
 import { change } from '../../redux/slice/geoLocationSlice';
-
-interface MarkerProps {
-	merchantCount: number;
-	totalBookCount?: number;
-	sector: number;
-	location: {
-		latitude: number;
-		longitude: number;
-	};
-}
-
-interface MerchantSectorProps {
-	merchantCount: number;
-	totalBookCount?: number;
-	sector: number;
-	location: {
-		latitude: number;
-		longitude: number;
-	};
-}
-
-interface SizeProps {
-	width: number;
-	height: number;
-}
+import { MarkerProps, MerchantSectorProps, SizeProps } from './KaKaoMapTypes';
 
 interface KakaoMapProps {
 	current: { lat: number; lon: number };

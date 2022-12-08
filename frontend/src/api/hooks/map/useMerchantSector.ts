@@ -4,14 +4,10 @@ import { useAppDispatch } from '../../../redux/hooks';
 import notify from '../../../utils/notify';
 import { getTotalMerchantQuery } from '../../map';
 
-interface MerchantSectorProps {
+interface MerchantList {
 	merchantCount: number;
-	totalBookCount?: number;
 	sector: number;
-	location: {
-		latitude: number;
-		longitude: number;
-	};
+	location: { latitude: number; longitude: number };
 }
 
 interface IProps {
@@ -24,9 +20,10 @@ interface IProps {
 
 const useMerchantSector = (props: IProps) => {
 	const { centerCoord, current, searchInput, zoomLevel, size } = props;
-	const [merchantSector, setMerchantSector] = useState<any>([]);
+	const [merchantSector, setMerchantSector] = useState<MerchantList[]>([]);
 	const dispatch = useAppDispatch();
 	const level = [0, 9, 7, 5, 3, 3, 3];
+	console.log(merchantSector);
 	const { refetch: merchantCurrentRefetch } = useQuery({
 		queryKey: ['merchantSectorByCurrent', centerCoord, zoomLevel, size],
 		queryFn: () => {
@@ -45,7 +42,6 @@ const useMerchantSector = (props: IProps) => {
 			setMerchantSector(data);
 		},
 		onError: (err: any) => {
-			// console.log(err.message);
 			if (err.message === '상인 없음') {
 				notify(dispatch, '주변에 상인이 없어요');
 			}
@@ -54,7 +50,7 @@ const useMerchantSector = (props: IProps) => {
 		refetchOnWindowFocus: false,
 		cacheTime: 0,
 	});
-	return [merchantSector, setMerchantSector, merchantCurrentRefetch];
+	return [merchantSector, setMerchantSector, merchantCurrentRefetch] as const;
 };
 
 export default useMerchantSector;

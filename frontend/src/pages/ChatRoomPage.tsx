@@ -1,18 +1,17 @@
 import React, { KeyboardEvent, useEffect, useRef, useState } from 'react';
 import styled from 'styled-components';
 import BookInfo from '../components/Chat/BookInfo';
-import ReceptionMessage from '../components/Chat/ReceptionMessage';
-import SendingMessage from '../components/Chat/SendingMessage';
 import Input from '../components/Chat/Input';
 import Title from '../components/common/Title';
 import useGetRoomMessage from '../api/hooks/chat/useGetRoomMessage';
 import { useAppSelector } from '../redux/hooks';
 import { useParams } from 'react-router';
-import { convertDateForChat2 } from '../utils/convertDateForChat';
 import ScrollToBottom from '../utils/scrollToBottom';
 import ScrollBottomButton from '../components/common/ScrollBottomButton';
 import Animation from '../components/Loading/Animation';
 import * as StompJs from '@stomp/stompjs';
+import MessageList from '../components/Chat/MessageList';
+import { FrameImpl } from '@stomp/stompjs';
 
 interface NewMessage {
 	createdAt: string;
@@ -23,7 +22,7 @@ interface NewMessage {
 
 const ChatRoomPage = () => {
 	const [text, setText] = useState('');
-	const { nickname, id } = useAppSelector(state => state.loginInfo);
+	const { id } = useAppSelector(state => state.loginInfo);
 	const { roomId } = useParams(); // 채널을 구분하는 식별자를 URL 파라미터로 받는다.
 	const {
 		chatList,
@@ -36,8 +35,6 @@ const ChatRoomPage = () => {
 	const { bookId, bookState, bookUrl, title } = chatList;
 	const [newMessage, setNewMessage] = useState<NewMessage>();
 	const client: any = useRef({});
-	let prevNickname = { nickName: '' };
-	let prevDate = '';
 
 	const handleChangeText = (e: React.ChangeEvent<HTMLInputElement>) => {
 		setText(e.target.value);
@@ -100,7 +97,7 @@ const ChatRoomPage = () => {
 	};
 
 	const subscribe = () => {
-		client.current.subscribe(`/sub/room/${roomId}`, (body: any) => {
+		client.current.subscribe(`/sub/room/${roomId}`, (body: FrameImpl) => {
 			const json_body = JSON.parse(body.body);
 			setNewMessage(json_body);
 		});
@@ -143,86 +140,9 @@ const ChatRoomPage = () => {
 				) : null}
 			</TopBox>
 			<MessageArea>
-				{!isLoading ? (
-					<>
-						{messageList.length ? (
-							messageList.map((list: any) => {
-								const { dateTime, content, memberId } = list;
-								const newList = { content, dateTime, memberId };
-								const currentDate = convertDateForChat2(dateTime);
-								if (currentDate !== prevDate) {
-									prevDate = currentDate;
-									if (list?.nickName === nickname) {
-										if (prevNickname === list.nickName) {
-											return (
-												<React.Fragment key={currentDate}>
-													<DateDisplay>{currentDate}</DateDisplay>
-													<SendingMessage list={newList} />
-												</React.Fragment>
-											);
-										} else {
-											prevNickname = list.nickName;
-											return (
-												<React.Fragment key={currentDate}>
-													<DateDisplay>{currentDate}</DateDisplay>
-													<SendingMessage list={list} />
-												</React.Fragment>
-											);
-										}
-									} else {
-										if (prevNickname === list.nickName) {
-											return (
-												<React.Fragment key={currentDate}>
-													<DateDisplay>{currentDate}</DateDisplay>
-													<ReceptionMessage list={newList} />
-												</React.Fragment>
-											);
-										} else {
-											prevNickname = list.nickName;
-											return (
-												<React.Fragment key={currentDate}>
-													<DateDisplay>{currentDate}</DateDisplay>
-													<ReceptionMessage list={list} />
-												</React.Fragment>
-											);
-										}
-									}
-								} else {
-									if (list?.nickName === nickname) {
-										if (prevNickname === list.nickName) {
-											return <SendingMessage key={dateTime} list={newList} />;
-										} else {
-											prevNickname = list.nickName;
-											return <SendingMessage key={dateTime} list={list} />;
-										}
-									} else {
-										if (prevNickname === list.nickName) {
-											return <ReceptionMessage key={dateTime} list={newList} />;
-										} else {
-											prevNickname = list.nickName;
-											return <ReceptionMessage key={dateTime} list={list} />;
-										}
-									}
-								}
-							})
-						) : (
-							<Empty>
-								<p>대화를 시작해보세요</p>
-							</Empty>
-						)}
-					</>
-				) : (
-					<Animation />
-				)}
+				{!isLoading ? <MessageList messageList={messageList} /> : <Animation />}
 			</MessageArea>
-			<div
-				style={{
-					position: 'fixed',
-					width: '100%',
-					bottom: '60px',
-					display: 'flex',
-					justifyContent: 'center',
-				}}>
+			<InputWrapper>
 				<Input
 					text={text}
 					onChange={handleChangeText}
@@ -230,7 +150,7 @@ const ChatRoomPage = () => {
 					onCick={handleClickSendMessage}
 				/>
 				<ScrollBottomButton />
-			</div>
+			</InputWrapper>
 		</Container>
 	);
 };
@@ -263,30 +183,18 @@ const MessageArea = styled.div`
 	margin-bottom: 80px;
 	@media screen and (min-width: 800px) {
 		width: 800px;
-		/* height: 70vh; */
 		border: 1px solid #eaeaea;
 		border-top: none;
 		background-color: white;
 	}
 `;
 
-const DateDisplay = styled.p`
-	text-align: center;
-	font-size: 1.5rem;
-	margin: 1rem 0;
-`;
-
-const Empty = styled.div`
+const InputWrapper = styled.div`
+	position: fixed;
 	width: 100%;
-	height: 75vh;
+	bottom: 60px;
 	display: flex;
 	justify-content: center;
-	align-items: center;
-	p {
-		font-size: ${props => props.theme.fontSizes.subtitle};
-		font-weight: 600;
-		color: #a7a7a7;
-	}
 `;
 
 export default ChatRoomPage;

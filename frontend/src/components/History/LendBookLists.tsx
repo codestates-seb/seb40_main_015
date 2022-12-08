@@ -10,6 +10,7 @@ interface ILentBookListsProps {
 
 const LentBookLists = ({ filters }: ILentBookListsProps) => {
 	const { lists, hasNextPage, ref } = useLendBookLists(filters);
+
 	return (
 		<Box>
 			{lists?.length ? (
@@ -47,19 +48,13 @@ const LentBookLists = ({ filters }: ILentBookListsProps) => {
 	);
 };
 
-const Box = styled.div`
-	/* padding: 0 1rem; */
-`;
+const Box = styled.div``;
 
 const Wrapper = styled.div`
 	width: 100%;
-	/* max-width: 850px; */
 	display: flex;
 	flex-direction: column;
 	margin-bottom: 3rem;
-
-	/* padding-bottom: 2rem; */
-	/* border-bottom: 1px solid rgba(0, 0, 0, 0.2); */
 
 	button {
 		height: 3rem;

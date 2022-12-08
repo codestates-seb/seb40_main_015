@@ -2,57 +2,71 @@ import styled from 'styled-components';
 import timeForToday from '../../utils/timeForToday';
 import { useNavigate } from 'react-router';
 import { useChatAPI } from '../../api/chat';
-import { useAppSelector } from '../../redux/hooks';
 
-interface IProps {
-	createdAt: string;
+interface Item {
 	avatarUrl: string;
+	bookId: number;
 	bookImageUrl: string;
-	latestMessage: string;
-	name: string;
+	createdAt: string;
 	customerId: number;
 	merchantId: number;
+	latestMessage: string;
+	name: string;
 	roomId: number;
-	bookId: number;
 }
 
-const ChatLists = ({ list }: { list: IProps }) => {
-	const { id } = useAppSelector(state => state.loginInfo);
-	const { axiosCreateRoom } = useChatAPI();
-	const {
-		avatarUrl,
-		bookImageUrl,
-		name,
-		createdAt,
-		latestMessage,
-		roomId,
-		customerId,
-		merchantId,
-		bookId,
-	} = list;
+interface IProps {
+	data: Item[];
+}
 
+const ChatLists = ({ data }: IProps) => {
+	const { axiosCreateRoom } = useChatAPI();
 	const navigate = useNavigate();
-	const handleMoveChatRoom = () => {
+
+	const handleMoveChatRoom = (
+		merchantId: number,
+		customerId: number,
+		bookId: number,
+	) => {
 		axiosCreateRoom(merchantId, customerId, bookId).then(res => {
-			console.log(res);
 			navigate(`/chats/${res}`);
 		});
 	};
+
 	return (
 		<>
-			<Container onClick={handleMoveChatRoom}>
-				<LeftBox>
-					<UserImage src={avatarUrl} alt="상대 이미지" />
-					<LeftContent>
-						<LeftDetail>
-							<span>{name}</span>
-							<span>{timeForToday(createdAt)}</span>
-						</LeftDetail>
-						<p>{latestMessage}</p>
-					</LeftContent>
-				</LeftBox>
-				<BookImage src={bookImageUrl} alt="책 이미지" />
-			</Container>
+			{data.map((item: Item) => {
+				const {
+					avatarUrl,
+					bookImageUrl,
+					name,
+					createdAt,
+					latestMessage,
+					roomId,
+					merchantId,
+					customerId,
+					bookId,
+				} = item;
+				return (
+					<Container
+						onClick={() => {
+							handleMoveChatRoom(merchantId, customerId, bookId);
+						}}
+						key={roomId}>
+						<LeftBox>
+							<UserImage src={avatarUrl} alt="상대 이미지" />
+							<LeftContent>
+								<LeftDetail>
+									<span>{name}</span>
+									<span>{timeForToday(createdAt)}</span>
+								</LeftDetail>
+								<p>{latestMessage}</p>
+							</LeftContent>
+						</LeftBox>
+						<BookImage src={bookImageUrl} alt="책 이미지" />
+					</Container>
+				);
+			})}
 		</>
 	);
 };
