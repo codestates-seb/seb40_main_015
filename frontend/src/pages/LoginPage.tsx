@@ -2,7 +2,6 @@ import styled from 'styled-components';
 import LinkToSign from '../components/common/LinkToSign';
 import LoginForm from '../components/Login/LoginForm';
 import Logo from '../components/Login/Logo';
-import Oauth from '../components/common/Oauth';
 import { useAppSelector } from '../redux/hooks';
 import { useNavigate } from 'react-router';
 import { useEffect } from 'react';
@@ -24,7 +23,6 @@ const LoginPage = () => {
 					<Contents>
 						<Logo />
 						<LoginForm />
-						{/* <StyledOauth /> */}
 						<LinkToSign
 							message="회원이 아니신가요?"
 							link="/signup"
@@ -56,13 +54,6 @@ const Contents = styled.div`
 	@media screen and (min-width: 800px) {
 		margin-top: 10rem;
 	}
-`;
-
-const StyledOauth = styled(Oauth)`
-	width: 100%;
-	max-width: 270px;
-	margin: 1rem 0;
-	padding: 0 1rem;
 `;
 
 export default LoginPage;
