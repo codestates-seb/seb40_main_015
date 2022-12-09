@@ -3,9 +3,18 @@ import BookItem from '../Books/BookItem';
 import LendBookUserInfo from './LendBookUserInfo';
 import RentStatusButton from './RentStatusButton';
 import useRentalBookLists from '../../api/hooks/history/useRentalBookLists';
-
+import { BookInfo, RentalInfo } from './types';
 interface IRentBookListsProps {
 	filters: string;
+}
+
+interface RentalBookInfo extends BookInfo {
+	merchantName: string;
+}
+
+interface Lists {
+	bookInfo: RentalBookInfo;
+	rentalInfo: RentalInfo;
 }
 
 const RentBookLists = ({ filters }: IRentBookListsProps) => {
@@ -16,7 +25,7 @@ const RentBookLists = ({ filters }: IRentBookListsProps) => {
 			{lists?.length ? (
 				<>
 					{lists?.map(
-						(el: any) =>
+						(el: Lists) =>
 							el && (
 								<Wrapper key={el.rentalInfo.rentalId}>
 									<BookItem

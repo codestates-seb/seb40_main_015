@@ -4,7 +4,7 @@ import { useAppDispatch } from '../../../redux/hooks';
 import notify from '../../../utils/notify';
 
 //상인 전용
-export const useBookReturn = (rentalId: string) => {
+export const useBookReturn = (rentalId: number) => {
 	const { axiosBookReturn } = useHistoryAPI();
 	const queryClient = useQueryClient();
 	const dispatch = useAppDispatch();

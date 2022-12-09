@@ -9,7 +9,7 @@ interface Props {
 	merchantName: string;
 	bookId: number;
 	rental: {
-		rentalId: string;
+		rentalId: number;
 		customerName: string;
 		rentalState: string;
 		rentalStartedAt: string;
@@ -56,7 +56,6 @@ const RentStatusButton = ({ status, merchantName, rental, bookId }: Props) => {
 		}
 	};
 	return (
-		// <StatusBox status={status}>
 		<>
 			{status === 'TRADING' && (
 				<>
@@ -85,24 +84,7 @@ const RentStatusButton = ({ status, merchantName, rental, bookId }: Props) => {
 				<Button backgroundColor="grey">취소 완료</Button>
 			)}
 		</>
-		// </StatusBox>
 	);
 };
-interface StatusBoxProps {
-	status: string;
-}
-
-const StatusBox = styled.div<StatusBoxProps>`
-	display: flex;
-	flex-direction: column;
-	flex-wrap: wrap;
-	justify-content: ${props =>
-		props.status === 'TRADING' ? 'space-evenly' : 'center'};
-	word-break: keep-all;
-
-	:hover {
-		background-color: ${props => props.theme.colors.grey};
-	}
-`;
 
 export default RentStatusButton;

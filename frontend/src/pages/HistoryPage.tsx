@@ -30,7 +30,6 @@ const Layout = styled.div`
 	align-items: center;
 	justify-content: center;
 	background-color: #fbfbfb;
-	/* margin-top: 1rem; */
 
 	h2 {
 		font-size: 2rem;
