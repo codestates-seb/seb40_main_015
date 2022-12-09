@@ -39,6 +39,7 @@ const RentBookLists = ({ filters }: IRentBookListsProps) => {
 										status={el.rentalInfo.rentalState}
 										merchantName={el.bookInfo.merchantName}
 										rental={el.rentalInfo}
+										bookId={el.bookInfo.bookId}
 									/>
 								</Wrapper>
 							),

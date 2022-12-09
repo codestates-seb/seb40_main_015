@@ -7,6 +7,7 @@ import { useCancelByCustomer } from '../../api/hooks/history/useCancelByCustomer
 interface Props {
 	status: string;
 	merchantName: string;
+	bookId: number;
 	rental: {
 		rentalId: string;
 		customerName: string;
@@ -18,7 +19,7 @@ interface Props {
 	};
 }
 
-const RentStatusButton = ({ status, merchantName, rental }: Props) => {
+const RentStatusButton = ({ status, merchantName, rental, bookId }: Props) => {
 	const navigate = useNavigate();
 
 	const { mutate: cancel } = useCancelByCustomer(rental.rentalId);
@@ -46,7 +47,11 @@ const RentStatusButton = ({ status, merchantName, rental }: Props) => {
 				break;
 			case 'RETURN_UNREVIEWED':
 				const istrue = window.confirm(`${id}님에게 리뷰를 작성하시겠습니까?`);
-				istrue && navigate('/review/create');
+				istrue &&
+					navigate({
+						pathname: '/review/create',
+						search: `?rentalId=${rental.rentalId}&id=${id}&bookId=${bookId}`,
+					});
 				break;
 		}
 	};
