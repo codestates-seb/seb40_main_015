@@ -23,7 +23,7 @@ const useMerchantList = (props: IProps) => {
 		props;
 	const [merchantLists, setMerchantLists] = useState<MerchantList[]>([]);
 	const [ref, inView] = useInView();
-	const level = [0, 9, 7, 5, 3, 3, 3];
+	const level = [0, 9, 9, 7, 5, 5, 5, 5, 5, 5];
 
 	const {
 		fetchNextPage,

@@ -6,7 +6,7 @@ interface Props {
 	status: string;
 	customerName: string;
 	rental: {
-		rentalId: string;
+		rentalId: number;
 		customerName: string;
 		rentalState: string;
 		rentalStartedAt: string;

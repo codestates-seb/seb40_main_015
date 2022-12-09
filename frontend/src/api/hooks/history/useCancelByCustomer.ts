@@ -3,7 +3,7 @@ import { useHistoryAPI } from '../../../api/history';
 import { useAppDispatch } from '../../../redux/hooks';
 import notify from '../../../utils/notify';
 
-export const useCancelByCustomer = (rentalId: string) => {
+export const useCancelByCustomer = (rentalId: number) => {
 	const { axiosCancleByCustomer } = useHistoryAPI();
 	const queryClient = useQueryClient();
 	const dispatch = useAppDispatch();

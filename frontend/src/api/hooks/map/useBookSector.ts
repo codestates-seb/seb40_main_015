@@ -22,7 +22,7 @@ const useBookSector = (props: IProps) => {
 	const { centerCoord, current, searchInput, zoomLevel, size } = props;
 	const [bookSector, setBookSector] = useState<BookSector[]>([]);
 	const dispatch = useAppDispatch();
-	const level = [0, 9, 7, 5, 3, 3, 3];
+	const level = [0, 9, 9, 7, 5, 5, 5, 5, 5, 5];
 
 	const { refetch: bookCurrentRefetch } = useQuery({
 		queryKey: ['bookSectorByCurrent', centerCoord, zoomLevel, size],
