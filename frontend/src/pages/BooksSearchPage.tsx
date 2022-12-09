@@ -158,9 +158,12 @@ const FlexBox = styled.div`
 const IconBox = styled.div`
 	margin-left: 1.125rem;
 	border-radius: 5px;
-	background-color: rgba(950, 950, 950, 0.8);
+	background-color: rgb(950, 950, 950);
 	z-index: 100;
 	cursor: pointer;
+	:hover {
+		background-color: rgba(235, 233, 233, 0.9);
+	}
 `;
 
 interface LocationIconProps {

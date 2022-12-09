@@ -134,7 +134,7 @@ const KakaoMap = (props: KakaoMapProps) => {
 				// 	setSelectOverlay(null);
 				// 	setMerchantLists([]);
 				// }}
-				maxLevel={6}>
+				maxLevel={9}>
 				<MapMarker
 					position={{
 						lat: current?.lat ? current.lat : 33.4522346675632,

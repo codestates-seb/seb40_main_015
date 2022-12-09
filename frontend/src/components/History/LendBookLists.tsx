@@ -3,9 +3,15 @@ import LendStatusButton from './LendStatusButton';
 import BookItem from '../Books/BookItem';
 import LendBookUserInfo from './LendBookUserInfo';
 import useLendBookLists from '../../api/hooks/history/useLendBookLists';
+import { BookInfo, RentalInfo } from './types';
 
 interface ILentBookListsProps {
 	filters: string;
+}
+
+interface Lists {
+	bookInfo: BookInfo;
+	rentalInfo: RentalInfo;
 }
 
 const LentBookLists = ({ filters }: ILentBookListsProps) => {
@@ -15,7 +21,7 @@ const LentBookLists = ({ filters }: ILentBookListsProps) => {
 		<Box>
 			{lists?.length ? (
 				lists?.map(
-					(el: any) =>
+					(el: Lists) =>
 						el && (
 							<Wrapper key={el.rentalInfo.rentalId}>
 								<BookItem

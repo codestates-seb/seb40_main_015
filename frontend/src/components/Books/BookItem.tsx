@@ -23,7 +23,7 @@ const BookItem = ({
 	merchantName = '',
 	status = '',
 	rental = {
-		rentalId: '',
+		rentalId: 0,
 		customerName: '',
 		rentalState: '',
 		rentalStartedAt: '',
