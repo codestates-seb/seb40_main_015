@@ -23,6 +23,7 @@ const MerchantLists = (props: Props) => {
 	}) => {
 		setHoverLists(location);
 	};
+
 	return (
 		<Box>
 			{merchantList?.map((item: any) => {

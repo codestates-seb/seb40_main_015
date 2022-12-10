@@ -11,17 +11,7 @@ import useMerchantSector from '../api/hooks/map/useMerchantSector';
 import useBookList from '../api/hooks/map/useBookList';
 import useBookSector from '../api/hooks/map/useBookSector';
 
-interface MerchantSectorProps {
-	merchantCount: number;
-	totalBookCount?: number;
-	sector: number;
-	location: {
-		latitude: number;
-		longitude: number;
-	};
-}
-
-interface selectOverlayProps {
+interface SelectOverlay {
 	merchantCount?: number;
 	bookCount?: number;
 	sector: number;
@@ -36,7 +26,7 @@ const BooksSearchPage = () => {
 		useGeoLocation();
 	const [centerCoord, setCenterCoord] = useGeoLocation('center');
 	const [searchInput, setSearchInput] = useState('');
-	const [selectOverlay, setSelectOverlay] = useState<selectOverlayProps>();
+	const [selectOverlay, setSelectOverlay] = useState<SelectOverlay>();
 	const [zoomLevel, setZoomLevel] = useState(5);
 	const size = useWindowSize(zoomLevel);
 	const [merchantSector, setMerchantSector, merchantCurrentRefetch] =
@@ -92,13 +82,10 @@ const BooksSearchPage = () => {
 						<Search
 							searchInput={searchInput}
 							setSearchInput={setSearchInput}
-							current={current}
 							setMerchantSector={setMerchantSector}
 							setBookSector={setBookSector}
 							setMerchantLists={setMerchantLists}
 							setBookLists={setBookLists}
-							zoomLevel={zoomLevel}
-							size={size}
 							merchantCurrentRefetch={merchantCurrentRefetch}
 							bookCurrentRefetch={bookCurrentRefetch}
 						/>
@@ -171,9 +158,12 @@ const FlexBox = styled.div`
 const IconBox = styled.div`
 	margin-left: 1.125rem;
 	border-radius: 5px;
-	background-color: rgba(950, 950, 950, 0.8);
+	background-color: rgb(950, 950, 950);
 	z-index: 100;
 	cursor: pointer;
+	:hover {
+		background-color: rgba(235, 233, 233, 0.9);
+	}
 `;
 
 interface LocationIconProps {

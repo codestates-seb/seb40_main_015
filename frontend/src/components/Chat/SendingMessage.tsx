@@ -1,17 +1,26 @@
+import { useNavigate } from 'react-router';
 import styled from 'styled-components';
 import { convertDateForChat } from '../../utils/convertDateForChat';
 
-interface Iprops {
+interface IProps {
 	list: {
 		avatarUrl?: string;
 		content: string;
 		dateTime: string;
 		nickName?: string;
+		memberId?: number;
 	};
 }
 
-const SendingMessage = ({ list }: Iprops) => {
-	const { avatarUrl, content, dateTime, nickName } = list;
+const SendingMessage = ({ list }: IProps) => {
+	const { avatarUrl, content, dateTime, nickName, memberId } = list;
+
+	const navigate = useNavigate();
+
+	const handleMoveUserProfile = () => {
+		navigate(`/profile/merchant/${memberId}`);
+	};
+
 	return (
 		<Container avatarUrl={avatarUrl}>
 			<Box>
@@ -24,7 +33,11 @@ const SendingMessage = ({ list }: Iprops) => {
 				</MessageInfoBox>
 			</Box>
 			{avatarUrl ? (
-				<UserImage src={avatarUrl} alt="상대방 이미지" />
+				<UserImage
+					src={avatarUrl}
+					alt="나의 이미지"
+					onClick={handleMoveUserProfile}
+				/>
 			) : (
 				<EmptyImageBox />
 			)}
@@ -50,6 +63,7 @@ const UserImage = styled.img`
 	width: 3.5rem;
 	height: 3.5rem;
 	border-radius: 50%;
+	cursor: pointer;
 `;
 
 const Box = styled.div`

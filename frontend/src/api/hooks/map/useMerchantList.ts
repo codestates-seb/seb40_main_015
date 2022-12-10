@@ -12,12 +12,19 @@ interface IProps {
 	size: { width: number; height: number };
 }
 
+interface MerchantList {
+	location: { latitude: number; longitude: number };
+	merchantId: number;
+	merchantName: string;
+}
+
 const useMerchantList = (props: IProps) => {
 	const { centerCoord, current, selectOverlay, searchInput, zoomLevel, size } =
 		props;
-	const [merchantLists, setMerchantLists] = useState<any>([]);
+	const [merchantLists, setMerchantLists] = useState<MerchantList[]>([]);
 	const [ref, inView] = useInView();
-	const level = [0, 9, 7, 5, 3, 3, 3];
+	const level = [0, 9, 9, 7, 5, 5, 5, 5, 5, 5];
+
 	const {
 		fetchNextPage,
 		hasNextPage,
@@ -63,7 +70,7 @@ const useMerchantList = (props: IProps) => {
 		ref,
 		merchantListRefetch,
 		merchantListRemove,
-	];
+	] as const;
 };
 
 export default useMerchantList;

@@ -17,6 +17,9 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.SliceImpl;
 import org.springframework.stereotype.Repository;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.List;
 
 import static com.dongnebook.domain.book.domain.QBook.book;
@@ -155,4 +158,15 @@ public class RentalQueryRepository {
         return rental.rentalState.eq(RentalState.valueOf(rentalState));
     }
 
+    public List<Rental> findAllDeadLineRental(LocalDate alarmDate) {
+        //반납일자 11.12일 알림이 가야하는 날짜 11.11일
+
+        LocalDateTime start = LocalDateTime.of(alarmDate, LocalTime.MIN);
+        LocalDateTime end = LocalDateTime.of(alarmDate, LocalTime.MAX);
+
+        return jpaQueryFactory.selectFrom(rental)
+            .innerJoin(rental.customer).fetchJoin()
+            .where(rental.rentalDeadLine.between(start,end))
+            .fetch();
+    }
 }

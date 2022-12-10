@@ -9,7 +9,7 @@ interface ILendBookUserInfo {
 	rentalInfo: RentalProps;
 	merchantName?: string;
 	merchantId?: string | number;
-	bookId?: string;
+	bookId?: number;
 }
 
 export const LendBookUserInfo = ({
@@ -80,7 +80,6 @@ const UserInfoBox = styled.div`
 	display: flex;
 	justify-content: space-evenly;
 	align-items: center;
-	/* margin-bottom: 1rem; */
 	padding: 1rem 0;
 	background-color: white;
 	span {

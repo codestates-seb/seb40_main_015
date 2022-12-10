@@ -1,6 +1,5 @@
 import styled from 'styled-components';
 import { useNavigate } from 'react-router-dom';
-import { useInfiniteQuery, useQuery } from '@tanstack/react-query';
 import { useEffect, useRef } from 'react';
 
 //components
@@ -10,30 +9,26 @@ import Title from '../components/common/Title';
 import Animation from '../components/Loading/Animation';
 
 //hooks
-import { useBooksAPI } from '../api/books';
 import { useAppDispatch, useAppSelector } from '../redux/hooks';
+import { useGetBooksList } from '../api/hooks/books/useGetBooksList';
+import { useGetAddress } from '../api/hooks/member/useGetAddress';
+
+//etc
 import notify from '../utils/notify';
-import { useMypageAPI } from '../api/mypage';
-import LogoImage from '../assets/image/logo4.png';
 
 const BooksPage = () => {
 	const { isLogin, id } = useAppSelector(state => state.loginInfo);
 	const dispatch = useAppDispatch();
-	const { getAllBooksListInfinite } = useBooksAPI();
-	const { getMyInfo } = useMypageAPI();
 	const navigate = useNavigate();
 	const target = useRef<HTMLDivElement>(null);
 
-	//무한스크롤
-	const { data, fetchNextPage, isLoading, hasNextPage, isFetchingNextPage } =
-		useInfiniteQuery({
-			queryKey: ['allBooks'],
-			queryFn: ({ pageParam = undefined }) =>
-				getAllBooksListInfinite(pageParam),
-			getNextPageParam: lastPage => {
-				return lastPage?.content?.slice(-1)[0]?.bookId;
-			},
-		});
+	const {
+		booksListData,
+		fetchNextPage,
+		isLoading,
+		hasNextPage,
+		isFetchingNextPage,
+	} = useGetBooksList();
 
 	useEffect(() => {
 		const observer = new IntersectionObserver(
@@ -51,11 +46,7 @@ const BooksPage = () => {
 		return () => observer.disconnect();
 	}, []);
 
-	const address = useQuery({
-		queryKey: ['myprofile'],
-		queryFn: () => getMyInfo(id),
-		retry: false,
-	}).data?.address;
+	const address = useGetAddress(id);
 
 	const handleClickCreate = () => {
 		if (!isLogin) notify(dispatch, '로그인이 필요합니다');
@@ -89,9 +80,8 @@ const BooksPage = () => {
 				{isLoading ? (
 					<Animation width={20} height={20} />
 				) : (
-					data?.pages?.map(el =>
+					booksListData?.pages?.map(el =>
 						el?.content?.map(el => {
-							// if (el.status === '거래중단') return '';
 							return (
 								<BookItem
 									key={+el.bookId}

@@ -41,22 +41,19 @@
 		{
 			"src": "./icons/favicon-196x196.png",
 			"sizes": "196x196",
-			"type": "image/png"
-		},
-		{
-			"src": "./icons/favicon-128x128.png",
-			"sizes": "128x128",
-			"type": "image/png"
+			"type": "image/png",
+			"purpose": "any"
 		},
 		{
 			"src": "./icons/favicon-512x512.png",
 			"sizes": "512x512",
 			"type": "image/png",
-			"purpose": "any maskable"
+			"purpose": "maskable"
 		}
 	],
 	"start_url": "/",
 	"display": "standalone",
 	"theme_color": "#016241",
-	"background_color": "#016241"
+	"background_color": "#016241",
+	"orientation": "portrait"
 }

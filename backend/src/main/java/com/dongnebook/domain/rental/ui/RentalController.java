@@ -77,4 +77,6 @@ public class RentalController {
         return new ResponseEntity<>(rentalService.getRentalsByCustomer(customer.getMemberId(), RentalSearchCondition.getRentalState(), pageRequest), HttpStatus.OK);
     }
 
+
+
 }

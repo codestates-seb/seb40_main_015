@@ -7,8 +7,9 @@ import { useCancelByCustomer } from '../../api/hooks/history/useCancelByCustomer
 interface Props {
 	status: string;
 	merchantName: string;
+	bookId: number;
 	rental: {
-		rentalId: string;
+		rentalId: number;
 		customerName: string;
 		rentalState: string;
 		rentalStartedAt: string;
@@ -18,7 +19,7 @@ interface Props {
 	};
 }
 
-const RentStatusButton = ({ status, merchantName, rental }: Props) => {
+const RentStatusButton = ({ status, merchantName, rental, bookId }: Props) => {
 	const navigate = useNavigate();
 
 	const { mutate: cancel } = useCancelByCustomer(rental.rentalId);
@@ -33,7 +34,7 @@ const RentStatusButton = ({ status, merchantName, rental }: Props) => {
 		switch (status) {
 			case 'TRADING':
 				const action = (e?.target as HTMLButtonElement).textContent;
-				if (action === '취소 하기') {
+				if (action === '취소하기') {
 					const istrue = window.confirm(`${id}님과의 거래를 취소하시겠습니까?`);
 					istrue && cancel();
 				}
@@ -46,19 +47,22 @@ const RentStatusButton = ({ status, merchantName, rental }: Props) => {
 				break;
 			case 'RETURN_UNREVIEWED':
 				const istrue = window.confirm(`${id}님에게 리뷰를 작성하시겠습니까?`);
-				istrue && navigate('/review/create');
+				istrue &&
+					navigate({
+						pathname: '/review/create',
+						search: `?rentalId=${rental.rentalId}&id=${id}&bookId=${bookId}`,
+					});
 				break;
 		}
 	};
 	return (
-		// <StatusBox status={status}>
 		<>
 			{status === 'TRADING' && (
 				<>
 					<Button
 						className="cancel"
 						onClick={e => handleStatusChange(status, merchantName, e)}>
-						취소 하기
+						취소하기
 					</Button>
 					<Button onClick={e => handleStatusChange(status, merchantName, e)}>
 						수령 완료
@@ -80,27 +84,7 @@ const RentStatusButton = ({ status, merchantName, rental }: Props) => {
 				<Button backgroundColor="grey">취소 완료</Button>
 			)}
 		</>
-		// </StatusBox>
 	);
 };
-interface StatusBoxProps {
-	status: string;
-}
-
-const StatusBox = styled.div<StatusBoxProps>`
-	/* height: 100%; */
-	/* width: 7rem; */
-
-	display: flex;
-	flex-direction: column;
-	flex-wrap: wrap;
-
-	justify-content: ${props =>
-		props.status === 'TRADING' ? 'space-evenly' : 'center'};
-	word-break: keep-all;
-	:hover {
-		background-color: ${props => props.theme.colors.grey};
-	}
-`;
 
 export default RentStatusButton;

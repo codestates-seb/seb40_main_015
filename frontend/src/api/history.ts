@@ -64,18 +64,18 @@ export const useHistoryAPI = () => {
 		}
 	};
 	// 대여 취소 by 상인
-	const axiosCancleByMerchant = (id: string) =>
+	const axiosCancleByMerchant = (id: number) =>
 		api.patch(`/rental/${id}/cancelByMerchant`);
 
 	// 대여 취소 by 주민
-	const axiosCancleByCustomer = (id: string) =>
+	const axiosCancleByCustomer = (id: number) =>
 		api.patch(`/rental/${id}/cancelByCustomer`);
 
 	// 도서 수령
-	const axiosBookReceipt = (id: string) => api.patch(`/rental/${id}/receive`);
+	const axiosBookReceipt = (id: number) => api.patch(`/rental/${id}/receive`);
 
 	// 도서 반납
-	const axiosBookReturn = (id: string) => api.patch(`/rental/${id}/return`);
+	const axiosBookReturn = (id: number) => api.patch(`/rental/${id}/return`);
 
 	return {
 		getRentalBookLists,

@@ -4,10 +4,11 @@ import BookList from '../components/Merchant/BookList';
 import TabLists from '../components/common/TabLists';
 import Title from '../components/common/Title';
 import useTabs from '../hooks/useTabs';
-import Review from '../components/Merchant/Review';
+import Review from '../components/Review/Review';
 import { useParams } from 'react-router-dom';
 import Animation from '../components/Loading/Animation';
 import useUserInfo from '../api/hooks/user/useUserInfo';
+import ReviewList from '../components/Merchant/ReviewList';
 
 function MerchantPage() {
 	const [tab, curTab, handleChange] = useTabs(['책 목록', '리뷰 보기']);
@@ -42,7 +43,7 @@ function MerchantPage() {
 			</ProfileBox>
 			<TabLists tabs={tab} handleChange={handleChange} />
 			{curTab === '책 목록' && <BookList merchantId={merchantId} />}
-			{curTab === '리뷰 보기' && <Review />}
+			{curTab === '리뷰 보기' && <ReviewList />}
 		</Layout>
 	);
 }

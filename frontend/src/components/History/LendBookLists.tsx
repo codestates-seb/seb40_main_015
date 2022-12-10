@@ -3,18 +3,25 @@ import LendStatusButton from './LendStatusButton';
 import BookItem from '../Books/BookItem';
 import LendBookUserInfo from './LendBookUserInfo';
 import useLendBookLists from '../../api/hooks/history/useLendBookLists';
+import { BookInfo, RentalInfo } from './types';
 
 interface ILentBookListsProps {
 	filters: string;
 }
 
+interface Lists {
+	bookInfo: BookInfo;
+	rentalInfo: RentalInfo;
+}
+
 const LentBookLists = ({ filters }: ILentBookListsProps) => {
 	const { lists, hasNextPage, ref } = useLendBookLists(filters);
+
 	return (
 		<Box>
 			{lists?.length ? (
 				lists?.map(
-					(el: any) =>
+					(el: Lists) =>
 						el && (
 							<Wrapper key={el.rentalInfo.rentalId}>
 								<BookItem
@@ -47,19 +54,13 @@ const LentBookLists = ({ filters }: ILentBookListsProps) => {
 	);
 };
 
-const Box = styled.div`
-	/* padding: 0 1rem; */
-`;
+const Box = styled.div``;
 
 const Wrapper = styled.div`
 	width: 100%;
-	/* max-width: 850px; */
 	display: flex;
 	flex-direction: column;
 	margin-bottom: 3rem;
-
-	/* padding-bottom: 2rem; */
-	/* border-bottom: 1px solid rgba(0, 0, 0, 0.2); */
 
 	button {
 		height: 3rem;

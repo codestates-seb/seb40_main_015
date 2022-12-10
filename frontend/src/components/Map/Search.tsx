@@ -5,13 +5,10 @@ import { Dispatch, SetStateAction } from 'react';
 interface SearchProps {
 	searchInput: string;
 	setSearchInput: Dispatch<SetStateAction<string>>;
-	current: { lat: number; lon: number };
 	setMerchantSector: Dispatch<SetStateAction<any>>;
 	setBookSector: Dispatch<SetStateAction<any>>;
 	setMerchantLists: Dispatch<SetStateAction<any>>;
 	setBookLists: Dispatch<SetStateAction<any>>;
-	zoomLevel: number;
-	size: { width: number; height: number };
 	merchantCurrentRefetch: any;
 	bookCurrentRefetch: any;
 }
@@ -20,13 +17,10 @@ const Search = (props: SearchProps) => {
 	const {
 		searchInput,
 		setSearchInput,
-		current,
 		setMerchantSector,
 		setBookSector,
 		setMerchantLists,
 		setBookLists,
-		zoomLevel,
-		size,
 		merchantCurrentRefetch,
 		bookCurrentRefetch,
 	} = props;
@@ -81,7 +75,6 @@ const SearchInput = styled.input`
 	outline: none;
 	padding-left: 10px;
 	font-size: ${props => props.theme.fontSizes.paragraph};
-	// height: 5rem;
 `;
 
 export default Search;

@@ -14,7 +14,7 @@ export interface BooksProps {
 }
 
 export interface RentalProps {
-	rentalId: string;
+	rentalId: number;
 	customerName: string;
 	rentalState: string;
 	rentalStartedAt: string;

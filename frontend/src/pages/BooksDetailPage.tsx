@@ -1,7 +1,6 @@
 import styled from 'styled-components';
-import { useQuery } from '@tanstack/react-query';
-import { useParams } from 'react-router-dom';
 import { useAppSelector } from '../redux/hooks';
+import { useParams } from 'react-router-dom';
 
 //conmponents
 import Title from '../components/common/Title';
@@ -11,22 +10,16 @@ import { Main, TitleWrapper } from '../components/Books/BookElements';
 import BookImage from '../components/Books/BookDetailimage';
 
 //hooks
-import { useBooksAPI } from '../api/books';
+import { useGetBookDetail } from '../api/hooks/books/useGetBookDetail';
 
 const BooksDetailPage = () => {
-	const { isLogin, id } = useAppSelector(state => state.loginInfo);
+	const { isLogin } = useAppSelector(state => state.loginInfo);
 	const { bookId } = useParams();
-	const { getBookDetail, deleteBook } = useBooksAPI();
 
-	// 책 상세정보 받아오기 쿼리
-	const {
-		data,
-		isLoading,
-		refetch: refetchBookDetail,
-	} = useQuery({
-		queryKey: [bookId, 'bookDetail'],
-		queryFn: () => getBookDetail(bookId, isLogin),
-	});
+	const { bookDetailData, isLoading, refetchBookDetail } = useGetBookDetail(
+		isLogin,
+		bookId,
+	);
 
 	return (
 		<Main>
@@ -38,12 +31,15 @@ const BooksDetailPage = () => {
 					<Animation width={20} height={20} />
 				</LoadingSpinnerWrapper>
 			) : (
-				data && (
+				bookDetailData && (
 					<BodyContainer>
-						<BookImage book={data?.book} merchant={data?.merchant} />
+						<BookImage
+							book={bookDetailData?.book}
+							merchant={bookDetailData?.merchant}
+						/>
 						<BookDetail
-							book={data?.book}
-							merchant={data?.merchant}
+							book={bookDetailData?.book}
+							merchant={bookDetailData?.merchant}
 							refetchBookDetail={refetchBookDetail}
 						/>
 					</BodyContainer>

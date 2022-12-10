@@ -40,17 +40,13 @@ const GlobalStyle = createGlobalStyle`
   article, aside, canvas, details, embed, 
   figure, figcaption, footer, header, hgroup, 
   menu, nav, output, ruby, section, summary,
-  time, mark, audio, video {
+  time, mark, audio, video, textarea {
     margin: 0;
     padding: 0;
     border: 0;
     font-size: calc( 10px + 0.4vw );
     vertical-align: baseline;
     font-family: 'Apple SD', 'kotra';
-    /* background-color: #FBFBFB; */
-    /* overflow-y: auto;  */
-    /* overflow: overlay; */
-    /* overflow-x: hidden; */
   }
   a {
     text-decoration: none;

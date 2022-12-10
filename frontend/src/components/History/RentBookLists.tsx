@@ -3,9 +3,18 @@ import BookItem from '../Books/BookItem';
 import LendBookUserInfo from './LendBookUserInfo';
 import RentStatusButton from './RentStatusButton';
 import useRentalBookLists from '../../api/hooks/history/useRentalBookLists';
-
+import { BookInfo, RentalInfo } from './types';
 interface IRentBookListsProps {
 	filters: string;
+}
+
+interface RentalBookInfo extends BookInfo {
+	merchantName: string;
+}
+
+interface Lists {
+	bookInfo: RentalBookInfo;
+	rentalInfo: RentalInfo;
 }
 
 const RentBookLists = ({ filters }: IRentBookListsProps) => {
@@ -16,7 +25,7 @@ const RentBookLists = ({ filters }: IRentBookListsProps) => {
 			{lists?.length ? (
 				<>
 					{lists?.map(
-						(el: any) =>
+						(el: Lists) =>
 							el && (
 								<Wrapper key={el.rentalInfo.rentalId}>
 									<BookItem
@@ -26,7 +35,6 @@ const RentBookLists = ({ filters }: IRentBookListsProps) => {
 										rentalfee={el.bookInfo.rentalFee}
 										author={el.bookInfo.author}
 										publisher={el.bookInfo.publisher}
-										// merchantName={el.bookInfo.merchantName}
 										status={el.rentalInfo.rentalState}
 										rental={el.rentalInfo}
 									/>
@@ -40,6 +48,7 @@ const RentBookLists = ({ filters }: IRentBookListsProps) => {
 										status={el.rentalInfo.rentalState}
 										merchantName={el.bookInfo.merchantName}
 										rental={el.rentalInfo}
+										bookId={el.bookInfo.bookId}
 									/>
 								</Wrapper>
 							),
@@ -56,13 +65,11 @@ const RentBookLists = ({ filters }: IRentBookListsProps) => {
 };
 
 const Box = styled.div`
-	/* padding: 0 1rem; */
 	height: 100%;
 `;
 
 const Wrapper = styled.div`
 	width: 100%;
-	/* max-width: 850px; */
 	display: flex;
 	flex-direction: column;
 	margin-bottom: 3rem;
@@ -73,7 +80,6 @@ const Wrapper = styled.div`
 		padding: 0.6rem 0.8rem;
 		background-color: inherit;
 		border-radius: 0 5px 0 5px;
-		/* border: 1px solid rgba(1, 1, 1, 0.1); */
 		border-left: 1px solid rgba(1, 1, 1, 0.1);
 		border-bottom: 1px solid rgba(1, 1, 1, 0.1);
 
@@ -101,4 +107,5 @@ const EmptyBox = styled.div`
 const ScrollEnd = styled.div`
 	background-color: #fbfbfb;
 `;
+
 export default RentBookLists;

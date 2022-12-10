@@ -1,6 +1,4 @@
-import { useEffect } from 'react';
 import styled from 'styled-components';
-import useCreateRoom from '../api/hooks/chat/useCreateRoom';
 import useGetRoomLists from '../api/hooks/chat/useGetRoomLists';
 import ChatLists from '../components/Chat/ChatLists';
 import Title from '../components/common/Title';
@@ -20,7 +18,7 @@ interface RoomList {
 
 const ChatsPage = () => {
 	const { roomListsData, isLoadingRoomList } = useGetRoomLists();
-	console.log(roomListsData);
+
 	return (
 		<Container>
 			<Title text="채팅창 목록" marginBottom={false} />
@@ -28,9 +26,7 @@ const ChatsPage = () => {
 				{isLoadingRoomList ? (
 					<Animation />
 				) : roomListsData?.length ? (
-					roomListsData.map((list: RoomList) => {
-						return <ChatLists list={list} key={list.roomId} />;
-					})
+					<ChatLists data={roomListsData} />
 				) : (
 					<Empty>
 						<p>대화중인 방이 없어요</p>
