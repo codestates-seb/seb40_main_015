@@ -5,14 +5,9 @@ import static com.dongnebook.domain.dibs.domain.QDibs.*;
 import static com.dongnebook.domain.rental.domain.QRental.*;
 
 import java.util.List;
-import java.util.Objects;
 import java.util.Optional;
 
-import javax.persistence.EntityManager;
-import javax.persistence.LockModeType;
-
 import org.springframework.data.domain.SliceImpl;
-import org.springframework.data.jpa.repository.Lock;
 import org.springframework.stereotype.Repository;
 
 import com.dongnebook.domain.book.domain.Book;
@@ -46,46 +41,42 @@ import lombok.extern.slf4j.Slf4j;
 @Repository
 @RequiredArgsConstructor
 public class BookQueryRepository {
-
 	private final JPAQueryFactory jpaQueryFactory;
-	private final EntityManager em;
 
-
-	public Optional<Book> findByBookIdWithMember(Long bookId){
-		return Optional.ofNullable(jpaQueryFactory.select(book)
+	public Optional<Book> getWithMerchantByBookId(Long bookId) {
+		return Optional.ofNullable(jpaQueryFactory
+			.select(book)
 			.from(book)
-			.innerJoin(book.member).fetchJoin()
+			.innerJoin(book.member)
+			.fetchJoin()
 			.where(book.id.eq(bookId))
 			.fetchFirst());
 	}
 
 	public BookDetailResponse getBookDetail(Long bookId, Long memberId) {
-
-		return jpaQueryFactory.select(new QBookDetailResponse(
-					new QBookResponse(
-						book.id,
-						book.title,
-						book.author,
-						book.publisher,
-						book.rentalFee.value,
-						book.description,
-						book.bookState,
-						book.imgUrl,
-						dibsCountSubQuery(bookId,memberId),
-						rental.rentalStartedAt,
-						rental.rentalDeadLine
-					),
-					new QBookDetailMemberResponse(
-						book.member.id,
-						book.member.nickname,
-						book.member.avgGrade,
-						book.member.avatarUrl
-					)
-				)
-			)
+		return jpaQueryFactory
+			.select(new QBookDetailResponse(
+				new QBookResponse(
+					book.id,
+					book.title,
+					book.author,
+					book.publisher,
+					book.rentalFee.value,
+					book.description,
+					book.bookState,
+					book.imgUrl,
+					dibsCountSubQuery(bookId, memberId),
+					rental.rentalStartedAt,
+					rental.rentalDeadLine),
+				new QBookDetailMemberResponse(
+					book.member.id,
+					book.member.nickname,
+					book.member.avgGrade,
+					book.member.avatarUrl)))
 			.from(book)
 			.leftJoin(book.member)
-			.leftJoin(rental).on(rental.book.id.eq(bookId),rental.rentalState.eq(RentalState.BEING_RENTED))
+			.leftJoin(rental)
+			.on(rental.book.id.eq(bookId), rental.rentalState.eq(RentalState.BEING_RENTED))
 			.leftJoin(book.dibsList, dibs)
 			.where(book.id.eq(bookId))
 			.fetchFirst();
@@ -99,47 +90,46 @@ public class BookQueryRepository {
 	 * db 에서 근방에 있는 책들 (pk와 주소) 모두 가져오기  -> 어플리케이션단에서 그룹핑하기
 	 * db 에서 그룹핑해서 가져오기 -> 그럼 select 쿼리가 9번??
 	 */
-	public List<Location> getSectorBookCounts(BookSearchCondition condition) {
-
+	public List<Location> getNearByBookLocation(BookSearchCondition condition) {
 		String bookTitle = condition.getBookTitle();
 		List<Double> LatRange = Location.latRangeList(condition.getLatitude(), condition.getHeight(),
 			condition.getLevel());
 		List<Double> LonRange = Location.lonRangeList(condition.getLongitude(), condition.getWidth(),
 			condition.getLevel());
 
-		return jpaQueryFactory.select(book.location)
+		return jpaQueryFactory
+			.select(book.location)
 			.from(book)
 			.where(book.location.latitude.between(LatRange.get(LatRange.size() - 1), LatRange.get(0)),
-				book.location.longitude.between(LonRange.get(0), LonRange.get(LonRange.size() - 1))
-				, contains(bookTitle)
-				, bookToShow())
+				book.location.longitude.between(LonRange.get(0), LonRange.get(LonRange.size() - 1)),
+				contains(bookTitle), bookToShow())
 			.fetch();
 	}
 
-	public SliceImpl<BookSimpleResponse> getAll(BookSearchCondition condition,
-		PageRequest pageRequest) {
-
+	public SliceImpl<BookSimpleResponse> getAll(BookSearchCondition condition, PageRequest pageRequest) {
+		boolean hasNext = false;
 		String bookTitle = condition.getBookTitle();
 		log.info("bookTitle = {}", bookTitle);
-		List<Double> LatRange = Location.latRangeList(condition.getLatitude(), condition.getHeight(),
-			condition.getLevel());
-		List<Double> LonRange = Location.lonRangeList(condition.getLongitude(), condition.getWidth(),
-			condition.getLevel());
 
-		List<BookSimpleResponse> result = jpaQueryFactory.select(
-				new QBookSimpleResponse(book.id, book.title, book.bookState, book.imgUrl, book.rentalFee, book.location,
-					book.member.nickname))
+		List<BookSimpleResponse> result = jpaQueryFactory
+			.select(new QBookSimpleResponse(
+				book.id,
+				book.title,
+				book.bookState,
+				book.imgUrl,
+				book.rentalFee,
+				book.location,
+				book.member.nickname))
 			.from(book)
 			.innerJoin(book.member)
-			.where(ltBookId(pageRequest.getIndex())
-				, (contains(bookTitle))
-				, (sectorBetween(LatRange, LonRange, condition.getSector(), condition.getLevel()))
-				, bookToShow())
+			.where(ltBookId(pageRequest.getIndex()),
+				contains(bookTitle),
+				Location.inSector(condition.getLatitude(), condition.getLongitude(), condition.getHeight(),
+					condition.getWidth(), condition.getSector(), condition.getLevel(), book.location),
+				bookToShow())
 			.orderBy(book.id.desc())
 			.limit(pageRequest.getSize() + 1)
 			.fetch();
-
-		boolean hasNext = false;
 
 		if (result.size() > pageRequest.getSize()) {
 			hasNext = true;
@@ -149,18 +139,21 @@ public class BookQueryRepository {
 		return new SliceImpl<>(result, pageRequest.of(), hasNext);
 	}
 
-	public SliceImpl<BookSimpleResponse> getAllDibsBook(Long memberId,
-		PageRequest pageRequest) {
-
-		List<BookSimpleResponse> result = jpaQueryFactory.select(
-				new QBookSimpleResponse(dibs.book.id, dibs.book.title, dibs.book.bookState, dibs.book.imgUrl,
-					dibs.book.rentalFee, dibs.book
-					.location, dibs.book.member.nickname))
+	public SliceImpl<BookSimpleResponse> getAllDibsBook(Long memberId, PageRequest pageRequest) {
+		List<BookSimpleResponse> result = jpaQueryFactory
+			.select(
+				new QBookSimpleResponse(
+					dibs.book.id,
+					dibs.book.title,
+					dibs.book.bookState,
+					dibs.book.imgUrl,
+					dibs.book.rentalFee,
+					dibs.book.location,
+					dibs.book.member.nickname))
 			.from(dibs)
-			.leftJoin(dibs.book,book)
+			.leftJoin(dibs.book, book)
 			.leftJoin(dibs.book.member)
-			.where(ltDibsBookId(pageRequest.getIndex()), dibs.member.id.eq(memberId),
-				bookToShow())
+			.where(ltDibsBookId(pageRequest.getIndex()), dibs.member.id.eq(memberId), bookToShow())
 			.orderBy(dibs.book.id.desc())
 			.limit(pageRequest.getSize() + 1)
 			.fetch();
@@ -176,11 +169,17 @@ public class BookQueryRepository {
 	}
 
 	public SliceImpl<BookSimpleResponse> getListByMember(Long memberId, PageRequest pageRequest) {
-		List<BookSimpleResponse> result = jpaQueryFactory.select(
-				new QBookSimpleResponse(book.id, book.title, book.bookState, book.imgUrl))
+		List<BookSimpleResponse> result = jpaQueryFactory
+			.select(
+				new QBookSimpleResponse(
+					book.id,
+					book.title,
+					book.bookState,
+					book.imgUrl))
 			.from(book)
-			.where(ltBookId(pageRequest.getIndex()), book.member.id.eq(memberId)
-				, bookToShow())
+			.where(ltBookId(pageRequest.getIndex()),
+				book.member.id.eq(memberId),
+				bookToShow())
 			.orderBy(book.id.desc())
 			.limit(pageRequest.getSize() + 1)
 			.fetch();
@@ -199,31 +198,28 @@ public class BookQueryRepository {
 		if (bookTitle.isBlank()) {
 			return null;
 		}
+
 		return book.title.contains(bookTitle);
 	}
 
-	private Expression<Long> dibsCountSubQuery(Long bookId, Long memberId){
-		if(memberId==null){
+	private Expression<Long> dibsCountSubQuery(Long bookId, Long memberId) {
+		if (memberId == null) {
 			return Expressions.ZERO.longValue();
 		}
-		return ExpressionUtils.as(JPAExpressions.select(dibs.id.count())
+
+		return ExpressionUtils.as(JPAExpressions
+			.select(dibs.id.count())
 			.from(dibs)
-			.where(dibs.book.id.eq(bookId),dibs.member.id.eq(memberId)), "count")
-			;
+			.where(dibs.book.id.eq(bookId),
+				dibs.member.id.eq(memberId)),
+			"count");
 	}
-
-
-	// private BooleanExpression dibsMemberIdEq(Long memberId){
-	// 	if(memberId==null){
-	// 		return null;
-	// 	}
-	// 	return ;
-	// }
 
 	private BooleanExpression ltDibsBookId(Long bookId) {
 		if (bookId == null) {
 			return null;
 		}
+
 		return dibs.book.id.lt(bookId);
 	}
 
@@ -231,40 +227,15 @@ public class BookQueryRepository {
 		if (bookId == null) {
 			return null;
 		}
+
 		return book.id.lt(bookId);
 	}
 
 	private BooleanExpression bookToShow() {
-
 		return book.bookState.ne(BookState.DELETED).and(book.bookState.ne(BookState.TRADING));
 	}
 
-	private BooleanExpression sectorBetween(List<Double> latRangeList, List<Double> lonRangeList, Integer givenSector,
-		Integer level) {
-
-		if (Objects.isNull(latRangeList) || Objects.isNull(lonRangeList) || Objects.isNull(givenSector)) {
-			return null;
-		}
-
-		int sector = 0;
-		for (int i = 0; i < level; i++) {
-			for (int j = 0; j < level; j++) {
-				sector++;
-				if (givenSector == sector) {
-					return book.location.latitude.between(latRangeList.get(i + 1), latRangeList.get(i))
-						.and(book.location.longitude.between(lonRangeList.get(j), lonRangeList.get(j + 1)));
-				}
-			}
-		}
-		return null;
-	}
-
 	public void updateBookLocation(Member member, Location location) {
-		jpaQueryFactory.update(book)
-			.set(book.location, location)
-			.where(book.member.id.eq(member.getId()))
-			.execute();
-
+		jpaQueryFactory.update(book).set(book.location, location).where(book.member.id.eq(member.getId())).execute();
 	}
-
 }

@@ -24,9 +24,7 @@ import lombok.extern.slf4j.Slf4j;
 @RequiredArgsConstructor
 @Service
 public class AwsS3Service implements ImageUploadService {
-
 	private final AmazonS3 amazonS3;
-
 	@Value("${cloud.aws.s3.bucket}")
 	private String bucketName;
 

@@ -5,7 +5,6 @@ import lombok.Getter;
 
 @Getter
 public class ReviewResponse {
-
     private Long reviewId;
     private String customerNickname;
     private String customerAvatarUrl;
@@ -27,5 +26,4 @@ public class ReviewResponse {
         this.bookId = bookId;
         this.rentalId = rentalId;
     }
-
 }

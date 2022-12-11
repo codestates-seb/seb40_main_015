@@ -11,7 +11,6 @@ import lombok.Getter;
  */
 @Getter
 public class BookSearchCondition {
-
 	private final String bookTitle;
 	private final Double longitude;
 	private final Double latitude;

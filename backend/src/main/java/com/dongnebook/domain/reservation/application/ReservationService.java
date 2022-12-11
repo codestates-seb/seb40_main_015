@@ -1,5 +1,9 @@
 package com.dongnebook.domain.reservation.application;
 
+import org.springframework.data.domain.SliceImpl;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
 import com.dongnebook.domain.book.domain.Book;
 import com.dongnebook.domain.book.domain.BookState;
 import com.dongnebook.domain.book.exception.BookNotFoundException;
@@ -17,14 +21,11 @@ import com.dongnebook.domain.reservation.exception.CanNotReservationBookRentalSt
 import com.dongnebook.domain.reservation.exception.CanNotReservationPersonException;
 import com.dongnebook.domain.reservation.exception.ReservationNotFoundException;
 import com.dongnebook.domain.reservation.repository.ReservationQueryRepository;
-
 import com.dongnebook.domain.reservation.repository.ReservationRepository;
 import com.dongnebook.global.dto.request.PageRequest;
+
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.data.domain.SliceImpl;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 @Slf4j
 @Service
@@ -36,7 +37,6 @@ public class ReservationService {
     private final BookCommandRepository bookCommandRepository;
     private final MemberRepository memberRepository;
     private final RentalQueryRepository rentalQueryRepository;
-
 
     @Transactional
     public void createReservation(Long bookId, Long memberId){
@@ -82,9 +82,11 @@ public class ReservationService {
 
     private Reservation getReservation(Long reservationId) {
         Reservation reservation = reservationQueryRepository.getReservationById(reservationId);
+
         if(reservation == null) {
             throw new ReservationNotFoundException();
         }
+
         return reservation;
     }
 

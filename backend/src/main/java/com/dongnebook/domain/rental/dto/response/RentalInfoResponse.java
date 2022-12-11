@@ -1,27 +1,21 @@
 package com.dongnebook.domain.rental.dto.response;
 
+import java.time.LocalDateTime;
+
 import com.dongnebook.domain.rental.domain.Rental;
 import com.dongnebook.domain.rental.domain.RentalState;
 import com.querydsl.core.annotations.QueryProjection;
-import lombok.Getter;
 
-import java.time.LocalDateTime;
+import lombok.Getter;
 
 @Getter
 public class RentalInfoResponse {
-
     private Long rentalId;
-
     private String customerName;
-
     private RentalState rentalState;
-
     private LocalDateTime rentalStartedAt;
-
     private LocalDateTime rentalDeadline;
-
     private LocalDateTime rentalReturnedAt;
-
     private LocalDateTime rentalCanceledAt;
 
     @QueryProjection
@@ -42,5 +36,4 @@ public class RentalInfoResponse {
                 rental.getRentalState(), rental.getRentalStartedAt(), rental.getRentalDeadLine(),
                 rental.getRentalReturnedAt(), rental.getCanceledAt());
     }
-
 }

@@ -16,6 +16,5 @@ public class MultiResponse<T> {
 
 	static public <T> MultiResponse<T> of(T data){
 		return new MultiResponse<>(data);
-
 	}
 }

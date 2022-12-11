@@ -43,7 +43,6 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Table(name = "book", indexes = @Index(name = "idx_book", columnList = "latitude,longitude,book_state"))
 public class Book extends BaseTimeEntity {
-
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "id", updatable = false)
@@ -76,16 +75,15 @@ public class Book extends BaseTimeEntity {
 	@Embedded
 	private Location location;
 
-
 	@Convert(converter = BookStateConverter.class)
 	@Column(name = "book_state")
 	private BookState bookState;
 
-	@ManyToOne(fetch= FetchType.LAZY)
+	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "member_id")
 	private Member member;
 
-	@OneToMany(mappedBy = "book",cascade = CascadeType.REMOVE)
+	@OneToMany(mappedBy = "book", cascade = CascadeType.REMOVE)
 	private List<Dibs> dibsList = new ArrayList<>();
 
 	@Builder
@@ -104,13 +102,12 @@ public class Book extends BaseTimeEntity {
 
 	public void changeBookStateFromTo(BookState from, BookState to) {
 		if (this.bookState.equals(from)) {
-			this.bookState=to;
+			this.bookState = to;
 			return;
 		}
+
 		throw new CanNotChangeStateException();
 	}
-
-
 
 	public static Book create(BookRegisterRequest bookRegisterRequest, Location location, Member member) {
 		return Book.builder()
@@ -127,22 +124,22 @@ public class Book extends BaseTimeEntity {
 	}
 
 	public void delete() {
-
 		if (Objects.equals(this.bookState, BookState.RENTABLE)) {
 			this.bookState = BookState.DELETED;
 			return;
 		}
+
 		throw new NotRentableException();
 	}
 
-	public void edit(BookEditRequest bookEditRequest){
-		this.imgUrl = bookEditRequest.getImageUrl()==null ? this.imgUrl : bookEditRequest.getImageUrl();
+	public void edit(BookEditRequest bookEditRequest) {
+		this.imgUrl = bookEditRequest.getImageUrl() == null ? this.imgUrl : bookEditRequest.getImageUrl();
 		this.description = bookEditRequest.getDescription();
 	}
 }
+
 @Converter
 class BookStateConverter implements AttributeConverter<BookState, String> {
-
 	@Override
 	public String convertToDatabaseColumn(BookState attribute) {
 		return String.valueOf(attribute);
@@ -152,7 +149,6 @@ class BookStateConverter implements AttributeConverter<BookState, String> {
 	public BookState convertToEntityAttribute(String dbData) {
 		return BookState.valueOf(dbData);
 	}
-
 }
 
 
