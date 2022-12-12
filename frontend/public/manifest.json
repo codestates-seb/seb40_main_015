@@ -41,13 +41,14 @@
 		{
 			"src": "./icons/favicon-196x196.png",
 			"sizes": "196x196",
-			"type": "image/png"
+			"type": "image/png",
+			"purpose": "any"
 		},
 		{
 			"src": "./icons/favicon-512x512.png",
 			"sizes": "512x512",
 			"type": "image/png",
-			"purpose": "any maskable"
+			"purpose": "maskable"
 		}
 	],
 	"start_url": "/",

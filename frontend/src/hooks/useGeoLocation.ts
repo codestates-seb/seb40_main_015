@@ -24,7 +24,7 @@ function useGeoLocation(type?: string) {
 		setLoading(true);
 		let options = {
 			enableHighAccuracy: true,
-			maximumAge: 0,
+			maximumAge: 6000,
 		};
 
 		let position: any = await getLocation(options);
