@@ -39,7 +39,7 @@ const NoticeItem = ({ noticeData }: NoticeItemType) => {
 				return (
 					<StyledNoticeItem
 						className="notice-item"
-						onClick={() => navigate(message[3])}
+						onClick={() => navigate(message['link'])}
 						isRead={el.isRead}
 						key={el.alarmId}>
 						<IconWrapper
@@ -49,9 +49,11 @@ const NoticeItem = ({ noticeData }: NoticeItemType) => {
 						</IconWrapper>
 						<Logo src={logo} alt="로고" />
 						<Notice>
-							{`${message[0]} ${message[1]}${message[1] && '하신'} `}
+							{`${message['icon']} ${message['type']}${
+								message['type'] && '하신'
+							} `}
 							<span>{el.bookTitle}</span>
-							{`${message[2]}`}
+							{`${message['message']}`}
 						</Notice>
 					</StyledNoticeItem>
 				);
