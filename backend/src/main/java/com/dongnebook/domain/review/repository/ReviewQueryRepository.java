@@ -29,6 +29,7 @@ public class ReviewQueryRepository {
                         review.reviewMessage,
                         review.grade,
                         review.rental.book.title,
+                        review.rental.book.imgUrl,
                         review.rental.book.id,
                         review.rental.id
                     )
