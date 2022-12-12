@@ -5,7 +5,6 @@ import useCreateReview from '../../api/hooks/review/useCreateReview';
 import Button from '../common/Button';
 import ConfirmModal from '../common/ConfirmModal';
 import Title from '../common/Title';
-import { HiStar, HiOutlineStar } from 'react-icons/hi';
 
 const Review = () => {
 	const [score, setScore] = useState(5);
