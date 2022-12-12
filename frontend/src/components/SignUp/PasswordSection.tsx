@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import Input from '../common/Input';
 import Bubble from './Bubble';
 
-type PasswordSectionProps = {
+interface PasswordSectionProps {
 	data: {
 		label: string;
 		state: string;
@@ -12,7 +12,7 @@ type PasswordSectionProps = {
 		setValidity: Function;
 		type: string;
 	};
-};
+}
 
 const PasswordSection = ({ data }: PasswordSectionProps) => {
 	const { label, state, setState, validity, type } = data;

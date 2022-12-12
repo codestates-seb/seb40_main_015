@@ -1,11 +1,11 @@
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 
-type LinkToSignProps = {
+interface LinkToSignProps {
 	message: string;
 	link: string;
 	linkText: string;
-};
+}
 
 const LinkToSign = (props: LinkToSignProps) => {
 	const { message, link, linkText } = props;

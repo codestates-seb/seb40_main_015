@@ -1,4 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit';
+
 const alarmSlice = createSlice({
 	name: 'alarm',
 	initialState: { hasNewMessage: false },
@@ -10,5 +11,4 @@ const alarmSlice = createSlice({
 });
 
 export const { setState } = alarmSlice.actions;
-
 export default alarmSlice.reducer;

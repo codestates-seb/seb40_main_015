@@ -31,5 +31,4 @@ const notificationSlice = createSlice({
 
 export const { enqueueNotification, dequeueNotification } =
 	notificationSlice.actions;
-
 export default notificationSlice.reducer;

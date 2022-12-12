@@ -1,13 +1,11 @@
 import { useEffect } from 'react';
 import { useNavigate } from 'react-router';
 import styled from 'styled-components';
-import LinkToSign from '../components/common/LinkToSign';
-import Oauth from '../components/common/Oauth';
-import Header from '../components/common/PcVersion/Header/Header';
-import Title from '../components/common/Title';
-import Animation from '../components/Loading/Animation';
-import SignUpForm from '../components/SignUp/SignUpForm';
 import { useAppSelector } from '../redux/hooks';
+import Header from '../components/common/PcVersion/Header/Header';
+import LinkToSign from '../components/common/LinkToSign';
+import Title from '../components/common/Title';
+import SignUpForm from '../components/SignUp/SignUpForm';
 
 function SignupPage() {
 	const { isLogin } = useAppSelector(state => state.loginInfo);
@@ -26,7 +24,6 @@ function SignupPage() {
 					<Main>
 						<SubTitle>동네북 회원가입</SubTitle>
 						<SignUpForm />
-						{/* <StyledOauth /> */}
 						<LinkToSign
 							message="이미 회원이신가요?"
 							link="/login"
@@ -47,13 +44,6 @@ const StyledSignupPage = styled.div`
 	display: flex;
 	flex-direction: column;
 	align-items: center;
-`;
-
-const StyledOauth = styled(Oauth)`
-	width: 70%;
-	max-width: 270px;
-	margin: 1rem 0;
-	padding: 0 1rem;
 `;
 
 const Main = styled.div`
