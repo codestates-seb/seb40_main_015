@@ -45,5 +45,4 @@ const bookCreateSlice = createSlice({
 
 export const { updateBookInfo, updateRentalInfo, resetBookCreateInfo } =
 	bookCreateSlice.actions;
-
 export default bookCreateSlice.reducer;

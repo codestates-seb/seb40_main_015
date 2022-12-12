@@ -7,11 +7,10 @@ import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+@Getter
 @Embeddable
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-@Getter
 public class Money {
-
 	@Column(name = "rental_fee")
 	Integer value;
 
@@ -19,7 +18,7 @@ public class Money {
 		this.value = value;
 	}
 
-	public static Money of(final Integer value){
+	public static Money of(final Integer value) {
 		return new Money(value);
 	}
 }

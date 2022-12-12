@@ -9,14 +9,11 @@ import lombok.Getter;
 @Getter
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class MemberResponse {
-
 	private Long merchantId;
 	private String merchantName;
 	private Location location;
 
-
 	@QueryProjection
-
 	public MemberResponse(Long merchantId, String merchantName, Location location) {
 		this.merchantId = merchantId;
 		this.merchantName = merchantName;

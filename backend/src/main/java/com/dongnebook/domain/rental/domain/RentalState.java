@@ -1,7 +1,6 @@
 package com.dongnebook.domain.rental.domain;
 
 public enum RentalState {
-
     TRADING("거래중"),
     BEING_RENTED("대여중"),
     RETURN_UNREVIEWED("반납완료&리뷰미완료"),

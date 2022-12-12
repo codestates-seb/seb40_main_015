@@ -1,12 +1,13 @@
 package com.dongnebook.domain.model;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
 
 import javax.persistence.Column;
 import javax.persistence.Embeddable;
+
+import com.querydsl.core.types.dsl.BooleanExpression;
 
 import lombok.AccessLevel;
 import lombok.Builder;
@@ -19,7 +20,6 @@ import lombok.extern.slf4j.Slf4j;
 @Embeddable
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Location {
-
 	@Column(name = "latitude")
 	private Double latitude;
 
@@ -38,68 +38,104 @@ public class Location {
 	}
 
 	public static List<Double> latRangeList(Double centralLatitude, Integer length, Integer level) {
-
 		if (Objects.isNull(centralLatitude)) {
 			return null;
 		}
-		// 3x3 6, 4x4 8
-		//홀수 일때
 
 		return calculateLatRange(centralLatitude, length, level);
 	}
 
 	public static List<Double> lonRangeList(Double centralLongitude, Integer width, Integer level) {
-
 		if (Objects.isNull(centralLongitude)) {
 			return null;
 		}
 
 		return calculateLonRange(centralLongitude, width, level);
-
 	}
 
 	private static ArrayList<Double> calculateLatRange(Double latitude, Integer length, Integer level) {
 		ArrayList<Double> latRangeList = new ArrayList<>();
 		double range = ((length / 1.1) / 100000) / (level * 2);
+
 		if (level % 2 == 1) {
-			for (int i = level/2+1; i > 0; i--) {
-				latRangeList.add(latitude + range * (1 + ((i-1) * 2)));
+
+			for (int i = level / 2 + 1; i > 0; i--) {
+				latRangeList.add(latitude + range * (1 + ((i - 1) * 2)));
 			}
-			for (int i = 1; i <= level/2+1; i++) {
-				latRangeList.add(latitude - range * (1 + ((i-1) * 2)));
+
+			for (int i = 1; i <= level / 2 + 1; i++) {
+				latRangeList.add(latitude - range * (1 + ((i - 1) * 2)));
 			}
+
 		} else {
-			for (int i = level/2; i > 0; i--) {
+
+			for (int i = level / 2; i > 0; i--) {
 				latRangeList.add(latitude + range * (i * 2));
 			}
-			for (int i = 0; i <= level/2; i++) {
+
+			for (int i = 0; i <= level / 2; i++) {
 				latRangeList.add(latitude - range * (i * 2));
 			}
+
 		}
-		log.info("latRangeList={}",latRangeList);
+
+		log.info("latRangeList={}", latRangeList);
 		return latRangeList;
 	}
 
 	private static ArrayList<Double> calculateLonRange(Double longitude, Integer width, Integer level) {
 		ArrayList<Double> lonRangeList = new ArrayList<>();
 		double range = ((width / 0.9) / 100000) / (level * 2);
+
 		if (level % 2 == 1) {
-			for (int i = level/2 + 1; i > 0; i--) {
-				lonRangeList.add(longitude - range * (1 + ((i-1) * 2)));
+
+			for (int i = level / 2 + 1; i > 0; i--) {
+				lonRangeList.add(longitude - range * (1 + ((i - 1) * 2)));
 			}
-			for (int i = 1; i <= level/2 + 1; i++) {
-				lonRangeList.add(longitude + range * (1 + ((i-1) * 2)));
+
+			for (int i = 1; i <= level / 2 + 1; i++) {
+				lonRangeList.add(longitude + range * (1 + ((i - 1) * 2)));
 			}
+
 		} else {
-			for (int i = level/2; i > 0; i--) {
+
+			for (int i = level / 2; i > 0; i--) {
 				lonRangeList.add(longitude - range * (i * 2));
 			}
-			for (int i = 0; i <= level/2; i++) {
+
+			for (int i = 0; i <= level / 2; i++) {
 				lonRangeList.add(longitude + range * (i * 2));
 			}
+
 		}
-		log.info("lonRangeList={}",lonRangeList);
+		log.info("lonRangeList={}", lonRangeList);
 		return lonRangeList;
+	}
+
+	public static BooleanExpression inSector(Double currentLatitude, Double currentLongitude, Integer height,
+		Integer width, Integer givenSector, Integer level, QLocation qLocation) {
+		List<Double> latRangeList = Location.latRangeList(currentLatitude, height, level);
+		List<Double> lonRangeList = Location.lonRangeList(currentLongitude, width, level);
+
+		if (Objects.isNull(latRangeList) || Objects.isNull(lonRangeList) || Objects.isNull(givenSector)) {
+			return null;
+		}
+
+		int sector = 0;
+		for (int i = 0; i < level; i++) {
+
+			for (int j = 0; j < level; j++) {
+				sector++;
+
+				if (givenSector == sector) {
+					return qLocation.latitude.between(latRangeList.get(i + 1), latRangeList.get(i))
+						.and(qLocation.longitude.between(lonRangeList.get(j), lonRangeList.get(j + 1)));
+				}
+
+			}
+
+		}
+		return null;
 	}
 
 }

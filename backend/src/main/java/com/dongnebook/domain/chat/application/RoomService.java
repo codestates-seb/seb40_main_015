@@ -37,8 +37,8 @@ public class RoomService {
 
 		Book book = bookService.getByBookId(roomRequest.getBookId());
 		ChatRoom room = chatRepository.getOrCreate(roomRequest.getMerchantId(), roomRequest.getCustomerId(),roomRequest.getBookId())
-			.orElseGet(() -> new ChatRoom(memberService.findById(roomRequest.getMerchantId()
-			), memberService.findById(roomRequest.getCustomerId()), book));
+			.orElseGet(() -> new ChatRoom(memberService.getById(roomRequest.getMerchantId()
+			), memberService.getById(roomRequest.getCustomerId()), book));
 
 		ChatRoom savedRoom = roomRepository.save(room);
 		// Redis에 roomId란 이름의 새 토픽을 생성한다.

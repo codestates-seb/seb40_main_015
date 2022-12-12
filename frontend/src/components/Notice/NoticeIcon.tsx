@@ -1,7 +1,7 @@
-import styled from 'styled-components';
+import { useEffect } from 'react';
 import { HiOutlineBell } from 'react-icons/hi';
 import { useLocation, useNavigate } from 'react-router-dom';
-import { useEffect } from 'react';
+import styled from 'styled-components';
 import { BASE_URL } from '../../constants/constants';
 import { useAppDispatch, useAppSelector } from '../../redux/hooks';
 import { setState } from '../../redux/slice/alarmSlice';

@@ -11,21 +11,23 @@ import com.p6spy.engine.event.JdbcEventListener;
 import com.p6spy.engine.spy.P6SpyOptions;
 import com.p6spy.engine.spy.appender.MessageFormattingStrategy;
 
-@Component  // 1
+@Component
 public class Py6spyConfig extends JdbcEventListener implements MessageFormattingStrategy {
-
-	@Override // 2
+	@Override
 	public void onAfterGetConnection(ConnectionInformation connectionInformation, SQLException e) {
 		P6SpyOptions.getActiveInstance().setLogMessageFormat(getClass().getName());
 	}
 
-	@Override // 3
-	public String formatMessage(int connectionId, String now, long elapsed, String category, String prepared, String sql, String url) {
+	@Override
+	public String formatMessage(int connectionId, String now, long elapsed, String category, String prepared,
+		String sql, String url) {
 		StringBuilder sb = new StringBuilder();
 		sb.append(category).append(" ").append(elapsed).append("ms");
+
 		if (StringUtils.hasText(sql)) {
 			sb.append(highlight(format(sql)));
 		}
+
 		return sb.toString();
 	}
 
@@ -35,6 +37,7 @@ public class Py6spyConfig extends JdbcEventListener implements MessageFormatting
 		} else if (isBasic(sql)) {
 			return FormatStyle.BASIC.getFormatter().format(sql);
 		}
+
 		return sql;
 	}
 
@@ -47,7 +50,8 @@ public class Py6spyConfig extends JdbcEventListener implements MessageFormatting
 	}
 
 	private boolean isBasic(String sql) {
-		return sql.startsWith("select") || sql.startsWith("insert") || sql.startsWith("update") || sql.startsWith("delete");
+		return sql.startsWith("select") || sql.startsWith("insert") || sql.startsWith("update") || sql.startsWith(
+			"delete");
 	}
 
 }
