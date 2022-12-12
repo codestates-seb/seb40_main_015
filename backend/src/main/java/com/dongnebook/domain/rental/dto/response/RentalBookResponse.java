@@ -6,7 +6,6 @@ import lombok.Getter;
 
 @Getter
 public class RentalBookResponse{
-
     private BookInfoResponse bookInfo;
     private RentalInfoResponse rentalInfo;
 
@@ -15,5 +14,4 @@ public class RentalBookResponse{
         this.bookInfo = bookInfo;
         this.rentalInfo = rentalInfo;
     }
-
 }

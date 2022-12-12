@@ -6,12 +6,10 @@ import com.dongnebook.domain.book.domain.BookState;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.querydsl.core.annotations.QueryProjection;
 
-
 import lombok.Getter;
 
 @Getter
 public class BookResponse {
-
 	private Long bookId;
 	private String title;
 	private String author;
@@ -27,8 +25,8 @@ public class BookResponse {
 	private LocalDateTime rentalEnd;
 
 	@QueryProjection
-	public BookResponse(Long bookId, String title, String author, String publisher, Integer rentalFee, String content, BookState state,
-		String bookImgUrl, Long dibsId, LocalDateTime rentalStart, LocalDateTime rentalEnd) {
+	public BookResponse(Long bookId, String title, String author, String publisher, Integer rentalFee, String content,
+		BookState state, String bookImgUrl, Long dibsId, LocalDateTime rentalStart, LocalDateTime rentalEnd) {
 		this.bookId = bookId;
 		this.title = title;
 		this.author = author;

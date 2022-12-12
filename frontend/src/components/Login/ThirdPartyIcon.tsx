@@ -1,13 +1,13 @@
 import { IconContext } from 'react-icons';
 import styled from 'styled-components';
 
-type ThirdPartyIconProps = {
+interface ThirdPartyIconProps {
 	company: {
 		icon: JSX.Element;
 		iconColor?: string;
 		background: string;
 	};
-};
+}
 
 const ThirdPartyIcon = ({ company }: ThirdPartyIconProps) => {
 	const { icon, iconColor, background } = company;

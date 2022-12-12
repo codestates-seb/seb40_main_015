@@ -1,17 +1,17 @@
 package com.dongnebook.domain.review.dto.request;
 
-import lombok.Builder;
-import lombok.Getter;
-import org.hibernate.validator.constraints.Range;
-
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Positive;
 import javax.validation.constraints.Size;
 
+import org.hibernate.validator.constraints.Range;
+
+import lombok.Builder;
+import lombok.Getter;
+
 @Getter
 public class ReviewRequest {
-
     @NotNull
     @Positive
     private Long bookId;

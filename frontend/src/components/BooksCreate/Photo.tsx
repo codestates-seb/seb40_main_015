@@ -2,9 +2,9 @@ import { useState } from 'react';
 import { HiPhotograph } from 'react-icons/hi';
 import styled from 'styled-components';
 import useGetPhotoUrl from '../../api/hooks/common/useGetPhotoUrl';
-import { StyledBookInfo } from '../../pages/BooksCreatePage';
 import { useAppDispatch } from '../../redux/hooks';
 import { updateRentalInfo } from '../../redux/slice/bookCreateSlice';
+import { StyledBookInfo } from '../../pages/BooksCreatePage';
 import resizeImageToBlob from '../../utils/resizeImage';
 
 const Photo = () => {

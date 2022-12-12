@@ -11,6 +11,7 @@ import javax.persistence.ManyToOne;
 
 import com.dongnebook.domain.book.domain.Book;
 import com.dongnebook.domain.member.domain.Member;
+import com.dongnebook.global.enums.AlarmType;
 
 import lombok.AccessLevel;
 import lombok.Builder;
@@ -22,8 +23,8 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Alarm {
 	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "alarm_id")
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 
 	@ManyToOne
@@ -48,13 +49,7 @@ public class Alarm {
 		this.isRead = isRead;
 	}
 
-	static public Alarm create(Member member, Book book,AlarmType type){
-		return Alarm.builder()
-			.member(member)
-			.book(book)
-			.type(type)
-			.isRead(false)
-			.build();
-
+	static public Alarm create(Member member, Book book, AlarmType type) {
+		return Alarm.builder().member(member).book(book).type(type).isRead(false).build();
 	}
 }

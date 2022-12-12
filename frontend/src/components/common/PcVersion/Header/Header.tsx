@@ -3,6 +3,7 @@ import { Link, useLocation } from 'react-router-dom';
 import styled from 'styled-components';
 import { useAppDispatch, useAppSelector } from '../../../../redux/hooks';
 import notify from '../../../../utils/notify';
+import { headerInfo } from './headerInfo';
 import Logo from './Logo';
 
 interface MenuProps {
@@ -17,32 +18,7 @@ interface BoxProps {
 }
 
 const Header = () => {
-	const [menus, setMenus] = useState<MenuProps[]>([
-		{
-			id: 0,
-			text: '전체도서목록',
-			selected: false,
-			link: '/books',
-		},
-		{
-			id: 1,
-			text: '지도검색',
-			selected: false,
-			link: '/books/search',
-		},
-		{
-			id: 2,
-			text: '대여목록',
-			selected: false,
-			link: '/history',
-		},
-		{
-			id: 3,
-			text: '채팅',
-			selected: false,
-			link: '/chats',
-		},
-	]);
+	const [menus, setMenus] = useState<MenuProps[]>(headerInfo);
 
 	const { pathname } = useLocation();
 	const dispatch = useAppDispatch();

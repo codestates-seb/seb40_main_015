@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import org.springframework.http.HttpStatus;
 import org.springframework.validation.BindingResult;
 
 import com.dongnebook.global.error.exception.ErrorCode;
@@ -17,7 +16,6 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class ErrorResponse {
-
 	private int status;
 	private String message;
 	private List<FieldError> errors;
@@ -45,8 +43,6 @@ public class ErrorResponse {
 	public static ErrorResponse of(final ErrorCode code, final List<FieldError> errors) {
 		return new ErrorResponse(code, errors);
 	}
-
-
 
 	@Getter
 	@NoArgsConstructor
