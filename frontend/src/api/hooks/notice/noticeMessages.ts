@@ -3,7 +3,7 @@ export const NOTICE_MESSAGES = {
 		icon: '💌',
 		type: '예약',
 		message: '의 대여가 가능합니다.',
-		link: '/merchant/${el.merchantId}',
+		link: '/merchant/',
 	},
 	RETURN: {
 		icon: '⏰',

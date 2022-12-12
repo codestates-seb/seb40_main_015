@@ -39,7 +39,11 @@ const NoticeItem = ({ noticeData }: NoticeItemType) => {
 				return (
 					<StyledNoticeItem
 						className="notice-item"
-						onClick={() => navigate(message['link'])}
+						onClick={() => {
+							el.alarmType === 'RESERVATION'
+								? navigate(message['link'] + el.merchantId)
+								: navigate(message['link']);
+						}}
 						isRead={el.isRead}
 						key={el.alarmId}>
 						<IconWrapper
