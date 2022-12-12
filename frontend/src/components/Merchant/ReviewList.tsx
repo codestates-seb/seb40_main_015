@@ -107,6 +107,9 @@ const List = styled.div`
 	display: flex;
 	justify-content: space-between;
 	align-items: center;
+	@media (min-width: 800px) {
+		width: 800px;
+	}
 
 	p {
 		display: flex;
