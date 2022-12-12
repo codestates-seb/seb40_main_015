@@ -44,7 +44,6 @@ interface StarProps {
 const Star = styled(HiStar)<StarProps>`
 	width: 1.5rem;
 	height: 1.5rem;
-	color: #cccccc;
 	color: ${props => (props.view ? '#cccccc' : '#ff9700')};
 	:hover {
 		color: #ff9700;
