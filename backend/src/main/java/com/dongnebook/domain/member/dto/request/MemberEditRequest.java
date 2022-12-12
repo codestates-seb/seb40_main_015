@@ -7,7 +7,6 @@ import lombok.Getter;
 
 @Getter
 public class MemberEditRequest {
-
 	private String nickname;
 	private Location location;
 	private String address;

@@ -8,7 +8,6 @@ import lombok.extern.slf4j.Slf4j;
 @Getter
 @Slf4j
 public final class PageRequest {
-
 	private Long index;
 	private Long size = 6L;
 	private Sort.Direction sort= Sort.Direction.DESC;
@@ -17,11 +16,8 @@ public final class PageRequest {
 		this.index = index;
 	}
 
-
 	// getter
 	public org.springframework.data.domain.PageRequest of() {
 		return org.springframework.data.domain.PageRequest.of(0,size.intValue());
 	}
-
-
 }

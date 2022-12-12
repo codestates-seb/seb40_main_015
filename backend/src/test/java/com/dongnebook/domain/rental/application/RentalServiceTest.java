@@ -1,49 +1,31 @@
 package com.dongnebook.domain.rental.application;
 
-import static org.junit.jupiter.api.Assertions.*;
-
-import java.sql.PreparedStatement;
-import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
-import java.util.stream.Collectors;
-import java.util.stream.IntStream;
 
 import javax.persistence.EntityManager;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.context.annotation.Profile;
-import org.springframework.context.annotation.PropertySource;
-import org.springframework.jdbc.core.BatchPreparedStatementSetter;
 import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.test.annotation.Rollback;
-import org.springframework.test.context.web.WebAppConfiguration;
-import org.springframework.transaction.annotation.Transactional;
 
-import com.dongnebook.domain.book.application.BookService;
 import com.dongnebook.domain.book.domain.Book;
-import com.dongnebook.domain.book.domain.BookState;
 import com.dongnebook.domain.book.dto.request.BookRegisterRequest;
 import com.dongnebook.domain.book.repository.BookCommandRepository;
-import com.dongnebook.domain.member.application.MemberService;
 import com.dongnebook.domain.member.domain.Member;
 import com.dongnebook.domain.member.dto.request.MemberEditRequest;
-import com.dongnebook.domain.member.dto.request.MemberRegisterRequest;
 import com.dongnebook.domain.member.repository.MemberRepository;
 import com.dongnebook.domain.model.Location;
 import com.dongnebook.domain.rental.domain.Rental;
 import com.dongnebook.domain.rental.repository.RentalRepository;
 import com.dongnebook.domain.rental.ui.RentalController;
-import com.dongnebook.global.config.security.auth.userdetails.AuthMember;
+import com.dongnebook.global.security.auth.userdetails.AuthMember;
 
-import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
 @SpringBootTest

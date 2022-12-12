@@ -48,5 +48,4 @@ public class BookSimpleResponse {
 		this.bookImage = bookImage;
 		this.merchantName = merchantName;
 	}
-
 }

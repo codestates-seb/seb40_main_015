@@ -23,8 +23,6 @@ import com.dongnebook.domain.model.Location;
 import com.dongnebook.global.dto.request.PageRequest;
 import com.querydsl.core.types.Expression;
 import com.querydsl.core.types.ExpressionUtils;
-import com.querydsl.core.types.SubQueryExpression;
-import com.querydsl.core.types.SubQueryExpressionImpl;
 import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.JPAExpressions;
 import com.querydsl.jpa.impl.JPAQueryFactory;
@@ -36,31 +34,30 @@ import lombok.RequiredArgsConstructor;
 public class MemberQueryRepository {
 	private final JPAQueryFactory jpaQueryFactory;
 
-	public List<Location> getSectorMerchantCounts(MerchantSearchRequest request) {
-
-		List<Double> LatRange = Location.latRangeList(request.getLatitude(), request.getHeight(), request.getLevel());
-		List<Double> LonRange = Location.lonRangeList(request.getLongitude(), request.getWidth(), request.getLevel());
-
+	public List<Location> getSectorMerchantCounts(List<Double> latRangeList, List<Double> lonRangeList,
+		MerchantSearchRequest request) {
 		return jpaQueryFactory.select(member.location)
 			.from(member)
-			.where((member.location.latitude.between(LatRange.get(request.getLevel()), LatRange.get(0))),
-				(member.location.longitude.between(LonRange.get(0), LonRange.get(request.getLevel()))))
+			.where((member.location.latitude.between(latRangeList.get(request.getLevel()), latRangeList.get(0))),
+				(member.location.longitude.between(lonRangeList.get(0), lonRangeList.get(request.getLevel()))))
 			.fetch();
-
 	}
 
-	public SliceImpl<MemberResponse> getAll(MerchantSearchRequest request, PageRequest pageRequest) {
-
-		List<Double> LatRange = Location.latRangeList(request.getLatitude(), request.getHeight(), request.getLevel());
-		List<Double> LonRange = Location.lonRangeList(request.getLongitude(), request.getWidth(), request.getLevel());
-
-		List<MemberResponse> result = jpaQueryFactory.select(
-				new QMemberResponse(member.id, member.nickname, member.location))
+	public SliceImpl<MemberResponse> getAll(List<Double> latRangeList, List<Double> lonRangeList,
+		MerchantSearchRequest request, PageRequest pageRequest) {
+		List<MemberResponse> result = jpaQueryFactory
+			.select(
+				new QMemberResponse(
+					member.id,
+					member.nickname,
+					member.location))
 			.from(member)
-			.where((member.location.latitude.between(LatRange.get(request.getLevel()), LatRange.get(0))),
-				(member.location.longitude.between(LonRange.get(0), LonRange.get(request.getLevel()))),
+			.where((member.location.latitude.between(latRangeList.get(request.getLevel()), latRangeList.get(0))),
+				(member.location.longitude.between(lonRangeList.get(0), lonRangeList.get(request.getLevel()))),
 				ltMemberId(pageRequest.getIndex()),
-				request.sectorBetween())
+				Location.inSector(request.getLatitude(), request.getLongitude(), request.getHeight(),
+					request.getWidth(),
+					request.getSector(), request.getLevel(), member.location))
 			.orderBy(member.id.desc())
 			.limit(pageRequest.getSize() + 1)
 			.fetch();
@@ -85,12 +82,20 @@ public class MemberQueryRepository {
 	}
 
 	public MemberDetailResponse getMyInfo(Long memberId) {
-		Expression<Integer> totalBookCount = ExpressionUtils.as(JPAExpressions.select(book.id.count().intValue())
+		Expression<Integer> totalBookCount = ExpressionUtils.as(JPAExpressions
+			.select(book.id.count().intValue())
 			.from(book)
 			.where(book.member.id.eq(memberId), book.bookState.ne(BookState.DELETED)), "totalBookCount");
-		return jpaQueryFactory.select(
-				new QMemberDetailResponse(member.id, member.nickname, member.location, member.address, totalBookCount,
-					member.avatarUrl, member.avgGrade))
+		return jpaQueryFactory
+			.select(
+				new QMemberDetailResponse(
+					member.id,
+					member.nickname,
+					member.location,
+					member.address,
+					totalBookCount,
+					member.avatarUrl,
+					member.avgGrade))
 			.from(member)
 			.where(member.id.eq(memberId))
 			.fetchOne();
@@ -100,7 +105,7 @@ public class MemberQueryRepository {
 		if (memberId == null) {
 			return null;
 		}
+
 		return member.id.lt(memberId);
 	}
-
 }

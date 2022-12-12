@@ -1,37 +1,43 @@
 package com.dongnebook.domain.reservation.ui;
 
-import com.dongnebook.domain.reservation.application.ReservationService;
-import com.dongnebook.domain.reservation.dto.response.ReservationInfoResponse;
-import com.dongnebook.global.Login;
-import com.dongnebook.global.config.security.auth.userdetails.AuthMember;
-import com.dongnebook.global.dto.request.PageRequest;
-import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.SliceImpl;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+import com.dongnebook.domain.reservation.application.ReservationService;
+import com.dongnebook.domain.reservation.dto.response.ReservationInfoResponse;
+import com.dongnebook.global.security.auth.annotation.Login;
+import com.dongnebook.global.dto.request.PageRequest;
+
+import lombok.RequiredArgsConstructor;
 
 @RestController
 @RequiredArgsConstructor
 public class ReservationsController {
+	private final ReservationService reservationService;
 
-    private final ReservationService reservationService;
+	@PostMapping("/reservation/{bookId}")
+	public ResponseEntity<Void> postReservation(@PathVariable Long bookId, @Login Long memberId) {
+		reservationService.createReservation(bookId, memberId);
+		return new ResponseEntity<>(HttpStatus.CREATED);
+	}
 
-    @PostMapping("/reservation/{bookId}")
-    public ResponseEntity<Void> postReservation(@PathVariable Long bookId, @Login AuthMember member) {
-        reservationService.createReservation(bookId, member.getMemberId());
-        return new ResponseEntity<>(HttpStatus.CREATED);
-    }
+	@GetMapping("/reservation")
+	public ResponseEntity<SliceImpl<ReservationInfoResponse>> getReservations(@Login Long memberId,
+		PageRequest pageRequest) {
+		return new ResponseEntity<>(reservationService.readReservations(memberId, pageRequest), HttpStatus.OK);
+	}
 
-    @GetMapping("/reservation")
-    public ResponseEntity<SliceImpl<ReservationInfoResponse>> getReservations(@Login AuthMember member, PageRequest pageRequest){
-        return new ResponseEntity<>(reservationService.readReservations(member.getMemberId(), pageRequest), HttpStatus.OK);
-    }
-
-    @DeleteMapping("/reservation/cancel/{reservationId}")
-    public ResponseEntity<Void> deleteReservation(@PathVariable("reservationId") Long reservationId, @Login AuthMember member){
-        reservationService.cancelReservation(reservationId, member.getMemberId());
-        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-    }
+	@DeleteMapping("/reservation/cancel/{reservationId}")
+	public ResponseEntity<Void> deleteReservation(@Login Long memberId,
+		@PathVariable("reservationId") Long reservationId) {
+		reservationService.cancelReservation(reservationId, memberId);
+		return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+	}
 
 }

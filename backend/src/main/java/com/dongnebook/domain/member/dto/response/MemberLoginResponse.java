@@ -1,7 +1,7 @@
 package com.dongnebook.domain.member.dto.response;
 
 import com.dongnebook.domain.model.Location;
-import com.dongnebook.global.config.security.auth.userdetails.AuthMember;
+import com.dongnebook.global.security.auth.userdetails.AuthMember;
 import com.fasterxml.jackson.annotation.JsonInclude;
 
 import lombok.Builder;
