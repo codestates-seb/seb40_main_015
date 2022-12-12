@@ -5,11 +5,13 @@ import useCreateReview from '../../api/hooks/review/useCreateReview';
 import Button from '../common/Button';
 import ConfirmModal from '../common/ConfirmModal';
 import Title from '../common/Title';
+import RatingSelect from './RatingSelect';
 
 const Review = () => {
-	const [score, setScore] = useState(5);
 	const [content, setContent] = useState('');
 	const [submit, setSubmit] = useState(false);
+	const [hovered, setHovered] = useState<number>(0);
+	const [clicked, setClicked] = useState<number>(3);
 	const location = useLocation();
 	const params = new URLSearchParams(location.search);
 	const [rentalId, bookId, title, id] = [
@@ -22,12 +24,8 @@ const Review = () => {
 		rentalId!,
 		bookId!,
 		content,
-		score,
+		clicked,
 	);
-
-	const handleScoreChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-		setScore(Number(e.target.value));
-	};
 
 	const handleChangeContent = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
 		setContent(e.target.value);
@@ -51,17 +49,12 @@ const Review = () => {
 						<p>상인명 : {id}</p>
 						<SelectBox>
 							<span>상인평점 : </span>
-							<select
-								name=""
-								id=""
-								onChange={handleScoreChange}
-								defaultValue="5">
-								<option value="1">1</option>
-								<option value="2">2</option>
-								<option value="3">3</option>
-								<option value="4">4</option>
-								<option value="5">5</option>
-							</select>
+							<RatingSelect
+								hovered={hovered}
+								setHovered={setHovered}
+								clicked={clicked}
+								setClicked={setClicked}
+							/>
 						</SelectBox>
 						<p>리뷰 : </p>
 						<Textarea
@@ -133,8 +126,8 @@ const ReviewBox = styled.div`
 `;
 
 const SelectBox = styled.div`
-	font-size: 1rem;
-	font-weight: 600;
+	display: flex;
+	align-items: center;
 `;
 
 const Textarea = styled.textarea`
