@@ -1,7 +1,7 @@
 import { HiOutlineX } from 'react-icons/hi';
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
-import { NOTICE_MESSAGES } from '../../api/hooks/notice/noticeMessages';
+import { NOTICE_MESSAGES } from '../../constants/noticeMessages';
 import useDeleteNotice from '../../api/hooks/notice/useDeleteNotice';
 import { NoticeItemType } from '../../api/hooks/notice/useGetNotice';
 import logo from '../../assets/image/logo1.png';
