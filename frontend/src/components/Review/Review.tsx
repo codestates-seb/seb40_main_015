@@ -12,8 +12,18 @@ const Review = () => {
 	const [submit, setSubmit] = useState(false);
 	const location = useLocation();
 	const params = new URLSearchParams(location.search);
-	const [rentalId, bookId] = [params.get('rentalId'), params.get('bookId')];
-	const { mutate } = useCreateReview(rentalId!, bookId!, content, score);
+	const [rentalId, bookId, title, id] = [
+		params.get('rentalId'),
+		params.get('bookId'),
+		params.get('title'),
+		params.get('id'),
+	];
+	const { mutate: createReview } = useCreateReview(
+		rentalId!,
+		bookId!,
+		content,
+		score,
+	);
 
 	const handleScoreChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
 		setScore(Number(e.target.value));
@@ -28,7 +38,7 @@ const Review = () => {
 	};
 
 	const handleClickSubmit = () => {
-		mutate();
+		createReview();
 	};
 
 	return (
@@ -36,28 +46,34 @@ const Review = () => {
 			<Title text="리뷰 남기기" />
 			<Layout>
 				<Box>
-					<p>상인명 : {params.get('id')}</p>
-					<SelectBox>
-						<span>상인평점 : </span>
-						<select name="" id="" onChange={handleScoreChange} defaultValue="5">
-							<option value="1">1</option>
-							<option value="2">2</option>
-							<option value="3">3</option>
-							<option value="4">4</option>
-							<option value="5">5</option>
-						</select>
-					</SelectBox>
-					<p>리뷰 : </p>
-					<Textarea
-						placeholder="최대 30자까지 가능합니다"
-						maxLength={30}
-						value={content}
-						onChange={handleChangeContent}
-					/>
+					<ReviewBox>
+						<p>도서명 : {title} </p>
+						<p>상인명 : {id}</p>
+						<SelectBox>
+							<span>상인평점 : </span>
+							<select
+								name=""
+								id=""
+								onChange={handleScoreChange}
+								defaultValue="5">
+								<option value="1">1</option>
+								<option value="2">2</option>
+								<option value="3">3</option>
+								<option value="4">4</option>
+								<option value="5">5</option>
+							</select>
+						</SelectBox>
+						<p>리뷰 : </p>
+						<Textarea
+							placeholder="최대 30자까지 가능합니다"
+							maxLength={30}
+							value={content}
+							onChange={handleChangeContent}
+						/>
+					</ReviewBox>
+					<Button onClick={handleSubmitReview}>리뷰 등록</Button>
 				</Box>
 			</Layout>
-
-			<Button onClick={handleSubmitReview}>리뷰 등록</Button>
 			{submit ? (
 				<ConfirmModal
 					text={'등록 후 수정이 불가합니다. \n 등록 하실래요?'}
@@ -65,7 +81,6 @@ const Review = () => {
 					handleClick={handleClickSubmit}
 				/>
 			) : null}
-			{/* <ConfirmModal text={'등록 후 수정이 불가합니다. \n 등록 하실래요?'} /> */}
 		</Container>
 	);
 };
@@ -94,13 +109,27 @@ const Box = styled.div`
 	display: flex;
 	flex-direction: column;
 	justify-content: space-around;
-	height: 30rem;
+	height: 100%;
 	width: 50%;
 	margin-top: 5rem;
+	background-color: white;
+	border: 1px solid #eaeaea;
+	border-radius: 5px;
+	padding: 0 5rem;
+	@media screen and (min-width: 800px) {
+		width: 800px;
+	}
 	span {
 		font-size: ${props => props.theme.fontSizes.subtitle};
 		font-weight: 600;
 	}
+`;
+
+const ReviewBox = styled.div`
+	display: flex;
+	flex-direction: column;
+	justify-content: space-evenly;
+	height: 60%;
 `;
 
 const SelectBox = styled.div`

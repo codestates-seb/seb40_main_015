@@ -107,6 +107,10 @@ const List = styled.div`
 	display: flex;
 	justify-content: space-between;
 	align-items: center;
+	:hover {
+		background-color: ${props => props.theme.colors.grey};
+	}
+
 	@media (min-width: 800px) {
 		width: 800px;
 	}

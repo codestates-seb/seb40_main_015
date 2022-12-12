@@ -49,6 +49,7 @@ const RentBookLists = ({ filters }: IRentBookListsProps) => {
 										merchantName={el.bookInfo.merchantName}
 										rental={el.rentalInfo}
 										bookId={el.bookInfo.bookId}
+										title={el.bookInfo.title}
 									/>
 								</Wrapper>
 							),

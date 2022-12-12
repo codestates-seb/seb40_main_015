@@ -8,6 +8,7 @@ interface Props {
 	status: string;
 	merchantName: string;
 	bookId: number;
+	title: string;
 	rental: {
 		rentalId: number;
 		customerName: string;
@@ -19,7 +20,13 @@ interface Props {
 	};
 }
 
-const RentStatusButton = ({ status, merchantName, rental, bookId }: Props) => {
+const RentStatusButton = ({
+	status,
+	merchantName,
+	rental,
+	bookId,
+	title,
+}: Props) => {
 	const navigate = useNavigate();
 
 	const { mutate: cancel } = useCancelByCustomer(rental.rentalId);
@@ -50,7 +57,7 @@ const RentStatusButton = ({ status, merchantName, rental, bookId }: Props) => {
 				istrue &&
 					navigate({
 						pathname: '/review/create',
-						search: `?rentalId=${rental.rentalId}&id=${id}&bookId=${bookId}`,
+						search: `?rentalId=${rental.rentalId}&id=${id}&bookId=${bookId}&title=${title}`,
 					});
 				break;
 		}
