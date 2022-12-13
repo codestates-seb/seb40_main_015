@@ -6,9 +6,9 @@ import lombok.Getter;
 @Getter
 public class ChatMemberResponse {
 
-	public Long memberId;
-	public String avatarUrl;
-	public String nickName;
+	private Long memberId;
+	private String avatarUrl;
+	private String nickName;
 
 	@Builder
 	public ChatMemberResponse(Long memberId, String avatarUrl, String nickName) {

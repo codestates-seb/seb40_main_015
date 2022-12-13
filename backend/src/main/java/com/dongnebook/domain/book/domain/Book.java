@@ -1,5 +1,6 @@
 package com.dongnebook.domain.book.domain;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -42,7 +43,7 @@ import lombok.NoArgsConstructor;
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Table(name = "book", indexes = @Index(name = "idx_book", columnList = "latitude,longitude,book_state"))
-public class Book extends BaseTimeEntity {
+public class Book extends BaseTimeEntity implements Serializable {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "id", updatable = false)
@@ -62,7 +63,7 @@ public class Book extends BaseTimeEntity {
 	private String publisher;
 
 	@Column(name = "img_url")
-	private String imgUrl;
+	private String imgUrl="asdfsadf";
 
 	@Lob
 	@Column(name = "description")
@@ -87,16 +88,16 @@ public class Book extends BaseTimeEntity {
 	private List<Dibs> dibsList = new ArrayList<>();
 
 	@Builder
-	public Book(String title, String author, String publisher, String imgUrl, String description, Money rentalFee,
-		Location location, BookState bookState, Member member) {
+	public Book(String title, String author, String publisher, String description, Money rentalFee,
+		Location location, Member member) {
 		this.title = title;
 		this.author = author;
 		this.publisher = publisher;
-		this.imgUrl = imgUrl;
+		this.imgUrl = "test";
 		this.description = description;
 		this.rentalFee = rentalFee;
 		this.location = location;
-		this.bookState = bookState;
+		this.bookState = BookState.RENTABLE;
 		this.member = member;
 	}
 
@@ -113,12 +114,10 @@ public class Book extends BaseTimeEntity {
 		return Book.builder()
 			.title(bookRegisterRequest.getTitle())
 			.author(bookRegisterRequest.getAuthor())
-			.imgUrl(bookRegisterRequest.getImageUrl())
 			.publisher(bookRegisterRequest.getPublisher())
 			.description(bookRegisterRequest.getDescription())
 			.rentalFee(Money.of(bookRegisterRequest.getRentalFee()))
 			.location(location)
-			.bookState(BookState.RENTABLE)
 			.member(member)
 			.build();
 	}

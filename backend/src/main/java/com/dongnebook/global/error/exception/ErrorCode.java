@@ -23,7 +23,7 @@ public enum ErrorCode {
 
 	/* Member */
 	LOCATION_NOT_CREATED_YET(404,"아직 주거래 동네를 설정하지 않았습니다."),
-	UNAUTHORIZIZED_ACCESS(401, "접근 권한 인증이 되지 않았습니다."),
+	UN_AUTHORIZED(401, "접근 권한 인증이 되지 않았습니다."),
 	MEMBER_HAS_BOOK_ON_LOAN(404, "대여중인 책이 있습니다"),
 	MEMBER_NOT_FOUND(404, "해당 유저를 찾지 못했습니다."),
 
@@ -53,6 +53,9 @@ public enum ErrorCode {
 
 	/* Review */
 	BOOK_RENTAL_UNMATCHED(404, "도서정보와 대여도서정보가 일치하지 않습니다"),
+
+	/* Alarm */
+	CAN_NOT_SEND(404, "알림을 보낼 수 없습니다."),
 
 	/* Image */
 	UPLOAD_FAILED(404, "업로드 실패!!!!!!");

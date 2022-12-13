@@ -42,6 +42,8 @@ import lombok.extern.slf4j.Slf4j;
 @RequiredArgsConstructor
 public class BookQueryRepository {
 	private final JPAQueryFactory jpaQueryFactory;
+	List<Double> latRange;
+	List<Double> lonRange;
 
 	public Optional<Book> getWithMerchantByBookId(Long bookId) {
 		return Optional.ofNullable(jpaQueryFactory
@@ -92,16 +94,16 @@ public class BookQueryRepository {
 	 */
 	public List<Location> getNearByBookLocation(BookSearchCondition condition) {
 		String bookTitle = condition.getBookTitle();
-		List<Double> LatRange = Location.latRangeList(condition.getLatitude(), condition.getHeight(),
+		this.latRange = Location.latRangeList(condition.getLatitude(), condition.getHeight(),
 			condition.getLevel());
-		List<Double> LonRange = Location.lonRangeList(condition.getLongitude(), condition.getWidth(),
+		this.lonRange = Location.lonRangeList(condition.getLongitude(), condition.getWidth(),
 			condition.getLevel());
 
 		return jpaQueryFactory
 			.select(book.location)
 			.from(book)
-			.where(book.location.latitude.between(LatRange.get(LatRange.size() - 1), LatRange.get(0)),
-				book.location.longitude.between(LonRange.get(0), LonRange.get(LonRange.size() - 1)),
+			.where(book.location.latitude.between(this.latRange.get(this.latRange.size() - 1), this.latRange.get(0)),
+				book.location.longitude.between(this.lonRange.get(0), this.lonRange.get(this.lonRange.size() - 1)),
 				contains(bookTitle), bookToShow())
 			.fetch();
 	}

@@ -1,34 +1,30 @@
 package com.dongnebook.global.security.auth.filter;
 
 import java.security.Key;
-import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.stereotype.Component;
 
+import com.dongnebook.domain.member.exception.UnAuthorizedException;
 import com.dongnebook.domain.refreshtoken.exception.TokenEmpty;
 import com.dongnebook.domain.refreshtoken.exception.TokenExpired;
 import com.dongnebook.domain.refreshtoken.exception.TokenMalformed;
-import com.dongnebook.domain.refreshtoken.exception.TokenSignatureInvalid;
 import com.dongnebook.domain.refreshtoken.exception.TokenUnsupported;
-import com.dongnebook.global.security.auth.userdetails.AuthMember;
 import com.dongnebook.global.dto.TokenDto;
+import com.dongnebook.global.security.auth.userdetails.AuthMember;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.MalformedJwtException;
 import io.jsonwebtoken.SignatureAlgorithm;
-import io.jsonwebtoken.SignatureException;
 import io.jsonwebtoken.UnsupportedJwtException;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
@@ -39,11 +35,11 @@ import lombok.extern.slf4j.Slf4j;
 public class TokenProvider {
 
 	private static final String BEARER_TYPE = "bearer";
-
+	private static final String ROLES = "roles";
 	@Value("${jwt.access-token-expiration-minutes}")
-	private int ACCESS_TOKEN_EXPIRE_TIME;
+	private int accessTokenExpireTime;
 	@Value("${jwt.refresh-token-expiration-minutes}")
-	private int REFRESH_TOKEN_EXPIRE_TIME;
+	private int refreshTokenExpireTime;
 	private final Key key;
 
 	public TokenProvider(@Value("${jwt.secret-key}") String secretKey) {
@@ -54,8 +50,7 @@ public class TokenProvider {
 	public Date getTokenExpiration(int expirationMinutes) {
 		Calendar calendar = Calendar.getInstance();
 		calendar.add(Calendar.MINUTE, expirationMinutes);
-		Date expiration = calendar.getTime();
-		return expiration;
+		return calendar.getTime();
 	}
 
 	public TokenDto generateTokenDto(AuthMember authMember) {
@@ -64,12 +59,12 @@ public class TokenProvider {
 			.map(GrantedAuthority::getAuthority)
 			.collect(Collectors.joining(","));
 
-		Date accessTokenExpiresIn = getTokenExpiration(ACCESS_TOKEN_EXPIRE_TIME);
-		Date refreshTokenExpiresIn = getTokenExpiration(REFRESH_TOKEN_EXPIRE_TIME);
+		Date accessTokenExpiresIn = getTokenExpiration(accessTokenExpireTime);
+		Date refreshTokenExpiresIn = getTokenExpiration(refreshTokenExpireTime);
 
 		Map<String, Object> claims = new HashMap<>();
 		claims.put("id", authMember.getMemberId());
-		claims.put("roles", authorities);
+		claims.put(ROLES, authorities);
 
 		// Access Token 생성
 		String accessToken = Jwts.builder()
@@ -94,28 +89,12 @@ public class TokenProvider {
 			.build();
 	}
 
-	public Authentication getAuthentication(String accessToken) {
-		// 토큰 복호화
-		Claims claims = parseClaims(accessToken);
-
-		if (claims.get("roles") == null) {
-			throw new RuntimeException("권한 정보가 없는 토큰입니다.");
-		}
-
-		// 클레임에서 권한 정보 가져오기
-		List<String> authorities = Arrays.stream(claims.get("roles").toString().split(","))
-			.collect(Collectors.toList());
-
-		AuthMember auth = AuthMember.of(claims.get("id", Long.class), authorities);
-		return new UsernamePasswordAuthenticationToken(auth, auth.getPassword(), auth.getAuthorities());
-	}
-
 	public Long getMemberId(String accessToken) {
 		// 토큰 복호화
 		Claims claims = parseClaims(accessToken);
 
-		if (claims.get("roles") == null) {
-			throw new RuntimeException("권한 정보가 없는 토큰입니다.");
+		if (Objects.isNull(claims.get(ROLES))) {
+			throw new UnAuthorizedException();
 		}
 
 		return claims.get("id", Long.class);
@@ -126,10 +105,6 @@ public class TokenProvider {
 		try {
 			parseClaims(token);
 			return true;
-		} catch (SignatureException e) {
-			log.info("Invalid JWT signature");
-			log.trace("Invalid JWT signature trace: {}", e);
-			throw new TokenSignatureInvalid();
 		} catch (MalformedJwtException e) {
 			log.info("Invalid JWT token");
 			log.trace("Invalid JWT token trace: {}", e);

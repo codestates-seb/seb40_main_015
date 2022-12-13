@@ -40,7 +40,7 @@ public class Dibs extends BaseTimeEntity {
 		this.book = book;
 	}
 
-	static public Dibs of(Member member, Book book){
+	public static Dibs of(Member member, Book book){
 		return new Dibs(member, book);
 	}
 

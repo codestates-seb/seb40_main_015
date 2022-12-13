@@ -14,7 +14,7 @@ public class MultiResponse<T> {
 		this.data = data;
 	}
 
-	static public <T> MultiResponse<T> of(T data){
+	public static <T> MultiResponse<T> of(T data){
 		return new MultiResponse<>(data);
 	}
 }

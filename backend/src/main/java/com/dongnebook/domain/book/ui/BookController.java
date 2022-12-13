@@ -1,8 +1,8 @@
 package com.dongnebook.domain.book.ui;
 
-import java.io.IOException;
 import java.net.URI;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 import javax.validation.Valid;
@@ -28,15 +28,15 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import com.dongnebook.domain.book.application.BookService;
-import com.dongnebook.domain.book.dto.response.KaKaoBookInfoResponse;
 import com.dongnebook.domain.book.dto.request.BookEditRequest;
 import com.dongnebook.domain.book.dto.request.BookRegisterRequest;
 import com.dongnebook.domain.book.dto.request.BookSearchCondition;
-import com.dongnebook.domain.book.dto.response.BookDetailResponse;
 import com.dongnebook.domain.book.dto.response.BookCountPerSectorResponse;
+import com.dongnebook.domain.book.dto.response.BookDetailResponse;
 import com.dongnebook.domain.book.dto.response.BookSimpleResponse;
-import com.dongnebook.global.security.auth.annotation.Login;
+import com.dongnebook.domain.book.dto.response.KaKaoBookInfoResponse;
 import com.dongnebook.global.dto.request.PageRequest;
+import com.dongnebook.global.security.auth.annotation.Login;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
@@ -51,7 +51,7 @@ import lombok.extern.slf4j.Slf4j;
 @RequestMapping("/books")
 public class BookController {
 	@Value("${KAKAO_KEY}")
-	private String KaKaoKey;
+	private String kakaoKey;
 	private final BookService bookService;
 
 	@PostMapping
@@ -79,25 +79,19 @@ public class BookController {
 	@GetMapping
 	public ResponseEntity<SliceImpl<BookSimpleResponse>> getLists(
 		@ModelAttribute BookSearchCondition bookSearchCondition, PageRequest pageRequest) {
-		log.info("location = {}", bookSearchCondition.getLatitude());
-		log.info("bookTitle = {}", bookSearchCondition.getBookTitle());
-		log.info("location = {}", bookSearchCondition.getLongitude());
 		return ResponseEntity.ok(bookService.getList(bookSearchCondition, pageRequest));
 	}
 
 	@GetMapping("/count")
-	public ResponseEntity<ArrayList<BookCountPerSectorResponse>> getSectorBookCounts(
+	public ResponseEntity<List<BookCountPerSectorResponse>> getSectorBookCounts(
 		@ModelAttribute BookSearchCondition bookSearchCondition) {
-		ArrayList<BookCountPerSectorResponse> sectorBookCounts = bookService.getBookCountPerSector(bookSearchCondition);
+		List<BookCountPerSectorResponse> sectorBookCounts = bookService.getBookCountPerSector(bookSearchCondition);
 		return ResponseEntity.ok(sectorBookCounts);
 	}
 
 	@GetMapping("/sector")
 	public ResponseEntity<SliceImpl<BookSimpleResponse>> getSectors(
 		@ModelAttribute BookSearchCondition bookSearchCondition, PageRequest pageRequest) {
-		log.info("location = {}", bookSearchCondition.getLatitude());
-		log.info("bookTitle = {}", bookSearchCondition.getBookTitle());
-		log.info("location = {}", bookSearchCondition.getLongitude());
 		return ResponseEntity.ok(bookService.getList(bookSearchCondition, pageRequest));
 	}
 
@@ -107,13 +101,13 @@ public class BookController {
 	}
 
 	@GetMapping("/bookInfo")
-	public ArrayList<KaKaoBookInfoResponse> getBookInfo(@RequestParam String bookTitle) throws IOException {
+	public List<KaKaoBookInfoResponse> getBookInfo(@RequestParam String bookTitle) {
 		String kakaoApi = "https://dapi.kakao.com/v3/search/book";
 		HttpHeaders httpHeaders = new HttpHeaders();
 		RestTemplate restTemplate = new RestTemplate();
 		HttpEntity<String> entity = new HttpEntity<>(httpHeaders);
-		ArrayList<KaKaoBookInfoResponse> list = new ArrayList<>();
-		httpHeaders.set("Authorization", "KakaoAK " + KaKaoKey);
+		List<KaKaoBookInfoResponse> list = new ArrayList<>();
+		httpHeaders.set("Authorization", "KakaoAK " + kakaoKey);
 
 		URI uri = UriComponentsBuilder.fromHttpUrl(kakaoApi)
 			.queryParam("query", bookTitle)
@@ -125,7 +119,7 @@ public class BookController {
 		JsonArray documents = getJsonElements(restTemplate, entity, uri);
 
 		for (JsonElement document : documents) {
-			ArrayList<String> authors = new ArrayList<>();
+			List<String> authors = new ArrayList<>();
 			JsonObject jsonObject = document.getAsJsonObject();
 
 			for (JsonElement author : jsonObject.get("authors").getAsJsonArray()) {

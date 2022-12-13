@@ -17,7 +17,7 @@ export const useReviewAPI = () => {
 			})
 			.then(res => res.data);
 
-	const getReviewList = (merchantId: number | string) =>
+	const getReviewList = (merchantId: number | string, state: string | number) =>
 		api.get(`/review/${merchantId}`).then(res => res.data);
 
 	return { createReview, getReviewList };

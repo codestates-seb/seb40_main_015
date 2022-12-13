@@ -22,6 +22,6 @@ public class LoginResolver implements HandlerMethodArgumentResolver {
 	@Override
 	public Long resolveArgument(MethodParameter parameter, ModelAndViewContainer mavContainer,
 		NativeWebRequest webRequest, WebDataBinderFactory binderFactory) throws Exception {
-		return JwtVerificationFilter.AuthThreadLocal.get();
+		return JwtVerificationFilter.getMemberId();
 	}
 }

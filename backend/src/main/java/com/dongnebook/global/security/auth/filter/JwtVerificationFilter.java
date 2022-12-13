@@ -22,9 +22,9 @@ import lombok.extern.slf4j.Slf4j;
 @RequiredArgsConstructor
 public class JwtVerificationFilter extends OncePerRequestFilter {
 
-    public static ThreadLocal<Long> AuthThreadLocal = new ThreadLocal<>();
+    private static final ThreadLocal<Long> AuthThreadLocal = new ThreadLocal<>();
     private static final String AUTHORIZATION_HEADER = "Authorization";
-    public static final String BEARER_PREFIX = "Bearer ";
+    private static final String BEARER_PREFIX = "Bearer ";
 
     private final TokenProvider tokenProvider;
 
@@ -49,23 +49,18 @@ public class JwtVerificationFilter extends OncePerRequestFilter {
                 AuthThreadLocal.set(tokenProvider.getMemberId(jwt));
             }
             filterChain.doFilter(request, response);
-        } catch (RuntimeException e) {
-
-            if (e instanceof BusinessException) {
-                ObjectMapper objectMapper = new ObjectMapper();
-                String json = objectMapper.writeValueAsString(ErrorResponse.of(((BusinessException)e).getErrorCode()));
-                response.getWriter().write(json);
-                response.setStatus(((BusinessException)e).getErrorCode().getStatus());
-
-            }
-
+        } catch (BusinessException e) {
+            ObjectMapper objectMapper = new ObjectMapper();
+            String json = objectMapper.writeValueAsString(ErrorResponse.of(e.getErrorCode()));
+            response.getWriter().write(json);
+            response.setStatus(e.getErrorCode().getStatus());
         }
-
     }
 
     // Request Header 에서 토큰 정보를 꺼내오는 메소드
     public String resolveToken(HttpServletRequest request) {
         String bearerToken = request.getHeader(AUTHORIZATION_HEADER);
+
         if (StringUtils.hasText(bearerToken) && bearerToken.startsWith(BEARER_PREFIX)) {
             return bearerToken.substring(7);
         }
@@ -73,10 +68,13 @@ public class JwtVerificationFilter extends OncePerRequestFilter {
         return null;
     }
 
+    public static Long getMemberId(){
+        return AuthThreadLocal.get();
+    }
+
 
     @Override
     protected boolean shouldNotFilter(HttpServletRequest request) throws ServletException {
         return EXCLUDE_URL.stream().anyMatch(exclude -> exclude.equalsIgnoreCase(request.getServletPath()));
     }
-
 }

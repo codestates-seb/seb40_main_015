@@ -1,5 +1,6 @@
 package com.dongnebook.domain.member.domain;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -33,7 +34,7 @@ import lombok.NoArgsConstructor;
 @Getter
 @Table(name = "member")
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class Member extends BaseTimeEntity {
+public class Member extends BaseTimeEntity implements Serializable {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "id", updatable = false)
@@ -113,7 +114,6 @@ public class Member extends BaseTimeEntity {
 		return this.id.equals(id);
 	}
 
-
 	public void setAvgGrade(Double avgGrade){
 		this.avgGrade = avgGrade;
 	}
@@ -128,6 +128,4 @@ public class Member extends BaseTimeEntity {
 		this.setAvgGrade(newAvgGrade);
 		this.upReviewCount();
 	}
-
-
 }
