@@ -1,5 +1,6 @@
 package com.dongnebook.domain.model;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -20,7 +21,7 @@ import lombok.extern.slf4j.Slf4j;
 @Getter
 @Embeddable
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class Location {
+public class Location implements Serializable {
 	@Column(name = "latitude")
 	private Double latitude;
 

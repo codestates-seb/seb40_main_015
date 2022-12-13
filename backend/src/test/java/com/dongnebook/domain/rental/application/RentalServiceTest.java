@@ -108,7 +108,7 @@ class RentalServiceTest {
 		countDownLatch.await();
 
 		List<Rental> all = rentalRepository.findAll();
-		Assertions.assertEquals(all.size(), 1L);
+		Assertions.assertEquals(1L,all.size());
 	}
 
 	private Member makeMember(Location location, int i) {

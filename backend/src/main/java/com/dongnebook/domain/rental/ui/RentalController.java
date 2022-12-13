@@ -79,10 +79,10 @@ public class RentalController {
 
 	@GetMapping("to")
 	public ResponseEntity<SliceImpl<RentalBookResponse>> getRentalsByCustomer(
-		@Login Long memberId, @Valid RentalSearchCondition RentalSearchCondition,
+		@Login Long memberId, @Valid RentalSearchCondition rentalSearchCondition,
 		PageRequest pageRequest) {
 		return new ResponseEntity<>(
-			rentalService.getRentalsByCustomer(memberId, RentalSearchCondition.getRentalState(),
+			rentalService.getRentalsByCustomer(memberId, rentalSearchCondition.getRentalState(),
 				pageRequest), HttpStatus.OK);
 	}
 }
