@@ -46,10 +46,6 @@ public class RoomService {
     	log.info("topics={}",topics);
 		topics.computeIfAbsent(roomId, this::addTopic);
 
-		if (!topics.containsKey(roomId)) {
-			addTopic(roomId);
-		}
-
 		return savedRoom.getId();
 	}
 
