@@ -11,6 +11,7 @@ interface Iprops {
 interface IList {
 	bookId: number;
 	bookTitle: string;
+	bookUrl: string;
 	customerAvatarUrl: string;
 	customerNickname: string;
 	rentalId: number;
@@ -40,6 +41,7 @@ const ReviewList = ({ merchantId }: Iprops) => {
 						reviewId,
 						bookTitle,
 						bookId,
+						bookUrl,
 						customerAvatarUrl,
 						customerNickname,
 						reviewMessage,
@@ -69,7 +71,7 @@ const ReviewList = ({ merchantId }: Iprops) => {
 										내용: <span>{reviewMessage}</span>
 									</p>
 								</Left>
-								<BookImg src={customerAvatarUrl} alt="책 이미지" />
+								<BookImg src={bookUrl} alt="책 이미지" />
 							</List>
 						</Container>
 					);
@@ -134,7 +136,7 @@ const Left = styled.div`
 `;
 
 const BookImg = styled.img`
-	width: 5rem;
+	width: 5.5rem;
 	height: 7rem;
 	border-radius: 5px;
 `;
