@@ -118,14 +118,15 @@ public class BookService {
 	private boolean makeBookCountResponse(List<BookCountPerSectorResponse> bookCountPerSectorResponses, int sector,
 		int arrIndex, Location location, HashMap<Integer, Integer> indexMap) {
 		boolean newResponse = false;
-		BookCountPerSectorResponse bookCountPerSectorResponse = bookCountPerSectorResponses.get(indexMap.get(sector));
-		bookCountPerSectorResponse.plusBookCount();
 
 		if (Optional.ofNullable(indexMap.get(sector)).isEmpty()) {
 			bookCountPerSectorResponses.add(new BookCountPerSectorResponse());
 			indexMap.put(sector, arrIndex);
 			newResponse = true;
 		}
+
+		BookCountPerSectorResponse bookCountPerSectorResponse = bookCountPerSectorResponses.get(indexMap.get(sector));
+		bookCountPerSectorResponse.plusBookCount();
 
 		if (Objects.isNull(bookCountPerSectorResponse.getLocation())) {
 			bookCountPerSectorResponse.initLocation(location);
