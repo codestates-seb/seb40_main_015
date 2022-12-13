@@ -14,21 +14,13 @@ import lombok.NoArgsConstructor;
 public class LastChatResponse {
 
 	private Long roomId;
-
 	private Long merchantId;
-
 	private Long customerId;
-
 	private Long bookId;
-
 	private String name;
-
 	private String latestMessage;
-
 	private LocalDateTime createdAt;
-
 	private String avatarUrl;
-
 	private String bookImageUrl;
 
 	@Builder

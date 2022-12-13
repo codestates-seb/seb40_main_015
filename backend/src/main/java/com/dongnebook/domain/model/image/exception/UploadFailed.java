@@ -1,4 +1,4 @@
-package com.dongnebook.domain.model.Image.exception;
+package com.dongnebook.domain.model.image.exception;
 
 import com.dongnebook.global.error.exception.BusinessException;
 import com.dongnebook.global.error.exception.ErrorCode;

@@ -33,7 +33,7 @@ public class BulkInsertController {
 	int num = 1000;
 
 	@GetMapping("insert/member")
-	public long BulkMemberInsert() {
+	public long bulkMemberInsert() {
 		List<Member> list = IntStream.range(0, num)
 			.mapToObj(i -> makeMember(Location.builder()
 				.latitude(37.4831 + ((double)i / num))
@@ -46,7 +46,7 @@ public class BulkInsertController {
 				+ " values(?,?,?,?,?,?,?,?,?)", new BatchPreparedStatementSetter() {
 				@Override
 				public void setValues(PreparedStatement ps, int i) throws SQLException {
-					ps.setLong(9, i + 1);
+					ps.setLong(9, i + 1L);
 					ps.setString(1, list.get(i).getAddress());
 					ps.setString(2, list.get(i).getAvatarUrl());
 					ps.setLong(3, 4L);
@@ -67,7 +67,7 @@ public class BulkInsertController {
 	}
 
 	@GetMapping("insert/book")
-	public long BulkBookInsert() {
+	public long bulkBookInsert() {
 		List<Book> list = IntStream.range(0, num)
 			.mapToObj(i -> Book.create(BookRegisterRequest.builder()
 				.author("asdf" + i)
@@ -87,7 +87,7 @@ public class BulkInsertController {
 				+ " values(?,?,?,?,?,?,?,?,?)", new BatchPreparedStatementSetter() {
 				@Override
 				public void setValues(PreparedStatement ps, int i) throws SQLException {
-					ps.setLong(1, i + 1);
+					ps.setLong(1, i + 1L);
 					ps.setString(2, list.get(i).getImgUrl());
 					ps.setString(3, list.get(i).getAuthor());
 					ps.setString(4, list.get(i).getPublisher());
@@ -95,7 +95,7 @@ public class BulkInsertController {
 					ps.setDouble(6, list.get(i).getLocation().getLatitude());
 					ps.setDouble(7, list.get(i).getLocation().getLongitude());
 					ps.setString(8, list.get(i).getTitle());
-					ps.setLong(9, i + 1);
+					ps.setLong(9, i + 1L);
 				}
 
 				@Override
@@ -109,7 +109,7 @@ public class BulkInsertController {
 
 	@GetMapping("insert")
 	public void in() {
-		int num = 10;
+		num = 10;
 		for (int i = 0; i < num; i++) {
 			Member member = makeMember(Location.builder()
 				.latitude(37.4831 + ((double)i / num))
@@ -144,12 +144,5 @@ public class BulkInsertController {
 			.location(location)
 			.build());
 		return build;
-	}
-
-	private List<Location> getLocations() {
-		return List.of(Location.builder().latitude(37.4831 + 0.00001).longitude(126.9438 + 0.00001).build(),
-			Location.builder().latitude(37.4836).longitude(126.9412).build(),
-			Location.builder().latitude(37.4814).longitude(126.9411).build(),
-			Location.builder().latitude(37.4814).longitude(126.9442).build());
 	}
 }

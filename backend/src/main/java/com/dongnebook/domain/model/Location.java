@@ -1,6 +1,8 @@
 package com.dongnebook.domain.model;
 
+import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 
@@ -19,7 +21,7 @@ import lombok.extern.slf4j.Slf4j;
 @Getter
 @Embeddable
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class Location {
+public class Location implements Serializable {
 	@Column(name = "latitude")
 	private Double latitude;
 
@@ -39,7 +41,7 @@ public class Location {
 
 	public static List<Double> latRangeList(Double centralLatitude, Integer length, Integer level) {
 		if (Objects.isNull(centralLatitude)) {
-			return null;
+			return Collections.emptyList();
 		}
 
 		return calculateLatRange(centralLatitude, length, level);
@@ -47,14 +49,14 @@ public class Location {
 
 	public static List<Double> lonRangeList(Double centralLongitude, Integer width, Integer level) {
 		if (Objects.isNull(centralLongitude)) {
-			return null;
+			return Collections.emptyList();
 		}
 
 		return calculateLonRange(centralLongitude, width, level);
 	}
 
-	private static ArrayList<Double> calculateLatRange(Double latitude, Integer length, Integer level) {
-		ArrayList<Double> latRangeList = new ArrayList<>();
+	private static List<Double> calculateLatRange(Double latitude, Integer length, Integer level) {
+		List<Double> latRangeList = new ArrayList<>();
 		double range = ((length / 1.1) / 100000) / (level * 2);
 
 		if (level % 2 == 1) {
@@ -83,8 +85,8 @@ public class Location {
 		return latRangeList;
 	}
 
-	private static ArrayList<Double> calculateLonRange(Double longitude, Integer width, Integer level) {
-		ArrayList<Double> lonRangeList = new ArrayList<>();
+	private static List<Double> calculateLonRange(Double longitude, Integer width, Integer level) {
+		List<Double> lonRangeList = new ArrayList<>();
 		double range = ((width / 0.9) / 100000) / (level * 2);
 
 		if (level % 2 == 1) {

@@ -1,4 +1,4 @@
-package com.dongnebook.domain.model.Image.infrastructure;
+package com.dongnebook.domain.model.image.infrastructure;
 
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
@@ -14,8 +14,8 @@ import com.amazonaws.services.s3.model.CannedAccessControlList;
 import com.amazonaws.services.s3.model.ObjectMetadata;
 import com.amazonaws.services.s3.model.PutObjectRequest;
 import com.amazonaws.util.IOUtils;
-import com.dongnebook.domain.model.Image.application.ImageUploadService;
-import com.dongnebook.domain.model.Image.exception.UploadFailed;
+import com.dongnebook.domain.model.image.application.ImageUploadService;
+import com.dongnebook.domain.model.image.exception.UploadFailed;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -28,7 +28,7 @@ public class AwsS3Service implements ImageUploadService {
 	@Value("${cloud.aws.s3.bucket}")
 	private String bucketName;
 
-	public String StoreImage(MultipartFile img) {
+	public String storeImage(MultipartFile img) {
 		validateFileExists(img);
 		String originalFilename = img.getOriginalFilename();
 		String storeFileName = createStoreFileName(originalFilename);

@@ -24,7 +24,6 @@ import com.dongnebook.domain.model.Location;
 import com.dongnebook.domain.rental.domain.Rental;
 import com.dongnebook.domain.rental.repository.RentalRepository;
 import com.dongnebook.domain.rental.ui.RentalController;
-import com.dongnebook.global.security.auth.userdetails.AuthMember;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -56,7 +55,7 @@ class RentalServiceTest {
 	@BeforeEach
 	public void inser() {
 		int num = 12;
-		ArrayList<Member> members = new ArrayList<>();
+		List<Member> members = new ArrayList<>();
 		for (int i = 0; i < num; i++) {
 			Member member = makeMember(Location.builder()
 				.latitude(37.4831 + ((double)i / num))
@@ -101,7 +100,7 @@ class RentalServiceTest {
 			int finalI = i;
 			executorService.execute(
 				() -> {
-					rentalController.postRental(1L, AuthMember.of((long)finalI + 2L, List.of("member")));
+					rentalController.postRental(1L, 1L);
 					countDownLatch.countDown();
 				});
 		}
@@ -109,7 +108,7 @@ class RentalServiceTest {
 		countDownLatch.await();
 
 		List<Rental> all = rentalRepository.findAll();
-		Assertions.assertEquals(all.size(), 1L);
+		Assertions.assertEquals(1L,all.size());
 	}
 
 	private Member makeMember(Location location, int i) {

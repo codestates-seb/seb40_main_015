@@ -10,7 +10,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.dongnebook.domain.alarm.application.AlarmService;
 import com.dongnebook.global.enums.AlarmType;
 import com.dongnebook.domain.book.domain.Book;
-import com.dongnebook.domain.chat.Repository.ChatRepository;
+import com.dongnebook.domain.chat.repository.ChatRepository;
 import com.dongnebook.domain.chat.domain.ChatMessage;
 import com.dongnebook.domain.chat.domain.ChatRoom;
 import com.dongnebook.domain.chat.dto.request.ChatMessageDto;

@@ -1,6 +1,5 @@
 package com.dongnebook.domain.book.dto.response;
 
-import com.dongnebook.domain.book.domain.Book;
 import com.dongnebook.domain.member.dto.response.BookDetailMemberResponse;
 import com.querydsl.core.annotations.QueryProjection;
 
