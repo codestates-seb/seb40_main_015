@@ -54,6 +54,9 @@ public enum ErrorCode {
 	/* Review */
 	BOOK_RENTAL_UNMATCHED(404, "도서정보와 대여도서정보가 일치하지 않습니다"),
 
+	/* Alarm */
+	CAN_NOT_SEND(404, "알림을 보낼 수 없습니다."),
+
 	/* Image */
 	UPLOAD_FAILED(404, "업로드 실패!!!!!!");
 

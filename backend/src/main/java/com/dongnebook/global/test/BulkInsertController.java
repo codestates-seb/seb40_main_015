@@ -46,7 +46,7 @@ public class BulkInsertController {
 				+ " values(?,?,?,?,?,?,?,?,?)", new BatchPreparedStatementSetter() {
 				@Override
 				public void setValues(PreparedStatement ps, int i) throws SQLException {
-					ps.setLong(9, i + 1);
+					ps.setLong(9, i + 1L);
 					ps.setString(1, list.get(i).getAddress());
 					ps.setString(2, list.get(i).getAvatarUrl());
 					ps.setLong(3, 4L);
@@ -87,7 +87,7 @@ public class BulkInsertController {
 				+ " values(?,?,?,?,?,?,?,?,?)", new BatchPreparedStatementSetter() {
 				@Override
 				public void setValues(PreparedStatement ps, int i) throws SQLException {
-					ps.setLong(1, i + 1);
+					ps.setLong(1, i + 1L);
 					ps.setString(2, list.get(i).getImgUrl());
 					ps.setString(3, list.get(i).getAuthor());
 					ps.setString(4, list.get(i).getPublisher());
@@ -95,7 +95,7 @@ public class BulkInsertController {
 					ps.setDouble(6, list.get(i).getLocation().getLatitude());
 					ps.setDouble(7, list.get(i).getLocation().getLongitude());
 					ps.setString(8, list.get(i).getTitle());
-					ps.setLong(9, i + 1);
+					ps.setLong(9, i + 1L);
 				}
 
 				@Override

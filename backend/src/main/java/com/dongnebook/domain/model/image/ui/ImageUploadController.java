@@ -1,11 +1,11 @@
-package com.dongnebook.domain.model.Image.ui;
+package com.dongnebook.domain.model.image.ui;
 
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.dongnebook.domain.model.Image.infrastructure.AwsS3Service;
-import com.dongnebook.domain.model.Image.application.ImageUploadService;
-import com.dongnebook.domain.model.Image.dto.ImageUploadRequest;
+import com.dongnebook.domain.model.image.infrastructure.AwsS3Service;
+import com.dongnebook.domain.model.image.application.ImageUploadService;
+import com.dongnebook.domain.model.image.dto.ImageUploadRequest;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -21,7 +21,7 @@ public class ImageUploadController {
 	@PostMapping("/upload")
 	public String saveImage(ImageUploadRequest imageUploadRequest){
 		log.info("upload Image = {} ", imageUploadRequest.getImg());
-		String url = awsS3Service.StoreImage(imageUploadRequest.getImg());
+		String url = awsS3Service.storeImage(imageUploadRequest.getImg());
 		log.info("url = {}",url);
 		return url;
 	}

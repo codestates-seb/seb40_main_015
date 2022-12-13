@@ -6,10 +6,7 @@ import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.messaging.simp.SimpMessageSendingOperations;
 import org.springframework.stereotype.Service;
 
-import com.dongnebook.domain.chat.domain.ChatMessage;
 import com.dongnebook.domain.chat.domain.RedisChat;
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import lombok.RequiredArgsConstructor;
@@ -21,7 +18,7 @@ import lombok.extern.slf4j.Slf4j;
 public class RedisSubscriber implements MessageListener {
 
 	private final ObjectMapper objectMapper;
-	private final RedisTemplate redisTemplate;
+	private final RedisTemplate<String,Object> redisTemplate;
 	private final SimpMessageSendingOperations messagingTemplate;
 
 	@Override

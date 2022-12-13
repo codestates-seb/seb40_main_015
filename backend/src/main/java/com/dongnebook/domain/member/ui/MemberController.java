@@ -1,8 +1,10 @@
 package com.dongnebook.domain.member.ui;
 
+import static org.springframework.web.util.UriComponentsBuilder.*;
+
 import java.net.URI;
-import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
@@ -21,7 +23,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import com.dongnebook.domain.book.application.BookService;
 import com.dongnebook.domain.book.dto.response.BookSimpleResponse;
@@ -33,8 +34,8 @@ import com.dongnebook.domain.member.dto.response.MemberDetailResponse;
 import com.dongnebook.domain.member.dto.response.MemberExistsCheckResponse;
 import com.dongnebook.domain.member.dto.response.MemberResponse;
 import com.dongnebook.domain.member.dto.response.MerchantSectorCountResponse;
-import com.dongnebook.global.security.auth.annotation.Login;
 import com.dongnebook.global.dto.request.PageRequest;
+import com.dongnebook.global.security.auth.annotation.Login;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -52,7 +53,7 @@ public class MemberController {
 		Map<String, Long> createdResult = new HashMap<>();
 		createdResult.put("id", createdMemberId);
 
-		URI createdMemberUri = ServletUriComponentsBuilder.fromPath("/member")
+		URI createdMemberUri = fromPath("/member")
 			.path("/{id}")
 			.buildAndExpand(createdMemberId)
 			.toUri();
@@ -98,7 +99,7 @@ public class MemberController {
 	}
 
 	@GetMapping("/member/count")
-	public ResponseEntity<ArrayList<MerchantSectorCountResponse>> getSectorMerchantCount(
+	public ResponseEntity<List<MerchantSectorCountResponse>> getSectorMerchantCount(
 		@ModelAttribute MerchantSearchRequest merchantSearchRequest) {
 		return ResponseEntity.ok(memberService.getSectorMerchantCounts(merchantSearchRequest));
 	}

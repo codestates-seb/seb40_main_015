@@ -1,4 +1,4 @@
-package com.dongnebook.domain.chat.Repository;
+package com.dongnebook.domain.chat.repository;
 
 import static com.dongnebook.domain.chat.domain.QChatMessage.*;
 import static com.dongnebook.domain.chat.domain.QChatRoom.*;

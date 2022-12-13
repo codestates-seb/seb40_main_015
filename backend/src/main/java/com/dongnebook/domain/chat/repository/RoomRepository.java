@@ -1,4 +1,4 @@
-package com.dongnebook.domain.chat.Repository;
+package com.dongnebook.domain.chat.repository;
 
 import java.util.List;
 

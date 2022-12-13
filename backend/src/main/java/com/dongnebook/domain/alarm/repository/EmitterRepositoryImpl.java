@@ -1,5 +1,6 @@
 package com.dongnebook.domain.alarm.repository;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
@@ -40,7 +41,7 @@ public class EmitterRepositoryImpl implements EmitterRepository {
 
 	@Override
 	public Map<String, SseEmitter> findAllEmitterStartWithMemberIdInList(List<Long> memberId) {
-		return null;
+		return Collections.emptyMap();
 	}
 
 	@Override
