@@ -60,6 +60,7 @@ public class JwtVerificationFilter extends OncePerRequestFilter {
     // Request Header 에서 토큰 정보를 꺼내오는 메소드
     public String resolveToken(HttpServletRequest request) {
         String bearerToken = request.getHeader(AUTHORIZATION_HEADER);
+
         if (StringUtils.hasText(bearerToken) && bearerToken.startsWith(BEARER_PREFIX)) {
             return bearerToken.substring(7);
         }
@@ -67,10 +68,13 @@ public class JwtVerificationFilter extends OncePerRequestFilter {
         return null;
     }
 
+    public static Long getMemberId(){
+        return AuthThreadLocal.get();
+    }
+
 
     @Override
     protected boolean shouldNotFilter(HttpServletRequest request) throws ServletException {
         return EXCLUDE_URL.stream().anyMatch(exclude -> exclude.equalsIgnoreCase(request.getServletPath()));
     }
-
 }
