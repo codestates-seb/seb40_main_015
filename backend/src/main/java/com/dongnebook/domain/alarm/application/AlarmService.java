@@ -11,10 +11,11 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.servlet.mvc.method.annotation.SseEmitter;
 
 import com.dongnebook.domain.alarm.domain.Alarm;
+import com.dongnebook.domain.alarm.exception.CanNotSendException;
 import com.dongnebook.global.enums.AlarmType;
 import com.dongnebook.domain.alarm.repository.EmitterRepositoryImpl;
 import com.dongnebook.domain.alarm.dto.AlarmResponse;
-import com.dongnebook.domain.alarm.exception.AlarmNotFound;
+import com.dongnebook.domain.alarm.exception.AlarmNotFoundException;
 import com.dongnebook.domain.alarm.repository.AlarmQueryRepository;
 import com.dongnebook.domain.alarm.repository.AlarmRepository;
 import com.dongnebook.domain.book.domain.Book;
@@ -68,14 +69,14 @@ public class AlarmService {
 
 		emitter.onCompletion(() -> emitterRepository.deleteById(id)); //네트워크 오류
 		emitter.onTimeout(() -> emitterRepository.deleteById(id)); //시간 초과
-		emitter.onError((e) -> emitterRepository.deleteById(id)); //오류
+		emitter.onError(e->emitterRepository.deleteById(id)); //오류
 
 		try {
 			emitter.send(
 				SseEmitter.event().id(id).name("open").data("EventStream Created. [memberId=" + memberId + "]"));
 		} catch (IOException exception) {
 			emitterRepository.deleteById(id);
-			throw new RuntimeException("연결 오류!");
+			throw new CanNotSendException();
 		}
 
 		if (!lastEventId.isEmpty()) {
@@ -100,7 +101,7 @@ public class AlarmService {
 
 	@Transactional
 	public void deleteAlarmById(Long memberId, Long alarmId) {
-		Alarm alarm = alarmQueryRepository.findByAlarmWithMemberId(alarmId).orElseThrow(AlarmNotFound::new);
+		Alarm alarm = alarmQueryRepository.findByAlarmWithMemberId(alarmId).orElseThrow(AlarmNotFoundException::new);
 
 		if (Objects.equals(alarm.getMember().getId(), memberId)) {
 			alarmRepository.delete(alarm);

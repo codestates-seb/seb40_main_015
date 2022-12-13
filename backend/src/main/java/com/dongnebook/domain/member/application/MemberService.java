@@ -98,7 +98,6 @@ public class MemberService {
 		bookQueryRepository.updateBookLocation(member, memberEditRequest.getLocation());
 	}
 
-
 	@Transactional
 	public Long reissue(String refreshToken,
 		HttpServletResponse response) {
@@ -124,7 +123,7 @@ public class MemberService {
 		refreshTokenRepository.save(newRefreshToken);
 
 		ResponseCookie cookie = ResponseCookie.from("refreshToken", newRTK)
-			.maxAge(7 * 24 * 60 * 60)
+			.maxAge(7L * 24 * 60 * 60)
 			.path("/")
 			.secure(true)
 			.sameSite("None")
@@ -154,17 +153,19 @@ public class MemberService {
 		refreshTokenRepository.deleteByKey(Long.valueOf(tokenProvider.parseClaims(refreshToken).getSubject()));
 	}
 
-	public ArrayList<MerchantSectorCountResponse> getSectorMerchantCounts(MerchantSearchRequest request) {
+	public List<MerchantSectorCountResponse> getSectorMerchantCounts(MerchantSearchRequest request) {
 
 		List<Double> latRangeList = latRangeList(request);
 		List<Double> lonRangeList = lonRangeList(request);
-		List<Location> sectorBookCounts = memberQueryRepository.getSectorMerchantCounts(latRangeList,lonRangeList,request);
-		ArrayList<MerchantSectorCountResponse> merchantSectorCountResponses = new ArrayList<>();
+		List<Location> sectorBookCounts = memberQueryRepository.getSectorMerchantCounts(latRangeList, lonRangeList,
+			request);
+		List<MerchantSectorCountResponse> merchantSectorCountResponses = new ArrayList<>();
 		HashMap<Integer, Integer> indexMap = new HashMap<>();
 		int arrIndex = 0;
 
 		for (Location location : sectorBookCounts) {
-			arrIndex = addMerchantCountPerSector(request, latRangeList, lonRangeList, merchantSectorCountResponses, indexMap,
+			arrIndex = addMerchantCountPerSector(request, latRangeList, lonRangeList, merchantSectorCountResponses,
+				indexMap,
 				arrIndex, location);
 		}
 		return merchantSectorCountResponses;
@@ -176,7 +177,7 @@ public class MemberService {
 			&& lonRangeList.get(j) <= longitude && longitude <= lonRangeList.get(j + 1);
 	}
 
-	private boolean makeMerchantCountResponse(ArrayList<MerchantSectorCountResponse> merchantSectorCountResponses,
+	private boolean makeMerchantCountResponse(List<MerchantSectorCountResponse> merchantSectorCountResponses,
 		int sector, int arrIndex, Location location, HashMap<Integer, Integer> indexMap) {
 		boolean newResponse = false;
 
@@ -208,7 +209,8 @@ public class MemberService {
 	}
 
 	public SliceImpl<MemberResponse> getList(MerchantSearchRequest merchantSearchRequest, PageRequest pageRequest) {
-		return memberQueryRepository.getAll(latRangeList(merchantSearchRequest),lonRangeList(merchantSearchRequest),merchantSearchRequest, pageRequest);
+		return memberQueryRepository.getAll(latRangeList(merchantSearchRequest), lonRangeList(merchantSearchRequest),
+			merchantSearchRequest, pageRequest);
 	}
 
 	private List<Double> lonRangeList(MerchantSearchRequest merchantSearchRequest) {
@@ -226,22 +228,25 @@ public class MemberService {
 			.equals(BookState.UNRENTABLE_RESERVABLE) || book.getBookState().equals(BookState.UNRENTABLE_UNRESERVABLE);
 	}
 
-	private int addMerchantCountPerSector(MerchantSearchRequest request, List<Double> latRangeList, List<Double> lonRangeList,
-		ArrayList<MerchantSectorCountResponse> merchantSectorCountResponses, HashMap<Integer, Integer> indexMap,
+	private int addMerchantCountPerSector(MerchantSearchRequest request, List<Double> latRangeList,
+		List<Double> lonRangeList,
+		List<MerchantSectorCountResponse> merchantSectorCountResponses, HashMap<Integer, Integer> indexMap,
 		int arrIndex, Location location) {
 		int sector = 0;
-		Loop:
+
 		for (int i = 0; i < request.getLevel(); i++) {
+
 			for (int j = 0; j < request.getLevel(); j++) {
 				sector++;
-				if (checkRange(latRangeList, lonRangeList, location.getLatitude(), location.getLongitude(), i, j)) {
-					if (makeMerchantCountResponse(merchantSectorCountResponses, sector, arrIndex, location,
-						indexMap)) {
-						arrIndex += 1;
-						break Loop;
-					}
+
+				if (checkRange(latRangeList, lonRangeList, location.getLatitude(), location.getLongitude(), i, j)
+					&& makeMerchantCountResponse(merchantSectorCountResponses, sector, arrIndex, location,
+					indexMap)) {
+					return arrIndex + 1;
 				}
+
 			}
+
 		}
 		return arrIndex;
 	}

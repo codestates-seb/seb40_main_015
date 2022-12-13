@@ -49,7 +49,7 @@ public class Alarm {
 		this.isRead = isRead;
 	}
 
-	static public Alarm create(Member member, Book book, AlarmType type) {
+	public static Alarm create(Member member, Book book, AlarmType type) {
 		return Alarm.builder().member(member).book(book).type(type).isRead(false).build();
 	}
 }
