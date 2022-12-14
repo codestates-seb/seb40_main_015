@@ -2,12 +2,15 @@ import React, { useState } from 'react';
 import { useLocation } from 'react-router';
 import styled from 'styled-components';
 import useCreateReview from '../../api/hooks/review/useCreateReview';
+import { useAppDispatch } from '../../redux/hooks';
+import notify from '../../utils/notify';
 import Button from '../common/Button';
 import ConfirmModal from '../common/ConfirmModal';
 import Title from '../common/Title';
 import RatingSelect from './RatingSelect';
 
 const Review = () => {
+	const dispatch = useAppDispatch();
 	const [content, setContent] = useState('');
 	const [submit, setSubmit] = useState(false);
 	const [hovered, setHovered] = useState<number>(0);
@@ -36,6 +39,10 @@ const Review = () => {
 	};
 
 	const handleClickSubmit = () => {
+		if (!clicked) {
+			notify(dispatch, '평점을 체크해주세요');
+			return;
+		}
 		createReview();
 	};
 
@@ -56,20 +63,22 @@ const Review = () => {
 								setClicked={setClicked}
 							/>
 						</SelectBox>
-						<p>리뷰 : </p>
-						<Textarea
-							placeholder="최대 30자까지 가능합니다"
-							maxLength={30}
-							value={content}
-							onChange={handleChangeContent}
-						/>
+						<TextareaBox>
+							<p>리뷰 : </p>
+							<Textarea
+								placeholder="최대 30자까지 가능합니다"
+								maxLength={30}
+								value={content}
+								onChange={handleChangeContent}
+							/>
+						</TextareaBox>
 					</ReviewBox>
 					<Button onClick={handleSubmitReview}>리뷰 등록</Button>
 				</Box>
 			</Layout>
 			{submit ? (
 				<ConfirmModal
-					text={'등록 후 수정이 불가합니다. \n 등록 하실래요?'}
+					text={'등록 후 수정이 불가합니다. \n 등록 하시겠습니까?'}
 					setSubmit={setSubmit}
 					handleClick={handleClickSubmit}
 				/>
@@ -86,7 +95,7 @@ const Container = styled.div`
 	justify-content: space-between;
 	p {
 		font-size: ${props => props.theme.fontSizes.subtitle};
-		font-weight: 600;
+		/* font-weight: 600; */
 	}
 `;
 
@@ -114,7 +123,7 @@ const Box = styled.div`
 	}
 	span {
 		font-size: ${props => props.theme.fontSizes.subtitle};
-		font-weight: 600;
+		/* font-weight: 600; */
 	}
 `;
 
@@ -130,9 +139,15 @@ const SelectBox = styled.div`
 	align-items: center;
 `;
 
+const TextareaBox = styled.div`
+	display: flex;
+	flex-direction: column;
+`;
+
 const Textarea = styled.textarea`
-	height: 15rem;
+	height: 8rem;
 	padding: 1rem;
+	margin-top: 0.5rem;
 	resize: none;
 	font-size: 1.2rem;
 	border: 1px solid ${props => props.theme.colors.grey};

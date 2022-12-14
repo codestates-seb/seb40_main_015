@@ -1,9 +1,10 @@
 import styled from 'styled-components';
 import { useNavigate } from 'react-router-dom';
 import { Dispatch, SetStateAction } from 'react';
+import { MerchantList } from './KaKaoMapTypes';
 
 interface Props {
-	merchantList: any;
+	merchantList: MerchantList[];
 	setHoverLists: Dispatch<SetStateAction<any>>;
 	merchantListRef: any;
 }
@@ -13,7 +14,7 @@ const MerchantLists = (props: Props) => {
 
 	const navigate = useNavigate();
 
-	const handleSearchMerchantInfo = (id: string) => {
+	const handleSearchMerchantInfo = (id: string | number) => {
 		navigate(`/profile/merchant/${id}`);
 	};
 
@@ -26,8 +27,9 @@ const MerchantLists = (props: Props) => {
 
 	return (
 		<Box>
-			{merchantList?.map((item: any) => {
+			{merchantList?.map((item: MerchantList) => {
 				const { merchantName, merchantId, location } = item;
+
 				return (
 					<List
 						key={merchantId}
