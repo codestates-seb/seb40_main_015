@@ -12,6 +12,7 @@ import {
 	SizeProps,
 	SelectOverlay,
 	MerchantList,
+	BookList,
 } from './KaKaoMapTypes';
 
 interface KakaoMapProps {
@@ -22,8 +23,8 @@ interface KakaoMapProps {
 	merchantLists: MerchantList[];
 	setMerchantLists: Dispatch<SetStateAction<MerchantList[]>>;
 	bookSector: MerchantSectorProps[];
-	bookLists: any;
-	setBookLists: any;
+	bookLists: BookList[];
+	setBookLists: Dispatch<SetStateAction<BookList[]>>;
 	zoomLevel: number;
 	setZoomLevel: Dispatch<SetStateAction<number>>;
 	size: SizeProps;

@@ -1,12 +1,13 @@
 import { useInfiniteQuery } from '@tanstack/react-query';
 import { useEffect, useState } from 'react';
 import { useInView } from 'react-intersection-observer';
+import { SelectOverlay } from '../../../components/Map/KaKaoMapTypes';
 import { getMerchantListQuery } from '../../map';
 
 interface IProps {
 	centerCoord: { lat: number; lon: number };
 	current: { lat: number; lon: number };
-	selectOverlay: any;
+	selectOverlay: SelectOverlay | null;
 	searchInput: string;
 	zoomLevel: number;
 	size: { width: number; height: number };
