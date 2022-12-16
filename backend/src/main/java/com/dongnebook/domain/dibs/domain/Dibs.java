@@ -19,10 +19,9 @@ import lombok.NoArgsConstructor;
 
 @Entity
 @Getter
-@NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Table(name = "dibs")
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Dibs extends BaseTimeEntity {
-
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name="id",nullable = false)
@@ -36,14 +35,12 @@ public class Dibs extends BaseTimeEntity {
 	@JoinColumn(name = "book_id",nullable = false)
 	private Book book;
 
-
-
 	private Dibs(Member member, Book book) {
 		this.member = member;
 		this.book = book;
 	}
 
-	static public Dibs of(Member member, Book book){
+	public static Dibs of(Member member, Book book){
 		return new Dibs(member, book);
 	}
 

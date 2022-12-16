@@ -6,12 +6,10 @@ import lombok.Getter;
 
 @Getter
 public class RentalSearchCondition {
-
     @Enum(enumClass = RentalState.class, ignoreCase = false)
     private final String rentalState;
 
     public RentalSearchCondition(String rentalState){
         this.rentalState = rentalState;
     }
-
 }

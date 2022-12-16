@@ -1,10 +1,9 @@
 package com.dongnebook.domain.book.ui;
 
-import java.io.IOException;
 import java.net.URI;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
-import java.util.Optional;
 
 import javax.validation.Valid;
 
@@ -29,16 +28,15 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import com.dongnebook.domain.book.application.BookService;
-import com.dongnebook.domain.book.dto.KaKaoBookInfoResponse;
 import com.dongnebook.domain.book.dto.request.BookEditRequest;
 import com.dongnebook.domain.book.dto.request.BookRegisterRequest;
 import com.dongnebook.domain.book.dto.request.BookSearchCondition;
+import com.dongnebook.domain.book.dto.response.BookCountPerSectorResponse;
 import com.dongnebook.domain.book.dto.response.BookDetailResponse;
-import com.dongnebook.domain.book.dto.response.BookSectorCountResponse;
 import com.dongnebook.domain.book.dto.response.BookSimpleResponse;
-import com.dongnebook.global.Login;
-import com.dongnebook.global.config.security.auth.userdetails.AuthMember;
+import com.dongnebook.domain.book.dto.response.KaKaoBookInfoResponse;
 import com.dongnebook.global.dto.request.PageRequest;
+import com.dongnebook.global.security.auth.annotation.Login;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
@@ -53,14 +51,13 @@ import lombok.extern.slf4j.Slf4j;
 @RequestMapping("/books")
 public class BookController {
 	@Value("${KAKAO_KEY}")
-	private String KaKaoKey;
+	private String kakaoKey;
 	private final BookService bookService;
 
 	@PostMapping
 	public ResponseEntity<Long> create(@Valid @RequestBody BookRegisterRequest bookRegisterRequest,
-		@Login AuthMember authMember) {
-
-		Long bookId = bookService.create(bookRegisterRequest, authMember.getMemberId());
+		@Login Long memberId) {
+		Long bookId = bookService.create(bookRegisterRequest, memberId);
 		URI createdUri = ServletUriComponentsBuilder.fromCurrentRequestUri()
 			.path("/{id}")
 			.buildAndExpand(bookId)
@@ -69,79 +66,66 @@ public class BookController {
 	}
 
 	@PatchMapping("/{id}")
-	public void edit(@Login AuthMember authMember, @PathVariable Long id, @Valid @RequestBody BookEditRequest bookEditRequest){
-		bookService.edit(authMember.getMemberId(), id,bookEditRequest);
+	public void edit(@Login Long memberId, @PathVariable Long id, @Valid @RequestBody BookEditRequest bookEditRequest) {
+		bookService.edit(memberId, id, bookEditRequest);
 	}
 
 	@GetMapping("/{id}")
-	public ResponseEntity<BookDetailResponse> getDetail(@Login AuthMember authMember, @PathVariable Long id) {
-		Long memberId = authMember == null ? null : authMember.getMemberId();
-
+	public ResponseEntity<BookDetailResponse> getDetail(@Login Long memberId, @PathVariable Long id) {
 		BookDetailResponse detail = bookService.getDetail(id, memberId);
-
 		return ResponseEntity.ok(detail);
 	}
 
 	@GetMapping
 	public ResponseEntity<SliceImpl<BookSimpleResponse>> getLists(
 		@ModelAttribute BookSearchCondition bookSearchCondition, PageRequest pageRequest) {
-		log.info("location = {}", bookSearchCondition.getLatitude());
-		log.info("bookTitle = {}", bookSearchCondition.getBookTitle());
-		log.info("location = {}", bookSearchCondition.getLongitude());
 		return ResponseEntity.ok(bookService.getList(bookSearchCondition, pageRequest));
 	}
 
 	@GetMapping("/count")
-	public ResponseEntity<ArrayList<BookSectorCountResponse>> getSectorBookCounts(
+	public ResponseEntity<List<BookCountPerSectorResponse>> getSectorBookCounts(
 		@ModelAttribute BookSearchCondition bookSearchCondition) {
-		ArrayList<BookSectorCountResponse> sectorBookCounts = bookService.getSectorBookCounts(bookSearchCondition);
+		List<BookCountPerSectorResponse> sectorBookCounts = bookService.getBookCountPerSector(bookSearchCondition);
 		return ResponseEntity.ok(sectorBookCounts);
 	}
 
 	@GetMapping("/sector")
 	public ResponseEntity<SliceImpl<BookSimpleResponse>> getSectors(
 		@ModelAttribute BookSearchCondition bookSearchCondition, PageRequest pageRequest) {
-		log.info("location = {}", bookSearchCondition.getLatitude());
-		log.info("bookTitle = {}", bookSearchCondition.getBookTitle());
-		log.info("location = {}", bookSearchCondition.getLongitude());
 		return ResponseEntity.ok(bookService.getList(bookSearchCondition, pageRequest));
 	}
 
 	@DeleteMapping("/{id}")
-	public ResponseEntity<Long> delete(@PathVariable Long id, @Login AuthMember authMember) {
-		return ResponseEntity.ok(bookService.delete(id, authMember.getMemberId()));
+	public ResponseEntity<Long> delete(@PathVariable Long id, @Login Long memberId) {
+		return ResponseEntity.ok(bookService.delete(id, memberId));
 	}
 
 	@GetMapping("/bookInfo")
-	public ArrayList<KaKaoBookInfoResponse> getBookInfo(@RequestParam String bookTitle) throws IOException {
-		String testurl = "https://dapi.kakao.com/v3/search/book";
+	public List<KaKaoBookInfoResponse> getBookInfo(@RequestParam String bookTitle) {
+		String kakaoApi = "https://dapi.kakao.com/v3/search/book";
 		HttpHeaders httpHeaders = new HttpHeaders();
-		httpHeaders.set("Authorization", "KakaoAK " + KaKaoKey);
+		RestTemplate restTemplate = new RestTemplate();
+		HttpEntity<String> entity = new HttpEntity<>(httpHeaders);
+		List<KaKaoBookInfoResponse> list = new ArrayList<>();
+		httpHeaders.set("Authorization", "KakaoAK " + kakaoKey);
 
-		log.info("bookTitle = {}", bookTitle);
-		URI uri = UriComponentsBuilder.fromHttpUrl(testurl)
+		URI uri = UriComponentsBuilder.fromHttpUrl(kakaoApi)
 			.queryParam("query", bookTitle)
 			.queryParam("target", "title")
 			.queryParam("size", 50)
-			.build().toUri();
+			.build()
+			.toUri();
 
-		RestTemplate restTemplate = new RestTemplate();
-		log.info("uri = {}", uri);
-		HttpEntity<String> entity = new HttpEntity<>(httpHeaders);
+		JsonArray documents = getJsonElements(restTemplate, entity, uri);
 
-		log.info("entity = {}", entity);
-		ResponseEntity<String> exchange = restTemplate.exchange(uri.toString(), HttpMethod.GET, entity, String.class);
-		JsonElement jsonElement = JsonParser.parseString(Objects.requireNonNull(exchange.getBody()));
-		JsonObject asJsonObject = jsonElement.getAsJsonObject();
-		JsonArray documents = asJsonObject.get("documents").getAsJsonArray();
-
-		ArrayList<KaKaoBookInfoResponse> list = new ArrayList<>();
 		for (JsonElement document : documents) {
+			List<String> authors = new ArrayList<>();
 			JsonObject jsonObject = document.getAsJsonObject();
-			ArrayList<String> authors = new ArrayList<>();
+
 			for (JsonElement author : jsonObject.get("authors").getAsJsonArray()) {
 				authors.add(author.getAsString());
 			}
+
 			list.add(KaKaoBookInfoResponse.builder()
 				.authors(authors)
 				.title(jsonObject.get("title").getAsString())
@@ -152,4 +136,10 @@ public class BookController {
 		return list;
 	}
 
+	private JsonArray getJsonElements(RestTemplate restTemplate, HttpEntity<String> entity, URI uri) {
+		ResponseEntity<String> exchange = restTemplate.exchange(uri.toString(), HttpMethod.GET, entity, String.class);
+		JsonElement jsonElement = JsonParser.parseString(Objects.requireNonNull(exchange.getBody()));
+		JsonObject asJsonObject = jsonElement.getAsJsonObject();
+		return asJsonObject.get("documents").getAsJsonArray();
+	}
 }

@@ -1,16 +1,7 @@
 import { Dispatch, SetStateAction, useEffect, useState } from 'react';
 import { CustomOverlayMap } from 'react-kakao-maps-sdk';
 import styled from 'styled-components';
-
-interface MarkerProps {
-	merchantCount?: number;
-	bookCount?: number;
-	sector: number;
-	location: {
-		latitude: number;
-		longitude: number;
-	};
-}
+import { SelectOverlay } from './KaKaoMapTypes';
 
 const CustomOverlay = ({
 	sector,
@@ -20,16 +11,16 @@ const CustomOverlay = ({
 	current,
 	zoomLevel,
 }: {
-	sector: MarkerProps[];
-	selectOverlay: any;
-	setSelectOverlay: Dispatch<SetStateAction<any>>;
-	centerCoord: any;
-	current: any;
+	sector: SelectOverlay[];
+	selectOverlay: SelectOverlay | null;
+	setSelectOverlay: Dispatch<SetStateAction<SelectOverlay | null>>;
+	centerCoord: { lat: number; lon: number };
+	current: { lat: number; lon: number };
 	zoomLevel: number;
 }) => {
 	const [active, setActive] = useState<number>(-1);
 
-	const handleClickSector = (item: any) => {
+	const handleClickSector = (item: SelectOverlay) => {
 		if (selectOverlay !== item) {
 			setSelectOverlay(item);
 		} else {
@@ -51,7 +42,7 @@ const CustomOverlay = ({
 
 	return (
 		<>
-			{sector.map((item: MarkerProps, idx: number) => {
+			{sector.map((item: SelectOverlay, idx: number) => {
 				const { merchantCount, location, bookCount } = item;
 				return (
 					<div

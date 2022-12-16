@@ -39,13 +39,6 @@ public class GlobalExceptionHandler {
 		return new ResponseEntity<>(response, HttpStatus.valueOf(ErrorCode.HANDLE_ACCESS_DENIED.getStatus()));
 	}
 
-	// @ExceptionHandler(JwtException.class)
-	// protected ResponseEntity<ErrorResponse> handleAccessDeniedException(JwtException e) {
-	// 	log.error("handleAccessDeniedException", e);
-	// 	final ErrorResponse response = ErrorResponse.of(ErrorCode.HANDLE_ACCESS_DENIED);
-	// 	return new ResponseEntity<>(response, HttpStatus.valueOf(ErrorCode.HANDLE_ACCESS_DENIED.getStatus()));
-	// }
-
 	@ExceptionHandler(HttpRequestMethodNotSupportedException.class)
 	protected ResponseEntity<ErrorResponse> handleHttpRequestMethodNotSupportedException(HttpRequestMethodNotSupportedException e) {
 		log.error("handleHttpRequestMethodNotSupportedException", e);
@@ -53,14 +46,10 @@ public class GlobalExceptionHandler {
 		return new ResponseEntity<>(response, HttpStatus.METHOD_NOT_ALLOWED);
 	}
 
-
 	@ExceptionHandler(Exception.class)
 	protected ResponseEntity<ErrorResponse> handleException(Exception e) {
 		log.error("handleEntityNotFoundException", e);
 		final ErrorResponse response = ErrorResponse.of(ErrorCode.INTERNAL_SERVER_ERROR);
-
 		return ResponseEntity.internalServerError().body(response);
 	}
-
-
 }

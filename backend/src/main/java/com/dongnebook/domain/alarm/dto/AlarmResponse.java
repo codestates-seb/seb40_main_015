@@ -1,11 +1,10 @@
 package com.dongnebook.domain.alarm.dto;
 
-import com.dongnebook.domain.alarm.domain.AlarmType;
+import com.dongnebook.global.enums.AlarmType;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.querydsl.core.annotations.QueryProjection;
 
 import lombok.Getter;
-import lombok.ToString;
 
 @Getter
 @JsonInclude(JsonInclude.Include.NON_NULL)

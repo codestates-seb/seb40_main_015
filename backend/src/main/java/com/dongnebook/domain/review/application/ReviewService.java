@@ -1,5 +1,9 @@
 package com.dongnebook.domain.review.application;
 
+import org.springframework.data.domain.SliceImpl;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
 import com.dongnebook.domain.member.domain.Member;
 import com.dongnebook.domain.rental.domain.Rental;
 import com.dongnebook.domain.rental.domain.RentalState;
@@ -12,18 +16,15 @@ import com.dongnebook.domain.review.exception.BookRentalNotMatchException;
 import com.dongnebook.domain.review.repository.ReviewQueryRepository;
 import com.dongnebook.domain.review.repository.ReviewRepository;
 import com.dongnebook.global.dto.request.PageRequest;
+
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.data.domain.SliceImpl;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 @Slf4j
 @Service
 @RequiredArgsConstructor
 @Transactional(readOnly = true)
 public class ReviewService {
-
     private final ReviewRepository reviewRepository;
     private final ReviewQueryRepository reviewQueryRepository;
     private final RentalQueryRepository rentalQueryRepository;
@@ -35,12 +36,10 @@ public class ReviewService {
         checkRentalPerson(rental, customerId);
         rental.changeRentalStateFromTo(RentalState.RETURN_UNREVIEWED, RentalState.RETURN_REVIEWED);
 
-
         Member merchant = rental.getBook().getMember();
         merchant.setAvgGradeAndUpCount(reviewRequest.getGrade());
 
         Review review = Review.create(reviewRequest.getReviewMessage(), reviewRequest.getGrade(), rental, merchant);
-
         reviewRepository.save(review);
     }
 
@@ -63,10 +62,11 @@ public class ReviewService {
 
     private Rental getRental(Long rentalId) {
         Rental rental = rentalQueryRepository.getRentalById(rentalId);
+
         if(rental == null){
             throw new RentalNotFoundException();
         }
+
         return rental;
     }
-
 }

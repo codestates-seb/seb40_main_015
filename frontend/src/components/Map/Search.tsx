@@ -1,13 +1,14 @@
 import styled from 'styled-components';
 import { HiSearch } from 'react-icons/hi';
 import { Dispatch, SetStateAction } from 'react';
+import { MerchantList, MerchantSectorList } from './KaKaoMapTypes';
 
 interface SearchProps {
 	searchInput: string;
 	setSearchInput: Dispatch<SetStateAction<string>>;
-	setMerchantSector: Dispatch<SetStateAction<any>>;
+	setMerchantSector: Dispatch<SetStateAction<MerchantSectorList[]>>;
 	setBookSector: Dispatch<SetStateAction<any>>;
-	setMerchantLists: Dispatch<SetStateAction<any>>;
+	setMerchantLists: Dispatch<SetStateAction<MerchantList[]>>;
 	setBookLists: Dispatch<SetStateAction<any>>;
 	merchantCurrentRefetch: any;
 	bookCurrentRefetch: any;

@@ -15,6 +15,4 @@ public enum BookState {
 	BookState(String message) {
 		this.message = message;
 	}
-
-
 }

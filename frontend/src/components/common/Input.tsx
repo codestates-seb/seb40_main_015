@@ -1,13 +1,13 @@
 import styled from 'styled-components';
 
-type InputProps = {
+interface InputProps {
 	label: string;
 	state?: string;
 	setState?: Function;
 	type?: string;
 	placeholder?: string;
 	maxLength?: number;
-};
+}
 
 const Input = (props: InputProps) => {
 	const { label, state, setState, type, placeholder, maxLength } = props;

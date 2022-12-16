@@ -1,10 +1,10 @@
 import { useEffect, useState } from 'react';
 import styled from 'styled-components';
 
-type ToastProps = {
+interface ToastProps {
 	text: string;
 	dismissTime?: number;
-};
+}
 
 const Toast = ({ text, dismissTime = 3000 }: ToastProps) => {
 	const [isFading, setIsFading] = useState(false);
