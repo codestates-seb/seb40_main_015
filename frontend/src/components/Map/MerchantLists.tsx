@@ -3,9 +3,14 @@ import { useNavigate } from 'react-router-dom';
 import { Dispatch, SetStateAction } from 'react';
 import { MerchantList } from './KaKaoMapTypes';
 
+interface Location {
+	latitude: number;
+	longitude: number;
+}
+
 interface Props {
 	merchantList: MerchantList[];
-	setHoverLists: Dispatch<SetStateAction<any>>;
+	setHoverLists: Dispatch<SetStateAction<Location>>;
 	merchantListRef: any;
 }
 
