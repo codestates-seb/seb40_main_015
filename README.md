@@ -29,6 +29,18 @@
 
 </br>
 
+##  💻 구글 플레이스토어 출시
+</br>
+→ 동네북을 구글 플레이스토어에서도 만나보실 수 있습니다. 
+* 다운로드 바로가기 : https://play.google.com/store/apps/details?id=com.dongne_book.twa
+ 
+</br>
+
+---
+https://play.google.com/store/apps/details?id=com.dongne_book.twa
+
+</br>
+
 ## 🖥 동네북 QR 코드
 ![](https://velog.velcdn.com/images/fejigu/post/e1960487-f1a5-4937-a787-b1721e4ab891/image.png)
 </br>
