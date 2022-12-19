@@ -29,11 +29,10 @@
 
 </br>
 
-##  💻 구글 플레이스토어 출시
-</br>
+##  📊 구글 플레이스토어 
 
 ![](https://velog.velcdn.com/images/fejigu/post/58f798ad-d73e-4a33-b7eb-89a5761bc911/image.png)
-
+</br>
 → 동네북을 구글 플레이스토어에서도 만나보실 수 있습니다. </br>
 다운로드 바로가기 : https://play.google.com/store/apps/details?id=com.dongne_book.twa
 
