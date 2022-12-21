@@ -1,6 +1,6 @@
 import styled from 'styled-components';
-import { useAppSelector } from '../../redux/hooks';
 import Toast from './Toast';
+import { useAppSelector } from '../../redux/hooks';
 import { payloadType } from '../../redux/slice/notificationSlice';
 
 const NotificationCenter = () => {

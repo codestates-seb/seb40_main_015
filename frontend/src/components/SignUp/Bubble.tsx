@@ -1,8 +1,8 @@
 import styled from 'styled-components';
 
-type BubbleProps = {
+interface BubbleProps {
 	type: string;
-};
+}
 
 const Bubble = ({ type }: BubbleProps) => {
 	const typeKey = type;

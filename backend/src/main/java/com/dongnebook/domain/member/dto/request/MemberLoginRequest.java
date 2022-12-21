@@ -9,7 +9,6 @@ import lombok.NoArgsConstructor;
 @Getter
 @NoArgsConstructor
 public class MemberLoginRequest {
-
 	@NotBlank
 	private String userId;
 

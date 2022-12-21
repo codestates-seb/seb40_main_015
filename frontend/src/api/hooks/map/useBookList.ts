@@ -1,23 +1,35 @@
 import { useInfiniteQuery } from '@tanstack/react-query';
 import { useEffect, useState } from 'react';
 import { useInView } from 'react-intersection-observer';
+import { SelectOverlay } from '../../../components/Map/KaKaoMapTypes';
 import { getBookListQuery } from '../../map';
 
 interface IProps {
 	centerCoord: { lat: number; lon: number };
 	current: { lat: number; lon: number };
-	selectOverlay: any;
+	selectOverlay: SelectOverlay | null;
 	searchInput: string;
 	zoomLevel: number;
 	size: { width: number; height: number };
 }
 
+interface Book {
+	bookId: number;
+	bookImage: string;
+	location: { latitude: number; longitude: number };
+	merchantName: string;
+	rentalFee: number;
+	status: string;
+	title: string;
+}
+
 const useBookList = (props: IProps) => {
 	const { centerCoord, current, selectOverlay, searchInput, zoomLevel, size } =
 		props;
-	const [bookLists, setBookLists] = useState<any>([]);
+	const [bookLists, setBookLists] = useState<Book[]>([]);
 	const [ref, inView] = useInView();
-	const level = [0, 9, 7, 5, 3, 3, 3];
+	const level = [0, 9, 9, 7, 5, 5, 5, 5, 5, 5];
+
 	const {
 		fetchNextPage,
 		hasNextPage,
@@ -63,7 +75,13 @@ const useBookList = (props: IProps) => {
 		if (inView && hasNextPage) fetchNextPage();
 	}, [inView]);
 
-	return [bookLists, setBookLists, ref, bookListRefetch, bookListRemove];
+	return [
+		bookLists,
+		setBookLists,
+		ref,
+		bookListRefetch,
+		bookListRemove,
+	] as const;
 };
 
 export default useBookList;

@@ -5,7 +5,6 @@ const dataUriFromFormFile = (file: File) => {
 		reader.onload = () => {
 			resolve(reader.result);
 		};
-
 		reader.readAsDataURL(file);
 	});
 };

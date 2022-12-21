@@ -7,42 +7,24 @@ import CustomOverlay from './CustomOverlay';
 import CustomOverlayHover from './CustomOverlayHover';
 import { useDispatch } from 'react-redux';
 import { change } from '../../redux/slice/geoLocationSlice';
-
-interface MarkerProps {
-	merchantCount: number;
-	totalBookCount?: number;
-	sector: number;
-	location: {
-		latitude: number;
-		longitude: number;
-	};
-}
-
-interface MerchantSectorProps {
-	merchantCount: number;
-	totalBookCount?: number;
-	sector: number;
-	location: {
-		latitude: number;
-		longitude: number;
-	};
-}
-
-interface SizeProps {
-	width: number;
-	height: number;
-}
+import {
+	MerchantSectorProps,
+	SizeProps,
+	SelectOverlay,
+	MerchantList,
+	BookList,
+} from './KaKaoMapTypes';
 
 interface KakaoMapProps {
 	current: { lat: number; lon: number };
-	selectOverlay: any;
-	setSelectOverlay: Dispatch<SetStateAction<any>>;
+	selectOverlay: SelectOverlay | null;
+	setSelectOverlay: Dispatch<SetStateAction<SelectOverlay | null>>;
 	merchantSector: MerchantSectorProps[];
-	merchantLists: MarkerProps[];
-	setMerchantLists: Dispatch<SetStateAction<any>>;
+	merchantLists: MerchantList[];
+	setMerchantLists: Dispatch<SetStateAction<MerchantList[]>>;
 	bookSector: MerchantSectorProps[];
-	bookLists: any;
-	setBookLists: any;
+	bookLists: BookList[];
+	setBookLists: Dispatch<SetStateAction<BookList[]>>;
 	zoomLevel: number;
 	setZoomLevel: Dispatch<SetStateAction<number>>;
 	size: SizeProps;
@@ -158,7 +140,7 @@ const KakaoMap = (props: KakaoMapProps) => {
 				// 	setSelectOverlay(null);
 				// 	setMerchantLists([]);
 				// }}
-				maxLevel={6}>
+				maxLevel={9}>
 				<MapMarker
 					position={{
 						lat: current?.lat ? current.lat : 33.4522346675632,

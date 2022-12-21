@@ -1,10 +1,16 @@
 import styled from 'styled-components';
 import { useNavigate } from 'react-router-dom';
 import { Dispatch, SetStateAction } from 'react';
+import { BookList } from './KaKaoMapTypes';
+
+interface Location {
+	latitude: number;
+	longitude: number;
+}
 
 interface Props {
-	bookLists: any;
-	setHoverLists: Dispatch<SetStateAction<any>>;
+	bookLists: BookList[];
+	setHoverLists: Dispatch<SetStateAction<Location>>;
 	bookListRef: any;
 }
 
@@ -12,7 +18,7 @@ const BookLists = (props: Props) => {
 	const { bookLists, setHoverLists, bookListRef } = props;
 
 	const navigate = useNavigate();
-	const handleSearchBookDetailInfo = (id: string) => {
+	const handleSearchBookDetailInfo = (id: number) => {
 		navigate(`/books/${id}`);
 	};
 
@@ -36,8 +42,9 @@ const BookLists = (props: Props) => {
 				<span className="string">대여/예약불가</span>
 			</Container>
 			<Box>
-				{bookLists?.map((item: any, i: number) => {
+				{bookLists?.map((item: BookList) => {
 					const { bookId, title, status, merchantName, location } = item;
+
 					return (
 						<List
 							key={bookId}
@@ -60,6 +67,7 @@ const BookLists = (props: Props) => {
 		</>
 	);
 };
+
 const Container = styled.div`
 	width: 100%;
 	height: 25px;

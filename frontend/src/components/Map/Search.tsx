@@ -1,14 +1,20 @@
 import styled from 'styled-components';
 import { HiSearch } from 'react-icons/hi';
 import { Dispatch, SetStateAction } from 'react';
+import {
+	BookList,
+	BookSector,
+	MerchantList,
+	MerchantSectorList,
+} from './KaKaoMapTypes';
 
 interface SearchProps {
 	searchInput: string;
 	setSearchInput: Dispatch<SetStateAction<string>>;
-	setMerchantSector: Dispatch<SetStateAction<any>>;
-	setBookSector: Dispatch<SetStateAction<any>>;
-	setMerchantLists: Dispatch<SetStateAction<any>>;
-	setBookLists: Dispatch<SetStateAction<any>>;
+	setMerchantSector: Dispatch<SetStateAction<MerchantSectorList[]>>;
+	setBookSector: Dispatch<SetStateAction<BookSector[]>>;
+	setMerchantLists: Dispatch<SetStateAction<MerchantList[]>>;
+	setBookLists: Dispatch<SetStateAction<BookList[]>>;
 	merchantCurrentRefetch: any;
 	bookCurrentRefetch: any;
 }
@@ -75,7 +81,6 @@ const SearchInput = styled.input`
 	outline: none;
 	padding-left: 10px;
 	font-size: ${props => props.theme.fontSizes.paragraph};
-	// height: 5rem;
 `;
 
 export default Search;

@@ -7,7 +7,6 @@ import lombok.Getter;
 
 @Getter
 public class MemberDetailResponse {
-
 	private Long memberId;
 	private String name;
 	private Location location;

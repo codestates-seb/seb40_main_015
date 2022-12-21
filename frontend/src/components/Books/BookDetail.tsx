@@ -26,6 +26,7 @@ import { useBooksAPI } from '../../api/books';
 
 // types
 import { BookDetailProps } from './type';
+import Star from '../common/Star';
 
 const BookDetail = ({ book, merchant, refetchBookDetail }: BookDetailProps) => {
 	const { id, isLogin } = useAppSelector(state => state.loginInfo);
@@ -47,7 +48,7 @@ const BookDetail = ({ book, merchant, refetchBookDetail }: BookDetailProps) => {
 		}
 		if (merchant && book) {
 			axiosCreateRoom(merchant?.merchantId, id, book?.bookId).then(res => {
-				console.log(res);
+				// console.log(res);
 				navigate(`/chats/${res}`);
 			});
 		}
@@ -127,7 +128,7 @@ const BookDetail = ({ book, merchant, refetchBookDetail }: BookDetailProps) => {
 						<MerchantImg src={merchant?.avatarUrl} />
 						<MerchantName>
 							<span>{merchant?.name}</span>
-							<span>평점: {merchant?.grade} /5</span>
+							<span>평점: {<Star reviewGrade={merchant?.grade} />}</span>
 						</MerchantName>
 					</Link>
 					<Chat>
@@ -221,6 +222,8 @@ const MerchantName = styled.div`
 	display: flex;
 	flex-direction: column;
 	span:last-child {
+		display: flex;
+		align-items: center;
 		margin-left: 2px;
 		font-size: 12px;
 	}

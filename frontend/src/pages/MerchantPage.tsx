@@ -4,10 +4,12 @@ import BookList from '../components/Merchant/BookList';
 import TabLists from '../components/common/TabLists';
 import Title from '../components/common/Title';
 import useTabs from '../hooks/useTabs';
-import Review from '../components/Merchant/Review';
+import Review from '../components/Review/Review';
 import { useParams } from 'react-router-dom';
 import Animation from '../components/Loading/Animation';
 import useUserInfo from '../api/hooks/user/useUserInfo';
+import ReviewList from '../components/Merchant/ReviewList';
+import Star from '../components/common/Star';
 
 function MerchantPage() {
 	const [tab, curTab, handleChange] = useTabs(['책 목록', '리뷰 보기']);
@@ -35,14 +37,14 @@ function MerchantPage() {
 							<p>닉네임: {data?.name}</p>
 							<p>주거래 동네: {data?.address}</p>
 							<p>등록한 도서 수: {data?.totalBookCount}</p>
-							<p>평점(평균): {data?.avgGrade}</p>
+							<p>평점(평균): {<Star reviewGrade={data?.avgGrade} />}</p>
 						</UserInfoBox>
 					</>
 				)}
 			</ProfileBox>
 			<TabLists tabs={tab} handleChange={handleChange} />
 			{curTab === '책 목록' && <BookList merchantId={merchantId} />}
-			{curTab === '리뷰 보기' && <Review />}
+			{curTab === '리뷰 보기' && <ReviewList merchantId={merchantId} />}
 		</Layout>
 	);
 }
@@ -80,6 +82,11 @@ const UserInfoBox = styled.div`
 	justify-content: space-around;
 	margin-left: 2rem;
 	font-size: ${props => props.theme.fontSizes.paragraph};
+
+	p {
+		display: flex;
+		align-items: center;
+	}
 `;
 
 export default MerchantPage;

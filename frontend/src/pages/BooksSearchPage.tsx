@@ -10,23 +10,16 @@ import useMerchantList from '../api/hooks/map/useMerchantList';
 import useMerchantSector from '../api/hooks/map/useMerchantSector';
 import useBookList from '../api/hooks/map/useBookList';
 import useBookSector from '../api/hooks/map/useBookSector';
-
-interface selectOverlayProps {
-	merchantCount?: number;
-	bookCount?: number;
-	sector: number;
-	location: {
-		latitude: number;
-		longitude: number;
-	};
-}
+import { SelectOverlay } from '../components/Map/KaKaoMapTypes';
 
 const BooksSearchPage = () => {
 	const [current, setCurrent, handleCurrentLocationMove, loading] =
 		useGeoLocation();
 	const [centerCoord, setCenterCoord] = useGeoLocation('center');
 	const [searchInput, setSearchInput] = useState('');
-	const [selectOverlay, setSelectOverlay] = useState<selectOverlayProps>();
+	const [selectOverlay, setSelectOverlay] = useState<SelectOverlay | null>(
+		null,
+	);
 	const [zoomLevel, setZoomLevel] = useState(5);
 	const size = useWindowSize(zoomLevel);
 	const [merchantSector, setMerchantSector, merchantCurrentRefetch] =
@@ -158,9 +151,12 @@ const FlexBox = styled.div`
 const IconBox = styled.div`
 	margin-left: 1.125rem;
 	border-radius: 5px;
-	background-color: rgba(950, 950, 950, 0.8);
+	background-color: rgb(950, 950, 950);
 	z-index: 100;
 	cursor: pointer;
+	:hover {
+		background-color: rgba(235, 233, 233, 0.9);
+	}
 `;
 
 interface LocationIconProps {

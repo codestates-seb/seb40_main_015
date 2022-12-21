@@ -12,11 +12,18 @@ interface IProps {
 	size: { width: number; height: number };
 }
 
+interface BookSector {
+	bookCount: number;
+	sector: number;
+	location: { latitude: number; longitude: number };
+}
+
 const useBookSector = (props: IProps) => {
 	const { centerCoord, current, searchInput, zoomLevel, size } = props;
-	const [bookSector, setBookSector] = useState<any>([]);
+	const [bookSector, setBookSector] = useState<BookSector[]>([]);
 	const dispatch = useAppDispatch();
-	const level = [0, 9, 7, 5, 3, 3, 3];
+	const level = [0, 9, 9, 7, 5, 5, 5, 5, 5, 5];
+
 	const { refetch: bookCurrentRefetch } = useQuery({
 		queryKey: ['bookSectorByCurrent', centerCoord, zoomLevel, size],
 		queryFn: () => {
@@ -45,7 +52,7 @@ const useBookSector = (props: IProps) => {
 		refetchOnWindowFocus: false,
 		cacheTime: 0,
 	});
-	return [bookSector, setBookSector, bookCurrentRefetch];
+	return [bookSector, setBookSector, bookCurrentRefetch] as const;
 };
 
 export default useBookSector;

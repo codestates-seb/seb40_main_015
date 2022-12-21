@@ -1,18 +1,9 @@
 package com.dongnebook.domain.member.dto.request;
 
-
-import static com.dongnebook.domain.member.domain.QMember.*;
-
-import java.util.List;
-
-import com.dongnebook.domain.model.Location;
-import com.querydsl.core.types.dsl.BooleanExpression;
-
 import lombok.Getter;
 
 @Getter
 public class MerchantSearchRequest {
-
 	private	Double longitude;
 	private Double latitude;
 	private Integer width;
@@ -30,19 +21,4 @@ public class MerchantSearchRequest {
 		this.level = level;
 	}
 
-	public BooleanExpression sectorBetween() {
-		List<Double> latRange = Location.latRangeList(latitude, height,level);
-		List<Double> lonRange = Location.lonRangeList(longitude, width,level);
-		int count = 0;
-		for (int i = 0; i < level; i++) {
-			for (int j = 0; j < level; j++) {
-				count++;
-				if (sector == count) {
-					return member.location.latitude.between(latRange.get(i + 1), latRange.get(i))
-						.and(member.location.longitude.between(lonRange.get(j), lonRange.get(j + 1)));
-				}
-			}
-		}
-		return null;
-	}
 }

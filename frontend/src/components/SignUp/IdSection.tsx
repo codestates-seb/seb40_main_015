@@ -3,16 +3,16 @@ import styled from 'styled-components';
 import { BASE_URL, USERID_REGEX } from '../../constants/constants';
 import Input from '../common/Input';
 
-type IdSectionProps = {
+interface IdSectionProps {
 	data: {
 		label: string;
 		state: string;
-		setState: Function;
 		validity: boolean;
+		setState: Function;
 		setValidity: Function;
 	};
 	notify: Function;
-};
+}
 
 const IdSection = ({ data, notify }: IdSectionProps) => {
 	const { label, state, setState, setValidity } = data;
@@ -35,7 +35,6 @@ const IdSection = ({ data, notify }: IdSectionProps) => {
 							if (res.data.success) {
 								validate(true);
 								notify(`사용가능한 ${label}입니다.`);
-								console.log(res);
 							} else notify(res.data.message);
 						})
 						.catch(e => {
@@ -67,12 +66,10 @@ const StyledIdSection = styled.div`
 `;
 
 const IdWrapper = styled.div`
-	/* min-width: 117.5%; */
 	width: 100%;
 	display: flex;
 	flex-wrap: wrap;
 	position: relative;
-	/* grid-template-columns: 22rem 1px; */
 	.overlapCheck {
 		width: 4.1rem;
 		height: 1rem;

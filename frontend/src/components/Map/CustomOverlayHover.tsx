@@ -8,18 +8,17 @@ interface HoverProps {
 
 const CustomOverlayHover = ({ hoverList }: { hoverList: HoverProps }) => {
 	const { latitude, longitude } = hoverList;
+
 	return (
-		<>
-			<div key={`${latitude}-${longitude}`}>
-				<CustomOverlayMap
-					position={{
-						lat: Number(latitude) + 0.0001,
-						lng: Number(longitude),
-					}}>
-					<StyledOverlay />
-				</CustomOverlayMap>
-			</div>
-		</>
+		<div key={`${latitude}-${longitude}`}>
+			<CustomOverlayMap
+				position={{
+					lat: Number(latitude) + 0.0001,
+					lng: Number(longitude),
+				}}>
+				<StyledOverlay />
+			</CustomOverlayMap>
+		</div>
 	);
 };
 

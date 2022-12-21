@@ -11,8 +11,8 @@ import org.springframework.stereotype.Service;
 
 import com.dongnebook.domain.book.application.BookService;
 import com.dongnebook.domain.book.domain.Book;
-import com.dongnebook.domain.chat.Repository.ChatRepository;
-import com.dongnebook.domain.chat.Repository.RoomRepository;
+import com.dongnebook.domain.chat.repository.ChatRepository;
+import com.dongnebook.domain.chat.repository.RoomRepository;
 import com.dongnebook.domain.chat.domain.ChatRoom;
 import com.dongnebook.domain.chat.dto.request.RoomRequest;
 import com.dongnebook.domain.chat.ui.RedisSubscriber;
@@ -37,22 +37,24 @@ public class RoomService {
 
 		Book book = bookService.getByBookId(roomRequest.getBookId());
 		ChatRoom room = chatRepository.getOrCreate(roomRequest.getMerchantId(), roomRequest.getCustomerId(),roomRequest.getBookId())
-			.orElseGet(() -> new ChatRoom(memberService.findById(roomRequest.getMerchantId()
-			), memberService.findById(roomRequest.getCustomerId()), book));
+			.orElseGet(() -> new ChatRoom(memberService.getById(roomRequest.getMerchantId()
+			), memberService.getById(roomRequest.getCustomerId()), book));
 
 		ChatRoom savedRoom = roomRepository.save(room);
 		// Redis에 roomId란 이름의 새 토픽을 생성한다.
 		String roomId = "room" + savedRoom.getId();
-    log.info("topics={}",topics);
-		if (!topics.containsKey(roomId)) {
-			log.info("토픽 만들어짐");
-			ChannelTopic topic = new ChannelTopic(roomId);
-			redisMessageListener.addMessageListener(redisSubscriber, topic);
-			topics.put(roomId, topic);
-			log.info("토픽 넣음");
-		}
+    	log.info("topics={}",topics);
+		topics.computeIfAbsent(roomId, this::addTopic);
 
 		return savedRoom.getId();
+	}
+
+	private ChannelTopic addTopic(String roomId) {
+		log.info("토픽 만들어짐");
+		ChannelTopic topic = new ChannelTopic(roomId);
+		redisMessageListener.addMessageListener(redisSubscriber, topic);
+		log.info("토픽 넣음");
+		return topic;
 	}
 
 	public List<ChatRoom> findAllMyRooms(Long memberId) {

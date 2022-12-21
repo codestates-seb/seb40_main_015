@@ -1,16 +1,7 @@
 import { Dispatch, SetStateAction, useEffect, useState } from 'react';
 import { CustomOverlayMap } from 'react-kakao-maps-sdk';
 import styled from 'styled-components';
-
-interface MarkerProps {
-	merchantCount: number;
-	bookCount?: number;
-	sector: number;
-	location: {
-		latitude: number;
-		longitude: number;
-	};
-}
+import { SelectOverlay } from './KaKaoMapTypes';
 
 const CustomOverlay = ({
 	sector,
@@ -20,16 +11,16 @@ const CustomOverlay = ({
 	current,
 	zoomLevel,
 }: {
-	sector: MarkerProps[];
-	selectOverlay: any;
-	setSelectOverlay: Dispatch<SetStateAction<any>>;
-	centerCoord: any;
-	current: any;
+	sector: SelectOverlay[];
+	selectOverlay: SelectOverlay | null;
+	setSelectOverlay: Dispatch<SetStateAction<SelectOverlay | null>>;
+	centerCoord: { lat: number; lon: number };
+	current: { lat: number; lon: number };
 	zoomLevel: number;
 }) => {
 	const [active, setActive] = useState<number>(-1);
 
-	const handleClickSector = (item: any) => {
+	const handleClickSector = (item: SelectOverlay) => {
 		if (selectOverlay !== item) {
 			setSelectOverlay(item);
 		} else {
@@ -38,7 +29,6 @@ const CustomOverlay = ({
 	};
 
 	const handleToggleActive = (idx: number) => {
-		// console.log(active, idx);
 		if (idx === active) {
 			setActive(-1);
 		} else {
@@ -50,11 +40,10 @@ const CustomOverlay = ({
 		handleToggleActive(-2);
 	}, [centerCoord, current, zoomLevel]);
 
-	// console.log(sector);
 	return (
 		<>
-			{sector.map((item: MarkerProps, idx: number) => {
-				const { merchantCount, sector, location, bookCount } = item;
+			{sector.map((item: SelectOverlay, idx: number) => {
+				const { merchantCount, location, bookCount } = item;
 				return (
 					<div
 						key={`${location.latitude}-${location.longitude}`}
@@ -86,29 +75,29 @@ interface StyledOverlayProps {
 const StyledOverlay = styled.div<StyledOverlayProps>`
 	width: ${props =>
 		props?.count &&
-		(props.count <= 10
+		(props.count < 10
 			? '5rem'
-			: props.count <= 100
+			: props.count < 100
 			? '6rem'
-			: props.count <= 1000
+			: props.count < 1000
 			? '7rem'
 			: '8rem')};
 	height: ${props =>
 		props?.count &&
-		(props.count <= 10
+		(props.count < 10
 			? '5rem'
-			: props.count <= 100
+			: props.count < 100
 			? '6rem'
-			: props.count <= 1000
+			: props.count < 1000
 			? '7rem'
 			: '8rem')};
 	font-size: ${props =>
 		props?.count &&
-		(props.count <= 10
+		(props.count < 10
 			? '2rem'
-			: props.count <= 100
+			: props.count < 100
 			? '2.5rem'
-			: props.count <= 1000
+			: props.count < 1000
 			? '2.7rem'
 			: '3rem')};
 	background-color: rgba(38, 121, 93, 0.8);
