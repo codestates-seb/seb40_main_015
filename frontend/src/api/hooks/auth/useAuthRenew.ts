@@ -4,7 +4,7 @@ import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router';
 import { login, logout } from '../../../redux/slice/userSlice';
 import notify from '../../../utils/notify';
-import useAuthAPI, { userInfo } from '../../auth';
+import { useAuthAPI, userInfo } from '../../auth';
 
 interface IAccessTokenRefreshProps extends userInfo {
 	accessToken: string;

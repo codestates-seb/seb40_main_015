@@ -2,20 +2,20 @@ import styled from 'styled-components';
 import { useState } from 'react';
 import { useLocation, useParams } from 'react-router-dom';
 
-import Title from '../components/common/Title';
-import Button from '../components/common/Button';
 import {
+	Title,
+	Button,
 	Main,
 	BodyContainer,
 	TitleWrapper,
 	CalendarWrapper,
 	RentalCheck,
 	RentalInfo,
-} from '../components/Books/BookElements';
-import BookCalendar from '../components/Books/BookCalendar';
+	BookCalendar,
+} from 'components';
 
-import { usePostBookRental } from '../api/hooks/books/usePostBookRental';
-import { calcCalendarDate } from '../utils/calcCalendarDate';
+import { usePostBookRental } from 'api/hooks/books/usePostBookRental';
+import { calcCalendarDate } from 'utils/calcCalendarDate';
 import { title } from 'process';
 
 interface LinkProps {

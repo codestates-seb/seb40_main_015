@@ -1,15 +1,17 @@
 import styled from 'styled-components';
-import dummyImage from '../assets/image/dummy.png';
-import BookList from '../components/Merchant/BookList';
-import TabLists from '../components/common/TabLists';
-import Title from '../components/common/Title';
-import useTabs from '../hooks/useTabs';
-import Review from '../components/Review/Review';
+import dummyImage from 'assets/image/dummy.png';
+import useTabs from 'hooks/useTabs';
 import { useParams } from 'react-router-dom';
-import Animation from '../components/Loading/Animation';
-import useUserInfo from '../api/hooks/user/useUserInfo';
-import ReviewList from '../components/Merchant/ReviewList';
-import Star from '../components/common/Star';
+import useUserInfo from 'api/hooks/user/useUserInfo';
+
+import {
+	Title,
+	BookList,
+	TabLists,
+	Animation,
+	ReviewList,
+	Star,
+} from 'components';
 
 function MerchantPage() {
 	const [tab, curTab, handleChange] = useTabs(['책 목록', '리뷰 보기']);
