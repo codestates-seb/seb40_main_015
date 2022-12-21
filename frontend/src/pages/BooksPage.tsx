@@ -110,7 +110,6 @@ const Main = styled.div`
 	flex-direction: column;
 
 	align-items: center;
-
 	//가로스크롤 없애기
 	overflow-x: hidden;
 
@@ -137,6 +136,7 @@ const BtnWrapper = styled.div`
 `;
 
 const BooksList = styled.div`
+	background-color: pink;
 	max-width: 800px;
 	display: grid;
 	place-items: center;
