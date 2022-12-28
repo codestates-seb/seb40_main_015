@@ -46,7 +46,6 @@ import lombok.NoArgsConstructor;
 public class Book extends BaseTimeEntity implements Serializable {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name = "id", updatable = false)
 	private Long id;
 
 	@Version
@@ -88,12 +87,13 @@ public class Book extends BaseTimeEntity implements Serializable {
 	private List<Dibs> dibsList = new ArrayList<>();
 
 	@Builder
-	public Book(String title, String author, String publisher, String description, Money rentalFee,
+	public Book(Long id, String title, String author, String imgUrl, String publisher, String description, Money rentalFee,
 		Location location, Member member) {
+		this.id = id;
 		this.title = title;
 		this.author = author;
 		this.publisher = publisher;
-		this.imgUrl = "test";
+		this.imgUrl = imgUrl;
 		this.description = description;
 		this.rentalFee = rentalFee;
 		this.location = location;
@@ -114,6 +114,7 @@ public class Book extends BaseTimeEntity implements Serializable {
 		return Book.builder()
 			.title(bookRegisterRequest.getTitle())
 			.author(bookRegisterRequest.getAuthor())
+			.imgUrl(bookRegisterRequest.getImageUrl())
 			.publisher(bookRegisterRequest.getPublisher())
 			.description(bookRegisterRequest.getDescription())
 			.rentalFee(Money.of(bookRegisterRequest.getRentalFee()))

@@ -2,6 +2,7 @@ package com.dongnebook.domain.book.dto.request;
 
 import javax.validation.constraints.Max;
 
+import lombok.Builder;
 import lombok.Getter;
 
 /**
@@ -20,6 +21,7 @@ public class BookSearchCondition {
 	@Max(10)
 	private final Integer level;
 
+	@Builder
 	public BookSearchCondition(String bookTitle, Double longitude, Double latitude, Integer width, Integer height,
 		Integer sector, Integer level) {
 		this.bookTitle = bookTitle == null ? "" : bookTitle;

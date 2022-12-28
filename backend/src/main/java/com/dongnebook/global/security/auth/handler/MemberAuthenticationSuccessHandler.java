@@ -31,7 +31,7 @@ public class MemberAuthenticationSuccessHandler implements AuthenticationSuccess
 		String refreshToken = response.getHeader("Set-Cookie").substring(13).split(";")[0];
 
 		// RefreshToken 저장
-		RefreshToken refresh = RefreshToken.builder().key(authMember.getMemberId()).value(refreshToken).build();
+		RefreshToken refresh = RefreshToken.builder().id(authMember.getMemberId()).value(refreshToken).build();
 
 		refreshTokenRepository.save(refresh);
 	}

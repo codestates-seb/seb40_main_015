@@ -46,6 +46,7 @@ public class JwtVerificationFilter extends OncePerRequestFilter {
             String jwt = resolveToken(request);
             if (StringUtils.hasText(jwt) && tokenProvider.validateToken(jwt)) {
                 // 토큰으로부터 Authentication 객체를 만듬
+                AuthThreadLocal.remove();
                 AuthThreadLocal.set(tokenProvider.getMemberId(jwt));
             }
             filterChain.doFilter(request, response);

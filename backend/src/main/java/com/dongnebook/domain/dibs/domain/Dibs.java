@@ -1,5 +1,7 @@
 package com.dongnebook.domain.dibs.domain;
 
+import java.io.Serializable;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -21,7 +23,7 @@ import lombok.NoArgsConstructor;
 @Getter
 @Table(name = "dibs")
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class Dibs extends BaseTimeEntity {
+public class Dibs extends BaseTimeEntity implements Serializable {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name="id",nullable = false)
@@ -43,6 +45,4 @@ public class Dibs extends BaseTimeEntity {
 	public static Dibs of(Member member, Book book){
 		return new Dibs(member, book);
 	}
-
-
 }

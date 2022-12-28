@@ -10,11 +10,11 @@ import com.dongnebook.domain.refreshtoken.domain.RefreshToken;
 @Repository
 public interface RefreshTokenRepository extends JpaRepository<RefreshToken, Long> {
     // member id 값으로 refresh token 찾기
-    Optional<RefreshToken> findByKey(String key);
+    Optional<RefreshToken> findByMemberId(String memberId);
     // value 값으로 key 찾기
     Optional<RefreshToken> findByValue(String value);
     // key 값으로 refresh token 삭제
-    void deleteByKey(Long key);
+    void deleteByMemberId(Long memberId);
     // value 값으로 refresh token 삭제
     void deleteByValue(String value);
 
