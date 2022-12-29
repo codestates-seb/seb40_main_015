@@ -51,7 +51,7 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
         String refreshToken = tokenDto.getRefreshToken();
 
         ResponseCookie cookie = ResponseCookie.from("refreshToken", refreshToken)
-            .maxAge(7 * 24 * 60 * 60)
+            .maxAge((long)7 * 24 * 60 * 60)
             .path("/")
             .secure(true)
             .sameSite("None")

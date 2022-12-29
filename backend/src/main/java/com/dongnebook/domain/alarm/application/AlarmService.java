@@ -95,7 +95,7 @@ public class AlarmService {
 			emitter.send(SseEmitter.event().id(id).name("sse").data(data));
 		} catch (IOException exception) {
 			emitterRepository.deleteById(id);
-			throw new RuntimeException("연결 오류!");
+			throw new CanNotSendException();
 		}
 	}
 

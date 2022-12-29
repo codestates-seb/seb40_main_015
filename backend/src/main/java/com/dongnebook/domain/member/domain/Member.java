@@ -73,14 +73,21 @@ public class Member extends BaseTimeEntity implements Serializable {
 	@OneToMany(mappedBy = "member",cascade = CascadeType.REMOVE)
 	private List<Dibs> dibsList = new ArrayList<>();
 
-	@OneToMany(mappedBy = "member")
+	@OneToMany(mappedBy = "member",cascade = CascadeType.REMOVE)
 	private List<Book> bookList = new ArrayList<>();
 
-
-
+	public Member(Long id, String userId, String nickname, Location location, String address, String avatarUrl) {
+		this.id = id;
+		this.userId = userId;
+		this.nickname = nickname;
+		this.location = location;
+		this.address = address;
+		this.avatarUrl = avatarUrl;
+	}
 
 	@Builder
-	public Member(String userId, String password, String nickname, String avatarUrl)  {
+	public Member(Long id, String userId, String password, String nickname, String avatarUrl)  {
+		this.id = id;
 		this.userId = userId;
 		this.password = password;
 		this.nickname = nickname;
@@ -93,7 +100,6 @@ public class Member extends BaseTimeEntity implements Serializable {
 			.userId(memberRegisterRequest.getUserId())
 			.nickname(memberRegisterRequest.getNickname())
 			.password(memberRegisterRequest.getPassword())
-
 			.build();
 	}
 

@@ -150,7 +150,7 @@ public class MemberService {
 			.build();
 		response.setHeader("Set-Cookie", cookie.toString());
 
-		refreshTokenRepository.deleteByKey(Long.valueOf(tokenProvider.parseClaims(refreshToken).getSubject()));
+		refreshTokenRepository.deleteById(Long.valueOf(tokenProvider.parseClaims(refreshToken).getSubject()));
 	}
 
 	public List<MerchantSectorCountResponse> getSectorMerchantCounts(MerchantSearchRequest request) {

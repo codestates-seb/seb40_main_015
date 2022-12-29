@@ -23,7 +23,6 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Alarm {
 	@Id
-	@Column(name = "alarm_id")
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 

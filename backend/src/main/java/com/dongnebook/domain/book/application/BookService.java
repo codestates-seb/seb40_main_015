@@ -38,8 +38,8 @@ public class BookService {
 	private final BookCommandRepository bookCommandRepository;
 	private final BookQueryRepository bookQueryRepository;
 	private final MemberService memberService;
-	public List<Double> latRangeList;
-	public List<Double> lonRangeList;
+	private List<Double> latRangeList;
+	private List<Double> lonRangeList;
 
 	@Transactional
 	public Long create(BookRegisterRequest bookRegisterRequest, Long memberId) {
@@ -92,7 +92,13 @@ public class BookService {
 	}
 
 	public BookDetailResponse getDetail(Long id, Long memberId) {
-		return bookQueryRepository.getBookDetail(id, memberId);
+		Optional<BookDetailResponse> bookDetail = bookQueryRepository.getBookDetail(id, memberId);
+
+		if(bookDetail.isEmpty()){
+			throw new BookNotFoundException();
+		}
+
+		return bookDetail.get();
 	}
 
 	private Location getLocationOfMember(Member member) {
