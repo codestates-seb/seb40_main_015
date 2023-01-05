@@ -64,6 +64,7 @@ dependencyManagement { // 블록 추가
     }
 }
 
+
 tasks.named('test') {
 	useJUnitPlatform()
 }

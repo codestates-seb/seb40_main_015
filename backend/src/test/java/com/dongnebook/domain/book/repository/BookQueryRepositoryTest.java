@@ -110,7 +110,7 @@ class BookQueryRepositoryTest {
 		//when
 		List<Location> nearByBookLocation = bookQueryRepository.getNearByBookLocation(condition);
 		//then
-		assertThat(nearByBookLocation).hasSize(7);
+		assertThat(nearByBookLocation).hasSize(8);
 	}
 
 	@Test
@@ -128,7 +128,7 @@ class BookQueryRepositoryTest {
 			() -> assertThat(result).hasSize(6),
 			() -> assertThat(result.isLast()).isFalse(),
 			() -> assertThat(result.hasNext()).isTrue(),
-			() -> assertThat(result.getContent().get(5).getTitle()).isEqualTo("씨의 정석")
+			() -> assertThat(result.getContent().get(5).getTitle()).isEqualTo("파이썬의 정석")
 		);
 
 	}
@@ -147,7 +147,7 @@ class BookQueryRepositoryTest {
 
 		//then
 		assertThat(result).hasSize(6);
-		assertThat(result.isLast()).isTrue();
+		assertThat(result.isLast()).isFalse();
 	}
 
 	@Test

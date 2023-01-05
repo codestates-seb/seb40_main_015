@@ -6,13 +6,14 @@ import com.dongnebook.domain.model.Location;
 
 public enum MemberStub {
 
-	MEMBER1(1L,"이성준","thwn40",LocationStub.봉천역.of(),"관악구 봉천동","www.naver.com"),
-	MEMBER2(2L,"이성준2","thwn41",LocationStub.복마니정육점.of(),"관악구 봉천동","www.naver.com"),
-	MEMBER3(3L,"이성준3","thwn42",LocationStub.삼성전자봉천역점.of(),"관악구 봉천동","www.naver.com"),
-	MEMBER4(4L,"이성준4","thwn43",LocationStub.다이소봉천점.of(),"관악구 봉천동","www.naver.com"),
-	MEMBER5(5L,"이성준5","thwn44",LocationStub.목포부부아구찜.of(),"관악구 봉천동","www.naver.com"),
-	MEMBER6(6L,"이성준6","thwn45",LocationStub.스타벅스봉천점.of(),"관악구 봉천동","www.naver.com"),
-	MEMBER7(7L,"이성준7","thwn46",LocationStub.농협은행봉천점.of(),"관악구 봉천동","www.naver.com");
+	MEMBER1(1L,"thwn40","이성준",LocationStub.봉천역.of(),"관악구 봉천동","www.naver.com"),
+	MEMBER2(2L,"thwn41","이성준2",LocationStub.복마니정육점.of(),"관악구 봉천동","www.naver.com"),
+	MEMBER3(3L,"thwn42","이성준3",LocationStub.삼성전자봉천역점.of(),"관악구 봉천동","www.naver.com"),
+	MEMBER4(4L,"thwn43","이성준4",LocationStub.다이소봉천점.of(),"관악구 봉천동","www.naver.com"),
+	MEMBER5(5L,"thwn44","이성준5",LocationStub.목포부부아구찜.of(),"관악구 봉천동","www.naver.com"),
+	MEMBER6(6L,"thwn45","이성준6",LocationStub.스타벅스봉천점.of(),"관악구 봉천동","www.naver.com"),
+	MEMBER7(7L,"thwn46","이성준7",LocationStub.농협은행봉천점.of(),"관악구 봉천동","www.naver.com"),
+	MEMBER8(8L,"thwn47","이성준7",LocationStub.농협은행봉천점.of(),"관악구 봉천동","www.naver.com");
 
 
 	private final Long id;

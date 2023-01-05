@@ -46,7 +46,7 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
         FilterChain chain,
         Authentication authResult) throws IOException, ServletException {
         AuthMember authMember = (AuthMember) authResult.getPrincipal();
-        TokenDto tokenDto = tokenProvider.generateTokenDto(authMember);
+        TokenDto tokenDto = tokenProvider.generateTokenDto(authMember.getMemberId());
 
         String refreshToken = tokenDto.getRefreshToken();
 

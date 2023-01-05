@@ -101,10 +101,10 @@ public class Book extends BaseTimeEntity implements Serializable {
 		this.member = member;
 	}
 
-	public void changeBookStateFromTo(BookState from, BookState to) {
+	public Book changeBookStateFromTo(BookState from, BookState to) {
 		if (this.bookState.equals(from)) {
 			this.bookState = to;
-			return;
+			return this;
 		}
 
 		throw new CanNotChangeStateException();
