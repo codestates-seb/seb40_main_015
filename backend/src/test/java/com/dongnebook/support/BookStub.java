@@ -20,7 +20,9 @@ public enum BookStub {
 	BOOK6(6L, "리액트의 정석", "남궁성", "도우출판", "이미지 주소", "리액트의 정석입니다", Money.of(1000), MemberStub.MEMBER6.of(6L).getLocation(),
 		BookState.RENTABLE, MemberStub.MEMBER6.of(6L)),
 	BOOK7(7L, "Mysql의 정석", "남궁성", "도우출판", "이미지 주소", "Mysql의 정석입니다", Money.of(1000), MemberStub.MEMBER7.of(7L).getLocation(),
-		BookState.RENTABLE, MemberStub.MEMBER7.of(7L));
+		BookState.RENTABLE, MemberStub.MEMBER7.of(7L)),
+	BOOK8(8L, "누가 빌려간 책", "남궁성", "도우출판", "이미지 주소", "Mysql의 정석입니다", Money.of(1000), MemberStub.MEMBER7.of(7L).getLocation(),
+	BookState.UNRENTABLE_RESERVABLE, MemberStub.MEMBER7.of(8L));
 
 	private Long id;
 	private String title;

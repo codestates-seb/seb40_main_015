@@ -7,7 +7,6 @@ import java.util.Objects;
 import java.util.Optional;
 
 import javax.persistence.EntityManager;
-import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.data.domain.SliceImpl;
@@ -26,22 +25,18 @@ import com.dongnebook.domain.member.dto.request.MerchantSearchRequest;
 import com.dongnebook.domain.member.dto.response.MemberDetailResponse;
 import com.dongnebook.domain.member.dto.response.MemberResponse;
 import com.dongnebook.domain.member.dto.response.MerchantSectorCountResponse;
+import com.dongnebook.domain.member.exception.MemberHasOnLoanException;
 import com.dongnebook.domain.member.exception.MemberNotFoundException;
 import com.dongnebook.domain.member.repository.MemberQueryRepository;
 import com.dongnebook.domain.member.repository.MemberRepository;
 import com.dongnebook.domain.model.Location;
 import com.dongnebook.domain.refreshtoken.domain.RefreshToken;
-import com.dongnebook.domain.refreshtoken.exception.TokenInvalid;
 import com.dongnebook.domain.refreshtoken.exception.TokenNotFound;
 import com.dongnebook.domain.refreshtoken.repository.RefreshTokenRepository;
 import com.dongnebook.global.dto.TokenDto;
 import com.dongnebook.global.dto.request.PageRequest;
-import com.dongnebook.global.error.exception.BusinessException;
-import com.dongnebook.global.error.exception.ErrorCode;
 import com.dongnebook.global.security.auth.filter.TokenProvider;
-import com.dongnebook.global.security.auth.userdetails.AuthMember;
 
-import io.jsonwebtoken.Claims;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -90,7 +85,7 @@ public class MemberService {
 		if (member.getBookList()
 			.stream()
 			.anyMatch(this::isBeingRental)) {
-			throw new BusinessException("대여중인 책이 있어서 변경할 수 없습니다.", ErrorCode.MEMBER_HAS_BOOK_ON_LOAN);
+			throw new MemberHasOnLoanException();
 		}
 
 		member.edit(memberEditRequest);
@@ -101,26 +96,20 @@ public class MemberService {
 	@Transactional
 	public Long reissue(String refreshToken,
 		HttpServletResponse response) {
-		refreshToken = Optional.ofNullable(refreshToken)
-			.orElseThrow(TokenNotFound::new);
-		Claims claims = tokenProvider.parseClaims(refreshToken);
-		Member member = getById(Long.parseLong(claims.getSubject()));
-		AuthMember authMember = AuthMember.of(member);
-		Long memberId = authMember.getMemberId();
+		tokenProvider.validateToken(refreshToken);
+		RefreshToken savedRefreshToken = refreshTokenRepository.findByValue(refreshToken)
+			.orElseThrow(MemberNotFoundException::new);
 
-		TokenDto tokenDto = tokenProvider.generateTokenDto(authMember);
+		Member member = getById(savedRefreshToken.getMemberId());
+
+
+		TokenDto tokenDto = tokenProvider.generateTokenDto(member.getId());
 		String newRTK = tokenDto.getRefreshToken();
 		String newATK = tokenDto.getAccessToken();
 
-		RefreshToken savedRefreshToken = refreshTokenRepository.findById(memberId)
-			.orElseThrow(MemberNotFoundException::new);
-
-		if (!savedRefreshToken.getValue().equals(refreshToken)) {
-			throw new TokenInvalid();
-		}
-
 		RefreshToken newRefreshToken = savedRefreshToken.updateValue(newRTK);
 		refreshTokenRepository.save(newRefreshToken);
+		refreshTokenRepository.deleteByValue(refreshToken);
 
 		ResponseCookie cookie = ResponseCookie.from("refreshToken", newRTK)
 			.maxAge(7L * 24 * 60 * 60)
@@ -137,7 +126,7 @@ public class MemberService {
 
 	// 로그아웃
 	@Transactional
-	public void logout(String refreshToken, HttpServletRequest request, HttpServletResponse response) {
+	public void logout(String refreshToken, HttpServletResponse response) {
 
 		refreshToken = Optional.ofNullable(refreshToken)
 			.orElseThrow(TokenNotFound::new);
@@ -150,7 +139,7 @@ public class MemberService {
 			.build();
 		response.setHeader("Set-Cookie", cookie.toString());
 
-		refreshTokenRepository.deleteById(Long.valueOf(tokenProvider.parseClaims(refreshToken).getSubject()));
+		refreshTokenRepository.deleteById(tokenProvider.parseClaims(refreshToken));
 	}
 
 	public List<MerchantSectorCountResponse> getSectorMerchantCounts(MerchantSearchRequest request) {
