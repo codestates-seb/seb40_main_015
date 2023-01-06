@@ -1,10 +1,11 @@
 import { useEffect } from 'react';
 import styled from 'styled-components';
-import { useGetNotice } from '../api/hooks/notice/useGetNotice';
-import Title from '../components/common/Title';
-import NoticeItem from '../components/Notice/NoticeItem';
-import { useAppDispatch } from '../redux/hooks';
-import { setState } from '../redux/slice/alarmSlice';
+import { useGetNotice } from 'api/hooks/notice/useGetNotice';
+
+import { useAppDispatch } from 'redux/hooks';
+import { setState } from 'redux/slice/alarmSlice';
+
+import { Title, NoticeItem } from 'components';
 
 function NoticePage() {
 	const { data } = useGetNotice();

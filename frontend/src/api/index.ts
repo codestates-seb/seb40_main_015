@@ -1,15 +1,9 @@
-import axios from 'axios';
-import { BASE_URL } from '../constants/constants';
-
-const config = {
-	baseURL: BASE_URL,
-	headers: { 'Content-Type': 'application/json' },
-	// timeout: 10000,
-};
-
-const axiosInstance = axios.create(config);
-
-const axiosInstanceAuth = axios.create(config);
-axiosInstanceAuth.defaults.withCredentials = true;
-
-export { axiosInstance, axiosInstanceAuth };
+export * from 'api/instance';
+export * from 'api/auth';
+export * from 'api/books';
+export * from 'api/chat';
+export * from 'api/createBook';
+export * from 'api/history';
+export * from 'api/map';
+export * from 'api/mypage';
+export * from 'api/review';

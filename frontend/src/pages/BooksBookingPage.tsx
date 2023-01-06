@@ -3,20 +3,20 @@ import { useLocation, useParams } from 'react-router-dom';
 import { useState } from 'react';
 
 // components
-import Title from '../components/common/Title';
-import Button from '../components/common/Button';
 import {
+	Title,
+	Button,
 	Main,
 	BodyContainer,
 	TitleWrapper,
 	CalendarWrapper,
 	RentalCheck,
 	RentalInfo,
-} from '../components/Books/BookElements';
-import BookCalendar from '../components/Books/BookCalendar';
+	BookCalendar,
+} from 'components';
 
-import { calcCalendarDate } from '../utils/calcCalendarDate';
-import { usePostBookBooking } from '../api/hooks/books/usePostBookBooking';
+import { calcCalendarDate } from 'utils/calcCalendarDate';
+import { usePostBookBooking } from 'api/hooks/books/usePostBookBooking';
 
 interface LinkProps {
 	state: {

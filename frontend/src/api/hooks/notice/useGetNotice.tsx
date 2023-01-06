@@ -1,5 +1,5 @@
 import { useQuery } from '@tanstack/react-query';
-import { axiosInstance } from '../..';
+import { axiosInstance } from '../../instance';
 
 export type NoticeItemType = {
 	noticeData: noticeDataType[];

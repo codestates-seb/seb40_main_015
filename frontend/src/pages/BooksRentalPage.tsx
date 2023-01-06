@@ -2,20 +2,21 @@ import styled from 'styled-components';
 import { useState } from 'react';
 import { useLocation, useParams } from 'react-router-dom';
 
-import Title from '../components/common/Title';
-import Button from '../components/common/Button';
 import {
+	Title,
+	Button,
 	Main,
 	BodyContainer,
 	TitleWrapper,
 	CalendarWrapper,
 	RentalCheck,
 	RentalInfo,
-} from '../components/Books/BookElements';
-import BookCalendar from '../components/Books/BookCalendar';
+	BookCalendar,
+} from 'components';
 
-import { usePostBookRental } from '../api/hooks/books/usePostBookRental';
-import { calcCalendarDate } from '../utils/calcCalendarDate';
+import { usePostBookRental } from 'api/hooks/books/usePostBookRental';
+import { calcCalendarDate } from 'utils/calcCalendarDate';
+import { title } from 'process';
 
 interface LinkProps {
 	state: {
@@ -25,9 +26,11 @@ interface LinkProps {
 }
 
 const BooksRentalPage = () => {
-	const [isCheckedPeriod, setIsCheckedPeriod] = useState(false);
-	const [isCheckedTitle, setIsCheckedTitle] = useState(false);
-	const [isCheckedFee, setIsCheckedFee] = useState(false);
+	const [checkLists, setCheckLists] = useState({
+		period: false,
+		title: false,
+		fee: false,
+	});
 	const { month, day, rentalPeriod } = calcCalendarDate(
 		new Date().toISOString(),
 	);
@@ -37,9 +40,9 @@ const BooksRentalPage = () => {
 	const { mutateBookRental } = usePostBookRental(bookId);
 
 	const handleRentalButton = () => {
-		if (!isCheckedPeriod) return alert('대여 기간을 확인해주세요');
-		if (!isCheckedTitle) return alert('도서 제목을 확인해주세요');
-		if (!isCheckedFee) return alert('대여료를 확인해주세요');
+		if (!checkLists.period) return alert('대여 기간을 확인해주세요');
+		if (!checkLists.title) return alert('도서 제목을 확인해주세요');
+		if (!checkLists.fee) return alert('대여료를 확인해주세요');
 
 		const isTrue = window.confirm('대여 신청 하시겠습니까?');
 		isTrue && mutateBookRental();
@@ -65,7 +68,10 @@ const BooksRentalPage = () => {
 							required
 							id="rentalPeriod"
 							onInput={() => {
-								setIsCheckedPeriod(!isCheckedPeriod);
+								setCheckLists(prev => ({
+									...prev,
+									period: !checkLists.period,
+								}));
 							}}
 						/>
 						<label htmlFor="rentalPeriod" className="checkBoxLabel">
@@ -83,7 +89,10 @@ const BooksRentalPage = () => {
 							required
 							id="book_title"
 							onInput={() => {
-								setIsCheckedTitle(!isCheckedTitle);
+								setCheckLists(prev => ({
+									...prev,
+									title: !checkLists.title,
+								}));
 							}}
 						/>
 						<label htmlFor="book_title" className="checkBoxLabel">
@@ -101,7 +110,10 @@ const BooksRentalPage = () => {
 							required
 							id="book_fee"
 							onInput={() => {
-								setIsCheckedFee(!isCheckedFee);
+								setCheckLists(prev => ({
+									...prev,
+									fee: !checkLists.fee,
+								}));
 							}}
 						/>
 						<label htmlFor="book_fee" className="checkBoxLabel">

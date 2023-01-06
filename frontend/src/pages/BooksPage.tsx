@@ -2,19 +2,15 @@ import styled from 'styled-components';
 import { useNavigate } from 'react-router-dom';
 import { useEffect, useRef } from 'react';
 
-//components
-import BookItem from '../components/Books/BookItem';
-import Button from '../components/common/Button';
-import Title from '../components/common/Title';
-import Animation from '../components/Loading/Animation';
+import { Title, Button, BookItem, Animation } from 'components';
 
 //hooks
-import { useAppDispatch, useAppSelector } from '../redux/hooks';
-import { useGetBooksList } from '../api/hooks/books/useGetBooksList';
-import { useGetAddress } from '../api/hooks/member/useGetAddress';
+import { useAppDispatch, useAppSelector } from 'redux/hooks';
+import { useGetBooksList } from 'api/hooks/books/useGetBooksList';
+import { useGetAddress } from 'api/hooks/member/useGetAddress';
 
 //etc
-import notify from '../utils/notify';
+import notify from 'utils/notify';
 
 const BooksPage = () => {
 	const { isLogin, id } = useAppSelector(state => state.loginInfo);
@@ -110,7 +106,6 @@ const Main = styled.div`
 	flex-direction: column;
 
 	align-items: center;
-
 	//가로스크롤 없애기
 	overflow-x: hidden;
 

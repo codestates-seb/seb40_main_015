@@ -1,5 +1,5 @@
 import { AxiosResponse } from 'axios';
-import { axiosInstance } from '.';
+import { axiosInstance } from './instance';
 
 interface bookData {
 	title: string;
