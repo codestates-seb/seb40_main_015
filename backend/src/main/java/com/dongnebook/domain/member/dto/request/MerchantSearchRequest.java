@@ -14,6 +14,7 @@ public class MerchantSearchRequest {
 	private Integer sector;
 	private Integer level;
 
+
 	@Builder
 	public MerchantSearchRequest(Double longitude, Double latitude, Integer width, Integer height, Integer sector,
 		Integer level) {

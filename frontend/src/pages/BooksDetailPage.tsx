@@ -1,16 +1,18 @@
 import styled from 'styled-components';
-import { useAppSelector } from '../redux/hooks';
+import { useAppSelector } from 'redux/hooks';
 import { useParams } from 'react-router-dom';
 
-//conmponents
-import Title from '../components/common/Title';
-import BookDetail from '../components/Books/BookDetail';
-import Animation from '../components/Loading/Animation';
-import { Main, TitleWrapper } from '../components/Books/BookElements';
-import BookImage from '../components/Books/BookDetailimage';
+import {
+	Title,
+	BookDetail,
+	BookImage,
+	Animation,
+	Main,
+	TitleWrapper,
+} from 'components';
 
 //hooks
-import { useGetBookDetail } from '../api/hooks/books/useGetBookDetail';
+import { useGetBookDetail } from 'api/hooks/books/useGetBookDetail';
 
 const BooksDetailPage = () => {
 	const { isLogin } = useAppSelector(state => state.loginInfo);

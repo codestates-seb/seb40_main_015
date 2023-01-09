@@ -1,4 +1,4 @@
-import { axiosInstance } from '.';
+import { axiosInstance } from './instance';
 
 // 섹터당 상인의 총 갯수 // useQuery
 export const getTotalMerchantQuery = (

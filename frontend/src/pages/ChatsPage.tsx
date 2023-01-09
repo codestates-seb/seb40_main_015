@@ -1,8 +1,7 @@
 import styled from 'styled-components';
-import useGetRoomLists from '../api/hooks/chat/useGetRoomLists';
-import ChatLists from '../components/Chat/ChatLists';
-import Title from '../components/common/Title';
-import Animation from '../components/Loading/Animation';
+import useGetRoomLists from 'api/hooks/chat/useGetRoomLists';
+
+import { Title, ChatLists, Animation } from 'components';
 
 interface RoomList {
 	createdAt: string;
