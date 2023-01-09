@@ -9,8 +9,10 @@ import org.hibernate.validator.constraints.Range;
 
 import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 @Getter
+@NoArgsConstructor
 public class ReviewRequest {
     @NotNull
     @Positive

@@ -8,6 +8,7 @@ import org.springframework.boot.test.context.TestConfiguration;
 import org.springframework.context.annotation.Bean;
 
 import com.dongnebook.domain.book.repository.BookQueryRepository;
+import com.dongnebook.domain.member.repository.MemberQueryRepository;
 import com.dongnebook.global.config.Py6spyConfig;
 import com.p6spy.engine.spy.P6SpyOptions;
 import com.querydsl.jpa.impl.JPAQueryFactory;
@@ -35,6 +36,11 @@ public class TestConfig {
 	public BookQueryRepository bookQueryRepository() {
 		return new BookQueryRepository(jpaQueryFactory());
 	}
+	@Bean
+	public MemberQueryRepository memberQueryRepository(){
+		return new MemberQueryRepository(jpaQueryFactory());
+	}
+
 
 
 }
