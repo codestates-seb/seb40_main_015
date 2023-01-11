@@ -1,5 +1,7 @@
 package com.dongnebook.domain.model.image.ui;
 
+import java.io.IOException;
+
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -19,7 +21,7 @@ public class ImageUploadController {
 	}
 
 	@PostMapping("/upload")
-	public String saveImage(ImageUploadRequest imageUploadRequest){
+	public String saveImage(ImageUploadRequest imageUploadRequest) throws IOException {
 		log.info("upload Image = {} ", imageUploadRequest.getImg());
 		String url = awsS3Service.storeImage(imageUploadRequest.getImg());
 		log.info("url = {}",url);
