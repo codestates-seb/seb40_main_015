@@ -1,8 +1,11 @@
 package com.dongnebook.domain.member.dto.request;
 
+import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 @Getter
+@NoArgsConstructor
 public class MerchantSearchRequest {
 	private	Double longitude;
 	private Double latitude;
@@ -12,6 +15,7 @@ public class MerchantSearchRequest {
 	private Integer level;
 
 
+	@Builder
 	public MerchantSearchRequest(Double longitude, Double latitude, Integer width, Integer height, Integer sector,
 		Integer level) {
 		this.longitude = longitude;

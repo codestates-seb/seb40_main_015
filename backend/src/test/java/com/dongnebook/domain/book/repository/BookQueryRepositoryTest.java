@@ -94,6 +94,7 @@ class BookQueryRepositoryTest {
 		//given,when
 		BookDetailResponse bookDetail = bookQueryRepository.getBookDetail(1L, 1L).orElseThrow(BookNotFoundException::new);
 		//then
+
 		assertAll(
 			() -> assertThat(bookDetail.getBook().getTitle()).isEqualTo("자바의 정석"),
 			() -> assertThat(bookDetail.getBook().getAuthor()).isEqualTo("남궁성")
