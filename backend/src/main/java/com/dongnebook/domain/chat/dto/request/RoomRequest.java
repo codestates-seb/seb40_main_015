@@ -3,18 +3,16 @@ package com.dongnebook.domain.chat.dto.request;
 import javax.validation.constraints.NotNull;
 
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 
 @Getter
-@NoArgsConstructor
 public class RoomRequest {
 
 	@NotNull
-	private Long merchantId;
+	private final Long merchantId;
 	@NotNull
-	private Long customerId;
+	private final Long customerId;
 	@NotNull
-	private Long bookId;
+	private final Long bookId;
 
 	public RoomRequest(Long merchantId, Long customerId, Long bookId) {
 		this.merchantId = merchantId;

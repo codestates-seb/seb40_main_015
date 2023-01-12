@@ -118,8 +118,9 @@ class MemberRepositoryTest {
 	void getSectorMerchantCounts() {
 		//given
 		Location 봉천역 = LocationStub.봉천역.of();
-		MerchantSearchRequest condition = MerchantSearchRequest.builder().height(40).width(40)
-			.latitude(봉천역.getLatitude()).longitude(봉천역.getLongitude()).level(3).build();
+
+		MerchantSearchRequest condition = new MerchantSearchRequest(봉천역.getLongitude(), 봉천역.getLatitude(),
+			40, 40, null, 3);
 		//when
 
 		List<Double> lonRangeList = Location.lonRangeList(condition.getLongitude(), condition.getWidth(),
@@ -138,8 +139,10 @@ class MemberRepositoryTest {
 	void getAll() {
 		//given
 		Location 봉천역 = LocationStub.봉천역.of();
-		MerchantSearchRequest condition = MerchantSearchRequest.builder().height(10).width(10)
-			.latitude(봉천역.getLatitude()).longitude(봉천역.getLongitude()).level(3).sector(5).build();
+		MerchantSearchRequest condition = new MerchantSearchRequest(봉천역.getLongitude(), 봉천역.getLatitude(),
+			10, 10, 5, 3);
+
+
 		List<Double> lonRangeList = Location.lonRangeList(condition.getLongitude(), condition.getWidth(),
 			condition.getLevel());
 		List<Double> latRangeList = Location.latRangeList(condition.getLatitude(), condition.getHeight(),

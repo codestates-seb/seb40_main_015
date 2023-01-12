@@ -106,8 +106,7 @@ class BookQueryRepositoryTest {
 	void getNearByBookLocation() {
 		//given
 		Location 봉천역 = LocationStub.봉천역.of();
-		BookSearchCondition condition = BookSearchCondition.builder().bookTitle(null).height(40).width(40)
-			.latitude(봉천역.getLatitude()).longitude(봉천역.getLongitude()).level(3).build();
+		BookSearchCondition condition = new BookSearchCondition(null,봉천역.getLongitude(),봉천역.getLatitude(),40,40,null,3);
 		//when
 		List<Location> nearByBookLocation = bookQueryRepository.getNearByBookLocation(condition);
 		//then
@@ -118,8 +117,7 @@ class BookQueryRepositoryTest {
 	@DisplayName("모든 책을 조회한다.")
 	void getAll() {
 		//given
-		BookSearchCondition condition = BookSearchCondition.builder().bookTitle(null).height(null).width(null)
-			.latitude(null).longitude(null).level(null).build();
+		BookSearchCondition condition = new BookSearchCondition(null,null,null,null,null,null,null);
 
 		//when
 		SliceImpl<BookSimpleResponse> result = bookQueryRepository.getAll(condition, new PageRequest(null));
@@ -140,9 +138,7 @@ class BookQueryRepositoryTest {
 		//given
 		Book book1 = bookCommandRepository.findById(1L).get();
 		book1.delete();
-		BookSearchCondition condition = BookSearchCondition.builder().bookTitle(null).height(null).width(null)
-			.latitude(null).longitude(null).level(null).build();
-
+		BookSearchCondition condition = new BookSearchCondition(null,null,null,null,null,null,null);
 		//when
 		SliceImpl<BookSimpleResponse> result = bookQueryRepository.getAll(condition, new PageRequest(null));
 
@@ -155,8 +151,7 @@ class BookQueryRepositoryTest {
 	@DisplayName("책 한권을 검색한다.")
 	void getAll2() {
 		//given
-		BookSearchCondition condition = BookSearchCondition.builder().bookTitle("씨의 정석").height(null).width(null)
-			.latitude(null).longitude(null).level(null).build();
+		BookSearchCondition condition = new BookSearchCondition("씨의 정석",null,null,null,null,null,null);
 
 		//when
 		SliceImpl<BookSimpleResponse> result = bookQueryRepository.getAll(condition, new PageRequest(null));

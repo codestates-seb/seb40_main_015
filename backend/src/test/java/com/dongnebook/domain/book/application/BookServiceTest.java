@@ -199,8 +199,7 @@ class BookServiceTest {
 		Location 관악구청 = LocationStub.관악구청.of();
 		//2섹터
 		Location 서울관광고 = LocationStub.서울관광고.of();
-		BookSearchCondition condition = BookSearchCondition.builder().bookTitle(null).height(40).width(40)
-			.latitude(봉천역.getLatitude()).longitude(봉천역.getLongitude()).level(3).build();
+		BookSearchCondition condition = new BookSearchCondition(null,봉천역.getLongitude(),봉천역.getLatitude(),40,40,null,3);
 		List<Location> locations = List.of(봉천역, 서원동성당, 관악구청, 서울관광고);
 		given(bookQueryRepository.getNearByBookLocation(condition)).willReturn(locations);
 
@@ -230,8 +229,7 @@ class BookServiceTest {
 		//5섹터
 		Location 봉천역 = LocationStub.봉천역.of();
 
-		BookSearchCondition condition = BookSearchCondition.builder().bookTitle(null).height(40).width(40)
-			.latitude(봉천역.getLatitude()).longitude(봉천역.getLongitude()).level(3).build();
+		BookSearchCondition condition = new BookSearchCondition(null,봉천역.getLongitude(),봉천역.getLatitude(),40,40,null,3);
 
 		PageRequest pageRequest = new PageRequest(1L);
 		Book book = BookStub.BOOK1.of(1L);

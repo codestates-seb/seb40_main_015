@@ -4,8 +4,10 @@ import javax.validation.constraints.NotEmpty;
 
 import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 @Getter
+@NoArgsConstructor
 public class BookEditRequest {
 	@NotEmpty
 	private String description;
