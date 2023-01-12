@@ -64,8 +64,8 @@ public class AwsS3Service implements ImageUploadService {
 		int width = originalImage.getWidth();
 		int height = originalImage.getHeight();
 
-		int newWidth = 0;
-		int newHeight = 0;
+		int newWidth = width;
+		int newHeight = height;
 		if (width > height && width > MAX_SIZE) {
 			newHeight = (int)(height * (double)MAX_SIZE / width);
 			newWidth = MAX_SIZE;
