@@ -33,8 +33,8 @@
 
 ![](https://velog.velcdn.com/images/fejigu/post/58f798ad-d73e-4a33-b7eb-89a5761bc911/image.png)
 </br>
-→ 동네북을 구글 플레이스토어에서도 만나보실 수 있습니다. </br>
-다운로드 바로가기 : https://play.google.com/store/apps/details?id=com.dongne_book.twa
+→ 동네북을 구글 플레이스토어에서도 만나볼 수 있습니다. </br>
+다운로드 : https://play.google.com/store/apps/details?id=com.dongne_book.twa
 
  
 </br>
@@ -64,7 +64,7 @@
 <table>
   <tbody>
     <tr>
-      <td align="center"><a href="https://github.com/2pandi"><img src="https://velog.velcdn.com/images/fejigu/post/0c91d5e0-cd8f-4648-bf47-aaae52a94411/image.jpeg" width="100px;" alt=""/><br /><sub><b>FE 팀장 : 이예빈</b></sub></a><br /></td>
+      <td align="center"><a href="https://github.com/2pandi"><img src="https://velog.velcdn.com/images/fejigu/post/0c91d5e0-cd8f-4648-bf47-aaae52a94411/image.jpeg" width="100px;" alt=""/><br /><sub><b>FE 팀원 : 이예빈</b></sub></a><br /></td>
       <td align="center"><a href="https://github.com/jooyong-boo"><img src="https://velog.velcdn.com/images/fejigu/post/c83405c8-05b9-4921-942f-d5bdf46d87b6/image.png" width="100px;" alt=""/><br /><sub><b>FE 팀원 : 부주용</b></sub></a><br /></td>
       <td align="center"><a href="https://github.com/anjigu"><img src="https://velog.velcdn.com/images/fejigu/post/bcb881ec-bbf1-43d0-a037-91f8e124ec58/image.JPG" width="100px;" alt=""/><br /><sub><b>FE 팀원 : 안지수</b></sub></a><br /></td>
       <td align="center"><a href="https://github.com/Withlaw"><img src="https://velog.velcdn.com/images/fejigu/post/b26f9be5-4a32-49ea-8835-394b2b0eae1c/image.jpeg" width="100px;" alt=""/><br /><sub><b>FE 팀원 : 우상헌</b></sub></a><br /></td>
