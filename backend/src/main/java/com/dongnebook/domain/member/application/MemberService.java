@@ -148,6 +148,7 @@ public class MemberService {
 		List<Double> lonRangeList = lonRangeList(request);
 		List<Location> sectorBookCounts = memberQueryRepository.getSectorMerchantCounts(latRangeList, lonRangeList,
 			request);
+		
 		List<MerchantSectorCountResponse> merchantSectorCountResponses = new ArrayList<>();
 		HashMap<Integer, Integer> indexMap = new HashMap<>();
 		int arrIndex = 0;
@@ -189,7 +190,7 @@ public class MemberService {
 	}
 
 	public MemberDetailResponse getMemberInfo(Long memberId) {
-		return Optional.ofNullable(memberQueryRepository.getMyInfo(memberId))
+		return memberQueryRepository.findMyInfo(memberId)
 			.orElseThrow(MemberNotFoundException::new);
 	}
 

@@ -33,10 +33,10 @@ public class RoomService {
 	private final RedisMessageListenerContainer redisMessageListener;
 	private final RedisSubscriber redisSubscriber;
 
-	public Long getOrCreate(RoomRequest roomRequest) {
+	public Long findOrCreate(RoomRequest roomRequest) {
 
 		Book book = bookService.getByBookId(roomRequest.getBookId());
-		ChatRoom room = chatRepository.getOrCreate(roomRequest.getMerchantId(), roomRequest.getCustomerId(),roomRequest.getBookId())
+		ChatRoom room = chatRepository.findOrCreate(roomRequest.getMerchantId(), roomRequest.getCustomerId(),roomRequest.getBookId())
 			.orElseGet(() -> new ChatRoom(memberService.getById(roomRequest.getMerchantId()
 			), memberService.getById(roomRequest.getCustomerId()), book));
 

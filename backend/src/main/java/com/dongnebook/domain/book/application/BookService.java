@@ -92,13 +92,7 @@ public class BookService {
 	}
 
 	public BookDetailResponse getDetail(Long id, Long memberId) {
-		Optional<BookDetailResponse> bookDetail = bookQueryRepository.getBookDetail(id, memberId);
-
-		if(bookDetail.isEmpty()){
-			throw new BookNotFoundException();
-		}
-
-		return bookDetail.get();
+		return bookQueryRepository.findBookDetail(id, memberId).orElseThrow(BookNotFoundException::new);
 	}
 
 	private Location getLocationOfMember(Member member) {
@@ -110,7 +104,7 @@ public class BookService {
 	}
 
 	public Book getWithMerchantByBookId(Long bookId) {
-		return bookQueryRepository.getWithMerchantByBookId(bookId).orElseThrow(BookNotFoundException::new);
+		return bookQueryRepository.findWithMerchantByBookId(bookId).orElseThrow(BookNotFoundException::new);
 	}
 
 	public SliceImpl<BookSimpleResponse> getList(BookSearchCondition bookSearchCondition, PageRequest pageRequest) {
