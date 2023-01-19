@@ -55,7 +55,7 @@ public class ChatRepository {
 			.fetch();
 	}
 
-	public Optional<ChatRoom> getOrCreate(Long merchantId, Long customerId, Long bookId) {
+	public Optional<ChatRoom> findOrCreate(Long merchantId, Long customerId, Long bookId) {
 		return Optional.ofNullable(jpaQueryFactory
 			.selectFrom(chatRoom)
 			.where(chatRoom.customer.id.eq(customerId).and(chatRoom.merchant.id.eq(merchantId))

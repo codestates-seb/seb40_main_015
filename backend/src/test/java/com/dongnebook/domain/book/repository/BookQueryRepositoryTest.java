@@ -92,7 +92,7 @@ class BookQueryRepositoryTest {
 	void getBookDetail() {
 
 		//given,when
-		BookDetailResponse bookDetail = bookQueryRepository.getBookDetail(1L, 1L).orElseThrow(BookNotFoundException::new);
+		BookDetailResponse bookDetail = bookQueryRepository.findBookDetail(1L, 1L).orElseThrow(BookNotFoundException::new);
 		//then
 
 		assertAll(

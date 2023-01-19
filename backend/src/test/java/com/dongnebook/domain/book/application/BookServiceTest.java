@@ -165,14 +165,14 @@ class BookServiceTest {
 		BookDetailMemberResponse memberResponse = BookDetailMemberResponse.builder().merchantId(memberId)
 			.build();
 		BookDetailResponse bookDetailResponse = BookDetailResponse.builder().book(bookResponse).merchant(memberResponse).build();
-		given(bookQueryRepository.getBookDetail(bookId, memberId)).willReturn(Optional.of(bookDetailResponse));
+		given(bookQueryRepository.findBookDetail(bookId, memberId)).willReturn(Optional.of(bookDetailResponse));
 
 		BookDetailResponse detail = bookService.getDetail(bookId, memberId);
 
 		//when,then
 		assertAll(() ->assertThat(detail.getBook()).usingRecursiveComparison()
 				.ignoringActualNullFields().isEqualTo(bookResponse),
-			() -> verify(bookQueryRepository).getBookDetail(bookId,memberId));
+			() -> verify(bookQueryRepository).findBookDetail(bookId,memberId));
 	}
 
 	@Test
@@ -181,7 +181,7 @@ class BookServiceTest {
 		//given
 		Long memberId = 1L;
 		Long bookId = 1L;
-		given(bookQueryRepository.getBookDetail(bookId, memberId)).willReturn(Optional.empty());
+		given(bookQueryRepository.findBookDetail(bookId, memberId)).willReturn(Optional.empty());
 		//when,then
 		assertAll(() -> assertThatThrownBy(() -> bookService.getDetail(bookId, memberId)).isInstanceOf(
 			BookNotFoundException.class));

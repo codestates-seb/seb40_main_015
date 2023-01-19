@@ -61,12 +61,6 @@ public class ReviewService {
     }
 
     private Rental getRental(Long rentalId) {
-        Rental rental = rentalQueryRepository.getRentalById(rentalId);
-
-        if(rental == null){
-            throw new RentalNotFoundException();
-        }
-
-        return rental;
+        return rentalQueryRepository.findRentalById(rentalId).orElseThrow(RentalNotFoundException::new);
     }
 }

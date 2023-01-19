@@ -264,11 +264,11 @@ class MemberServiceTest {
 	void getMemberInfo() {
 		//given
 		Long memberId = 1L;
-		given(memberQueryRepository.getMyInfo(memberId)).willReturn(MemberDetailResponse.builder().build());
+		given(memberQueryRepository.findMyInfo(memberId)).willReturn(Optional.ofNullable(MemberDetailResponse.builder().build()));
 		//when
 		memberService.getMemberInfo(memberId);
 		//then
-		verify(memberQueryRepository).getMyInfo(memberId);
+		verify(memberQueryRepository).findMyInfo(memberId);
 	}
 
 	@Test

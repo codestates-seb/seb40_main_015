@@ -86,6 +86,7 @@ public class BookController {
 	public ResponseEntity<List<BookCountPerSectorResponse>> getSectorBookCounts(
 		@ModelAttribute BookSearchCondition bookSearchCondition) {
 		List<BookCountPerSectorResponse> sectorBookCounts = bookService.getBookCountPerSector(bookSearchCondition);
+
 		return ResponseEntity.ok(sectorBookCounts);
 	}
 
