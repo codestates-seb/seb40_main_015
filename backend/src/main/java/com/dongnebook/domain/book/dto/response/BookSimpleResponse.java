@@ -1,5 +1,7 @@
 package com.dongnebook.domain.book.dto.response;
 
+import java.io.Serializable;
+
 import com.dongnebook.domain.book.domain.BookState;
 import com.dongnebook.domain.book.domain.Money;
 import com.dongnebook.domain.model.Location;
@@ -8,10 +10,12 @@ import com.querydsl.core.annotations.QueryProjection;
 
 import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 @Getter
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class BookSimpleResponse {
+@NoArgsConstructor
+public class BookSimpleResponse implements Serializable {
 	private Long bookId;
 	private String title;
 	private String status;

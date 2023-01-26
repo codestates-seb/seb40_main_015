@@ -6,6 +6,9 @@ import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
+import org.springframework.cache.annotation.Caching;
 import org.springframework.data.domain.SliceImpl;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -14,8 +17,8 @@ import com.dongnebook.domain.book.domain.Book;
 import com.dongnebook.domain.book.dto.request.BookEditRequest;
 import com.dongnebook.domain.book.dto.request.BookRegisterRequest;
 import com.dongnebook.domain.book.dto.request.BookSearchCondition;
-import com.dongnebook.domain.book.dto.response.BookDetailResponse;
 import com.dongnebook.domain.book.dto.response.BookCountPerSectorResponse;
+import com.dongnebook.domain.book.dto.response.BookDetailResponse;
 import com.dongnebook.domain.book.dto.response.BookSimpleResponse;
 import com.dongnebook.domain.book.exception.BookNotFoundException;
 import com.dongnebook.domain.book.repository.BookCommandRepository;
@@ -41,6 +44,8 @@ public class BookService {
 	private List<Double> latRangeList;
 	private List<Double> lonRangeList;
 
+
+	@CacheEvict(value ="books", allEntries = true)
 	@Transactional
 	public Long create(BookRegisterRequest bookRegisterRequest, Long memberId) {
 		Member member = getMember(memberId);
@@ -68,6 +73,12 @@ public class BookService {
 		return bookCountPerSectorResponses;
 	}
 
+	@Caching(
+		evict = {
+			@CacheEvict(value = "books", allEntries = true),
+			@CacheEvict(value = "bookDetail", key="#bookId")
+		}
+	)
 	@Transactional
 	public Long delete(Long bookId, Long memberId) {
 		Book book = getByBookId(bookId);
@@ -91,6 +102,7 @@ public class BookService {
 		book.edit(bookEditRequest);
 	}
 
+	@Cacheable(value = "bookDetail", key = "#id",  cacheManager = "cacheManager")
 	public BookDetailResponse getDetail(Long id, Long memberId) {
 		Optional<BookDetailResponse> bookDetail = bookQueryRepository.getBookDetail(id, memberId);
 
@@ -113,6 +125,7 @@ public class BookService {
 		return bookQueryRepository.getWithMerchantByBookId(bookId).orElseThrow(BookNotFoundException::new);
 	}
 
+	@Cacheable(value = "books", key = "#pageRequest", condition = "#pageRequest.index == null",cacheManager = "cacheManager")
 	public SliceImpl<BookSimpleResponse> getList(BookSearchCondition bookSearchCondition, PageRequest pageRequest) {
 		return bookQueryRepository.getAll(bookSearchCondition, pageRequest);
 	}
