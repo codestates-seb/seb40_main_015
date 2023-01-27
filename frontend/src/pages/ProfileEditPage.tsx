@@ -1,17 +1,16 @@
 import { useState, useCallback, useEffect } from 'react';
 import styled from 'styled-components';
-import Title from '../components/common/Title';
-import Button from '../components/common/Button';
-import Modal from '../components/common/Modal';
 
-import notify from '../utils/notify';
+import { Title, Button, Modal } from 'components';
+
+import notify from 'utils/notify';
 import { useNavigate } from 'react-router-dom';
-import { useAppDispatch, useAppSelector } from '../redux/hooks';
-import { updateUserInfo } from '../redux/slice/userInfoSlice';
+import { useAppDispatch, useAppSelector } from 'redux/hooks';
+import { updateUserInfo } from 'redux/slice/userInfoSlice';
 
-import Avatar from '../components/Member/Avatar';
-import { useFixInfo } from '../api/hooks/member/useFixInfo';
-import useGeolocation2 from '../hooks/useGeoLocation2';
+import Avatar from 'components/Member/Avatar';
+import { useFixInfo } from 'api/hooks/member/useFixInfo';
+import useGeolocation2 from 'hooks/useGeoLocation2';
 
 function ProfileEditPage() {
 	//현재 위치 수정

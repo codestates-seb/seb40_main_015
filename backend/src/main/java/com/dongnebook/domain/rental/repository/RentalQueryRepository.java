@@ -7,6 +7,7 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.data.domain.SliceImpl;
 import org.springframework.stereotype.Repository;
@@ -125,10 +126,10 @@ public class RentalQueryRepository {
         return new SliceImpl<>(rentals, pageRequest.of(), hasNext);
     }
 
-    public Rental getRentalById(Long rentalId){
-        return jpaQueryFactory.selectFrom(rental)
-                .where(rental.id.eq(rentalId))
-                .fetchOne();
+    public Optional<Rental> findRentalById(Long rentalId){
+        return Optional.ofNullable(jpaQueryFactory.selectFrom(rental)
+            .where(rental.id.eq(rentalId))
+            .fetchOne());
     }
 
     public List<Rental> getRentalByBookId(Long bookId){
@@ -162,7 +163,8 @@ public class RentalQueryRepository {
 
         return jpaQueryFactory.selectFrom(rental)
             .innerJoin(rental.customer).fetchJoin()
-            .where(rental.rentalDeadLine.between(start,end))
+            .innerJoin(rental.book).fetchJoin()
+            .where(rental.rentalDeadLine.between(start,end),rentalStateEq(String.valueOf(RentalState.RETURN_REVIEWED)))
             .fetch();
     }
 }

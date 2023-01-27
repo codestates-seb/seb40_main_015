@@ -1,4 +1,4 @@
-import { axiosInstance } from '.';
+import { axiosInstance } from './instance';
 import useAPI from '../hooks/useAPI';
 
 // getAllBooksList

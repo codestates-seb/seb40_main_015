@@ -1,4 +1,4 @@
-import { axiosInstanceAuth } from '.';
+import { axiosInstanceAuth } from 'api/instance';
 import useAPI from '../hooks/useAPI';
 
 //type
@@ -19,7 +19,7 @@ export interface IAccessTokenRefresh {
 	headers: IAccessToken;
 }
 
-const useAuthAPI = () => {
+export const useAuthAPI = () => {
 	const api = useAPI();
 
 	// login post api
@@ -36,5 +36,3 @@ const useAuthAPI = () => {
 
 	return { getAccessTokenRefresh, postLogin, deleteLogout };
 };
-
-export default useAuthAPI;

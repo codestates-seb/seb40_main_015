@@ -36,6 +36,7 @@ dependencies {
     implementation 'org.springframework.cloud:spring-cloud-starter-aws:2.2.6.RELEASE'
     implementation 'com.fasterxml.jackson.datatype:jackson-datatype-jsr310'
     implementation 'com.fasterxml.jackson.core:jackson-databind'
+    implementation 'com.coveo:spring-boot-parameter-store-integration:1.1.2'
 
 //    runtimeOnly 'com.h2database:h2'
     implementation "com.h2database:h2"
@@ -44,6 +45,7 @@ dependencies {
 // build.gradle
     implementation 'com.github.gavlyukovskiy:p6spy-spring-boot-starter:1.7.1'
     implementation 'com.google.code.gson:gson'
+    implementation group: 'com.google.guava', name: 'guava', version: '11.0.2'
 
     //쿼리 dsl
     implementation 'com.querydsl:querydsl-jpa'
@@ -55,6 +57,13 @@ dependencies {
     runtimeOnly 'io.jsonwebtoken:jjwt-impl:0.11.5'
     runtimeOnly 'io.jsonwebtoken:jjwt-jackson:0.11.5'
 }
+
+dependencyManagement { // 블록 추가
+    imports {
+        mavenBom "org.springframework.cloud:spring-cloud-starter-parent:Hoxton.SR12"
+    }
+}
+
 
 tasks.named('test') {
 	useJUnitPlatform()

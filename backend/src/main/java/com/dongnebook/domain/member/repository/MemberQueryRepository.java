@@ -81,12 +81,12 @@ public class MemberQueryRepository {
 			.fetchFirst());
 	}
 
-	public MemberDetailResponse getMyInfo(Long memberId) {
+	public Optional<MemberDetailResponse> findMyInfo(Long memberId) {
 		Expression<Integer> totalBookCount = ExpressionUtils.as(JPAExpressions
 			.select(book.id.count().intValue())
 			.from(book)
 			.where(book.member.id.eq(memberId), book.bookState.ne(BookState.DELETED)), "totalBookCount");
-		return jpaQueryFactory
+		return Optional.ofNullable(jpaQueryFactory
 			.select(
 				new QMemberDetailResponse(
 					member.id,
@@ -98,7 +98,7 @@ public class MemberQueryRepository {
 					member.avgGrade))
 			.from(member)
 			.where(member.id.eq(memberId))
-			.fetchOne();
+			.fetchOne());
 	}
 
 	private BooleanExpression ltMemberId(Long memberId) {

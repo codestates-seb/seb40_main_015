@@ -1,5 +1,7 @@
 package com.dongnebook.domain.book.domain;
 
+import java.io.Serializable;
+
 import javax.persistence.Column;
 import javax.persistence.Embeddable;
 
@@ -10,7 +12,7 @@ import lombok.NoArgsConstructor;
 @Getter
 @Embeddable
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class Money {
+public class Money implements Serializable {
 	@Column(name = "rental_fee")
 	Integer value;
 

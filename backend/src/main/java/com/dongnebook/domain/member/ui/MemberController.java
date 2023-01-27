@@ -7,7 +7,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 
@@ -129,8 +128,8 @@ public class MemberController {
 	// 로그아웃
 	@DeleteMapping("/logout")
 	public ResponseEntity<Void> logout(@CookieValue(value = "refreshToken", required = false) String refreshToken,
-		HttpServletRequest request, HttpServletResponse response) {
-		memberService.logout(refreshToken, request, response);
+		 HttpServletResponse response) {
+		memberService.logout(refreshToken,response);
 		return ResponseEntity.ok().build();
 	}
 }

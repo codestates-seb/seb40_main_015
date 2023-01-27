@@ -3,24 +3,25 @@ import { useNavigate } from 'react-router-dom';
 import { HiOutlinePencilAlt } from 'react-icons/hi';
 import { useDispatch } from 'react-redux';
 import { useMutation, useQuery } from '@tanstack/react-query';
-import { useAppSelector } from '../redux/hooks';
+import { useAppSelector } from 'redux/hooks';
 
-// component
-import PickBookList from '../components/Member/PickBookList';
-import ReservationBookList from '../components/Member/ReservationBookList';
-import TabLists from '../components/common/TabLists';
-import Title from '../components/common/Title';
-import Button from '../components/common/Button';
-import Animation from '../components/Loading/Animation';
+import {
+	PickBookList,
+	ReservationBookList,
+	TabLists,
+	Title,
+	Button,
+	Animation,
+} from 'components';
 
 // hooks
-import { useMypageAPI } from '../api/mypage';
-import useTabs from '../hooks/useTabs';
+import { useMypageAPI } from 'api/mypage';
+import useTabs from 'hooks/useTabs';
 // etc
-import { logout } from '../redux/slice/userSlice';
+import { logout } from 'redux/slice/userSlice';
 import { useEffect } from 'react';
 import { FiExternalLink } from 'react-icons/fi';
-import useAuthAPI from '../api/auth';
+import { useAuthAPI } from 'api/auth';
 
 function ProfilePage() {
 	const dispatch = useDispatch();

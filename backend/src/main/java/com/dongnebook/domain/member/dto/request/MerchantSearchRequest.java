@@ -11,6 +11,7 @@ public class MerchantSearchRequest {
 	private Integer sector;
 	private Integer level;
 
+
 	public MerchantSearchRequest(Double longitude, Double latitude, Integer width, Integer height, Integer sector,
 		Integer level) {
 		this.longitude = longitude;

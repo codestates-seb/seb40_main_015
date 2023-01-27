@@ -46,12 +46,12 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
         FilterChain chain,
         Authentication authResult) throws IOException, ServletException {
         AuthMember authMember = (AuthMember) authResult.getPrincipal();
-        TokenDto tokenDto = tokenProvider.generateTokenDto(authMember);
+        TokenDto tokenDto = tokenProvider.generateTokenDto(authMember.getMemberId());
 
         String refreshToken = tokenDto.getRefreshToken();
 
         ResponseCookie cookie = ResponseCookie.from("refreshToken", refreshToken)
-            .maxAge(7 * 24 * 60 * 60)
+            .maxAge((long)7 * 24 * 60 * 60)
             .path("/")
             .secure(true)
             .sameSite("None")

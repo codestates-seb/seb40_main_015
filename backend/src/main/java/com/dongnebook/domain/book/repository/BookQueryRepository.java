@@ -45,7 +45,7 @@ public class BookQueryRepository {
 	List<Double> latRange;
 	List<Double> lonRange;
 
-	public Optional<Book> getWithMerchantByBookId(Long bookId) {
+	public Optional<Book> findWithMerchantByBookId(Long bookId) {
 		return Optional.ofNullable(jpaQueryFactory
 			.select(book)
 			.from(book)
@@ -55,8 +55,8 @@ public class BookQueryRepository {
 			.fetchFirst());
 	}
 
-	public BookDetailResponse getBookDetail(Long bookId, Long memberId) {
-		return jpaQueryFactory
+	public Optional<BookDetailResponse> findBookDetail(Long bookId, Long memberId) {
+		return Optional.ofNullable(jpaQueryFactory
 			.select(new QBookDetailResponse(
 				new QBookResponse(
 					book.id,
@@ -81,7 +81,7 @@ public class BookQueryRepository {
 			.on(rental.book.id.eq(bookId), rental.rentalState.eq(RentalState.BEING_RENTED))
 			.leftJoin(book.dibsList, dibs)
 			.where(book.id.eq(bookId))
-			.fetchFirst();
+			.fetchFirst());
 		//책을 찾는데 찜이 하나라도 있으면 그 찜의 아이디를 찾아서 반환 찜이 없으면 걍 넘어감
 	}
 
@@ -111,7 +111,6 @@ public class BookQueryRepository {
 	public SliceImpl<BookSimpleResponse> getAll(BookSearchCondition condition, PageRequest pageRequest) {
 		boolean hasNext = false;
 		String bookTitle = condition.getBookTitle();
-		log.info("bookTitle = {}", bookTitle);
 
 		List<BookSimpleResponse> result = jpaQueryFactory
 			.select(new QBookSimpleResponse(

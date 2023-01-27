@@ -38,8 +38,8 @@ public class BookService {
 	private final BookCommandRepository bookCommandRepository;
 	private final BookQueryRepository bookQueryRepository;
 	private final MemberService memberService;
-	public List<Double> latRangeList;
-	public List<Double> lonRangeList;
+	private List<Double> latRangeList;
+	private List<Double> lonRangeList;
 
 	@Transactional
 	public Long create(BookRegisterRequest bookRegisterRequest, Long memberId) {
@@ -92,7 +92,7 @@ public class BookService {
 	}
 
 	public BookDetailResponse getDetail(Long id, Long memberId) {
-		return bookQueryRepository.getBookDetail(id, memberId);
+		return bookQueryRepository.findBookDetail(id, memberId).orElseThrow(BookNotFoundException::new);
 	}
 
 	private Location getLocationOfMember(Member member) {
@@ -104,7 +104,7 @@ public class BookService {
 	}
 
 	public Book getWithMerchantByBookId(Long bookId) {
-		return bookQueryRepository.getWithMerchantByBookId(bookId).orElseThrow(BookNotFoundException::new);
+		return bookQueryRepository.findWithMerchantByBookId(bookId).orElseThrow(BookNotFoundException::new);
 	}
 
 	public SliceImpl<BookSimpleResponse> getList(BookSearchCondition bookSearchCondition, PageRequest pageRequest) {

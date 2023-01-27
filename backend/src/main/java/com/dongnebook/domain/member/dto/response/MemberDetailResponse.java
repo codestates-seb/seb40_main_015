@@ -3,6 +3,7 @@ package com.dongnebook.domain.member.dto.response;
 import com.dongnebook.domain.model.Location;
 import com.querydsl.core.annotations.QueryProjection;
 
+import lombok.Builder;
 import lombok.Getter;
 
 @Getter
@@ -17,6 +18,7 @@ public class MemberDetailResponse {
 
 
 	@QueryProjection
+	@Builder
 	public MemberDetailResponse(Long memberId, String name, Location location, String address, Integer totalBookCount, String avatarUrl,
 		Double avgGrade) {
 		this.memberId = memberId;

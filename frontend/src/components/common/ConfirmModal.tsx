@@ -1,5 +1,4 @@
 import { Dispatch, SetStateAction, useState } from 'react';
-import { text } from 'stream/consumers';
 import styled from 'styled-components';
 import Button from './Button';
 
@@ -11,7 +10,7 @@ interface Iprops {
 
 const ConfirmModal = (props: Iprops) => {
 	const [open, setOpen] = useState(false);
-	const { text, handleClick, setSubmit } = props;
+	const { text, setSubmit } = props;
 	const handleCloseModal = () => {
 		setSubmit(false);
 		setOpen(true);
@@ -30,6 +29,7 @@ const ConfirmModal = (props: Iprops) => {
 				</>
 				<ButtonBox>
 					<Button
+						className="btn"
 						onClick={() => {
 							handleCloseModal();
 							props?.handleClick && props.handleClick();
@@ -37,6 +37,7 @@ const ConfirmModal = (props: Iprops) => {
 						확인
 					</Button>
 					<Button
+						className="btn"
 						onClick={() => {
 							handleCloseModal();
 						}}>
@@ -85,11 +86,14 @@ const ButtonBox = styled.div`
 	justify-content: space-around;
 	width: 50%;
 	margin: 0 auto;
+	.btn {
+		margin-top: 30px;
+	}
 `;
 
 const Question = styled.p`
 	margin-bottom: 0.3rem;
-	font-size: 1rem;
+	font-size: 0.7rem;
 	font-weight: 600;
 `;
 

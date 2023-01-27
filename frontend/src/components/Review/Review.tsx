@@ -78,7 +78,9 @@ const Review = () => {
 			</Layout>
 			{submit ? (
 				<ConfirmModal
-					text={'등록 후 수정이 불가합니다. \n 등록 하시겠습니까?'}
+					text={
+						'리뷰 등록 후 수정이 불가합니다. \n 해당 내용으로 등록 하시겠습니까?'
+					}
 					setSubmit={setSubmit}
 					handleClick={handleClickSubmit}
 				/>
@@ -95,7 +97,6 @@ const Container = styled.div`
 	justify-content: space-between;
 	p {
 		font-size: ${props => props.theme.fontSizes.subtitle};
-		/* font-weight: 600; */
 	}
 `;
 
@@ -123,7 +124,6 @@ const Box = styled.div`
 	}
 	span {
 		font-size: ${props => props.theme.fontSizes.subtitle};
-		/* font-weight: 600; */
 	}
 `;
 
@@ -147,9 +147,9 @@ const TextareaBox = styled.div`
 const Textarea = styled.textarea`
 	height: 8rem;
 	padding: 1rem;
-	margin-top: 0.5rem;
+	margin-top: 1.5rem;
 	resize: none;
-	font-size: 1.2rem;
+	font-size: 0.7rem;
 	border: 1px solid ${props => props.theme.colors.grey};
 `;
 

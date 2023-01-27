@@ -2,6 +2,8 @@ package com.dongnebook.domain.refreshtoken.domain;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
 import com.dongnebook.domain.model.BaseTimeEntity;
@@ -16,15 +18,18 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class RefreshToken extends BaseTimeEntity {
     @Id
-    @Column(name = "rt_key")
-    private Long key;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    @Column
+    private Long memberId;
 
     @Column(name = "rt_value")
     private String value;
 
     @Builder
-    public RefreshToken(Long key, String value) {
-        this.key = key;
+    public RefreshToken(Long id, String value) {
+        this.memberId = id;
         this.value = value;
     }
 

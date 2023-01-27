@@ -2,6 +2,7 @@ package com.dongnebook.domain.member.dto.response;
 
 import com.querydsl.core.annotations.QueryProjection;
 
+import lombok.Builder;
 import lombok.Getter;
 
 @Getter
@@ -12,6 +13,7 @@ public class BookDetailMemberResponse {
 	private String avatarUrl;
 
 	@QueryProjection
+	@Builder
 	public BookDetailMemberResponse(Long merchantId, String name, Double grade, String avatarUrl) {
 		this.merchantId = merchantId;
 		this.name = name;

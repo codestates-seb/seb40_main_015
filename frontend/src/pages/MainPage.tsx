@@ -1,6 +1,6 @@
 import styled from 'styled-components';
-import HeroSectionDeskTop from '../components/HeroSection/HeroSectionDeskTop';
-import MobileHeroSection from '../components/HeroSection/MobileHeroSection';
+
+import { HeroSectionDeskTop, MobileHeroSection } from 'components';
 
 const MainPage = () => {
 	return (

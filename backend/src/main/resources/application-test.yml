@@ -11,12 +11,12 @@ spring:
     multipart:
       max-file-size: 2MB
       max-request-size: 2MB
-#    datasource:
-#      url : jdbc:h2:mem:test
   datasource:
-      url: jdbc:mysql://localhost:3306/root?characterEncoding=UTF-8&serverTimezone=Asia/Seoul
-      username: root
-      password: asdf1234
+    url : jdbc:h2:mem:test
+#  datasource:
+#      url: jdbc:mysql://localhost:3306/root?characterEncoding=UTF-8&serverTimezone=Asia/Seoul
+#      username: root
+#      password: asdf1234
   jpa:
     defer-datasource-initialization: true
     open-in-view: false
@@ -51,6 +51,8 @@ decorator:
   datasource:
     p6spy:
       enable-logging: true
+      multiline: true
+      logging: slf4j
 
 server:
   servlet:
@@ -61,7 +63,6 @@ cloud:
   aws:
     credentials:
       access-key: ${S3_ACCESS_KEY}
-
       secret-key: ${S3_SECRET_KEY}
     s3:
       bucket: codestates-dongnebook
@@ -70,3 +71,5 @@ cloud:
     stack:
       auto: false
 
+awsParameterStorePropertySource:
+  enabled: true

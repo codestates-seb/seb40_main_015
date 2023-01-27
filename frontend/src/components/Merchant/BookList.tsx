@@ -34,7 +34,6 @@ const BookList = ({ merchantId }: { merchantId: string }) => {
 									<p>
 										{title.length < 17 ? title : title.slice(0, 17) + '...'}
 									</p>
-									{/* <ButtonStatus status={status} bookId={bookId} /> */}
 									<BookStatus status={status}>
 										{status === '대여가능'
 											? '대여가능'

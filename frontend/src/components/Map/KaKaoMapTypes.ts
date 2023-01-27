@@ -24,6 +24,15 @@ export interface MerchantSectorProps {
 	};
 }
 
+export interface BookSector {
+	bookCount: number;
+	location: {
+		latitude: number;
+		longitude: number;
+	};
+	sector: number;
+}
+
 export interface SizeProps {
 	width: number;
 	height: number;
@@ -46,4 +55,17 @@ export interface MerchantList {
 		latitude: number;
 		longitude: number;
 	};
+}
+
+export interface BookList {
+	bookId: number;
+	bookImage: string;
+	location: {
+		latitude: number;
+		longitude: number;
+	};
+	merchantName: string;
+	rentalFee: number;
+	status: string;
+	title: string;
 }

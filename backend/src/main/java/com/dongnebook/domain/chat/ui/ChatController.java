@@ -57,7 +57,7 @@ public class ChatController {
 	@GetMapping("/room")
 	public ResponseEntity<Long> createOrGet(@ModelAttribute @Valid RoomRequest roomRequest) {
 
-		return ResponseEntity.ok(roomService.getOrCreate(roomRequest));
+		return ResponseEntity.ok(roomService.findOrCreate(roomRequest));
 	}
 
 

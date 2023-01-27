@@ -1,17 +1,20 @@
 import React, { KeyboardEvent, useEffect, useRef, useState } from 'react';
 import styled from 'styled-components';
-import BookInfo from '../components/Chat/BookInfo';
-import Input from '../components/Chat/Input';
-import Title from '../components/common/Title';
-import useGetRoomMessage from '../api/hooks/chat/useGetRoomMessage';
-import { useAppSelector } from '../redux/hooks';
 import { useParams } from 'react-router';
-import ScrollToBottom from '../utils/scrollToBottom';
-import ScrollBottomButton from '../components/common/ScrollBottomButton';
-import Animation from '../components/Loading/Animation';
 import * as StompJs from '@stomp/stompjs';
-import MessageList from '../components/Chat/MessageList';
 import { FrameImpl } from '@stomp/stompjs';
+import { useAppSelector } from 'redux/hooks';
+import useGetRoomMessage from 'api/hooks/chat/useGetRoomMessage';
+import ScrollToBottom from 'utils/scrollToBottom';
+
+import {
+	ChatBookInfo as BookInfo,
+	ScrollBottomButton,
+	ChatInput as Input,
+	Title,
+	Animation,
+	MessageList,
+} from 'components';
 
 interface NewMessage {
 	createdAt: string;
