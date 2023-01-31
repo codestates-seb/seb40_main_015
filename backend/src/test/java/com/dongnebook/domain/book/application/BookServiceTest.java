@@ -204,13 +204,11 @@ class BookServiceTest {
 		given(bookQueryRepository.getNearByBookLocation(condition)).willReturn(locations);
 
 		List<BookCountPerSectorResponse> bookCountPerSector = bookService.getBookCountPerSector(condition);
-
+		System.out.println(bookCountPerSector);
 		Map<Integer,Long> testMap = new HashMap<>();
 		for (BookCountPerSectorResponse bookCountPerSectorResponse : bookCountPerSector) {
 			testMap.put(bookCountPerSectorResponse.getSector(),bookCountPerSectorResponse.getBookCount());
 		}
-
-
 
 		assertAll(() -> assertThat(bookCountPerSector).hasSize(4),
 			()-> assertThat(testMap).containsEntry(2,1L),

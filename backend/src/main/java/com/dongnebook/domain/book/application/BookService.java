@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
+import java.util.stream.IntStream;
 
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
@@ -44,7 +45,6 @@ public class BookService {
 	private List<Double> latRangeList;
 	private List<Double> lonRangeList;
 
-
 	@CacheEvict(value ="books", allEntries = true)
 	@Transactional
 	public Long create(BookRegisterRequest bookRegisterRequest, Long memberId) {
@@ -55,22 +55,21 @@ public class BookService {
 	}
 
 	public List<BookCountPerSectorResponse> getBookCountPerSector(BookSearchCondition condition) {
-		List<BookCountPerSectorResponse> bookCountPerSectorResponses = new ArrayList<>();
-		HashMap<Integer, Integer> indexMap = new HashMap<>();
 		this.latRangeList = getLatRangeList(condition);
 		this.lonRangeList = getLonRangeList(condition);
 		List<Location> bookLocationList = bookQueryRepository.getNearByBookLocation(condition);
-		int arrIndex = 0;
-
+		HashMap<Integer, BookCountPerSectorResponse> map = new HashMap<>();
+		// 주변에 주소들을 가져옴
 		for (Location location : bookLocationList) {
-			int sector = 0;
-
-			arrIndex = addBookCountPerSector(condition, bookCountPerSectorResponses, indexMap,
-				arrIndex, location,
-				sector);
+			IntStream.iterate(1, sector -> sector <= Math.pow(condition.getLevel(), 2), sector -> sector + 1)
+				.filter(sector -> checkRange(location, sector, condition.getLevel()))
+				.forEach(sector -> {
+					map.putIfAbsent(sector, new BookCountPerSectorResponse(0L, sector, location));
+					map.computeIfPresent(sector, (k, v) -> v.plusBookCount());
+				});
 		}
 
-		return bookCountPerSectorResponses;
+		return new ArrayList<>(map.values());
 	}
 
 	@Caching(
@@ -128,31 +127,12 @@ public class BookService {
 		return bookQueryRepository.getListByMember(memberId, pageRequest);
 	}
 
-	private boolean makeBookCountResponse(List<BookCountPerSectorResponse> bookCountPerSectorResponses, int sector,
-		int arrIndex, Location location, HashMap<Integer, Integer> indexMap) {
-		boolean newResponse = false;
-
-		if (Optional.ofNullable(indexMap.get(sector)).isEmpty()) {
-			bookCountPerSectorResponses.add(new BookCountPerSectorResponse());
-			indexMap.put(sector, arrIndex);
-			newResponse = true;
-		}
-
-		BookCountPerSectorResponse bookCountPerSectorResponse = bookCountPerSectorResponses.get(indexMap.get(sector));
-		bookCountPerSectorResponse.plusBookCount();
-
-		if (Objects.isNull(bookCountPerSectorResponse.getLocation())) {
-			bookCountPerSectorResponse.initLocation(location);
-			bookCountPerSectorResponse.initSector(sector);
-		}
-
-		return newResponse;
-	}
-
-	private boolean checkRange(Double latitude, Double longitude,
-		int i, int j) {
-		return this.latRangeList.get(i + 1) <= latitude && latitude <= this.latRangeList.get(i)
-			&& this.lonRangeList.get(j) <= longitude && longitude <= this.lonRangeList.get(j + 1);
+	private boolean checkRange(Location location, int sector, int level
+		) {
+		int i = (sector - 1) / level;
+		int j = (sector - 1) % level;
+		return this.latRangeList.get(i + 1) <= location.getLatitude() && location.getLatitude() <= this.latRangeList.get(i)
+			&& this.lonRangeList.get(j) <=  location.getLongitude() && location.getLongitude() <= this.lonRangeList.get(j + 1);
 	}
 
 	private Member getMember(Long memberId) {
@@ -161,27 +141,6 @@ public class BookService {
 
 	private boolean isMyBook(Long memberId, Book book) {
 		return Objects.equals(book.getMember().getId(), memberId);
-	}
-
-	private int addBookCountPerSector(BookSearchCondition condition,
-		List<BookCountPerSectorResponse> bookCountPerSectorResponses, HashMap<Integer, Integer> indexMap,
-		int arrIndex, Location location, int sector) {
-
-		for (int i = 0; i < condition.getLevel(); i++) {
-
-			for (int j = 0; j < condition.getLevel(); j++) {
-				sector++;
-
-				if (checkRange(location.getLatitude(), location.getLongitude(), i, j) && makeBookCountResponse(
-					bookCountPerSectorResponses, sector, arrIndex, location, indexMap)) {
-					return arrIndex + 1;
-				}
-
-			}
-
-		}
-
-		return arrIndex;
 	}
 
 	private List<Double> getLonRangeList(BookSearchCondition condition) {
