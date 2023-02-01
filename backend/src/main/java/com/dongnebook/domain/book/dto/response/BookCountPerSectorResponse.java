@@ -13,7 +13,7 @@ public class BookCountPerSectorResponse {
 	private final Integer sector;
 	private final Location location;
 
-	public BookCountPerSectorResponse plusBookCount(){
+	public BookCountPerSectorResponse increaseBookCount(){
 		this.bookCount++;
 		return this;
 	}

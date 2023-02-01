@@ -1,10 +1,11 @@
 package com.dongnebook.domain.book.application;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
+import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
 import org.springframework.cache.annotation.CacheEvict;
@@ -42,8 +43,6 @@ public class BookService {
 	private final BookCommandRepository bookCommandRepository;
 	private final BookQueryRepository bookQueryRepository;
 	private final MemberService memberService;
-	private List<Double> latRangeList;
-	private List<Double> lonRangeList;
 
 	@CacheEvict(value ="books", allEntries = true)
 	@Transactional
@@ -55,21 +54,19 @@ public class BookService {
 	}
 
 	public List<BookCountPerSectorResponse> getBookCountPerSector(BookSearchCondition condition) {
-		this.latRangeList = getLatRangeList(condition);
-		this.lonRangeList = getLonRangeList(condition);
-		List<Location> bookLocationList = bookQueryRepository.getNearByBookLocation(condition);
-		HashMap<Integer, BookCountPerSectorResponse> map = new HashMap<>();
-		// 주변에 주소들을 가져옴
-		for (Location location : bookLocationList) {
-			IntStream.iterate(1, sector -> sector <= Math.pow(condition.getLevel(), 2), sector -> sector + 1)
-				.filter(sector -> checkRange(location, sector, condition.getLevel()))
-				.forEach(sector -> {
-					map.putIfAbsent(sector, new BookCountPerSectorResponse(0L, sector, location));
-					map.computeIfPresent(sector, (k, v) -> v.plusBookCount());
-				});
-		}
 
-		return new ArrayList<>(map.values());
+		List<Location> bookLocationList = bookQueryRepository.getNearByBookLocation(condition);
+
+		Map<Integer, BookCountPerSectorResponse> collect = bookLocationList.stream()
+			.flatMap(location ->
+				IntStream.iterate(1, sector -> sector <= Math.pow(condition.getLevel(), 2), sector -> sector + 1)
+					.filter(sector -> location.checkRange(condition,sector))
+					.mapToObj(sector -> new BookCountPerSectorResponse(0L, sector, location)))
+			.collect(
+				Collectors.toMap(BookCountPerSectorResponse::getSector, BookCountPerSectorResponse::increaseBookCount,
+					(exist, newOne) -> exist.increaseBookCount()));
+
+		return new ArrayList<>(collect.values());
 	}
 
 	@Caching(
@@ -127,30 +124,12 @@ public class BookService {
 		return bookQueryRepository.getListByMember(memberId, pageRequest);
 	}
 
-	private boolean checkRange(Location location, int sector, int level
-		) {
-		int i = (sector - 1) / level;
-		int j = (sector - 1) % level;
-		return this.latRangeList.get(i + 1) <= location.getLatitude() && location.getLatitude() <= this.latRangeList.get(i)
-			&& this.lonRangeList.get(j) <=  location.getLongitude() && location.getLongitude() <= this.lonRangeList.get(j + 1);
-	}
-
 	private Member getMember(Long memberId) {
 		return memberService.getById(memberId);
 	}
 
 	private boolean isMyBook(Long memberId, Book book) {
 		return Objects.equals(book.getMember().getId(), memberId);
-	}
-
-	private List<Double> getLonRangeList(BookSearchCondition condition) {
-		return Location.lonRangeList(condition.getLongitude(), condition.getWidth(),
-			condition.getLevel());
-	}
-
-	private List<Double> getLatRangeList(BookSearchCondition condition) {
-		return Location.latRangeList(condition.getLatitude(), condition.getHeight(),
-			condition.getLevel());
 	}
 
 }

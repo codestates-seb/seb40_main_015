@@ -9,6 +9,7 @@ import java.util.Objects;
 import javax.persistence.Column;
 import javax.persistence.Embeddable;
 
+import com.dongnebook.global.dto.request.MapSearchable;
 import com.querydsl.core.types.dsl.BooleanExpression;
 
 import lombok.AccessLevel;
@@ -140,5 +141,15 @@ public class Location implements Serializable {
 		return null;
 	}
 
+	public boolean checkRange(MapSearchable condition, int sector) {
+		List<Double> latRangeList = latRangeList(condition.getLatitude(), condition.getHeight(), condition.getLevel());
+		List<Double> lonRangeList = lonRangeList(condition.getLongitude(), condition.getWidth(), condition.getLevel());
+		int i = (sector - 1) / condition.getLevel();
+		int j = (sector - 1) % condition.getLevel();
+
+		return latRangeList.get(i + 1) <= this.latitude && this.latitude <= latRangeList.get(i)
+			&& lonRangeList.get(j) <= this.longitude && this.longitude <= lonRangeList.get(
+			j + 1);
+	}
 }
 

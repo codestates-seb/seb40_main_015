@@ -200,7 +200,7 @@ class BookServiceTest {
 		//2섹터
 		Location 서울관광고 = LocationStub.서울관광고.of();
 		BookSearchCondition condition = new BookSearchCondition(null,봉천역.getLongitude(),봉천역.getLatitude(),40,40,null,3);
-		List<Location> locations = List.of(봉천역, 서원동성당, 관악구청, 서울관광고);
+		List<Location> locations = List.of(봉천역,봉천역, 서원동성당, 관악구청, 서울관광고);
 		given(bookQueryRepository.getNearByBookLocation(condition)).willReturn(locations);
 
 		List<BookCountPerSectorResponse> bookCountPerSector = bookService.getBookCountPerSector(condition);
@@ -212,7 +212,7 @@ class BookServiceTest {
 
 		assertAll(() -> assertThat(bookCountPerSector).hasSize(4),
 			()-> assertThat(testMap).containsEntry(2,1L),
-			()-> assertThat(testMap).containsEntry(5,1L),
+			()-> assertThat(testMap).containsEntry(5,2L),
 			()-> assertThat(testMap).containsEntry(7,1L),
 			()-> assertThat(testMap).containsEntry(9,1L)
 		);

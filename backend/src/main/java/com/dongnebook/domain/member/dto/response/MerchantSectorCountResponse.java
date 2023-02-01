@@ -8,22 +8,17 @@ import lombok.Getter;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class MerchantSectorCountResponse {
 	private Long merchantCount;
-	private Integer sector;
-	private Location location;
+	private final Integer sector;
+	private final Location location;
 
-	public void plusBookCount(){
-		if(merchantCount ==null){
-			this.merchantCount = 0L;
-		}
-
+	public MerchantSectorCountResponse increaseMerchantCount(){
 		this.merchantCount++;
+		return this;
 	}
 
-	public void initLocation(Location location) {
-		this.location = location;
-	}
-
-	public void initSector(Integer sector) {
+	public MerchantSectorCountResponse(Integer sector, Location location) {
+		this.merchantCount = 0L;
 		this.sector = sector;
+		this.location = location;
 	}
 }
