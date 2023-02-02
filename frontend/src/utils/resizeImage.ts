@@ -1,7 +1,9 @@
-const dataUriFromFormFile = (file: File) => {
+const MAX_SIZE = 204_800; // 200KB
+const COMP_SIZE = 51_200; // 50KB
+
+const dataUrlFromFormFile = (file: File) => {
 	return new Promise(resolve => {
 		const reader = new FileReader();
-
 		reader.onload = () => {
 			resolve(reader.result);
 		};
@@ -9,34 +11,23 @@ const dataUriFromFormFile = (file: File) => {
 	});
 };
 
-const resizeImage = (imgEl: HTMLImageElement) => {
-	const MAX_SIZE = 400;
+const resizeImage = (imgEl: HTMLImageElement, fileSize: number) => {
 	const canvas = document.createElement('canvas');
-	let width = imgEl.width;
-	let height = imgEl.height;
-	if (width > height) {
-		if (width > MAX_SIZE) {
-			height *= MAX_SIZE / width;
-			width = MAX_SIZE;
-		}
-	} else {
-		if (height > MAX_SIZE) {
-			width *= MAX_SIZE / height;
-			height = MAX_SIZE;
-		}
-	}
+	const ratio = Math.sqrt(fileSize / COMP_SIZE);
+	let width = Math.ceil((imgEl.width /= ratio));
+	let height = Math.ceil((imgEl.height /= ratio));
 	canvas.width = width;
 	canvas.height = height;
 	canvas.getContext('2d')?.drawImage(imgEl, 0, 0, width, height);
 	return canvas.toDataURL('image/jpeg');
 };
 
-const dataURItoBlob = (dataURI: string) => {
+const dataURLtoBlob = (dataURL: string) => {
 	let byteString;
-	if (dataURI.split(',')[0].indexOf('base64') >= 0)
-		byteString = atob(dataURI.split(',')[1]);
-	else byteString = unescape(dataURI.split(',')[1]);
-	const mimeString = dataURI.split(',')[0].split(':')[1].split(';')[0];
+	if (dataURL.split(',')[0].indexOf('base64') >= 0)
+		byteString = atob(dataURL.split(',')[1]);
+	else byteString = unescape(dataURL.split(',')[1]);
+	const mimeString = dataURL.split(',')[0].split(':')[1].split(';')[0];
 	let ia = new Uint8Array(byteString.length);
 
 	for (var i = 0; i < byteString.length; i++) {
@@ -48,14 +39,14 @@ const dataURItoBlob = (dataURI: string) => {
 
 const resizeImageToBlob: (file: File) => Promise<Blob> = file => {
 	return new Promise(async resolve => {
-		const result = await dataUriFromFormFile(file);
+		const result = await dataUrlFromFormFile(file);
 		const imgEl = document.createElement('img');
 		imgEl.onload = () => {
-			if (imgEl.width <= 400 && imgEl.height <= 400) {
+			if (file.size < MAX_SIZE) {
 				resolve(file);
 			} else {
-				const resizedDataUri = resizeImage(imgEl);
-				resolve(dataURItoBlob(resizedDataUri));
+				const resizedDataUrl = resizeImage(imgEl, file.size);
+				resolve(dataURLtoBlob(resizedDataUrl));
 			}
 		};
 		imgEl.src = result as string;
