@@ -1,0 +1,5 @@
+package com.dongnebook.global.enums;
+
+public enum AlarmType {
+	RESERVATION,RETURN,RENTAL,MERCHANT_CANCELLATION,RESIDENT_CANCELLATION,MESSAGE
+}

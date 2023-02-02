@@ -1,12 +1,12 @@
 import styled from 'styled-components';
 import { Link, useNavigate } from 'react-router-dom';
-import { useAppDispatch, useAppSelector } from '../../redux/hooks';
+import { useAppDispatch, useAppSelector } from 'redux/hooks';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { HiHeart, HiOutlineHeart } from 'react-icons/hi';
 
 //components
-import notify from '../../utils/notify';
-import Button from '../common/Button';
+import notify from 'utils/notify';
+import Button from 'components/common/Button';
 import {
 	BookDsc,
 	BookInfo,
@@ -18,14 +18,15 @@ import {
 	Partition,
 	BookRentalInfo,
 	LinkStyled,
-} from './BookElements';
+} from 'components/Books/BookElements';
 
 // hooks
-import { useChatAPI } from '../../api/chat';
-import { useBooksAPI } from '../../api/books';
+import { useChatAPI } from 'api/chat';
+import { useBooksAPI } from 'api/books';
 
 // types
-import { BookDetailProps } from './type';
+import { BookDetailProps } from 'components/Books/type';
+import Star from 'components/common/Star';
 
 const BookDetail = ({ book, merchant, refetchBookDetail }: BookDetailProps) => {
 	const { id, isLogin } = useAppSelector(state => state.loginInfo);
@@ -127,7 +128,7 @@ const BookDetail = ({ book, merchant, refetchBookDetail }: BookDetailProps) => {
 						<MerchantImg src={merchant?.avatarUrl} />
 						<MerchantName>
 							<span>{merchant?.name}</span>
-							<span>평점: {merchant?.grade} /5</span>
+							<span>평점: {<Star reviewGrade={merchant?.grade} />}</span>
 						</MerchantName>
 					</Link>
 					<Chat>
@@ -221,6 +222,8 @@ const MerchantName = styled.div`
 	display: flex;
 	flex-direction: column;
 	span:last-child {
+		display: flex;
+		align-items: center;
 		margin-left: 2px;
 		font-size: 12px;
 	}

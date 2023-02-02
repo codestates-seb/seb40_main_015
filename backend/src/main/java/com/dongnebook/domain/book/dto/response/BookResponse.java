@@ -1,17 +1,19 @@
 package com.dongnebook.domain.book.dto.response;
 
+import java.io.Serializable;
 import java.time.LocalDateTime;
 
 import com.dongnebook.domain.book.domain.BookState;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.querydsl.core.annotations.QueryProjection;
 
-
+import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 @Getter
-public class BookResponse {
-
+@NoArgsConstructor
+public class BookResponse implements Serializable {
 	private Long bookId;
 	private String title;
 	private String author;
@@ -26,9 +28,10 @@ public class BookResponse {
 	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd", timezone = "Asia/Seoul")
 	private LocalDateTime rentalEnd;
 
+	@Builder
 	@QueryProjection
-	public BookResponse(Long bookId, String title, String author, String publisher, Integer rentalFee, String content, BookState state,
-		String bookImgUrl, Long dibsId, LocalDateTime rentalStart, LocalDateTime rentalEnd) {
+	public BookResponse(Long bookId, String title, String author, String publisher, Integer rentalFee, String content,
+		BookState state, String bookImgUrl, Long dibsId, LocalDateTime rentalStart, LocalDateTime rentalEnd) {
 		this.bookId = bookId;
 		this.title = title;
 		this.author = author;

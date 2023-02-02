@@ -1,5 +1,5 @@
 import { useMutation } from '@tanstack/react-query';
-import { axiosInstance } from '../..';
+import { axiosInstance } from '../../instance';
 import { useAppSelector } from '../../../redux/hooks';
 
 const useDeleteNotice = () => {

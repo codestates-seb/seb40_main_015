@@ -8,11 +8,11 @@ import lombok.Getter;
 public class RoomRequest {
 
 	@NotNull
-	private Long merchantId;
+	private final Long merchantId;
 	@NotNull
-	private Long customerId;
+	private final Long customerId;
 	@NotNull
-	private Long bookId;
+	private final Long bookId;
 
 	public RoomRequest(Long merchantId, Long customerId, Long bookId) {
 		this.merchantId = merchantId;

@@ -1,17 +1,21 @@
 package com.dongnebook.domain.book.dto.response;
 
+import java.io.Serializable;
+
 import com.dongnebook.domain.book.domain.BookState;
 import com.dongnebook.domain.book.domain.Money;
 import com.dongnebook.domain.model.Location;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.querydsl.core.annotations.QueryProjection;
 
-
+import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 @Getter
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class BookSimpleResponse {
+@NoArgsConstructor
+public class BookSimpleResponse implements Serializable {
 	private Long bookId;
 	private String title;
 	private String status;
@@ -20,6 +24,7 @@ public class BookSimpleResponse {
 	private Location location;
 	private String merchantName;
 
+	@Builder
 	@QueryProjection
 	public BookSimpleResponse(Long bookId, String title, BookState status, String bookImage, Money rentalFee,
 		Location location, String merchantName) {
@@ -32,6 +37,7 @@ public class BookSimpleResponse {
 		this.merchantName = merchantName;
 	}
 
+	@Builder
 	@QueryProjection
 	public BookSimpleResponse(Long bookId, String title, BookState status, String bookImage) {
 		this.bookId = bookId;
@@ -40,6 +46,7 @@ public class BookSimpleResponse {
 		this.bookImage = bookImage;
 	}
 
+	@Builder
 	@QueryProjection
 	public BookSimpleResponse(Long bookId, String title, Money rentalFee, String bookImage, String merchantName) {
 		this.bookId = bookId;
@@ -48,5 +55,4 @@ public class BookSimpleResponse {
 		this.bookImage = bookImage;
 		this.merchantName = merchantName;
 	}
-
 }

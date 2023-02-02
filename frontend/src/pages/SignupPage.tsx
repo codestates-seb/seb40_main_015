@@ -1,11 +1,9 @@
 import { useEffect } from 'react';
 import { useNavigate } from 'react-router';
 import styled from 'styled-components';
-import { useAppSelector } from '../redux/hooks';
-import Header from '../components/common/PcVersion/Header/Header';
-import LinkToSign from '../components/common/LinkToSign';
-import Title from '../components/common/Title';
-import SignUpForm from '../components/SignUp/SignUpForm';
+import { useAppSelector } from 'redux/hooks';
+
+import { Title, Header, LinkToSign, SignUpForm } from 'components';
 
 function SignupPage() {
 	const { isLogin } = useAppSelector(state => state.loginInfo);

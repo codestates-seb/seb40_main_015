@@ -1,32 +1,25 @@
 import { useEffect, useState } from 'react';
 import styled, { css, keyframes } from 'styled-components';
 import { TbCurrentLocation } from 'react-icons/tb';
-import Search from '../components/Map/Search';
-import useWindowSize from '../hooks/useWindowSize';
-import useGeoLocation from '../hooks/useGeoLocation';
-import KakaoMap from '../components/Map/KakaoMap';
-import Animation from '../components/Loading/Animation';
-import useMerchantList from '../api/hooks/map/useMerchantList';
-import useMerchantSector from '../api/hooks/map/useMerchantSector';
-import useBookList from '../api/hooks/map/useBookList';
-import useBookSector from '../api/hooks/map/useBookSector';
 
-interface SelectOverlay {
-	merchantCount?: number;
-	bookCount?: number;
-	sector: number;
-	location: {
-		latitude: number;
-		longitude: number;
-	};
-}
+import { Search, KakaoMap, Animation } from 'components';
+import { SelectOverlay } from 'components/Map/KaKaoMapTypes';
+
+import useWindowSize from 'hooks/useWindowSize';
+import useGeoLocation from 'hooks/useGeoLocation';
+import useMerchantList from 'api/hooks/map/useMerchantList';
+import useMerchantSector from 'api/hooks/map/useMerchantSector';
+import useBookList from 'api/hooks/map/useBookList';
+import useBookSector from 'api/hooks/map/useBookSector';
 
 const BooksSearchPage = () => {
 	const [current, setCurrent, handleCurrentLocationMove, loading] =
 		useGeoLocation();
 	const [centerCoord, setCenterCoord] = useGeoLocation('center');
 	const [searchInput, setSearchInput] = useState('');
-	const [selectOverlay, setSelectOverlay] = useState<SelectOverlay>();
+	const [selectOverlay, setSelectOverlay] = useState<SelectOverlay | null>(
+		null,
+	);
 	const [zoomLevel, setZoomLevel] = useState(5);
 	const size = useWindowSize(zoomLevel);
 	const [merchantSector, setMerchantSector, merchantCurrentRefetch] =

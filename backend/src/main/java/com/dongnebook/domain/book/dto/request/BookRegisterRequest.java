@@ -2,18 +2,14 @@ package com.dongnebook.domain.book.dto.request;
 
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotEmpty;
-import javax.validation.constraints.NotNull;
-
-import org.springframework.lang.Nullable;
-
-import com.dongnebook.domain.model.Location;
 
 import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 @Getter
+@NoArgsConstructor
 public class BookRegisterRequest {
-
 	@NotEmpty
 	private String title;
 	@NotEmpty
@@ -26,7 +22,6 @@ public class BookRegisterRequest {
 	@Min(0)
 	private Integer rentalFee;
 
-
 	@Builder
 	public BookRegisterRequest(String title, String author, String publisher, String description, String imageUrl,
 		Integer rentalFee) {
@@ -36,6 +31,5 @@ public class BookRegisterRequest {
 		this.description = description;
 		this.imageUrl = imageUrl;
 		this.rentalFee = rentalFee;
-
 	}
 }

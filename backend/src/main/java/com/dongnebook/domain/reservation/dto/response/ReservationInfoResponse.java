@@ -6,9 +6,7 @@ import lombok.Getter;
 
 @Getter
 public class ReservationInfoResponse {
-
     private ReservationResponse reservationInfo;
-
     private BookSimpleResponse bookInfo;
 
     @QueryProjection
@@ -17,5 +15,4 @@ public class ReservationInfoResponse {
         this.reservationInfo = reservationInfo;
         this.bookInfo = bookInfo;
     }
-
 }

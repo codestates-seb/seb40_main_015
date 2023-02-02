@@ -3,15 +3,15 @@ import styled from 'styled-components';
 import { useMutation } from '@tanstack/react-query';
 
 //components
-import Button from '../common/Button';
-import Input from '../common/Input';
+import Button from 'components/common/Button';
+import Input from 'components/common/Input';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
-import { login } from '../../redux/slice/userSlice';
+import { login } from 'redux/slice/userSlice';
 
 //etc
-import notify from '../../utils/notify';
-import useAuthAPI from '../../api/auth';
+import notify from 'utils/notify';
+import { useAuthAPI } from 'api';
 
 const LoginForm = () => {
 	const [id, setId] = useState('');

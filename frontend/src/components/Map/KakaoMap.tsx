@@ -7,18 +7,24 @@ import CustomOverlay from './CustomOverlay';
 import CustomOverlayHover from './CustomOverlayHover';
 import { useDispatch } from 'react-redux';
 import { change } from '../../redux/slice/geoLocationSlice';
-import { MarkerProps, MerchantSectorProps, SizeProps } from './KaKaoMapTypes';
+import {
+	MerchantSectorProps,
+	SizeProps,
+	SelectOverlay,
+	MerchantList,
+	BookList,
+} from './KaKaoMapTypes';
 
 interface KakaoMapProps {
 	current: { lat: number; lon: number };
-	selectOverlay: any;
-	setSelectOverlay: Dispatch<SetStateAction<any>>;
+	selectOverlay: SelectOverlay | null;
+	setSelectOverlay: Dispatch<SetStateAction<SelectOverlay | null>>;
 	merchantSector: MerchantSectorProps[];
-	merchantLists: MarkerProps[];
-	setMerchantLists: Dispatch<SetStateAction<any>>;
+	merchantLists: MerchantList[];
+	setMerchantLists: Dispatch<SetStateAction<MerchantList[]>>;
 	bookSector: MerchantSectorProps[];
-	bookLists: any;
-	setBookLists: any;
+	bookLists: BookList[];
+	setBookLists: Dispatch<SetStateAction<BookList[]>>;
 	zoomLevel: number;
 	setZoomLevel: Dispatch<SetStateAction<number>>;
 	size: SizeProps;

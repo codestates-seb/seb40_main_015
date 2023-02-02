@@ -19,6 +19,7 @@ const BookStatus = ({ status, bookId }: Props) => {
 		e.stopPropagation();
 		navigate(`/books/${bookId}/booking`);
 	};
+
 	return (
 		<Container>
 			{status === '대여가능' && (

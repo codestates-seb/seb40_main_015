@@ -1,6 +1,5 @@
 package com.dongnebook.domain.member.dto.response;
 
-import com.querydsl.core.annotations.QueryProjection;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;

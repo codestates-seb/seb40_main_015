@@ -2,22 +2,33 @@ import React, { useState } from 'react';
 import { useLocation } from 'react-router';
 import styled from 'styled-components';
 import useCreateReview from '../../api/hooks/review/useCreateReview';
+import { useAppDispatch } from '../../redux/hooks';
+import notify from '../../utils/notify';
 import Button from '../common/Button';
 import ConfirmModal from '../common/ConfirmModal';
 import Title from '../common/Title';
+import RatingSelect from './RatingSelect';
 
 const Review = () => {
-	const [score, setScore] = useState(5);
+	const dispatch = useAppDispatch();
 	const [content, setContent] = useState('');
 	const [submit, setSubmit] = useState(false);
+	const [hovered, setHovered] = useState<number>(0);
+	const [clicked, setClicked] = useState<number>(3);
 	const location = useLocation();
 	const params = new URLSearchParams(location.search);
-	const [rentalId, bookId] = [params.get('rentalId'), params.get('bookId')];
-	const { mutate } = useCreateReview(rentalId!, bookId!, content, score);
-
-	const handleScoreChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-		setScore(Number(e.target.value));
-	};
+	const [rentalId, bookId, title, id] = [
+		params.get('rentalId'),
+		params.get('bookId'),
+		params.get('title'),
+		params.get('id'),
+	];
+	const { mutate: createReview } = useCreateReview(
+		rentalId!,
+		bookId!,
+		content,
+		clicked,
+	);
 
 	const handleChangeContent = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
 		setContent(e.target.value);
@@ -28,7 +39,11 @@ const Review = () => {
 	};
 
 	const handleClickSubmit = () => {
-		mutate();
+		if (!clicked) {
+			notify(dispatch, '평점을 체크해주세요');
+			return;
+		}
+		createReview();
 	};
 
 	return (
@@ -36,36 +51,40 @@ const Review = () => {
 			<Title text="리뷰 남기기" />
 			<Layout>
 				<Box>
-					<p>상인명 : {params.get('id')}</p>
-					<SelectBox>
-						<span>상인평점 : </span>
-						<select name="" id="" onChange={handleScoreChange} defaultValue="5">
-							<option value="1">1</option>
-							<option value="2">2</option>
-							<option value="3">3</option>
-							<option value="4">4</option>
-							<option value="5">5</option>
-						</select>
-					</SelectBox>
-					<p>리뷰 : </p>
-					<Textarea
-						placeholder="최대 30자까지 가능합니다"
-						maxLength={30}
-						value={content}
-						onChange={handleChangeContent}
-					/>
+					<ReviewBox>
+						<p>도서명 : {title} </p>
+						<p>상인명 : {id}</p>
+						<SelectBox>
+							<span>상인평점 : </span>
+							<RatingSelect
+								hovered={hovered}
+								setHovered={setHovered}
+								clicked={clicked}
+								setClicked={setClicked}
+							/>
+						</SelectBox>
+						<TextareaBox>
+							<p>리뷰 : </p>
+							<Textarea
+								placeholder="최대 30자까지 가능합니다"
+								maxLength={30}
+								value={content}
+								onChange={handleChangeContent}
+							/>
+						</TextareaBox>
+					</ReviewBox>
+					<Button onClick={handleSubmitReview}>리뷰 등록</Button>
 				</Box>
 			</Layout>
-
-			<Button onClick={handleSubmitReview}>리뷰 등록</Button>
 			{submit ? (
 				<ConfirmModal
-					text={'등록 후 수정이 불가합니다. \n 등록 하실래요?'}
+					text={
+						'리뷰 등록 후 수정이 불가합니다. \n 해당 내용으로 등록 하시겠습니까?'
+					}
 					setSubmit={setSubmit}
 					handleClick={handleClickSubmit}
 				/>
 			) : null}
-			{/* <ConfirmModal text={'등록 후 수정이 불가합니다. \n 등록 하실래요?'} /> */}
 		</Container>
 	);
 };
@@ -78,7 +97,6 @@ const Container = styled.div`
 	justify-content: space-between;
 	p {
 		font-size: ${props => props.theme.fontSizes.subtitle};
-		font-weight: 600;
 	}
 `;
 
@@ -94,25 +112,44 @@ const Box = styled.div`
 	display: flex;
 	flex-direction: column;
 	justify-content: space-around;
-	height: 30rem;
+	height: 100%;
 	width: 50%;
 	margin-top: 5rem;
+	background-color: white;
+	border: 1px solid #eaeaea;
+	border-radius: 5px;
+	padding: 0 5rem;
+	@media screen and (min-width: 800px) {
+		width: 800px;
+	}
 	span {
 		font-size: ${props => props.theme.fontSizes.subtitle};
-		font-weight: 600;
 	}
 `;
 
+const ReviewBox = styled.div`
+	display: flex;
+	flex-direction: column;
+	justify-content: space-evenly;
+	height: 60%;
+`;
+
 const SelectBox = styled.div`
-	font-size: 1rem;
-	font-weight: 600;
+	display: flex;
+	align-items: center;
+`;
+
+const TextareaBox = styled.div`
+	display: flex;
+	flex-direction: column;
 `;
 
 const Textarea = styled.textarea`
-	height: 15rem;
+	height: 8rem;
 	padding: 1rem;
+	margin-top: 1.5rem;
 	resize: none;
-	font-size: 1.2rem;
+	font-size: 0.7rem;
 	border: 1px solid ${props => props.theme.colors.grey};
 `;
 

@@ -9,7 +9,6 @@ import org.springframework.data.redis.listener.ChannelTopic;
 import org.springframework.http.ResponseEntity;
 import org.springframework.messaging.handler.annotation.DestinationVariable;
 import org.springframework.messaging.handler.annotation.MessageMapping;
-
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -21,8 +20,7 @@ import com.dongnebook.domain.chat.domain.RedisChat;
 import com.dongnebook.domain.chat.dto.request.ChatMessageDto;
 import com.dongnebook.domain.chat.dto.request.RoomRequest;
 import com.dongnebook.domain.chat.dto.response.LastChatResponse;
-import com.dongnebook.global.Login;
-import com.dongnebook.global.config.security.auth.userdetails.AuthMember;
+import com.dongnebook.global.security.auth.annotation.Login;
 
 import lombok.RequiredArgsConstructor;
 
@@ -52,14 +50,14 @@ public class ChatController {
 	}
 
 	@GetMapping("/rooms")
-	public List<LastChatResponse> findAllLastChats(@Login AuthMember authMember){
-		return chatService.findAllLastChats(authMember.getMemberId());
+	public List<LastChatResponse> findAllLastChats(@Login Long memberId){
+		return chatService.findAllLastChats(memberId);
 	}
 
 	@GetMapping("/room")
 	public ResponseEntity<Long> createOrGet(@ModelAttribute @Valid RoomRequest roomRequest) {
 
-		return ResponseEntity.ok(roomService.getOrCreate(roomRequest));
+		return ResponseEntity.ok(roomService.findOrCreate(roomRequest));
 	}
 
 

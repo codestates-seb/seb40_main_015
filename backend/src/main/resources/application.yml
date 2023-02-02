@@ -49,7 +49,7 @@ jwt:
 decorator:
   datasource:
     p6spy:
-      enable-logging: true
+      enable-logging: false
 
 server:
   servlet:
@@ -67,4 +67,7 @@ cloud:
       static: ap-northeast-2
     stack:
       auto: false
+awsParameterStorePropertySource:
+  enabled: true
+
 

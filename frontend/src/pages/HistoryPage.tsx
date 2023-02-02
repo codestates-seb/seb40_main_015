@@ -1,11 +1,14 @@
 import { useState } from 'react';
 import styled from 'styled-components';
-import TabLists from '../components/common/TabLists';
-import Title from '../components/common/Title';
-import LendBookLists from '../components/History/LendBookLists';
-import RentBookLists from '../components/History/RentBookLists';
-import SortButton from '../components/History/SortButton';
-import useTabs from '../hooks/useTabs';
+import useTabs from 'hooks/useTabs';
+
+import {
+	Title,
+	LendBookLists,
+	RentBookLists,
+	TabLists,
+	SortButton,
+} from 'components';
 
 const HistoryPage = () => {
 	const [tab, curTab, handleChange] = useTabs(['빌린 책', '빌려준 책']);

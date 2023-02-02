@@ -4,10 +4,11 @@ import com.dongnebook.domain.model.Location;
 
 import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 @Getter
+@NoArgsConstructor
 public class MemberEditRequest {
-
 	private String nickname;
 	private Location location;
 	private String address;

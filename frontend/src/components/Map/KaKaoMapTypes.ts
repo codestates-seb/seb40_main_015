@@ -8,6 +8,12 @@ export interface MarkerProps {
 	};
 }
 
+export interface MerchantSectorList {
+	merchantCount: number;
+	sector: number;
+	location: { latitude: number; longitude: number };
+}
+
 export interface MerchantSectorProps {
 	merchantCount?: number;
 	totalBookCount?: number;
@@ -16,6 +22,15 @@ export interface MerchantSectorProps {
 		latitude: number;
 		longitude: number;
 	};
+}
+
+export interface BookSector {
+	bookCount: number;
+	location: {
+		latitude: number;
+		longitude: number;
+	};
+	sector: number;
 }
 
 export interface SizeProps {
@@ -31,4 +46,26 @@ export interface SelectOverlay {
 		latitude: number;
 		longitude: number;
 	};
+}
+
+export interface MerchantList {
+	merchantId: number;
+	merchantName: string;
+	location: {
+		latitude: number;
+		longitude: number;
+	};
+}
+
+export interface BookList {
+	bookId: number;
+	bookImage: string;
+	location: {
+		latitude: number;
+		longitude: number;
+	};
+	merchantName: string;
+	rentalFee: number;
+	status: string;
+	title: string;
 }

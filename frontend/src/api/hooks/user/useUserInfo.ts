@@ -1,5 +1,5 @@
 import { useQuery } from '@tanstack/react-query';
-import { MemberInfo } from '../../../queryType/members';
+import { MemberInfo } from 'queryType/members';
 import { useMypageAPI } from '../../mypage';
 
 const useUserInfo = (merchantId: number | string) => {

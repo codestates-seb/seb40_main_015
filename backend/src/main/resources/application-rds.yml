@@ -8,7 +8,7 @@ spring:
   cache:
     type: redis
   redis:
-    host: 3.36.157.238
+    host: 13.124.11.174
     port: 6379
   servlet:
     multipart:
@@ -71,3 +71,6 @@ cloud:
       static: ap-northeast-2
     stack:
       auto: false
+
+awsParameterStorePropertySource:
+  enabled: true

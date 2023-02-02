@@ -1,4 +1,4 @@
-import { ReviewCreateInterface } from '../redux/slice/reviewCreateSlice';
+import { ReviewCreateInterface } from 'redux/slice/reviewCreateSlice';
 
 export const makeCreateReviewMessages = (
 	reviewCreate: ReviewCreateInterface,

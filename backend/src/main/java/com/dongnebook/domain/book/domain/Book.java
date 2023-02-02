@@ -1,5 +1,6 @@
 package com.dongnebook.domain.book.domain;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -42,11 +43,9 @@ import lombok.NoArgsConstructor;
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Table(name = "book", indexes = @Index(name = "idx_book", columnList = "latitude,longitude,book_state"))
-public class Book extends BaseTimeEntity {
-
+public class Book extends BaseTimeEntity implements Serializable {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name = "id", updatable = false)
 	private Long id;
 
 	@Version
@@ -63,7 +62,7 @@ public class Book extends BaseTimeEntity {
 	private String publisher;
 
 	@Column(name = "img_url")
-	private String imgUrl;
+	private String imgUrl="asdfsadf";
 
 	@Lob
 	@Column(name = "description")
@@ -76,21 +75,21 @@ public class Book extends BaseTimeEntity {
 	@Embedded
 	private Location location;
 
-
 	@Convert(converter = BookStateConverter.class)
 	@Column(name = "book_state")
 	private BookState bookState;
 
-	@ManyToOne(fetch= FetchType.LAZY)
+	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "member_id")
 	private Member member;
 
-	@OneToMany(mappedBy = "book",cascade = CascadeType.REMOVE)
+	@OneToMany(mappedBy = "book", cascade = CascadeType.REMOVE)
 	private List<Dibs> dibsList = new ArrayList<>();
 
 	@Builder
-	public Book(String title, String author, String publisher, String imgUrl, String description, Money rentalFee,
-		Location location, BookState bookState, Member member) {
+	public Book(Long id, String title, String author, String imgUrl, String publisher, String description, Money rentalFee,
+		Location location, Member member) {
+		this.id = id;
 		this.title = title;
 		this.author = author;
 		this.publisher = publisher;
@@ -98,19 +97,18 @@ public class Book extends BaseTimeEntity {
 		this.description = description;
 		this.rentalFee = rentalFee;
 		this.location = location;
-		this.bookState = bookState;
+		this.bookState = BookState.RENTABLE;
 		this.member = member;
 	}
 
-	public void changeBookStateFromTo(BookState from, BookState to) {
+	public Book changeBookStateFromTo(BookState from, BookState to) {
 		if (this.bookState.equals(from)) {
-			this.bookState=to;
-			return;
+			this.bookState = to;
+			return this;
 		}
+
 		throw new CanNotChangeStateException();
 	}
-
-
 
 	public static Book create(BookRegisterRequest bookRegisterRequest, Location location, Member member) {
 		return Book.builder()
@@ -121,28 +119,27 @@ public class Book extends BaseTimeEntity {
 			.description(bookRegisterRequest.getDescription())
 			.rentalFee(Money.of(bookRegisterRequest.getRentalFee()))
 			.location(location)
-			.bookState(BookState.RENTABLE)
 			.member(member)
 			.build();
 	}
 
 	public void delete() {
-
 		if (Objects.equals(this.bookState, BookState.RENTABLE)) {
 			this.bookState = BookState.DELETED;
 			return;
 		}
+
 		throw new NotRentableException();
 	}
 
-	public void edit(BookEditRequest bookEditRequest){
-		this.imgUrl = bookEditRequest.getImageUrl()==null ? this.imgUrl : bookEditRequest.getImageUrl();
+	public void edit(BookEditRequest bookEditRequest) {
+		this.imgUrl = bookEditRequest.getImageUrl() == null ? this.imgUrl : bookEditRequest.getImageUrl();
 		this.description = bookEditRequest.getDescription();
 	}
 }
+
 @Converter
 class BookStateConverter implements AttributeConverter<BookState, String> {
-
 	@Override
 	public String convertToDatabaseColumn(BookState attribute) {
 		return String.valueOf(attribute);
@@ -152,7 +149,6 @@ class BookStateConverter implements AttributeConverter<BookState, String> {
 	public BookState convertToEntityAttribute(String dbData) {
 		return BookState.valueOf(dbData);
 	}
-
 }
 
 
