@@ -8,23 +8,28 @@ import lombok.Getter;
 @Getter
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class BookCountPerSectorResponse {
+
 	private Long bookCount;
-	private Integer sector;
-	private Location location;
+	private final Integer sector;
+	private final Location location;
 
-	public void plusBookCount(){
-		if(bookCount ==null){
-			this.bookCount = 0L;
-		}
-
+	public BookCountPerSectorResponse increaseBookCount(){
 		this.bookCount++;
+		return this;
 	}
 
-	public void initLocation(Location location) {
+	public BookCountPerSectorResponse(Long bookCount, Integer sector, Location location) {
+		this.bookCount = bookCount;
+		this.sector = sector;
 		this.location = location;
 	}
 
-	public void initSector(Integer sector) {
-		this.sector = sector;
+	@Override
+	public String toString() {
+		return "{" +
+			"bookCount=" + bookCount +
+			", sector=" + sector +
+			", location=" + location +
+			'}';
 	}
 }
