@@ -11,7 +11,7 @@ import org.springframework.stereotype.Repository;
 
 import com.dongnebook.domain.book.domain.BookState;
 import com.dongnebook.domain.member.domain.Member;
-import com.dongnebook.domain.member.dto.request.MerchantSearchRequest;
+import com.dongnebook.domain.member.dto.request.MerchantSearchableRequest;
 
 import com.dongnebook.domain.member.dto.response.MemberResponse;
 
@@ -35,7 +35,7 @@ public class MemberQueryRepository {
 	private final JPAQueryFactory jpaQueryFactory;
 
 	public List<Location> getSectorMerchantCounts(List<Double> latRangeList, List<Double> lonRangeList,
-		MerchantSearchRequest request) {
+		MerchantSearchableRequest request) {
 		return jpaQueryFactory.select(member.location)
 			.from(member)
 			.where((member.location.latitude.between(latRangeList.get(request.getLevel()), latRangeList.get(0))),
@@ -44,7 +44,7 @@ public class MemberQueryRepository {
 	}
 
 	public SliceImpl<MemberResponse> getAll(List<Double> latRangeList, List<Double> lonRangeList,
-		MerchantSearchRequest request, PageRequest pageRequest) {
+		MerchantSearchableRequest request, PageRequest pageRequest) {
 		List<MemberResponse> result = jpaQueryFactory
 			.select(
 				new QMemberResponse(
