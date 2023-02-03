@@ -1,4 +1,5 @@
 import { useMutation } from '@tanstack/react-query';
+import { AxiosResponse } from 'axios';
 import { axiosInstance } from '../../instance';
 
 const config = {
@@ -6,8 +7,9 @@ const config = {
 };
 
 const useGetPhotoUrl = () => {
-	return useMutation((formData: FormData) =>
-		axiosInstance.post(`/upload`, formData, config),
+	return useMutation(
+		(formData: FormData): Promise<AxiosResponse> =>
+			axiosInstance.post(`/upload`, formData, config),
 	);
 };
 
