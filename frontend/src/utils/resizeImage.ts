@@ -19,22 +19,7 @@ const resizeImage = (imgEl: HTMLImageElement, fileSize: number) => {
 	canvas.width = width;
 	canvas.height = height;
 	canvas.getContext('2d')?.drawImage(imgEl, 0, 0, width, height);
-	return canvas.toDataURL('image/jpeg');
-};
-
-const dataURLtoBlob = (dataURL: string) => {
-	let byteString;
-	if (dataURL.split(',')[0].indexOf('base64') >= 0)
-		byteString = atob(dataURL.split(',')[1]);
-	else byteString = unescape(dataURL.split(',')[1]);
-	const mimeString = dataURL.split(',')[0].split(':')[1].split(';')[0];
-	let ia = new Uint8Array(byteString.length);
-
-	for (let i = 0; i < byteString.length; i++) {
-		ia[i] = byteString.charCodeAt(i);
-	}
-
-	return new Blob([ia], { type: mimeString });
+	return canvas;
 };
 
 const resizeImageToBlob: (file: File) => Promise<Blob> = file => {
@@ -46,7 +31,7 @@ const resizeImageToBlob: (file: File) => Promise<Blob> = file => {
 				resolve(file);
 			} else {
 				const resizedDataUrl = resizeImage(imgEl, file.size);
-				resolve(dataURLtoBlob(resizedDataUrl));
+				resizedDataUrl.toBlob(blob => blob && resolve(blob), 'image/webp');
 			}
 		};
 		imgEl.src = result as string;
