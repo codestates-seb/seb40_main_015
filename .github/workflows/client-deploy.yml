@@ -15,6 +15,8 @@ jobs:
         working-directory: ./frontend
       - name: Build
         run: npm run build
+        env:
+          CI: false
         working-directory: ./frontend
         maximumFileSizeToCacheInBytes: 7 * 1024 * 1024
       - name: SHOW AWS CLI VERSION
