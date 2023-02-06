@@ -71,7 +71,7 @@ public class SecurityConfig {
 	@Bean
 	CorsConfigurationSource corsConfigurationSource() {
 		CorsConfiguration configuration = new CorsConfiguration();
-		configuration.setAllowedOrigins(List.of("http://localhost:3000","https://dongne-book.com"
+		configuration.setAllowedOrigins(List.of("http://192.168.219.100:3000","http://localhost:3000","https://dongne-book.com"
 		,"http://dongne-book.com","https://dongne-book-server.com","http://dongne-book-server.com"));
 		configuration.setAllowCredentials(true);
 		configuration.addExposedHeader("Authorization");

@@ -1,10 +1,11 @@
 package com.dongnebook.domain.member.application;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Objects;
+import java.util.Map;
 import java.util.Optional;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 import javax.persistence.EntityManager;
 import javax.servlet.http.HttpServletResponse;
@@ -21,7 +22,7 @@ import com.dongnebook.domain.book.repository.BookQueryRepository;
 import com.dongnebook.domain.member.domain.Member;
 import com.dongnebook.domain.member.dto.request.MemberEditRequest;
 import com.dongnebook.domain.member.dto.request.MemberRegisterRequest;
-import com.dongnebook.domain.member.dto.request.MerchantSearchRequest;
+import com.dongnebook.domain.member.dto.request.MerchantSearchableRequest;
 import com.dongnebook.domain.member.dto.response.MemberDetailResponse;
 import com.dongnebook.domain.member.dto.response.MemberResponse;
 import com.dongnebook.domain.member.dto.response.MerchantSectorCountResponse;
@@ -53,6 +54,8 @@ public class MemberService {
 	private final RefreshTokenRepository refreshTokenRepository;
 	private final TokenProvider tokenProvider;
 	private final EntityManager em;
+	List<Double> latRangeList;
+	List<Double> lonRangeList;
 
 	@Transactional
 	public Long create(MemberRegisterRequest memberRegisterRequest) {
@@ -82,9 +85,7 @@ public class MemberService {
 		Member member = memberQueryRepository.findByMemberWithRental(memberId)
 			.orElseThrow(MemberNotFoundException::new);
 
-		if (member.getBookList()
-			.stream()
-			.anyMatch(this::isBeingRental)) {
+		if (member.getBookList().stream().anyMatch(this::isBeingRental)) {
 			throw new MemberHasOnLoanException();
 		}
 
@@ -101,7 +102,6 @@ public class MemberService {
 			.orElseThrow(MemberNotFoundException::new);
 
 		Member member = getById(savedRefreshToken.getMemberId());
-
 
 		TokenDto tokenDto = tokenProvider.generateTokenDto(member.getId());
 		String newRTK = tokenDto.getRefreshToken();
@@ -142,51 +142,24 @@ public class MemberService {
 		refreshTokenRepository.deleteById(tokenProvider.parseClaims(refreshToken));
 	}
 
-	public List<MerchantSectorCountResponse> getSectorMerchantCounts(MerchantSearchRequest request) {
+	public List<MerchantSectorCountResponse> getSectorMerchantCounts(MerchantSearchableRequest condition) {
 
-		List<Double> latRangeList = latRangeList(request);
-		List<Double> lonRangeList = lonRangeList(request);
-		List<Location> sectorBookCounts = memberQueryRepository.getSectorMerchantCounts(latRangeList, lonRangeList,
-			request);
-		
-		List<MerchantSectorCountResponse> merchantSectorCountResponses = new ArrayList<>();
-		HashMap<Integer, Integer> indexMap = new HashMap<>();
-		int arrIndex = 0;
+		this.latRangeList = latRangeList(condition);
+		this.lonRangeList = lonRangeList(condition);
+		List<Location> sectorMerchantCounts = memberQueryRepository.getSectorMerchantCounts(latRangeList, lonRangeList,
+			condition);
 
-		for (Location location : sectorBookCounts) {
-			arrIndex = addMerchantCountPerSector(request, latRangeList, lonRangeList, merchantSectorCountResponses,
-				indexMap,
-				arrIndex, location);
-		}
-		return merchantSectorCountResponses;
-	}
+		Map<Integer, MerchantSectorCountResponse> collect = sectorMerchantCounts.stream()
+			.flatMap(location ->
+				IntStream.iterate(1, sector -> sector <= Math.pow(condition.getLevel(), 2), sector -> sector + 1)
+					.filter(sector -> location.checkRange(condition,sector))
+					.mapToObj(sector -> new MerchantSectorCountResponse(sector, location)))
+			.collect(
+				Collectors.toMap(MerchantSectorCountResponse::getSector,
+					MerchantSectorCountResponse::increaseMerchantCount,
+					(exist, newOne) -> exist.increaseMerchantCount()));
 
-	private boolean checkRange(List<Double> latRangeList, List<Double> lonRangeList, Double latitude, Double longitude,
-		int i, int j) {
-		return latRangeList.get(i + 1) <= latitude && latitude <= latRangeList.get(i)
-			&& lonRangeList.get(j) <= longitude && longitude <= lonRangeList.get(j + 1);
-	}
-
-	private boolean makeMerchantCountResponse(List<MerchantSectorCountResponse> merchantSectorCountResponses,
-		int sector, int arrIndex, Location location, HashMap<Integer, Integer> indexMap) {
-		boolean newResponse = false;
-
-		if (Optional.ofNullable(indexMap.get(sector)).isEmpty()) {
-			merchantSectorCountResponses.add(new MerchantSectorCountResponse());
-			indexMap.put(sector, arrIndex);
-			newResponse = true;
-		}
-
-		MerchantSectorCountResponse merchantSectorCountResponse = merchantSectorCountResponses.get(
-			indexMap.get(sector));
-		merchantSectorCountResponse.plusBookCount();
-
-		if (Objects.isNull(merchantSectorCountResponse.getLocation())) {
-			merchantSectorCountResponse.initLocation(location);
-			merchantSectorCountResponse.initSector(sector);
-		}
-
-		return newResponse;
+		return new ArrayList<>(collect.values());
 	}
 
 	public MemberDetailResponse getMemberInfo(Long memberId) {
@@ -198,17 +171,17 @@ public class MemberService {
 		return memberRepository.findById(memberId).orElseThrow(MemberNotFoundException::new);
 	}
 
-	public SliceImpl<MemberResponse> getList(MerchantSearchRequest merchantSearchRequest, PageRequest pageRequest) {
+	public SliceImpl<MemberResponse> getList(MerchantSearchableRequest merchantSearchRequest, PageRequest pageRequest) {
 		return memberQueryRepository.getAll(latRangeList(merchantSearchRequest), lonRangeList(merchantSearchRequest),
 			merchantSearchRequest, pageRequest);
 	}
 
-	private List<Double> lonRangeList(MerchantSearchRequest merchantSearchRequest) {
+	private List<Double> lonRangeList(MerchantSearchableRequest merchantSearchRequest) {
 		return Location.lonRangeList(merchantSearchRequest.getLongitude(), merchantSearchRequest.getWidth(),
 			merchantSearchRequest.getLevel());
 	}
 
-	private List<Double> latRangeList(MerchantSearchRequest merchantSearchRequest) {
+	private List<Double> latRangeList(MerchantSearchableRequest merchantSearchRequest) {
 		return Location.latRangeList(merchantSearchRequest.getLatitude(), merchantSearchRequest.getHeight(),
 			merchantSearchRequest.getLevel());
 	}
@@ -216,29 +189,6 @@ public class MemberService {
 	private boolean isBeingRental(Book book) {
 		return book.getBookState().equals(BookState.TRADING) || book.getBookState()
 			.equals(BookState.UNRENTABLE_RESERVABLE) || book.getBookState().equals(BookState.UNRENTABLE_UNRESERVABLE);
-	}
-
-	private int addMerchantCountPerSector(MerchantSearchRequest request, List<Double> latRangeList,
-		List<Double> lonRangeList,
-		List<MerchantSectorCountResponse> merchantSectorCountResponses, HashMap<Integer, Integer> indexMap,
-		int arrIndex, Location location) {
-		int sector = 0;
-
-		for (int i = 0; i < request.getLevel(); i++) {
-
-			for (int j = 0; j < request.getLevel(); j++) {
-				sector++;
-
-				if (checkRange(latRangeList, lonRangeList, location.getLatitude(), location.getLongitude(), i, j)
-					&& makeMerchantCountResponse(merchantSectorCountResponses, sector, arrIndex, location,
-					indexMap)) {
-					return arrIndex + 1;
-				}
-
-			}
-
-		}
-		return arrIndex;
 	}
 }
 
