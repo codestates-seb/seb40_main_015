@@ -35,4 +35,4 @@ jobs:
             --region ap-northeast-2 \
             build s3://dongnebook-bucket \
             --delete
-        working-directory: ./my-app-client
+        working-directory: ./frontend
