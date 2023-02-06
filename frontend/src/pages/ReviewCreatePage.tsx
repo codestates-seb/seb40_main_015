@@ -5,6 +5,7 @@ import { Button, ConfirmModal, Title, RatingSelect } from 'components';
 import useCreateReview from 'api/hooks/review/useCreateReview';
 import notify from 'utils/notify';
 import styled from 'styled-components';
+import TextInput from 'components/Review/TextInput';
 
 const ReviewCreatePage = () => {
 	const dispatch = useAppDispatch();
@@ -62,9 +63,9 @@ const ReviewCreatePage = () => {
 						</SelectBox>
 						<TextareaBox>
 							<p>리뷰 : </p>
-							<Textarea
-								placeholder="최대 30자까지 가능합니다"
-								maxLength={30}
+							<TextInput
+								placeholder="최대 100자까지 가능합니다."
+								maxLength={100}
 								value={content}
 								onChange={handleChangeContent}
 							/>
