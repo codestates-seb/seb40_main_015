@@ -1,26 +1,34 @@
 import React, { useState } from 'react';
 import { useLocation } from 'react-router';
 import { useAppDispatch } from 'redux/hooks';
-import { Button, ConfirmModal, Title, RatingSelect } from 'components';
+import {
+	Button,
+	ConfirmModal,
+	Title,
+	RatingSelect,
+	TextInput,
+} from 'components';
 import useCreateReview from 'api/hooks/review/useCreateReview';
 import notify from 'utils/notify';
 import styled from 'styled-components';
-import TextInput from 'components/Review/TextInput';
 
 const ReviewCreatePage = () => {
-	const dispatch = useAppDispatch();
 	const [content, setContent] = useState('');
 	const [submit, setSubmit] = useState(false);
 	const [hovered, setHovered] = useState<number>(0);
 	const [clicked, setClicked] = useState<number>(3);
+
+	const dispatch = useAppDispatch();
 	const location = useLocation();
 	const params = new URLSearchParams(location.search);
+
 	const [rentalId, bookId, title, id] = [
 		params.get('rentalId'),
 		params.get('bookId'),
 		params.get('title'),
 		params.get('id'),
 	];
+
 	const { mutate: createReview } = useCreateReview(
 		rentalId!,
 		bookId!,
