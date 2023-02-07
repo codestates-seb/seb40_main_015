@@ -15,7 +15,7 @@ import styled from 'styled-components';
 const ReviewCreatePage = () => {
 	const [content, setContent] = useState('');
 	const [submit, setSubmit] = useState(false);
-	const [hovered, setHovered] = useState<number>(0);
+	const [hovered, setHovered] = useState<number | null>(null);
 	const [clicked, setClicked] = useState<number>(3);
 
 	const dispatch = useAppDispatch();
@@ -47,6 +47,10 @@ const ReviewCreatePage = () => {
 	const handleClickSubmit = () => {
 		if (!clicked) {
 			notify(dispatch, '평점을 체크해주세요');
+			return;
+		}
+		if (!content) {
+			notify(dispatch, '리뷰를 작성해주세요');
 			return;
 		}
 		createReview();
@@ -148,15 +152,6 @@ const SelectBox = styled.div`
 const TextareaBox = styled.div`
 	display: flex;
 	flex-direction: column;
-`;
-
-const Textarea = styled.textarea`
-	height: 8rem;
-	padding: 1rem;
-	margin-top: 1.5rem;
-	resize: none;
-	font-size: 0.7rem;
-	border: 1px solid ${props => props.theme.colors.grey};
 `;
 
 export default ReviewCreatePage;
