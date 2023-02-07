@@ -9,11 +9,11 @@ interface IProps {
 }
 
 const TextInput = ({ ...props }: IProps) => {
-	const { placeholder, maxLength, value, onChange } = props;
+	const { placeholder = '', maxLength = 50, value, onChange } = props;
 	return (
 		<Textarea
-			placeholder={placeholder ? placeholder : ''}
-			maxLength={maxLength ? maxLength : 50}
+			placeholder={placeholder}
+			maxLength={maxLength}
 			value={value}
 			onChange={onChange}
 		/>
