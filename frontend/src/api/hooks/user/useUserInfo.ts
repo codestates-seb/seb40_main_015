@@ -4,13 +4,13 @@ import { useMypageAPI } from '../../mypage';
 
 const useUserInfo = (merchantId: number | string) => {
 	const { getMemberInfo } = useMypageAPI();
-	const { data, isLoading } = useQuery<MemberInfo>(
+	const { data, isFetching } = useQuery<MemberInfo>(
 		['merchant', merchantId],
 		() => getMemberInfo(merchantId),
-		{ retry: false },
+		{ retry: false, refetchOnWindowFocus: false },
 	);
 
-	return { data, isLoading };
+	return { data, isFetching };
 };
 
 export default useUserInfo;

@@ -1,12 +1,7 @@
-import React, { KeyboardEvent, useEffect, useRef, useState } from 'react';
+import React, { KeyboardEvent, useEffect, useState } from 'react';
 import styled from 'styled-components';
-import { useParams } from 'react-router';
-import * as StompJs from '@stomp/stompjs';
-import { FrameImpl } from '@stomp/stompjs';
-import { useAppSelector } from 'redux/hooks';
 import useGetRoomMessage from 'api/hooks/chat/useGetRoomMessage';
 import ScrollToBottom from 'utils/scrollToBottom';
-
 import {
 	ChatBookInfo as BookInfo,
 	ScrollBottomButton,
@@ -15,18 +10,10 @@ import {
 	Animation,
 	MessageList,
 } from 'components';
-
-interface NewMessage {
-	createdAt: string;
-	message: string;
-	roomId: number;
-	senderId: number;
-}
+import useClient from './hooks/useClient';
 
 const ChatRoomPage = () => {
 	const [text, setText] = useState('');
-	const { id } = useAppSelector(state => state.loginInfo);
-	const { roomId } = useParams(); // 채널을 구분하는 식별자를 URL 파라미터로 받는다.
 	const {
 		chatList,
 		messageList,
@@ -34,10 +21,12 @@ const ChatRoomPage = () => {
 		myInfo,
 		receiverInfo,
 		isLoading,
-	} = useGetRoomMessage(roomId!);
+		isFetching,
+	} = useGetRoomMessage();
+	const { newMessage, connect, publish, disconnect } = useClient({
+		receiverInfo,
+	});
 	const { bookId, bookState, bookUrl, title } = chatList;
-	const [newMessage, setNewMessage] = useState<NewMessage>();
-	const client: any = useRef({});
 
 	const handleChangeText = (e: React.ChangeEvent<HTMLInputElement>) => {
 		setText(e.target.value);
@@ -47,12 +36,14 @@ const ChatRoomPage = () => {
 		if (e.nativeEvent.isComposing || !text.trim()) return;
 		if (e.key === 'Enter' && text) {
 			publish(text);
+			setText('');
 		}
 	};
 
 	const handleClickSendMessage = () => {
 		if (!text.trim()) return;
 		publish(text);
+		setText('');
 	};
 
 	const handleClickEndOfChat = () => {
@@ -65,50 +56,6 @@ const ChatRoomPage = () => {
 	useEffect(() => {
 		ScrollToBottom();
 	}, [messageList]);
-
-	const connect = () => {
-		client.current = new StompJs.Client({
-			brokerURL: `${process.env.REACT_APP_WS_HOST}/stomp/chat/websocket`,
-			connectHeaders: {
-				login: 'user',
-				passcode: 'password',
-			},
-			reconnectDelay: 2000,
-			heartbeatIncoming: 4000,
-			heartbeatOutgoing: 4000,
-			onConnect: () => {
-				subscribe();
-			},
-			onStompError: frame => {
-				console.error(frame);
-			},
-		});
-		client.current.activate();
-	};
-
-	const publish = (text: string) => {
-		if (!client.current.connected) return;
-		client.current.publish({
-			destination: `/pub/chats/message/${roomId}`,
-			body: JSON.stringify({
-				senderId: id,
-				receiverId: receiverInfo?.memberId,
-				content: text,
-			}),
-		});
-		setText('');
-	};
-
-	const subscribe = () => {
-		client.current.subscribe(`/sub/room/${roomId}`, (body: FrameImpl) => {
-			const json_body = JSON.parse(body.body);
-			setNewMessage(json_body);
-		});
-	};
-
-	const disconnect = () => {
-		client.current.deactivate();
-	};
 
 	useEffect(() => {
 		const data = {
@@ -132,7 +79,7 @@ const ChatRoomPage = () => {
 		<Container>
 			<TopBox>
 				<Title text="대화내역" marginBottom={false} />
-				{!isLoading && chatList ? (
+				{!isFetching && chatList ? (
 					<BookInfo
 						bookState={bookState}
 						bookUrl={bookUrl}
@@ -143,7 +90,11 @@ const ChatRoomPage = () => {
 				) : null}
 			</TopBox>
 			<MessageArea>
-				{!isLoading ? <MessageList messageList={messageList} /> : <Animation />}
+				{!isFetching ? (
+					<MessageList messageList={messageList} />
+				) : (
+					<Animation />
+				)}
 			</MessageArea>
 			<InputWrapper>
 				<Input
