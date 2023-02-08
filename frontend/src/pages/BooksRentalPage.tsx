@@ -85,6 +85,7 @@ const BooksRentalPage = () => {
 					const { legend, id, checked, label, name } = list;
 					return (
 						<BookRentalInfo
+							key={id}
 							legend={legend}
 							id={id}
 							checked={checked}
