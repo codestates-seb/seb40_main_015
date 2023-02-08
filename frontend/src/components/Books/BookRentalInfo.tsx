@@ -18,7 +18,7 @@ const BookRentalInfo = ({ legend, id, checked, setChecked, label }: IProps) => {
 					required
 					id={id}
 					checked={checked}
-					onInput={setChecked}
+					onChange={setChecked}
 				/>
 				<label htmlFor={id} className="checkBoxLabel">
 					확인
