@@ -18,13 +18,13 @@ function MerchantPage() {
 	const urlParams = useParams();
 	const merchantId = urlParams.merchantId!;
 
-	const { data, isLoading } = useUserInfo(merchantId);
+	const { data, isFetching } = useUserInfo(merchantId);
 
 	return (
 		<Layout>
 			<Title text="상인 정보" />
 			<ProfileBox>
-				{isLoading ? (
+				{isFetching && !data ? (
 					<Animation width={50} height={50} />
 				) : (
 					<>
