@@ -22,9 +22,6 @@ public class ImageUploadController {
 
 	@PostMapping("/upload")
 	public String saveImage(ImageUploadRequest imageUploadRequest) throws IOException {
-		log.info("upload Image = {} ", imageUploadRequest.getImg());
-		String url = awsS3Service.storeImage(imageUploadRequest.getImg());
-		log.info("url = {}",url);
-		return url;
+		return awsS3Service.storeImage(imageUploadRequest.getImg());
 	}
 }

@@ -9,17 +9,17 @@ import lombok.Getter;
 
 @Getter
 public class BookInfoResponse {
-	private Long bookId;
-	private String bookUrl;
-	private String title;
-	private String author;
-	private String publisher;
-	private Integer rentalFee;
-	private String content;
-	private Location location;
-	private BookState bookState;
-	private String merchantName;
-	private Long merchantId;
+	private final Long bookId;
+	private final String bookUrl;
+	private final String title;
+	private final String author;
+	private final String publisher;
+	private final Integer rentalFee;
+	private final String content;
+	private final Location location;
+	private final BookState bookState;
+	private final String merchantName;
+	private final Long merchantId;
 
 	@QueryProjection
 	public BookInfoResponse(Long bookId, String bookUrl, String title, String author, String publisher,

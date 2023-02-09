@@ -1,6 +1,5 @@
 package com.dongnebook.domain.model.image.infrastructure;
 
-import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
@@ -17,6 +16,7 @@ import com.amazonaws.services.s3.AmazonS3;
 import com.amazonaws.services.s3.model.CannedAccessControlList;
 import com.amazonaws.services.s3.model.ObjectMetadata;
 import com.amazonaws.services.s3.model.PutObjectRequest;
+import com.dongnebook.domain.model.image.application.ImageResizer;
 import com.dongnebook.domain.model.image.application.ImageUploadService;
 import com.dongnebook.domain.model.image.exception.UploadFailed;
 
@@ -28,10 +28,11 @@ import lombok.extern.slf4j.Slf4j;
 @Service
 public class AwsS3Service implements ImageUploadService {
 	private final AmazonS3 amazonS3;
+	private final ImageResizer imageResizer;
 	@Value("${cloud.aws.s3.bucket}")
 	private String bucketName;
 
-	private static final Integer MAX_SIZE = 400;
+
 
 	public String storeImage(MultipartFile beforeImage) throws IOException {
 
@@ -39,7 +40,7 @@ public class AwsS3Service implements ImageUploadService {
 		String originalFilename = beforeImage.getOriginalFilename();
 		String storeFileName = createStoreFileName(originalFilename);
 		BufferedImage bufferedImage = ImageIO.read(beforeImage.getInputStream());
-		BufferedImage resizedImage = resizeWithOriginalAspectRatio(bufferedImage);
+		BufferedImage resizedImage = imageResizer.resizeWithOriginalAspectRatio(bufferedImage);
 
 		try (ByteArrayOutputStream baos = new ByteArrayOutputStream()) {
 			ImageIO.write(resizedImage, "jpg", baos);
@@ -58,28 +59,6 @@ public class AwsS3Service implements ImageUploadService {
 		}
 
 		return amazonS3.getUrl(bucketName, storeFileName).toString();
-	}
-
-	public BufferedImage resizeWithOriginalAspectRatio(BufferedImage originalImage) {
-		int width = originalImage.getWidth();
-		int height = originalImage.getHeight();
-
-		int newWidth = width;
-		int newHeight = height;
-		if (width > height && width > MAX_SIZE) {
-			newHeight = (int)(height * (double)MAX_SIZE / width);
-			newWidth = MAX_SIZE;
-		}
-
-		if (width <= height && height > MAX_SIZE) {
-			newWidth = (int)(width * (double)MAX_SIZE / height);
-			newHeight = MAX_SIZE;
-		}
-
-		BufferedImage resizedImage = new BufferedImage(newWidth, newHeight, BufferedImage.TYPE_INT_RGB);
-		Image scaledImage = originalImage.getScaledInstance(newWidth, newHeight, Image.SCALE_SMOOTH);
-		resizedImage.getGraphics().drawImage(scaledImage, 0, 0, null);
-		return resizedImage;
 	}
 
 	private void validateFileExists(MultipartFile multipartFile) {
