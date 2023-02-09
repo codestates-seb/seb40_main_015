@@ -52,9 +52,6 @@ class BookServiceTest {
 	@InjectMocks
 	BookService bookService;
 
-	private List<Double> latRangeList;
-
-	private List<Double> lonRangeList;
 
 	@Test
 	@DisplayName("책을 생성한다.")
@@ -216,6 +213,7 @@ class BookServiceTest {
 			()-> assertThat(testMap).containsEntry(7,1L),
 			()-> assertThat(testMap).containsEntry(9,1L)
 		);
+
 
 	}
 

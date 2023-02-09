@@ -101,6 +101,11 @@ public class BookController {
 		return ResponseEntity.ok(bookService.delete(id, memberId));
 	}
 
+	@GetMapping("/error")
+	public void error(){
+		log.error("에러");
+	}
+
 	@GetMapping("/bookInfo")
 	public List<KaKaoBookInfoResponse> getBookInfo(@RequestParam String bookTitle) {
 		String kakaoApi = "https://dapi.kakao.com/v3/search/book";

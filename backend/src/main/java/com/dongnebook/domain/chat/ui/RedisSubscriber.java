@@ -29,7 +29,7 @@ public class RedisSubscriber implements MessageListener {
 			RedisChat redisChat = objectMapper.readValue(publishMessage, RedisChat.class);
 			messagingTemplate.convertAndSend("/sub/room/" + redisChat.getRoomId(), redisChat);
 			log.info("레디스에서 받아옴");
-		}
+	}
 		catch (Exception e){
 			log.error(e.getMessage());
 		}
