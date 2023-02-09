@@ -2,6 +2,8 @@ name: client-deploy
 
 on:
   push:
+    paths:
+      - "frontend/**"
     branches:
       - dev
 jobs:
