@@ -1,9 +1,8 @@
 import React from 'react';
 import styled from 'styled-components';
-import { useAppSelector } from '../../redux/hooks';
+import { useAppSelector } from 'redux/hooks';
 import { convertDateForChat2 } from '../../utils/convertDateForChat';
-import ReceptionMessage from './ReceptionMessage';
-import SendingMessage from './SendingMessage';
+import Message from './Message';
 
 interface List {
 	avatarUrl: string;
@@ -37,7 +36,7 @@ const MessageList = (props: IProps) => {
 								return (
 									<React.Fragment key={currentDate}>
 										<DateDisplay>{currentDate}</DateDisplay>
-										<SendingMessage list={newList} />
+										<Message isReceived={false} list={newList} />
 									</React.Fragment>
 								);
 							} else {
@@ -45,7 +44,7 @@ const MessageList = (props: IProps) => {
 								return (
 									<React.Fragment key={currentDate}>
 										<DateDisplay>{currentDate}</DateDisplay>
-										<SendingMessage list={list} />
+										<Message isReceived={false} list={list} />
 									</React.Fragment>
 								);
 							}
@@ -54,7 +53,7 @@ const MessageList = (props: IProps) => {
 								return (
 									<React.Fragment key={currentDate}>
 										<DateDisplay>{currentDate}</DateDisplay>
-										<ReceptionMessage list={newList} />
+										<Message list={newList} />
 									</React.Fragment>
 								);
 							} else {
@@ -62,7 +61,7 @@ const MessageList = (props: IProps) => {
 								return (
 									<React.Fragment key={currentDate}>
 										<DateDisplay>{currentDate}</DateDisplay>
-										<ReceptionMessage list={list} />
+										<Message list={list} />
 									</React.Fragment>
 								);
 							}
@@ -70,17 +69,21 @@ const MessageList = (props: IProps) => {
 					} else {
 						if (list?.nickName === nickname) {
 							if (prevNickname === list.nickName) {
-								return <SendingMessage key={dateTime} list={newList} />;
+								return (
+									<Message isReceived={false} key={dateTime} list={newList} />
+								);
 							} else {
 								prevNickname = list.nickName;
-								return <SendingMessage key={dateTime} list={list} />;
+								return (
+									<Message isReceived={false} key={dateTime} list={list} />
+								);
 							}
 						} else {
 							if (prevNickname === list.nickName) {
-								return <ReceptionMessage key={dateTime} list={newList} />;
+								return <Message key={dateTime} list={newList} />;
 							} else {
 								prevNickname = list.nickName;
-								return <ReceptionMessage key={dateTime} list={list} />;
+								return <Message key={dateTime} list={list} />;
 							}
 						}
 					}
