@@ -82,7 +82,6 @@ public class Location implements Serializable {
 
 		}
 
-		log.info("latRangeList={}", latRangeList);
 		return latRangeList;
 	}
 
@@ -111,7 +110,7 @@ public class Location implements Serializable {
 			}
 
 		}
-		log.info("lonRangeList={}", lonRangeList);
+
 		return lonRangeList;
 	}
 

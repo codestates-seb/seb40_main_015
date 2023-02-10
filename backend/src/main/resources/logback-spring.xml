@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration packagingData="true">
+    <springProperty name="AWS_ACCESS_KEY" source="cloud.aws.credentials.access-key"/>
+    <springProperty name="AWS_SECRET_KEY" source="cloud.aws.credentials.secret-key"/>
+    <timestamp key="timestamp" datePattern="yyyy-MM-dd-HH-mm-ssSSS"/>
+    <appender name="aws_cloud_watch_log" class="ca.pjer.logback.AwsLogsAppender">
+        <layout>
+            <pattern>[%thread] [%date] [%level] [%file:%line] - %msg%n</pattern>
+        </layout>
+        <logGroupName>dongnebook-</logGroupName>
+        <logStreamUuidPrefix>dongnebook-</logStreamUuidPrefix>
+        <logRegion>ap-northeast-2</logRegion>
+        <maxBatchLogEvents>50</maxBatchLogEvents>
+        <maxFlushTimeMillis>30000</maxFlushTimeMillis>
+        <maxBlockTimeMillis>5000</maxBlockTimeMillis>
+        <retentionTimeDays>0</retentionTimeDays>
+        <accessKeyId>${AWS_ACCESS_KEY}</accessKeyId>
+        <secretAccessKey>${AWS_SECRET_KEY}</secretAccessKey>
+        <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
+            <level>INFO</level>
+        </filter>
+
+    </appender>
+
+
+
+    <appender name="application_log" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder>
+            <pattern>[%thread] [%date] [%level] [%file:%line] - %msg%n</pattern>
+        </encoder>
+    </appender>
+
+    <root level="INFO">
+        <springProfile name="local">
+            <appender-ref ref="application_log"/>
+<!--            <appender-ref ref="aws_cloud_watch_log"/>-->
+        </springProfile>
+    </root>
+    <root level="WARN">
+        <springProfile name="rds">
+            <appender-ref ref="application_log"/>
+            <appender-ref ref="aws_cloud_watch_log"/>
+        </springProfile>
+    </root>
+
+</configuration>
