@@ -24,11 +24,14 @@ export const useGetNotice = () => {
 	const accessToken: string =
 		persistStorage && JSON.parse(persistStorage).accessToken.replace('"', '');
 
-	return useQuery(['notice'], () =>
-		axiosInstance.get('/alarm', {
-			headers: {
-				Authorization: accessToken,
-			},
-		}),
-	);
+	return useQuery({
+		queryKey: ['notice'],
+		queryFn: () =>
+			axiosInstance.get('/alarm', {
+				headers: {
+					Authorization: accessToken,
+				},
+			}),
+		staleTime: 60 * 1000,
+	});
 };

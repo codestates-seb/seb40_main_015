@@ -28,7 +28,7 @@ const BookList = ({ merchantId }: { merchantId: string }) => {
 								onClick={e => {
 									handleBookDetailPageMove(bookId);
 								}}>
-								<img src={bookImage} alt="" width={50} height={70} />
+								<img src={bookImage} alt="책 이미지" width={50} height={70} />
 								<InfoWrapped>
 									<p>
 										{title.length < 17 ? title : title.slice(0, 17) + '...'}
