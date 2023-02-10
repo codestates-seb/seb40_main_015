@@ -21,7 +21,7 @@ const NoticeItem = ({ noticeData }: NoticeItemType) => {
 		if (window.confirm(CONFIRM_MESSAGES.delete)) {
 			mutate(alarmId, {
 				onSuccess: () => {
-					if (navigator.userAgent.includes(WINDOWS)) window.location.reload();
+					// if (navigator.userAgent.includes(WINDOWS)) window.location.reload();
 				},
 			});
 		} else {
