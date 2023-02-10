@@ -19,6 +19,12 @@ jobs:
         run: npm run build
         env:
           CI: false
+          REACT_APP_HOST: "https://dongne-book-server.com"
+          REACT_APP_KAKAO_KEY: ${{ secrets.KAKAO_KEY }}
+          REACT_APP_GEOCODER_KEY: ${{ secrets.GEOCODER_KEY }}
+          REACT_APP_WS_HOST: ${{ secrets.WS_HOST }}
+          REACT_APP_WS_HOST_DEV: ${{ secrets.WS_HOST_DEV }}
+          WDS_SOCKET_PORT: ${{ secrets.WDS_SOCKET_PORT }}
         working-directory: ./frontend
       - name: SHOW AWS CLI VERSION
         env:
