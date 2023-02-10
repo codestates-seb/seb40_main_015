@@ -1,6 +1,6 @@
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
-import useMerchantBookList from '../../api/hooks/merchant/useMerchantBookList';
+import useMerchantBookList from 'api/hooks/merchant/useMerchantBookList';
 
 interface Item {
 	bookId: string;
@@ -22,24 +22,28 @@ const BookList = ({ merchantId }: { merchantId: string }) => {
 			{lists?.length ? (
 				lists.map((item: Item, i: number) => {
 					const { bookId, title, bookImage, status } = item;
-					// 대여가능, 거래중, 대여중&예약불가, 대여중&예약가능
 					return (
 						<Container key={bookId}>
 							<FlexBox
 								onClick={e => {
 									handleBookDetailPageMove(bookId);
 								}}>
-								<img src={bookImage} alt="" width={50} height={70} />
+								<img src={bookImage} alt="책 이미지" width={50} height={70} />
 								<InfoWrapped>
 									<p>
 										{title.length < 17 ? title : title.slice(0, 17) + '...'}
 									</p>
 									<BookStatus status={status}>
-										{status === '대여가능'
-											? '대여가능'
-											: status === '대여중&예약가능'
-											? '예약가능'
-											: '예약불가'}
+										{(() => {
+											switch (status) {
+												case '대여가능':
+													return '대여가능';
+												case '대여중&예약가능':
+													return '예약가능';
+												case '예약불가':
+													return '예약불가';
+											}
+										})()}
 									</BookStatus>
 								</InfoWrapped>
 							</FlexBox>
@@ -122,9 +126,14 @@ const BookStatus = styled.div<IBookstatus>`
 	text-align: center;
 	font-size: 14px;
 	background-color: ${props => {
-		if (props.status === '대여가능') return '#DEF5E5';
-		else if (props.status === '대여중&예약가능') return '#FFFAD7';
-		else return '#FF9F9F';
+		switch (props.status) {
+			case '대여가능':
+				return '#DEF5E5';
+			case '대여중&예약가능':
+				return '#FFFAD7';
+			case '예약불가':
+				return '#FF9F9F';
+		}
 	}};
 `;
 export default BookList;

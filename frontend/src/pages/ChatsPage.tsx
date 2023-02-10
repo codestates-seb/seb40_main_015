@@ -1,19 +1,6 @@
 import styled from 'styled-components';
 import useGetRoomLists from 'api/hooks/chat/useGetRoomLists';
-
 import { Title, ChatLists, Animation } from 'components';
-
-interface RoomList {
-	createdAt: string;
-	avatarUrl: string;
-	bookImageUrl: string;
-	latestMessage: string;
-	name: string;
-	customerId: number;
-	merchantId: number;
-	roomId: number;
-	bookId: number;
-}
 
 const ChatsPage = () => {
 	const { roomListsData, isLoadingRoomList } = useGetRoomLists();

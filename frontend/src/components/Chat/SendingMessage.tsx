@@ -1,6 +1,6 @@
 import { useNavigate } from 'react-router';
 import styled from 'styled-components';
-import { convertDateForChat } from '../../utils/convertDateForChat';
+import { convertDateForChat } from 'utils/convertDateForChat';
 
 interface IProps {
 	list: {
@@ -18,7 +18,7 @@ const SendingMessage = ({ list }: IProps) => {
 	const navigate = useNavigate();
 
 	const handleMoveUserProfile = () => {
-		navigate(`/profile/merchant/${memberId}`);
+		memberId && navigate(`/profile/merchant/${memberId}`);
 	};
 
 	return (
@@ -79,7 +79,6 @@ const NickNameBox = styled.span`
 	margin-right: 0.3rem;
 	margin-bottom: 0.5rem;
 	padding-top: 0.5rem;
-	/* padding-right: 0.5rem; */
 `;
 
 const MessageInfoBox = styled.div`

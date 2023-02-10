@@ -9,19 +9,16 @@ import {
 	BodyContainer,
 	TitleWrapper,
 	CalendarWrapper,
-	RentalCheck,
-	RentalInfo,
 	BookCalendar,
 } from 'components';
-
 import { usePostBookRental } from 'api/hooks/books/usePostBookRental';
 import { calcCalendarDate } from 'utils/calcCalendarDate';
-import { title } from 'process';
+import BookRentalInfo from 'components/Books/BookRentalInfo';
 
 interface LinkProps {
 	state: {
 		bookTitle: string;
-		rentalFee?: number;
+		rentalFee: number;
 	};
 }
 
@@ -36,6 +33,30 @@ const BooksRentalPage = () => {
 	);
 	const { bookId } = useParams();
 	const { state } = useLocation() as LinkProps;
+
+	const RentalCheckLists = [
+		{
+			legend: '대여 기간',
+			id: 'rentalPeriod',
+			name: 'period',
+			checked: checkLists.period,
+			label: rentalPeriod,
+		},
+		{
+			legend: '도서 제목',
+			id: 'book_title',
+			name: 'title',
+			checked: checkLists.title,
+			label: state.bookTitle,
+		},
+		{
+			legend: '대여료',
+			id: 'book_fee',
+			name: 'fee',
+			checked: checkLists.fee,
+			label: `${state.rentalFee}원`,
+		},
+	];
 
 	const { mutateBookRental } = usePostBookRental(bookId);
 
@@ -60,68 +81,24 @@ const BooksRentalPage = () => {
 						* 대여 기간은 금일부터 <strong>10일</strong> 입니다.
 					</p>
 				</CalendarWrapper>
-				<RentalInfo>
-					<legend>대여 기간</legend>
-					<RentalCheck>
-						<input
-							type="checkbox"
-							required
-							id="rentalPeriod"
-							onInput={() => {
+				{RentalCheckLists.map(list => {
+					const { legend, id, checked, label, name } = list;
+					return (
+						<BookRentalInfo
+							key={id}
+							legend={legend}
+							id={id}
+							checked={checked}
+							setChecked={() =>
 								setCheckLists(prev => ({
 									...prev,
-									period: !checkLists.period,
-								}));
-							}}
+									[name]: !checked,
+								}))
+							}
+							label={label}
 						/>
-						<label htmlFor="rentalPeriod" className="checkBoxLabel">
-							확인
-						</label>
-						<label>{rentalPeriod}</label>
-					</RentalCheck>
-				</RentalInfo>
-
-				<RentalInfo>
-					<legend>도서 제목</legend>
-					<RentalCheck>
-						<input
-							type="checkbox"
-							required
-							id="book_title"
-							onInput={() => {
-								setCheckLists(prev => ({
-									...prev,
-									title: !checkLists.title,
-								}));
-							}}
-						/>
-						<label htmlFor="book_title" className="checkBoxLabel">
-							확인
-						</label>
-						<label>{state.bookTitle}</label>
-					</RentalCheck>
-				</RentalInfo>
-
-				<RentalInfo>
-					<legend>대여료</legend>
-					<RentalCheck>
-						<input
-							type="checkbox"
-							required
-							id="book_fee"
-							onInput={() => {
-								setCheckLists(prev => ({
-									...prev,
-									fee: !checkLists.fee,
-								}));
-							}}
-						/>
-						<label htmlFor="book_fee" className="checkBoxLabel">
-							확인
-						</label>
-						<label>{state.rentalFee}원</label>
-					</RentalCheck>
-				</RentalInfo>
+					);
+				})}
 			</BodyContainer>
 			<BtnWrapper>
 				<Button onClick={handleRentalButton}>대여 신청</Button>

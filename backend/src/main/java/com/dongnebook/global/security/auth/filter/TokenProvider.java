@@ -81,27 +81,17 @@ public class TokenProvider {
 			.build();
 	}
 
-
-	// 토큰 검증
 	public boolean validateToken(String token) {
 		try {
 			parseClaims(token);
 			return true;
 		} catch (MalformedJwtException e) {
-			log.info("Invalid JWT token");
-			log.trace("Invalid JWT token trace: {}", e);
 			throw new TokenMalformed();
 		} catch (ExpiredJwtException e) {
-			log.info("Expired JWT token");
-			log.trace("Expired JWT token trace: {}", e);
 			throw new TokenExpired();
 		} catch (UnsupportedJwtException e) {
-			log.info("Unsupported JWT token");
-			log.trace("Unsupported JWT token trace: {}", e);
 			throw new TokenUnsupported();
 		} catch (IllegalArgumentException e) {
-			log.info("JWT claims string is empty.");
-			log.trace("JWT claims string is empty trace: {}", e);
 			throw new TokenEmpty();
 		}
 	}

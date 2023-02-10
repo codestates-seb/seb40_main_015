@@ -1,5 +1,6 @@
 package com.dongnebook.domain.dibs.service;
 
+import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.data.domain.SliceImpl;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -27,6 +28,7 @@ public class DibsService {
 	private final BookService bookService;
 	private final BookQueryRepository bookQueryRepository;
 
+	@CacheEvict(value = "bookDetail", key="#bookId")
 	public void doDibs(Long bookId,Long memberId){
 		Book book = getBookById(bookId);
 		Member member = getMemberById(memberId);
