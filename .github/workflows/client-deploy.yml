@@ -16,7 +16,7 @@ jobs:
         run: npm install
         working-directory: ./frontend
       - name: Generate Environment Variables File
-        run:
+        run: |
           echo "REACT_APP_HOST=${{ secrets.REACT_APP_HOST }}" >> frontend/.env
           echo "REACT_APP_KAKAO_KEY=${{ secrets.REACT_APP_KAKAO_KEY }}" >> frontend/.env
           echo "REACT_APP_GEOCODER_KEY=${{ secrets.REACT_APP_GEOCODER_KEY }}" >> frontend/.env
