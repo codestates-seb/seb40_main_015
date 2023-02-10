@@ -10,7 +10,7 @@ name: Java CI with Gradle
 on:
   push:
     paths: [ 'backend/**' ]
-    branches: [ 'main' ]
+    branches: [ 'main' , 'dev' ]
 
 permissions:
   contents: read

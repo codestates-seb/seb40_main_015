@@ -43,9 +43,6 @@ public class Member extends BaseTimeEntity implements Serializable {
 	@Column(name = "user_id", nullable = false, unique = true)
 	private String userId;
 
-	@Column(name = "oauth_id", unique = true)
-	private String oauthId;
-
 	@Size(min = 8)
 	@Column(name = "password", nullable = false)
 	private String password;
