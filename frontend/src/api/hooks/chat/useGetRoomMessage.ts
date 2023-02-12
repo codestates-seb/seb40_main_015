@@ -45,7 +45,6 @@ const useGetRoomMessage = () => {
 		setMessageList,
 		myInfo,
 		receiverInfo,
-		isLoading,
 		isFetching,
 	};
 };
