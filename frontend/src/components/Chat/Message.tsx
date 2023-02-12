@@ -10,11 +10,11 @@ interface Iprops {
 		nickName?: string;
 		memberId?: number;
 	};
+	isReceived?: boolean;
 }
 
-const ReceptionMessage = ({ list }: Iprops) => {
+const Message = ({ list, isReceived = true }: Iprops) => {
 	const { avatarUrl, content, dateTime, nickName, memberId } = list;
-
 	const navigate = useNavigate();
 
 	const handleMoveUserProfile = () => {
@@ -22,8 +22,8 @@ const ReceptionMessage = ({ list }: Iprops) => {
 	};
 
 	return (
-		<Container>
-			{avatarUrl ? (
+		<Container isReceived={isReceived}>
+			{avatarUrl && isReceived ? (
 				<UserImage
 					src={avatarUrl}
 					alt="상대방 이미지"
@@ -32,22 +32,37 @@ const ReceptionMessage = ({ list }: Iprops) => {
 			) : (
 				<EmptyImageBox />
 			)}
-			<Box>
+			<Box isReceived={isReceived}>
 				{nickName ? <span>{nickName}</span> : null}
 				<MessageInfoBox>
-					<MessageArea>
+					{!isReceived && <span>{convertDateForChat(dateTime)}</span>}
+					<MessageArea isReceived={isReceived}>
 						<p>{content}</p>
 					</MessageArea>
-					<span>{convertDateForChat(dateTime)}</span>
+					{isReceived && <span>{convertDateForChat(dateTime)}</span>}
 				</MessageInfoBox>
 			</Box>
+			{avatarUrl && !isReceived ? (
+				<UserImage
+					src={avatarUrl}
+					alt="나의 이미지"
+					onClick={handleMoveUserProfile}
+				/>
+			) : (
+				<EmptyImageBox />
+			)}
 		</Container>
 	);
 };
 
-const Container = styled.div`
+interface ContainerProps {
+	isReceived: boolean;
+}
+
+const Container = styled.div<ContainerProps>`
 	display: flex;
 	align-items: flex-start;
+	justify-content: ${props => (props.isReceived ? 'flex-start' : 'flex-end')};
 	margin-bottom: 0.2rem;
 	&:last-child {
 		margin-bottom: 1rem;
@@ -61,17 +76,22 @@ const UserImage = styled.img`
 	cursor: pointer;
 `;
 
-const Box = styled.div`
+interface BoxProps {
+	isReceived: boolean;
+}
+
+const Box = styled.div<BoxProps>`
 	display: flex;
 	flex-direction: column;
-	margin-left: 0.5rem;
+	align-items: ${props => (props.isReceived ? 'flex-start' : 'flex-end')};
+	margin-left: ${props => (props.isReceived ? '0.5rem' : '0')};
+	margin-right: ${props => (props.isReceived ? '0' : '0.5rem')};
 	span {
 		font-weight: bold;
-		/* margin-left: 0.3rem; */
+		margin-right: ${props => (props.isReceived ? 0 : '0.3rem')};
 		&:first-child {
 			margin-bottom: 0.5rem;
 			padding-top: 0.5rem;
-			/* padding-left: 0.5rem; */
 		}
 	}
 `;
@@ -85,9 +105,14 @@ const MessageInfoBox = styled.div`
 	}
 `;
 
-const MessageArea = styled.div`
+interface MessageAreaProps {
+	isReceived: boolean;
+}
+
+const MessageArea = styled.div<MessageAreaProps>`
 	max-width: 15rem;
-	background-color: #eaeaea;
+	background-color: ${props => (props.isReceived ? '#eaeaea' : '#26795d')};
+	color: ${props => (props.isReceived ? 'black' : 'white')};
 	border-radius: 15px;
 	padding: 0.7rem;
 
@@ -102,4 +127,4 @@ const EmptyImageBox = styled.div`
 	width: 3.5rem;
 `;
 
-export default ReceptionMessage;
+export default Message;
