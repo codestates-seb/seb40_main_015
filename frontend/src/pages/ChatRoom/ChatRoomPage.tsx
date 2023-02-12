@@ -11,6 +11,7 @@ import {
 	MessageList,
 } from 'components';
 import useClient from './hooks/useClient';
+import { useNavigate } from 'react-router';
 
 const ChatRoomPage = () => {
 	const [text, setText] = useState('');
@@ -20,12 +21,13 @@ const ChatRoomPage = () => {
 		setMessageList,
 		myInfo,
 		receiverInfo,
-		isLoading,
 		isFetching,
 	} = useGetRoomMessage();
 	const { newMessage, connect, publish, disconnect } = useClient({
 		receiverInfo,
 	});
+	const navigate = useNavigate();
+
 	const { bookId, bookState, bookUrl, title } = chatList;
 
 	const handleChangeText = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -46,11 +48,9 @@ const ChatRoomPage = () => {
 		setText('');
 	};
 
-	const handleClickEndOfChat = () => {
-		let isEnd = window.confirm('정말 종료하시겠어요?');
-		if (isEnd) {
-			disconnect();
-		}
+	const handleClickMoveChatLists = (e: React.MouseEvent<HTMLButtonElement>) => {
+		e.stopPropagation();
+		navigate('/chats');
 	};
 
 	useEffect(() => {
@@ -85,7 +85,7 @@ const ChatRoomPage = () => {
 						bookUrl={bookUrl}
 						bookId={bookId}
 						title={title}
-						onClick={handleClickEndOfChat}
+						onClick={handleClickMoveChatLists}
 					/>
 				) : null}
 			</TopBox>
@@ -134,7 +134,10 @@ const TopBox = styled.div`
 const MessageArea = styled.div`
 	padding: 1rem;
 	box-sizing: border-box;
-	margin-bottom: 80px;
+	padding-bottom: 80px;
+	display: flex;
+	justify-content: flex-end;
+	flex-direction: column;
 	@media screen and (min-width: 800px) {
 		width: 800px;
 		border: 1px solid #eaeaea;
