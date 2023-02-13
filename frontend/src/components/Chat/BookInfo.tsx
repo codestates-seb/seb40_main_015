@@ -7,7 +7,7 @@ interface IProps {
 	bookUrl: string;
 	bookId: number;
 	title: string;
-	onClick: () => void;
+	onClick: (e: React.MouseEvent<HTMLButtonElement>) => void;
 }
 
 const BookInfo = ({ bookState, bookUrl, bookId, title, onClick }: IProps) => {
@@ -45,9 +45,9 @@ const BookInfo = ({ bookState, bookUrl, bookId, title, onClick }: IProps) => {
 						<p>{bookState}</p>
 					</LeftContent>
 				</LeftBox>
-				{/* <Button fontSize="small" onClick={onClick}>
-					채팅 종료
-				</Button> */}
+				<Button fontSize="small" onClick={onClick}>
+					채팅 목록
+				</Button>
 			</Container>
 		</>
 	);
