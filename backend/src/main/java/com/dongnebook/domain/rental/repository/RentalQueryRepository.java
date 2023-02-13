@@ -150,7 +150,7 @@ public class RentalQueryRepository {
     }
 
     private BooleanExpression rentalStateEq(String rentalState){
-        if(rentalState == null){
+        if(RentalState.valueOf(rentalState) == RentalState.NONE){
             return null;
         }
 
