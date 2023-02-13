@@ -6,6 +6,7 @@ import lombok.Getter;
 @Getter
 public class ReviewResponse {
     private Long reviewId;
+    private Long reviewerId;
     private String customerNickname;
     private String customerAvatarUrl;
     private String reviewMessage;
@@ -16,9 +17,10 @@ public class ReviewResponse {
     private Long rentalId;
 
     @QueryProjection
-    public ReviewResponse(Long reviewId, String customerNickname, String customerAvatarUrl, String reviewMessage,
+    public ReviewResponse(Long reviewId, Long reviewerId, String customerNickname, String customerAvatarUrl, String reviewMessage,
                           Long reviewGrade, String bookTitle, String bookUrl, Long bookId, Long rentalId){
         this.reviewId = reviewId;
+        this.reviewerId = reviewerId;
         this.customerNickname = customerNickname;
         this.customerAvatarUrl = customerAvatarUrl;
         this.reviewMessage = reviewMessage;

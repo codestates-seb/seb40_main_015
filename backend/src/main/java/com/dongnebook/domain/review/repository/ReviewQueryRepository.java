@@ -25,6 +25,7 @@ public class ReviewQueryRepository {
         List<ReviewResponse> reviews = jpaQueryFactory
             .select(new QReviewResponse(
                         review.id,
+                        review.rental.customer.id,
                         review.rental.customer.nickname,
                         review.rental.customer.avatarUrl,
                         review.reviewMessage,
