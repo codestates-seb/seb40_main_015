@@ -99,8 +99,7 @@ const LeftContent = styled.div`
 	flex-direction: column;
 	margin-left: 1rem;
 	p {
-		font-weight: bold;
-		font-size: 1.3rem;
+		font-size: 1.1rem;
 		word-break: break-word;
 		max-width: 30rem;
 		overflow: hidden;
