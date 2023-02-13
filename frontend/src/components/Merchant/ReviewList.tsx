@@ -18,15 +18,16 @@ interface IList {
 	reviewGrade: number;
 	reviewId: number;
 	reviewMessage: string;
+	reviewerId: number;
 }
 
 const ReviewList = ({ merchantId }: Iprops) => {
 	const navigate = useNavigate();
 	const { lists, hasNextPage, ref } = useReviewList(merchantId);
 
-	const handleMoveReviewerPage = (reviewId: number, e: React.MouseEvent) => {
+	const handleMoveReviewerPage = (reviewerId: number, e: React.MouseEvent) => {
 		e.stopPropagation();
-		navigate(`/profile/merchant/${reviewId}`);
+		navigate(`/profile/merchant/${reviewerId}`);
 	};
 
 	const handleMoveBookDetailPage = (bookId: number) => {
@@ -46,18 +47,19 @@ const ReviewList = ({ merchantId }: Iprops) => {
 						customerNickname,
 						reviewMessage,
 						reviewGrade,
+						reviewerId,
 					} = list;
 					return (
 						<Container key={reviewId}>
 							<List onClick={() => handleMoveBookDetailPage(bookId)}>
 								<Left>
-									<UserInfo>
+									<UserInfo
+										onClick={e => {
+											handleMoveReviewerPage(reviewerId, e);
+										}}>
 										<img
 											src={customerAvatarUrl}
 											alt="리뷰 작성자 프로필 이미지"
-											onClick={e => {
-												handleMoveReviewerPage(reviewId, e);
-											}}
 										/>
 										<span>{customerNickname}</span>
 									</UserInfo>
