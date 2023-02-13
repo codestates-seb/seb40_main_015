@@ -65,7 +65,7 @@ public class RentalController {
 
 	@GetMapping("from")
 	public ResponseEntity<SliceImpl<RentalBookResponse>> getRentalsByMerchant(
-		@Login Long memberId, @Valid @RequestParam(name = "rentalState", required = false, defaultValue = "NULL") RentalSearchCondition rentalSearchCondition,
+		@Login Long memberId, @Valid @RequestParam(name = "rentalState", required = false, defaultValue = "NONE") RentalSearchCondition rentalSearchCondition,
 		PageRequest pageRequest) {
 		return new ResponseEntity<>(
 			rentalService.getRentalsByMerchant(memberId, rentalSearchCondition.getRentalState(),
@@ -74,7 +74,7 @@ public class RentalController {
 
 	@GetMapping("to")
 	public ResponseEntity<SliceImpl<RentalBookResponse>> getRentalsByCustomer(
-		@Login Long memberId, @Valid @RequestParam(name = "rentalState", required = false, defaultValue = "NULL") RentalSearchCondition rentalSearchCondition,
+		@Login Long memberId, @Valid @RequestParam(name = "rentalState", required = false, defaultValue = "NONE") RentalSearchCondition rentalSearchCondition,
 		PageRequest pageRequest) {
 		return new ResponseEntity<>(
 			rentalService.getRentalsByCustomer(memberId, rentalSearchCondition.getRentalState(),

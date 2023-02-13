@@ -6,7 +6,7 @@ public enum RentalState {
     RETURN_UNREVIEWED("반납완료&리뷰미완료"),
     RETURN_REVIEWED("반납완료&리뷰완료"),
     CANCELED("대여취소"),
-    NULL("미정");
+    NONE("미정");
 
     private String message;
 
