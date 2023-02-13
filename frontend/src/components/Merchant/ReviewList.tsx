@@ -48,10 +48,8 @@ const ReviewList = ({ merchantId }: Iprops) => {
 						reviewGrade,
 					} = list;
 					return (
-						<Container
-							key={reviewId}
-							onClick={() => handleMoveBookDetailPage(bookId)}>
-							<List>
+						<Container key={reviewId}>
+							<List onClick={() => handleMoveBookDetailPage(bookId)}>
 								<Left>
 									<UserInfo>
 										<img
@@ -86,7 +84,6 @@ const ReviewList = ({ merchantId }: Iprops) => {
 
 const Container = styled.div`
 	padding: 0.3rem 0.5rem;
-	cursor: pointer;
 `;
 
 const UserInfo = styled.div`
@@ -104,11 +101,13 @@ const UserInfo = styled.div`
 const List = styled.div`
 	width: 90vw;
 	height: 8rem;
-	border: 1px solid ${props => props.theme.colors.grey};
+	border: 1px solid rgba(1, 1, 1, 0.1);
+	border-radius: 5px;
 	padding: 1rem;
 	display: flex;
 	justify-content: space-between;
 	align-items: center;
+	cursor: pointer;
 	:hover {
 		background-color: ${props => props.theme.colors.grey};
 	}
