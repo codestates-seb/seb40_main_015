@@ -64,11 +64,12 @@ const Container = styled.div`
 	width: 90%;
 	display: flex;
 	justify-content: space-between;
-	border: 1px solid #eaeaea;
+	border: 1px solid rgba(1, 1, 1, 0.1);
 	border-radius: 5px;
 	padding: 1rem;
 	margin-bottom: 0.5rem;
 	background-color: white;
+	cursor: pointer;
 	:hover {
 		background-color: ${props => props.theme.colors.grey};
 	}
@@ -80,7 +81,6 @@ const Container = styled.div`
 const FlexBox = styled.div`
 	display: flex;
 	width: 100%;
-	cursor: pointer;
 `;
 
 const InfoWrapped = styled.div`
