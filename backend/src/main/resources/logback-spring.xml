@@ -31,10 +31,7 @@
     </appender>
 
     <root level="INFO">
-<!--        <springProfile>-->
         <appender-ref ref="application_log"/>
-<!--            <appender-ref ref="aws_cloud_watch_log"/>-->
-<!--        </springProfile>-->
     </root>
 
     <springProfile name="rds">
