@@ -31,16 +31,15 @@
     </appender>
 
     <root level="INFO">
-        <springProfile name="local">
-            <appender-ref ref="application_log"/>
-<!--            <appender-ref ref="aws_cloud_watch_log"/>-->
-        </springProfile>
+        <appender-ref ref="application_log"/>
     </root>
-    <root level="WARN">
-        <springProfile name="rds">
+
+    <springProfile name="rds">
+        <root level="WARN">
             <appender-ref ref="application_log"/>
             <appender-ref ref="aws_cloud_watch_log"/>
-        </springProfile>
-    </root>
+        </root>
+    </springProfile>
+
 
 </configuration>
