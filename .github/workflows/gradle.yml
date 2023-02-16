@@ -80,6 +80,6 @@ jobs:
       - name: Code Deploy
         run: >
           aws deploy create-deployment --application-name dongnebook-deploy
-          --deployment-config-name CodeDeployDefault.AllAtOnce
+          --deployment-config-name CodeDeployDefault.OneAtATime
           --deployment-group-name Deploy-dongnebook-EC2-sub
           --s3-location bucket=$S3_BUCKET_NAME,bundleType=zip,key=main-015-deploy.zip
