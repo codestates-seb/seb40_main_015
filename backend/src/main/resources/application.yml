@@ -16,7 +16,6 @@ spring:
       max-request-size: 2MB
   datasource:
     url : jdbc:h2:mem:test
-    mas
   jpa:
     defer-datasource-initialization: true
     open-in-view: false
