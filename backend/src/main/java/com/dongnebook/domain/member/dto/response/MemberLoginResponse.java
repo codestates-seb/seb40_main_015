@@ -10,10 +10,10 @@ import lombok.Getter;
 @Getter
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class MemberLoginResponse {
-    private Long id;
-    private String userId;
-    private String nickname;
-    private Location location;
+    private final Long id;
+    private final String userId;
+    private final String nickname;
+    private final Location location;
 
     @Builder
     public MemberLoginResponse(Long id, String userId, String nickname, Location location) {

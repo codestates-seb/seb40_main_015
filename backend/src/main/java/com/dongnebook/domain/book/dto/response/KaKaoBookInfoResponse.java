@@ -10,9 +10,9 @@ import lombok.Getter;
 @Getter
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class KaKaoBookInfoResponse {
-	private List<String> authors;
-	private String publisher;
-	private String title;
+	private final List<String> authors;
+	private final String publisher;
+	private final String title;
 
 	@Builder
 	public KaKaoBookInfoResponse(List<String> authors, String publisher, String title) {

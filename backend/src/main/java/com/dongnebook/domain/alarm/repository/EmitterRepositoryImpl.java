@@ -13,8 +13,8 @@ import lombok.NoArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
 @Repository
-@NoArgsConstructor
 @Slf4j
+@NoArgsConstructor
 public class EmitterRepositoryImpl implements EmitterRepository {
 	private final Map<String, SseEmitter> emitters = new ConcurrentHashMap<>();
 	private final Map<String, Object> eventCache = new ConcurrentHashMap<>();

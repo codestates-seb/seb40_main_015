@@ -4,7 +4,6 @@ import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.listener.ChannelTopic;
 import org.springframework.stereotype.Service;
 
-import com.dongnebook.domain.chat.domain.ChatMessage;
 import com.dongnebook.domain.chat.domain.RedisChat;
 
 import lombok.RequiredArgsConstructor;

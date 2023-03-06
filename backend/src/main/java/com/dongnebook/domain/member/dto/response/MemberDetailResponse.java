@@ -8,13 +8,13 @@ import lombok.Getter;
 
 @Getter
 public class MemberDetailResponse {
-	private Long memberId;
-	private String name;
-	private Location location;
-	private String address;
-	private Integer totalBookCount;
-	private String avatarUrl;
-	private Double avgGrade;
+	private final Long memberId;
+	private final String name;
+	private final Location location;
+	private final String address;
+	private final Integer totalBookCount;
+	private final String avatarUrl;
+	private final Double avgGrade;
 
 
 	@QueryProjection

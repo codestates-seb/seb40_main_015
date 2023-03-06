@@ -54,9 +54,7 @@ public class RentalService {
 		Book book = bookService.getWithMerchantByBookId(bookId);
 		blockRentMyBook(customerId, book);
 		book.changeBookStateFromTo(BookState.RENTABLE, BookState.TRADING);
-		Rental rental = Rental.create(book, customer);
-
-		applicationEventPublisher.publishEvent(new RentalCreateEvent(rental));
+		rentalRepository.save(Rental.create(book, customer));
 		alarmService.sendAlarm(book.getMember(), book, AlarmType.RENTAL);
 	}
 

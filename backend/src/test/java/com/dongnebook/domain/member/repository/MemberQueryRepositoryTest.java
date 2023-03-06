@@ -23,7 +23,7 @@ import com.dongnebook.config.TestConfig;
 import com.dongnebook.domain.book.domain.Book;
 import com.dongnebook.domain.book.repository.BookCommandRepository;
 import com.dongnebook.domain.member.domain.Member;
-import com.dongnebook.domain.member.dto.request.MerchantSearchableRequest;
+import com.dongnebook.domain.member.dto.request.MerchantSearchRequest;
 import com.dongnebook.domain.member.dto.response.MemberResponse;
 import com.dongnebook.domain.model.Location;
 import com.dongnebook.domain.rental.repository.RentalRepository;
@@ -119,7 +119,7 @@ class MemberRepositoryTest {
 		//given
 		Location 봉천역 = LocationStub.봉천역.of();
 
-		MerchantSearchableRequest condition = new MerchantSearchableRequest(봉천역.getLongitude(), 봉천역.getLatitude(),
+		MerchantSearchRequest condition = new MerchantSearchRequest(봉천역.getLongitude(), 봉천역.getLatitude(),
 			40, 40, null, 3);
 		//when
 
@@ -129,7 +129,7 @@ class MemberRepositoryTest {
 		List<Double> latRangeList = Location.latRangeList(condition.getLatitude(), condition.getHeight(),
 			condition.getLevel());
 
-		List<Location> nearByBookLocation = memberQueryRepository.getSectorMerchantCounts(latRangeList,lonRangeList,condition);
+		List<Location> nearByBookLocation = memberQueryRepository.getNearByMerchant(condition);
 		//then
 		assertThat(nearByBookLocation).hasSize(8);
 	}
@@ -139,7 +139,7 @@ class MemberRepositoryTest {
 	void getAll() {
 		//given
 		Location 봉천역 = LocationStub.봉천역.of();
-		MerchantSearchableRequest condition = new MerchantSearchableRequest(봉천역.getLongitude(), 봉천역.getLatitude(),
+		MerchantSearchRequest condition = new MerchantSearchRequest(봉천역.getLongitude(), 봉천역.getLatitude(),
 			10, 10, 5, 3);
 
 

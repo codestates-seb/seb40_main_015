@@ -5,11 +5,12 @@ import java.util.List;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+import java.util.concurrent.TimeUnit;
 
 import javax.persistence.EntityManager;
 
 import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -52,9 +53,45 @@ class RentalServiceTest {
 	@Autowired
 	RentalController rentalController;
 
-	@BeforeEach
-	public void inser() {
-		int num = 12;
+	@Test
+	void createRental() throws InterruptedException {
+		int num = 4;
+		List<Member> members = makeMembers(num);
+		makeBooks(num, members);
+		ExecutorService executorService = Executors.newFixedThreadPool(num);
+		CountDownLatch countDownLatch = new CountDownLatch(num);
+		for (int i = 2; i < num; i++) {
+			int finalI = i;
+			executorService.execute(
+				() -> {
+					rentalController.postRental(1L, (long)finalI);
+					countDownLatch.countDown();
+				});
+
+		}
+		countDownLatch.await(4, TimeUnit.SECONDS);
+
+		List<Rental> all = rentalRepository.findAll();
+		int count = (int)all.stream().filter(rental -> rental.getBook().getId() == 1L).count();
+		Assertions.assertEquals(1L,count);
+	}
+
+	private void makeBooks(int num, List<Member> members) {
+		for (int i = 0; i < num; i++) {
+				bookCommandRepository.save(Book.create(BookRegisterRequest.builder().author("asdf" + i)
+					.description("asdf")
+					.imageUrl("asdf" + i)
+					.publisher("Asdf" + i)
+					.rentalFee(i)
+					.title("asdf" + i)
+					.build(), Location.builder()
+					.latitude(37.4831 + ((double)i / num))
+					.longitude(126.9438 + ((double)i / num))
+					.build(), members.get(i)));
+			}
+	}
+
+	private List<Member> makeMembers(int num) {
 		List<Member> members = new ArrayList<>();
 		for (int i = 0; i < num; i++) {
 			Member member = makeMember(Location.builder()
@@ -64,51 +101,7 @@ class RentalServiceTest {
 			members.add(member);
 			memberRepository.save(member);
 		}
-
-		for (Member member : memberRepository.findAll()) {
-			System.out.println(member.getId());
-		}
-
-		for (int i = 0; i < num; i++) {
-			bookCommandRepository.save(Book.create(BookRegisterRequest.builder().author("asdf" + i)
-				.description("asdf")
-				.imageUrl("asdf" + i)
-				.publisher("Asdf" + i)
-				.rentalFee(i)
-				.title("asdf" + i)
-				.build(), Location.builder()
-				.latitude(37.4831 + ((double)i / num))
-				.longitude(126.9438 + ((double)i / num))
-				.build(), members.get(i)));
-		}
-
-		for (Book book : bookCommandRepository.findAll()) {
-			System.out.println(book.getId());
-		}
-
-	}
-
-	// @Test
-	void createRental() throws InterruptedException {
-		for (Member member : memberRepository.findAll()) {
-			System.out.println(member.getId());
-		}
-		int num2 = 8;
-		ExecutorService executorService = Executors.newFixedThreadPool(num2);
-		CountDownLatch countDownLatch = new CountDownLatch(num2);
-		for (int i = 0; i < num2; i++) {
-			int finalI = i;
-			executorService.execute(
-				() -> {
-					rentalController.postRental(1L, 1L);
-					countDownLatch.countDown();
-				});
-		}
-
-		countDownLatch.await();
-
-		List<Rental> all = rentalRepository.findAll();
-		Assertions.assertEquals(1L,all.size());
+		return members;
 	}
 
 	private Member makeMember(Location location, int i) {

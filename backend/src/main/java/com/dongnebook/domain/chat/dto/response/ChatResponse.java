@@ -8,11 +8,11 @@ import lombok.Getter;
 
 @Getter
 public class ChatResponse {
-	private Long memberId;
-	private String avatarUrl;
-	private String nickName;
-	private String content;
-	private LocalDateTime dateTime;
+	private final Long memberId;
+	private final String avatarUrl;
+	private final String nickName;
+	private final String content;
+	private final LocalDateTime dateTime;
 
 
 	public ChatResponse(Long memberId, String avatarUrl, String nickName, String content, LocalDateTime dateTime) {

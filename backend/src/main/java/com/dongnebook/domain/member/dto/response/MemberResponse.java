@@ -10,9 +10,9 @@ import lombok.Getter;
 @Getter
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class MemberResponse {
-	private Long merchantId;
-	private String merchantName;
-	private Location location;
+	private final Long merchantId;
+	private final String merchantName;
+	private final Location location;
 
 	@QueryProjection
 	@Builder
