@@ -9,11 +9,11 @@ import lombok.Getter;
 @Getter
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class AlarmResponse {
-	private Long alarmId;
-	private AlarmType alarmType;
-	private Long merchantId;
-	private String bookTitle;
-	private Boolean isRead;
+	private final Long alarmId;
+	private final AlarmType alarmType;
+	private final Long merchantId;
+	private final String bookTitle;
+	private final Boolean isRead;
 
 	@QueryProjection
 	public AlarmResponse(Long alarmId, AlarmType alarmType, Long merchantId, String bookTitle, Boolean isRead) {

@@ -27,7 +27,7 @@ import com.dongnebook.domain.book.repository.BookQueryRepository;
 import com.dongnebook.domain.member.domain.Member;
 import com.dongnebook.domain.member.dto.request.MemberEditRequest;
 import com.dongnebook.domain.member.dto.request.MemberRegisterRequest;
-import com.dongnebook.domain.member.dto.request.MerchantSearchableRequest;
+import com.dongnebook.domain.member.dto.request.MerchantSearchRequest;
 import com.dongnebook.domain.member.dto.response.MemberDetailResponse;
 import com.dongnebook.domain.member.dto.response.MemberResponse;
 import com.dongnebook.domain.member.dto.response.MerchantSectorCountResponse;
@@ -245,17 +245,15 @@ class MemberServiceTest {
 		Integer height = 20;
 		Integer sector = null;
 		Integer level = 3;
-		MerchantSearchableRequest request = new MerchantSearchableRequest(location.getLongitude(),
+		MerchantSearchRequest request = new MerchantSearchRequest(location.getLongitude(),
 			location.getLatitude(), width, height, sector, level);
-		given(memberQueryRepository.getSectorMerchantCounts(anyList(), anyList(),
-			any(MerchantSearchableRequest.class))).willReturn(List.of(location));
+		given(memberQueryRepository.getNearByMerchant(any(MerchantSearchRequest.class))).willReturn(List.of(location));
 
 		List<MerchantSectorCountResponse> sectorMerchantCounts = memberService.getSectorMerchantCounts(request);
 		assertAll(() -> assertThat(sectorMerchantCounts).hasSize(1),
 			() -> assertThat(sectorMerchantCounts.get(0).getMerchantCount()).isOne(),
 			() -> assertThat(sectorMerchantCounts.get(0).getSector()).isEqualTo(5),
-			() -> verify(memberQueryRepository).getSectorMerchantCounts(anyList(), anyList(),
-				any(MerchantSearchableRequest.class)));
+			() -> verify(memberQueryRepository).getNearByMerchant(any(MerchantSearchRequest.class)));
 
 	}
 
@@ -294,7 +292,7 @@ class MemberServiceTest {
 		Integer level = 3;
 		Long memberId =1L;
 		Member member1 = MemberStub.MEMBER1.of(memberId);
-		MerchantSearchableRequest request = new MerchantSearchableRequest(location.getLongitude(),
+		MerchantSearchRequest request = new MerchantSearchRequest(location.getLongitude(),
 			location.getLatitude(), width, height, sector, level);
 		given(memberQueryRepository.getAll(any(),any(),any(),any())).willReturn(new SliceImpl<>(List.of(
 			MemberResponse.builder().merchantName(member1.getNickname()).location(location)

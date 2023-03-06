@@ -11,22 +11,15 @@ import lombok.Getter;
 @Getter
 public class ChatRoomResponse {
 
-	private Long bookId;
-
-	private String title;
-
-	private BookState bookState;
-
-	private String bookUrl;
-
-	private List<ChatMemberResponse> members;
-
-
+	private final Long bookId;
+	private final String title;
+	private final BookState bookState;
+	private final String bookUrl;
+	private final List<ChatMemberResponse> members;
 	List<ChatResponse> chatResponses;
 
 	@Builder
 	public ChatRoomResponse(Long bookId, String title, BookState bookState, String bookUrl,
-
 		Member memberA, Member memberB, List<ChatResponse> chatResponses) {
 
 		this.bookId = bookId;

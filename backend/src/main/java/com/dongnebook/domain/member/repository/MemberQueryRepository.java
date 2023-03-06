@@ -11,7 +11,7 @@ import org.springframework.stereotype.Repository;
 
 import com.dongnebook.domain.book.domain.BookState;
 import com.dongnebook.domain.member.domain.Member;
-import com.dongnebook.domain.member.dto.request.MerchantSearchableRequest;
+import com.dongnebook.domain.member.dto.request.MerchantSearchRequest;
 
 import com.dongnebook.domain.member.dto.response.MemberResponse;
 
@@ -33,18 +33,22 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class MemberQueryRepository {
 	private final JPAQueryFactory jpaQueryFactory;
+	List<Double> latRange;
+	List<Double> lonRange;
 
-	public List<Location> getSectorMerchantCounts(List<Double> latRangeList, List<Double> lonRangeList,
-		MerchantSearchableRequest request) {
+	public List<Location> getNearByMerchant(MerchantSearchRequest request) {
+		this.latRange = Location.latRangeList(request.getLatitude(), request.getHeight(), request.getLevel());
+		this.lonRange = Location.lonRangeList(request.getLongitude(), request.getWidth(), request.getLevel());
+
 		return jpaQueryFactory.select(member.location)
 			.from(member)
-			.where((member.location.latitude.between(latRangeList.get(request.getLevel()), latRangeList.get(0))),
-				(member.location.longitude.between(lonRangeList.get(0), lonRangeList.get(request.getLevel()))))
+			.where((member.location.latitude.between(latRange.get(request.getLevel()), latRange.get(0))),
+				(member.location.longitude.between(lonRange.get(0), lonRange.get(request.getLevel()))))
 			.fetch();
 	}
 
 	public SliceImpl<MemberResponse> getAll(List<Double> latRangeList, List<Double> lonRangeList,
-		MerchantSearchableRequest request, PageRequest pageRequest) {
+		MerchantSearchRequest request, PageRequest pageRequest) {
 		List<MemberResponse> result = jpaQueryFactory
 			.select(
 				new QMemberResponse(

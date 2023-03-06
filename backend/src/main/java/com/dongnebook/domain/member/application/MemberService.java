@@ -22,7 +22,7 @@ import com.dongnebook.domain.book.repository.BookQueryRepository;
 import com.dongnebook.domain.member.domain.Member;
 import com.dongnebook.domain.member.dto.request.MemberEditRequest;
 import com.dongnebook.domain.member.dto.request.MemberRegisterRequest;
-import com.dongnebook.domain.member.dto.request.MerchantSearchableRequest;
+import com.dongnebook.domain.member.dto.request.MerchantSearchRequest;
 import com.dongnebook.domain.member.dto.response.MemberDetailResponse;
 import com.dongnebook.domain.member.dto.response.MemberResponse;
 import com.dongnebook.domain.member.dto.response.MerchantSectorCountResponse;
@@ -142,17 +142,14 @@ public class MemberService {
 		refreshTokenRepository.deleteById(tokenProvider.parseClaims(refreshToken));
 	}
 
-	public List<MerchantSectorCountResponse> getSectorMerchantCounts(MerchantSearchableRequest condition) {
+	public List<MerchantSectorCountResponse> getSectorMerchantCounts(MerchantSearchRequest condition) {
 
-		this.latRangeList = latRangeList(condition);
-		this.lonRangeList = lonRangeList(condition);
-		List<Location> sectorMerchantCounts = memberQueryRepository.getSectorMerchantCounts(latRangeList, lonRangeList,
-			condition);
+		List<Location> merchants = memberQueryRepository.getNearByMerchant(condition);
 
-		Map<Integer, MerchantSectorCountResponse> collect = sectorMerchantCounts.stream()
+		Map<Integer, MerchantSectorCountResponse> collect = merchants.stream()
 			.flatMap(location ->
 				IntStream.iterate(1, sector -> sector <= Math.pow(condition.getLevel(), 2), sector -> sector + 1)
-					.filter(sector -> location.checkRange(condition,sector))
+					.filter(sector -> location.checkRange(condition, sector))
 					.mapToObj(sector -> new MerchantSectorCountResponse(sector, location)))
 			.collect(
 				Collectors.toMap(MerchantSectorCountResponse::getSector,
@@ -171,17 +168,17 @@ public class MemberService {
 		return memberRepository.findById(memberId).orElseThrow(MemberNotFoundException::new);
 	}
 
-	public SliceImpl<MemberResponse> getList(MerchantSearchableRequest merchantSearchRequest, PageRequest pageRequest) {
+	public SliceImpl<MemberResponse> getList(MerchantSearchRequest merchantSearchRequest, PageRequest pageRequest) {
 		return memberQueryRepository.getAll(latRangeList(merchantSearchRequest), lonRangeList(merchantSearchRequest),
 			merchantSearchRequest, pageRequest);
 	}
 
-	private List<Double> lonRangeList(MerchantSearchableRequest merchantSearchRequest) {
+	private List<Double> lonRangeList(MerchantSearchRequest merchantSearchRequest) {
 		return Location.lonRangeList(merchantSearchRequest.getLongitude(), merchantSearchRequest.getWidth(),
 			merchantSearchRequest.getLevel());
 	}
 
-	private List<Double> latRangeList(MerchantSearchableRequest merchantSearchRequest) {
+	private List<Double> latRangeList(MerchantSearchRequest merchantSearchRequest) {
 		return Location.latRangeList(merchantSearchRequest.getLatitude(), merchantSearchRequest.getHeight(),
 			merchantSearchRequest.getLevel());
 	}

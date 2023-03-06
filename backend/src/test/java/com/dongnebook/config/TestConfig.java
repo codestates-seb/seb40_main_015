@@ -6,6 +6,8 @@ import javax.persistence.PersistenceContext;
 
 import org.springframework.boot.test.context.TestConfiguration;
 import org.springframework.context.annotation.Bean;
+import org.springframework.core.task.TaskExecutor;
+import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 
 import com.dongnebook.domain.book.repository.BookQueryRepository;
 import com.dongnebook.domain.member.repository.MemberQueryRepository;
@@ -39,6 +41,12 @@ public class TestConfig {
 	@Bean
 	public MemberQueryRepository memberQueryRepository(){
 		return new MemberQueryRepository(jpaQueryFactory());
+	}
+
+	@Bean(name = "taskExecutor")
+	public TaskExecutor clientInboundChannelExecutor() {
+		// ...
+		return new ThreadPoolTaskExecutor();
 	}
 
 

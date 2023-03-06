@@ -28,7 +28,7 @@ import com.dongnebook.domain.book.dto.response.BookSimpleResponse;
 import com.dongnebook.domain.member.application.MemberService;
 import com.dongnebook.domain.member.dto.request.MemberEditRequest;
 import com.dongnebook.domain.member.dto.request.MemberRegisterRequest;
-import com.dongnebook.domain.member.dto.request.MerchantSearchableRequest;
+import com.dongnebook.domain.member.dto.request.MerchantSearchRequest;
 import com.dongnebook.domain.member.dto.response.MemberDetailResponse;
 import com.dongnebook.domain.member.dto.response.MemberExistsCheckResponse;
 import com.dongnebook.domain.member.dto.response.MemberResponse;
@@ -99,13 +99,13 @@ public class MemberController {
 
 	@GetMapping("/member/count")
 	public ResponseEntity<List<MerchantSectorCountResponse>> getSectorMerchantCount(
-		@ModelAttribute MerchantSearchableRequest merchantSearchRequest) {
+		@ModelAttribute MerchantSearchRequest merchantSearchRequest) {
 		return ResponseEntity.ok(memberService.getSectorMerchantCounts(merchantSearchRequest));
 	}
 
 	@GetMapping("/member/sector")
 	public ResponseEntity<SliceImpl<MemberResponse>> getLists(
-		@ModelAttribute MerchantSearchableRequest merchantSearchRequest, PageRequest pageRequest) {
+		@ModelAttribute MerchantSearchRequest merchantSearchRequest, PageRequest pageRequest) {
 		return ResponseEntity.ok(memberService.getList(merchantSearchRequest, pageRequest));
 	}
 
