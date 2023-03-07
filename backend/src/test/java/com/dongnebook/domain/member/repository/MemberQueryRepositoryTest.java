@@ -40,7 +40,7 @@ import com.github.gavlyukovskiy.boot.jdbc.decorator.DataSourceDecoratorAutoConfi
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
 @Import({TestConfig.class, DatabaseCleaner.class})
 @ExtendWith(DataClearExtension.class)
-class MemberRepositoryTest {
+class MemberQueryRepositoryTest {
 
 	@Autowired
 	MemberQueryRepository memberQueryRepository;

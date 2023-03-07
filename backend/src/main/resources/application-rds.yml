@@ -14,27 +14,15 @@ spring:
     multipart:
       max-file-size: 2MB
       max-request-size: 2MB
-  datasource:
-      driver-class-name: com.mysql.cj.jdbc.Driver
-      url: jdbc:mysql://codestates-mainpj-mysql.clwvdgya13lr.ap-northeast-2.rds.amazonaws.com:3306/dongnebook
-      username: admin
-      password: ${RDS_PASSWORD}
-      slave:
-        name : read
-        url : jdbc:mysql://dongnebookreplica.clwvdgya13lr.ap-northeast-2.rds.amazonaws.com:3306/dongnebook
-
   jpa:
     defer-datasource-initialization: true
-    hibernate:
-      ddl-auto: update  # (1) 스키마 자동 생성 X
-      type: trace
-       # (2) SQL 쿼리 출력
-      naming:
-        physical-strategy: org.springframework.boot.orm.jpa.hibernate.SpringPhysicalNamingStrategy
     properties:
       hibernate:
+        ddl-auto: validate
+        physical_nameing_strategy: org.springframework.boot.orm.jpa.hibernate.SpringPhysicalNamingStrategy
         default_batch_fetch_size: 100
         format_sql: true  # (3) SQL pretty print
+        dialect: org.hibernate.dialect.MySQL8Dialect
   security:
     oauth2:
       client:
@@ -59,6 +47,15 @@ decorator:
   datasource:
     p6spy:
       enable-logging: false
+
+datasource:
+  url: jdbc:mysql://codestates-mainpj-mysql.clwvdgya13lr.ap-northeast-2.rds.amazonaws.com:3306/dongnebook
+  username: admin
+  password: ${RDS_PASSWORD}
+  slave:
+    slave1:
+      name : read
+      url : jdbc:mysql://dongnebookreplica.clwvdgya13lr.ap-northeast-2.rds.amazonaws.com:3306/dongnebook
 
 server:
   servlet:
