@@ -1,25 +1,33 @@
 package com.dongnebook.global.replication;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
-import java.util.stream.Collectors;
 
 import org.springframework.jdbc.datasource.lookup.AbstractRoutingDataSource;
 import org.springframework.transaction.support.TransactionSynchronizationManager;
 
-public class ReplicationRoutingDataSource extends AbstractRoutingDataSource {
+import lombok.extern.slf4j.Slf4j;
 
+@Slf4j
+public class ReplicationRoutingDataSource extends AbstractRoutingDataSource {
+	private static final String MASTER = "master";
+	private static final String SLAVE = "slave";
 	private CircularList<String> dataSourceNameList;
 
 	@Override
 	public void setTargetDataSources(Map<Object, Object> targetDataSources) {
 		super.setTargetDataSources(targetDataSources);
 
+		List<String> list = new ArrayList<>();
+		for (Object o : targetDataSources.keySet()) {
+			String string = String.valueOf(o);
+			if (string.contains(SLAVE)) {
+				list.add(string);
+			}
+		}
 		dataSourceNameList = new CircularList<>(
-			targetDataSources.keySet()
-				.stream()
-				.map(Object::toString)
-				.filter(string -> string.contains("slave"))
-				.collect(Collectors.toList())
+			list
 		);
 	}
 	@Override
@@ -28,7 +36,6 @@ public class ReplicationRoutingDataSource extends AbstractRoutingDataSource {
 		if(isReadOnly){
 			return dataSourceNameList.getOne();
 		}
-
-		return "master";
+		return MASTER;
 	}
 }
