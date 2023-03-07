@@ -8,6 +8,8 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
+import javax.sql.DataSource;
+
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.cache.annotation.Caching;
@@ -43,6 +45,7 @@ public class BookService {
 	private final BookCommandRepository bookCommandRepository;
 	private final BookQueryRepository bookQueryRepository;
 	private final MemberService memberService;
+	private final DataSource dataSource;
 
 	@CacheEvict(value ="books", allEntries = true)
 	@Transactional
