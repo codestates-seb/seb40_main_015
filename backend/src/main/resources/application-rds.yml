@@ -54,7 +54,7 @@ datasource:
   password: ${RDS_PASSWORD}
   slave:
     slave1:
-      name : read
+      name : slave-1
       url : jdbc:mysql://dongnebookreplica.clwvdgya13lr.ap-northeast-2.rds.amazonaws.com:3306/dongnebook
 
 server:
