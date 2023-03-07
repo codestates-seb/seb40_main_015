@@ -19,7 +19,7 @@ env:
   S3_BUCKET_NAME: github-actions-bucket-dongnebook
   RESOURCE_PATH: ./backend/src/main/resources/application-rds.yml
   RESOURCE_PATH_KAKAO: ./backend/src/main/resources/application-API-KEY.yml
-  RESOURCE_PATH_TEST_YAML: ./backend/src/test/resources/application.yml
+
 
 
 jobs:
@@ -45,17 +45,6 @@ jobs:
           files: ${{ env.RESOURCE_PATH }}
         env:
           spring.datasource.password: ${{ secrets.RDS_PASSWORD }}
-          spring.security.oauth2.client.registration.google.clientId: ${{ secrets.GOOGLE_OAUTH2_CLIENT_ID }}
-          spring.security.oauth2.client.registration.google.clientSecret: ${{ secrets.GOOGLE_OAUTH2_CLIENT_SECRET }}
-          jwt.secret-key: ${{ secrets.JWT_SECRET_KEY }}
-          cloud.aws.credentials.access-key: ${{ secrets.S3_ACCESS_KEY }}
-          cloud.aws.credentials.secret-key: ${{ secrets.S3_SECRET_KEY }}
-
-      - name: Set test Yaml
-        uses: microsoft/variable-substitution@v1
-        with:
-          files: ${{ env.RESOURCE_PATH_TEST_YAML }}
-        env:
           spring.security.oauth2.client.registration.google.clientId: ${{ secrets.GOOGLE_OAUTH2_CLIENT_ID }}
           spring.security.oauth2.client.registration.google.clientSecret: ${{ secrets.GOOGLE_OAUTH2_CLIENT_SECRET }}
           jwt.secret-key: ${{ secrets.JWT_SECRET_KEY }}
