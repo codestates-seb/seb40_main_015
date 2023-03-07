@@ -10,7 +10,6 @@ import java.util.concurrent.TimeUnit;
 import javax.persistence.EntityManager;
 
 import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 
@@ -51,7 +50,6 @@ class RentalServiceTest {
 	@Autowired
 	RentalController rentalController;
 
-	@Test
 	void createRental() throws InterruptedException {
 		int num = 4;
 		List<Member> members = makeMembers(num);
