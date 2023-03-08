@@ -13,7 +13,7 @@ import lombok.Setter;
 @Setter
 @Primary
 @Configuration
-@ConfigurationProperties(prefix = "datasource")
+@ConfigurationProperties(prefix = "spring.datasource.replication")
 public class CustomDataSourceProperties {
 	private String username;
 	private String password;
