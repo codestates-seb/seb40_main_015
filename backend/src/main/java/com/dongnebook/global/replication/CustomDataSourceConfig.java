@@ -36,7 +36,7 @@ public class CustomDataSourceConfig {
 		hikariDataSource.setUsername(databaseProperty.getUsername());
 		hikariDataSource.setPassword(databaseProperty.getPassword());
 		hikariDataSource.setJdbcUrl(url);
-		hikariDataSource.setDriverClassName("com.mysql.cj.jdbc.Driver");
+		hikariDataSource.setDriverClassName(databaseProperty.getDriverClassName());
 
 		return hikariDataSource;
 	}

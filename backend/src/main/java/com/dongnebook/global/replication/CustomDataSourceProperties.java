@@ -17,6 +17,7 @@ import lombok.Setter;
 public class CustomDataSourceProperties {
 	private String username;
 	private String password;
+	private String driverClassName;
 	private Master master;
 	private List<Slave> slaves;
 

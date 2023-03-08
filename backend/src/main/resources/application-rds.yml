@@ -16,6 +16,7 @@ spring:
       max-request-size: 2MB
   datasource:
     replication:
+      driver-class-name: com.mysql.cj.jdbc.Driver
       username: admin
       password: ${RDS_PASSWORD}
       master:
