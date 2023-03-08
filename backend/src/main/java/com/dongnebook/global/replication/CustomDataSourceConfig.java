@@ -7,7 +7,6 @@ import javax.persistence.EntityManagerFactory;
 import javax.sql.DataSource;
 
 import org.springframework.boot.autoconfigure.orm.jpa.JpaProperties;
-import org.springframework.boot.jdbc.DataSourceBuilder;
 import org.springframework.boot.orm.jpa.EntityManagerFactoryBuilder;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -32,15 +31,14 @@ public class CustomDataSourceConfig {
 		this.jpaProperties = jpaProperties;
 	}
 
-	public DataSource createDataSource(String url){
+	public DataSource createDataSource(String url) {
+		HikariDataSource hikariDataSource = new HikariDataSource();
+		hikariDataSource.setUsername(databaseProperty.getUsername());
+		hikariDataSource.setPassword(databaseProperty.getPassword());
+		hikariDataSource.setJdbcUrl(url);
+		hikariDataSource.setDriverClassName("com.mysql.cj.jdbc.Driver");
 
-		return DataSourceBuilder.create()
-			.type(HikariDataSource.class)
-			.url(url)
-			.driverClassName("com.mysql.cj.jdbc.Driver")
-			.username(databaseProperty.getUsername())
-			.password(databaseProperty.getPassword())
-			.build();
+		return hikariDataSource;
 	}
 
 	@Bean
