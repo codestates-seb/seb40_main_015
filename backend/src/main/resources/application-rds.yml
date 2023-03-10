@@ -19,22 +19,23 @@ spring:
       driver-class-name: com.mysql.cj.jdbc.Driver
       username: admin
       password: ${RDS_PASSWORD}
-      master:
-        name: master
-        url: jdbc:mysql://codestates-mainpj-mysql.clwvdgya13lr.ap-northeast-2.rds.amazonaws.com:3306/dongnebook
+      url : jdbc:mysql://codestates-mainpj-mysql.clwvdgya13lr.ap-northeast-2.rds.amazonaws.com:3306/dongnebook
       slaves:
-        - name: slave
+        slave1:
+          name: slave
           url: jdbc:mysql://replica.clwvdgya13lr.ap-northeast-2.rds.amazonaws.com:3306/dongnebook
   jpa:
     defer-datasource-initialization: true
     hibernate:
       ddl-auto: validate
+    generate-ddl: true
     properties:
       hibernate:
+        ddl-auto: validate
         jdbc:
           lob:
             non_contextual_creation=true:
-        dialect: org.hibernate.dialect.MySQL8Dialect
+        dialect: org.hibernate.dialect.MySQL5Dialect
         default_batch_fetch_size: 100
         format_sql: true  # (3) SQL pretty print
         physical_naming_strategy: org.springframework.boot.orm.jpa.hibernate.SpringPhysicalNamingStrategy

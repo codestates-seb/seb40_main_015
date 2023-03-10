@@ -7,6 +7,8 @@ import javax.persistence.EntityManagerFactory;
 import javax.sql.DataSource;
 
 import org.springframework.boot.autoconfigure.orm.jpa.JpaProperties;
+import org.springframework.boot.context.properties.EnableConfigurationProperties;
+import org.springframework.boot.jdbc.DataSourceBuilder;
 import org.springframework.boot.orm.jpa.EntityManagerFactoryBuilder;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -21,6 +23,7 @@ import org.springframework.transaction.PlatformTransactionManager;
 import com.zaxxer.hikari.HikariDataSource;
 
 @Configuration
+@EnableConfigurationProperties({CustomDataSourceProperties.class})
 @Profile("rds")
 public class CustomDataSourceConfig {
 	private final CustomDataSourceProperties databaseProperty;
@@ -32,13 +35,13 @@ public class CustomDataSourceConfig {
 	}
 
 	public DataSource createDataSource(String url) {
-		HikariDataSource hikariDataSource = new HikariDataSource();
-		hikariDataSource.setUsername(databaseProperty.getUsername());
-		hikariDataSource.setPassword(databaseProperty.getPassword());
-		hikariDataSource.setJdbcUrl(url);
-		hikariDataSource.setDriverClassName(databaseProperty.getDriverClassName());
-
-		return hikariDataSource;
+		return DataSourceBuilder.create()
+			.type(HikariDataSource.class)
+			.url(url)
+			.driverClassName(databaseProperty.getDriverClassName())
+			.username(databaseProperty.getUsername())
+			.password(databaseProperty.getPassword())
+			.build();
 	}
 
 	@Bean
@@ -48,18 +51,16 @@ public class CustomDataSourceConfig {
 
 	@Bean
 	public DataSource routingDataSource() {
-		CustomDataSourceProperties.Master master = databaseProperty.getMaster();
-		DataSource masterDataSource = createDataSource(master.getUrl());
+		DataSource masterDataSource = createDataSource(databaseProperty.getUrl());
 
 		Map<Object, Object> dataSourceMap = new LinkedHashMap<>();
-		dataSourceMap.put(master.getName(), masterDataSource);
-		databaseProperty.getSlaves()
+		dataSourceMap.put("master", masterDataSource);
+		databaseProperty.getSlaves().values()
 			.forEach((slave-> dataSourceMap.put(slave.getName(), createDataSource(slave.getUrl()))));
 
 		ReplicationRoutingDataSource replicationRoutingDataSource = new ReplicationRoutingDataSource();
 		replicationRoutingDataSource.setDefaultTargetDataSource(masterDataSource);
 		replicationRoutingDataSource.setTargetDataSources(dataSourceMap);
-		replicationRoutingDataSource.afterPropertiesSet();
 
 		return replicationRoutingDataSource;
 	}
