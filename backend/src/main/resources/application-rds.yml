@@ -31,7 +31,10 @@ spring:
       ddl-auto: validate
     properties:
       hibernate:
-#        dialect: org.hibernate.dialect.MySQL8Dialect
+        jdbc:
+          lob:
+            non_contextual_creation=true:
+        dialect: org.hibernate.dialect.MySQL8Dialect
         default_batch_fetch_size: 100
         format_sql: true  # (3) SQL pretty print
         physical_naming_strategy: org.springframework.boot.orm.jpa.hibernate.SpringPhysicalNamingStrategy
