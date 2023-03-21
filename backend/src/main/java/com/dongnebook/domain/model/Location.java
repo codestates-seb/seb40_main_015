@@ -9,7 +9,7 @@ import java.util.Objects;
 import javax.persistence.Column;
 import javax.persistence.Embeddable;
 
-import com.dongnebook.global.dto.request.MapSearchable;
+import com.dongnebook.domain.book.application.port.in.request.MapSearchable;
 import com.querydsl.core.types.dsl.BooleanExpression;
 
 import lombok.AccessLevel;

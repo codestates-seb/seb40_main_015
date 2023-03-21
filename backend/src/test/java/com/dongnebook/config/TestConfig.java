@@ -9,7 +9,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.core.task.TaskExecutor;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 
-import com.dongnebook.domain.book.repository.BookQueryRepository;
+import com.dongnebook.domain.book.adapter.out.BookQueryRepository;
 import com.dongnebook.domain.member.repository.MemberQueryRepository;
 import com.dongnebook.global.config.Py6spyConfig;
 import com.p6spy.engine.spy.P6SpyOptions;

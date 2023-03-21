@@ -10,7 +10,7 @@ import org.springframework.stereotype.Repository;
 
 import com.dongnebook.domain.review.dto.response.QReviewResponse;
 import com.dongnebook.domain.review.dto.response.ReviewResponse;
-import com.dongnebook.global.dto.request.PageRequest;
+import com.dongnebook.global.dto.request.PageRequestImpl;
 import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 
@@ -21,7 +21,7 @@ import lombok.RequiredArgsConstructor;
 public class ReviewQueryRepository {
     private final JPAQueryFactory jpaQueryFactory;
 
-    public SliceImpl<ReviewResponse> findAllByMerchantIdOrderByIdDesc(Long merchantId, PageRequest pageRequest){
+    public SliceImpl<ReviewResponse> findAllByMerchantIdOrderByIdDesc(Long merchantId, PageRequestImpl pageRequestImpl){
         List<ReviewResponse> reviews = jpaQueryFactory
             .select(new QReviewResponse(
                         review.id,
@@ -30,30 +30,30 @@ public class ReviewQueryRepository {
                         review.rental.customer.avatarUrl,
                         review.reviewMessage,
                         review.grade,
-                        review.rental.book.title,
+                        review.rental.book.bookProduct.title,
                         review.rental.book.imgUrl,
                         review.rental.book.id,
                         review.rental.id
                     )
                 )
                 .from(review)
-                .where(ltReviewId(pageRequest.getIndex()),
+                .where(ltReviewId(pageRequestImpl.getIndex()),
                         review.merchant.id.eq(merchantId))
                 .innerJoin(review.rental, rental)
                 .innerJoin(rental.book)
                 .innerJoin(rental.customer)
                 .orderBy(review.id.desc())
-                .limit(pageRequest.getSize() + 1)
+                .limit(pageRequestImpl.getSize() + 1)
                 .fetch();
 
         boolean hasNext = false;
 
-        if(reviews.size() > pageRequest.getSize()){
+        if(reviews.size() > pageRequestImpl.getSize()){
             hasNext = true;
-            reviews.remove(pageRequest.getSize().intValue());
+            reviews.remove(pageRequestImpl.getSize().intValue());
         }
 
-        return new SliceImpl<>(reviews, pageRequest.of(), hasNext);
+        return new SliceImpl<>(reviews, pageRequestImpl.of(), hasNext);
     }
 
     private BooleanExpression ltReviewId(Long reviewId){

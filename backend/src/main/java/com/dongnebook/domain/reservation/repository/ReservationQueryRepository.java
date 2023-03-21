@@ -8,12 +8,12 @@ import java.util.List;
 import org.springframework.data.domain.SliceImpl;
 import org.springframework.stereotype.Repository;
 
-import com.dongnebook.domain.book.dto.response.QBookSimpleResponse;
+import com.dongnebook.domain.book.application.port.in.response.QBookSimpleResponse;
 import com.dongnebook.domain.reservation.domain.Reservation;
 import com.dongnebook.domain.reservation.dto.response.QReservationInfoResponse;
 import com.dongnebook.domain.reservation.dto.response.QReservationResponse;
 import com.dongnebook.domain.reservation.dto.response.ReservationInfoResponse;
-import com.dongnebook.global.dto.request.PageRequest;
+import com.dongnebook.global.dto.request.PageRequestImpl;
 import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 
@@ -40,7 +40,7 @@ public class ReservationQueryRepository {
 			.fetchOne();
 	}
 
-	public SliceImpl<ReservationInfoResponse> findAllByMemberIdOrderByIdDesc(Long memberId, PageRequest pageRequest) {
+	public SliceImpl<ReservationInfoResponse> findAllByMemberIdOrderByIdDesc(Long memberId, PageRequestImpl pageRequestImpl) {
 
 		List<ReservationInfoResponse> reservations = jpaQueryFactory
 			.select(
@@ -50,26 +50,26 @@ public class ReservationQueryRepository {
 						reservation.rentalExpectedAt),
 					new QBookSimpleResponse(
 						reservation.book.id,
-						reservation.book.title,
+						reservation.book.bookProduct.title,
 						reservation.book.rentalFee,
 						reservation.book.imgUrl,
 						reservation.book.member.nickname)))
 			.from(reservation)
 			.innerJoin(reservation.book)
-			.where(ltReservationId(pageRequest.getIndex()),
+			.where(ltReservationId(pageRequestImpl.getIndex()),
 				reservation.member.id.eq(memberId))
 			.orderBy(reservation.id.desc())
-			.limit(pageRequest.getSize() + 1)
+			.limit(pageRequestImpl.getSize() + 1)
 			.fetch();
 
 		boolean hasNext = false;
 
-		if (reservations.size() > pageRequest.getSize()) {
+		if (reservations.size() > pageRequestImpl.getSize()) {
 			hasNext = true;
-			reservations.remove(pageRequest.getSize().intValue());
+			reservations.remove(pageRequestImpl.getSize().intValue());
 		}
 
-		return new SliceImpl<>(reservations, pageRequest.of(), hasNext);
+		return new SliceImpl<>(reservations, pageRequestImpl.of(), hasNext);
 
 	}
 

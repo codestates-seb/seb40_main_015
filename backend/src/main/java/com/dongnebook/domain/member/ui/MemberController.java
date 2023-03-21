@@ -23,8 +23,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.dongnebook.domain.book.application.BookService;
-import com.dongnebook.domain.book.dto.response.BookSimpleResponse;
+import com.dongnebook.domain.book.application.port.in.request.PageRequest;
+import com.dongnebook.domain.book.application.port.in.response.BookSimpleResponse;
+import com.dongnebook.domain.book.application.BookQueryService;
 import com.dongnebook.domain.member.application.MemberService;
 import com.dongnebook.domain.member.dto.request.MemberEditRequest;
 import com.dongnebook.domain.member.dto.request.MemberRegisterRequest;
@@ -33,7 +34,7 @@ import com.dongnebook.domain.member.dto.response.MemberDetailResponse;
 import com.dongnebook.domain.member.dto.response.MemberExistsCheckResponse;
 import com.dongnebook.domain.member.dto.response.MemberResponse;
 import com.dongnebook.domain.member.dto.response.MerchantSectorCountResponse;
-import com.dongnebook.global.dto.request.PageRequest;
+import com.dongnebook.global.dto.request.PageRequestImpl;
 import com.dongnebook.global.security.auth.annotation.Login;
 
 import lombok.RequiredArgsConstructor;
@@ -44,7 +45,7 @@ import lombok.extern.slf4j.Slf4j;
 @RequiredArgsConstructor
 public class MemberController {
 	private final MemberService memberService;
-	private final BookService bookService;
+	private final BookQueryService bookQueryService;
 
 	@PostMapping("/auth/signup")
 	public ResponseEntity<Map<String, Long>> create(@Valid @RequestBody MemberRegisterRequest memberRegisterRequest) {
@@ -105,8 +106,8 @@ public class MemberController {
 
 	@GetMapping("/member/sector")
 	public ResponseEntity<SliceImpl<MemberResponse>> getLists(
-		@ModelAttribute MerchantSearchRequest merchantSearchRequest, PageRequest pageRequest) {
-		return ResponseEntity.ok(memberService.getList(merchantSearchRequest, pageRequest));
+		@ModelAttribute MerchantSearchRequest merchantSearchRequest, PageRequestImpl pageRequestImpl) {
+		return ResponseEntity.ok(memberService.getList(merchantSearchRequest, pageRequestImpl));
 	}
 
 	@GetMapping("/member/{id}")
@@ -115,8 +116,8 @@ public class MemberController {
 	}
 
 	@GetMapping("/member/{id}/books")
-	public SliceImpl<BookSimpleResponse> getMemberBooks(@PathVariable Long id, PageRequest pageRequest) {
-		return bookService.getListByMember(id, pageRequest);
+	public SliceImpl<BookSimpleResponse> getMemberBooks(@PathVariable Long id, PageRequest pageRequestImpl) {
+		return bookQueryService.getListByMember(id, pageRequestImpl);
 	}
 
 	@GetMapping("/reissue")

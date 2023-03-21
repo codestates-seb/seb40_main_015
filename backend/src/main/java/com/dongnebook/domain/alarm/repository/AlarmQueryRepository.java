@@ -26,7 +26,7 @@ public class AlarmQueryRepository {
 
 	public List<AlarmResponse> getMyAlarm(Long memberId) {
 		return jpaQueryFactory.select(
-				new QAlarmResponse(alarm.id, alarm.type, book.member.id, book.title, alarm.isRead))
+				new QAlarmResponse(alarm.id, alarm.type, book.member.id, book.bookProduct.title, alarm.isRead))
 			.from(alarm)
 			.innerJoin(alarm.book, book)
 			.innerJoin(book.member)

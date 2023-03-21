@@ -11,8 +11,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.dongnebook.domain.reservation.application.ReservationService;
 import com.dongnebook.domain.reservation.dto.response.ReservationInfoResponse;
+import com.dongnebook.global.dto.request.PageRequestImpl;
 import com.dongnebook.global.security.auth.annotation.Login;
-import com.dongnebook.global.dto.request.PageRequest;
 
 import lombok.RequiredArgsConstructor;
 
@@ -29,8 +29,8 @@ public class ReservationsController {
 
 	@GetMapping("/reservation")
 	public ResponseEntity<SliceImpl<ReservationInfoResponse>> getReservations(@Login Long memberId,
-		PageRequest pageRequest) {
-		return new ResponseEntity<>(reservationService.readReservations(memberId, pageRequest), HttpStatus.OK);
+		PageRequestImpl pageRequestImpl) {
+		return new ResponseEntity<>(reservationService.readReservations(memberId, pageRequestImpl), HttpStatus.OK);
 	}
 
 	@DeleteMapping("/reservation/cancel/{reservationId}")

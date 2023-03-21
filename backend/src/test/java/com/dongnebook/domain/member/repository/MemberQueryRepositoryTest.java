@@ -21,13 +21,12 @@ import org.springframework.data.domain.SliceImpl;
 
 import com.dongnebook.config.TestConfig;
 import com.dongnebook.domain.book.domain.Book;
-import com.dongnebook.domain.book.repository.BookCommandRepository;
 import com.dongnebook.domain.member.domain.Member;
 import com.dongnebook.domain.member.dto.request.MerchantSearchRequest;
 import com.dongnebook.domain.member.dto.response.MemberResponse;
 import com.dongnebook.domain.model.Location;
 import com.dongnebook.domain.rental.repository.RentalRepository;
-import com.dongnebook.global.dto.request.PageRequest;
+import com.dongnebook.global.dto.request.PageRequestImpl;
 import com.dongnebook.support.BookStub;
 import com.dongnebook.support.DataClearExtension;
 import com.dongnebook.support.DatabaseCleaner;
@@ -52,7 +51,7 @@ class MemberQueryRepositoryTest {
 	RentalRepository rentalRepository;
 
 	@Autowired
-	BookCommandRepository bookCommandRepository;
+	BookCustomRepository bookCustomRepository;
 
 
 	@PersistenceContext
@@ -70,7 +69,7 @@ class MemberQueryRepositoryTest {
 
 		Arrays.stream(BookStub.values()).forEach(value -> {
 			book = value.of();
-			bookCommandRepository.save(book);
+			bookCustomRepository.save(book);
 		});
 	}
 
@@ -149,7 +148,7 @@ class MemberQueryRepositoryTest {
 			condition.getLevel());
 		//when
 		SliceImpl<MemberResponse> content = memberQueryRepository.getAll(latRangeList, lonRangeList, condition,
-			new PageRequest(null));
+			new PageRequestImpl(null));
 
 		assertThat(content.getContent()).hasSize(6);
 

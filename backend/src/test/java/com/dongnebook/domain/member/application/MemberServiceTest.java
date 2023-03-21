@@ -23,7 +23,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 
 import com.dongnebook.domain.book.domain.Book;
 import com.dongnebook.domain.book.domain.BookState;
-import com.dongnebook.domain.book.repository.BookQueryRepository;
+import com.dongnebook.domain.book.adapter.out.BookQueryRepository;
 import com.dongnebook.domain.member.domain.Member;
 import com.dongnebook.domain.member.dto.request.MemberEditRequest;
 import com.dongnebook.domain.member.dto.request.MemberRegisterRequest;
@@ -38,7 +38,7 @@ import com.dongnebook.domain.model.Location;
 import com.dongnebook.domain.refreshtoken.domain.RefreshToken;
 import com.dongnebook.domain.refreshtoken.repository.RefreshTokenRepository;
 import com.dongnebook.global.dto.TokenDto;
-import com.dongnebook.global.dto.request.PageRequest;
+import com.dongnebook.global.dto.request.PageRequestImpl;
 import com.dongnebook.global.security.auth.filter.TokenProvider;
 import com.dongnebook.support.BookStub;
 import com.dongnebook.support.LocationStub;
@@ -284,7 +284,7 @@ class MemberServiceTest {
 	@Test
 	@DisplayName("섹터에 있는 회원의 갯수를 가져온다.")
 	void getList() {
-		PageRequest pageRequest = new PageRequest(null);
+		PageRequestImpl pageRequestImpl = new PageRequestImpl(null);
 		Location location = LocationStub.봉천역.of();
 		Integer width = 20;
 		Integer height = 20;
@@ -297,7 +297,7 @@ class MemberServiceTest {
 		given(memberQueryRepository.getAll(any(),any(),any(),any())).willReturn(new SliceImpl<>(List.of(
 			MemberResponse.builder().merchantName(member1.getNickname()).location(location)
 				.merchantId(member1.getId()).build())));
-		SliceImpl<MemberResponse> list = memberService.getList(request, pageRequest);
+		SliceImpl<MemberResponse> list = memberService.getList(request, pageRequestImpl);
 		assertThat(list.hasNext()).isFalse();
 		assertThat(list.isLast()).isTrue();
 		assertThat(list.getContent()).hasSize(1);

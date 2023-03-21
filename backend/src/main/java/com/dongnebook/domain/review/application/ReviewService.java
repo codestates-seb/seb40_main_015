@@ -15,7 +15,7 @@ import com.dongnebook.domain.review.dto.response.ReviewResponse;
 import com.dongnebook.domain.review.exception.BookRentalNotMatchException;
 import com.dongnebook.domain.review.repository.ReviewQueryRepository;
 import com.dongnebook.domain.review.repository.ReviewRepository;
-import com.dongnebook.global.dto.request.PageRequest;
+import com.dongnebook.global.dto.request.PageRequestImpl;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -43,8 +43,8 @@ public class ReviewService {
         reviewRepository.save(review);
     }
 
-    public SliceImpl<ReviewResponse> readReviews(Long merchantId, PageRequest pageRequest){
-        return reviewQueryRepository.findAllByMerchantIdOrderByIdDesc(merchantId, pageRequest);
+    public SliceImpl<ReviewResponse> readReviews(Long merchantId, PageRequestImpl pageRequestImpl){
+        return reviewQueryRepository.findAllByMerchantIdOrderByIdDesc(merchantId, pageRequestImpl);
     }
 
 

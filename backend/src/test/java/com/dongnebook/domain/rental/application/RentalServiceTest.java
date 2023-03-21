@@ -14,8 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 
 import com.dongnebook.domain.book.domain.Book;
-import com.dongnebook.domain.book.dto.request.BookRegisterRequest;
-import com.dongnebook.domain.book.repository.BookCommandRepository;
+import com.dongnebook.domain.book.adapter.in.request.BookRegisterRequest;
 import com.dongnebook.domain.member.domain.Member;
 import com.dongnebook.domain.member.dto.request.MemberEditRequest;
 import com.dongnebook.domain.member.repository.MemberRepository;
@@ -39,7 +38,7 @@ class RentalServiceTest {
 	MemberRepository memberRepository;
 
 	@Autowired
-	BookCommandRepository bookCommandRepository;
+	BookCustomRepository bookCustomRepository;
 
 	@Autowired
 	JdbcTemplate jdbcTemplate;
@@ -74,7 +73,7 @@ class RentalServiceTest {
 
 	private void makeBooks(int num, List<Member> members) {
 		for (int i = 0; i < num; i++) {
-				bookCommandRepository.save(Book.create(BookRegisterRequest.builder().author("asdf" + i)
+				bookCustomRepository.save(Book.create(BookRegisterRequest.builder().author("asdf" + i)
 					.description("asdf")
 					.imageUrl("asdf" + i)
 					.publisher("Asdf" + i)

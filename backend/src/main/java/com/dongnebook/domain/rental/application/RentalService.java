@@ -11,7 +11,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.dongnebook.domain.alarm.application.AlarmService;
-import com.dongnebook.domain.book.application.BookService;
+import com.dongnebook.domain.book.application.BookQueryService;
 import com.dongnebook.domain.book.domain.Book;
 import com.dongnebook.domain.book.domain.BookState;
 import com.dongnebook.domain.member.domain.Member;
@@ -28,7 +28,7 @@ import com.dongnebook.domain.rental.repository.RentalRepository;
 import com.dongnebook.domain.reservation.domain.Reservation;
 import com.dongnebook.domain.reservation.repository.ReservationQueryRepository;
 import com.dongnebook.domain.reservation.repository.ReservationRepository;
-import com.dongnebook.global.dto.request.PageRequest;
+import com.dongnebook.global.dto.request.PageRequestImpl;
 import com.dongnebook.global.enums.AlarmType;
 
 import lombok.RequiredArgsConstructor;
@@ -42,7 +42,7 @@ public class RentalService {
 	private final RentalRepository rentalRepository;
 	private final AlarmService alarmService;
 	private final RentalQueryRepository rentalQueryRepository;
-	private final BookService bookService;
+	private final BookQueryService bookQueryService;
 	private final MemberRepository memberRepository;
 	private final ReservationQueryRepository reservationQueryRepository;
 	private final ReservationRepository reservationRepository;
@@ -51,7 +51,7 @@ public class RentalService {
 	@Transactional
 	public void createRental(Long bookId, Long customerId) {
 		Member customer = getMemberById(customerId);
-		Book book = bookService.getWithMerchantByBookId(bookId);
+		Book book = bookQueryService.getWithMerchantByBookId(bookId);
 		blockRentMyBook(customerId, book);
 		book.changeBookStateFromTo(BookState.RENTABLE, BookState.TRADING);
 		rentalRepository.save(Rental.create(book, customer));
@@ -126,13 +126,13 @@ public class RentalService {
 	}
 
 	public SliceImpl<RentalBookResponse> getRentalsByMerchant(Long merchantId, String rentalState,
-		PageRequest pageRequest) {
-		return rentalQueryRepository.findAllByMerchantIdOrderByIdDesc(merchantId, rentalState, pageRequest);
+		PageRequestImpl pageRequestImpl) {
+		return rentalQueryRepository.findAllByMerchantIdOrderByIdDesc(merchantId, rentalState, pageRequestImpl);
 	}
 
 	public SliceImpl<RentalBookResponse> getRentalsByCustomer(Long customerId, String rentalState,
-		PageRequest pageRequest) {
-		return rentalQueryRepository.findAllByCustomerIdOrderByIdDesc(customerId, rentalState, pageRequest);
+		PageRequestImpl pageRequestImpl) {
+		return rentalQueryRepository.findAllByCustomerIdOrderByIdDesc(customerId, rentalState, pageRequestImpl);
 	}
 
 	//매일 1시마다 자동실행
@@ -160,7 +160,7 @@ public class RentalService {
 	}
 
 	private Book getBookFromRental(Rental rental) {
-		return bookService.getByBookId(rental.getBook().getId());
+		return bookQueryService.getByBookId(rental.getBook().getId());
 	}
 
 	// 상인이 본인 책을 대여하는 경우 예외 처리

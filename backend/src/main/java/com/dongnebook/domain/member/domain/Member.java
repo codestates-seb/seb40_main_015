@@ -3,6 +3,7 @@ package com.dongnebook.domain.member.domain;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -21,6 +22,7 @@ import com.dongnebook.domain.book.domain.Book;
 import com.dongnebook.domain.dibs.domain.Dibs;
 import com.dongnebook.domain.member.dto.request.MemberEditRequest;
 import com.dongnebook.domain.member.dto.request.MemberRegisterRequest;
+import com.dongnebook.domain.member.exception.LocationNotCreatedYetException;
 import com.dongnebook.domain.model.BaseTimeEntity;
 import com.dongnebook.domain.model.Location;
 
@@ -130,5 +132,9 @@ public class Member extends BaseTimeEntity implements Serializable {
 		Double newAvgGrade = (pastAvgGrade*this.getReceivedReviewCount() + grade)/(this.getReceivedReviewCount() + 1);
 		this.setAvgGrade(newAvgGrade);
 		this.upReviewCount();
+	}
+
+	public Location getLocation() {
+		return Optional.ofNullable(location).orElseThrow(LocationNotCreatedYetException::new);
 	}
 }
