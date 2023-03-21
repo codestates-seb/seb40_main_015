@@ -1,4 +1,4 @@
-package com.dongnebook.domain.book.dto.response;
+package com.dongnebook.domain.book.application.port.in.response;
 
 import java.util.List;
 
