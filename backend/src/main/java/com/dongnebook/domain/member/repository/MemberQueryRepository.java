@@ -1,6 +1,7 @@
 package com.dongnebook.domain.member.repository;
 
 import static com.dongnebook.domain.book.domain.QBook.*;
+
 import static com.dongnebook.domain.member.domain.QMember.*;
 
 import java.util.List;
@@ -10,6 +11,7 @@ import org.springframework.data.domain.SliceImpl;
 import org.springframework.stereotype.Repository;
 
 import com.dongnebook.domain.book.domain.BookState;
+
 import com.dongnebook.domain.member.domain.Member;
 import com.dongnebook.domain.member.dto.request.MerchantSearchRequest;
 
@@ -20,7 +22,7 @@ import com.dongnebook.domain.member.dto.response.QMemberDetailResponse;
 
 import com.dongnebook.domain.member.dto.response.QMemberResponse;
 import com.dongnebook.domain.model.Location;
-import com.dongnebook.global.dto.request.PageRequest;
+import com.dongnebook.global.dto.request.PageRequestImpl;
 import com.querydsl.core.types.Expression;
 import com.querydsl.core.types.ExpressionUtils;
 import com.querydsl.core.types.dsl.BooleanExpression;
@@ -48,7 +50,7 @@ public class MemberQueryRepository {
 	}
 
 	public SliceImpl<MemberResponse> getAll(List<Double> latRangeList, List<Double> lonRangeList,
-		MerchantSearchRequest request, PageRequest pageRequest) {
+		MerchantSearchRequest request, PageRequestImpl pageRequestImpl) {
 		List<MemberResponse> result = jpaQueryFactory
 			.select(
 				new QMemberResponse(
@@ -58,22 +60,22 @@ public class MemberQueryRepository {
 			.from(member)
 			.where((member.location.latitude.between(latRangeList.get(request.getLevel()), latRangeList.get(0))),
 				(member.location.longitude.between(lonRangeList.get(0), lonRangeList.get(request.getLevel()))),
-				ltMemberId(pageRequest.getIndex()),
+				ltMemberId(pageRequestImpl.getIndex()),
 				Location.inSector(request.getLatitude(), request.getLongitude(), request.getHeight(),
 					request.getWidth(),
 					request.getSector(), request.getLevel(), member.location))
 			.orderBy(member.id.desc())
-			.limit(pageRequest.getSize() + 1)
+			.limit(pageRequestImpl.getSize() + 1)
 			.fetch();
 
 		boolean hasNext = false;
 
-		if (result.size() > pageRequest.getSize()) {
+		if (result.size() > pageRequestImpl.getSize()) {
 			hasNext = true;
-			result.remove(pageRequest.getSize().intValue());
+			result.remove(pageRequestImpl.getSize().intValue());
 		}
 
-		return new SliceImpl<>(result, pageRequest.of(), hasNext);
+		return new SliceImpl<>(result, pageRequestImpl.of(), hasNext);
 	}
 
 	//대여중인 책이 없는 회원만 가져온다.

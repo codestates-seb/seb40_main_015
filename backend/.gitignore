@@ -18,7 +18,9 @@ bin/
 !**/src/test/**/bin/
 
 ### IntelliJ IDEA ###
-.idea
+.idea/
+jacoco/
+src/main/generated/
 *.iws
 *.iml
 *.ipr

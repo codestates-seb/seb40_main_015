@@ -12,13 +12,13 @@ import org.springframework.web.servlet.mvc.method.annotation.SseEmitter;
 
 import com.dongnebook.domain.alarm.domain.Alarm;
 import com.dongnebook.domain.alarm.exception.CanNotSendException;
+import com.dongnebook.domain.book.domain.Book;
 import com.dongnebook.global.enums.AlarmType;
 import com.dongnebook.domain.alarm.repository.EmitterRepositoryImpl;
 import com.dongnebook.domain.alarm.dto.AlarmResponse;
 import com.dongnebook.domain.alarm.exception.AlarmNotFoundException;
 import com.dongnebook.domain.alarm.repository.AlarmQueryRepository;
 import com.dongnebook.domain.alarm.repository.AlarmRepository;
-import com.dongnebook.domain.book.domain.Book;
 import com.dongnebook.domain.member.domain.Member;
 import com.dongnebook.global.error.exception.NotOwnerException;
 

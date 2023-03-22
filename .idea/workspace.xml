@@ -1,0 +1,799 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="94b174e4-31ef-4858-9366-fff24b52e0bb" name="Changes" comment="Refactor : ErrorCode 오타 수정">
+      <change afterPath="$PROJECT_DIR$/.idea/compiler.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/jarRepositories.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/modules.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/seb40_main_backend.iml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/sonarlint/issuestore/3/0/30280c462dfa27bf2dca59e2b7d560096833ab88" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/sonarlint/issuestore/4/6/467d5adac1adea8f63676aa644f8f716a01e9a7d" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/sonarlint/issuestore/6/1/61e420080e0d6359f64ee522854f9a0668262802" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/sonarlint/issuestore/6/4/64e5db7b24a434f59a13d72784d1778e440e440b" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/sonarlint/issuestore/8/3/83d41337d0843e30b85becc1cdc44b0c71a4fb72" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/sonarlint/issuestore/b/0/b02b324e8033c63314787d86c33da6a439363086" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/sonarlint/issuestore/e/4/e498cdd02ea58a123383d95b74efe9eba356dd9a" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/sonarlint/issuestore/e/b/ebb7b4617ba5739bfd58c4f2b4288963319c27f7" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/sonarlint/issuestore/index.pb" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/uiDesigner.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/jacoco/jacocoHtml/com.dongnebook.domain.alarm.application/AlarmReadService.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/jacoco/jacocoHtml/com.dongnebook.domain.alarm.application/AlarmReadService.java.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/jacoco/jacocoHtml/com.dongnebook.domain.alarm.application/AlarmService.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/jacoco/jacocoHtml/com.dongnebook.domain.alarm.application/AlarmService.java.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/jacoco/jacocoHtml/com.dongnebook.domain.alarm.application/index.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/jacoco/jacocoHtml/com.dongnebook.domain.alarm.application/index.source.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/jacoco/jacocoHtml/com.dongnebook.domain.alarm.domain/Alarm$AlarmBuilder.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/jacoco/jacocoHtml/com.dongnebook.domain.alarm.domain/Alarm.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/jacoco/jacocoHtml/com.dongnebook.domain.alarm.domain/Alarm.java.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/jacoco/jacocoHtml/com.dongnebook.domain.alarm.domain/QAlarm.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/jacoco/jacocoHtml/com.dongnebook.domain.alarm.domain/index.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/jacoco/jacocoHtml/com.dongnebook.domain.alarm.domain/index.source.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/jacoco/jacocoHtml/com.dongnebook.domain.alarm.dto/AlarmResponse.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/jacoco/jacocoHtml/com.dongnebook.domain.alarm.dto/AlarmResponse.java.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/jacoco/jacocoHtml/com.dongnebook.domain.alarm.dto/QAlarmResponse.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/jacoco/jacocoHtml/com.dongnebook.domain.alarm.dto/index.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/jacoco/jacocoHtml/com.dongnebook.domain.alarm.dto/index.source.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/jacoco/jacocoHtml/com.dongnebook.domain.alarm.exception/AlarmNotFoundException.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/jacoco/jacocoHtml/com.dongnebook.domain.alarm.exception/AlarmNotFoundException.java.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/jacoco/jacocoHtml/com.dongnebook.domain.alarm.exception/CanNotSendException.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/jacoco/jacocoHtml/com.dongnebook.domain.alarm.exception/CanNotSendException.java.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/jacoco/jacocoHtml/com.dongnebook.domain.alarm.exception/index.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/jacoco/jacocoHtml/com.dongnebook.domain.alarm.exception/index.source.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/jacoco/jacocoHtml/com.dongnebook.domain.alarm.repository/AlarmQueryRepository.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/jacoco/jacocoHtml/com.dongnebook.domain.alarm.repository/AlarmQueryRepository.java.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/jacoco/jacocoHtml/com.dongnebook.domain.alarm.repository/EmitterRepositoryImpl.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/jacoco/jacocoHtml/com.dongnebook.domain.alarm.repository/EmitterRepositoryImpl.java.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/jacoco/jacocoHtml/com.dongnebook.domain.alarm.repository/index.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/jacoco/jacocoHtml/com.dongnebook.domain.alarm.repository/index.source.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/jacoco/jacocoHtml/com.dongnebook.domain.alarm.ui/AlarmController.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/jacoco/jacocoHtml/com.dongnebook.domain.alarm.ui/AlarmController.java.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/jacoco/jacocoHtml/com.dongnebook.domain.alarm.ui/index.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/jacoco/jacocoHtml/com.dongnebook.domain.alarm.ui/index.source.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/jacoco/jacocoHtml/com.dongnebook.domain.book.application/BookService.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/jacoco/jacocoHtml/com.dongnebook.domain.book.application/BookService.java.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/jacoco/jacocoHtml/com.dongnebook.domain.book.application/index.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/jacoco/jacocoHtml/com.dongnebook.domain.book.application/index.source.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/jacoco/jacocoHtml/com.dongnebook.domain.book.domain/Book$BookBuilder.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/jacoco/jacocoHtml/com.dongnebook.domain.book.domain/Book.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/jacoco/jacocoHtml/com.dongnebook.domain.book.domain/Book.java.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/jacoco/jacocoHtml/com.dongnebook.domain.book.domain/BookState.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/jacoco/jacocoHtml/com.dongnebook.domain.book.domain/BookState.java.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/jacoco/jacocoHtml/com.dongnebook.domain.book.domain/BookStateConverter.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/jacoco/jacocoHtml/com.dongnebook.domain.book.domain/Money.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/jacoco/jacocoHtml/com.dongnebook.domain.book.domain/Money.java.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/jacoco/jacocoHtml/com.dongnebook.domain.book.domain/QBook.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/jacoco/jacocoHtml/com.dongnebook.domain.book.domain/QMoney.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/jacoco/jacocoHtml/com.dongnebook.domain.book.domain/index.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/jacoco/jacocoHtml/com.dongnebook.domain.book.domain/index.source.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/jacoco/jacocoHtml/com.dongnebook.domain.book.dto.request/BookEditRequest$BookEditRequestBuilder.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/jacoco/jacocoHtml/com.dongnebook.domain.book.dto.request/BookEditRequest.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/jacoco/jacocoHtml/com.dongnebook.domain.book.dto.request/BookEditRequest.java.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/jacoco/jacocoHtml/com.dongnebook.domain.book.dto.request/BookRegisterRequest$BookRegisterRequestBuilder.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/jacoco/jacocoHtml/com.dongnebook.domain.book.dto.request/BookRegisterRequest.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/jacoco/jacocoHtml/com.dongnebook.domain.book.dto.request/BookRegisterRequest.java.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/jacoco/jacocoHtml/com.dongnebook.domain.book.dto.request/BookSearchCondition.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/jacoco/jacocoHtml/com.dongnebook.domain.book.dto.request/BookSearchCondition.java.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/jacoco/jacocoHtml/com.dongnebook.domain.book.dto.request/index.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/jacoco/jacocoHtml/com.dongnebook.domain.book.dto.request/index.source.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/jacoco/jacocoHtml/com.dongnebook.domain.book.dto.response/BookCountPerSectorResponse.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/jacoco/jacocoHtml/com.dongnebook.domain.book.dto.response/BookCountPerSectorResponse.java.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/jacoco/jacocoHtml/com.dongnebook.domain.book.dto.response/BookDetailResponse$BookDetailResponseBuilder.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/jacoco/jacocoHtml/com.dongnebook.domain.book.dto.response/BookDetailResponse.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/jacoco/jacocoHtml/com.dongnebook.domain.book.dto.response/BookDetailResponse.java.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/jacoco/jacocoHtml/com.dongnebook.domain.book.dto.response/BookInfoResponse.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/jacoco/jacocoHtml/com.dongnebook.domain.book.dto.response/BookInfoResponse.java.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/jacoco/jacocoHtml/com.dongnebook.domain.book.dto.response/BookResponse$BookResponseBuilder.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/jacoco/jacocoHtml/com.dongnebook.domain.book.dto.response/BookResponse.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/jacoco/jacocoHtml/com.dongnebook.domain.book.dto.response/BookResponse.java.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/jacoco/jacocoHtml/com.dongnebook.domain.book.dto.response/BookSimpleResponse$BookSimpleResponseBuilder.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/jacoco/jacocoHtml/com.dongnebook.domain.book.dto.response/BookSimpleResponse.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/jacoco/jacocoHtml/com.dongnebook.domain.book.dto.response/BookSimpleResponse.java.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/jacoco/jacocoHtml/com.dongnebook.domain.book.dto.response/KaKaoBookInfoResponse$KaKaoBookInfoResponseBuilder.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/jacoco/jacocoHtml/com.dongnebook.domain.book.dto.response/KaKaoBookInfoResponse.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/jacoco/jacocoHtml/com.dongnebook.domain.book.dto.response/KaKaoBookInfoResponse.java.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/jacoco/jacocoHtml/com.dongnebook.domain.book.dto.response/QBookDetailResponse.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/jacoco/jacocoHtml/com.dongnebook.domain.book.dto.response/QBookInfoResponse.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/jacoco/jacocoHtml/com.dongnebook.domain.book.dto.response/QBookResponse.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/jacoco/jacocoHtml/com.dongnebook.domain.book.dto.response/QBookSimpleResponse.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/jacoco/jacocoHtml/com.dongnebook.domain.book.dto.response/index.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/jacoco/jacocoHtml/com.dongnebook.domain.book.dto.response/index.source.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/jacoco/jacocoHtml/com.dongnebook.domain.book.exception/BookNotFoundException.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/jacoco/jacocoHtml/com.dongnebook.domain.book.exception/BookNotFoundException.java.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/jacoco/jacocoHtml/com.dongnebook.domain.book.exception/NotRentableException.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/jacoco/jacocoHtml/com.dongnebook.domain.book.exception/NotRentableException.java.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/jacoco/jacocoHtml/com.dongnebook.domain.book.exception/index.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/jacoco/jacocoHtml/com.dongnebook.domain.book.exception/index.source.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/jacoco/jacocoHtml/com.dongnebook.domain.book.repository/BookQueryRepository.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/jacoco/jacocoHtml/com.dongnebook.domain.book.repository/BookQueryRepository.java.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/jacoco/jacocoHtml/com.dongnebook.domain.book.repository/index.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/jacoco/jacocoHtml/com.dongnebook.domain.book.repository/index.source.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/jacoco/jacocoHtml/com.dongnebook.domain.book.ui/BookController.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/jacoco/jacocoHtml/com.dongnebook.domain.book.ui/BookController.java.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/jacoco/jacocoHtml/com.dongnebook.domain.book.ui/index.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/jacoco/jacocoHtml/com.dongnebook.domain.book.ui/index.source.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/jacoco/jacocoHtml/com.dongnebook.domain.chat.application/ChatService.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/jacoco/jacocoHtml/com.dongnebook.domain.chat.application/ChatService.java.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/jacoco/jacocoHtml/com.dongnebook.domain.chat.application/RoomService.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/jacoco/jacocoHtml/com.dongnebook.domain.chat.application/RoomService.java.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/jacoco/jacocoHtml/com.dongnebook.domain.chat.application/index.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/jacoco/jacocoHtml/com.dongnebook.domain.chat.application/index.source.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/jacoco/jacocoHtml/com.dongnebook.domain.chat.domain/ChatMessage$ChatMessageBuilder.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/jacoco/jacocoHtml/com.dongnebook.domain.chat.domain/ChatMessage.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/jacoco/jacocoHtml/com.dongnebook.domain.chat.domain/ChatMessage.java.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/jacoco/jacocoHtml/com.dongnebook.domain.chat.domain/ChatRoom.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/jacoco/jacocoHtml/com.dongnebook.domain.chat.domain/ChatRoom.java.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/jacoco/jacocoHtml/com.dongnebook.domain.chat.domain/QChatMessage.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/jacoco/jacocoHtml/com.dongnebook.domain.chat.domain/QChatRoom.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/jacoco/jacocoHtml/com.dongnebook.domain.chat.domain/RedisChat.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/jacoco/jacocoHtml/com.dongnebook.domain.chat.domain/RedisChat.java.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/jacoco/jacocoHtml/com.dongnebook.domain.chat.domain/index.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/jacoco/jacocoHtml/com.dongnebook.domain.chat.domain/index.source.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/jacoco/jacocoHtml/com.dongnebook.domain.chat.dto.request/ChatMessageDto.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/jacoco/jacocoHtml/com.dongnebook.domain.chat.dto.request/ChatMessageDto.java.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/jacoco/jacocoHtml/com.dongnebook.domain.chat.dto.request/RoomRequest.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/jacoco/jacocoHtml/com.dongnebook.domain.chat.dto.request/RoomRequest.java.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/jacoco/jacocoHtml/com.dongnebook.domain.chat.dto.request/index.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/jacoco/jacocoHtml/com.dongnebook.domain.chat.dto.request/index.source.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/jacoco/jacocoHtml/com.dongnebook.domain.chat.dto.response/ChatMemberResponse$ChatMemberResponseBuilder.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/jacoco/jacocoHtml/com.dongnebook.domain.chat.dto.response/ChatMemberResponse.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/jacoco/jacocoHtml/com.dongnebook.domain.chat.dto.response/ChatMemberResponse.java.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/jacoco/jacocoHtml/com.dongnebook.domain.chat.dto.response/ChatResponse.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/jacoco/jacocoHtml/com.dongnebook.domain.chat.dto.response/ChatResponse.java.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/jacoco/jacocoHtml/com.dongnebook.domain.chat.dto.response/ChatRoomResponse$ChatRoomResponseBuilder.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/jacoco/jacocoHtml/com.dongnebook.domain.chat.dto.response/ChatRoomResponse.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/jacoco/jacocoHtml/com.dongnebook.domain.chat.dto.response/ChatRoomResponse.java.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/jacoco/jacocoHtml/com.dongnebook.domain.chat.dto.response/LastChatResponse$LastChatResponseBuilder.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/jacoco/jacocoHtml/com.dongnebook.domain.chat.dto.response/LastChatResponse.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/jacoco/jacocoHtml/com.dongnebook.domain.chat.dto.response/LastChatResponse.java.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/jacoco/jacocoHtml/com.dongnebook.domain.chat.dto.response/index.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/jacoco/jacocoHtml/com.dongnebook.domain.chat.dto.response/index.source.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/jacoco/jacocoHtml/com.dongnebook.domain.chat.repository/ChatRepository.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/jacoco/jacocoHtml/com.dongnebook.domain.chat.repository/ChatRepository.java.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/jacoco/jacocoHtml/com.dongnebook.domain.chat.repository/index.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/jacoco/jacocoHtml/com.dongnebook.domain.chat.repository/index.source.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/jacoco/jacocoHtml/com.dongnebook.domain.chat.ui/ChatController.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/jacoco/jacocoHtml/com.dongnebook.domain.chat.ui/ChatController.java.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/jacoco/jacocoHtml/com.dongnebook.domain.chat.ui/RedisPublisher.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/jacoco/jacocoHtml/com.dongnebook.domain.chat.ui/RedisPublisher.java.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/jacoco/jacocoHtml/com.dongnebook.domain.chat.ui/RedisSubscriber.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/jacoco/jacocoHtml/com.dongnebook.domain.chat.ui/RedisSubscriber.java.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/jacoco/jacocoHtml/com.dongnebook.domain.chat.ui/index.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/jacoco/jacocoHtml/com.dongnebook.domain.chat.ui/index.source.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/jacoco/jacocoHtml/com.dongnebook.domain.dibs.domain/Dibs.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/jacoco/jacocoHtml/com.dongnebook.domain.dibs.domain/Dibs.java.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/jacoco/jacocoHtml/com.dongnebook.domain.dibs.domain/QDibs.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/jacoco/jacocoHtml/com.dongnebook.domain.dibs.domain/index.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/jacoco/jacocoHtml/com.dongnebook.domain.dibs.domain/index.source.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/jacoco/jacocoHtml/com.dongnebook.domain.dibs.exception/DibsNotFoundException.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/jacoco/jacocoHtml/com.dongnebook.domain.dibs.exception/DibsNotFoundException.java.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/jacoco/jacocoHtml/com.dongnebook.domain.dibs.exception/index.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/jacoco/jacocoHtml/com.dongnebook.domain.dibs.exception/index.source.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/jacoco/jacocoHtml/com.dongnebook.domain.dibs.service/DibsService.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/jacoco/jacocoHtml/com.dongnebook.domain.dibs.service/DibsService.java.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/jacoco/jacocoHtml/com.dongnebook.domain.dibs.service/index.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/jacoco/jacocoHtml/com.dongnebook.domain.dibs.service/index.source.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/jacoco/jacocoHtml/com.dongnebook.domain.dibs.ui/DibsController.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/jacoco/jacocoHtml/com.dongnebook.domain.dibs.ui/DibsController.java.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/jacoco/jacocoHtml/com.dongnebook.domain.dibs.ui/index.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/jacoco/jacocoHtml/com.dongnebook.domain.dibs.ui/index.source.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/jacoco/jacocoHtml/com.dongnebook.domain.member.application/MemberService.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/jacoco/jacocoHtml/com.dongnebook.domain.member.application/MemberService.java.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/jacoco/jacocoHtml/com.dongnebook.domain.member.application/index.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/jacoco/jacocoHtml/com.dongnebook.domain.member.application/index.source.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/jacoco/jacocoHtml/com.dongnebook.domain.member.domain/Authority.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/jacoco/jacocoHtml/com.dongnebook.domain.member.domain/Authority.java.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/jacoco/jacocoHtml/com.dongnebook.domain.member.domain/Member$MemberBuilder.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/jacoco/jacocoHtml/com.dongnebook.domain.member.domain/Member.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/jacoco/jacocoHtml/com.dongnebook.domain.member.domain/Member.java.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/jacoco/jacocoHtml/com.dongnebook.domain.member.domain/QMember.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/jacoco/jacocoHtml/com.dongnebook.domain.member.domain/index.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/jacoco/jacocoHtml/com.dongnebook.domain.member.domain/index.source.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/jacoco/jacocoHtml/com.dongnebook.domain.member.dto.request/MemberEditRequest$MemberEditRequestBuilder.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/jacoco/jacocoHtml/com.dongnebook.domain.member.dto.request/MemberEditRequest.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/jacoco/jacocoHtml/com.dongnebook.domain.member.dto.request/MemberEditRequest.java.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/jacoco/jacocoHtml/com.dongnebook.domain.member.dto.request/MemberLoginRequest$MemberLoginRequestBuilder.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/jacoco/jacocoHtml/com.dongnebook.domain.member.dto.request/MemberLoginRequest.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/jacoco/jacocoHtml/com.dongnebook.domain.member.dto.request/MemberLoginRequest.java.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/jacoco/jacocoHtml/com.dongnebook.domain.member.dto.request/MemberRegisterRequest$MemberRegisterRequestBuilder.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/jacoco/jacocoHtml/com.dongnebook.domain.member.dto.request/MemberRegisterRequest.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/jacoco/jacocoHtml/com.dongnebook.domain.member.dto.request/MemberRegisterRequest.java.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/jacoco/jacocoHtml/com.dongnebook.domain.member.dto.request/MerchantSearchableRequest.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/jacoco/jacocoHtml/com.dongnebook.domain.member.dto.request/MerchantSearchableRequest.java.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/jacoco/jacocoHtml/com.dongnebook.domain.member.dto.request/index.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/jacoco/jacocoHtml/com.dongnebook.domain.member.dto.request/index.source.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/jacoco/jacocoHtml/com.dongnebook.domain.member.dto.response/BookDetailMemberResponse$BookDetailMemberResponseBuilder.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/jacoco/jacocoHtml/com.dongnebook.domain.member.dto.response/BookDetailMemberResponse.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/jacoco/jacocoHtml/com.dongnebook.domain.member.dto.response/BookDetailMemberResponse.java.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/jacoco/jacocoHtml/com.dongnebook.domain.member.dto.response/MemberDetailResponse$MemberDetailResponseBuilder.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/jacoco/jacocoHtml/com.dongnebook.domain.member.dto.response/MemberDetailResponse.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/jacoco/jacocoHtml/com.dongnebook.domain.member.dto.response/MemberDetailResponse.java.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/jacoco/jacocoHtml/com.dongnebook.domain.member.dto.response/MemberExistsCheckResponse$MemberExistsCheckResponseBuilder.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/jacoco/jacocoHtml/com.dongnebook.domain.member.dto.response/MemberExistsCheckResponse.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/jacoco/jacocoHtml/com.dongnebook.domain.member.dto.response/MemberExistsCheckResponse.java.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/jacoco/jacocoHtml/com.dongnebook.domain.member.dto.response/MemberLoginResponse$MemberLoginResponseBuilder.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/jacoco/jacocoHtml/com.dongnebook.domain.member.dto.response/MemberLoginResponse.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/jacoco/jacocoHtml/com.dongnebook.domain.member.dto.response/MemberLoginResponse.java.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/jacoco/jacocoHtml/com.dongnebook.domain.member.dto.response/MemberResponse$MemberResponseBuilder.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/jacoco/jacocoHtml/com.dongnebook.domain.member.dto.response/MemberResponse.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/jacoco/jacocoHtml/com.dongnebook.domain.member.dto.response/MemberResponse.java.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/jacoco/jacocoHtml/com.dongnebook.domain.member.dto.response/MerchantSectorCountResponse.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/jacoco/jacocoHtml/com.dongnebook.domain.member.dto.response/MerchantSectorCountResponse.java.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/jacoco/jacocoHtml/com.dongnebook.domain.member.dto.response/QBookDetailMemberResponse.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/jacoco/jacocoHtml/com.dongnebook.domain.member.dto.response/QMemberDetailResponse.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/jacoco/jacocoHtml/com.dongnebook.domain.member.dto.response/QMemberResponse.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/jacoco/jacocoHtml/com.dongnebook.domain.member.dto.response/index.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/jacoco/jacocoHtml/com.dongnebook.domain.member.dto.response/index.source.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/jacoco/jacocoHtml/com.dongnebook.domain.member.exception/LocationNotCreatedYetException.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/jacoco/jacocoHtml/com.dongnebook.domain.member.exception/LocationNotCreatedYetException.java.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/jacoco/jacocoHtml/com.dongnebook.domain.member.exception/MemberHasOnLoanException.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/jacoco/jacocoHtml/com.dongnebook.domain.member.exception/MemberHasOnLoanException.java.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/jacoco/jacocoHtml/com.dongnebook.domain.member.exception/MemberNotFoundException.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/jacoco/jacocoHtml/com.dongnebook.domain.member.exception/MemberNotFoundException.java.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/jacoco/jacocoHtml/com.dongnebook.domain.member.exception/UnAuthorizedException.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/jacoco/jacocoHtml/com.dongnebook.domain.member.exception/UnAuthorizedException.java.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/jacoco/jacocoHtml/com.dongnebook.domain.member.exception/index.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/jacoco/jacocoHtml/com.dongnebook.domain.member.exception/index.source.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/jacoco/jacocoHtml/com.dongnebook.domain.member.repository/MemberQueryRepository.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/jacoco/jacocoHtml/com.dongnebook.domain.member.repository/MemberQueryRepository.java.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/jacoco/jacocoHtml/com.dongnebook.domain.member.repository/index.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/jacoco/jacocoHtml/com.dongnebook.domain.member.repository/index.source.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/jacoco/jacocoHtml/com.dongnebook.domain.member.ui/MemberController.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/jacoco/jacocoHtml/com.dongnebook.domain.member.ui/MemberController.java.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/jacoco/jacocoHtml/com.dongnebook.domain.member.ui/index.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/jacoco/jacocoHtml/com.dongnebook.domain.member.ui/index.source.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/jacoco/jacocoHtml/com.dongnebook.domain.model.image.application/ImageResizer.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/jacoco/jacocoHtml/com.dongnebook.domain.model.image.application/ImageResizer.java.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/jacoco/jacocoHtml/com.dongnebook.domain.model.image.application/index.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/jacoco/jacocoHtml/com.dongnebook.domain.model.image.application/index.source.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/jacoco/jacocoHtml/com.dongnebook.domain.model.image.dto/ImageUploadRequest.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/jacoco/jacocoHtml/com.dongnebook.domain.model.image.dto/ImageUploadRequest.java.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/jacoco/jacocoHtml/com.dongnebook.domain.model.image.dto/index.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/jacoco/jacocoHtml/com.dongnebook.domain.model.image.dto/index.source.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/jacoco/jacocoHtml/com.dongnebook.domain.model.image.exception/UploadFailed.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/jacoco/jacocoHtml/com.dongnebook.domain.model.image.exception/UploadFailed.java.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/jacoco/jacocoHtml/com.dongnebook.domain.model.image.exception/index.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/jacoco/jacocoHtml/com.dongnebook.domain.model.image.exception/index.source.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/jacoco/jacocoHtml/com.dongnebook.domain.model.image.infrastructure/AwsS3Service.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/jacoco/jacocoHtml/com.dongnebook.domain.model.image.infrastructure/AwsS3Service.java.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/jacoco/jacocoHtml/com.dongnebook.domain.model.image.infrastructure/JavaImageResizer.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/jacoco/jacocoHtml/com.dongnebook.domain.model.image.infrastructure/JavaImageResizer.java.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/jacoco/jacocoHtml/com.dongnebook.domain.model.image.infrastructure/index.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/jacoco/jacocoHtml/com.dongnebook.domain.model.image.infrastructure/index.source.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/jacoco/jacocoHtml/com.dongnebook.domain.model.image.ui/ImageUploadController.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/jacoco/jacocoHtml/com.dongnebook.domain.model.image.ui/ImageUploadController.java.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/jacoco/jacocoHtml/com.dongnebook.domain.model.image.ui/index.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/jacoco/jacocoHtml/com.dongnebook.domain.model.image.ui/index.source.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/jacoco/jacocoHtml/com.dongnebook.domain.model/BaseTimeEntity.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/jacoco/jacocoHtml/com.dongnebook.domain.model/BaseTimeEntity.java.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/jacoco/jacocoHtml/com.dongnebook.domain.model/Location$LocationBuilder.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/jacoco/jacocoHtml/com.dongnebook.domain.model/Location.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/jacoco/jacocoHtml/com.dongnebook.domain.model/Location.java.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/jacoco/jacocoHtml/com.dongnebook.domain.model/QBaseTimeEntity.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/jacoco/jacocoHtml/com.dongnebook.domain.model/QLocation.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/jacoco/jacocoHtml/com.dongnebook.domain.model/index.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/jacoco/jacocoHtml/com.dongnebook.domain.model/index.source.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/jacoco/jacocoHtml/com.dongnebook.domain.refreshtoken.domain/QRefreshToken.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/jacoco/jacocoHtml/com.dongnebook.domain.refreshtoken.domain/RefreshToken$RefreshTokenBuilder.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/jacoco/jacocoHtml/com.dongnebook.domain.refreshtoken.domain/RefreshToken.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/jacoco/jacocoHtml/com.dongnebook.domain.refreshtoken.domain/RefreshToken.java.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/jacoco/jacocoHtml/com.dongnebook.domain.refreshtoken.domain/index.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/jacoco/jacocoHtml/com.dongnebook.domain.refreshtoken.domain/index.source.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/jacoco/jacocoHtml/com.dongnebook.domain.refreshtoken.exception/TokenEmpty.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/jacoco/jacocoHtml/com.dongnebook.domain.refreshtoken.exception/TokenEmpty.java.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/jacoco/jacocoHtml/com.dongnebook.domain.refreshtoken.exception/TokenExpired.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/jacoco/jacocoHtml/com.dongnebook.domain.refreshtoken.exception/TokenExpired.java.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/jacoco/jacocoHtml/com.dongnebook.domain.refreshtoken.exception/TokenInvalid.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/jacoco/jacocoHtml/com.dongnebook.domain.refreshtoken.exception/TokenInvalid.java.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/jacoco/jacocoHtml/com.dongnebook.domain.refreshtoken.exception/TokenMalformed.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/jacoco/jacocoHtml/com.dongnebook.domain.refreshtoken.exception/TokenMalformed.java.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/jacoco/jacocoHtml/com.dongnebook.domain.refreshtoken.exception/TokenNotFound.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/jacoco/jacocoHtml/com.dongnebook.domain.refreshtoken.exception/TokenNotFound.java.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/jacoco/jacocoHtml/com.dongnebook.domain.refreshtoken.exception/TokenSignatureInvalid.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/jacoco/jacocoHtml/com.dongnebook.domain.refreshtoken.exception/TokenSignatureInvalid.java.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/jacoco/jacocoHtml/com.dongnebook.domain.refreshtoken.exception/TokenUnsupported.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/jacoco/jacocoHtml/com.dongnebook.domain.refreshtoken.exception/TokenUnsupported.java.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/jacoco/jacocoHtml/com.dongnebook.domain.refreshtoken.exception/index.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/jacoco/jacocoHtml/com.dongnebook.domain.refreshtoken.exception/index.source.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/jacoco/jacocoHtml/com.dongnebook.domain.rental.application/RentalCreateEvent.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/jacoco/jacocoHtml/com.dongnebook.domain.rental.application/RentalCreateEvent.java.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/jacoco/jacocoHtml/com.dongnebook.domain.rental.application/RentalCreateEventHandler.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/jacoco/jacocoHtml/com.dongnebook.domain.rental.application/RentalCreateEventHandler.java.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/jacoco/jacocoHtml/com.dongnebook.domain.rental.application/RentalService.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/jacoco/jacocoHtml/com.dongnebook.domain.rental.application/RentalService.java.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/jacoco/jacocoHtml/com.dongnebook.domain.rental.application/index.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/jacoco/jacocoHtml/com.dongnebook.domain.rental.application/index.source.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/jacoco/jacocoHtml/com.dongnebook.domain.rental.domain/QRental.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/jacoco/jacocoHtml/com.dongnebook.domain.rental.domain/Rental$RentalBuilder.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/jacoco/jacocoHtml/com.dongnebook.domain.rental.domain/Rental.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/jacoco/jacocoHtml/com.dongnebook.domain.rental.domain/Rental.java.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/jacoco/jacocoHtml/com.dongnebook.domain.rental.domain/RentalState.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/jacoco/jacocoHtml/com.dongnebook.domain.rental.domain/RentalState.java.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/jacoco/jacocoHtml/com.dongnebook.domain.rental.domain/RentalStateConverter.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/jacoco/jacocoHtml/com.dongnebook.domain.rental.domain/index.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/jacoco/jacocoHtml/com.dongnebook.domain.rental.domain/index.source.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/jacoco/jacocoHtml/com.dongnebook.domain.rental.dto.request/RentalSearchCondition.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/jacoco/jacocoHtml/com.dongnebook.domain.rental.dto.request/RentalSearchCondition.java.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/jacoco/jacocoHtml/com.dongnebook.domain.rental.dto.request/index.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/jacoco/jacocoHtml/com.dongnebook.domain.rental.dto.request/index.source.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/jacoco/jacocoHtml/com.dongnebook.domain.rental.dto.response/QRentalBookResponse.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/jacoco/jacocoHtml/com.dongnebook.domain.rental.dto.response/QRentalInfoResponse.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/jacoco/jacocoHtml/com.dongnebook.domain.rental.dto.response/RentalBookResponse.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/jacoco/jacocoHtml/com.dongnebook.domain.rental.dto.response/RentalBookResponse.java.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/jacoco/jacocoHtml/com.dongnebook.domain.rental.dto.response/RentalInfoResponse.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/jacoco/jacocoHtml/com.dongnebook.domain.rental.dto.response/RentalInfoResponse.java.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/jacoco/jacocoHtml/com.dongnebook.domain.rental.dto.response/index.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/jacoco/jacocoHtml/com.dongnebook.domain.rental.dto.response/index.source.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/jacoco/jacocoHtml/com.dongnebook.domain.rental.exception/CanNotChangeStateException.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/jacoco/jacocoHtml/com.dongnebook.domain.rental.exception/CanNotChangeStateException.java.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/jacoco/jacocoHtml/com.dongnebook.domain.rental.exception/CanNotRentMyBookException.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/jacoco/jacocoHtml/com.dongnebook.domain.rental.exception/CanNotRentMyBookException.java.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/jacoco/jacocoHtml/com.dongnebook.domain.rental.exception/RentalNotFoundException.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/jacoco/jacocoHtml/com.dongnebook.domain.rental.exception/RentalNotFoundException.java.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/jacoco/jacocoHtml/com.dongnebook.domain.rental.exception/index.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/jacoco/jacocoHtml/com.dongnebook.domain.rental.exception/index.source.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/jacoco/jacocoHtml/com.dongnebook.domain.rental.repository/RentalQueryRepository.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/jacoco/jacocoHtml/com.dongnebook.domain.rental.repository/RentalQueryRepository.java.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/jacoco/jacocoHtml/com.dongnebook.domain.rental.repository/index.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/jacoco/jacocoHtml/com.dongnebook.domain.rental.repository/index.source.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/jacoco/jacocoHtml/com.dongnebook.domain.rental.ui/RentalController.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/jacoco/jacocoHtml/com.dongnebook.domain.rental.ui/RentalController.java.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/jacoco/jacocoHtml/com.dongnebook.domain.rental.ui/index.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/jacoco/jacocoHtml/com.dongnebook.domain.rental.ui/index.source.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/jacoco/jacocoHtml/com.dongnebook.domain.reservation.application/ReservationService.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/jacoco/jacocoHtml/com.dongnebook.domain.reservation.application/ReservationService.java.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/jacoco/jacocoHtml/com.dongnebook.domain.reservation.application/index.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/jacoco/jacocoHtml/com.dongnebook.domain.reservation.application/index.source.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/jacoco/jacocoHtml/com.dongnebook.domain.reservation.domain/QReservation.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/jacoco/jacocoHtml/com.dongnebook.domain.reservation.domain/Reservation$ReservationBuilder.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/jacoco/jacocoHtml/com.dongnebook.domain.reservation.domain/Reservation.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/jacoco/jacocoHtml/com.dongnebook.domain.reservation.domain/Reservation.java.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/jacoco/jacocoHtml/com.dongnebook.domain.reservation.domain/index.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/jacoco/jacocoHtml/com.dongnebook.domain.reservation.domain/index.source.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/jacoco/jacocoHtml/com.dongnebook.domain.reservation.dto.response/QReservationInfoResponse.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/jacoco/jacocoHtml/com.dongnebook.domain.reservation.dto.response/QReservationResponse.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/jacoco/jacocoHtml/com.dongnebook.domain.reservation.dto.response/ReservationInfoResponse.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/jacoco/jacocoHtml/com.dongnebook.domain.reservation.dto.response/ReservationInfoResponse.java.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/jacoco/jacocoHtml/com.dongnebook.domain.reservation.dto.response/ReservationResponse.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/jacoco/jacocoHtml/com.dongnebook.domain.reservation.dto.response/ReservationResponse.java.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/jacoco/jacocoHtml/com.dongnebook.domain.reservation.dto.response/index.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/jacoco/jacocoHtml/com.dongnebook.domain.reservation.dto.response/index.source.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/jacoco/jacocoHtml/com.dongnebook.domain.reservation.exception/CanNotChangeReservationStateException.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/jacoco/jacocoHtml/com.dongnebook.domain.reservation.exception/CanNotChangeReservationStateException.java.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/jacoco/jacocoHtml/com.dongnebook.domain.reservation.exception/CanNotReservationBookRentalStateException.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/jacoco/jacocoHtml/com.dongnebook.domain.reservation.exception/CanNotReservationBookRentalStateException.java.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/jacoco/jacocoHtml/com.dongnebook.domain.reservation.exception/CanNotReservationPersonException.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/jacoco/jacocoHtml/com.dongnebook.domain.reservation.exception/CanNotReservationPersonException.java.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/jacoco/jacocoHtml/com.dongnebook.domain.reservation.exception/ReservationNotFoundException.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/jacoco/jacocoHtml/com.dongnebook.domain.reservation.exception/ReservationNotFoundException.java.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/jacoco/jacocoHtml/com.dongnebook.domain.reservation.exception/index.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/jacoco/jacocoHtml/com.dongnebook.domain.reservation.exception/index.source.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/jacoco/jacocoHtml/com.dongnebook.domain.reservation.repository/ReservationQueryRepository.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/jacoco/jacocoHtml/com.dongnebook.domain.reservation.repository/ReservationQueryRepository.java.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/jacoco/jacocoHtml/com.dongnebook.domain.reservation.repository/index.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/jacoco/jacocoHtml/com.dongnebook.domain.reservation.repository/index.source.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/jacoco/jacocoHtml/com.dongnebook.domain.reservation.ui/ReservationsController.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/jacoco/jacocoHtml/com.dongnebook.domain.reservation.ui/ReservationsController.java.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/jacoco/jacocoHtml/com.dongnebook.domain.reservation.ui/index.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/jacoco/jacocoHtml/com.dongnebook.domain.reservation.ui/index.source.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/jacoco/jacocoHtml/com.dongnebook.domain.review.application/ReviewService.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/jacoco/jacocoHtml/com.dongnebook.domain.review.application/ReviewService.java.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/jacoco/jacocoHtml/com.dongnebook.domain.review.application/index.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/jacoco/jacocoHtml/com.dongnebook.domain.review.application/index.source.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/jacoco/jacocoHtml/com.dongnebook.domain.review.domain/QReview.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/jacoco/jacocoHtml/com.dongnebook.domain.review.domain/Review$ReviewBuilder.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/jacoco/jacocoHtml/com.dongnebook.domain.review.domain/Review.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/jacoco/jacocoHtml/com.dongnebook.domain.review.domain/Review.java.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/jacoco/jacocoHtml/com.dongnebook.domain.review.domain/index.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/jacoco/jacocoHtml/com.dongnebook.domain.review.domain/index.source.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/jacoco/jacocoHtml/com.dongnebook.domain.review.dto.request/ReviewRequest$ReviewRequestBuilder.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/jacoco/jacocoHtml/com.dongnebook.domain.review.dto.request/ReviewRequest.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/jacoco/jacocoHtml/com.dongnebook.domain.review.dto.request/ReviewRequest.java.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/jacoco/jacocoHtml/com.dongnebook.domain.review.dto.request/index.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/jacoco/jacocoHtml/com.dongnebook.domain.review.dto.request/index.source.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/jacoco/jacocoHtml/com.dongnebook.domain.review.dto.response/QReviewResponse.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/jacoco/jacocoHtml/com.dongnebook.domain.review.dto.response/ReviewResponse.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/jacoco/jacocoHtml/com.dongnebook.domain.review.dto.response/ReviewResponse.java.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/jacoco/jacocoHtml/com.dongnebook.domain.review.dto.response/index.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/jacoco/jacocoHtml/com.dongnebook.domain.review.dto.response/index.source.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/jacoco/jacocoHtml/com.dongnebook.domain.review.exception/BookRentalNotMatchException.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/jacoco/jacocoHtml/com.dongnebook.domain.review.exception/BookRentalNotMatchException.java.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/jacoco/jacocoHtml/com.dongnebook.domain.review.exception/index.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/jacoco/jacocoHtml/com.dongnebook.domain.review.exception/index.source.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/jacoco/jacocoHtml/com.dongnebook.domain.review.repository/ReviewQueryRepository.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/jacoco/jacocoHtml/com.dongnebook.domain.review.repository/ReviewQueryRepository.java.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/jacoco/jacocoHtml/com.dongnebook.domain.review.repository/index.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/jacoco/jacocoHtml/com.dongnebook.domain.review.repository/index.source.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/jacoco/jacocoHtml/com.dongnebook.domain.review.ui/ReviewController.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/jacoco/jacocoHtml/com.dongnebook.domain.review.ui/ReviewController.java.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/jacoco/jacocoHtml/com.dongnebook.domain.review.ui/index.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/jacoco/jacocoHtml/com.dongnebook.domain.review.ui/index.source.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/jacoco/jacocoHtml/com.dongnebook.global.config/AmazonS3Config.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/jacoco/jacocoHtml/com.dongnebook.global.config/AmazonS3Config.java.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/jacoco/jacocoHtml/com.dongnebook.global.config/CacheConfig.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/jacoco/jacocoHtml/com.dongnebook.global.config/CacheConfig.java.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/jacoco/jacocoHtml/com.dongnebook.global.config/Py6spyConfig.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/jacoco/jacocoHtml/com.dongnebook.global.config/Py6spyConfig.java.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/jacoco/jacocoHtml/com.dongnebook.global.config/QueryDslConfig.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/jacoco/jacocoHtml/com.dongnebook.global.config/QueryDslConfig.java.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/jacoco/jacocoHtml/com.dongnebook.global.config/RedisConfig.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/jacoco/jacocoHtml/com.dongnebook.global.config/RedisConfig.java.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/jacoco/jacocoHtml/com.dongnebook.global.config/SecurityConfig$CustomFilterConfigurer.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/jacoco/jacocoHtml/com.dongnebook.global.config/SecurityConfig.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/jacoco/jacocoHtml/com.dongnebook.global.config/SecurityConfig.java.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/jacoco/jacocoHtml/com.dongnebook.global.config/WebConfig.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/jacoco/jacocoHtml/com.dongnebook.global.config/WebConfig.java.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/jacoco/jacocoHtml/com.dongnebook.global.config/WebSocketConfig.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/jacoco/jacocoHtml/com.dongnebook.global.config/WebSocketConfig.java.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/jacoco/jacocoHtml/com.dongnebook.global.config/index.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/jacoco/jacocoHtml/com.dongnebook.global.config/index.source.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/jacoco/jacocoHtml/com.dongnebook.global.dto.request/PageRequest.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/jacoco/jacocoHtml/com.dongnebook.global.dto.request/PageRequest.java.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/jacoco/jacocoHtml/com.dongnebook.global.dto.request/SearchRequest.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/jacoco/jacocoHtml/com.dongnebook.global.dto.request/SearchRequest.java.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/jacoco/jacocoHtml/com.dongnebook.global.dto.request/index.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/jacoco/jacocoHtml/com.dongnebook.global.dto.request/index.source.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/jacoco/jacocoHtml/com.dongnebook.global.dto.response/MultiResponse.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/jacoco/jacocoHtml/com.dongnebook.global.dto.response/MultiResponse.java.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/jacoco/jacocoHtml/com.dongnebook.global.dto.response/index.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/jacoco/jacocoHtml/com.dongnebook.global.dto.response/index.source.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/jacoco/jacocoHtml/com.dongnebook.global.dto/TokenDto$TokenDtoBuilder.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/jacoco/jacocoHtml/com.dongnebook.global.dto/TokenDto.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/jacoco/jacocoHtml/com.dongnebook.global.dto/TokenDto.java.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/jacoco/jacocoHtml/com.dongnebook.global.dto/index.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/jacoco/jacocoHtml/com.dongnebook.global.dto/index.source.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/jacoco/jacocoHtml/com.dongnebook.global.enums/AlarmType.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/jacoco/jacocoHtml/com.dongnebook.global.enums/AlarmType.java.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/jacoco/jacocoHtml/com.dongnebook.global.enums/index.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/jacoco/jacocoHtml/com.dongnebook.global.enums/index.source.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/jacoco/jacocoHtml/com.dongnebook.global.error.exception/BusinessException.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/jacoco/jacocoHtml/com.dongnebook.global.error.exception/BusinessException.java.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/jacoco/jacocoHtml/com.dongnebook.global.error.exception/ErrorCode.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/jacoco/jacocoHtml/com.dongnebook.global.error.exception/ErrorCode.java.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/jacoco/jacocoHtml/com.dongnebook.global.error.exception/NotOwnerException.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/jacoco/jacocoHtml/com.dongnebook.global.error.exception/NotOwnerException.java.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/jacoco/jacocoHtml/com.dongnebook.global.error.exception/index.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/jacoco/jacocoHtml/com.dongnebook.global.error.exception/index.source.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/jacoco/jacocoHtml/com.dongnebook.global.error/ErrorResponse$FieldError.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/jacoco/jacocoHtml/com.dongnebook.global.error/ErrorResponse.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/jacoco/jacocoHtml/com.dongnebook.global.error/ErrorResponse.java.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/jacoco/jacocoHtml/com.dongnebook.global.error/GlobalExceptionHandler.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/jacoco/jacocoHtml/com.dongnebook.global.error/GlobalExceptionHandler.java.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/jacoco/jacocoHtml/com.dongnebook.global.error/index.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/jacoco/jacocoHtml/com.dongnebook.global.error/index.source.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/jacoco/jacocoHtml/com.dongnebook.global.security.auth.exception/AccessTokenNotFound.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/jacoco/jacocoHtml/com.dongnebook.global.security.auth.exception/AccessTokenNotFound.java.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/jacoco/jacocoHtml/com.dongnebook.global.security.auth.exception/index.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/jacoco/jacocoHtml/com.dongnebook.global.security.auth.exception/index.source.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/jacoco/jacocoHtml/com.dongnebook.global.security.auth.filter/JwtAuthenticationFilter.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/jacoco/jacocoHtml/com.dongnebook.global.security.auth.filter/JwtAuthenticationFilter.java.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/jacoco/jacocoHtml/com.dongnebook.global.security.auth.filter/JwtVerificationFilter.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/jacoco/jacocoHtml/com.dongnebook.global.security.auth.filter/JwtVerificationFilter.java.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/jacoco/jacocoHtml/com.dongnebook.global.security.auth.filter/TokenProvider.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/jacoco/jacocoHtml/com.dongnebook.global.security.auth.filter/TokenProvider.java.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/jacoco/jacocoHtml/com.dongnebook.global.security.auth.filter/index.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/jacoco/jacocoHtml/com.dongnebook.global.security.auth.filter/index.source.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/jacoco/jacocoHtml/com.dongnebook.global.security.auth.handler/LoginResolver.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/jacoco/jacocoHtml/com.dongnebook.global.security.auth.handler/LoginResolver.java.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/jacoco/jacocoHtml/com.dongnebook.global.security.auth.handler/MemberAccessDeniedHandler.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/jacoco/jacocoHtml/com.dongnebook.global.security.auth.handler/MemberAccessDeniedHandler.java.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/jacoco/jacocoHtml/com.dongnebook.global.security.auth.handler/MemberAuthenticationEntryPoint.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/jacoco/jacocoHtml/com.dongnebook.global.security.auth.handler/MemberAuthenticationEntryPoint.java.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/jacoco/jacocoHtml/com.dongnebook.global.security.auth.handler/MemberAuthenticationFailureHandler.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/jacoco/jacocoHtml/com.dongnebook.global.security.auth.handler/MemberAuthenticationFailureHandler.java.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/jacoco/jacocoHtml/com.dongnebook.global.security.auth.handler/MemberAuthenticationSuccessHandler.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/jacoco/jacocoHtml/com.dongnebook.global.security.auth.handler/MemberAuthenticationSuccessHandler.java.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/jacoco/jacocoHtml/com.dongnebook.global.security.auth.handler/index.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/jacoco/jacocoHtml/com.dongnebook.global.security.auth.handler/index.source.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/jacoco/jacocoHtml/com.dongnebook.global.security.auth.oauth/OAuthAttributes.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/jacoco/jacocoHtml/com.dongnebook.global.security.auth.oauth/OAuthAttributes.java.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/jacoco/jacocoHtml/com.dongnebook.global.security.auth.oauth/OAuthService.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/jacoco/jacocoHtml/com.dongnebook.global.security.auth.oauth/OAuthService.java.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/jacoco/jacocoHtml/com.dongnebook.global.security.auth.oauth/OAuthUserProfile.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/jacoco/jacocoHtml/com.dongnebook.global.security.auth.oauth/OAuthUserProfile.java.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/jacoco/jacocoHtml/com.dongnebook.global.security.auth.oauth/index.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/jacoco/jacocoHtml/com.dongnebook.global.security.auth.oauth/index.source.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/jacoco/jacocoHtml/com.dongnebook.global.security.auth.userdetails/AuthMember.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/jacoco/jacocoHtml/com.dongnebook.global.security.auth.userdetails/AuthMember.java.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/jacoco/jacocoHtml/com.dongnebook.global.security.auth.userdetails/CustomUserDetailsService.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/jacoco/jacocoHtml/com.dongnebook.global.security.auth.userdetails/CustomUserDetailsService.java.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/jacoco/jacocoHtml/com.dongnebook.global.security.auth.userdetails/index.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/jacoco/jacocoHtml/com.dongnebook.global.security.auth.userdetails/index.source.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/jacoco/jacocoHtml/com.dongnebook.global.test/BulkInsertController$1.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/jacoco/jacocoHtml/com.dongnebook.global.test/BulkInsertController$2.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/jacoco/jacocoHtml/com.dongnebook.global.test/BulkInsertController.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/jacoco/jacocoHtml/com.dongnebook.global.test/BulkInsertController.java.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/jacoco/jacocoHtml/com.dongnebook.global.test/HelloController.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/jacoco/jacocoHtml/com.dongnebook.global.test/HelloController.java.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/jacoco/jacocoHtml/com.dongnebook.global.test/index.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/jacoco/jacocoHtml/com.dongnebook.global.test/index.source.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/jacoco/jacocoHtml/com.dongnebook.global.utils/EnumValidator.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/jacoco/jacocoHtml/com.dongnebook.global.utils/EnumValidator.java.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/jacoco/jacocoHtml/com.dongnebook.global.utils/index.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/jacoco/jacocoHtml/com.dongnebook.global.utils/index.source.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/jacoco/jacocoHtml/com.dongnebook/DongnebookApplication.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/jacoco/jacocoHtml/com.dongnebook/DongnebookApplication.java.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/jacoco/jacocoHtml/com.dongnebook/index.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/jacoco/jacocoHtml/com.dongnebook/index.source.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/jacoco/jacocoHtml/index.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/jacoco/jacocoHtml/jacoco-resources/branchfc.gif" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/jacoco/jacocoHtml/jacoco-resources/branchnc.gif" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/jacoco/jacocoHtml/jacoco-resources/branchpc.gif" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/jacoco/jacocoHtml/jacoco-resources/bundle.gif" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/jacoco/jacocoHtml/jacoco-resources/class.gif" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/jacoco/jacocoHtml/jacoco-resources/down.gif" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/jacoco/jacocoHtml/jacoco-resources/greenbar.gif" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/jacoco/jacocoHtml/jacoco-resources/group.gif" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/jacoco/jacocoHtml/jacoco-resources/method.gif" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/jacoco/jacocoHtml/jacoco-resources/package.gif" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/jacoco/jacocoHtml/jacoco-resources/prettify.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/jacoco/jacocoHtml/jacoco-resources/prettify.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/jacoco/jacocoHtml/jacoco-resources/redbar.gif" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/jacoco/jacocoHtml/jacoco-resources/report.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/jacoco/jacocoHtml/jacoco-resources/report.gif" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/jacoco/jacocoHtml/jacoco-resources/session.gif" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/jacoco/jacocoHtml/jacoco-resources/sort.gif" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/jacoco/jacocoHtml/jacoco-resources/sort.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/jacoco/jacocoHtml/jacoco-resources/source.gif" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/jacoco/jacocoHtml/jacoco-resources/up.gif" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/jacoco/jacocoHtml/jacoco-sessions.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/src/main/generated/com/dongnebook/domain/alarm/domain/QAlarm.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/src/main/generated/com/dongnebook/domain/alarm/dto/QAlarmResponse.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/src/main/generated/com/dongnebook/domain/book/domain/QBook.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/src/main/generated/com/dongnebook/domain/book/domain/QMoney.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/src/main/generated/com/dongnebook/domain/book/dto/response/QBookDetailResponse.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/src/main/generated/com/dongnebook/domain/book/dto/response/QBookInfoResponse.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/src/main/generated/com/dongnebook/domain/book/dto/response/QBookResponse.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/src/main/generated/com/dongnebook/domain/book/dto/response/QBookSimpleResponse.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/src/main/generated/com/dongnebook/domain/chat/domain/QChatMessage.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/src/main/generated/com/dongnebook/domain/chat/domain/QChatRoom.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/src/main/generated/com/dongnebook/domain/dibs/domain/QDibs.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/src/main/generated/com/dongnebook/domain/member/domain/QMember.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/src/main/generated/com/dongnebook/domain/member/dto/response/QBookDetailMemberResponse.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/src/main/generated/com/dongnebook/domain/member/dto/response/QMemberDetailResponse.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/src/main/generated/com/dongnebook/domain/member/dto/response/QMemberResponse.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/src/main/generated/com/dongnebook/domain/model/QBaseTimeEntity.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/src/main/generated/com/dongnebook/domain/model/QLocation.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/src/main/generated/com/dongnebook/domain/refreshtoken/domain/QRefreshToken.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/src/main/generated/com/dongnebook/domain/rental/domain/QRental.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/src/main/generated/com/dongnebook/domain/rental/dto/response/QRentalBookResponse.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/src/main/generated/com/dongnebook/domain/rental/dto/response/QRentalInfoResponse.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/src/main/generated/com/dongnebook/domain/reservation/domain/QReservation.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/src/main/generated/com/dongnebook/domain/reservation/dto/response/QReservationInfoResponse.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/src/main/generated/com/dongnebook/domain/reservation/dto/response/QReservationResponse.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/src/main/generated/com/dongnebook/domain/review/domain/QReview.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/src/main/generated/com/dongnebook/domain/review/dto/response/QReviewResponse.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/src/main/java/com/dongnebook/domain/book/application/BookRepository.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/src/main/java/com/dongnebook/domain/book/application/port/in/BookEditCommand.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/src/main/java/com/dongnebook/domain/book/application/port/in/BookPostCommandUseCase.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/src/main/java/com/dongnebook/domain/book/application/port/in/BookPostRegisterCommand.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/src/main/java/com/dongnebook/domain/book/domain/BookPost.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/src/main/java/com/dongnebook/domain/book/repository/BookRepositoryAdapter.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/dongnebook/domain/alarm/application/AlarmService.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/dongnebook/domain/alarm/application/AlarmService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/dongnebook/domain/alarm/domain/Alarm.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/dongnebook/domain/alarm/domain/Alarm.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/dongnebook/domain/book/application/BookService.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/dongnebook/domain/book/application/BookService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/dongnebook/domain/book/domain/Book.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/dongnebook/domain/book/domain/Book.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/dongnebook/domain/book/dto/request/BookEditRequest.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/dongnebook/domain/book/adapter/in/BookEditRequest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/dongnebook/domain/book/dto/request/BookRegisterRequest.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/dongnebook/domain/book/adapter/in/BookRegisterRequest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/dongnebook/domain/book/dto/request/BookSearchCondition.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/dongnebook/domain/book/adapter/in/BookSearchCondition.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/dongnebook/domain/book/dto/response/BookInfoResponse.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/dongnebook/domain/book/dto/response/BookInfoResponse.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/dongnebook/domain/book/exception/NotRentableException.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/dongnebook/domain/book/domain/NotRentableException.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/dongnebook/domain/book/repository/BookCommandRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/dongnebook/domain/book/repository/BookCommandRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/dongnebook/domain/book/repository/BookQueryRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/dongnebook/domain/book/repository/BookQueryRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/dongnebook/domain/book/ui/BookController.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/dongnebook/domain/book/adapter/in/BookController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/dongnebook/domain/chat/application/ChatService.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/dongnebook/domain/chat/application/ChatService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/dongnebook/domain/chat/application/RoomService.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/dongnebook/domain/chat/application/RoomService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/dongnebook/domain/chat/domain/ChatRoom.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/dongnebook/domain/chat/domain/ChatRoom.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/dongnebook/domain/chat/dto/response/LastChatResponse.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/dongnebook/domain/chat/dto/response/LastChatResponse.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/dongnebook/domain/dibs/domain/Dibs.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/dongnebook/domain/dibs/domain/Dibs.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/dongnebook/domain/dibs/repository/DibsRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/dongnebook/domain/dibs/repository/DibsRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/dongnebook/domain/dibs/service/DibsService.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/dongnebook/domain/dibs/service/DibsService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/dongnebook/domain/member/application/MemberService.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/dongnebook/domain/member/application/MemberService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/dongnebook/domain/member/domain/Member.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/dongnebook/domain/member/domain/Member.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/dongnebook/domain/rental/application/RentalService.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/dongnebook/domain/rental/application/RentalService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/dongnebook/domain/rental/domain/Rental.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/dongnebook/domain/rental/domain/Rental.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/dongnebook/domain/rental/ui/RentalController.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/dongnebook/domain/rental/ui/RentalController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/dongnebook/domain/reservation/application/ReservationService.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/dongnebook/domain/reservation/application/ReservationService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/dongnebook/domain/reservation/domain/Reservation.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/dongnebook/domain/reservation/domain/Reservation.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/dongnebook/domain/review/application/ReviewService.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/dongnebook/domain/review/application/ReviewService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/dongnebook/global/test/BulkInsertController.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/dongnebook/global/test/BulkInsertController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/test/java/com/dongnebook/domain/book/application/BookServiceTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/test/java/com/dongnebook/domain/book/application/BookPostServiceTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/test/java/com/dongnebook/domain/book/repository/BookQueryRepositoryTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/test/java/com/dongnebook/domain/book/repository/BookPostQueryRepositoryTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/test/java/com/dongnebook/domain/member/application/MemberServiceTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/test/java/com/dongnebook/domain/member/application/MemberServiceTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/test/java/com/dongnebook/domain/member/repository/MemberQueryRepositoryTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/test/java/com/dongnebook/domain/member/repository/MemberQueryRepositoryTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/test/java/com/dongnebook/domain/rental/application/RentalServiceTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/test/java/com/dongnebook/domain/rental/application/RentalServiceTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/test/java/com/dongnebook/support/BookStub.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/test/java/com/dongnebook/support/BookStub.java" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="ExternalProjectsData">
+    <projectState path="$PROJECT_DIR$/backend/dongnebook">
+      <ProjectState />
+    </projectState>
+  </component>
+  <component name="ExternalProjectsManager">
+    <system id="GRADLE">
+      <state>
+        <projects_view>
+          <tree_state>
+            <expand />
+            <select />
+          </tree_state>
+        </projects_view>
+      </state>
+    </system>
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Enum" />
+        <option value="Class" />
+      </list>
+    </option>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_BRANCH_BY_REPOSITORY">
+      <map>
+        <entry key="$PROJECT_DIR$" value="dev" />
+      </map>
+    </option>
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="GithubProjectSettings">
+    <option name="branchProtectionPatterns">
+      <list>
+        <option value="dev" />
+        <option value="main" />
+      </list>
+    </option>
+  </component>
+  <component name="MarkdownSettingsMigration">
+    <option name="stateVersion" value="1" />
+  </component>
+  <component name="ProjectId" id="2HRS2uhZ0hdj0KNFbwPMgBKIJrp" />
+  <component name="ProjectLevelVcsManager">
+    <ConfirmationsSetting value="2" id="Add" />
+  </component>
+  <component name="ProjectViewState">
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;ASKED_ADD_EXTERNAL_FILES&quot;: &quot;true&quot;,
+    &quot;ASKED_SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
+    &quot;RequestMappingsPanelOrder0&quot;: &quot;0&quot;,
+    &quot;RequestMappingsPanelOrder1&quot;: &quot;1&quot;,
+    &quot;RequestMappingsPanelWidth0&quot;: &quot;75&quot;,
+    &quot;RequestMappingsPanelWidth1&quot;: &quot;75&quot;,
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
+    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.general&quot;,
+    &quot;spring.configuration.checksum&quot;: &quot;ce1dd4e73a3b28836095a44335e880d4&quot;
+  }
+}</component>
+  <component name="RecentsManager">
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/backend" />
+    </key>
+  </component>
+  <component name="RunManager">
+    <configuration name="DongnebookApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot">
+      <module name="dongnebook.main" />
+      <option name="SPRING_BOOT_MAIN_CLASS" value="com.dongnebook.DongnebookApplication" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="94b174e4-31ef-4858-9366-fff24b52e0bb" name="Changes" comment="" />
+      <created>1668246199594</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1668246199594</updated>
+      <workItem from="1668246201706" duration="35331000" />
+      <workItem from="1668402610525" duration="2000" />
+      <workItem from="1672656364863" duration="548000" />
+      <workItem from="1672902407393" duration="18000" />
+      <workItem from="1678121066516" duration="20000" />
+      <workItem from="1679392228095" duration="9000" />
+    </task>
+    <task id="LOCAL-00001" summary="Feat : 책 엔티티 생성">
+      <created>1668260622573</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1668260622573</updated>
+    </task>
+    <task id="LOCAL-00002" summary="Fix : columnDefinition 추가">
+      <created>1668326458568</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1668326458568</updated>
+    </task>
+    <task id="LOCAL-00003" summary="Feat : 공통 예외 처리 핸들러 추가">
+      <created>1668328468628</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1668328468628</updated>
+    </task>
+    <task id="LOCAL-00004" summary="Refactor : book 엔티티 @Lob 추가">
+      <created>1668328623455</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1668328623455</updated>
+    </task>
+    <task id="LOCAL-00005" summary="Feat : 책 등록">
+      <created>1668337678950</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1668337678950</updated>
+    </task>
+    <task id="LOCAL-00006" summary="bug : @builder.default 제거">
+      <created>1668352107416</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1668352107416</updated>
+    </task>
+    <task id="LOCAL-00007" summary="Feat : 책 삭제 기능 추가">
+      <created>1668354872599</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1668354872599</updated>
+    </task>
+    <task id="LOCAL-00008" summary="Refactor : ErrorCode 오타 수정">
+      <created>1668393012513</created>
+      <option name="number" value="00008" />
+      <option name="presentableId" value="LOCAL-00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1668393012513</updated>
+    </task>
+    <option name="localTasksCounter" value="9" />
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
+  <component name="VcsManagerConfiguration">
+    <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
+    <MESSAGE value="Feat : 책 엔티티 생성" />
+    <MESSAGE value="Fix : columnDefinition 추가" />
+    <MESSAGE value="Feat : 공통 예외 처리 핸들러 추가" />
+    <MESSAGE value="Refactor : book 엔티티 @Lob 추가" />
+    <MESSAGE value="Feat : 책 등록" />
+    <MESSAGE value="bug : @builder.default 제거" />
+    <MESSAGE value="Feat : 책 삭제 기능 추가" />
+    <MESSAGE value="Refactor : ErrorCode 오타 수정" />
+    <option name="LAST_COMMIT_MESSAGE" value="Refactor : ErrorCode 오타 수정" />
+  </component>
+</project>

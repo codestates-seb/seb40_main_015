@@ -7,10 +7,10 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.dongnebook.domain.book.dto.response.BookSimpleResponse;
+import com.dongnebook.domain.book.application.port.in.response.BookSimpleResponse;
 import com.dongnebook.domain.dibs.service.DibsService;
+import com.dongnebook.global.dto.request.PageRequestImpl;
 import com.dongnebook.global.security.auth.annotation.Login;
-import com.dongnebook.global.dto.request.PageRequest;
 
 import lombok.RequiredArgsConstructor;
 
@@ -25,8 +25,8 @@ public class DibsController {
 	}
 
 	@GetMapping("/dibs")
-	public ResponseEntity<SliceImpl<BookSimpleResponse>> findAllMyDibs(PageRequest pageRequest,@Login Long memberId){
-		return ResponseEntity.ok(dibsService.findAll(pageRequest,memberId));
+	public ResponseEntity<SliceImpl<BookSimpleResponse>> findAllMyDibs(PageRequestImpl pageRequestImpl,@Login Long memberId){
+		return ResponseEntity.ok(dibsService.findAll(pageRequestImpl,memberId));
 	}
 
 

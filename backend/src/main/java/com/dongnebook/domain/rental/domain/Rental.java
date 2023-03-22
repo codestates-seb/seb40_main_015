@@ -21,7 +21,7 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import com.dongnebook.domain.book.domain.Book;
 import com.dongnebook.domain.member.domain.Member;
-import com.dongnebook.domain.rental.exception.CanNotChangeStateException;
+import com.dongnebook.global.error.exception.CanNotChangeStateException;
 
 import lombok.AccessLevel;
 import lombok.Builder;

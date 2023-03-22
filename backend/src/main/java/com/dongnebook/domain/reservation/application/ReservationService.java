@@ -4,10 +4,10 @@ import org.springframework.data.domain.SliceImpl;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.dongnebook.domain.book.application.port.out.BookRepositoryPort;
 import com.dongnebook.domain.book.domain.Book;
 import com.dongnebook.domain.book.domain.BookState;
-import com.dongnebook.domain.book.exception.BookNotFoundException;
-import com.dongnebook.domain.book.repository.BookCommandRepository;
+import com.dongnebook.domain.book.application.BookNotFoundException;
 import com.dongnebook.domain.member.application.MemberService;
 import com.dongnebook.domain.member.domain.Member;
 import com.dongnebook.domain.rental.domain.Rental;
@@ -21,7 +21,7 @@ import com.dongnebook.domain.reservation.exception.CanNotReservationPersonExcept
 import com.dongnebook.domain.reservation.exception.ReservationNotFoundException;
 import com.dongnebook.domain.reservation.repository.ReservationQueryRepository;
 import com.dongnebook.domain.reservation.repository.ReservationRepository;
-import com.dongnebook.global.dto.request.PageRequest;
+import com.dongnebook.global.dto.request.PageRequestImpl;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -33,7 +33,7 @@ import lombok.extern.slf4j.Slf4j;
 public class ReservationService {
     private final ReservationRepository reservationRepository;
     private final ReservationQueryRepository reservationQueryRepository;
-    private final BookCommandRepository bookCommandRepository;
+    private final BookRepositoryPort bookRepositoryPort;
     private final MemberService memberService;
     private final RentalQueryRepository rentalQueryRepository;
 
@@ -52,8 +52,8 @@ public class ReservationService {
         reservationRepository.save(reservation);
     }
 
-    public SliceImpl<ReservationInfoResponse> readReservations(Long memberId, PageRequest pageRequest){
-        return reservationQueryRepository.findAllByMemberIdOrderByIdDesc(memberId, pageRequest);
+    public SliceImpl<ReservationInfoResponse> readReservations(Long memberId, PageRequestImpl pageRequestImpl){
+        return reservationQueryRepository.findAllByMemberIdOrderByIdDesc(memberId, pageRequestImpl);
     }
 
     @Transactional
@@ -68,7 +68,7 @@ public class ReservationService {
     }
 
     private Book getBookById(Long bookId) {
-        return bookCommandRepository.findById(bookId).orElseThrow(BookNotFoundException::new);
+        return bookRepositoryPort.findById(bookId).orElseThrow(BookNotFoundException::new);
     }
 
     private Rental getRentalByBookId(Long bookId) {

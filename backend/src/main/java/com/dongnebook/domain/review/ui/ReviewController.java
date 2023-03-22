@@ -14,8 +14,8 @@ import org.springframework.web.bind.annotation.RestController;
 import com.dongnebook.domain.review.application.ReviewService;
 import com.dongnebook.domain.review.dto.request.ReviewRequest;
 import com.dongnebook.domain.review.dto.response.ReviewResponse;
+import com.dongnebook.global.dto.request.PageRequestImpl;
 import com.dongnebook.global.security.auth.annotation.Login;
-import com.dongnebook.global.dto.request.PageRequest;
 
 import lombok.RequiredArgsConstructor;
 
@@ -33,7 +33,7 @@ public class ReviewController {
 
 	@GetMapping("/review/{merchantId}")
 	public ResponseEntity<SliceImpl<ReviewResponse>> getReviews(@PathVariable Long merchantId,
-		PageRequest pageRequest) {
-		return new ResponseEntity<>(reviewService.readReviews(merchantId, pageRequest), HttpStatus.OK);
+		PageRequestImpl pageRequestImpl) {
+		return new ResponseEntity<>(reviewService.readReviews(merchantId, pageRequestImpl), HttpStatus.OK);
 	}
 }

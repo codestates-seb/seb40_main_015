@@ -15,15 +15,10 @@ spring:
       max-file-size: 2MB
       max-request-size: 2MB
   datasource:
-    replication:
-      driver-class-name: com.mysql.cj.jdbc.Driver
-      username: admin
-      password: ${RDS_PASSWORD}
-      url : jdbc:mysql://codestates-mainpj-mysql.clwvdgya13lr.ap-northeast-2.rds.amazonaws.com:3306/dongnebook
-      slaves:
-        slave1:
-          name: slave
-          url: jdbc:mysql://replica.clwvdgya13lr.ap-northeast-2.rds.amazonaws.com:3306/dongnebook
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url : jdbc:mysql://codestates-mainpj-mysql.clwvdgya13lr.ap-northeast-2.rds.amazonaws.com:3306/dongnebook
+    username: admin
+    password: ${RDS_PASSWORD}
   jpa:
     defer-datasource-initialization: true
     hibernate:
@@ -32,13 +27,9 @@ spring:
     properties:
       hibernate:
         ddl-auto: validate
-        jdbc:
-          lob:
-            non_contextual_creation=true:
-        dialect: org.hibernate.dialect.MySQL5Dialect
+        dialect: org.hibernate.dialect.MySQL8Dialect
         default_batch_fetch_size: 100
         format_sql: true  # (3) SQL pretty print
-        physical_naming_strategy: org.springframework.boot.orm.jpa.hibernate.SpringPhysicalNamingStrategy
   security:
     oauth2:
       client:

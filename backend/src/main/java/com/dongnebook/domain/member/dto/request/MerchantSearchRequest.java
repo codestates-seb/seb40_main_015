@@ -1,7 +1,7 @@
 package com.dongnebook.domain.member.dto.request;
 
-import com.dongnebook.global.dto.request.SearchRequest;
-import com.dongnebook.global.dto.request.MapSearchable;
+import com.dongnebook.domain.book.adapter.in.request.SearchRequest;
+import com.dongnebook.domain.book.application.port.in.request.MapSearchable;
 
 import lombok.Getter;
 
