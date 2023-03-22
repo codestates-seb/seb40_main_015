@@ -13,8 +13,10 @@ import org.junit.jupiter.api.Assertions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 
+import com.dongnebook.domain.book.adapter.out.BookPersistenceAdapter;
 import com.dongnebook.domain.book.domain.Book;
-import com.dongnebook.domain.book.adapter.in.request.BookRegisterRequest;
+import com.dongnebook.domain.book.domain.BookProduct;
+import com.dongnebook.domain.book.domain.Money;
 import com.dongnebook.domain.member.domain.Member;
 import com.dongnebook.domain.member.dto.request.MemberEditRequest;
 import com.dongnebook.domain.member.repository.MemberRepository;
@@ -38,7 +40,7 @@ class RentalServiceTest {
 	MemberRepository memberRepository;
 
 	@Autowired
-	BookCustomRepository bookCustomRepository;
+	BookPersistenceAdapter bookPersistenceAdapter;
 
 	@Autowired
 	JdbcTemplate jdbcTemplate;
@@ -72,17 +74,19 @@ class RentalServiceTest {
 	}
 
 	private void makeBooks(int num, List<Member> members) {
+
 		for (int i = 0; i < num; i++) {
-				bookCustomRepository.save(Book.create(BookRegisterRequest.builder().author("asdf" + i)
-					.description("asdf")
-					.imageUrl("asdf" + i)
-					.publisher("Asdf" + i)
-					.rentalFee(i)
-					.title("asdf" + i)
-					.build(), Location.builder()
-					.latitude(37.4831 + ((double)i / num))
-					.longitude(126.9438 + ((double)i / num))
-					.build(), members.get(i)));
+			BookProduct bookProduct = BookProduct.of("asdf" + i, "asdf" + i, "asdf" + i);
+			Money money = Money.of(1000);
+			Member member = makeMember(Location.builder()
+				.latitude(37.4831 + ((double)i / num))
+				.longitude(126.9438 + ((double)i / num))
+				.build(), i);
+			Location location = Location.builder()
+				.latitude(37.4831 + ((double)i / num))
+				.longitude(126.9438 + ((double)i / num))
+				.build();
+			bookPersistenceAdapter.save(Book.create(bookProduct, "asdf"+i,"asdf"+i,money, location, member));
 			}
 	}
 

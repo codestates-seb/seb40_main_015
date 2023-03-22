@@ -19,6 +19,7 @@ bin/
 
 ### IntelliJ IDEA ###
 .idea
+jacoco/
 *.iws
 *.iml
 *.ipr

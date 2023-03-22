@@ -20,6 +20,8 @@ import org.springframework.context.annotation.Import;
 import org.springframework.data.domain.SliceImpl;
 
 import com.dongnebook.config.TestConfig;
+import com.dongnebook.domain.book.adapter.out.BookCommandRepository;
+import com.dongnebook.domain.book.adapter.out.BookQueryRepository;
 import com.dongnebook.domain.book.domain.Book;
 import com.dongnebook.domain.member.domain.Member;
 import com.dongnebook.domain.member.dto.request.MerchantSearchRequest;
@@ -51,8 +53,10 @@ class MemberQueryRepositoryTest {
 	RentalRepository rentalRepository;
 
 	@Autowired
-	BookCustomRepository bookCustomRepository;
+	BookCommandRepository bookCommandRepository;
 
+	@Autowired
+	BookQueryRepository bookQueryRepository;
 
 	@PersistenceContext
 	EntityManager entityManager;
@@ -69,7 +73,7 @@ class MemberQueryRepositoryTest {
 
 		Arrays.stream(BookStub.values()).forEach(value -> {
 			book = value.of();
-			bookCustomRepository.save(book);
+			bookCommandRepository.save(book);
 		});
 	}
 

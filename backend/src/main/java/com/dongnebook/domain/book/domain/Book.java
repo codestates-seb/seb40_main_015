@@ -29,7 +29,7 @@ import com.dongnebook.domain.dibs.domain.Dibs;
 import com.dongnebook.domain.member.domain.Member;
 import com.dongnebook.domain.model.BaseTimeEntity;
 import com.dongnebook.domain.model.Location;
-import com.dongnebook.domain.rental.exception.CanNotChangeStateException;
+import com.dongnebook.global.error.exception.CanNotChangeStateException;
 import com.dongnebook.global.error.exception.NotOwnerException;
 
 import lombok.AccessLevel;
@@ -80,10 +80,12 @@ public class Book extends BaseTimeEntity implements Serializable {
 	private List<Dibs> dibsList = new ArrayList<>();
 
 	@Builder
-	public Book(Long id, BookProduct bookProduct, Money rentalFee,
+	public Book(Long id, BookProduct bookProduct, String imgUrl, String description, Money rentalFee,
 		Location location, Member member) {
 		this.id = id;
 		this.bookProduct = bookProduct;
+		this.imgUrl = imgUrl;
+		this.description = description;
 		this.rentalFee = rentalFee;
 		this.location = location;
 		this.bookState = BookState.RENTABLE;
@@ -95,21 +97,22 @@ public class Book extends BaseTimeEntity implements Serializable {
 			this.bookState = to;
 			return this;
 		}
-
 		throw new CanNotChangeStateException();
 	}
 
 	public void edit(String imgUrl, String description, Long memberId) {
-		if (isMyBook(memberId)) {
+		if (!isMyBook(memberId)) {
 			throw new NotOwnerException();
 		}
 		Objects.requireNonNullElse(imgUrl, this.imgUrl);
 		this.description = description;
 	}
 
-	public static Book create(BookProduct bookProduct, Money money, Location location, Member member) {
+	public static Book create(BookProduct bookProduct, String imgUrl, String description, Money money, Location location, Member member) {
 		return Book.builder()
 			.bookProduct(bookProduct)
+			.description(description)
+			.imgUrl(imgUrl)
 			.rentalFee(money)
 			.location(location)
 			.member(member)
@@ -117,7 +120,7 @@ public class Book extends BaseTimeEntity implements Serializable {
 	}
 
 	public void delete(Long requestMemberId) {
-		if (isMyBook(requestMemberId)) {
+		if (!isMyBook(requestMemberId)) {
 			throw new NotOwnerException();
 		}
 		if (Objects.equals(this.bookState, BookState.RENTABLE)) {

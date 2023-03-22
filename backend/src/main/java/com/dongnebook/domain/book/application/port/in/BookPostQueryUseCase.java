@@ -5,7 +5,6 @@ import java.util.List;
 import org.springframework.data.domain.SliceImpl;
 
 import com.dongnebook.domain.book.application.port.in.request.PageRequest;
-
 import com.dongnebook.domain.book.application.port.in.request.BookSearchCommand;
 import com.dongnebook.domain.book.application.port.in.response.BookCountPerSectorResponse;
 import com.dongnebook.domain.book.application.port.in.response.BookDetailResponse;

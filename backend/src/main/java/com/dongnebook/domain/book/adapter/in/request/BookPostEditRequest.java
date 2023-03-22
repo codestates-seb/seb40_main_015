@@ -8,13 +8,13 @@ import lombok.NoArgsConstructor;
 
 @Getter
 @NoArgsConstructor
-public class BookEditRequest {
+public class BookPostEditRequest {
 	@NotEmpty
 	private String description;
 	private String imageUrl;
 
 	@Builder
-	public BookEditRequest(String description, String imageUrl) {
+	public BookPostEditRequest(String description, String imageUrl) {
 		this.description = description;
 		this.imageUrl = imageUrl;
 	}

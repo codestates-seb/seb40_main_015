@@ -9,7 +9,7 @@ import lombok.NoArgsConstructor;
 
 @Getter
 @NoArgsConstructor
-public class BookRegisterRequest {
+public class BookPostRegisterRequest {
 	@NotEmpty
 	private String title;
 	@NotEmpty
@@ -23,7 +23,7 @@ public class BookRegisterRequest {
 	private Integer rentalFee;
 
 	@Builder
-	public BookRegisterRequest(String title, String author, String publisher, String description, String imageUrl,
+	public BookPostRegisterRequest(String title, String author, String publisher, String description, String imageUrl,
 		Integer rentalFee) {
 		this.title = title;
 		this.author = author;

@@ -42,7 +42,6 @@ public class TestConfig {
 	public MemberQueryRepository memberQueryRepository(){
 		return new MemberQueryRepository(jpaQueryFactory());
 	}
-
 	@Bean(name = "taskExecutor")
 	public TaskExecutor clientInboundChannelExecutor() {
 		// ...

@@ -1,6 +1,6 @@
 package com.dongnebook.domain.book.application.port.in.request;
 
-import com.dongnebook.domain.book.adapter.in.request.BookRegisterRequest;
+import com.dongnebook.domain.book.adapter.in.request.BookPostRegisterRequest;
 
 import lombok.Getter;
 
@@ -14,7 +14,7 @@ public class BookPostRegisterCommand {
 	private final String imageUrl;
 	private final Integer rentalFee;
 
-	private BookPostRegisterCommand(BookRegisterRequest request) {
+	private BookPostRegisterCommand(BookPostRegisterRequest request) {
 		this.title = request.getTitle();
 		this.author = request.getAuthor();
 		this.publisher = request.getPublisher();
@@ -23,7 +23,7 @@ public class BookPostRegisterCommand {
 		this.rentalFee = request.getRentalFee();
 	}
 
-	public static BookPostRegisterCommand of(BookRegisterRequest request){
+	public static BookPostRegisterCommand of(BookPostRegisterRequest request){
 		return new BookPostRegisterCommand(request);
 	}
 }

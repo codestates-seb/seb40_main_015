@@ -2,7 +2,6 @@ package com.dongnebook.domain.book.application.port.in.response;
 
 import java.io.Serializable;
 
-import com.dongnebook.domain.member.dto.response.BookDetailMemberResponse;
 import com.querydsl.core.annotations.QueryProjection;
 
 import lombok.Builder;

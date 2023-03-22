@@ -1,4 +1,4 @@
-package com.dongnebook.domain.rental.exception;
+package com.dongnebook.global.error.exception;
 
 import com.dongnebook.global.error.exception.BusinessException;
 import com.dongnebook.global.error.exception.ErrorCode;

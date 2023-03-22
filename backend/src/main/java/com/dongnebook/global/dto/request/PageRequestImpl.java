@@ -13,26 +13,25 @@ import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 @Getter
-public final class PageRequestImpl implements PageRequest,Serializable {
-	private final Long index;
-	private final Long size;
+public class PageRequestImpl implements PageRequest,Serializable {
+	private final long index;
+	private final long size;
 	private final Sort.Direction sort;
 
-	public PageRequestImpl(Long index) {
+	public PageRequestImpl(long index) {
 		this.size = 6L;
 		this.index = index;
 		this.sort = Sort.Direction.DESC;
 	}
 
-	@Override
-	public PageRequestImpl of(Long index){
+	public static PageRequestImpl of(Long index){
 		return new PageRequestImpl(index);
 	}
 
 	// getter
 	@Override
 	public org.springframework.data.domain.PageRequest of() {
-		return org.springframework.data.domain.PageRequest.of(0,size.intValue());
+		return org.springframework.data.domain.PageRequest.of(0, (int)size);
 	}
 
 	@Override
@@ -60,4 +59,11 @@ public final class PageRequestImpl implements PageRequest,Serializable {
 			'}';
 	}
 
+	public Long getIndex() {
+		return index;
+	}
+
+	public Long getSize() {
+		return size;
+	}
 }

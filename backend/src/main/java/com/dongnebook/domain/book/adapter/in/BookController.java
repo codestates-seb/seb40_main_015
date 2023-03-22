@@ -27,20 +27,19 @@ import org.springframework.web.client.RestTemplate;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import org.springframework.web.util.UriComponentsBuilder;
 
-import com.dongnebook.domain.book.adapter.in.request.BookEditRequest;
-import com.dongnebook.domain.book.adapter.in.request.BookRegisterRequest;
+import com.dongnebook.domain.book.adapter.in.request.BookPostEditRequest;
+import com.dongnebook.domain.book.adapter.in.request.BookPostRegisterRequest;
 import com.dongnebook.domain.book.adapter.in.request.BookSearchCondition;
+import com.dongnebook.domain.book.application.port.in.BookPostCommandUseCase;
+import com.dongnebook.domain.book.application.port.in.BookPostQueryUseCase;
+import com.dongnebook.domain.book.application.port.in.request.BookPostEditCommand;
+import com.dongnebook.domain.book.application.port.in.request.BookPostRegisterCommand;
 import com.dongnebook.domain.book.application.port.in.request.BookSearchCommand;
-import com.dongnebook.domain.book.application.port.in.request.PageRequest;
 import com.dongnebook.domain.book.application.port.in.response.BookCountPerSectorResponse;
 import com.dongnebook.domain.book.application.port.in.response.BookDetailResponse;
 import com.dongnebook.domain.book.application.port.in.response.BookSimpleResponse;
 import com.dongnebook.domain.book.application.port.in.response.KaKaoBookInfoResponse;
-import com.dongnebook.domain.book.application.port.in.request.BookEditCommand;
-import com.dongnebook.domain.book.application.port.in.BookPostCommandUseCase;
-import com.dongnebook.domain.book.application.port.in.BookPostQueryUseCase;
-import com.dongnebook.domain.book.application.port.in.request.BookPostRegisterCommand;
-
+import com.dongnebook.global.dto.request.PageRequestImpl;
 import com.dongnebook.global.security.auth.annotation.Login;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
@@ -59,12 +58,11 @@ public class BookController {
 	private String kakaoKey;
 	private final BookPostCommandUseCase bookPostCommandUseCase;
 	private final BookPostQueryUseCase bookPostQueryUseCase;
-	private final PageRequest pageRequest;
 
 	@PostMapping
-	public ResponseEntity<Long> create(@Valid @RequestBody BookRegisterRequest bookRegisterRequest,
+	public ResponseEntity<Long> create(@Valid @RequestBody BookPostRegisterRequest bookPostRegisterRequest,
 		@Login Long memberId) {
-		BookPostRegisterCommand command = BookPostRegisterCommand.of(bookRegisterRequest);
+		BookPostRegisterCommand command = BookPostRegisterCommand.of(bookPostRegisterRequest);
 		Long bookId = bookPostCommandUseCase.register(command, memberId);
 		URI createdUri = ServletUriComponentsBuilder.fromCurrentRequestUri()
 			.path("/{id}")
@@ -74,8 +72,8 @@ public class BookController {
 	}
 
 	@PatchMapping("/{id}")
-	public void edit(@Login Long memberId, @PathVariable Long id, @Valid @RequestBody BookEditRequest bookEditRequest) {
-		BookEditCommand command = BookEditCommand.of(bookEditRequest);
+	public void edit(@Login Long memberId, @PathVariable Long id, @Valid @RequestBody BookPostEditRequest bookPostEditRequest) {
+		BookPostEditCommand command = BookPostEditCommand.of(bookPostEditRequest);
 		bookPostCommandUseCase.edit(command,memberId, id);
 	}
 
@@ -89,7 +87,7 @@ public class BookController {
 	public ResponseEntity<SliceImpl<BookSimpleResponse>> getLists(
 		@ModelAttribute BookSearchCondition bookSearchCondition,Long index) {
 		BookSearchCommand command = BookSearchCommand.of(bookSearchCondition);
-		return ResponseEntity.ok(bookPostQueryUseCase.getList(command, pageRequest.of(index)));
+		return ResponseEntity.ok(bookPostQueryUseCase.getList(command, PageRequestImpl.of(index)));
 	}
 
 	@GetMapping("/count")
@@ -104,7 +102,7 @@ public class BookController {
 	public ResponseEntity<SliceImpl<BookSimpleResponse>> getSectors(
 		@ModelAttribute BookSearchCondition bookSearchCondition, Long index) {
 		BookSearchCommand command = BookSearchCommand.of(bookSearchCondition);
-		return ResponseEntity.ok(bookPostQueryUseCase.getList(command, pageRequest.of(index)));
+		return ResponseEntity.ok(bookPostQueryUseCase.getList(command, PageRequestImpl.of(index)));
 	}
 
 	@DeleteMapping("/{id}")
@@ -131,12 +129,9 @@ public class BookController {
 		JsonArray documents = getJsonElements(restTemplate, entity, uri);
 
 		for (JsonElement document : documents) {
-			List<String> authors = new ArrayList<>();
-			JsonObject jsonObject = document.getAsJsonObject();
 
-			for (JsonElement author : jsonObject.get("authors").getAsJsonArray()) {
-				authors.add(author.getAsString());
-			}
+			JsonObject jsonObject = document.getAsJsonObject();
+			List<String> authors = getAuthors(jsonObject);
 
 			list.add(KaKaoBookInfoResponse.builder()
 				.authors(authors)
@@ -146,6 +141,14 @@ public class BookController {
 		}
 
 		return list;
+	}
+
+	private List<String> getAuthors(JsonObject jsonObject) {
+		List<String> authors = new ArrayList<>();
+		for (JsonElement author : jsonObject.get("authors").getAsJsonArray()) {
+			authors.add(author.getAsString());
+		}
+		return authors;
 	}
 
 	private JsonArray getJsonElements(RestTemplate restTemplate, HttpEntity<String> entity, URI uri) {

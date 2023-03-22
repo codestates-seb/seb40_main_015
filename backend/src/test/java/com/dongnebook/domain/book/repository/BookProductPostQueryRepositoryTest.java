@@ -21,12 +21,13 @@ import org.springframework.context.annotation.Import;
 import org.springframework.data.domain.SliceImpl;
 
 import com.dongnebook.config.TestConfig;
-import com.dongnebook.domain.book.adapter.out.BookQueryRepository;
-import com.dongnebook.domain.book.domain.Book;
 import com.dongnebook.domain.book.adapter.in.request.BookSearchCondition;
+import com.dongnebook.domain.book.adapter.out.BookPersistenceAdapter;
+import com.dongnebook.domain.book.application.BookNotFoundException;
+import com.dongnebook.domain.book.application.port.in.request.BookSearchCommand;
 import com.dongnebook.domain.book.application.port.in.response.BookDetailResponse;
 import com.dongnebook.domain.book.application.port.in.response.BookSimpleResponse;
-import com.dongnebook.domain.book.application.BookNotFoundException;
+import com.dongnebook.domain.book.domain.Book;
 import com.dongnebook.domain.member.domain.Member;
 import com.dongnebook.domain.member.dto.request.MemberEditRequest;
 import com.dongnebook.domain.member.exception.MemberNotFoundException;
@@ -44,15 +45,13 @@ import com.github.gavlyukovskiy.boot.jdbc.decorator.DataSourceDecoratorAutoConfi
 // @SpringBootTest
 @ImportAutoConfiguration(DataSourceDecoratorAutoConfiguration.class)
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
-@Import({TestConfig.class, DatabaseCleaner.class})
+@Import({TestConfig.class, DatabaseCleaner.class,BookPersistenceAdapter.class})
 @ExtendWith(DataClearExtension.class)
 	// @Rollback
 class BookProductPostQueryRepositoryTest {
 
 	@Autowired
-	BookQueryRepository bookQueryRepository;
-	@Autowired
-	BookCustomRepository bookCustomRepository;
+	BookPersistenceAdapter bookPersistenceAdapter;
 	@Autowired
 	MemberRepository memberRepository;
 	@PersistenceContext
@@ -70,7 +69,7 @@ class BookProductPostQueryRepositoryTest {
 
 		Arrays.stream(BookStub.values()).forEach(value -> {
 			book = value.of();
-			bookCustomRepository.save(book);
+			bookPersistenceAdapter.save(book);
 		});
 	}
 
@@ -93,7 +92,7 @@ class BookProductPostQueryRepositoryTest {
 	void getBookDetail() {
 
 		//given,when
-		BookDetailResponse bookDetail = bookQueryRepository.findBookDetail(1L, 1L).orElseThrow(BookNotFoundException::new);
+		BookDetailResponse bookDetail = bookPersistenceAdapter.findBookDetail(1L, 1L).orElseThrow(BookNotFoundException::new);
 		//then
 
 		assertAll(
@@ -108,8 +107,10 @@ class BookProductPostQueryRepositoryTest {
 		//given
 		Location 봉천역 = LocationStub.봉천역.of();
 		BookSearchCondition condition = new BookSearchCondition(null,봉천역.getLongitude(),봉천역.getLatitude(),40,40,null,3);
+		BookSearchCommand command = BookSearchCommand.of(condition);
+
 		//when
-		List<Location> nearByBookLocation = bookQueryRepository.getNearByBookLocation(condition);
+		List<Location> nearByBookLocation = bookPersistenceAdapter.getNearByBookLocation(command);
 		//then
 		assertThat(nearByBookLocation).hasSize(8);
 	}
@@ -119,9 +120,9 @@ class BookProductPostQueryRepositoryTest {
 	void getAll() {
 		//given
 		BookSearchCondition condition = new BookSearchCondition(null,null,null,null,null,null,null);
-
+		BookSearchCommand command = BookSearchCommand.of(condition);
 		//when
-		SliceImpl<BookSimpleResponse> result = bookQueryRepository.getAll(condition, new PageRequestImpl(null));
+		SliceImpl<BookSimpleResponse> result = bookPersistenceAdapter.getAll(command, new PageRequestImpl(null));
 
 		//then
 		assertAll(
@@ -137,11 +138,12 @@ class BookProductPostQueryRepositoryTest {
 	@DisplayName("삭제된 책은 검색되지 않는다.")
 	void getRentableBook() {
 		//given
-		Book book1 = bookCustomRepository.findById(1L).get();
-		book1.delete();
+		Book book1 = bookPersistenceAdapter.findById(1L).get();
+		book1.delete(1L);
 		BookSearchCondition condition = new BookSearchCondition(null,null,null,null,null,null,null);
+		BookSearchCommand command = BookSearchCommand.of(condition);
 		//when
-		SliceImpl<BookSimpleResponse> result = bookQueryRepository.getAll(condition, new PageRequestImpl(null));
+		SliceImpl<BookSimpleResponse> result = bookPersistenceAdapter.getAll(command, new PageRequestImpl(null));
 
 		//then
 		assertThat(result).hasSize(6);
@@ -153,9 +155,10 @@ class BookProductPostQueryRepositoryTest {
 	void getAll2() {
 		//given
 		BookSearchCondition condition = new BookSearchCondition("씨의 정석",null,null,null,null,null,null);
+		BookSearchCommand command = BookSearchCommand.of(condition);
 
 		//when
-		SliceImpl<BookSimpleResponse> result = bookQueryRepository.getAll(condition, new PageRequestImpl(null));
+		SliceImpl<BookSimpleResponse> result = bookPersistenceAdapter.getAll(command, new PageRequestImpl(null));
 
 		//then
 		assertThat(result.isLast()).isTrue();
@@ -170,7 +173,7 @@ class BookProductPostQueryRepositoryTest {
 		Member member1 = memberRepository.findById(1L).orElseThrow(MemberNotFoundException::new);
 
 		// when
-		SliceImpl<BookSimpleResponse> listByMember = bookQueryRepository.getListByMember(member1.getId(),
+		SliceImpl<BookSimpleResponse> listByMember = bookPersistenceAdapter.getListByMember(member1.getId(),
 			new PageRequestImpl(null));
 
 		// then
@@ -190,9 +193,9 @@ class BookProductPostQueryRepositoryTest {
 			.build());
 
 		//when
-		bookQueryRepository.updateBookLocation(member1,member1.getLocation());
+		bookPersistenceAdapter.updateBookLocation(member1,member1.getLocation());
 		entityManager.clear();
-		Book book = bookCustomRepository.findById(1L).orElseThrow(BookNotFoundException::new);
+		Book book = bookPersistenceAdapter.findById(1L).orElseThrow(BookNotFoundException::new);
 
 		//then
 		assertThat(book.getLocation().getLatitude()).isEqualTo(samsung.getLatitude());

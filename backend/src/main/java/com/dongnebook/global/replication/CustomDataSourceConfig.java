@@ -24,7 +24,7 @@ import com.zaxxer.hikari.HikariDataSource;
 
 @Configuration
 @EnableConfigurationProperties({CustomDataSourceProperties.class})
-@Profile("rds")
+@Profile("notuse")
 public class CustomDataSourceConfig {
 	private final CustomDataSourceProperties databaseProperty;
 	private final JpaProperties jpaProperties;

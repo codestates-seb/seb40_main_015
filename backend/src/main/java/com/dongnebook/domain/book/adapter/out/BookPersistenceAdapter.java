@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.data.domain.SliceImpl;
+import org.springframework.stereotype.Component;
 
 import com.dongnebook.domain.book.application.port.in.request.BookSearchCommand;
 import com.dongnebook.domain.book.application.port.in.request.PageRequest;
@@ -16,8 +17,9 @@ import com.dongnebook.domain.model.Location;
 
 import lombok.RequiredArgsConstructor;
 
+@Component
 @RequiredArgsConstructor
-public class BookRepositoryPortAdapter implements BookRepositoryPort {
+public class BookPersistenceAdapter implements BookRepositoryPort {
 	private final BookCommandRepository commandRepository;
 	private final BookQueryRepository queryRepository;
 

@@ -14,15 +14,16 @@ import com.dongnebook.domain.book.application.port.in.request.BookSearchCommand;
 import com.dongnebook.domain.book.application.port.in.request.PageRequest;
 import com.dongnebook.domain.book.application.port.in.response.BookDetailResponse;
 import com.dongnebook.domain.book.application.port.in.response.BookSimpleResponse;
+import com.dongnebook.domain.book.application.port.in.response.QBookDetailMemberResponse;
 import com.dongnebook.domain.book.application.port.in.response.QBookDetailResponse;
 import com.dongnebook.domain.book.application.port.in.response.QBookResponse;
 import com.dongnebook.domain.book.application.port.in.response.QBookSimpleResponse;
 import com.dongnebook.domain.book.domain.Book;
 import com.dongnebook.domain.book.domain.BookState;
 import com.dongnebook.domain.member.domain.Member;
-import com.dongnebook.domain.member.dto.response.QBookDetailMemberResponse;
-import com.dongnebook.domain.model.Location;
 import com.dongnebook.domain.rental.domain.RentalState;
+import com.dongnebook.domain.model.Location;
+
 import com.querydsl.core.types.Expression;
 import com.querydsl.core.types.ExpressionUtils;
 import com.querydsl.core.types.dsl.BooleanExpression;

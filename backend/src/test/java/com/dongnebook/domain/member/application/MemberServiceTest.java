@@ -21,9 +21,9 @@ import org.springframework.http.ResponseCookie;
 import org.springframework.mock.web.MockHttpServletResponse;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
+import com.dongnebook.domain.book.adapter.out.BookPersistenceAdapter;
 import com.dongnebook.domain.book.domain.Book;
 import com.dongnebook.domain.book.domain.BookState;
-import com.dongnebook.domain.book.adapter.out.BookQueryRepository;
 import com.dongnebook.domain.member.domain.Member;
 import com.dongnebook.domain.member.dto.request.MemberEditRequest;
 import com.dongnebook.domain.member.dto.request.MemberRegisterRequest;
@@ -53,7 +53,7 @@ class MemberServiceTest {
 	@Mock
 	MemberQueryRepository memberQueryRepository;
 	@Mock
-	BookQueryRepository bookQueryRepository;
+	BookPersistenceAdapter bookPersistenceAdapter;
 	@Mock
 	RefreshTokenRepository refreshTokenRepository;
 	@Mock
@@ -161,7 +161,7 @@ class MemberServiceTest {
 		memberService.edit(memberId, request);
 		assertAll(
 			() -> assertThat(member1.getNickname()).isEqualTo("이성준2"),
-			() -> verify(bookQueryRepository).updateBookLocation(member1, request.getLocation()));
+			() -> verify(bookPersistenceAdapter).updateBookLocation(member1, request.getLocation()));
 	}
 
 	@Test
@@ -183,7 +183,7 @@ class MemberServiceTest {
 		assertThrows(MemberHasOnLoanException.class, () -> memberService.edit(memberId, request));
 		assertAll(
 			() -> assertThat(member1.getNickname()).isEqualTo("이성준"),
-			() -> verify(bookQueryRepository, times(0)).updateBookLocation(member1, request.getLocation()));
+			() -> verify(bookPersistenceAdapter, times(0)).updateBookLocation(member1, request.getLocation()));
 	}
 
 	@Test

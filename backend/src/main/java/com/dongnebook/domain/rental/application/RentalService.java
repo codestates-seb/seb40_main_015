@@ -20,7 +20,7 @@ import com.dongnebook.domain.member.repository.MemberRepository;
 import com.dongnebook.domain.rental.domain.Rental;
 import com.dongnebook.domain.rental.domain.RentalState;
 import com.dongnebook.domain.rental.dto.response.RentalBookResponse;
-import com.dongnebook.domain.rental.exception.CanNotChangeStateException;
+import com.dongnebook.global.error.exception.CanNotChangeStateException;
 import com.dongnebook.domain.rental.exception.CanNotRentMyBookException;
 import com.dongnebook.domain.rental.exception.RentalNotFoundException;
 import com.dongnebook.domain.rental.repository.RentalQueryRepository;

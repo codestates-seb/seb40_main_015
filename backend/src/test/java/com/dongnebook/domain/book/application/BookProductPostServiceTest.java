@@ -18,19 +18,22 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.data.domain.SliceImpl;
 
-import com.dongnebook.domain.book.application.port.out.BookRepositoryPort;
-import com.dongnebook.domain.book.domain.Book;
-import com.dongnebook.domain.book.domain.BookState;
-import com.dongnebook.domain.book.adapter.in.request.BookEditRequest;
-import com.dongnebook.domain.book.adapter.in.request.BookRegisterRequest;
+import com.dongnebook.domain.book.adapter.in.request.BookPostEditRequest;
+import com.dongnebook.domain.book.adapter.in.request.BookPostRegisterRequest;
 import com.dongnebook.domain.book.adapter.in.request.BookSearchCondition;
+import com.dongnebook.domain.book.application.port.in.request.BookPostEditCommand;
+import com.dongnebook.domain.book.application.port.in.request.BookPostRegisterCommand;
+import com.dongnebook.domain.book.application.port.in.request.BookSearchCommand;
 import com.dongnebook.domain.book.application.port.in.response.BookCountPerSectorResponse;
+import com.dongnebook.domain.book.application.port.in.response.BookDetailMemberResponse;
 import com.dongnebook.domain.book.application.port.in.response.BookDetailResponse;
 import com.dongnebook.domain.book.application.port.in.response.BookResponse;
 import com.dongnebook.domain.book.application.port.in.response.BookSimpleResponse;
+import com.dongnebook.domain.book.application.port.out.BookRepositoryPort;
+import com.dongnebook.domain.book.domain.Book;
+import com.dongnebook.domain.book.domain.BookState;
 import com.dongnebook.domain.member.application.MemberService;
 import com.dongnebook.domain.member.domain.Member;
-import com.dongnebook.domain.member.dto.response.BookDetailMemberResponse;
 import com.dongnebook.domain.model.Location;
 import com.dongnebook.global.dto.request.PageRequestImpl;
 import com.dongnebook.global.error.exception.NotOwnerException;
@@ -42,38 +45,41 @@ import com.dongnebook.support.LocationStub;
 class BookProductPostServiceTest {
 
 	@Mock
-	BookRepositoryPort bookCustomRepository;
+	BookRepositoryPort bookRepositoryPort;
 	@Mock
 	MemberService memberService;
 	@InjectMocks
-	 bookQueryService;
+	BookCommandService bookCommandService;
+	@InjectMocks
+	BookQueryService bookQueryService;
 
 
 	@Test
 	@DisplayName("책을 생성한다.")
 	void createBook() {
 		//given
-		BookRegisterRequest bookRegisterRequest = BookRegisterRequest.builder().title("자바의 정석")
+		BookPostRegisterRequest bookPostRegisterRequest = BookPostRegisterRequest.builder().title("자바의 정석")
 			.rentalFee(1000)
 			.publisher("도우출판")
 			.imageUrl("www.naver.com")
 			.description("자바의 정석입니다")
 			.author("남궁석")
 			.build();
+		BookPostRegisterCommand command = BookPostRegisterCommand.of(bookPostRegisterRequest);
 		Long bookId = 1L;
 		Long memberId = 1L;
 		Book savedBook = BookStub.BOOK1.of(bookId);
 		Member member1 = MEMBER1.of(memberId);
-		given(bookCustomRepository.save(any(Book.class))).willReturn(savedBook);
-		given(memberService.getById(memberId)).willReturn(member1);
+		given(bookRepositoryPort.save(any(Book.class))).willReturn(savedBook);
+		given(memberService.getMember(memberId)).willReturn(member1);
 
 		//when
-		Long savedId = bookQueryService.register(bookRegisterRequest, memberId);
+		Long savedId = bookCommandService.register(command, memberId);
 
 		//then
 		assertAll(
 			() -> assertThat(savedId).isEqualTo(1L),
-			() -> verify(bookCustomRepository).save(any(Book.class)))
+			() -> verify(bookRepositoryPort).save(any(Book.class)))
 		;
 	}
 
@@ -81,37 +87,38 @@ class BookProductPostServiceTest {
 	@DisplayName("책을 수정한다.")
 	void bookEdit() {
 		//given
-		BookEditRequest bookEditRequest = BookEditRequest.builder()
+		BookPostEditRequest bookPostEditRequest = BookPostEditRequest.builder()
 			.description("수정된 책 내용")
 			.imageUrl("이미지 내용")
 			.build();
 		Long memberId = 1L;
 		Long bookId = 1L;
 		Book savedBook = BookStub.BOOK1.of(bookId);
-		given(bookCustomRepository.findById(bookId)).willReturn(Optional.of(savedBook));
-
+		given(bookRepositoryPort.findById(bookId)).willReturn(Optional.of(savedBook));
+		BookPostEditCommand command = BookPostEditCommand.of(bookPostEditRequest);
 		//when
-		bookQueryService.edit(memberId,bookId,bookEditRequest);
+		bookCommandService.edit(command,memberId,bookId);
 
 		//then
-		assertAll(() ->assertThat(savedBook.getDescription()).isEqualTo(bookEditRequest.getDescription()));
+		assertAll(() ->assertThat(savedBook.getDescription()).isEqualTo(bookPostEditRequest.getDescription()));
 	}
 
 	@Test
 	@DisplayName("책을 수정한다. - 책의 주인이 아니면 예외가 발생한다.")
 	void bookEdit_NotOwnerException() {
 		//given
-		BookEditRequest bookEditRequest = BookEditRequest.builder()
+		BookPostEditRequest bookPostEditRequest = BookPostEditRequest.builder()
 			.description("수정된 책 내용")
 			.imageUrl("이미지 내용")
 			.build();
-		Long memberId = 2L;
+		BookPostEditCommand command = BookPostEditCommand.of(bookPostEditRequest);
+		Long memberId = 5L;
 		Long bookId = 1L;
 		Book savedBook = BookStub.BOOK1.of(bookId);
-		given(bookCustomRepository.findById(bookId)).willReturn(Optional.of(savedBook));
+		given(bookRepositoryPort.findById(bookId)).willReturn(Optional.of(savedBook));
 
 		//when,then
-		assertAll(() -> assertThatThrownBy(() -> bookQueryService.edit(memberId,bookId,bookEditRequest)).isInstanceOf(
+		assertAll(() -> assertThatThrownBy(() -> bookCommandService.edit(command,memberId,bookId)).isInstanceOf(
 			NotOwnerException.class));
 	}
 
@@ -122,8 +129,8 @@ class BookProductPostServiceTest {
 		Long memberId = 1L;
 		Long bookId = 1L;
 		Book savedBook = BookStub.BOOK1.of(bookId);
-		given(bookCustomRepository.findById(bookId)).willReturn(Optional.of(savedBook));
-		bookQueryService.delete(bookId,memberId);
+		given(bookRepositoryPort.findById(bookId)).willReturn(Optional.of(savedBook));
+		bookCommandService.delete(bookId,memberId);
 
 		//when,then
 		assertAll(() ->assertThat(savedBook.getBookState()).isEqualTo(BookState.DELETED));
@@ -136,12 +143,12 @@ class BookProductPostServiceTest {
 		Long memberId = 2L;
 		Long bookId = 1L;
 		Book savedBook = BookStub.BOOK1.of(bookId);
-		given(bookCustomRepository.findById(bookId)).willReturn(Optional.of(savedBook));
+		given(bookRepositoryPort.findById(bookId)).willReturn(Optional.of(savedBook));
 
 		//when,then
-		assertAll(() ->assertThatThrownBy(() -> bookQueryService.delete(bookId,memberId)).isInstanceOf(
+		assertAll(() ->assertThatThrownBy(() -> bookCommandService.delete(bookId,memberId)).isInstanceOf(
 			NotOwnerException.class),
-		()-> verify(bookCustomRepository).findById(bookId));
+		()-> verify(bookRepositoryPort).findById(bookId));
 	}
 
 	@Test
@@ -158,14 +165,14 @@ class BookProductPostServiceTest {
 		BookDetailMemberResponse memberResponse = BookDetailMemberResponse.builder().merchantId(memberId)
 			.build();
 		BookDetailResponse bookDetailResponse = BookDetailResponse.builder().book(bookResponse).merchant(memberResponse).build();
-		given(bookQueryRepository.findBookDetail(bookId, memberId)).willReturn(Optional.of(bookDetailResponse));
+		given(bookRepositoryPort.findBookDetail(bookId, memberId)).willReturn(Optional.of(bookDetailResponse));
 
 		BookDetailResponse detail = bookQueryService.getDetail(bookId, memberId);
 
 		//when,then
 		assertAll(() ->assertThat(detail.getBook()).usingRecursiveComparison()
 				.ignoringActualNullFields().isEqualTo(bookResponse),
-			() -> verify(bookQueryRepository).findBookDetail(bookId,memberId));
+			() -> verify(bookRepositoryPort).findBookDetail(bookId,memberId));
 	}
 
 	@Test
@@ -174,7 +181,7 @@ class BookProductPostServiceTest {
 		//given
 		Long memberId = 1L;
 		Long bookId = 1L;
-		given(bookQueryRepository.findBookDetail(bookId, memberId)).willReturn(Optional.empty());
+		given(bookRepositoryPort.findBookDetail(bookId, memberId)).willReturn(Optional.empty());
 		//when,then
 		assertAll(() -> assertThatThrownBy(() -> bookQueryService.getDetail(bookId, memberId)).isInstanceOf(
 			BookNotFoundException.class));
@@ -194,9 +201,11 @@ class BookProductPostServiceTest {
 		Location 서울관광고 = LocationStub.서울관광고.of();
 		BookSearchCondition condition = new BookSearchCondition(null,봉천역.getLongitude(),봉천역.getLatitude(),40,40,null,3);
 		List<Location> locations = List.of(봉천역,봉천역, 서원동성당, 관악구청, 서울관광고);
-		given(bookQueryRepository.getNearByBookLocation(condition)).willReturn(locations);
+		BookSearchCommand command = BookSearchCommand.of(condition);
 
-		List<BookCountPerSectorResponse> bookCountPerSector = bookQueryService.getBookCountPerSector(condition);
+		given(bookRepositoryPort.getNearByBookLocation(command)).willReturn(locations);
+
+		List<BookCountPerSectorResponse> bookCountPerSector = bookQueryService.getBookCountPerSector(command);
 		System.out.println(bookCountPerSector);
 		Map<Integer,Long> testMap = new HashMap<>();
 		for (BookCountPerSectorResponse bookCountPerSectorResponse : bookCountPerSector) {
@@ -225,18 +234,18 @@ class BookProductPostServiceTest {
 
 		PageRequestImpl pageRequestImpl = new PageRequestImpl(1L);
 		Book book = BookStub.BOOK1.of(1L);
-
+		BookSearchCommand command = BookSearchCommand.of(condition);
 		SliceImpl<BookSimpleResponse> slice = new SliceImpl<>(List.of(BookSimpleResponse.builder().bookId(book.getId())
 			.bookImage(book.getImgUrl())
 			.location(book.getLocation())
 			.rentalFee(book.getRentalFee())
-			.title(book.getTitle())
+			.title(book.getBookProduct().getTitle())
 			.status(book.getBookState())
 			.build()), org.springframework.data.domain.PageRequest.of(0, 6), false);
 
-		given(bookQueryRepository.getAll(condition, pageRequestImpl)).willReturn(slice);
+		given(bookRepositoryPort.getAll(command, pageRequestImpl)).willReturn(slice);
 
-		SliceImpl<BookSimpleResponse> result = bookQueryRepository.getAll(condition, pageRequestImpl);
+		SliceImpl<BookSimpleResponse> result = bookRepositoryPort.getAll(command, pageRequestImpl);
 		assertThat(result.getContent().get(0).getTitle()).isEqualTo("자바의 정석");
 	}
 
