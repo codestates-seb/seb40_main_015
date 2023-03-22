@@ -20,7 +20,7 @@ bin/
 ### IntelliJ IDEA ###
 .idea/
 jacoco/
-main/generated/
+src/main/generated/
 *.iws
 *.iml
 *.ipr
