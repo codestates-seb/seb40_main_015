@@ -25,7 +25,7 @@
     <appender name="SLACK" class="com.github.maricn.logback.SlackAppender">
         <webhookUri>${SLACK_WEBHOOK_URI}</webhookUri>
         <layout class="ch.qos.logback.classic.PatternLayout">
-            <pattern>%d{yyyyy-MM-dd HH:mm:ss.SSS} %msg %n</pattern>
+            <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} %msg %n</pattern>
         </layout>
         <username>Server-Error-log</username>
         <colorCoding>true</colorCoding>
