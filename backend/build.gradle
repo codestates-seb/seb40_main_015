@@ -47,6 +47,7 @@ dependencies {
     implementation 'com.github.gavlyukovskiy:p6spy-spring-boot-starter:1.7.1'
     implementation 'com.google.code.gson:gson'
     implementation group: 'com.google.guava', name: 'guava', version: '11.0.2'
+    implementation 'com.github.maricn:logback-slack-appender:1.4.0'
 
     //쿼리 dsl
     implementation 'com.querydsl:querydsl-jpa'
