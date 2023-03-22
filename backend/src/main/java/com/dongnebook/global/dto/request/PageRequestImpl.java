@@ -13,12 +13,12 @@ import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 @Getter
-public class PageRequestImpl implements PageRequest,Serializable {
-	private final long index;
-	private final long size;
+public final class PageRequestImpl implements PageRequest,Serializable {
+	private final Long index;
+	private final Long size;
 	private final Sort.Direction sort;
 
-	public PageRequestImpl(long index) {
+	public PageRequestImpl(Long index) {
 		this.size = 6L;
 		this.index = index;
 		this.sort = Sort.Direction.DESC;
@@ -31,7 +31,7 @@ public class PageRequestImpl implements PageRequest,Serializable {
 	// getter
 	@Override
 	public org.springframework.data.domain.PageRequest of() {
-		return org.springframework.data.domain.PageRequest.of(0, (int)size);
+		return org.springframework.data.domain.PageRequest.of(0, size.intValue());
 	}
 
 	@Override
