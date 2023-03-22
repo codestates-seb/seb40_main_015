@@ -51,7 +51,7 @@ decorator:
       enable-logging: true
 
 logging:
-  config: classpath:logback-spring.xml
+  config: classpath:logback-spring-local.xml
 
 server:
   servlet:
