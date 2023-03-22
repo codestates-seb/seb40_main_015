@@ -20,10 +20,6 @@ spring:
       username: admin
       password: ${RDS_PASSWORD}
       url : jdbc:mysql://codestates-mainpj-mysql.clwvdgya13lr.ap-northeast-2.rds.amazonaws.com:3306/dongnebook
-      slaves:
-        slave1:
-          name: slave
-          url: jdbc:mysql://replica.clwvdgya13lr.ap-northeast-2.rds.amazonaws.com:3306/dongnebook
   jpa:
     defer-datasource-initialization: true
     hibernate:
