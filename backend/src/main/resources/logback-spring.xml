@@ -2,7 +2,7 @@
 <configuration packagingData="true">
     <springProperty name="AWS_ACCESS_KEY" source="cloud.aws.credentials.access-key"/>
     <springProperty name="AWS_SECRET_KEY" source="cloud.aws.credentials.secret-key"/>
-    <springProperty name="SLACK_WEBHOOK_URI" source="https://hooks.slack.com/services/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"/>
+    <springProperty name="SLACK_WEBHOOK_URI" source="https://hooks.slack.com/services/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"/>
     <timestamp key="timestamp" datePattern="yyyy-MM-dd-HH-mm-ssSSS"/>
     <appender name="aws_cloud_watch_log" class="ca.pjer.logback.AwsLogsAppender">
         <layout>
