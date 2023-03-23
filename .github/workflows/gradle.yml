@@ -50,6 +50,7 @@ jobs:
           jwt.secret-key: ${{ secrets.JWT_SECRET_KEY }}
           cloud.aws.credentials.access-key: ${{ secrets.S3_ACCESS_KEY }}
           cloud.aws.credentials.secret-key: ${{ secrets.S3_SECRET_KEY }}
+          logging.slack.webhook-uri: ${{ secrets.SLACK_WEBHOOK_URI_SEVER_ERROR_LOG }}
         
       - name: Set kakao
         uses: microsoft/variable-substitution@v1

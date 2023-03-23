@@ -80,4 +80,6 @@ awsParameterStorePropertySource:
   enabled: true
 
 logging:
+  slack:
+    webhook-uri: ${SLACK_WEBHOOK_URI_SEVER_ERROR_LOG}
   config: classpath:logback-spring.xml

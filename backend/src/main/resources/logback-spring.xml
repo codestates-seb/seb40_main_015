@@ -2,6 +2,7 @@
 <configuration packagingData="true">
     <springProperty name="AWS_ACCESS_KEY" source="cloud.aws.credentials.access-key"/>
     <springProperty name="AWS_SECRET_KEY" source="cloud.aws.credentials.secret-key"/>
+    <springProperty name="SLACK_WEBHOOK_URI" source="logging.slack.webhook-uri"/>
     <timestamp key="timestamp" datePattern="yyyy-MM-dd-HH-mm-ssSSS"/>
     <appender name="aws_cloud_watch_log" class="ca.pjer.logback.AwsLogsAppender">
         <layout>
@@ -22,7 +23,7 @@
     </appender>
 
     <appender name="SLACK" class="com.github.maricn.logback.SlackAppender">
-        <webhookUri>https://hooks.slack.com/services/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</webhookUri>
+        <webhookUri>${SLACK_WEBHOOK_URI}</webhookUri>
         <layout class="ch.qos.logback.classic.PatternLayout">
             <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} %msg %n</pattern>
         </layout>
