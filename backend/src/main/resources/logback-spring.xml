@@ -22,12 +22,19 @@
     </appender>
 
     <appender name="SLACK" class="com.github.maricn.logback.SlackAppender">
-        <webhookUri>https://hooks.slack.com/services/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</webhookUri>
+        <webhookUri>https://hooks.slack.com/services/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</webhookUri>
         <layout class="ch.qos.logback.classic.PatternLayout">
             <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} %msg %n</pattern>
         </layout>
         <username>Server-Error-log</username>
         <colorCoding>true</colorCoding>
+    </appender>
+
+    <appender name="ASYNC_SLACK" class="ch.qos.logback.classic.AsyncAppender">
+        <appender-ref ref="SLACK"/>
+        <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
+            <level>ERROR</level>
+        </filter>
     </appender>
 
     <appender name="application_log" class="ch.qos.logback.core.ConsoleAppender">
@@ -44,11 +51,8 @@
         <root level="WARN">
             <appender-ref ref="application_log"/>
             <appender-ref ref="aws_cloud_watch_log"/>
-        </root>
-        <root level="ERROR">
-            <appender-ref ref="SLACK"/>
+            <appender-ref ref="ASYNC_SLACK"/>
         </root>
     </springProfile>
-
 
 </configuration>
