@@ -22,7 +22,7 @@
     </appender>
 
     <appender name="SLACK" class="com.github.maricn.logback.SlackAppender">
-        <webhookUri>https://hooks.slack.com/services/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</webhookUri>
+        <webhookUri>https://hooks.slack.com/services/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</webhookUri>
         <layout class="ch.qos.logback.classic.PatternLayout">
             <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} %msg %n</pattern>
         </layout>
