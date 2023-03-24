@@ -61,9 +61,12 @@ jobs:
         
         
       - name: Build with Gradle
-        run: ./gradlew build --stacktrace
+        run: ./gradlew build -x test --stacktrace
         working-directory: ./backend/
         
+      - name: Test with Gradle
+        run: ./gradlew --info test --stacktrace
+
         
       - name: Make zip file
         run: zip -r ./main-015-deploy.zip .
