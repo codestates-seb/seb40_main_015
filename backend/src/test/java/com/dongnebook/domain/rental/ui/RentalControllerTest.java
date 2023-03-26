@@ -26,11 +26,10 @@ import org.springframework.test.web.servlet.ResultActions;
 import java.time.LocalDateTime;
 import java.util.List;
 
-import static org.hamcrest.Matchers.is;
-import static org.hamcrest.Matchers.startsWith;
+import static org.hamcrest.Matchers.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
-import static org.mockito.Mockito.doNothing;
+import static org.mockito.Mockito.*;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.patch;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
@@ -40,11 +39,10 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @WebMvcTest(RentalController.class)
 @MockBean(JpaMetamodelMappingContext.class)
 //@AutoConfigureMockMvc(addFilters = false)
+//@EqualsAndHashCode
 public class RentalControllerTest {
-
     @Autowired
     private MockMvc mockMvc;
-
     @MockBean
     private RentalService rentalService;
 
@@ -53,19 +51,23 @@ public class RentalControllerTest {
     public void postRentalTest() throws Exception {
         // given
         long bookId = 1L;
-        doNothing().when(rentalService).createRental(Mockito.any(Long.class), Mockito.any(Long.class));
+        doNothing().when(rentalService).createRental(Mockito.eq(bookId), Mockito.eq(null));
 
         // when
         ResultActions actions =
                 mockMvc.perform(
                         post("/rental/" + bookId)
+                                .header("Authorization", "Bearer eyJhbGciOiJIUzUxMiJ9.eyJpZCI6MiwiZXhwIjoxNjc2MzA3NTMwfQ.t7N4DUmE4FF2kLqy5LG4QviFHsX4DwFHkZcwUdsOMexwDziKD3DYXJbnS3YFn2sLVdE-TbRDAv92QViD0jyTlQ")
                                 .with(csrf())
                 );
 
         // then
         actions
                 .andExpect(status().isCreated());
-//                .andExpect(header().string("Location", startsWith("/rental/")));
+//                .andExpect(jsonPath("$.content").isArray());
+//                .andExpect(header().string("Location", startsWith("be")));
+//        verify(doNothing().when(rentalService).createRental(Mockito.any(Long.class), Mockito.any(Long.class)));
+//        verify(rentalService).createRental(Mockito.eq(bookId), Mockito.eq(1L));
     }
 
     @Test
