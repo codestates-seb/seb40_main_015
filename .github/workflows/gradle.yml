@@ -66,6 +66,7 @@ jobs:
         
       - name: Test with Gradle
         run: ./gradlew --info test --stacktrace
+        working-directory: ./backend/
 
         
       - name: Make zip file
