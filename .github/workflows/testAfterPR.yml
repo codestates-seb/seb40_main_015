@@ -9,7 +9,7 @@ name: Test After PR
 
 on:
   pull_request:
-    paths: [ 'backend/**' , './.github/workflows/gradle.yml', './.github/workflows/testBeforeMerge.yml' ]
+    paths: [ 'backend/**' , '.github/workflows/gradle.yml', '.github/workflows/testBeforeMerge.yml' ]
     branches: [ 'main' , 'dev' ]
 
 permissions: write-all
