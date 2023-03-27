@@ -40,7 +40,7 @@ public class BookResponse implements Serializable {
 		this.content = content;
 		this.state = state.getMessage();
 		this.bookImgUrl = bookImgUrl;
-		this.isDibs = dibsId == 0L ? Boolean.FALSE : Boolean.TRUE;
+		this.isDibs = dibsId == null ? Boolean.FALSE : Boolean.TRUE;
 		this.rentalStart = rentalStart;
 		this.rentalEnd = rentalEnd;
 	}

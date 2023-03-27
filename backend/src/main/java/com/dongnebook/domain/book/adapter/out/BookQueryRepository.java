@@ -5,6 +5,7 @@ import static com.dongnebook.domain.dibs.domain.QDibs.*;
 import static com.dongnebook.domain.rental.domain.QRental.*;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 
 import org.springframework.data.domain.SliceImpl;
@@ -21,14 +22,9 @@ import com.dongnebook.domain.book.application.port.in.response.QBookSimpleRespon
 import com.dongnebook.domain.book.domain.Book;
 import com.dongnebook.domain.book.domain.BookState;
 import com.dongnebook.domain.member.domain.Member;
-import com.dongnebook.domain.rental.domain.RentalState;
 import com.dongnebook.domain.model.Location;
-
-import com.querydsl.core.types.Expression;
-import com.querydsl.core.types.ExpressionUtils;
+import com.dongnebook.domain.rental.domain.RentalState;
 import com.querydsl.core.types.dsl.BooleanExpression;
-import com.querydsl.core.types.dsl.Expressions;
-import com.querydsl.jpa.JPAExpressions;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 
 import lombok.RequiredArgsConstructor;
@@ -54,6 +50,7 @@ public class BookQueryRepository {
 	}
 
 	public Optional<BookDetailResponse> findBookDetail(Long bookId, Long memberId) {
+
 		return Optional.ofNullable(jpaQueryFactory
 			.select(new QBookDetailResponse(
 				new QBookResponse(
@@ -65,7 +62,7 @@ public class BookQueryRepository {
 					book.description,
 					book.bookState,
 					book.imgUrl,
-					dibsCountSubQuery(bookId, memberId),
+					dibs.id,
 					rental.rentalStartedAt,
 					rental.rentalDeadLine),
 				new QBookDetailMemberResponse(
@@ -74,13 +71,20 @@ public class BookQueryRepository {
 					book.member.avgGrade,
 					book.member.avatarUrl)))
 			.from(book)
-			.leftJoin(book.member)
+			.innerJoin(book.member)
 			.leftJoin(rental)
-			.on(rental.book.id.eq(bookId), rental.rentalState.eq(RentalState.BEING_RENTED))
+				.on(rental.book.id.eq(bookId), rental.rentalState.eq(RentalState.BEING_RENTED))
 			.leftJoin(book.dibsList, dibs)
+				.on(dibs.book.id.eq(bookId), hasMemberId(memberId))
 			.where(book.id.eq(bookId))
 			.fetchFirst());
 		//책을 찾는데 찜이 하나라도 있으면 그 찜의 아이디를 찾아서 반환 찜이 없으면 걍 넘어감
+	}
+	private BooleanExpression hasMemberId(Long memberId){
+		if (Objects.isNull(memberId)) {
+			return dibs.member.id.isNull();
+		}
+		return dibs.member.id.eq(memberId);
 	}
 
 
@@ -202,18 +206,6 @@ public class BookQueryRepository {
 		return book.bookProduct.title.contains(bookTitle);
 	}
 
-	private Expression<Long> dibsCountSubQuery(Long bookId, Long memberId) {
-		if (memberId == null) {
-			return Expressions.ZERO.longValue();
-		}
-
-		return ExpressionUtils.as(JPAExpressions
-			.select(dibs.id.count())
-			.from(dibs)
-			.where(dibs.book.id.eq(bookId),
-				dibs.member.id.eq(memberId)),
-			"count");
-	}
 
 	private BooleanExpression ltDibsBookId(Long bookId) {
 		if (bookId == null) {
