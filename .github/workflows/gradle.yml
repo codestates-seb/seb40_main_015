@@ -72,7 +72,7 @@ jobs:
         uses: EnricoMi/publish-unit-test-result-action@v1
         if: always()
         with:
-          files: ./backend/build/reports/tests/test/index.html
+          files: ./backend/build/test-results/**/*.xml
         
       - name: Make zip file
         run: zip -r ./main-015-deploy.zip .
