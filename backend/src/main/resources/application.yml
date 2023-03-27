@@ -76,4 +76,3 @@ cloud:
 awsParameterStorePropertySource:
   enabled: true
 
-
