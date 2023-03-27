@@ -65,9 +65,14 @@ jobs:
         working-directory: ./backend/
         
       - name: Test with Gradle
-        run: ./gradlew --info test --stacktrace
+        run: ./gradlew test --stacktrace
         working-directory: ./backend/
 
+      - name: Publish Unit Test Results
+        uses: EnricoMi/publish-unit-test-result-action@v1
+        if: always()
+        with:
+          files: ./backend/build/reports/tests/test/index.html
         
       - name: Make zip file
         run: zip -r ./main-015-deploy.zip .
