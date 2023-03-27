@@ -12,8 +12,7 @@ on:
     paths: [ 'backend/**' ]
     branches: [ 'main' , 'dev' ]
 
-permissions:
-  contents: read
+permissions: write-all
 
 env:
   S3_BUCKET_NAME: github-actions-bucket-dongnebook

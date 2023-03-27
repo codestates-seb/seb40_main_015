@@ -75,3 +75,4 @@ cloud:
       auto: false
 awsParameterStorePropertySource:
   enabled: true
+
