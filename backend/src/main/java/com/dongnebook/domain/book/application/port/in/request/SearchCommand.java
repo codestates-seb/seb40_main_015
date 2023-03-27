@@ -8,6 +8,7 @@ import lombok.NoArgsConstructor;
 @Getter
 @NoArgsConstructor
 public class SearchCommand implements Serializable {
+
 	Double longitude;
 	Double latitude;
 	Integer width;
