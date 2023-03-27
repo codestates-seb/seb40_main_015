@@ -2,7 +2,9 @@ spring:
   h2:
     console:
       enabled: true
-      path: /h2-console
+      path: /htt
+      settings:
+        web-allow-others: true
   cache:
     type: redis
   redis:
@@ -13,9 +15,10 @@ spring:
       max-file-size: 2MB
       max-request-size: 2MB
   datasource:
-    url: jdbc:mysql://localhost:3306/root?characterEncoding=UTF-8&serverTimezone=Asia/Seoul
-    username: root
-    password: asdf1234
+    url : jdbc:h2:mem:test
+#    url: jdbc:mysql://localhost:3306/root?characterEncoding=UTF-8&serverTimezone=Asia/Seoul
+#    username: root
+#    password: asdf1234
   jpa:
     defer-datasource-initialization: true
     open-in-view: false
