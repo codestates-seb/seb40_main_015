@@ -28,10 +28,9 @@ public class BookCommandService implements BookPostCommandUseCase {
 	private final MemberQueryUseCase memberQueryUseCase;
 
 	@Override
-	@CacheEvict(value ="books", allEntries = true)
 	public Long register(BookPostRegisterCommand command, Long memberId) {
 		Member member = getMember(memberId);
-		Location location = member.getLocation();
+		Location location = member.hasLocation();
 		Money money = Money.of(command.getRentalFee());
 		BookProduct bookProduct = BookProduct.of(command.getTitle(), command.getAuthor(), command.getPublisher());
 		Book book = Book.create(bookProduct, command.getImageUrl(), command.getDescription(), money, location, member);
@@ -43,13 +42,12 @@ public class BookCommandService implements BookPostCommandUseCase {
 		Book book = getByBookId(bookId);
 		book.edit(bookPostEditCommand.getImageUrl(), bookPostEditCommand.getDescription(), requestMemberId);
 	}
+
 	@Caching(
 		evict = {
 			@CacheEvict(value = "books", allEntries = true),
-			@CacheEvict(value = "bookDetail", key="#bookId")
 		}
 	)
-
 	@Override
 	public Long delete(Long bookId, Long requestMemberId) {
 		Book book = getByBookId(bookId);

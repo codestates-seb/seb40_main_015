@@ -134,7 +134,8 @@ public class Member extends BaseTimeEntity implements Serializable {
 		this.upReviewCount();
 	}
 
-	public Location getLocation() {
+
+	public Location hasLocation() {
 		return Optional.ofNullable(location).orElseThrow(LocationNotCreatedYetException::new);
 	}
 }

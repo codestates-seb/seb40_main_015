@@ -11,6 +11,7 @@ import javax.persistence.EntityListeners;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.Index;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
@@ -30,7 +31,7 @@ import lombok.NoArgsConstructor;
 
 @Entity
 @Getter
-@Table(name = "rental")
+@Table(name = "rental", indexes = @Index(name = "idx_rental", columnList = "rental_state"))
 @EntityListeners(AuditingEntityListener.class)
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Rental {
