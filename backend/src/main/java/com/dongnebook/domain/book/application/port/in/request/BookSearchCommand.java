@@ -1,15 +1,18 @@
 package com.dongnebook.domain.book.application.port.in.request;
 
+import java.io.Serializable;
 import java.util.Optional;
 
 import com.dongnebook.domain.book.adapter.in.request.BookSearchCondition;
 
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 @Getter
-public class BookSearchCommand implements MapSearchable {
-	private final String bookTitle;
-	private final SearchCommand searchCommand;
+@NoArgsConstructor
+public class BookSearchCommand implements MapSearchable, Serializable {
+	private String bookTitle;
+	private SearchCommand searchCommand;
 
 	public BookSearchCommand(String bookTitle, Double longitude, Double latitude, Integer width, Integer height,
 		Integer sector, Integer level) {

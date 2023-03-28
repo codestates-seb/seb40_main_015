@@ -73,7 +73,7 @@ test {
 jacocoTestReport {
     reports {
         html.enabled true
-        xml.required = false
+        xml.enabled true
         csv.required = false
         html.destination file("jacoco/jacocoHtml")
         xml.destination file("jacoco/jacoco.xml")

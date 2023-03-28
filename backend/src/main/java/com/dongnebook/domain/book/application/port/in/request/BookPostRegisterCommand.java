@@ -3,16 +3,18 @@ package com.dongnebook.domain.book.application.port.in.request;
 import com.dongnebook.domain.book.adapter.in.request.BookPostRegisterRequest;
 
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 @Getter
+@NoArgsConstructor
 public class BookPostRegisterCommand {
 
-	private final String title;
-	private final String author;
-	private final String publisher;
-	private final String description;
-	private final String imageUrl;
-	private final Integer rentalFee;
+	private String title;
+	private String author;
+	private String publisher;
+	private String description;
+	private String imageUrl;
+	private Integer rentalFee;
 
 	private BookPostRegisterCommand(BookPostRegisterRequest request) {
 		this.title = request.getTitle();

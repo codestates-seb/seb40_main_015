@@ -40,7 +40,9 @@ import lombok.NoArgsConstructor;
 @Entity
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-@Table(name = "book", indexes = @Index(name = "idx_book", columnList = "latitude,longitude,book_state"))
+@Table(name = "book", indexes = {
+	@Index(name = "idx_book", columnList = "latitude,longitude,book_state"),
+	@Index(name = "idx_book2", columnList = "book_state")})
 public class Book extends BaseTimeEntity implements Serializable {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -68,7 +70,7 @@ public class Book extends BaseTimeEntity implements Serializable {
 	private Location location;
 
 	@Convert(converter = BookStateConverter.class)
-	@Column(name = "book_state")
+	@Column(name = "book_state", length = 20)
 	private BookState bookState;
 
 	@ManyToOne(fetch = FetchType.LAZY)

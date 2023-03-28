@@ -5,25 +5,22 @@
 # This workflow will build a Java project with Gradle and cache/restore any dependencies to improve the workflow execution time
 # For more information see: https://docs.github.com/en/actions/automating-builds-and-tests/building-and-testing-java-with-gradle
 
-name: Java CI with Gradle
+name: Test After PR & push
 
 on:
   push:
     paths: [ 'backend/**', '.github/workflows/gradle.yml', '.github/workflows/testBeforeMerge.yml' ]
     branches: [ 'main' , 'dev' ]
+  pull_request:
+    paths: [ 'backend/**', '.github/workflows/gradle.yml', '.github/workflows/testBeforeMerge.yml' ]
+    branches: [ 'main' , 'dev' ]
 
 permissions: write-all
-
-env:
-  S3_BUCKET_NAME: github-actions-bucket-dongnebook
-  RESOURCE_PATH: ./backend/src/main/resources/application-rds.yml
-  RESOURCE_PATH_KAKAO: ./backend/src/main/resources/application-API-KEY.yml
 
 
 jobs:
   build:
     runs-on: ubuntu-latest
-
     steps:
       - uses: actions/checkout@v3
       - name: Set up JDK 11
@@ -41,41 +38,21 @@ jobs:
           key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*', '**/gradle-wrapper.properties') }}
           restore-keys: |
             ${{ runner.os }}-gradle-
-        
+
       - name: Grant execute permission for gradlew
         run: chmod +x gradlew
         working-directory: ./backend/
-
-      - name: Set Yaml
-        uses: microsoft/variable-substitution@v1
-        with:
-          files: ${{ env.RESOURCE_PATH }}
-        env:
-          spring.datasource.password: ${{ secrets.RDS_PASSWORD }}
-          spring.security.oauth2.client.registration.google.clientId: ${{ secrets.GOOGLE_OAUTH2_CLIENT_ID }}
-          spring.security.oauth2.client.registration.google.clientSecret: ${{ secrets.GOOGLE_OAUTH2_CLIENT_SECRET }}
-          jwt.secret-key: ${{ secrets.JWT_SECRET_KEY }}
-          cloud.aws.credentials.access-key: ${{ secrets.S3_ACCESS_KEY }}
-          cloud.aws.credentials.secret-key: ${{ secrets.S3_SECRET_KEY }}
-          logging.slack.webhook-uri: ${{ secrets.SLACK_WEBHOOK_URI_SEVER_ERROR_LOG }}
         
-      - name: Set kakao
-        uses: microsoft/variable-substitution@v1
-        with:
-          files: ${{ env.RESOURCE_PATH_KAKAO }}
-        env:
-          KAKAO_KEY: ${{ secrets.KAKAO_KEY }}
-        
-      - name: Build & Test with Gradle
-        run: ./gradlew build --stacktrace
+      - name: Test with Gradle
+        run: ./gradlew test --stacktrace
         working-directory: ./backend/
-        
+
       - name: Publish Unit Test Results
         uses: EnricoMi/publish-unit-test-result-action@v1
         if: always()
         with:
           files: ./backend/build/test-results/**/*.xml
-        
+
       - name: Jacoco Report
         uses: madrapps/jacoco-report@v1.2
         if: always()
@@ -85,7 +62,7 @@ jobs:
           token: ${{ secrets.GITHUB_TOKEN }}
           min-coverage-overall: 30
           min-coverage-changed-files: 30
-
+          
       - name: Cleanup Gradle Cache
         # Remove some files from the Gradle cache, so they aren't cached by GitHub Actions.
         # Restoring these files from a GitHub Actions cache might cause problems for future builds.
@@ -93,24 +70,3 @@ jobs:
         run: |
           rm -f ~/.gradle/caches/modules-2/modules-2.lock
           rm -f ~/.gradle/caches/modules-2/gc.properties
-
-      - name: Make zip file
-        run: zip -r ./main-015-deploy.zip .
-        shell: bash
-        
-      - name: Configure AWS credentials
-        uses: aws-actions/configure-aws-credentials@v1
-        with:
-          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY }}
-          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          aws-region: ap-northeast-2
-        
-      - name: Upload to S3
-        run: aws s3 cp --region ap-northeast-2 ./main-015-deploy.zip s3://$S3_BUCKET_NAME/main-015-deploy.zip
-        
-      - name: Code Deploy
-        run: >
-          aws deploy create-deployment --application-name dongnebook-deploy
-          --deployment-config-name CodeDeployDefault.OneAtATime
-          --deployment-group-name Deploy-dongnebook-EC2-sub
-          --s3-location bucket=$S3_BUCKET_NAME,bundleType=zip,key=main-015-deploy.zip

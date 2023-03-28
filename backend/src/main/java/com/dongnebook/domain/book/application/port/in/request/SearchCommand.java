@@ -1,15 +1,20 @@
 package com.dongnebook.domain.book.application.port.in.request;
 
+import java.io.Serializable;
+
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 @Getter
-public class SearchCommand {
-	final Double longitude;
-	final Double latitude;
-	final Integer width;
-	final Integer height;
-	final Integer sector;
-	final Integer level;
+@NoArgsConstructor
+public class SearchCommand implements Serializable {
+
+	Double longitude;
+	Double latitude;
+	Integer width;
+	Integer height;
+	Integer sector;
+	Integer level;
 
 	public SearchCommand(Double longitude, Double latitude, Integer width, Integer height, Integer sector,
 		Integer level) {
