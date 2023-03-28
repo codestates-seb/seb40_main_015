@@ -20,7 +20,6 @@ env:
   RESOURCE_PATH_KAKAO: ./backend/src/main/resources/application-API-KEY.yml
 
 
-
 jobs:
   build:
 
