@@ -21,7 +21,7 @@ import java.time.LocalDateTime;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
-@DataJpaTest
+@DataJpaTest(showSql = false)
 public class ReviewRepositoryTest {
     @Autowired
     private ReviewRepository reviewRepository;

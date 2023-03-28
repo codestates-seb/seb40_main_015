@@ -33,7 +33,7 @@ import java.util.Optional;
 import static org.assertj.core.api.Assertions.*;
 import static org.junit.jupiter.api.Assertions.*;
 
-@DataJpaTest
+@DataJpaTest(showSql = false)
 @ImportAutoConfiguration(DataSourceDecoratorAutoConfiguration.class)
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
 @Import({TestConfig.class, DatabaseCleaner.class})
@@ -47,8 +47,6 @@ public class RentalQueryRepositoryTest {
     BookCommandRepository bookCommandRepository;
     @Autowired
     RentalRepository rentalRepository;
-//    @PersistenceContext
-//    EntityManager entityManager;
 
     @BeforeEach
     public void setting() {
@@ -184,7 +182,7 @@ public class RentalQueryRepositoryTest {
 
         Rental rental3 = Rental.builder()
                 .rentalDeadLine(LocalDateTime.now().withHour(23).withMinute(59).withSecond(59))
-                .rentalState(RentalState.RETURN_REVIEWED)
+                .rentalState(RentalState.BEING_RENTED)
                 .merchantId(savedMerchant.getId())
                 .book(savedBook3)
                 .customer(savedCustomer)

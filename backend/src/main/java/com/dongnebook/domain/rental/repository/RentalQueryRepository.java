@@ -164,7 +164,7 @@ public class RentalQueryRepository {
         return jpaQueryFactory.selectFrom(rental)
             .innerJoin(rental.customer).fetchJoin()
             .innerJoin(rental.book).fetchJoin()
-            .where(rental.rentalDeadLine.between(start,end),rentalStateEq(String.valueOf(RentalState.RETURN_REVIEWED)))
+            .where(rental.rentalDeadLine.between(start,end),rentalStateEq(String.valueOf(RentalState.BEING_RENTED)))
             .fetch();
     }
 }

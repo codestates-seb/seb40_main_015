@@ -12,10 +12,14 @@ import com.dongnebook.domain.rental.domain.RentalState;
 import com.dongnebook.domain.rental.repository.RentalRepository;
 import com.dongnebook.domain.reservation.domain.Reservation;
 
+import com.dongnebook.support.DataClearExtension;
+import com.dongnebook.support.DatabaseCleaner;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
+import org.springframework.context.annotation.Import;
 
 import java.time.LocalDateTime;
 import java.util.Optional;
@@ -23,7 +27,9 @@ import java.util.Optional;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
-@DataJpaTest
+@DataJpaTest(showSql = false)
+@Import(DatabaseCleaner.class)
+@ExtendWith(DataClearExtension.class)
 public class ReservationRepositoryTest {
     @Autowired
     private ReservationRepository reservationRepository;

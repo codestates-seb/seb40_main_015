@@ -31,16 +31,6 @@ jobs:
         with:
           java-version: '11'
           distribution: 'temurin'
-
-      - name: Cache Gradle packages
-        uses: actions/cache@v2
-        with:
-          path: |
-            ~/.gradle/caches
-            ~/.gradle/wrapper
-          key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*', '**/gradle-wrapper.properties') }}
-          restore-keys: |
-            ${{ runner.os }}-gradle-
         
       - name: Grant execute permission for gradlew
         run: chmod +x gradlew
@@ -83,16 +73,7 @@ jobs:
           title: Test Coverage Report
           paths: ./backend/jacoco/jacoco.xml
           token: ${{ secrets.GITHUB_TOKEN }}
-          min-coverage-overall: 30
-          min-coverage-changed-files: 30
-
-      - name: Cleanup Gradle Cache
-        # Remove some files from the Gradle cache, so they aren't cached by GitHub Actions.
-        # Restoring these files from a GitHub Actions cache might cause problems for future builds.
-        if: ${{ always() }}
-        run: |
-          rm -f ~/.gradle/caches/modules-2/modules-2.lock
-          rm -f ~/.gradle/caches/modules-2/gc.properties
+          min-coverage-overall: 50
 
       - name: Make zip file
         run: zip -r ./main-015-deploy.zip .
