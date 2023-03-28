@@ -108,7 +108,6 @@ public class RentalServiceTest2 {
         Book book = new Book(1L, new BookProduct(), "aaa@abc.com", "기본이 중요하다", Money.of(1000), new Location(37.5340, 126.7064), member2);
         when(bookQueryService.getWithMerchantByBookId(bookId)).thenReturn(book);
 
-//        doNothing().when(alarmService).sendAlarm(Mockito.any(Member.class), Mockito.any(Book.class), Mockito.any(AlarmType.class));
 
         // when & then
         assertDoesNotThrow(() -> rentalService.createRental(bookId, customerId));

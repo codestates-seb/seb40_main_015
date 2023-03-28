@@ -31,7 +31,7 @@ jobs:
         with:
           java-version: '11'
           distribution: 'temurin'
-
+        
       - name: Cache Gradle packages
         uses: actions/cache@v2
         with:
@@ -83,8 +83,7 @@ jobs:
           title: Test Coverage Report
           paths: ./backend/jacoco/jacoco.xml
           token: ${{ secrets.GITHUB_TOKEN }}
-          min-coverage-overall: 30
-          min-coverage-changed-files: 30
+          min-coverage-overall: 50
 
       - name: Cleanup Gradle Cache
         # Remove some files from the Gradle cache, so they aren't cached by GitHub Actions.

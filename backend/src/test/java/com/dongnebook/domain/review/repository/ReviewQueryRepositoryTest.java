@@ -32,7 +32,7 @@ import java.time.LocalDateTime;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-@DataJpaTest
+@DataJpaTest(showSql = false)
 @ImportAutoConfiguration(DataSourceDecoratorAutoConfiguration.class)
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
 @Import({TestConfig.class, DatabaseCleaner.class})
@@ -62,15 +62,6 @@ public class ReviewQueryRepositoryTest {
 
         BookProduct bookProduct = new BookProduct("자바의 정석", "남궁성", "도우출판");
         Book book = Book.create(bookProduct, "aaa@abc.com", "기본이 중요하다", Money.of(1000), new Location(37.5340, 126.7064), savedMember);
-        //        Book book = Book.builder()
-//                .id(1L)
-//                .bookProduct(bookProduct)
-//                .imgUrl("aaa@abc.com")
-//                .description("기본이 중요하다")
-//                .rentalFee(Money.of(1000))
-//                .location(new Location(37.5340, 126.7064))
-//                .member(savedMember)
-//                .build();
         Book savedBook = bookCommandRepository.save(book);
 
         Member member2 = Member.builder()
@@ -95,69 +86,6 @@ public class ReviewQueryRepositoryTest {
         Rental savedRental6 = rentalRepository.save(rental6);
         Rental rental7 = Rental.create(savedBook, savedMember2);
         Rental savedRental7 = rentalRepository.save(rental7);
-
-//        Rental rental1 = Rental.builder()
-//                .rentalDeadLine(LocalDateTime.now())
-//                .rentalState(RentalState.TRADING)
-//                .merchantId(savedMember.getId())
-//                .book(savedBook)
-//                .customer(savedMember2)
-//                .build();
-//        rentalRepository.save(rental1);
-//
-//        Rental rental2 = Rental.builder()
-//                .rentalDeadLine(LocalDateTime.now())
-//                .rentalState(RentalState.TRADING)
-//                .merchantId(savedMember.getId())
-//                .book(savedBook)
-//                .customer(savedMember2)
-//                .build();
-//        rentalRepository.save(rental2);
-//
-//        Rental rental3 = Rental.builder()
-//                .rentalDeadLine(LocalDateTime.now())
-//                .rentalState(RentalState.TRADING)
-//                .merchantId(savedMember.getId())
-//                .book(savedBook)
-//                .customer(savedMember2)
-//                .build();
-//        rentalRepository.save(rental3);
-//
-//        Rental rental4 = Rental.builder()
-//                .rentalDeadLine(LocalDateTime.now())
-//                .rentalState(RentalState.TRADING)
-//                .merchantId(savedMember.getId())
-//                .book(savedBook)
-//                .customer(savedMember2)
-//                .build();
-//        rentalRepository.save(rental4);
-//
-//        Rental rental5 = Rental.builder()
-//                .rentalDeadLine(LocalDateTime.now())
-//                .rentalState(RentalState.TRADING)
-//                .merchantId(savedMember.getId())
-//                .book(savedBook)
-//                .customer(savedMember2)
-//                .build();
-//        rentalRepository.save(rental5);
-//
-//        Rental rental6 = Rental.builder()
-//                .rentalDeadLine(LocalDateTime.now())
-//                .rentalState(RentalState.TRADING)
-//                .merchantId(savedMember.getId())
-//                .book(savedBook)
-//                .customer(savedMember2)
-//                .build();
-//        rentalRepository.save(rental6);
-//
-//        Rental rental7 = Rental.builder()
-//                .rentalDeadLine(LocalDateTime.now())
-//                .rentalState(RentalState.TRADING)
-//                .merchantId(savedMember.getId())
-//                .book(savedBook)
-//                .customer(savedMember2)
-//                .build();
-//        rentalRepository.save(rental7);
 
         ReviewRequest reviewRequest = ReviewRequest.builder()
                 .bookId(1L)
