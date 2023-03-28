@@ -50,7 +50,6 @@ public class BookQueryService implements BookPostQueryUseCase {
 
 
 	@Override
-	@Cacheable(value = "bookDetail", key = "#id",  cacheManager = "cacheManager")
 	public BookDetailResponse getDetail(Long id, Long memberId) {
 		return bookRepositoryPort.findBookDetail(id, memberId).orElseThrow(BookNotFoundException::new);
 	}

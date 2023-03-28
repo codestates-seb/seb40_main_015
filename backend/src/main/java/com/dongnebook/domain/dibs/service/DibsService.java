@@ -1,12 +1,11 @@
 package com.dongnebook.domain.dibs.service;
 
-import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.data.domain.SliceImpl;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.dongnebook.domain.book.application.port.in.response.BookSimpleResponse;
 import com.dongnebook.domain.book.application.BookQueryService;
+import com.dongnebook.domain.book.application.port.in.response.BookSimpleResponse;
 import com.dongnebook.domain.book.application.port.out.BookRepositoryPort;
 import com.dongnebook.domain.book.domain.Book;
 import com.dongnebook.domain.dibs.domain.Dibs;
@@ -29,8 +28,6 @@ public class DibsService {
 	private final BookRepositoryPort bookRepositoryPort;
 
 
-
-	@CacheEvict(value = "bookDetail", key="#bookId")
 	public void doDibs(Long bookId,Long memberId){
 		Book book = getBookById(bookId);
 		Member member = getMemberById(memberId);

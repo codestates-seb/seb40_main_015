@@ -3,11 +3,13 @@ package com.dongnebook.domain.book.application.port.in.request;
 import com.dongnebook.domain.book.adapter.in.request.BookPostEditRequest;
 
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 @Getter
+@NoArgsConstructor
 public class BookPostEditCommand {
-	private final String description;
-	private final String imageUrl;
+	private String description;
+	private String imageUrl;
 
 	public BookPostEditCommand(BookPostEditRequest request) {
 		this.description = request.getDescription();

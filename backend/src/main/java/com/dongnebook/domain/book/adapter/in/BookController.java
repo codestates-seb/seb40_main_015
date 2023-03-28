@@ -68,7 +68,9 @@ public class BookController {
 
 	@GetMapping("/{id}")
 	public ResponseEntity<BookDetailResponse> getDetail(@Login Long memberId, @PathVariable Long id) {
+
 		BookDetailResponse detail = bookPostQueryUseCase.getDetail(id, memberId);
+
 		return ResponseEntity.ok(detail);
 	}
 
