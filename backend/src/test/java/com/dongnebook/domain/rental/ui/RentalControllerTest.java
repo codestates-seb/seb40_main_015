@@ -8,12 +8,8 @@ import com.dongnebook.domain.rental.application.RentalService;
 import com.dongnebook.domain.rental.domain.RentalState;
 import com.dongnebook.domain.rental.dto.response.RentalBookResponse;
 import com.dongnebook.domain.rental.dto.response.RentalInfoResponse;
-import com.dongnebook.global.dto.request.PageRequestImpl;
-import lombok.EqualsAndHashCode;
 import org.junit.jupiter.api.Test;
-import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.data.domain.SliceImpl;
@@ -26,10 +22,9 @@ import org.springframework.test.web.servlet.ResultActions;
 import java.time.LocalDateTime;
 import java.util.List;
 
-import static org.hamcrest.Matchers.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
-import static org.mockito.Mockito.*;
+import static org.mockito.Mockito.doNothing;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.patch;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
@@ -51,23 +46,19 @@ public class RentalControllerTest {
     public void postRentalTest() throws Exception {
         // given
         long bookId = 1L;
-        doNothing().when(rentalService).createRental(Mockito.eq(bookId), Mockito.eq(null));
+        doNothing().when(rentalService).createRental(any(), any());
 
         // when
         ResultActions actions =
                 mockMvc.perform(
                         post("/rental/" + bookId)
-                                .header("Authorization", "Bearer eyJhbGciOiJIUzUxMiJ9.eyJpZCI6MiwiZXhwIjoxNjc2MzA3NTMwfQ.t7N4DUmE4FF2kLqy5LG4QviFHsX4DwFHkZcwUdsOMexwDziKD3DYXJbnS3YFn2sLVdE-TbRDAv92QViD0jyTlQ")
+                                .param("Authorization", "Bearer eyJhbGciOiJIUzUxMiJ9.eyJyb2xlcyI6W3siYXV0aG9yaXR5IjoiUk9MRV9VU0VSIn1dLCJpZCI6MywiZXhwIjoxNjcwMDM4OTIyfQ.rFjbQ9R1Dtoz1r81xtAmUzudiBduihDSvZ9sE8yW2XgwBjyGIJHsEm71DSxN6Wy9abCDc1NsBxo1URy00LTWZg")
                                 .with(csrf())
                 );
 
         // then
         actions
                 .andExpect(status().isCreated());
-//                .andExpect(jsonPath("$.content").isArray());
-//                .andExpect(header().string("Location", startsWith("be")));
-//        verify(doNothing().when(rentalService).createRental(Mockito.any(Long.class), Mockito.any(Long.class)));
-//        verify(rentalService).createRental(Mockito.eq(bookId), Mockito.eq(1L));
     }
 
     @Test
@@ -75,12 +66,13 @@ public class RentalControllerTest {
     public void cancelRentalByCustomerTest() throws Exception {
         // given
         Long rentalId = 1L;
-        doNothing().when(rentalService).cancelRentalByCustomer(Mockito.any(Long.class), Mockito.any(Long.class));
+        doNothing().when(rentalService).cancelRentalByCustomer(any(), any());
 
         // when
         ResultActions actions =
                 mockMvc.perform(
                         patch("/rental/" + rentalId + "/cancelByCustomer")
+                                .param("Authorization", "Bearer eyJhbGciOiJIUzUxMiJ9.eyJyb2xlcyI6W3siYXV0aG9yaXR5IjoiUk9MRV9VU0VSIn1dLCJpZCI6MywiZXhwIjoxNjcwMDM4OTIyfQ.rFjbQ9R1Dtoz1r81xtAmUzudiBduihDSvZ9sE8yW2XgwBjyGIJHsEm71DSxN6Wy9abCDc1NsBxo1URy00LTWZg")
                                 .with(csrf())
                 );
 
@@ -94,12 +86,13 @@ public class RentalControllerTest {
     public void cancelRentalByMerchantTest() throws Exception {
         // given
         Long rentalId = 1L;
-        doNothing().when(rentalService).cancelRentalByMerchant(any(Long.class), any(Long.class));
+        doNothing().when(rentalService).cancelRentalByMerchant(any(), any());
 
         // when
         ResultActions actions =
                 mockMvc.perform(
                         patch("/rental/" + rentalId + "/cancelByMerchant")
+                                .param("Authorization", "Bearer eyJhbGciOiJIUzUxMiJ9.eyJyb2xlcyI6W3siYXV0aG9yaXR5IjoiUk9MRV9VU0VSIn1dLCJpZCI6MywiZXhwIjoxNjcwMDM4OTIyfQ.rFjbQ9R1Dtoz1r81xtAmUzudiBduihDSvZ9sE8yW2XgwBjyGIJHsEm71DSxN6Wy9abCDc1NsBxo1URy00LTWZg")
                                 .with(csrf())
                 );
 
@@ -113,12 +106,13 @@ public class RentalControllerTest {
     public void receiveBookTest() throws Exception {
         // given
         Long rentalId = 1L;
-        doNothing().when(rentalService).receiveBook(any(Long.class), any(Long.class));
+        doNothing().when(rentalService).receiveBook(any(), any());
 
         // when
         ResultActions actions =
                 mockMvc.perform(
                         patch("/rental/" + rentalId + "/receive")
+                                .param("Authorization", "Bearer eyJhbGciOiJIUzUxMiJ9.eyJyb2xlcyI6W3siYXV0aG9yaXR5IjoiUk9MRV9VU0VSIn1dLCJpZCI6MywiZXhwIjoxNjcwMDM4OTIyfQ.rFjbQ9R1Dtoz1r81xtAmUzudiBduihDSvZ9sE8yW2XgwBjyGIJHsEm71DSxN6Wy9abCDc1NsBxo1URy00LTWZg")
                                 .with(csrf())
                 );
 
@@ -132,12 +126,13 @@ public class RentalControllerTest {
     public void returnRentalTest() throws Exception {
         // given
         Long rentalId = 1L;
-        doNothing().when(rentalService).returnRental(any(Long.class), any(Long.class));
+        doNothing().when(rentalService).returnRental(any(), any());
 
         // when
         ResultActions actions =
                 mockMvc.perform(
                         patch("/rental/" + rentalId + "/return")
+                                .param("Authorization", "Bearer eyJhbGciOiJIUzUxMiJ9.eyJyb2xlcyI6W3siYXV0aG9yaXR5IjoiUk9MRV9VU0VSIn1dLCJpZCI6MywiZXhwIjoxNjcwMDM4OTIyfQ.rFjbQ9R1Dtoz1r81xtAmUzudiBduihDSvZ9sE8yW2XgwBjyGIJHsEm71DSxN6Wy9abCDc1NsBxo1URy00LTWZg")
                                 .with(csrf())
                 );
 
@@ -180,7 +175,7 @@ public class RentalControllerTest {
                         )
                 );
 
-        given(rentalService.getRentalsByMerchant(any(Long.class), any(String.class), any(PageRequestImpl.class)))
+        given(rentalService.getRentalsByMerchant(any(), any(), any()))
                 .willReturn(rentalBookResponseSlice);
 
 
@@ -188,15 +183,20 @@ public class RentalControllerTest {
         ResultActions actions =
                 mockMvc.perform(
                         get("/rental/from")
-                                .param("index", "2")
+                                .param("Authorization", "Bearer eyJhbGciOiJIUzUxMiJ9.eyJyb2xlcyI6W3siYXV0aG9yaXR5IjoiUk9MRV9VU0VSIn1dLCJpZCI6MywiZXhwIjoxNjcwMDM4OTIyfQ.rFjbQ9R1Dtoz1r81xtAmUzudiBduihDSvZ9sE8yW2XgwBjyGIJHsEm71DSxN6Wy9abCDc1NsBxo1URy00LTWZg")
                                 .accept(MediaType.APPLICATION_JSON)
                                 .with(csrf())
                 );
 
         // then
         actions
-                .andExpect(status().isOk());
-//                .andExpect(jsonPath("$.content").isArray());
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.content").isArray())
+                .andExpect(jsonPath("$.content[0].bookInfo.bookId")
+                        .value(rentalBookResponseSlice.getContent().get(0).getBookInfo().getBookId()))
+                .andExpect(jsonPath("$.content[0].rentalInfo.rentalId")
+                        .value(rentalBookResponseSlice.getContent().get(0).getRentalInfo().getRentalId()))
+                .andExpect(jsonPath("$.numberOfElements").value(rentalBookResponseSlice.getSize()));
     }
 
     @Test
@@ -233,8 +233,7 @@ public class RentalControllerTest {
                         )
                 );
 
-        given(rentalService.getRentalsByMerchant(
-                any(Long.class), any(String.class), any(PageRequestImpl.class)))
+        given(rentalService.getRentalsByCustomer(any(), any(), any()))
                 .willReturn(rentalBookResponseSlice);
 
 
@@ -242,14 +241,20 @@ public class RentalControllerTest {
         ResultActions actions =
                 mockMvc.perform(
                         get("/rental/to")
-                                .param("index", "2")
+                                .param("Authorization", "Bearer eyJhbGciOiJIUzUxMiJ9.eyJyb2xlcyI6W3siYXV0aG9yaXR5IjoiUk9MRV9VU0VSIn1dLCJpZCI6MywiZXhwIjoxNjcwMDM4OTIyfQ.rFjbQ9R1Dtoz1r81xtAmUzudiBduihDSvZ9sE8yW2XgwBjyGIJHsEm71DSxN6Wy9abCDc1NsBxo1URy00LTWZg")
                                 .accept(MediaType.APPLICATION_JSON)
                                 .with(csrf())
                 );
 
         // then
         actions
-                .andExpect(status().isOk());
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.content").isArray())
+                .andExpect(jsonPath("$.content[0].bookInfo.bookId")
+                        .value(rentalBookResponseSlice.getContent().get(0).getBookInfo().getBookId()))
+                .andExpect(jsonPath("$.content[0].rentalInfo.rentalId")
+                        .value(rentalBookResponseSlice.getContent().get(0).getRentalInfo().getRentalId()))
+                .andExpect(jsonPath("$.numberOfElements").value(rentalBookResponseSlice.getSize()));
     }
 
 }
