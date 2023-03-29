@@ -70,7 +70,8 @@ public class ReviewControllerTest {
         ReviewResponse reviewResponse =
                 new ReviewResponse(
                         1L, merchantId, "tester", "aa@aa.com", "good",
-                        5L, "JAVA의 정석", "aa@aa.com", 1L, 1L
+//                        5L, "JAVA의 정석", "aa@aa.com", 1L, 1L
+                        5L, "aa@aa.com", 1L, 1L
                 );
         SliceImpl<ReviewResponse> reviewResponseSlice =
                 new SliceImpl<>(List.of(reviewResponse));

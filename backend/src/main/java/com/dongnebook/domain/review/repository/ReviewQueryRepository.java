@@ -30,7 +30,7 @@ public class ReviewQueryRepository {
                         review.rental.customer.avatarUrl,
                         review.reviewMessage,
                         review.grade,
-                        review.rental.book.bookProduct.title,
+//                        review.rental.book.bookProduct.title,
                         review.rental.book.imgUrl,
                         review.rental.book.id,
                         review.rental.id
