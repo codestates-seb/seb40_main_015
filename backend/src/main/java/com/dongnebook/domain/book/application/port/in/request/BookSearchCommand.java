@@ -5,11 +5,13 @@ import java.util.Optional;
 
 import com.dongnebook.domain.book.adapter.in.request.BookSearchCondition;
 
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 @Getter
 @NoArgsConstructor
+@EqualsAndHashCode
 public class BookSearchCommand implements MapSearchable, Serializable {
 	private String bookTitle;
 	private SearchCommand searchCommand;

@@ -2,11 +2,13 @@ package com.dongnebook.domain.book.application.port.in.request;
 
 import com.dongnebook.domain.book.adapter.in.request.BookPostRegisterRequest;
 
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 @Getter
 @NoArgsConstructor
+@EqualsAndHashCode
 public class BookPostRegisterCommand {
 
 	private String title;

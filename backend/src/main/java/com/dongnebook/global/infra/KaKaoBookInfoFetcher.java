@@ -13,6 +13,9 @@ import org.springframework.web.util.UriComponentsBuilder;
 
 import com.dongnebook.domain.book.adapter.in.BookInfoFetcher;
 
+import lombok.Getter;
+
+@Getter
 @Component
 public class KaKaoBookInfoFetcher implements BookInfoFetcher<String> {
 	private static final String KAKAO_BOOKSEARCH_API = "https://dapi.kakao.com/v3/search/book";
@@ -20,6 +23,7 @@ public class KaKaoBookInfoFetcher implements BookInfoFetcher<String> {
 
 	@Value("${KAKAO_KEY}")
 	private String kakaoKey;
+
 
 	@Override
 	public ResponseEntity<String> getBookInfo(String bookTitle) {

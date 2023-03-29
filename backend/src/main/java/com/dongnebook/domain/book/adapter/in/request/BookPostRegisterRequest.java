@@ -4,11 +4,13 @@ import javax.validation.constraints.Min;
 import javax.validation.constraints.NotEmpty;
 
 import lombok.Builder;
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 @Getter
 @NoArgsConstructor
+@EqualsAndHashCode
 public class BookPostRegisterRequest {
 	@NotEmpty
 	private String title;
