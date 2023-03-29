@@ -19,10 +19,12 @@ import org.springframework.test.web.servlet.ResultActions;
 
 import java.util.List;
 
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.when;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @WebMvcTest(ReviewController.class)
@@ -35,6 +37,8 @@ public class ReviewControllerTest {
     @Autowired
     private Gson gson;
 
+    static String accessToken = "Bearer eyJhbGciOiJIUzUxMiJ9.eyJyb2xlcyI6W3siYXV0aG9yaXR5IjoiUk9MRV9VU0VSIn1dLCJpZCI6MywiZXhwIjoxNjcwMDM4OTIyfQ.rFjbQ9R1Dtoz1r81xtAmUzudiBduihDSvZ9sE8yW2XgwBjyGIJHsEm71DSxN6Wy9abCDc1NsBxo1URy00LTWZg";
+
     @Test
     @WithMockUser
     public void postReviewTest() throws Exception {
@@ -46,7 +50,7 @@ public class ReviewControllerTest {
                 .grade(1L)
                 .build();
         String content = gson.toJson(reviewRequest);
-        doNothing().when(reviewService).createReview(Mockito.anyLong(), Mockito.any(ReviewRequest.class), Mockito.anyLong());
+        doNothing().when(reviewService).createReview(any(), any(), any());
 
         // when
         ResultActions actions =
@@ -54,6 +58,7 @@ public class ReviewControllerTest {
                         post("/review/" + rentalId)
                                 .contentType(MediaType.APPLICATION_JSON)
                                 .content(content)
+                                .param("Authorization", accessToken)
                                 .with(csrf())
                 );
 
@@ -76,7 +81,7 @@ public class ReviewControllerTest {
         SliceImpl<ReviewResponse> reviewResponseSlice =
                 new SliceImpl<>(List.of(reviewResponse));
 
-        when(reviewService.readReviews(Mockito.anyLong(), Mockito.any(PageRequestImpl.class))).thenReturn(reviewResponseSlice);
+        when(reviewService.readReviews(any(), any())).thenReturn(reviewResponseSlice);
 
         // when
         ResultActions actions =
@@ -88,7 +93,10 @@ public class ReviewControllerTest {
 
         // then
         actions
-                .andExpect(status().isOk());
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.content").isArray())
+                .andExpect(jsonPath("$.content[0].reviewId").value(reviewResponse.getReviewId()))
+                .andExpect(jsonPath("$.numberOfElements").value(reviewResponseSlice.getSize()));
     }
 
 }
