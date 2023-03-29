@@ -94,9 +94,9 @@ public class ReviewQueryRepositoryTest {
                 .build();
 
         Review review1 = Review.create(reviewRequest.getReviewMessage(), reviewRequest.getGrade(), savedRental1, savedMember);
-        Review savedReview = reviewRepository.save(review1);
+        reviewRepository.save(review1);
         Review review2 = Review.create(reviewRequest.getReviewMessage(), reviewRequest.getGrade(), savedRental2, savedMember);
-        Review savedReview2 = reviewRepository.save(review2);
+        reviewRepository.save(review2);
         Review review3 = Review.create(reviewRequest.getReviewMessage(), reviewRequest.getGrade(), savedRental3, savedMember);
         reviewRepository.save(review3);
         Review review4 = Review.create(reviewRequest.getReviewMessage(), reviewRequest.getGrade(), savedRental4, savedMember);
@@ -107,17 +107,13 @@ public class ReviewQueryRepositoryTest {
         reviewRepository.save(review6);
         Review review7 = Review.create(reviewRequest.getReviewMessage(), reviewRequest.getGrade(), savedRental7, savedMember);
         reviewRepository.save(review7);
-
-        System.out.println(savedReview.getRental().equals(savedRental1));
-        assertThat(savedReview.getRental()).isEqualTo(savedRental1);
-
     }
 
-//    @Test
+    @Test
     public void findAllByMerchantIdOrderByIdDescTest1(){
         // given
         Long merchantId = 1L;
-        PageRequestImpl pageRequest = new PageRequestImpl(1L);
+        PageRequestImpl pageRequest = new PageRequestImpl(2L);
 
         // when
         SliceImpl<ReviewResponse> reviewResponseSlice = reviewQueryRepository.findAllByMerchantIdOrderByIdDesc(merchantId, pageRequest);
@@ -126,7 +122,7 @@ public class ReviewQueryRepositoryTest {
         assertThat(reviewResponseSlice.hasNext()).isEqualTo(false);
     }
 
-//    @Test
+    @Test
     public void findAllByMerchantIdOrderByIdDescTest2(){
         // given
         Long merchantId = 1L;

@@ -70,7 +70,7 @@ public class Book extends BaseTimeEntity implements Serializable {
 	private Location location;
 
 	@Convert(converter = BookStateConverter.class)
-	@Column(name = "book_state", length = 20)
+	@Column(name = "book_state", length = 30)
 	private BookState bookState;
 
 	@ManyToOne(fetch = FetchType.LAZY)
