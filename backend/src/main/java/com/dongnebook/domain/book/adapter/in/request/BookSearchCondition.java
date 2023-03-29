@@ -4,6 +4,8 @@ import java.util.Optional;
 
 import com.dongnebook.domain.book.application.port.in.request.MapSearchable;
 
+import lombok.Builder;
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 
 /**
@@ -12,10 +14,12 @@ import lombok.Getter;
  * 	range 로 나눠서 뿌려줌
  */
 @Getter
+@EqualsAndHashCode
 public class BookSearchCondition implements MapSearchable {
 	private final String bookTitle;
 	private final SearchRequest searchRequest;
 
+	@Builder
 	public BookSearchCondition(String bookTitle, Double longitude, Double latitude, Integer width, Integer height,
 		Integer sector, Integer level) {
 		this.bookTitle =Optional.ofNullable(bookTitle).orElse("");
