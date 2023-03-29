@@ -31,13 +31,13 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @WebMvcTest(ReservationsController.class)
 @MockBean(JpaMetamodelMappingContext.class)
-//@AutoConfigureMockMvc(addFilters = false)
-//@EqualsAndHashCode
 public class ReservationControllerTest {
     @Autowired
     private MockMvc mockMvc;
     @MockBean
     private ReservationService reservationService;
+
+    static String accessToken = "Bearer eyJhbGciOiJIUzUxMiJ9.eyJyb2xlcyI6W3siYXV0aG9yaXR5IjoiUk9MRV9VU0VSIn1dLCJpZCI6MywiZXhwIjoxNjcwMDM4OTIyfQ.rFjbQ9R1Dtoz1r81xtAmUzudiBduihDSvZ9sE8yW2XgwBjyGIJHsEm71DSxN6Wy9abCDc1NsBxo1URy00LTWZg";
 
     @Test
     @WithMockUser
@@ -50,7 +50,7 @@ public class ReservationControllerTest {
         ResultActions actions =
                 mockMvc.perform(
                         post("/reservation/" + bookId)
-                                .param("Authorization", "Bearer eyJhbGciOiJIUzUxMiJ9.eyJyb2xlcyI6W3siYXV0aG9yaXR5IjoiUk9MRV9VU0VSIn1dLCJpZCI6MywiZXhwIjoxNjcwMDM4OTIyfQ.rFjbQ9R1Dtoz1r81xtAmUzudiBduihDSvZ9sE8yW2XgwBjyGIJHsEm71DSxN6Wy9abCDc1NsBxo1URy00LTWZg")
+                                .param("Authorization", accessToken)
                                 .with(csrf())
                 );
 
@@ -77,6 +77,7 @@ public class ReservationControllerTest {
                 mockMvc.perform(
                         get("/reservation/")
                                 .accept(MediaType.APPLICATION_JSON)
+                                .param("Authorization", accessToken)
                                 .with(csrf())
                 );
 
@@ -103,7 +104,7 @@ public class ReservationControllerTest {
         ResultActions actions =
                 mockMvc.perform(
                         delete("/reservation/cancel/" + reservationId)
-                                .param("Authorization", "Bearer eyJhbGciOiJIUzUxMiJ9.eyJyb2xlcyI6W3siYXV0aG9yaXR5IjoiUk9MRV9VU0VSIn1dLCJpZCI6MywiZXhwIjoxNjcwMDM4OTIyfQ.rFjbQ9R1Dtoz1r81xtAmUzudiBduihDSvZ9sE8yW2XgwBjyGIJHsEm71DSxN6Wy9abCDc1NsBxo1URy00LTWZg")
+                                .param("Authorization", accessToken)
                                 .with(csrf())
                 );
 

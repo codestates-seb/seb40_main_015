@@ -33,13 +33,13 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @WebMvcTest(RentalController.class)
 @MockBean(JpaMetamodelMappingContext.class)
-//@AutoConfigureMockMvc(addFilters = false)
-//@EqualsAndHashCode
 public class RentalControllerTest {
     @Autowired
     private MockMvc mockMvc;
     @MockBean
     private RentalService rentalService;
+
+    static String accessToken = "Bearer eyJhbGciOiJIUzUxMiJ9.eyJyb2xlcyI6W3siYXV0aG9yaXR5IjoiUk9MRV9VU0VSIn1dLCJpZCI6MywiZXhwIjoxNjcwMDM4OTIyfQ.rFjbQ9R1Dtoz1r81xtAmUzudiBduihDSvZ9sE8yW2XgwBjyGIJHsEm71DSxN6Wy9abCDc1NsBxo1URy00LTWZg";
 
     @Test
     @WithMockUser
@@ -52,7 +52,7 @@ public class RentalControllerTest {
         ResultActions actions =
                 mockMvc.perform(
                         post("/rental/" + bookId)
-                                .param("Authorization", "Bearer eyJhbGciOiJIUzUxMiJ9.eyJyb2xlcyI6W3siYXV0aG9yaXR5IjoiUk9MRV9VU0VSIn1dLCJpZCI6MywiZXhwIjoxNjcwMDM4OTIyfQ.rFjbQ9R1Dtoz1r81xtAmUzudiBduihDSvZ9sE8yW2XgwBjyGIJHsEm71DSxN6Wy9abCDc1NsBxo1URy00LTWZg")
+                                .param("Authorization", accessToken)
                                 .with(csrf())
                 );
 
@@ -72,7 +72,7 @@ public class RentalControllerTest {
         ResultActions actions =
                 mockMvc.perform(
                         patch("/rental/" + rentalId + "/cancelByCustomer")
-                                .param("Authorization", "Bearer eyJhbGciOiJIUzUxMiJ9.eyJyb2xlcyI6W3siYXV0aG9yaXR5IjoiUk9MRV9VU0VSIn1dLCJpZCI6MywiZXhwIjoxNjcwMDM4OTIyfQ.rFjbQ9R1Dtoz1r81xtAmUzudiBduihDSvZ9sE8yW2XgwBjyGIJHsEm71DSxN6Wy9abCDc1NsBxo1URy00LTWZg")
+                                .param("Authorization", accessToken)
                                 .with(csrf())
                 );
 
@@ -92,7 +92,7 @@ public class RentalControllerTest {
         ResultActions actions =
                 mockMvc.perform(
                         patch("/rental/" + rentalId + "/cancelByMerchant")
-                                .param("Authorization", "Bearer eyJhbGciOiJIUzUxMiJ9.eyJyb2xlcyI6W3siYXV0aG9yaXR5IjoiUk9MRV9VU0VSIn1dLCJpZCI6MywiZXhwIjoxNjcwMDM4OTIyfQ.rFjbQ9R1Dtoz1r81xtAmUzudiBduihDSvZ9sE8yW2XgwBjyGIJHsEm71DSxN6Wy9abCDc1NsBxo1URy00LTWZg")
+                                .param("Authorization", accessToken)
                                 .with(csrf())
                 );
 
@@ -112,7 +112,7 @@ public class RentalControllerTest {
         ResultActions actions =
                 mockMvc.perform(
                         patch("/rental/" + rentalId + "/receive")
-                                .param("Authorization", "Bearer eyJhbGciOiJIUzUxMiJ9.eyJyb2xlcyI6W3siYXV0aG9yaXR5IjoiUk9MRV9VU0VSIn1dLCJpZCI6MywiZXhwIjoxNjcwMDM4OTIyfQ.rFjbQ9R1Dtoz1r81xtAmUzudiBduihDSvZ9sE8yW2XgwBjyGIJHsEm71DSxN6Wy9abCDc1NsBxo1URy00LTWZg")
+                                .param("Authorization", accessToken)
                                 .with(csrf())
                 );
 
@@ -132,7 +132,7 @@ public class RentalControllerTest {
         ResultActions actions =
                 mockMvc.perform(
                         patch("/rental/" + rentalId + "/return")
-                                .param("Authorization", "Bearer eyJhbGciOiJIUzUxMiJ9.eyJyb2xlcyI6W3siYXV0aG9yaXR5IjoiUk9MRV9VU0VSIn1dLCJpZCI6MywiZXhwIjoxNjcwMDM4OTIyfQ.rFjbQ9R1Dtoz1r81xtAmUzudiBduihDSvZ9sE8yW2XgwBjyGIJHsEm71DSxN6Wy9abCDc1NsBxo1URy00LTWZg")
+                                .param("Authorization", accessToken)
                                 .with(csrf())
                 );
 
@@ -183,7 +183,7 @@ public class RentalControllerTest {
         ResultActions actions =
                 mockMvc.perform(
                         get("/rental/from")
-                                .param("Authorization", "Bearer eyJhbGciOiJIUzUxMiJ9.eyJyb2xlcyI6W3siYXV0aG9yaXR5IjoiUk9MRV9VU0VSIn1dLCJpZCI6MywiZXhwIjoxNjcwMDM4OTIyfQ.rFjbQ9R1Dtoz1r81xtAmUzudiBduihDSvZ9sE8yW2XgwBjyGIJHsEm71DSxN6Wy9abCDc1NsBxo1URy00LTWZg")
+                                .param("Authorization", accessToken)
                                 .accept(MediaType.APPLICATION_JSON)
                                 .with(csrf())
                 );
@@ -241,7 +241,7 @@ public class RentalControllerTest {
         ResultActions actions =
                 mockMvc.perform(
                         get("/rental/to")
-                                .param("Authorization", "Bearer eyJhbGciOiJIUzUxMiJ9.eyJyb2xlcyI6W3siYXV0aG9yaXR5IjoiUk9MRV9VU0VSIn1dLCJpZCI6MywiZXhwIjoxNjcwMDM4OTIyfQ.rFjbQ9R1Dtoz1r81xtAmUzudiBduihDSvZ9sE8yW2XgwBjyGIJHsEm71DSxN6Wy9abCDc1NsBxo1URy00LTWZg")
+                                .param("Authorization", accessToken)
                                 .accept(MediaType.APPLICATION_JSON)
                                 .with(csrf())
                 );

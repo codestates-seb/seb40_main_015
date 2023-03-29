@@ -37,6 +37,8 @@ public class ReviewControllerTest {
     @Autowired
     private Gson gson;
 
+    static String accessToken = "Bearer eyJhbGciOiJIUzUxMiJ9.eyJyb2xlcyI6W3siYXV0aG9yaXR5IjoiUk9MRV9VU0VSIn1dLCJpZCI6MywiZXhwIjoxNjcwMDM4OTIyfQ.rFjbQ9R1Dtoz1r81xtAmUzudiBduihDSvZ9sE8yW2XgwBjyGIJHsEm71DSxN6Wy9abCDc1NsBxo1URy00LTWZg";
+
     @Test
     @WithMockUser
     public void postReviewTest() throws Exception {
@@ -56,7 +58,7 @@ public class ReviewControllerTest {
                         post("/review/" + rentalId)
                                 .contentType(MediaType.APPLICATION_JSON)
                                 .content(content)
-                                .param("Authorization", "Bearer eyJhbGciOiJIUzUxMiJ9.eyJyb2xlcyI6W3siYXV0aG9yaXR5IjoiUk9MRV9VU0VSIn1dLCJpZCI6MywiZXhwIjoxNjcwMDM4OTIyfQ.rFjbQ9R1Dtoz1r81xtAmUzudiBduihDSvZ9sE8yW2XgwBjyGIJHsEm71DSxN6Wy9abCDc1NsBxo1URy00LTWZg")
+                                .param("Authorization", accessToken)
                                 .with(csrf())
                 );
 
