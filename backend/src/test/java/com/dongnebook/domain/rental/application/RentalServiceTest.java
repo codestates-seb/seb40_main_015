@@ -51,6 +51,7 @@ class RentalServiceTest {
 	@Autowired
 	RentalController rentalController;
 
+
 	void createRental() throws InterruptedException {
 		int num = 4;
 		List<Member> members = makeMembers(num);
