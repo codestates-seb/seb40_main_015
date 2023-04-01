@@ -50,7 +50,7 @@ class RoomServiceTest {
 
 	@Test
 	@DisplayName("roomId로 채팅방을 찾는다.")
-	void findById(){
+	void findById() {
 		Long roomId = 1L;
 		Member memberA = MEMBER1.of(1L);
 		Book bookA = BOOK1.of();
@@ -61,10 +61,9 @@ class RoomServiceTest {
 		assertThat(roomService.findById(roomId).getCustomer().getId()).isEqualTo(memberB.getId());
 	}
 
-
 	@Test
 	@DisplayName("내 채팅방 목록을 가져온다.")
-	void findAllMyRooms(){
+	void findAllMyRooms() {
 		Long roomId = 1L;
 		Long memberAId = 1L;
 		Long bookId = 1L;
@@ -80,7 +79,7 @@ class RoomServiceTest {
 
 	@Test
 	@DisplayName("채팅방이 있으면 있는 채팅방을 반환하고 없으면 새로 채팅방을 만든다.")
-	void findOrCreate(){
+	void findOrCreate() {
 		Long roomId = 1L;
 		Long memberAId = 1L;
 		Long bookId = 1L;
@@ -89,67 +88,14 @@ class RoomServiceTest {
 		Member memberA = MEMBER1.of(memberAId);
 		Book bookA = BOOK1.of(bookId);
 		RoomRequest roomRequest = new RoomRequest(memberAId, memberBId, bookId);
-		ChatRoom chatRoom = new ChatRoom(roomId,memberA, memberB, bookA, LocalDateTime.now());
-		System.out.println("chatRoom.getId() = " + chatRoom.getId());
+		ChatRoom chatRoom = new ChatRoom(roomId, memberA, memberB, bookA, LocalDateTime.now());
+
 		given(roomRepository.save(chatRoom)).willReturn(chatRoom);
 		given(bookQueryService.getByBookId(bookId)).willReturn(bookA);
 		given(chatRepository.findOrCreate(memberAId, memberBId, bookId)).willReturn(Optional.of(chatRoom));
 		roomService.findOrCreate(roomRequest);
+		System.out.println("topics = " + topics.keySet());
 		System.out.println("topics.get(String.valueOf(roomId)) = " + topics.get(String.valueOf(roomId)));
 		assertThat(topics.get(String.valueOf(roomId))).isNotNull();
 	}
-	//  * public Long findOrCreate(RoomRequest roomRequest) {
- // * <p>
- // * Book book = bookQueryService.getByBookId(roomRequest.getBookId());
- // * ChatRoom room = chatRepository.findOrCreate(roomRequest.getMerchantId(), roomRequest.getCustomerId(),roomRequest.getBookId())
-	// 		* .orElseGet(() -> new ChatRoom(memberService.getById(roomRequest.getMerchantId()
-	// 		* ), memberService.getById(roomRequest.getCustomerId()), book));
- // * <p>
- // * ChatRoom savedRoom = roomRepository.save(room);
- // * // Redis에 roomId란 이름의 새 토픽을 생성한다.
- // * String roomId = "room" + savedRoom.getId();
- // * log.info("topics={}",topics);
- // * topics.computeIfAbsent(roomId, this::addTopic);
- // * <p>
- // * return savedRoom.getId();
- // * }
 }
-
-/**
- * @Service
- * @RequiredArgsConstructor
- * @Slf4j public class RoomService {
- * private final ChatRepository chatRepository;
- * private final RoomRepository roomRepository;
- * private final MemberService memberService;
- * private final BookQueryService bookQueryService;
- * private final Map<String, ChannelTopic> topics;
- * private final RedisMessageListenerContainer redisMessageListener;
- * private final RedisSubscriber redisSubscriber;
- * <p>
- * public Long findOrCreate(RoomRequest roomRequest) {
- * <p>
- * Book book = bookQueryService.getByBookId(roomRequest.getBookId());
- * ChatRoom room = chatRepository.findOrCreate(roomRequest.getMerchantId(), roomRequest.getCustomerId(),roomRequest.getBookId())
- * .orElseGet(() -> new ChatRoom(memberService.getById(roomRequest.getMerchantId()
- * ), memberService.getById(roomRequest.getCustomerId()), book));
- * <p>
- * ChatRoom savedRoom = roomRepository.save(room);
- * // Redis에 roomId란 이름의 새 토픽을 생성한다.
- * String roomId = "room" + savedRoom.getId();
- * log.info("topics={}",topics);
- * topics.computeIfAbsent(roomId, this::addTopic);
- * <p>
- * return savedRoom.getId();
- * }
- * <p>
- * private ChannelTopic addTopic(String roomId) {
- * log.info("토픽 만들어짐");
- * ChannelTopic topic = new ChannelTopic(roomId);
- * redisMessageListener.addMessageListener(redisSubscriber, topic);
- * log.info("토픽 넣음");
- * return topic;
- * }
-
-
- */
