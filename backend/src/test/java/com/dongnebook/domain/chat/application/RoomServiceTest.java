@@ -3,6 +3,7 @@ package com.dongnebook.domain.chat.application;
 import static com.dongnebook.support.BookStub.*;
 import static com.dongnebook.support.MemberStub.*;
 import static org.assertj.core.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.BDDMockito.*;
 
 import java.time.LocalDateTime;
@@ -78,7 +79,7 @@ class RoomServiceTest {
 	}
 
 	@Test
-	@DisplayName("채팅방이 있으면 있는 채팅방을 반환하고 없으면 새로 채팅방을 만든다.")
+	@DisplayName("채팅방이 있으면 있는 채팅방을 반환하고 없으면 새로 채팅방을 만든다.(채팅방이 없을때)")
 	void findOrCreate() {
 		Long roomId = 1L;
 		Long memberAId = 1L;
@@ -89,13 +90,33 @@ class RoomServiceTest {
 		Book bookA = BOOK1.of(bookId);
 		RoomRequest roomRequest = new RoomRequest(memberAId, memberBId, bookId);
 		ChatRoom chatRoom = new ChatRoom(roomId, memberA, memberB, bookA, LocalDateTime.now());
+		given(roomRepository.save(any())).willReturn(chatRoom);
+		given(bookQueryService.getByBookId(bookId)).willReturn(bookA);
+		given(chatRepository.findOrCreate(memberAId, memberBId, bookId)).willReturn(Optional.empty());
+		Long orCreate = roomService.findOrCreate(roomRequest);
 
+		verify(topics).computeIfAbsent(anyString(), any());
+		assertEquals(chatRoom.getId(), orCreate);
+	}
+
+	@Test
+	@DisplayName("채팅방이 있으면 있는 채팅방을 반환하고 없으면 새로 채팅방을 만든다.(채팅방이 있을때)")
+	void findOrCreate2() {
+		Long roomId = 1L;
+		Long memberAId = 1L;
+		Long bookId = 1L;
+		Long memberBId = 2L;
+		Member memberB = MEMBER2.of(memberBId);
+		Member memberA = MEMBER1.of(memberAId);
+		Book bookA = BOOK1.of(bookId);
+		RoomRequest roomRequest = new RoomRequest(memberAId, memberBId, bookId);
+		ChatRoom chatRoom = new ChatRoom(roomId, memberA, memberB, bookA, LocalDateTime.now());
 		given(roomRepository.save(chatRoom)).willReturn(chatRoom);
 		given(bookQueryService.getByBookId(bookId)).willReturn(bookA);
 		given(chatRepository.findOrCreate(memberAId, memberBId, bookId)).willReturn(Optional.of(chatRoom));
-		roomService.findOrCreate(roomRequest);
-		System.out.println("topics = " + topics.keySet());
-		System.out.println("topics.get(String.valueOf(roomId)) = " + topics.get(String.valueOf(roomId)));
-		assertThat(topics.get(String.valueOf(roomId))).isNotNull();
+		Long orCreate = roomService.findOrCreate(roomRequest);
+
+		verify(topics).computeIfAbsent(anyString(), any());
+		assertEquals(chatRoom.getId(), orCreate);
 	}
 }

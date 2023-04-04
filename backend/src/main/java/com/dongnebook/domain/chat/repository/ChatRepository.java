@@ -8,13 +8,10 @@ import java.util.Optional;
 
 import javax.persistence.EntityManager;
 
-import org.springframework.data.redis.listener.RedisMessageListenerContainer;
 import org.springframework.stereotype.Repository;
 
 import com.dongnebook.domain.chat.domain.ChatMessage;
-
 import com.dongnebook.domain.chat.domain.ChatRoom;
-import com.dongnebook.domain.chat.ui.RedisSubscriber;
 import com.querydsl.core.types.dsl.Expressions;
 import com.querydsl.jpa.JPAExpressions;
 import com.querydsl.jpa.impl.JPAQueryFactory;
@@ -27,8 +24,6 @@ public class ChatRepository {
 
 	private final JPAQueryFactory jpaQueryFactory;
 	private final EntityManager em;
-	private final RedisMessageListenerContainer redisMessageListenerContainer;
-	private final RedisSubscriber redisSubscriber;
 
 	public List<ChatMessage> findAllLastChats(List<ChatRoom> rooms) {
 		return jpaQueryFactory

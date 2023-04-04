@@ -4,16 +4,17 @@ import javax.annotation.PostConstruct;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
-import com.dongnebook.domain.rental.repository.RentalQueryRepository;
-import com.dongnebook.domain.reservation.repository.ReservationQueryRepository;
-import com.dongnebook.domain.review.repository.ReviewQueryRepository;
 import org.springframework.boot.test.context.TestConfiguration;
 import org.springframework.context.annotation.Bean;
 import org.springframework.core.task.TaskExecutor;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 
 import com.dongnebook.domain.book.adapter.out.BookQueryRepository;
+import com.dongnebook.domain.chat.repository.ChatRepository;
 import com.dongnebook.domain.member.repository.MemberQueryRepository;
+import com.dongnebook.domain.rental.repository.RentalQueryRepository;
+import com.dongnebook.domain.reservation.repository.ReservationQueryRepository;
+import com.dongnebook.domain.review.repository.ReviewQueryRepository;
 import com.dongnebook.global.config.Py6spyConfig;
 import com.p6spy.engine.spy.P6SpyOptions;
 import com.querydsl.jpa.impl.JPAQueryFactory;
@@ -49,6 +50,8 @@ public class TestConfig {
 	public RentalQueryRepository rentalQueryRepository() {
 		return new RentalQueryRepository(jpaQueryFactory());
 	}
+	@Bean
+	public ChatRepository chatRepository(){return new ChatRepository(jpaQueryFactory(), entityManager);}
 	@Bean
 	public ReservationQueryRepository reservationQueryRepository() {
 		return new ReservationQueryRepository(jpaQueryFactory());
