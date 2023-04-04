@@ -1,6 +1,7 @@
 package com.dongnebook.domain.chat.domain;
 
 import java.time.LocalDateTime;
+import java.util.Objects;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -56,5 +57,22 @@ public class ChatMessage {
 		this.content = content;
 		this.room = room;
 		this.createdAt = createdAt;
+	}
+
+	@Override
+	public boolean equals(Object o) {
+		if (this == o)
+			return true;
+		if (o == null || getClass() != o.getClass())
+			return false;
+		ChatMessage that = (ChatMessage)o;
+		return Objects.equals(sender.getId(), that.sender.getId())
+			&& Objects.equals(receiver.getId(), that.receiver.getId()) && Objects.equals(content, that.content)
+			&& Objects.equals(createdAt, that.createdAt);
+	}
+
+	@Override
+	public int hashCode() {
+		return Objects.hash(id, sender, receiver, content, room, createdAt);
 	}
 }

@@ -69,6 +69,7 @@ public class BookQueryService implements BookPostQueryUseCase {
 	public SliceImpl<BookSimpleResponse> getList(BookSearchCommand bookSearchCondition, PageRequest pageRequestImpl) {
 		return bookRepositoryPort.getAll(bookSearchCondition, pageRequestImpl);
 	}
+
 	@Override
 	public SliceImpl<BookSimpleResponse> getListByMember(Long memberId, PageRequest pageRequestImpl) {
 		return bookRepositoryPort.getListByMember(memberId, pageRequestImpl);

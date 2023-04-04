@@ -1,5 +1,6 @@
 package com.dongnebook.domain.book.application;
 
+import static com.dongnebook.support.BookStub.*;
 import static com.dongnebook.support.MemberStub.*;
 import static org.assertj.core.api.Assertions.*;
 import static org.junit.jupiter.api.Assertions.*;
@@ -16,6 +17,7 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.SliceImpl;
 
 import com.dongnebook.domain.book.adapter.in.request.BookPostEditRequest;
@@ -32,12 +34,11 @@ import com.dongnebook.domain.book.application.port.in.response.BookSimpleRespons
 import com.dongnebook.domain.book.application.port.out.BookRepositoryPort;
 import com.dongnebook.domain.book.domain.Book;
 import com.dongnebook.domain.book.domain.BookState;
-import com.dongnebook.domain.member.application.MemberService;
+import com.dongnebook.domain.member.application.MemberQueryUseCase;
 import com.dongnebook.domain.member.domain.Member;
 import com.dongnebook.domain.model.Location;
 import com.dongnebook.global.dto.request.PageRequestImpl;
 import com.dongnebook.global.error.exception.NotOwnerException;
-import com.dongnebook.support.BookStub;
 import com.dongnebook.support.LocationStub;
 
 // @DataJpaTest
@@ -47,7 +48,7 @@ class BookProductPostServiceTest {
 	@Mock
 	BookRepositoryPort bookRepositoryPort;
 	@Mock
-	MemberService memberService;
+	MemberQueryUseCase memberService;
 	@InjectMocks
 	BookCommandService bookCommandService;
 	@InjectMocks
@@ -68,7 +69,7 @@ class BookProductPostServiceTest {
 		BookPostRegisterCommand command = BookPostRegisterCommand.of(bookPostRegisterRequest);
 		Long bookId = 1L;
 		Long memberId = 1L;
-		Book savedBook = BookStub.BOOK1.of(bookId);
+		Book savedBook = BOOK1.of(bookId);
 		Member member1 = MEMBER1.of(memberId);
 		given(bookRepositoryPort.save(any(Book.class))).willReturn(savedBook);
 		given(memberService.getMember(memberId)).willReturn(member1);
@@ -93,7 +94,7 @@ class BookProductPostServiceTest {
 			.build();
 		Long memberId = 1L;
 		Long bookId = 1L;
-		Book savedBook = BookStub.BOOK1.of(bookId);
+		Book savedBook = BOOK1.of(bookId);
 		given(bookRepositoryPort.findById(bookId)).willReturn(Optional.of(savedBook));
 		BookPostEditCommand command = BookPostEditCommand.of(bookPostEditRequest);
 		//when
@@ -114,7 +115,7 @@ class BookProductPostServiceTest {
 		BookPostEditCommand command = BookPostEditCommand.of(bookPostEditRequest);
 		Long memberId = 5L;
 		Long bookId = 1L;
-		Book savedBook = BookStub.BOOK1.of(bookId);
+		Book savedBook = BOOK1.of(bookId);
 		given(bookRepositoryPort.findById(bookId)).willReturn(Optional.of(savedBook));
 
 		//when,then
@@ -128,7 +129,7 @@ class BookProductPostServiceTest {
 		//given
 		Long memberId = 1L;
 		Long bookId = 1L;
-		Book savedBook = BookStub.BOOK1.of(bookId);
+		Book savedBook = BOOK1.of(bookId);
 		given(bookRepositoryPort.findById(bookId)).willReturn(Optional.of(savedBook));
 		bookCommandService.delete(bookId,memberId);
 
@@ -142,7 +143,7 @@ class BookProductPostServiceTest {
 		//given
 		Long memberId = 2L;
 		Long bookId = 1L;
-		Book savedBook = BookStub.BOOK1.of(bookId);
+		Book savedBook = BOOK1.of(bookId);
 		given(bookRepositoryPort.findById(bookId)).willReturn(Optional.of(savedBook));
 
 		//when,then
@@ -233,7 +234,7 @@ class BookProductPostServiceTest {
 		BookSearchCondition condition = new BookSearchCondition(null,봉천역.getLongitude(),봉천역.getLatitude(),40,40,null,3);
 
 		PageRequestImpl pageRequestImpl = new PageRequestImpl(1L);
-		Book book = BookStub.BOOK1.of(1L);
+		Book book = BOOK1.of(1L);
 		BookSearchCommand command = BookSearchCommand.of(condition);
 		SliceImpl<BookSimpleResponse> slice = new SliceImpl<>(List.of(BookSimpleResponse.builder().bookId(book.getId())
 			.bookImage(book.getImgUrl())
@@ -245,8 +246,48 @@ class BookProductPostServiceTest {
 
 		given(bookRepositoryPort.getAll(command, pageRequestImpl)).willReturn(slice);
 
-		SliceImpl<BookSimpleResponse> result = bookRepositoryPort.getAll(command, pageRequestImpl);
+		SliceImpl<BookSimpleResponse> result = bookQueryService.getList(command, pageRequestImpl);
 		assertThat(result.getContent().get(0).getTitle()).isEqualTo("자바의 정석");
+	}
+
+	@Test
+	@DisplayName("책 한권을 가져온다.")
+	void getByBookId(){
+		Long bookId = 1L;
+		Book book = BOOK1.of(bookId);
+		when(bookRepositoryPort.findById(1L)).thenReturn(Optional.ofNullable(book));
+		assertThat(bookQueryService.getByBookId(1L).getId()).isEqualTo(1L);
+	}
+
+	@Test
+	@DisplayName("책 한권과 그 책을 등록한 회원을 가져온다.")
+	void getWithMerchantByBookId(){
+		Long bookId = 1L;
+		Book book = BOOK1.of(bookId);
+		when(bookRepositoryPort.findWithMerchantByBookId(1L)).thenReturn(Optional.ofNullable(book));
+		assertThat(bookQueryService.getWithMerchantByBookId(1L).getId()).isEqualTo(1L);
+	}
+
+	@Test
+	@DisplayName("회원 A가 등록한 모든 책을 가져온다.")
+	void getListByMember(){
+		Long memberId = 1L;
+		Member member = MEMBER1.of(memberId);
+		Book book = BOOK1.of();
+		BookSimpleResponse response = BookSimpleResponse.builder()
+			.merchantName(member.getNickname())
+			.bookImage(book.getImgUrl())
+			.rentalFee(book.getRentalFee())
+			.location(book.getLocation())
+			.status(book.getBookState())
+			.bookId(book.getId())
+			.title(book.getBookProduct().getTitle())
+			.build();
+		SliceImpl<BookSimpleResponse> slice = new SliceImpl(List.of(response), PageRequest.of(0, 6), false);
+
+		when(bookRepositoryPort.getListByMember(memberId,new PageRequestImpl(1L))).thenReturn(slice);
+		assertThat(bookQueryService.getListByMember(memberId,new PageRequestImpl(1L)).getContent().get(0).getTitle()).isEqualTo(book.getBookProduct().getTitle());
+
 	}
 
 }

@@ -53,6 +53,14 @@ public class ChatRoom implements Serializable {
 		this.book = book;
 	}
 
+	public ChatRoom(Long id, Member merchant, Member customer, Book book, LocalDateTime createdAt) {
+		this.id = id;
+		this.merchant = merchant;
+		this.customer = customer;
+		this.book = book;
+		this.createdAt = createdAt;
+	}
+
 	public Member getPartner(Long id) {
 		if (customer.hasSameId(id)) {
 			return merchant;
