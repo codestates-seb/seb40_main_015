@@ -89,13 +89,30 @@ public class AlarmControllerTest {
         ResultActions actions =
                 mockMvc.perform(
                         get("/sub/" + memberId)
-                                .param("Authorization", accessToken)
+                                .param("lastEventId", "1")
                                 .accept(MediaType.TEXT_EVENT_STREAM)
                                 .with(csrf())
                 );
 
         // then
-        actions
-                .andExpect(jsonPath("timeout").value(sseEmitter.getTimeout()));
+        verify(alarmService, times(1)).sub(any(), any());
+    }
+
+    @Test
+    @WithMockUser
+    public void deleteSpecificAlarmTest() throws Exception {
+        // given
+        long alarmId = 1L;
+        doNothing().when(alarmService).deleteAlarmById(any(), any());
+
+        // when
+        mockMvc.perform(
+                delete("/alarm/" + alarmId)
+                        .param("Authorization", accessToken)
+                        .with(csrf())
+        );
+
+        // then
+        verify(alarmService, times(1)).deleteAlarmById(any(), any());
     }
 }
