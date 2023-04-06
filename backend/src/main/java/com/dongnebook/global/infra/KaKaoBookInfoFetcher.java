@@ -24,6 +24,9 @@ public class KaKaoBookInfoFetcher implements BookInfoFetcher<String> {
 	@Value("${KAKAO_KEY}")
 	private String kakaoKey;
 
+	public KaKaoBookInfoFetcher(String kakaoKey) {
+		this.kakaoKey = kakaoKey;
+	}
 
 	@Override
 	public ResponseEntity<String> getBookInfo(String bookTitle) {
