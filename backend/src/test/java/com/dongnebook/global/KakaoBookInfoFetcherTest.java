@@ -18,7 +18,7 @@ import org.springframework.web.client.RestTemplate;
 
 import com.dongnebook.global.infra.KaKaoBookInfoFetcher;
 
-class KaKaoBookInfoFetcherTest {
+class KakaoBookInfoFetcherTest {
 
 		private static final String KAKAO_KEY = System.getenv("KAKAO_KEY");
 		private static final String KAKAO_BOOKSEARCH_API = "https://dapi.kakao.com/v3/search/book";
