@@ -4,6 +4,7 @@ import static org.assertj.core.api.Assertions.*;
 
 import java.net.URI;
 
+import org.junit.jupiter.api.Test;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
@@ -24,7 +25,7 @@ class KakaoBookInfoFetcherTest {
 		private static final String KAKAO_BOOKSEARCH_API = "https://dapi.kakao.com/v3/search/book";
 		private static final String KAKAOAK = "KakaoAK ";
 
-
+		@Test
 		void getBookInfo_shouldReturnValidResponse() {
 			RestTemplate restTemplate = new RestTemplate();
 			KaKaoBookInfoFetcher kaKaoBookInfoFetcher = new KaKaoBookInfoFetcher(KAKAO_KEY);
