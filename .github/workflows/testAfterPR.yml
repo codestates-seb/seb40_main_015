@@ -43,8 +43,8 @@ jobs:
         working-directory: ./backend/
         
       - name: Set kakao
-	uses: microsoft/varialbe-substitution@vl
-        with:        
+        uses: microsoft/varialbe-substitution@vl
+        with:
           files: ${{ env.RESOURCE_PATH_KAKAO }}        
         env:         
           KAKAO_KEY: ${{ secrets.KAKAO_KEY }}
