@@ -5,8 +5,6 @@ import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.util.UUID;
 
-import javax.imageio.ImageIO;
-
 import org.apache.tomcat.util.http.fileupload.ByteArrayOutputStream;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -31,6 +29,7 @@ public class AwsS3Service implements ImageUploadService {
 	private final ImageResizer imageResizer;
 	@Value("${cloud.aws.s3.bucket}")
 	private String bucketName;
+	private final ImageIOService imageIOService;
 
 
 
@@ -39,11 +38,11 @@ public class AwsS3Service implements ImageUploadService {
 		validateFileExists(beforeImage);
 		String originalFilename = beforeImage.getOriginalFilename();
 		String storeFileName = createStoreFileName(originalFilename);
-		BufferedImage bufferedImage = ImageIO.read(beforeImage.getInputStream());
+		BufferedImage bufferedImage = imageIOService.read(beforeImage.getInputStream());
 		BufferedImage resizedImage = imageResizer.resizeWithOriginalAspectRatio(bufferedImage);
 
 		try (ByteArrayOutputStream baos = new ByteArrayOutputStream()) {
-			ImageIO.write(resizedImage, "jpg", baos);
+			imageIOService.write(resizedImage, "jpg", baos);
 			baos.flush();
 			byte[] bytes = baos.toByteArray();
 			ObjectMetadata objectMetadata = new ObjectMetadata();
