@@ -24,7 +24,7 @@ public class KaKaoBookInfoFetcher implements BookInfoFetcher<String> {
 	@Value("${KAKAO_KEY}")
 	private String kakaoKey;
 
-	public KaKaoBookInfoFetcher(String kakaoKey) {
+	public KaKaoBookInfoFetcher(@Value("${KAKAO_KEY}") String kakaoKey) {
 		this.kakaoKey = kakaoKey;
 	}
 
