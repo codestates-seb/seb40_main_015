@@ -4,6 +4,7 @@ import javax.annotation.PostConstruct;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
+import com.dongnebook.domain.alarm.repository.AlarmQueryRepository;
 import org.springframework.boot.test.context.TestConfiguration;
 import org.springframework.context.annotation.Bean;
 import org.springframework.core.task.TaskExecutor;
@@ -59,6 +60,10 @@ public class TestConfig {
 	@Bean
 	public ReviewQueryRepository reviewQueryRepository() {
 		return new ReviewQueryRepository(jpaQueryFactory());
+	}
+	@Bean
+	public AlarmQueryRepository alarmQueryRepository() {
+		return new AlarmQueryRepository(jpaQueryFactory(), entityManager);
 	}
 
 	@Bean(name = "taskExecutor")
