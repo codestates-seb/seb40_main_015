@@ -14,9 +14,6 @@ on:
 
 permissions: write-all
 
-env:
-  RESOURCE_PATH_KAKAO: ./backend/src/test/resources/application-API-KEY.yml
-
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -41,14 +38,7 @@ jobs:
       - name: Grant execute permission for gradlew
         run: chmod +x gradlew
         working-directory: ./backend/
-        
-      - name: Set kakao
-        uses: microsoft/varialbe-substitution@v1
-        with:
-          files: ${{ env.RESOURCE_PATH_KAKAO }}        
-        env:         
-          KAKAO_KEY: ${{ secrets.KAKAO_KEY }}
-
+      
       - name: Test with Gradle
         run: ./gradlew test --stacktrace
         working-directory: ./backend/
