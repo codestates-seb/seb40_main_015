@@ -60,7 +60,7 @@ public class AlarmQueryRepositoryTest {
         Book book1 = Book.builder()
                 .id(1L)
                 .bookProduct(bookProduct1)
-                .imgUrl("aaa@abc.com")
+                .imgUrl("aaa1@abc.com")
                 .description("기본이 중요")
                 .rentalFee(Money.of(1000))
                 .location(new Location(37.5340, 126.7064))
@@ -73,9 +73,9 @@ public class AlarmQueryRepositoryTest {
 
         BookProduct bookProduct2 = new BookProduct("수학의 정석2", "남궁성", "도우출판");
         Book book2 = Book.builder()
-                .id(1L)
+                .id(2L)
                 .bookProduct(bookProduct2)
-                .imgUrl("aaa@abc.com")
+                .imgUrl("aaa2@abc.com")
                 .description("기본이 중요")
                 .rentalFee(Money.of(1000))
                 .location(new Location(37.5340, 126.7064))
