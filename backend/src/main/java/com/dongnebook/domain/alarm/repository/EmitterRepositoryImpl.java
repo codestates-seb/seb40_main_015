@@ -45,7 +45,7 @@ public class EmitterRepositoryImpl implements EmitterRepository {
 
 	@Override
 	public Map<String, Object> findAllEventCacheStartWithMemberId(Long memberId) {
-		return emitters.entrySet()
+		return eventCache.entrySet()
 			.stream()
 			.filter(entry -> entry.getKey().startsWith(String.valueOf(memberId)))
 			.collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
@@ -67,9 +67,9 @@ public class EmitterRepositoryImpl implements EmitterRepository {
 
 	@Override
 	public void deleteAllEventCacheStartWithMemberId(Long memberId) {
-		emitters.forEach((key, emitter) -> {
+		eventCache.forEach((key, emitter) -> {
 			if (key.startsWith(String.valueOf(memberId))) {
-				emitters.remove(key);
+				eventCache.remove(key);
 			}
 		});
 	}
