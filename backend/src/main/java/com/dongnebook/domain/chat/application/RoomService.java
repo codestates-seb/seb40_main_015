@@ -9,7 +9,7 @@ import org.springframework.data.redis.listener.ChannelTopic;
 import org.springframework.data.redis.listener.RedisMessageListenerContainer;
 import org.springframework.stereotype.Service;
 
-import com.dongnebook.domain.book.application.BookService;
+import com.dongnebook.domain.book.application.BookQueryService;
 import com.dongnebook.domain.book.domain.Book;
 import com.dongnebook.domain.chat.repository.ChatRepository;
 import com.dongnebook.domain.chat.repository.RoomRepository;
@@ -28,14 +28,14 @@ public class RoomService {
 	private final ChatRepository chatRepository;
 	private final RoomRepository roomRepository;
 	private final MemberService memberService;
-	private final BookService bookService;
+	private final BookQueryService bookQueryService;
 	private final Map<String, ChannelTopic> topics;
 	private final RedisMessageListenerContainer redisMessageListener;
 	private final RedisSubscriber redisSubscriber;
 
 	public Long findOrCreate(RoomRequest roomRequest) {
 
-		Book book = bookService.getByBookId(roomRequest.getBookId());
+		Book book = bookQueryService.getByBookId(roomRequest.getBookId());
 		ChatRoom room = chatRepository.findOrCreate(roomRequest.getMerchantId(), roomRequest.getCustomerId(),roomRequest.getBookId())
 			.orElseGet(() -> new ChatRoom(memberService.getById(roomRequest.getMerchantId()
 			), memberService.getById(roomRequest.getCustomerId()), book));

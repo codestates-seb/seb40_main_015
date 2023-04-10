@@ -8,8 +8,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.dongnebook.domain.alarm.application.AlarmService;
-import com.dongnebook.global.enums.AlarmType;
 import com.dongnebook.domain.book.domain.Book;
+import com.dongnebook.global.enums.AlarmType;
 import com.dongnebook.domain.chat.repository.ChatRepository;
 import com.dongnebook.domain.chat.domain.ChatMessage;
 import com.dongnebook.domain.chat.domain.ChatRoom;
@@ -42,7 +42,7 @@ public class ChatService {
 		return ChatRoomResponse.builder()
 			.bookId(book.getId())
 			.bookUrl(book.getImgUrl())
-			.title(book.getTitle())
+			.title(book.getBookProduct().getTitle())
 			.bookState(book.getBookState())
 			.chatResponses(collect)
 			.memberA(chatRoom.getCustomer())

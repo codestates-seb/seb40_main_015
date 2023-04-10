@@ -14,8 +14,11 @@ import lombok.RequiredArgsConstructor;
 @RequestMapping("/")
 @RequiredArgsConstructor
 public class HelloController {
+
+	String currentTime = LocalDateTime.now().toString();
+
 	@GetMapping
-	public ResponseEntity<LocalDateTime> getHello() {
-		return new ResponseEntity<>(LocalDateTime.now(), HttpStatus.OK);
+	public ResponseEntity<String> getHello() {
+		return new ResponseEntity<>(currentTime, HttpStatus.OK);
 	}
 }

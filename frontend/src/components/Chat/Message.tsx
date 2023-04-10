@@ -33,7 +33,7 @@ const Message = ({ list, isReceived = true }: Iprops) => {
 				<EmptyImageBox />
 			)}
 			<Box isReceived={isReceived}>
-				{nickName ? <span>{nickName}</span> : null}
+				{nickName && isReceived ? <span>{nickName}</span> : null}
 				<MessageInfoBox>
 					{!isReceived && <span>{convertDateForChat(dateTime)}</span>}
 					<MessageArea isReceived={isReceived}>
@@ -42,15 +42,6 @@ const Message = ({ list, isReceived = true }: Iprops) => {
 					{isReceived && <span>{convertDateForChat(dateTime)}</span>}
 				</MessageInfoBox>
 			</Box>
-			{avatarUrl && !isReceived ? (
-				<UserImage
-					src={avatarUrl}
-					alt="나의 이미지"
-					onClick={handleMoveUserProfile}
-				/>
-			) : (
-				<EmptyImageBox />
-			)}
 		</Container>
 	);
 };

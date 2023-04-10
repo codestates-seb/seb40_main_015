@@ -21,13 +21,13 @@ import org.springframework.http.ResponseCookie;
 import org.springframework.mock.web.MockHttpServletResponse;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
+import com.dongnebook.domain.book.adapter.out.BookPersistenceAdapter;
 import com.dongnebook.domain.book.domain.Book;
 import com.dongnebook.domain.book.domain.BookState;
-import com.dongnebook.domain.book.repository.BookQueryRepository;
 import com.dongnebook.domain.member.domain.Member;
 import com.dongnebook.domain.member.dto.request.MemberEditRequest;
 import com.dongnebook.domain.member.dto.request.MemberRegisterRequest;
-import com.dongnebook.domain.member.dto.request.MerchantSearchableRequest;
+import com.dongnebook.domain.member.dto.request.MerchantSearchRequest;
 import com.dongnebook.domain.member.dto.response.MemberDetailResponse;
 import com.dongnebook.domain.member.dto.response.MemberResponse;
 import com.dongnebook.domain.member.dto.response.MerchantSectorCountResponse;
@@ -38,7 +38,7 @@ import com.dongnebook.domain.model.Location;
 import com.dongnebook.domain.refreshtoken.domain.RefreshToken;
 import com.dongnebook.domain.refreshtoken.repository.RefreshTokenRepository;
 import com.dongnebook.global.dto.TokenDto;
-import com.dongnebook.global.dto.request.PageRequest;
+import com.dongnebook.global.dto.request.PageRequestImpl;
 import com.dongnebook.global.security.auth.filter.TokenProvider;
 import com.dongnebook.support.BookStub;
 import com.dongnebook.support.LocationStub;
@@ -53,7 +53,7 @@ class MemberServiceTest {
 	@Mock
 	MemberQueryRepository memberQueryRepository;
 	@Mock
-	BookQueryRepository bookQueryRepository;
+	BookPersistenceAdapter bookPersistenceAdapter;
 	@Mock
 	RefreshTokenRepository refreshTokenRepository;
 	@Mock
@@ -161,7 +161,7 @@ class MemberServiceTest {
 		memberService.edit(memberId, request);
 		assertAll(
 			() -> assertThat(member1.getNickname()).isEqualTo("이성준2"),
-			() -> verify(bookQueryRepository).updateBookLocation(member1, request.getLocation()));
+			() -> verify(bookPersistenceAdapter).updateBookLocation(member1, request.getLocation()));
 	}
 
 	@Test
@@ -183,7 +183,7 @@ class MemberServiceTest {
 		assertThrows(MemberHasOnLoanException.class, () -> memberService.edit(memberId, request));
 		assertAll(
 			() -> assertThat(member1.getNickname()).isEqualTo("이성준"),
-			() -> verify(bookQueryRepository, times(0)).updateBookLocation(member1, request.getLocation()));
+			() -> verify(bookPersistenceAdapter, times(0)).updateBookLocation(member1, request.getLocation()));
 	}
 
 	@Test
@@ -245,17 +245,15 @@ class MemberServiceTest {
 		Integer height = 20;
 		Integer sector = null;
 		Integer level = 3;
-		MerchantSearchableRequest request = new MerchantSearchableRequest(location.getLongitude(),
+		MerchantSearchRequest request = new MerchantSearchRequest(location.getLongitude(),
 			location.getLatitude(), width, height, sector, level);
-		given(memberQueryRepository.getSectorMerchantCounts(anyList(), anyList(),
-			any(MerchantSearchableRequest.class))).willReturn(List.of(location));
+		given(memberQueryRepository.getNearByMerchant(any(MerchantSearchRequest.class))).willReturn(List.of(location));
 
 		List<MerchantSectorCountResponse> sectorMerchantCounts = memberService.getSectorMerchantCounts(request);
 		assertAll(() -> assertThat(sectorMerchantCounts).hasSize(1),
 			() -> assertThat(sectorMerchantCounts.get(0).getMerchantCount()).isOne(),
 			() -> assertThat(sectorMerchantCounts.get(0).getSector()).isEqualTo(5),
-			() -> verify(memberQueryRepository).getSectorMerchantCounts(anyList(), anyList(),
-				any(MerchantSearchableRequest.class)));
+			() -> verify(memberQueryRepository).getNearByMerchant(any(MerchantSearchRequest.class)));
 
 	}
 
@@ -286,7 +284,7 @@ class MemberServiceTest {
 	@Test
 	@DisplayName("섹터에 있는 회원의 갯수를 가져온다.")
 	void getList() {
-		PageRequest pageRequest = new PageRequest(null);
+		PageRequestImpl pageRequestImpl = new PageRequestImpl(null);
 		Location location = LocationStub.봉천역.of();
 		Integer width = 20;
 		Integer height = 20;
@@ -294,12 +292,12 @@ class MemberServiceTest {
 		Integer level = 3;
 		Long memberId =1L;
 		Member member1 = MemberStub.MEMBER1.of(memberId);
-		MerchantSearchableRequest request = new MerchantSearchableRequest(location.getLongitude(),
+		MerchantSearchRequest request = new MerchantSearchRequest(location.getLongitude(),
 			location.getLatitude(), width, height, sector, level);
 		given(memberQueryRepository.getAll(any(),any(),any(),any())).willReturn(new SliceImpl<>(List.of(
 			MemberResponse.builder().merchantName(member1.getNickname()).location(location)
 				.merchantId(member1.getId()).build())));
-		SliceImpl<MemberResponse> list = memberService.getList(request, pageRequest);
+		SliceImpl<MemberResponse> list = memberService.getList(request, pageRequestImpl);
 		assertThat(list.hasNext()).isFalse();
 		assertThat(list.isLast()).isTrue();
 		assertThat(list.getContent()).hasSize(1);

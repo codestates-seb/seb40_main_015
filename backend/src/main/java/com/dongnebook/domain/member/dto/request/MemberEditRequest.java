@@ -21,6 +21,4 @@ public class MemberEditRequest {
 		this.address = address;
 		this.avatarUrl = avatarUrl;
 	}
-
-
 }

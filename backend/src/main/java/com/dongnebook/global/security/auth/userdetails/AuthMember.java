@@ -16,10 +16,10 @@ import lombok.Getter;
 
 @Getter
 public class AuthMember extends Member implements UserDetails {
-	private Long memberId;
+	private final Long memberId;
 	private String userId;
-	private String password;
-	private List<String> roles;
+	private final String password;
+	private final List<String> roles;
 	private Location location;
 	private String nickname;
 

@@ -6,18 +6,13 @@ import org.springframework.dao.ConcurrencyFailureException;
 import org.springframework.data.domain.SliceImpl;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PatchMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
-import com.dongnebook.domain.book.exception.NotRentableException;
+import com.dongnebook.domain.book.domain.NotRentableException;
 import com.dongnebook.domain.rental.application.RentalService;
 import com.dongnebook.domain.rental.dto.request.RentalSearchCondition;
 import com.dongnebook.domain.rental.dto.response.RentalBookResponse;
-import com.dongnebook.global.dto.request.PageRequest;
+import com.dongnebook.global.dto.request.PageRequestImpl;
 import com.dongnebook.global.security.auth.annotation.Login;
 
 import lombok.RequiredArgsConstructor;
@@ -70,19 +65,19 @@ public class RentalController {
 
 	@GetMapping("from")
 	public ResponseEntity<SliceImpl<RentalBookResponse>> getRentalsByMerchant(
-		@Login Long memberId, @Valid RentalSearchCondition rentalSearchCondition,
-		PageRequest pageRequest) {
+		@Login Long memberId, @Valid @RequestParam(name = "rentalState", required = false, defaultValue = "NONE") RentalSearchCondition rentalSearchCondition,
+		PageRequestImpl pageRequestImpl) {
 		return new ResponseEntity<>(
 			rentalService.getRentalsByMerchant(memberId, rentalSearchCondition.getRentalState(),
-				pageRequest), HttpStatus.OK);
+				pageRequestImpl), HttpStatus.OK);
 	}
 
 	@GetMapping("to")
 	public ResponseEntity<SliceImpl<RentalBookResponse>> getRentalsByCustomer(
-		@Login Long memberId, @Valid RentalSearchCondition rentalSearchCondition,
-		PageRequest pageRequest) {
+		@Login Long memberId, @Valid @RequestParam(name = "rentalState", required = false, defaultValue = "NONE") RentalSearchCondition rentalSearchCondition,
+		PageRequestImpl pageRequestImpl) {
 		return new ResponseEntity<>(
 			rentalService.getRentalsByCustomer(memberId, rentalSearchCondition.getRentalState(),
-				pageRequest), HttpStatus.OK);
+				pageRequestImpl), HttpStatus.OK);
 	}
 }

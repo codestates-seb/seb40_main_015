@@ -2,6 +2,7 @@
 <configuration packagingData="true">
     <springProperty name="AWS_ACCESS_KEY" source="cloud.aws.credentials.access-key"/>
     <springProperty name="AWS_SECRET_KEY" source="cloud.aws.credentials.secret-key"/>
+    <springProperty name="SLACK_WEBHOOK_URI" source="logging.slack.webhook-uri"/>
     <timestamp key="timestamp" datePattern="yyyy-MM-dd-HH-mm-ssSSS"/>
     <appender name="aws_cloud_watch_log" class="ca.pjer.logback.AwsLogsAppender">
         <layout>
@@ -19,10 +20,23 @@
         <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
             <level>INFO</level>
         </filter>
-
     </appender>
 
+    <appender name="SLACK" class="com.github.maricn.logback.SlackAppender">
+        <webhookUri>${SLACK_WEBHOOK_URI}</webhookUri>
+        <layout class="ch.qos.logback.classic.PatternLayout">
+            <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} %msg %n</pattern>
+        </layout>
+        <username>Server-Error-log</username>
+        <colorCoding>true</colorCoding>
+    </appender>
 
+    <appender name="ASYNC_SLACK" class="ch.qos.logback.classic.AsyncAppender">
+        <appender-ref ref="SLACK"/>
+        <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
+            <level>ERROR</level>
+        </filter>
+    </appender>
 
     <appender name="application_log" class="ch.qos.logback.core.ConsoleAppender">
         <encoder>
@@ -31,16 +45,15 @@
     </appender>
 
     <root level="INFO">
-        <springProfile name="local">
-            <appender-ref ref="application_log"/>
-<!--            <appender-ref ref="aws_cloud_watch_log"/>-->
-        </springProfile>
+        <appender-ref ref="application_log"/>
     </root>
-    <root level="WARN">
-        <springProfile name="rds">
+
+    <springProfile name="rds">
+        <root level="WARN">
             <appender-ref ref="application_log"/>
             <appender-ref ref="aws_cloud_watch_log"/>
-        </springProfile>
-    </root>
+            <appender-ref ref="ASYNC_SLACK"/>
+        </root>
+    </springProfile>
 
 </configuration>

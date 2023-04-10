@@ -25,7 +25,6 @@ import com.dongnebook.global.security.auth.handler.MemberAccessDeniedHandler;
 import com.dongnebook.global.security.auth.handler.MemberAuthenticationEntryPoint;
 import com.dongnebook.global.security.auth.handler.MemberAuthenticationFailureHandler;
 import com.dongnebook.global.security.auth.handler.MemberAuthenticationSuccessHandler;
-import com.dongnebook.global.security.auth.oauth.OAuthService;
 
 import lombok.RequiredArgsConstructor;
 
@@ -35,7 +34,7 @@ import lombok.RequiredArgsConstructor;
 public class SecurityConfig {
 	private final RefreshTokenRepository refreshTokenRepository;
 	private final TokenProvider tokenProvider;
-	private final OAuthService oAuthService;
+
 
 	@Bean
 	public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
@@ -56,10 +55,7 @@ public class SecurityConfig {
 				.apply(new CustomFilterConfigurer())
 				.and()
 				.authorizeHttpRequests(authorize -> authorize
-						.anyRequest().permitAll())
-				.oauth2Login() // OAuth2 로그인 설정 시작점
-				.userInfoEndpoint() // OAuth2 로그인 성공 이후 사용자 정보를 가져올 때 설정 담당
-				.userService(oAuthService);
+						.anyRequest().permitAll());
 		return http.build();
 	}
 

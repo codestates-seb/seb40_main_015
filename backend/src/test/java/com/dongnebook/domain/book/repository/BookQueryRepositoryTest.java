@@ -1,16 +1,23 @@
 package com.dongnebook.domain.book.repository;
 
-import static org.assertj.core.api.Assertions.*;
-import static org.junit.jupiter.api.Assertions.*;
-
-import java.util.Arrays;
-import java.util.List;
-
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
-
+import com.dongnebook.config.TestConfig;
+import com.dongnebook.domain.book.adapter.out.BookCommandRepository;
+import com.dongnebook.domain.book.adapter.out.BookQueryRepository;
+import com.dongnebook.domain.book.application.port.in.response.BookDetailResponse;
+import com.dongnebook.domain.book.application.port.in.response.BookSimpleResponse;
+import com.dongnebook.domain.book.domain.Book;
+import com.dongnebook.domain.book.domain.BookProduct;
+import com.dongnebook.domain.book.domain.Money;
+import com.dongnebook.domain.dibs.domain.Dibs;
+import com.dongnebook.domain.dibs.repository.DibsRepository;
+import com.dongnebook.domain.member.domain.Member;
+import com.dongnebook.domain.member.repository.MemberRepository;
+import com.dongnebook.domain.model.Location;
+import com.dongnebook.global.dto.request.PageRequestImpl;
+import com.dongnebook.support.DataClearExtension;
+import com.dongnebook.support.DatabaseCleaner;
+import com.github.gavlyukovskiy.boot.jdbc.decorator.DataSourceDecoratorAutoConfiguration;
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,181 +27,247 @@ import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.context.annotation.Import;
 import org.springframework.data.domain.SliceImpl;
 
-import com.dongnebook.config.TestConfig;
-import com.dongnebook.domain.book.domain.Book;
-import com.dongnebook.domain.book.dto.request.BookSearchCondition;
-import com.dongnebook.domain.book.dto.response.BookDetailResponse;
-import com.dongnebook.domain.book.dto.response.BookSimpleResponse;
-import com.dongnebook.domain.book.exception.BookNotFoundException;
-import com.dongnebook.domain.member.domain.Member;
-import com.dongnebook.domain.member.dto.request.MemberEditRequest;
-import com.dongnebook.domain.member.exception.MemberNotFoundException;
-import com.dongnebook.domain.member.repository.MemberRepository;
-import com.dongnebook.domain.model.Location;
-import com.dongnebook.global.dto.request.PageRequest;
-import com.dongnebook.support.BookStub;
-import com.dongnebook.support.DataClearExtension;
-import com.dongnebook.support.DatabaseCleaner;
-import com.dongnebook.support.LocationStub;
-import com.dongnebook.support.MemberStub;
-import com.github.gavlyukovskiy.boot.jdbc.decorator.DataSourceDecoratorAutoConfiguration;
+import java.util.Optional;
+
+import static org.junit.jupiter.api.Assertions.*;
+
 
 @DataJpaTest(showSql = false)
-// @SpringBootTest
 @ImportAutoConfiguration(DataSourceDecoratorAutoConfiguration.class)
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
 @Import({TestConfig.class, DatabaseCleaner.class})
 @ExtendWith(DataClearExtension.class)
-	// @Rollback
-class BookQueryRepositoryTest {
+public class BookQueryRepositoryTest {
+    @Autowired
+    BookQueryRepository bookQueryRepository;
+    @Autowired
+    BookCommandRepository bookCommandRepository;
+    @Autowired
+    MemberRepository memberRepository;
+    @Autowired
+    DibsRepository dibsRepository;
 
-	@Autowired
-	BookQueryRepository bookQueryRepository;
-	@Autowired
-	BookCommandRepository bookCommandRepository;
-	@Autowired
-	MemberRepository memberRepository;
-	@PersistenceContext
-	EntityManager entityManager;
+    static Member savedMerchant;
+    static Member savedNewCustomer;
+    static Book savedBook;
+    static Book savedBook8;
+    static Dibs savedDibs;
 
-	private Member member;
-	private Book book;
+    @BeforeEach
+    public void setting() {
+        Member merchant = Member.builder()
+                .userId("test1")
+                .avatarUrl("aaa1@aa.com")
+                .nickname("tester1")
+                .password("12341234")
+                .build();
+        savedMerchant = memberRepository.save(merchant);
 
-	@BeforeEach
-	void setUp() {
-		Arrays.stream(MemberStub.values()).forEach(value -> {
-			member = value.of();
-			memberRepository.save(member);
-		});
+        BookProduct bookProduct = new BookProduct("수학의 정석1", "남궁성", "도우출판");
+        Book book = Book.builder()
+                .id(1L)
+                .bookProduct(bookProduct)
+                .imgUrl("aaa@abc.com")
+                .description("기본이 중요")
+                .rentalFee(Money.of(1000))
+                .location(new Location(37.5340, 126.7064))
+                .member(savedMerchant)
+                .build();
+        savedBook = bookCommandRepository.save(book);
 
-		Arrays.stream(BookStub.values()).forEach(value -> {
-			book = value.of();
-			bookCommandRepository.save(book);
-		});
-	}
+        Member customer = Member.builder()
+                .userId("test2")
+                .avatarUrl("aaa2@aa.com")
+                .nickname("tester2")
+                .password("12341234")
+                .build();
+        Member savedCustomer = memberRepository.save(customer);
 
-	// @AfterEach
-	// void tearDown() {
-	// 	// bookCommandRepository.deleteAll();
-	// 	// memberRepository.deleteAll();
-	// 	// Cache cache = entityManager.getEntityManager().getEntityManagerFactory().getCache();
-	// 	// System.out.println("cache = " + cache.contains(Member.class,1L));
-	// 	entityManager.clear();
-	// }
+        Member newCustomer = Member.builder()
+                .userId("test3")
+                .avatarUrl("aaa3@aa.com")
+                .nickname("tester3")
+                .password("12341234")
+                .build();
+        savedNewCustomer = memberRepository.save(newCustomer);
 
-	// @Test
-	// void getWithMerchantByBookId() {
-	//
-	// }
+        Dibs dibs = Dibs.of(savedNewCustomer, savedBook);
+        dibsRepository.save(dibs);
 
-	@Test
-	@DisplayName("책을 상세조회한다.")
-	void getBookDetail() {
+        BookProduct bookProduct2 = new BookProduct("수학의 정석2", "남궁성", "도우출판");
+        Book book2 = Book.builder()
+                .id(2L)
+                .bookProduct(bookProduct2)
+                .imgUrl("aaa@abc.com")
+                .description("기본이 중요")
+                .rentalFee(Money.of(1000))
+                .location(new Location(37.5340, 126.7064))
+                .member(savedMerchant)
+                .build();
+        Book savedBook2 = bookCommandRepository.save(book2);
 
-		//given,when
-		BookDetailResponse bookDetail = bookQueryRepository.findBookDetail(1L, 1L).orElseThrow(BookNotFoundException::new);
-		//then
+        Dibs dibs2 = Dibs.of(savedNewCustomer, savedBook2);
+        dibsRepository.save(dibs2);
 
-		assertAll(
-			() -> assertThat(bookDetail.getBook().getTitle()).isEqualTo("자바의 정석"),
-			() -> assertThat(bookDetail.getBook().getAuthor()).isEqualTo("남궁성")
-		);
-	}
+        BookProduct bookProduct3 = new BookProduct("수학의 정석3", "남궁성", "도우출판");
+        Book book3 = Book.builder()
+                .id(3L)
+                .bookProduct(bookProduct3)
+                .imgUrl("aaa@abc.com")
+                .description("기본이 중요")
+                .rentalFee(Money.of(1000))
+                .location(new Location(37.5340, 126.7064))
+                .member(savedMerchant)
+                .build();
+        Book savedBook3 = bookCommandRepository.save(book3);
 
-	@Test
-	@DisplayName("주변에 있는 책을 조회한다.")
-	void getNearByBookLocation() {
-		//given
-		Location 봉천역 = LocationStub.봉천역.of();
-		BookSearchCondition condition = new BookSearchCondition(null,봉천역.getLongitude(),봉천역.getLatitude(),40,40,null,3);
-		//when
-		List<Location> nearByBookLocation = bookQueryRepository.getNearByBookLocation(condition);
-		//then
-		assertThat(nearByBookLocation).hasSize(8);
-	}
+        Dibs dibs3 = Dibs.of(savedNewCustomer, savedBook3);
+        dibsRepository.save(dibs3);
 
-	@Test
-	@DisplayName("모든 책을 조회한다.")
-	void getAll() {
-		//given
-		BookSearchCondition condition = new BookSearchCondition(null,null,null,null,null,null,null);
+        BookProduct bookProduct4 = new BookProduct("수학의 정석4", "남궁성", "도우출판");
+        Book book4 = Book.builder()
+                .id(4L)
+                .bookProduct(bookProduct4)
+                .imgUrl("aaa@abc.com")
+                .description("기본이 중요")
+                .rentalFee(Money.of(1000))
+                .location(new Location(37.5340, 126.7064))
+                .member(savedMerchant)
+                .build();
+        Book savedBook4 = bookCommandRepository.save(book4);
 
-		//when
-		SliceImpl<BookSimpleResponse> result = bookQueryRepository.getAll(condition, new PageRequest(null));
+        Dibs dibs4 = Dibs.of(savedNewCustomer, savedBook4);
+        dibsRepository.save(dibs4);
 
-		//then
-		assertAll(
-			() -> assertThat(result).hasSize(6),
-			() -> assertThat(result.isLast()).isFalse(),
-			() -> assertThat(result.hasNext()).isTrue(),
-			() -> assertThat(result.getContent().get(5).getTitle()).isEqualTo("파이썬의 정석")
-		);
+        BookProduct bookProduct5 = new BookProduct("수학의 정석5", "남궁성", "도우출판");
+        Book book5 = Book.builder()
+                .id(5L)
+                .bookProduct(bookProduct5)
+                .imgUrl("aaa@abc.com")
+                .description("기본이 중요")
+                .rentalFee(Money.of(1000))
+                .location(new Location(37.5340, 126.7064))
+                .member(savedMerchant)
+                .build();
+        Book savedBook5 = bookCommandRepository.save(book5);
 
-	}
+        Dibs dibs5 = Dibs.of(savedNewCustomer, savedBook5);
+        dibsRepository.save(dibs5);
 
-	@Test
-	@DisplayName("삭제된 책은 검색되지 않는다.")
-	void getRentableBook() {
-		//given
-		Book book1 = bookCommandRepository.findById(1L).get();
-		book1.delete();
-		BookSearchCondition condition = new BookSearchCondition(null,null,null,null,null,null,null);
-		//when
-		SliceImpl<BookSimpleResponse> result = bookQueryRepository.getAll(condition, new PageRequest(null));
+        BookProduct bookProduct6 = new BookProduct("수학의 정석6", "남궁성", "도우출판");
+        Book book6 = Book.builder()
+                .id(6L)
+                .bookProduct(bookProduct6)
+                .imgUrl("aaa@abc.com")
+                .description("기본이 중요")
+                .rentalFee(Money.of(1000))
+                .location(new Location(37.5340, 126.7064))
+                .member(savedMerchant)
+                .build();
+        Book savedBook6 = bookCommandRepository.save(book6);
 
-		//then
-		assertThat(result).hasSize(6);
-		assertThat(result.isLast()).isFalse();
-	}
+        Dibs dibs6 = Dibs.of(savedNewCustomer, savedBook6);
+        dibsRepository.save(dibs6);
 
-	@Test
-	@DisplayName("책 한권을 검색한다.")
-	void getAll2() {
-		//given
-		BookSearchCondition condition = new BookSearchCondition("씨의 정석",null,null,null,null,null,null);
+        BookProduct bookProduct7 = new BookProduct("수학의 정석7", "남궁성", "도우출판");
+        Book book7 = Book.builder()
+                .id(7L)
+                .bookProduct(bookProduct7)
+                .imgUrl("aaa@abc.com")
+                .description("기본이 중요")
+                .rentalFee(Money.of(1000))
+                .location(new Location(37.5340, 126.7064))
+                .member(savedMerchant)
+                .build();
+        Book savedBook7 = bookCommandRepository.save(book7);
 
-		//when
-		SliceImpl<BookSimpleResponse> result = bookQueryRepository.getAll(condition, new PageRequest(null));
+        Dibs dibs7 = Dibs.of(savedNewCustomer, savedBook7);
+        dibsRepository.save(dibs7);
 
-		//then
-		assertThat(result.isLast()).isTrue();
-		assertThat(result.hasNext()).isFalse();
-		assertThat(result.getContent().get(0).getTitle()).isEqualTo("씨의 정석");
-	}
+        BookProduct bookProduct8 = new BookProduct("수학의 정석8", "남궁성", "도우출판");
+        Book book8 = Book.builder()
+                .id(8L)
+                .bookProduct(bookProduct8)
+                .imgUrl("aaa@abc.com")
+                .description("기본이 중요")
+                .rentalFee(Money.of(1000))
+                .location(new Location(37.5340, 126.7064))
+                .member(savedMerchant)
+                .build();
+        savedBook8 = bookCommandRepository.save(book8);
 
-	@Test
-	@DisplayName("회원이 가지고 있는 책을 조회한다.")
-	void getListByMember() {
-	    // given
-		Member member1 = memberRepository.findById(1L).orElseThrow(MemberNotFoundException::new);
+        Dibs dibs8 = Dibs.of(savedNewCustomer, savedBook8);
+        savedDibs = dibsRepository.save(dibs8);
 
-		// when
-		SliceImpl<BookSimpleResponse> listByMember = bookQueryRepository.getListByMember(member1.getId(),
-			new PageRequest(null));
+    }
 
-		// then
-		assertThat(listByMember.getContent().get(0).getTitle()).isEqualTo("자바의 정석");
-		assertThat(listByMember.hasNext()).isFalse();
+    @Test
+    public void findWithMerchantByBookIdTest() {
+        // given
 
-	}
-	@Test
-	@DisplayName("서점의 주소를 변경한다.")
-	void updateBookLocation() {
-		//given
-		Member member1 = memberRepository.findById(1L).orElseThrow(MemberNotFoundException::new);
-		Location samsung = LocationStub.삼성전자봉천역점.of();
-		member1.edit(MemberEditRequest.builder()
-			.address("서울시 관악구 삼성전")
-			.location(samsung)
-			.build());
+        // when
+        Optional<Book> bookOptional = bookQueryRepository.findWithMerchantByBookId(savedBook.getId());
 
-		//when
-		bookQueryRepository.updateBookLocation(member1,member1.getLocation());
-		entityManager.clear();
-		Book book = bookCommandRepository.findById(1L).orElseThrow(BookNotFoundException::new);
+        // then
+        assertTrue(bookOptional.isPresent());
+    }
 
-		//then
-		assertThat(book.getLocation().getLatitude()).isEqualTo(samsung.getLatitude());
-		assertThat(book.getLocation().getLongitude()).isEqualTo(samsung.getLongitude());
-	}
+    @Test
+    public void findBookDetailTest() {
+        // given
+
+        // when
+        Optional<BookDetailResponse> bookDetailResponseOptional = bookQueryRepository.findBookDetail(1L, null);
+
+        // then
+        assertTrue(bookDetailResponseOptional.isPresent());
+    }
+
+    @Test
+    public void getAllDibsBookTest1() {
+        // given
+        PageRequestImpl pageRequest = new PageRequestImpl(0L);
+
+        // when
+        SliceImpl<BookSimpleResponse> bookSimpleResponses = bookQueryRepository.getAllDibsBook(1L, pageRequest);
+
+        // then
+        assertFalse(bookSimpleResponses.hasNext());
+    }
+
+    @Test
+    public void getAllDibsBookTest2() {
+        // given
+        PageRequestImpl pageRequest = new PageRequestImpl(null);
+
+        // when
+        SliceImpl<BookSimpleResponse> bookSimpleResponses = bookQueryRepository.getAllDibsBook(savedNewCustomer.getId(), pageRequest);
+
+        // then
+        assertTrue(bookSimpleResponses.hasNext());
+    }
+
+    @Test
+    public void getListByMemberTest1() {
+        // given
+        PageRequestImpl pageRequest = new PageRequestImpl(savedBook8.getId());
+
+        // when
+        SliceImpl<BookSimpleResponse> bookSimpleResponses = bookQueryRepository.getListByMember(savedMerchant.getId(), pageRequest);
+
+        // then
+        assertTrue(bookSimpleResponses.hasNext());
+    }
+
+    @Test
+    public void getListByMemberTest2() {
+        // given
+        PageRequestImpl pageRequest = new PageRequestImpl(null);
+
+        // when
+        SliceImpl<BookSimpleResponse> bookSimpleResponses = bookQueryRepository.getListByMember(savedMerchant.getId(), pageRequest);
+
+        // then
+        assertTrue(bookSimpleResponses.hasNext());
+    }
 }

@@ -1,6 +1,6 @@
 package com.dongnebook.domain.rental.dto.response;
 
-import com.dongnebook.domain.book.dto.response.BookInfoResponse;
+import com.dongnebook.domain.book.application.port.in.response.BookInfoResponse;
 import com.querydsl.core.annotations.QueryProjection;
 import lombok.Getter;
 

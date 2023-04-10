@@ -6,7 +6,7 @@ import lombok.Getter;
 
 @Getter
 public class RentalCreateEvent {
-	private Rental rental;
+	private final Rental rental;
 
 	public RentalCreateEvent(Rental rental) {
 		this.rental = rental;

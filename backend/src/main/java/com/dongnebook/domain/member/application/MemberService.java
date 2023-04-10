@@ -16,13 +16,13 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.dongnebook.domain.book.application.port.out.BookRepositoryPort;
 import com.dongnebook.domain.book.domain.Book;
 import com.dongnebook.domain.book.domain.BookState;
-import com.dongnebook.domain.book.repository.BookQueryRepository;
 import com.dongnebook.domain.member.domain.Member;
 import com.dongnebook.domain.member.dto.request.MemberEditRequest;
 import com.dongnebook.domain.member.dto.request.MemberRegisterRequest;
-import com.dongnebook.domain.member.dto.request.MerchantSearchableRequest;
+import com.dongnebook.domain.member.dto.request.MerchantSearchRequest;
 import com.dongnebook.domain.member.dto.response.MemberDetailResponse;
 import com.dongnebook.domain.member.dto.response.MemberResponse;
 import com.dongnebook.domain.member.dto.response.MerchantSectorCountResponse;
@@ -35,7 +35,7 @@ import com.dongnebook.domain.refreshtoken.domain.RefreshToken;
 import com.dongnebook.domain.refreshtoken.exception.TokenNotFound;
 import com.dongnebook.domain.refreshtoken.repository.RefreshTokenRepository;
 import com.dongnebook.global.dto.TokenDto;
-import com.dongnebook.global.dto.request.PageRequest;
+import com.dongnebook.global.dto.request.PageRequestImpl;
 import com.dongnebook.global.security.auth.filter.TokenProvider;
 
 import lombok.Getter;
@@ -46,11 +46,11 @@ import lombok.extern.slf4j.Slf4j;
 @Getter
 @Service
 @RequiredArgsConstructor
-public class MemberService {
+public class MemberService implements MemberQueryUseCase{
 	private final MemberRepository memberRepository;
 	private final PasswordEncoder passwordEncoder;
 	private final MemberQueryRepository memberQueryRepository;
-	private final BookQueryRepository bookQueryRepository;
+	private final BookRepositoryPort bookRepositoryPort;
 	private final RefreshTokenRepository refreshTokenRepository;
 	private final TokenProvider tokenProvider;
 	private final EntityManager em;
@@ -91,7 +91,7 @@ public class MemberService {
 
 		member.edit(memberEditRequest);
 		em.flush();
-		bookQueryRepository.updateBookLocation(member, memberEditRequest.getLocation());
+		bookRepositoryPort.updateBookLocation(member, memberEditRequest.getLocation());
 	}
 
 	@Transactional
@@ -142,17 +142,14 @@ public class MemberService {
 		refreshTokenRepository.deleteById(tokenProvider.parseClaims(refreshToken));
 	}
 
-	public List<MerchantSectorCountResponse> getSectorMerchantCounts(MerchantSearchableRequest condition) {
+	public List<MerchantSectorCountResponse> getSectorMerchantCounts(MerchantSearchRequest condition) {
 
-		this.latRangeList = latRangeList(condition);
-		this.lonRangeList = lonRangeList(condition);
-		List<Location> sectorMerchantCounts = memberQueryRepository.getSectorMerchantCounts(latRangeList, lonRangeList,
-			condition);
+		List<Location> merchants = memberQueryRepository.getNearByMerchant(condition);
 
-		Map<Integer, MerchantSectorCountResponse> collect = sectorMerchantCounts.stream()
+		Map<Integer, MerchantSectorCountResponse> collect = merchants.stream()
 			.flatMap(location ->
 				IntStream.iterate(1, sector -> sector <= Math.pow(condition.getLevel(), 2), sector -> sector + 1)
-					.filter(sector -> location.checkRange(condition,sector))
+					.filter(sector -> location.checkRange(condition, sector))
 					.mapToObj(sector -> new MerchantSectorCountResponse(sector, location)))
 			.collect(
 				Collectors.toMap(MerchantSectorCountResponse::getSector,
@@ -171,17 +168,17 @@ public class MemberService {
 		return memberRepository.findById(memberId).orElseThrow(MemberNotFoundException::new);
 	}
 
-	public SliceImpl<MemberResponse> getList(MerchantSearchableRequest merchantSearchRequest, PageRequest pageRequest) {
+	public SliceImpl<MemberResponse> getList(MerchantSearchRequest merchantSearchRequest, PageRequestImpl pageRequestImpl) {
 		return memberQueryRepository.getAll(latRangeList(merchantSearchRequest), lonRangeList(merchantSearchRequest),
-			merchantSearchRequest, pageRequest);
+			merchantSearchRequest, pageRequestImpl);
 	}
 
-	private List<Double> lonRangeList(MerchantSearchableRequest merchantSearchRequest) {
+	private List<Double> lonRangeList(MerchantSearchRequest merchantSearchRequest) {
 		return Location.lonRangeList(merchantSearchRequest.getLongitude(), merchantSearchRequest.getWidth(),
 			merchantSearchRequest.getLevel());
 	}
 
-	private List<Double> latRangeList(MerchantSearchableRequest merchantSearchRequest) {
+	private List<Double> latRangeList(MerchantSearchRequest merchantSearchRequest) {
 		return Location.latRangeList(merchantSearchRequest.getLatitude(), merchantSearchRequest.getHeight(),
 			merchantSearchRequest.getLevel());
 	}
@@ -189,6 +186,11 @@ public class MemberService {
 	private boolean isBeingRental(Book book) {
 		return book.getBookState().equals(BookState.TRADING) || book.getBookState()
 			.equals(BookState.UNRENTABLE_RESERVABLE) || book.getBookState().equals(BookState.UNRENTABLE_UNRESERVABLE);
+	}
+
+	@Override
+	public Member getMember(Long memberId) {
+		return memberRepository.findById(memberId).orElseThrow(MemberNotFoundException::new);
 	}
 }
 

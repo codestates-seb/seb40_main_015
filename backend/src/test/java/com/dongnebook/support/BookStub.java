@@ -1,6 +1,7 @@
 package com.dongnebook.support;
 
 import com.dongnebook.domain.book.domain.Book;
+import com.dongnebook.domain.book.domain.BookProduct;
 import com.dongnebook.domain.book.domain.BookState;
 import com.dongnebook.domain.book.domain.Money;
 import com.dongnebook.domain.member.domain.Member;
@@ -54,11 +55,9 @@ public enum BookStub {
 			.id(bookId)
 			.location(this.location)
 			.rentalFee(this.rentalFee)
+			.bookProduct(BookProduct.of(this.title,this.author,this.publisher))
 			.description(this.description)
-			.publisher(this.publisher)
 			.imgUrl(this.imgUrl)
-			.author(this.author)
-			.title(this.title)
 			.member(this.member)
 			.build();
 	}
@@ -69,10 +68,8 @@ public enum BookStub {
 			.location(this.location)
 			.rentalFee(this.rentalFee)
 			.description(this.description)
-			.publisher(this.publisher)
+			.bookProduct(BookProduct.of(this.title,this.author,this.publisher))
 			.imgUrl(this.imgUrl)
-			.author(this.author)
-			.title(this.title)
 			.member(this.member)
 			.build();
 	}

@@ -10,7 +10,7 @@ public enum BookState {
 	UNRENTABLE_RESERVABLE("대여중&예약가능"),
 	DELETED("거래중단");
 
-	private String message;
+	private final String message;
 
 	BookState(String message) {
 		this.message = message;

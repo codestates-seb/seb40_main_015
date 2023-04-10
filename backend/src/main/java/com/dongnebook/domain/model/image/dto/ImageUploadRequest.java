@@ -6,7 +6,7 @@ import lombok.Getter;
 
 @Getter
 public class ImageUploadRequest {
-	private MultipartFile img;
+	private final MultipartFile img;
 
 	public ImageUploadRequest(MultipartFile img) {
 		this.img = img;

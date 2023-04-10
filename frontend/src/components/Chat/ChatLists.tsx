@@ -129,7 +129,7 @@ const LeftDetail = styled.div`
 const BookImage = styled.img`
 	border-radius: 5px;
 	width: 4rem;
-	height: 4rem;
+	height: 4.5rem;
 `;
 
 export default ChatLists;

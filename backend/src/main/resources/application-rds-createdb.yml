@@ -21,6 +21,7 @@ spring:
     username: admin
     password: ${RDS_PASSWORD}
   jpa:
+    database-platform: org.hibernate.dialect.MySQL8Dialect
     defer-datasource-initialization: true
     hibernate:
       ddl-auto: create  # (1) 스키마 자동 생성

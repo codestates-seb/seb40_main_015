@@ -47,13 +47,15 @@ dependencies {
     implementation 'com.github.gavlyukovskiy:p6spy-spring-boot-starter:1.7.1'
     implementation 'com.google.code.gson:gson'
     implementation group: 'com.google.guava', name: 'guava', version: '11.0.2'
+    implementation 'com.github.maricn:logback-slack-appender:1.4.0'
 
     //쿼리 dsl
     implementation 'com.querydsl:querydsl-jpa'
     annotationProcessor "com.querydsl:querydsl-apt:${dependencyManagement.importedProperties['querydsl.version']}:jpa"
     annotationProcessor "jakarta.annotation:jakarta.annotation-api"
     annotationProcessor "jakarta.persistence:jakarta.persistence-api"
-
+    runtimeOnly 'mysql:mysql-connector-java'
+    annotationProcessor 'org.springframework.boot:spring-boot-configuration-processor'
     implementation 'io.jsonwebtoken:jjwt-api:0.11.5'
     runtimeOnly 'io.jsonwebtoken:jjwt-impl:0.11.5'
     runtimeOnly 'io.jsonwebtoken:jjwt-jackson:0.11.5'
@@ -71,11 +73,57 @@ test {
 jacocoTestReport {
     reports {
         html.enabled true
-        xml.required = false
+        xml.enabled true
         csv.required = false
         html.destination file("jacoco/jacocoHtml")
         xml.destination file("jacoco/jacoco.xml")
 
+    }
+
+    def Qdomains = []
+    for (qPattern in '**/QA'..'**/QZ') {
+        Qdomains.add(qPattern + '*')
+    }
+
+    afterEvaluate {
+        classDirectories.setFrom(
+                files(classDirectories.files.collect {
+                    fileTree(dir: it, excludes: [
+                            "**/*Application*",
+                            "**/*Config*",
+                            "**/*Dto*",
+                            "**/*Request*",
+                            "**/*Response*",
+                            "**/*Interceptor*",
+                            "**/*Exception*"
+                    ] + Qdomains)
+                })
+        )
+    }
+    finalizedBy 'jacocoTestCoverageVerification'
+}
+
+jacocoTestCoverageVerification {
+    def Qdomains = []
+    for (qPattern in '*.QA'..'*.QZ') {
+        Qdomains.add(qPattern + '*')
+    }
+
+    violationRules {
+        rule {
+            element = 'CLASS'
+            enabled = true
+
+            excludes = [
+                    "**.*Application*",
+                    "**.*Config*",
+                    "**.*Dto*",
+                    "**.*Request*",
+                    "**.*Response*",
+                    "**.*Interceptor*",
+                    "**.*Exception*"
+            ] + Qdomains
+        }
     }
 }
 

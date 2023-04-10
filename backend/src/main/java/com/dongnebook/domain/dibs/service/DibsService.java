@@ -1,20 +1,19 @@
 package com.dongnebook.domain.dibs.service;
 
-import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.data.domain.SliceImpl;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.dongnebook.domain.book.application.BookService;
+import com.dongnebook.domain.book.application.BookQueryService;
+import com.dongnebook.domain.book.application.port.in.response.BookSimpleResponse;
+import com.dongnebook.domain.book.application.port.out.BookRepositoryPort;
 import com.dongnebook.domain.book.domain.Book;
-import com.dongnebook.domain.book.dto.response.BookSimpleResponse;
-import com.dongnebook.domain.book.repository.BookQueryRepository;
 import com.dongnebook.domain.dibs.domain.Dibs;
 import com.dongnebook.domain.dibs.exception.DibsNotFoundException;
 import com.dongnebook.domain.dibs.repository.DibsRepository;
 import com.dongnebook.domain.member.application.MemberService;
 import com.dongnebook.domain.member.domain.Member;
-import com.dongnebook.global.dto.request.PageRequest;
+import com.dongnebook.global.dto.request.PageRequestImpl;
 import com.dongnebook.global.error.exception.BusinessException;
 
 import lombok.RequiredArgsConstructor;
@@ -25,10 +24,10 @@ import lombok.RequiredArgsConstructor;
 public class DibsService {
 	private final DibsRepository dibsRepository;
 	private final MemberService memberService;
-	private final BookService bookService;
-	private final BookQueryRepository bookQueryRepository;
+	private final BookQueryService bookQueryService;
+	private final BookRepositoryPort bookRepositoryPort;
 
-	@CacheEvict(value = "bookDetail", key="#bookId")
+
 	public void doDibs(Long bookId,Long memberId){
 		Book book = getBookById(bookId);
 		Member member = getMemberById(memberId);
@@ -47,8 +46,8 @@ public class DibsService {
 		dibsRepository.delete(dibs);
 	}
 
-	public SliceImpl<BookSimpleResponse> findAll(PageRequest pageRequest, Long memberId) {
-		return bookQueryRepository.getAllDibsBook(memberId,pageRequest);
+	public SliceImpl<BookSimpleResponse> findAll(PageRequestImpl pageRequestImpl, Long memberId) {
+		return bookRepositoryPort.getAllDibsBook(memberId, pageRequestImpl);
 	}
 
 	private Dibs getDibs(Book book, Member member) {
@@ -60,6 +59,6 @@ public class DibsService {
 	}
 
 	private Book getBookById(Long bookId) {
-		return bookService.getByBookId(bookId);
+		return bookQueryService.getByBookId(bookId);
 	}
 }

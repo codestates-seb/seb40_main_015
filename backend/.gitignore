@@ -4,6 +4,7 @@ build/
 !gradle/wrapper/gradle-wrapper.jar
 !**/src/main/**/build/
 !**/src/test/**/build/
+spy.log
 
 ### STS ###
 .apt_generated
@@ -18,7 +19,9 @@ bin/
 !**/src/test/**/bin/
 
 ### IntelliJ IDEA ###
-.idea
+.idea/
+jacoco/
+src/main/generated/
 *.iws
 *.iml
 *.ipr

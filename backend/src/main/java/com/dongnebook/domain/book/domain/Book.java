@@ -25,14 +25,12 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Version;
 
-import com.dongnebook.domain.book.dto.request.BookEditRequest;
-import com.dongnebook.domain.book.dto.request.BookRegisterRequest;
-import com.dongnebook.domain.book.exception.NotRentableException;
 import com.dongnebook.domain.dibs.domain.Dibs;
 import com.dongnebook.domain.member.domain.Member;
 import com.dongnebook.domain.model.BaseTimeEntity;
 import com.dongnebook.domain.model.Location;
-import com.dongnebook.domain.rental.exception.CanNotChangeStateException;
+import com.dongnebook.global.error.exception.CanNotChangeStateException;
+import com.dongnebook.global.error.exception.NotOwnerException;
 
 import lombok.AccessLevel;
 import lombok.Builder;
@@ -42,7 +40,9 @@ import lombok.NoArgsConstructor;
 @Entity
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-@Table(name = "book", indexes = @Index(name = "idx_book", columnList = "latitude,longitude,book_state"))
+@Table(name = "book", indexes = {
+	@Index(name = "idx_book", columnList = "latitude,longitude,book_state"),
+	@Index(name = "idx_book2", columnList = "book_state")})
 public class Book extends BaseTimeEntity implements Serializable {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -52,17 +52,11 @@ public class Book extends BaseTimeEntity implements Serializable {
 	@Column(name = "book_version")
 	private Long version;
 
-	@Column(name = "title", nullable = false)
-	private String title;
-
-	@Column(name = "author", nullable = false)
-	private String author;
-
-	@Column(name = "publisher", nullable = false)
-	private String publisher;
+	@Embedded
+	private BookProduct bookProduct;
 
 	@Column(name = "img_url")
-	private String imgUrl="asdfsadf";
+	private String imgUrl = "Default";
 
 	@Lob
 	@Column(name = "description")
@@ -76,23 +70,22 @@ public class Book extends BaseTimeEntity implements Serializable {
 	private Location location;
 
 	@Convert(converter = BookStateConverter.class)
-	@Column(name = "book_state")
+	@Column(name = "book_state", length = 30)
 	private BookState bookState;
 
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "member_id")
 	private Member member;
 
+
 	@OneToMany(mappedBy = "book", cascade = CascadeType.REMOVE)
 	private List<Dibs> dibsList = new ArrayList<>();
 
 	@Builder
-	public Book(Long id, String title, String author, String imgUrl, String publisher, String description, Money rentalFee,
+	public Book(Long id, BookProduct bookProduct, String imgUrl, String description, Money rentalFee,
 		Location location, Member member) {
 		this.id = id;
-		this.title = title;
-		this.author = author;
-		this.publisher = publisher;
+		this.bookProduct = bookProduct;
 		this.imgUrl = imgUrl;
 		this.description = description;
 		this.rentalFee = rentalFee;
@@ -106,35 +99,45 @@ public class Book extends BaseTimeEntity implements Serializable {
 			this.bookState = to;
 			return this;
 		}
-
 		throw new CanNotChangeStateException();
 	}
 
-	public static Book create(BookRegisterRequest bookRegisterRequest, Location location, Member member) {
+	public void edit(String imgUrl, String description, Long memberId) {
+		if (!isMyBook(memberId)) {
+			throw new NotOwnerException();
+		}
+		Objects.requireNonNullElse(imgUrl, this.imgUrl);
+		this.description = description;
+	}
+
+	public static Book create(BookProduct bookProduct, String imgUrl, String description, Money money, Location location, Member member) {
 		return Book.builder()
-			.title(bookRegisterRequest.getTitle())
-			.author(bookRegisterRequest.getAuthor())
-			.imgUrl(bookRegisterRequest.getImageUrl())
-			.publisher(bookRegisterRequest.getPublisher())
-			.description(bookRegisterRequest.getDescription())
-			.rentalFee(Money.of(bookRegisterRequest.getRentalFee()))
+			.bookProduct(bookProduct)
+			.description(description)
+			.imgUrl(imgUrl)
+			.rentalFee(money)
 			.location(location)
 			.member(member)
 			.build();
 	}
 
-	public void delete() {
+	public void delete(Long requestMemberId) {
+		if (!isMyBook(requestMemberId)) {
+			throw new NotOwnerException();
+		}
 		if (Objects.equals(this.bookState, BookState.RENTABLE)) {
 			this.bookState = BookState.DELETED;
 			return;
 		}
-
 		throw new NotRentableException();
 	}
 
-	public void edit(BookEditRequest bookEditRequest) {
-		this.imgUrl = bookEditRequest.getImageUrl() == null ? this.imgUrl : bookEditRequest.getImageUrl();
-		this.description = bookEditRequest.getDescription();
+	private boolean isMyBook(Long requestMemberId) {
+		return Objects.equals(postOwnerId(), requestMemberId);
+	}
+
+	private Long postOwnerId() {
+		return this.member.getId();
 	}
 }
 

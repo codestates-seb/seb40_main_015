@@ -12,13 +12,13 @@ import java.util.Optional;
 import org.springframework.data.domain.SliceImpl;
 import org.springframework.stereotype.Repository;
 
-import com.dongnebook.domain.book.dto.response.QBookInfoResponse;
+import com.dongnebook.domain.book.application.port.in.response.QBookInfoResponse;
 import com.dongnebook.domain.rental.domain.Rental;
 import com.dongnebook.domain.rental.domain.RentalState;
 import com.dongnebook.domain.rental.dto.response.QRentalBookResponse;
 import com.dongnebook.domain.rental.dto.response.QRentalInfoResponse;
 import com.dongnebook.domain.rental.dto.response.RentalBookResponse;
-import com.dongnebook.global.dto.request.PageRequest;
+import com.dongnebook.global.dto.request.PageRequestImpl;
 import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 
@@ -29,14 +29,14 @@ import lombok.RequiredArgsConstructor;
 public class RentalQueryRepository {
     private final JPAQueryFactory jpaQueryFactory;
 
-    public SliceImpl<RentalBookResponse> findAllByMerchantIdOrderByIdDesc(Long merchantId, String rentalState, PageRequest pageRequest){
+    public SliceImpl<RentalBookResponse> findAllByMerchantIdOrderByIdDesc(Long merchantId, String rentalState, PageRequestImpl pageRequestImpl){
         List<RentalBookResponse> rentals = jpaQueryFactory.select(new QRentalBookResponse(
                     new QBookInfoResponse(
                             book.id,
                             book.imgUrl,
-                            book.title,
-                            book.author,
-                            book.publisher,
+                            book.bookProduct.title,
+                            book.bookProduct.author,
+                            book.bookProduct.publisher,
                             book.rentalFee.value,
                             book.description,
                             book.location,
@@ -56,7 +56,7 @@ public class RentalQueryRepository {
                     )
                 )
                 .from(rental)
-                .where(ltRentalId(pageRequest.getIndex()),
+                .where(ltRentalId(pageRequestImpl.getIndex()),
                         rentalStateEq(rentalState),
                         rental.merchantId.eq(merchantId)
                 )
@@ -64,28 +64,28 @@ public class RentalQueryRepository {
                 .innerJoin(book.member)
                 .innerJoin(rental.customer)
                 .orderBy(rental.id.desc())
-                .limit(pageRequest.getSize() + 1)
+                .limit(pageRequestImpl.getSize() + 1)
                 .fetch();
 
         boolean hasNext = false;
 
-        if (rentals.size() > pageRequest.getSize()) {
+        if (rentals.size() > pageRequestImpl.getSize()) {
             hasNext = true;
-            rentals.remove(pageRequest.getSize().intValue());
+            rentals.remove(pageRequestImpl.getSize().intValue());
         }
 
-        return new SliceImpl<>(rentals, pageRequest.of(), hasNext);
+        return new SliceImpl<>(rentals, pageRequestImpl.of(), hasNext);
     }
 
-    public SliceImpl<RentalBookResponse> findAllByCustomerIdOrderByIdDesc(Long customerId, String rentalState, PageRequest pageRequest){
+    public SliceImpl<RentalBookResponse> findAllByCustomerIdOrderByIdDesc(Long customerId, String rentalState, PageRequestImpl pageRequestImpl){
 
         List<RentalBookResponse> rentals = jpaQueryFactory.select(new QRentalBookResponse(
                                 new QBookInfoResponse(
                                         book.id,
                                         book.imgUrl,
-                                        book.title,
-                                        book.author,
-                                        book.publisher,
+                                        book.bookProduct.title,
+                                        book.bookProduct.author,
+                                        book.bookProduct.publisher,
                                         book.rentalFee.value,
                                         book.description,
                                         book.location,
@@ -105,7 +105,7 @@ public class RentalQueryRepository {
                         )
                 )
                 .from(rental)
-                .where(ltRentalId(pageRequest.getIndex()),
+                .where(ltRentalId(pageRequestImpl.getIndex()),
                         rentalStateEq(rentalState),
                         (rental.customer.id.eq(customerId))
                 )
@@ -113,17 +113,17 @@ public class RentalQueryRepository {
                 .innerJoin(book.member)
                 .innerJoin(rental.customer)
                 .orderBy(rental.id.desc())
-                .limit(pageRequest.getSize() + 1)
+                .limit(pageRequestImpl.getSize() + 1)
                 .fetch();
 
         boolean hasNext = false;
 
-        if (rentals.size() > pageRequest.getSize()) {
+        if (rentals.size() > pageRequestImpl.getSize()) {
             hasNext = true;
-            rentals.remove(pageRequest.getSize().intValue());
+            rentals.remove(pageRequestImpl.getSize().intValue());
         }
 
-        return new SliceImpl<>(rentals, pageRequest.of(), hasNext);
+        return new SliceImpl<>(rentals, pageRequestImpl.of(), hasNext);
     }
 
     public Optional<Rental> findRentalById(Long rentalId){
@@ -150,7 +150,7 @@ public class RentalQueryRepository {
     }
 
     private BooleanExpression rentalStateEq(String rentalState){
-        if(rentalState == null){
+        if(RentalState.valueOf(rentalState) == RentalState.NONE){
             return null;
         }
 
@@ -164,7 +164,7 @@ public class RentalQueryRepository {
         return jpaQueryFactory.selectFrom(rental)
             .innerJoin(rental.customer).fetchJoin()
             .innerJoin(rental.book).fetchJoin()
-            .where(rental.rentalDeadLine.between(start,end),rentalStateEq(String.valueOf(RentalState.RETURN_REVIEWED)))
+            .where(rental.rentalDeadLine.between(start,end),rentalStateEq(String.valueOf(RentalState.BEING_RENTED)))
             .fetch();
     }
 }

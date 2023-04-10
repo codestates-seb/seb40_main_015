@@ -15,7 +15,10 @@ spring:
       max-file-size: 2MB
       max-request-size: 2MB
   datasource:
-    url : jdbc:h2:mem:test
+    url : jdbc:h2:mem:test;MODE=MYSQL
+#    url: jdbc:mysql://localhost:3306/root?characterEncoding=UTF-8&serverTimezone=Asia/Seoul
+#    username: root
+#    password: asdf1234
   jpa:
     defer-datasource-initialization: true
     open-in-view: false
@@ -26,6 +29,7 @@ spring:
       hibernate:
         default_batch_fetch_size: 100
         format_sql: true  # (3) SQL pretty print
+        dialect: org.hibernate.dialect.MySQL5Dialect
   security:
     oauth2:
       client:
@@ -48,10 +52,10 @@ jwt:
 decorator:
   datasource:
     p6spy:
-      enable-logging: false
+      enable-logging: true
 
 logging:
-  config: classpath:logback-spring.xml
+  config: classpath:logback-spring-local.xml
 
 server:
   servlet:
@@ -71,5 +75,4 @@ cloud:
       auto: false
 awsParameterStorePropertySource:
   enabled: true
-
 

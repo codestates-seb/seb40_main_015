@@ -9,11 +9,10 @@ name: Java CI with Gradle
 
 on:
   push:
-    paths: [ 'backend/**' ]
+    paths: [ 'backend/**', '.github/workflows/gradle.yml', '.github/workflows/testBeforeMerge.yml' ]
     branches: [ 'main' , 'dev' ]
 
-permissions:
-  contents: read
+permissions: write-all
 
 env:
   S3_BUCKET_NAME: github-actions-bucket-dongnebook
@@ -23,7 +22,6 @@ env:
 
 jobs:
   build:
-
     runs-on: ubuntu-latest
 
     steps:
@@ -33,6 +31,16 @@ jobs:
         with:
           java-version: '11'
           distribution: 'temurin'
+        
+      - name: Cache Gradle packages
+        uses: actions/cache@v2
+        with:
+          path: |
+            ~/.gradle/caches
+            ~/.gradle/wrapper
+          key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*', '**/gradle-wrapper.properties') }}
+          restore-keys: |
+            ${{ runner.os }}-gradle-
         
       - name: Grant execute permission for gradlew
         run: chmod +x gradlew
@@ -49,6 +57,7 @@ jobs:
           jwt.secret-key: ${{ secrets.JWT_SECRET_KEY }}
           cloud.aws.credentials.access-key: ${{ secrets.S3_ACCESS_KEY }}
           cloud.aws.credentials.secret-key: ${{ secrets.S3_SECRET_KEY }}
+          logging.slack.webhook-uri: ${{ secrets.SLACK_WEBHOOK_URI_SEVER_ERROR_LOG }}
         
       - name: Set kakao
         uses: microsoft/variable-substitution@v1
@@ -57,12 +66,33 @@ jobs:
         env:
           KAKAO_KEY: ${{ secrets.KAKAO_KEY }}
         
-        
-      - name: Build with Gradle
-        run: ./gradlew build
+      - name: Build & Test with Gradle
+        run: ./gradlew build --stacktrace
         working-directory: ./backend/
         
+      - name: Publish Unit Test Results
+        uses: EnricoMi/publish-unit-test-result-action@v1
+        if: always()
+        with:
+          files: ./backend/build/test-results/**/*.xml
         
+      - name: Jacoco Report
+        uses: madrapps/jacoco-report@v1.2
+        if: always()
+        with:
+          title: Test Coverage Report
+          paths: ./backend/jacoco/jacoco.xml
+          token: ${{ secrets.GITHUB_TOKEN }}
+          min-coverage-overall: 50
+
+      - name: Cleanup Gradle Cache
+        # Remove some files from the Gradle cache, so they aren't cached by GitHub Actions.
+        # Restoring these files from a GitHub Actions cache might cause problems for future builds.
+        if: ${{ always() }}
+        run: |
+          rm -f ~/.gradle/caches/modules-2/modules-2.lock
+          rm -f ~/.gradle/caches/modules-2/gc.properties
+
       - name: Make zip file
         run: zip -r ./main-015-deploy.zip .
         shell: bash
@@ -80,6 +110,6 @@ jobs:
       - name: Code Deploy
         run: >
           aws deploy create-deployment --application-name dongnebook-deploy
-          --deployment-config-name CodeDeployDefault.AllAtOnce
+          --deployment-config-name CodeDeployDefault.OneAtATime
           --deployment-group-name Deploy-dongnebook-EC2-sub
           --s3-location bucket=$S3_BUCKET_NAME,bundleType=zip,key=main-015-deploy.zip

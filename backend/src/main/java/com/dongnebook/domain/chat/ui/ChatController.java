@@ -31,7 +31,6 @@ public class ChatController {
 	private final ChatService chatService;
 	private final RoomService roomService;
 
-
 	//클라이언트가 send를 할수 있는 경로
 	@MessageMapping("/chats/message/{roomId}")
 	public void chat(@DestinationVariable Long roomId, ChatMessageDto message) {
@@ -59,7 +58,4 @@ public class ChatController {
 
 		return ResponseEntity.ok(roomService.findOrCreate(roomRequest));
 	}
-
-
-
 }

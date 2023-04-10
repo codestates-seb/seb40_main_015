@@ -20,14 +20,15 @@ import org.springframework.context.annotation.Import;
 import org.springframework.data.domain.SliceImpl;
 
 import com.dongnebook.config.TestConfig;
+import com.dongnebook.domain.book.adapter.out.BookCommandRepository;
+import com.dongnebook.domain.book.adapter.out.BookQueryRepository;
 import com.dongnebook.domain.book.domain.Book;
-import com.dongnebook.domain.book.repository.BookCommandRepository;
 import com.dongnebook.domain.member.domain.Member;
-import com.dongnebook.domain.member.dto.request.MerchantSearchableRequest;
+import com.dongnebook.domain.member.dto.request.MerchantSearchRequest;
 import com.dongnebook.domain.member.dto.response.MemberResponse;
 import com.dongnebook.domain.model.Location;
 import com.dongnebook.domain.rental.repository.RentalRepository;
-import com.dongnebook.global.dto.request.PageRequest;
+import com.dongnebook.global.dto.request.PageRequestImpl;
 import com.dongnebook.support.BookStub;
 import com.dongnebook.support.DataClearExtension;
 import com.dongnebook.support.DatabaseCleaner;
@@ -40,7 +41,7 @@ import com.github.gavlyukovskiy.boot.jdbc.decorator.DataSourceDecoratorAutoConfi
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
 @Import({TestConfig.class, DatabaseCleaner.class})
 @ExtendWith(DataClearExtension.class)
-class MemberRepositoryTest {
+class MemberQueryRepositoryTest {
 
 	@Autowired
 	MemberQueryRepository memberQueryRepository;
@@ -54,6 +55,8 @@ class MemberRepositoryTest {
 	@Autowired
 	BookCommandRepository bookCommandRepository;
 
+	@Autowired
+	BookQueryRepository bookQueryRepository;
 
 	@PersistenceContext
 	EntityManager entityManager;
@@ -119,7 +122,7 @@ class MemberRepositoryTest {
 		//given
 		Location 봉천역 = LocationStub.봉천역.of();
 
-		MerchantSearchableRequest condition = new MerchantSearchableRequest(봉천역.getLongitude(), 봉천역.getLatitude(),
+		MerchantSearchRequest condition = new MerchantSearchRequest(봉천역.getLongitude(), 봉천역.getLatitude(),
 			40, 40, null, 3);
 		//when
 
@@ -129,7 +132,7 @@ class MemberRepositoryTest {
 		List<Double> latRangeList = Location.latRangeList(condition.getLatitude(), condition.getHeight(),
 			condition.getLevel());
 
-		List<Location> nearByBookLocation = memberQueryRepository.getSectorMerchantCounts(latRangeList,lonRangeList,condition);
+		List<Location> nearByBookLocation = memberQueryRepository.getNearByMerchant(condition);
 		//then
 		assertThat(nearByBookLocation).hasSize(8);
 	}
@@ -139,7 +142,7 @@ class MemberRepositoryTest {
 	void getAll() {
 		//given
 		Location 봉천역 = LocationStub.봉천역.of();
-		MerchantSearchableRequest condition = new MerchantSearchableRequest(봉천역.getLongitude(), 봉천역.getLatitude(),
+		MerchantSearchRequest condition = new MerchantSearchRequest(봉천역.getLongitude(), 봉천역.getLatitude(),
 			10, 10, 5, 3);
 
 
@@ -149,7 +152,7 @@ class MemberRepositoryTest {
 			condition.getLevel());
 		//when
 		SliceImpl<MemberResponse> content = memberQueryRepository.getAll(latRangeList, lonRangeList, condition,
-			new PageRequest(null));
+			new PageRequestImpl(null));
 
 		assertThat(content.getContent()).hasSize(6);
 

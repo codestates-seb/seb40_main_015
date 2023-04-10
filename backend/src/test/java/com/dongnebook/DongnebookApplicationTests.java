@@ -1,8 +1,10 @@
 package com.dongnebook;
 
-// @SpringBootTest
-// class DongnebookApplicationTests {
-// 	@Test
-// 	void contextLoads() {
-// 	}
-// }
+import org.junit.jupiter.api.Test;
+
+class DongnebookApplicationTests {
+	@Test
+	void contextLoads() {
+
+	}
+}

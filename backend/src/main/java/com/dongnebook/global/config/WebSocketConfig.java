@@ -24,4 +24,6 @@ public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
 				,"http://dongne-book.com","https://dongne-book-server.com","http://dongne-book-server.com")
 			.withSockJS();
 	}
+
+
 }
