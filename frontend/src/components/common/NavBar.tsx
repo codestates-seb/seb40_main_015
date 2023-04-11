@@ -10,7 +10,6 @@ import {
 	HiOutlineUser,
 	HiHome,
 } from 'react-icons/hi';
-
 import theme from '../../styles/theme';
 import notify from '../../utils/notify';
 

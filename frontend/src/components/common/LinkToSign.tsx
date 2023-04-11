@@ -11,7 +11,7 @@ const LinkToSign = (props: LinkToSignProps) => {
 	const { message, link, linkText } = props;
 	return (
 		<StyledLinkToSign>
-			{message}{' '}
+			{message}
 			<Link to={link}>
 				<StyledSpan>{linkText}</StyledSpan>
 			</Link>
