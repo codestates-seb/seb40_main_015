@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 import logo from '../../assets/image/logo1.png';
 import { IoArrowBack } from 'react-icons/io5';
-import { Link, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 const Title = ({
 	text,
@@ -15,18 +15,16 @@ const Title = ({
 	const navigate = useNavigate();
 	return (
 		<Text marginBottom={marginBottom}>
+			<IoArrowBack onClick={() => navigate(-1)} className="icon" />
 			{isLogo ? (
 				<>
-					<IoArrowBack onClick={() => navigate(-1)} className="icon" />
 					<Logo src={logo} />
 					<span>{text}</span>
 				</>
 			) : (
-				<>
-					<IoArrowBack onClick={() => navigate(-1)} className="icon" />
-					<span>{text}</span>
-				</>
+				<IoArrowBack onClick={() => navigate(-1)} className="icon" />
 			)}
+			<span>{text}</span>
 		</Text>
 	);
 };
