@@ -36,6 +36,7 @@ export const LendBookUserInfo = ({
 					: `주민 이름: ${rentalInfo.customerName}`}
 			</span>
 			<span>
+				대여 기간:{' '}
 				{(rentalInfo.rentalState === 'TRADING' ||
 					rentalInfo.rentalState === 'BEING_RENTED') &&
 					convertDate(
