@@ -46,7 +46,7 @@ const BookCalendar = ({
 	return (
 		<CalendarWrapper>
 			<Calendar
-				onChange={e => e}
+				// onChange={e => e}
 				value={value}
 				minDetail="month"
 				formatDay={(_, date) => {
