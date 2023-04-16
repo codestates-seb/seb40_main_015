@@ -86,7 +86,7 @@ const ReviewCreatePage = () => {
 					<Button onClick={handleSubmitReview}>리뷰 등록</Button>
 				</Box>
 			</Layout>
-			{submit && (
+			{submit ? (
 				<ConfirmModal
 					text={
 						'리뷰 등록 후 수정이 불가합니다. \n 해당 내용으로 등록 하시겠습니까?'
@@ -94,7 +94,7 @@ const ReviewCreatePage = () => {
 					setSubmit={setSubmit}
 					handleClick={handleClickSubmit}
 				/>
-			)}
+			) : null}
 		</Container>
 	);
 };

@@ -2,7 +2,7 @@ import styled from 'styled-components';
 import { useNavigate } from 'react-router-dom';
 import { HiOutlinePencilAlt } from 'react-icons/hi';
 import { useDispatch } from 'react-redux';
-import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
+import { useMutation, useQuery } from '@tanstack/react-query';
 import { useAppSelector } from 'redux/hooks';
 
 import {
@@ -29,7 +29,6 @@ function ProfilePage() {
 	const [tab, curTab, handleChange] = useTabs(['찜 목록', '예약 목록']);
 	const { id } = useAppSelector(state => state.loginInfo);
 	const { deleteLogout } = useAuthAPI();
-	const queryCache = useQueryClient();
 
 	//logout
 	const { mutate: mutateLogout } = useMutation(deleteLogout);
@@ -44,7 +43,7 @@ function ProfilePage() {
 	};
 
 	// api mypage member info
-	const { getMyInfo } = useMypageAPI();
+	const { getMyInfo, getPickBookList } = useMypageAPI();
 	const { data, isLoading } = useQuery({
 		queryKey: ['myprofile'],
 		queryFn: () => getMyInfo(id),
@@ -106,7 +105,6 @@ function ProfilePage() {
 							if (!isTrue) return;
 							mutateLogout();
 							dispatch(logout());
-							queryCache.clear(); // 로그아웃시 쿼리를 다 제거합니다.
 							navigate('/login');
 						}}>
 						로그아웃
@@ -116,6 +114,10 @@ function ProfilePage() {
 		</>
 	);
 }
+
+const ContainerNew = styled.div`
+	width: 90%;
+`;
 
 const Layout = styled.div`
 	display: flex;

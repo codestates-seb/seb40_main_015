@@ -1,4 +1,5 @@
 import { useNavigate } from 'react-router-dom';
+import styled from 'styled-components';
 import Button from '../common/Button';
 import { useBookReceipt } from '../../api/hooks/history/useBookReceipt';
 import { useCancelByCustomer } from '../../api/hooks/history/useCancelByCustomer';

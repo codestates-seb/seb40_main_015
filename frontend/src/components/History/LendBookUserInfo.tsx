@@ -35,30 +35,41 @@ export const LendBookUserInfo = ({
 					? `상인 이름: ${merchantName}`
 					: `주민 이름: ${rentalInfo.customerName}`}
 			</span>
-			<span>
-				대여 기간:{' '}
-				{(rentalInfo.rentalState === 'TRADING' ||
-					rentalInfo.rentalState === 'BEING_RENTED') &&
-					convertDate(
+			{(rentalInfo.rentalState === 'TRADING' ||
+				rentalInfo.rentalState === 'BEING_RENTED') && (
+				<span>
+					대여 기간:{' '}
+					{convertDate(
 						rentalInfo.rentalStartedAt,
 						rentalInfo.rentalDeadline,
 						true,
 					)}
-				{(rentalInfo.rentalState === 'RETURN_UNREVIEWED' ||
-					rentalInfo.rentalState === 'RETURN_REVIEWED') &&
-					convertDate(
+				</span>
+			)}
+			{(rentalInfo.rentalState === 'RETURN_UNREVIEWED' ||
+				rentalInfo.rentalState === 'RETURN_REVIEWED') && (
+				<span>
+					대여기간:{' '}
+					{convertDate(
 						rentalInfo.rentalStartedAt,
 						rentalInfo.rentalReturnedAt,
 						true,
 					)}
-				{rentalInfo.rentalState === 'CANCELED' &&
-					convertDate(
+				</span>
+			)}
+			{rentalInfo.rentalState === 'CANCELED' && (
+				<span>
+					대여기간:{' '}
+					{convertDate(
 						rentalInfo.rentalStartedAt,
 						rentalInfo.rentalCanceledAt,
 						true,
 					)}
-			</span>
-			{merchantName && <ChatButton onClick={handleChatClick}>채팅</ChatButton>}
+				</span>
+			)}
+			{merchantName ? (
+				<ChatButton onClick={handleChatClick}>채팅</ChatButton>
+			) : null}
 		</UserInfoBox>
 	);
 };

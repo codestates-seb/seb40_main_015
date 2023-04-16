@@ -24,54 +24,43 @@ const RentBookLists = ({ filters }: IRentBookListsProps) => {
 		<Box>
 			{lists?.length ? (
 				<>
-					{lists.map((el: Lists) => {
-						const { rentalInfo, bookInfo } = el;
-						const { rentalId, rentalState } = rentalInfo;
-						const {
-							author,
-							bookId,
-							bookUrl,
-							publisher,
-							rentalFee,
-							title,
-							merchantName,
-							merchantId,
-						} = bookInfo;
-						return (
-							<Wrapper key={rentalId}>
-								<BookItem
-									bookId={bookId}
-									title={title}
-									bookImage={bookUrl}
-									rentalfee={rentalFee}
-									author={author}
-									publisher={publisher}
-									status={rentalState}
-									rental={rentalInfo}
-								/>
-								<LendBookUserInfo
-									rentalInfo={rentalInfo}
-									merchantName={merchantName}
-									bookId={bookId}
-									merchantId={merchantId}
-								/>
-								<RentStatusButton
-									status={rentalState}
-									merchantName={merchantName}
-									rental={rentalInfo}
-									bookId={bookId}
-									title={title}
-								/>
-							</Wrapper>
-						);
-					})}
+					{lists?.map(
+						(el: Lists) =>
+							el && (
+								<Wrapper key={el.rentalInfo.rentalId}>
+									<BookItem
+										bookId={el.bookInfo.bookId}
+										title={el.bookInfo.title}
+										bookImage={el.bookInfo.bookUrl}
+										rentalfee={el.bookInfo.rentalFee}
+										author={el.bookInfo.author}
+										publisher={el.bookInfo.publisher}
+										status={el.rentalInfo.rentalState}
+										rental={el.rentalInfo}
+									/>
+									<LendBookUserInfo
+										rentalInfo={el.rentalInfo}
+										merchantName={el.bookInfo.merchantName}
+										bookId={el.bookInfo.bookId}
+										merchantId={el.bookInfo.merchantId}
+									/>
+									<RentStatusButton
+										status={el.rentalInfo.rentalState}
+										merchantName={el.bookInfo.merchantName}
+										rental={el.rentalInfo}
+										bookId={el.bookInfo.bookId}
+										title={el.bookInfo.title}
+									/>
+								</Wrapper>
+							),
+					)}
 				</>
 			) : (
 				<EmptyBox>
 					<p>빌린 책이 없어요</p>
 				</EmptyBox>
 			)}
-			{hasNextPage && <ScrollEnd ref={ref}>Loading...</ScrollEnd>}
+			{hasNextPage ? <ScrollEnd ref={ref}>Loading...</ScrollEnd> : null}
 		</Box>
 	);
 };
