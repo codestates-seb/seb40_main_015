@@ -1,103 +1,129 @@
 {
-	"name": "dongnebook",
-	"version": "0.1.0",
-	"private": true,
-	"contributors": [
-		{
-			"name": "이예빈 2pandi",
-			"email": "dev2pandi@gmail.com"
-		},
-		{
-			"name": "안지수 fejigu",
-			"email": "guajs0818@gmail.com"
-		},
-		{
-			"name": "우상헌 Withlaw",
-			"email": "sanxang@gmail.com"
-		},
-		{
-			"name": "부주용 jooyong-boo",
-			"email": "qnwndyd159@gmail.com"
-		}
-	],
-	"dependencies": {
-		"@reduxjs/toolkit": "^1.9.0",
-		"@stomp/stompjs": "^6.1.2",
-		"@tanstack/react-query": "^4.16.1",
-		"@tanstack/react-query-devtools": "^4.16.1",
-		"@testing-library/jest-dom": "^5.16.5",
-		"@testing-library/react": "^13.4.0",
-		"@testing-library/user-event": "^13.5.0",
-		"@types/jest": "^27.5.2",
-		"@types/lodash": "^4.14.190",
-		"@types/node": "^16.18.3",
-		"@types/react": "^18.0.25",
-		"@types/react-calendar": "^3.9.0",
-		"@types/react-dom": "^18.0.8",
-		"@types/react-redux": "^7.1.24",
-		"@types/react-router-dom": "^5.3.3",
-		"@types/redux-persist": "^4.3.1",
-		"@types/sockjs-client": "^1.5.1",
-		"@types/stompjs": "^2.3.5",
-		"@types/styled-components": "^5.1.26",
-		"axios": "^1.1.3",
-		"lodash": "^4.17.21",
-		"lottie-react": "^2.3.1",
-		"react": "^18.2.0",
-		"react-calendar": "^4.0.0",
-		"react-dom": "^18.2.0",
-		"react-geocode": "^0.2.3",
-		"react-icons": "^4.6.0",
-		"react-intersection-observer": "^9.4.1",
-		"react-kakao-maps-sdk": "^1.1.5",
-		"react-page-slides": "^0.1.3",
-		"react-redux": "^8.0.5",
-		"react-router": "^6.4.3",
-		"react-router-dom": "^6.4.3",
-		"react-scripts": "5.0.1",
-		"sockjs-client": "^1.6.1",
-		"styled-components": "^5.3.6",
-		"typescript": "^4.8.4",
-		"web-vitals": "^2.1.4",
-		"workbox-background-sync": "^5.1.4",
-		"workbox-broadcast-update": "^5.1.4",
-		"workbox-cacheable-response": "^5.1.4",
-		"workbox-core": "^5.1.4",
-		"workbox-expiration": "^5.1.4",
-		"workbox-google-analytics": "^5.1.4",
-		"workbox-navigation-preload": "^5.1.4",
-		"workbox-precaching": "^5.1.4",
-		"workbox-range-requests": "^5.1.4",
-		"workbox-routing": "^5.1.4",
-		"workbox-strategies": "^5.1.4",
-		"workbox-streams": "^5.1.4"
-	},
-	"scripts": {
-		"start": "react-scripts start",
-		"build": "react-scripts build",
-		"test": "react-scripts test",
-		"eject": "react-scripts eject"
-	},
-	"eslintConfig": {
-		"extends": [
-			"react-app",
-			"react-app/jest"
-		]
-	},
-	"browserslist": {
-		"production": [
-			">0.2%",
-			"not dead",
-			"not op_mini all"
-		],
-		"development": [
-			"last 1 chrome version",
-			"last 1 firefox version",
-			"last 1 safari version"
-		]
-	},
-	"devDependencies": {
-		"@types/react-geocode": "^0.2.1",
-		"kakao.maps.d.ts": "^0.1.33"
-	}
+  "name": "dongnebook",
+  "version": "0.1.0",
+  "private": true,
+  "contributors": [
+    {
+      "name": "이예빈 2pandi",
+      "email": "dev2pandi@gmail.com"
+    },
+    {
+      "name": "안지수 fejigu",
+      "email": "guajs0818@gmail.com"
+    },
+    {
+      "name": "우상헌 Withlaw",
+      "email": "sanxang@gmail.com"
+    },
+    {
+      "name": "부주용 jooyong-boo",
+      "email": "qnwndyd159@gmail.com"
+    }
+  ],
+  "dependencies": {
+    "@reduxjs/toolkit": "^1.9.0",
+    "@stomp/stompjs": "^6.1.2",
+    "@tanstack/react-query": "^4.16.1",
+    "@tanstack/react-query-devtools": "^4.16.1",
+    "@testing-library/jest-dom": "^5.16.5",
+    "@testing-library/react": "^13.4.0",
+    "@testing-library/user-event": "^13.5.0",
+    "@types/jest": "^27.5.2",
+    "@types/lodash": "^4.14.190",
+    "@types/node": "^16.18.3",
+    "@types/react": "^18.0.25",
+    "@types/react-calendar": "^3.9.0",
+    "@types/react-dom": "^18.0.8",
+    "@types/react-redux": "^7.1.24",
+    "@types/react-router-dom": "^5.3.3",
+    "@types/redux-persist": "^4.3.1",
+    "@types/sockjs-client": "^1.5.1",
+    "@types/stompjs": "^2.3.5",
+    "@types/styled-components": "^5.1.26",
+    "axios": "^1.1.3",
+    "lodash": "^4.17.21",
+    "lottie-react": "^2.3.1",
+    "react": "^18.2.0",
+    "react-calendar": "^4.0.0",
+    "react-dom": "^18.2.0",
+    "react-geocode": "^0.2.3",
+    "react-icons": "^4.6.0",
+    "react-intersection-observer": "^9.4.1",
+    "react-kakao-maps-sdk": "^1.1.5",
+    "react-page-slides": "^0.1.3",
+    "react-redux": "^8.0.5",
+    "react-router": "^6.4.3",
+    "react-router-dom": "^6.4.3",
+    "react-scripts": "5.0.1",
+    "sockjs-client": "^1.6.1",
+    "storybook-addon-styled-component-theme": "^2.0.0",
+    "styled-components": "^5.3.6",
+    "typescript": "^4.8.4",
+    "web-vitals": "^2.1.4",
+    "workbox-background-sync": "^5.1.4",
+    "workbox-broadcast-update": "^5.1.4",
+    "workbox-cacheable-response": "^5.1.4",
+    "workbox-core": "^5.1.4",
+    "workbox-expiration": "^5.1.4",
+    "workbox-google-analytics": "^5.1.4",
+    "workbox-navigation-preload": "^5.1.4",
+    "workbox-precaching": "^5.1.4",
+    "workbox-range-requests": "^5.1.4",
+    "workbox-routing": "^5.1.4",
+    "workbox-strategies": "^5.1.4",
+    "workbox-streams": "^5.1.4"
+  },
+  "scripts": {
+    "start": "react-scripts start",
+    "build": "react-scripts build",
+    "test": "react-scripts test",
+    "eject": "react-scripts eject",
+    "storybook": "storybook dev -p 6006",
+    "build-storybook": "storybook build"
+  },
+  "eslintConfig": {
+    "extends": [
+      "react-app",
+      "react-app/jest"
+    ],
+    "overrides": [
+      {
+        "files": [
+          "**/*.stories.*"
+        ],
+        "rules": {
+          "import/no-anonymous-default-export": "off"
+        }
+      }
+    ]
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
+  },
+  "devDependencies": {
+    "@storybook/addon-essentials": "^7.0.2",
+    "@storybook/addon-interactions": "^7.0.2",
+    "@storybook/addon-links": "^7.0.2",
+    "@storybook/addon-styling": "^0.3.2",
+    "@storybook/blocks": "^7.0.2",
+    "@storybook/preset-create-react-app": "^7.0.2",
+    "@storybook/react": "^7.0.2",
+    "@storybook/react-webpack5": "^7.0.2",
+    "@storybook/testing-library": "^0.0.14-next.2",
+    "@types/react-geocode": "^0.2.1",
+    "babel-plugin-named-exports-order": "^0.0.2",
+    "kakao.maps.d.ts": "^0.1.33",
+    "prop-types": "^15.8.1",
+    "storybook": "^7.0.2",
+    "webpack": "^5.78.0"
+  }
 }

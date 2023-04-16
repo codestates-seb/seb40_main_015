@@ -3,13 +3,6 @@ import { useEffect, useMemo } from 'react';
 import { useInView } from 'react-intersection-observer';
 import { useMypageAPI } from '../../mypage';
 
-interface Lists {
-	bookId: number;
-	title: string;
-	status: string;
-	bookImage: string;
-}
-
 const useMerchantBookList = (merchantId: string) => {
 	const { getMerchantBookLists } = useMypageAPI();
 	const [ref, inView] = useInView();
