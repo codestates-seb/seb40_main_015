@@ -36,20 +36,18 @@ const BookInfo = ({ bookState, bookUrl, bookId, title, onClick }: IProps) => {
 	}
 
 	return (
-		<>
-			<Container onClick={handleMoveBookDetail}>
-				<LeftBox>
-					<BookImage src={bookUrl} alt="상대 이미지" />
-					<LeftContent>
-						<p>{title}</p>
-						<p>{bookState}</p>
-					</LeftContent>
-				</LeftBox>
-				<Button fontSize="small" onClick={onClick}>
-					채팅 목록
-				</Button>
-			</Container>
-		</>
+		<Container onClick={handleMoveBookDetail}>
+			<LeftBox>
+				<BookImage src={bookUrl} alt="상대 이미지" />
+				<LeftContent>
+					<p>{title}</p>
+					<p>{bookState}</p>
+				</LeftContent>
+			</LeftBox>
+			<Button fontSize="small" onClick={onClick}>
+				채팅 목록
+			</Button>
+		</Container>
 	);
 };
 

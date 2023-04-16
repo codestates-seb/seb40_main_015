@@ -20,30 +20,32 @@ const LentBookLists = ({ filters }: ILentBookListsProps) => {
 	return (
 		<Box>
 			{lists?.length ? (
-				lists?.map(
-					(el: Lists) =>
-						el && (
-							<Wrapper key={el.rentalInfo.rentalId}>
-								<BookItem
-									bookId={el.bookInfo.bookId}
-									title={el.bookInfo.title}
-									bookImage={el.bookInfo.bookUrl}
-									rentalfee={el.bookInfo.rentalFee}
-									author={el.bookInfo.author}
-									publisher={el.bookInfo.publisher}
-									// merchantName={el.bookInfo.merchantName}
-									status={el.rentalInfo.rentalState}
-									rental={el.rentalInfo}
-								/>
-								<LendBookUserInfo rentalInfo={el.rentalInfo} />
-								<LendStatusButton
-									status={el.rentalInfo.rentalState}
-									customerName={el.rentalInfo.customerName}
-									rental={el.rentalInfo}
-								/>
-							</Wrapper>
-						),
-				)
+				lists?.map((el: Lists) => {
+					const { rentalInfo, bookInfo } = el;
+					const { customerName, rentalId, rentalState } = rentalInfo;
+					const { author, bookId, bookUrl, publisher, rentalFee, title } =
+						bookInfo;
+					return (
+						<Wrapper key={rentalId}>
+							<BookItem
+								bookId={bookId}
+								title={title}
+								bookImage={bookUrl}
+								rentalfee={rentalFee}
+								author={author}
+								publisher={publisher}
+								status={rentalState}
+								rental={rentalInfo}
+							/>
+							<LendBookUserInfo rentalInfo={rentalInfo} />
+							<LendStatusButton
+								status={rentalState}
+								customerName={customerName}
+								rental={rentalInfo}
+							/>
+						</Wrapper>
+					);
+				})
 			) : (
 				<EmptyBox>
 					<p>빌려준 책이 없어요</p>
