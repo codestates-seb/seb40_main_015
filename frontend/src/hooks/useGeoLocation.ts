@@ -47,7 +47,7 @@ function useGeoLocation(type?: string) {
 	if (type === 'center') {
 		return [location, setCurrentLocation];
 	} else {
-		return [current, setCurrent, handleCurrentLocationMove, loading];
+		return [current, handleCurrentLocationMove, loading];
 	}
 }
 
