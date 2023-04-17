@@ -1,7 +1,10 @@
 import type { Preview } from '@storybook/react';
 import { ThemeProvider } from 'styled-components';
-import theme from './theme';
 import React from 'react';
+import theme from '../src/styles/theme';
+import { store } from '../src/redux/store';
+import { Provider } from 'react-redux';
+import { BrowserRouter } from 'react-router-dom';
 const preview: Preview = {
 	parameters: {
 		actions: { argTypesRegex: '^on[A-Z].*' },
@@ -14,9 +17,13 @@ const preview: Preview = {
 	},
 	decorators: [
 		Story => (
-			<ThemeProvider theme={theme}>
-				<Story />
-			</ThemeProvider>
+			<BrowserRouter>
+				<Provider store={store}>
+					<ThemeProvider theme={theme}>
+						<Story />
+					</ThemeProvider>
+				</Provider>
+			</BrowserRouter>
 		),
 	],
 };
