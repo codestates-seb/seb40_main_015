@@ -195,7 +195,7 @@ public class ReservationServiceTest {
         when(memberService.getById(memberId)).thenReturn(customer);
 
         // when & then
-        assertDoesNotThrow(() -> reservationService.createReservation(bookId, memberId));
+        assertDoesNotThrow(() -> reservationService.checkReservationAvailability(bookId, memberId));
     }
 
     @Test
