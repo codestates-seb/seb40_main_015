@@ -3,11 +3,7 @@ package com.dongnebook.domain.reservation.ui;
 import org.springframework.data.domain.SliceImpl;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import com.dongnebook.domain.reservation.application.ReservationService;
 import com.dongnebook.domain.reservation.dto.response.ReservationInfoResponse;
@@ -25,6 +21,13 @@ public class ReservationsController {
 	public ResponseEntity<Void> postReservation(@PathVariable Long bookId, @Login Long memberId) {
 		reservationService.createReservation(bookId, memberId);
 		return new ResponseEntity<>(HttpStatus.CREATED);
+	}
+
+	// 해당 유저 도서 예약가능유무 확인 API
+	@GetMapping("/reservation/check/{bookId}")
+	public ResponseEntity<Void> getReservationAvailability(@PathVariable Long bookId, @Login Long memberId) {
+		reservationService.checkReservationAvailability(bookId, memberId);
+		return new ResponseEntity<>(HttpStatus.OK);
 	}
 
 	@GetMapping("/reservation")
