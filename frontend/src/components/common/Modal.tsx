@@ -1,4 +1,4 @@
-import React, { PropsWithChildren, useEffect, useState } from 'react';
+import { PropsWithChildren, useEffect, useState } from 'react';
 import styled from 'styled-components';
 import Button from '../common/Button';
 import useGeoLocation2 from '../../hooks/useGeoLocation2';
