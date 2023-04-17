@@ -52,6 +52,13 @@ public class ReservationService {
         reservationRepository.save(reservation);
     }
 
+    public void checkReservationAvailability(Long bookId, Long memberId){
+        Book book = getBookById(bookId);
+        Rental rental = getRentalByBookId(bookId);
+        Member customer = memberService.getById(memberId);
+        checkReservationPerson(memberId, book, rental, customer);
+    }
+
     public SliceImpl<ReservationInfoResponse> readReservations(Long memberId, PageRequestImpl pageRequestImpl){
         return reservationQueryRepository.findAllByMemberIdOrderByIdDesc(memberId, pageRequestImpl);
     }

@@ -61,6 +61,26 @@ public class ReservationControllerTest {
 
     @Test
     @WithMockUser
+    public void getReservationAvailabilityTest() throws Exception {
+        // given
+        long bookId = 1L;
+        doNothing().when(reservationService).checkReservationAvailability(any(), any());
+
+        // when
+        ResultActions actions =
+                mockMvc.perform(
+                        get("/reservation/check/" + bookId)
+                                .param("Authorization", accessToken)
+                                .with(csrf())
+                );
+
+        // then
+        actions
+                .andExpect(status().isOk());
+    }
+
+    @Test
+    @WithMockUser
     public void getReservationsTest() throws Exception {
         // given
         ReservationInfoResponse reservationInfoResponse = new ReservationInfoResponse(

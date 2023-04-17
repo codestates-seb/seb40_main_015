@@ -176,6 +176,29 @@ public class ReservationServiceTest {
     }
 
     @Test
+    public void checkReservationAvailabilityTest(){
+        // given
+        Long bookId = 1L;
+        Long memberId = 3L;
+
+        Member merchant = new Member(1L, "test1", "tester1", new Location(37.5340, 126.7064), "anywhere", "abc1@abc.com");
+        Book book = new Book(bookId, new BookProduct(), "aaa@abc.com", "기본이 중요하다", Money.of(1000), new Location(37.5340, 126.7064), merchant);
+        book.changeBookStateFromTo(BookState.RENTABLE, BookState.UNRENTABLE_RESERVABLE);
+        Optional<Book> optionalBook = Optional.of(book);
+        when(bookRepositoryPort.findById(Mockito.any(Long.class))).thenReturn(optionalBook);
+
+        Member customer = new Member(2L, "test2", "tester2", new Location(37.5340, 126.7064), "anywhere", "abc2@abc.com");
+        Rental rental = new Rental(LocalDateTime.now(), RentalState.BEING_RENTED, 2L, book, customer);
+        List<Rental> rentalList = List.of(rental);
+        when(rentalQueryRepository.getRentalByBookId(Mockito.anyLong())).thenReturn(rentalList);
+
+        when(memberService.getById(memberId)).thenReturn(customer);
+
+        // when & then
+        assertDoesNotThrow(() -> reservationService.checkReservationAvailability(bookId, memberId));
+    }
+
+    @Test
     public void readReservationsTest() {
         // given
         Long memberId = 1L;
