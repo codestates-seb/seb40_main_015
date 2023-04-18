@@ -1,5 +1,21 @@
 package com.dongnebook.domain.member.repository;
 
+import static org.assertj.core.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.*;
+
+import java.util.List;
+import java.util.Optional;
+
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.ImportAutoConfiguration;
+import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
+import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
+import org.springframework.context.annotation.Import;
+import org.springframework.data.domain.SliceImpl;
+
 import com.dongnebook.config.TestConfig;
 import com.dongnebook.domain.book.adapter.out.BookCommandRepository;
 import com.dongnebook.domain.book.domain.Book;
@@ -14,28 +30,13 @@ import com.dongnebook.global.dto.request.PageRequestImpl;
 import com.dongnebook.support.DataClearExtension;
 import com.dongnebook.support.DatabaseCleaner;
 import com.github.gavlyukovskiy.boot.jdbc.decorator.DataSourceDecoratorAutoConfiguration;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.autoconfigure.ImportAutoConfiguration;
-import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
-import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
-import org.springframework.context.annotation.Import;
-import org.springframework.data.domain.SliceImpl;
-
-import java.util.List;
-import java.util.Optional;
-
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.assertTrue;
 
 @DataJpaTest(showSql = false)
 @ImportAutoConfiguration(DataSourceDecoratorAutoConfiguration.class)
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
 @Import({TestConfig.class, DatabaseCleaner.class})
 @ExtendWith(DataClearExtension.class)
-public class MemberQueryRepositoryTest2 {
+class MemberQueryRepository2Test {
     @Autowired
     MemberQueryRepository memberQueryRepository;
     @Autowired
@@ -71,7 +72,7 @@ public class MemberQueryRepositoryTest2 {
     }
 
     @Test
-    public void getAllTest() {
+    void getAllTest() {
         // given
         Location location = new Location(37.482475661, 126.941669283);
         MerchantSearchRequest condition = new MerchantSearchRequest(location.getLongitude(), location.getLatitude(),
@@ -90,7 +91,7 @@ public class MemberQueryRepositoryTest2 {
     }
 
     @Test
-    public void findByMemberWithRentalTest(){
+    void findByMemberWithRentalTest(){
         // given
 
         // when
@@ -101,7 +102,7 @@ public class MemberQueryRepositoryTest2 {
     }
 
     @Test
-    public void findMyInfoTest(){
+    void findMyInfoTest(){
         // given
 
         // when

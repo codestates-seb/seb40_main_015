@@ -1,5 +1,15 @@
 package com.dongnebook.domain.alarm.repository;
 
+import static org.assertj.core.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.*;
+
+import java.util.Map;
+
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.springframework.web.servlet.mvc.method.annotation.SseEmitter;
+
 import com.dongnebook.domain.alarm.domain.Alarm;
 import com.dongnebook.domain.book.domain.Book;
 import com.dongnebook.domain.book.domain.BookProduct;
@@ -7,19 +17,19 @@ import com.dongnebook.domain.book.domain.Money;
 import com.dongnebook.domain.member.domain.Member;
 import com.dongnebook.domain.model.Location;
 import com.dongnebook.global.enums.AlarmType;
-import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.Test;
-import org.springframework.web.servlet.mvc.method.annotation.SseEmitter;
 
-import java.util.Map;
-import java.util.Optional;
+class EmitterRepositoryImplTest {
+    private EmitterRepositoryImpl emitterRepository;
+    private final Long DEFAULT_TIMEOUT = 60L * 1000L * 60L;
 
-public class EmitterRepositoryImplTest {
-    private EmitterRepository emitterRepository = new EmitterRepositoryImpl();
-    private Long DEFAULT_TIMEOUT = 60L * 1000L * 60L;
+    @BeforeEach
+    public void setup() {
+        emitterRepository = new EmitterRepositoryImpl();
+    }
+
 
     @Test
-    public void saveTest() throws Exception {
+    void saveTest() throws Exception {
         // given
         Long memberId = 1L;
         String emitterId =  memberId + "_" + System.currentTimeMillis();
@@ -30,7 +40,7 @@ public class EmitterRepositoryImplTest {
     }
 
     @Test
-    public void saveEventCacheTest() throws Exception {
+    void saveEventCacheTest() throws Exception {
         // given
         Long memberId = 1L;
         String eventCacheId =  memberId + "_" + System.currentTimeMillis();
@@ -53,29 +63,30 @@ public class EmitterRepositoryImplTest {
     }
 
     @Test
-    public void findAllEmitterStartWithByMemberIdTest() throws Exception {
-        // given
+    void testFindAllEmitterStartWithMemberId() {
+        // Given
         Long memberId = 1L;
         String emitterId1 = memberId + "_" + System.currentTimeMillis();
         emitterRepository.save(emitterId1, new SseEmitter(DEFAULT_TIMEOUT));
-
-        Thread.sleep(100);
-        String emitterId2 = memberId + "_" + System.currentTimeMillis();
+        String emitterId2 = "2_" + System.currentTimeMillis();
         emitterRepository.save(emitterId2, new SseEmitter(DEFAULT_TIMEOUT));
-
-        Thread.sleep(100);
         String emitterId3 = memberId + "_" + System.currentTimeMillis();
         emitterRepository.save(emitterId3, new SseEmitter(DEFAULT_TIMEOUT));
 
-        // when
-        Map<String, SseEmitter> ActualResult = emitterRepository.findAllEmitterStartWithMemberId(memberId);
+        // When
+        Map<String, SseEmitter> result = emitterRepository.findAllEmitterStartWithMemberId(memberId);
 
-        // then
-        Assertions.assertEquals(3, ActualResult.size());
+        // Then
+
+        assertThat(result).hasSize(2);
+        assertThat(result).containsKeys(emitterId1, emitterId3);
+        assertThat(result).doesNotContainKeys(emitterId2);
     }
 
+
+
     @Test
-    public void findAllEventCacheStartWithByMemberIdTest() throws Exception {
+    void findAllEventCacheStartWithByMemberIdTest() throws Exception {
         //given
         Long memberId = 1L;
         Member member = new Member(memberId, "test", "tester", new Location(37.5340, 126.7064), "abcd", "aaa@aa.com");
@@ -128,11 +139,11 @@ public class EmitterRepositoryImplTest {
         Map<String, Object> ActualResult = emitterRepository.findAllEventCacheStartWithMemberId(memberId);
 
         //then
-        Assertions.assertEquals(3, ActualResult.size());
+        assertEquals(3, ActualResult.size());
     }
 
     @Test
-    public void deleteByIdTest() throws Exception {
+    void deleteByIdTest() throws Exception {
         //given
         Long memberId = 1L;
         String emitterId =  memberId + "_" + System.currentTimeMillis();
@@ -143,11 +154,11 @@ public class EmitterRepositoryImplTest {
         emitterRepository.deleteById(emitterId);
 
         //then
-        Assertions.assertEquals(0, emitterRepository.findAllEmitterStartWithMemberId(memberId).size());
+        assertEquals(0, emitterRepository.findAllEmitterStartWithMemberId(memberId).size());
     }
 
     @Test
-    public void deleteAllEmitterStartWithIdTest1() throws Exception {
+    void deleteAllEmitterStartWithIdTest1() throws Exception {
         //given
         Long memberId = 1L;
         String emitterId1 = memberId + "_" + System.currentTimeMillis();
@@ -161,11 +172,11 @@ public class EmitterRepositoryImplTest {
         emitterRepository.deleteAllEmitterStartWithMemberId(memberId);
 
         //then
-        Assertions.assertEquals(0, emitterRepository.findAllEmitterStartWithMemberId(memberId).size());
+        assertEquals(0, emitterRepository.findAllEmitterStartWithMemberId(memberId).size());
     }
 
     @Test
-    public void deleteAllEmitterStartWithIdTest2() throws Exception {
+    void deleteAllEmitterStartWithIdTest2() throws Exception {
         //given
         Long memberId = 1L;
         String emitterId1 = memberId + "_" + System.currentTimeMillis();
@@ -179,11 +190,11 @@ public class EmitterRepositoryImplTest {
         emitterRepository.deleteAllEmitterStartWithMemberId(null);
 
         //then
-        Assertions.assertEquals(2, emitterRepository.findAllEmitterStartWithMemberId(memberId).size());
+        assertEquals(2, emitterRepository.findAllEmitterStartWithMemberId(memberId).size());
     }
 
     @Test
-    public void deleteAllEventCacheStartWithIdTest1() throws Exception {
+    void deleteAllEventCacheStartWithIdTest1() throws Exception {
         //given
         Long memberId = 1L;
         Member member = new Member(memberId, "test", "tester", new Location(37.5340, 126.7064), "abcd", "aaa@aa.com");
@@ -221,11 +232,11 @@ public class EmitterRepositoryImplTest {
         emitterRepository.deleteAllEventCacheStartWithMemberId(memberId);
 
         //then
-        Assertions.assertEquals(0, emitterRepository.findAllEventCacheStartWithMemberId(memberId).size());
+        assertEquals(0, emitterRepository.findAllEventCacheStartWithMemberId(memberId).size());
     }
 
     @Test
-    public void deleteAllEventCacheStartWithIdTest2() throws Exception {
+    void deleteAllEventCacheStartWithIdTest2() throws Exception {
         //given
         Long memberId = 1L;
         Member member = new Member(memberId, "test", "tester", new Location(37.5340, 126.7064), "abcd", "aaa@aa.com");
@@ -263,6 +274,6 @@ public class EmitterRepositoryImplTest {
         emitterRepository.deleteAllEventCacheStartWithMemberId(null);
 
         //then
-        Assertions.assertEquals(2, emitterRepository.findAllEventCacheStartWithMemberId(memberId).size());
+        assertEquals(2, emitterRepository.findAllEventCacheStartWithMemberId(memberId).size());
     }
 }

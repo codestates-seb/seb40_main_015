@@ -1,23 +1,7 @@
 package com.dongnebook.domain.review.repository;
 
-import com.dongnebook.config.TestConfig;
-import com.dongnebook.domain.book.adapter.out.BookCommandRepository;
-import com.dongnebook.domain.book.domain.Book;
-import com.dongnebook.domain.book.domain.BookProduct;
-import com.dongnebook.domain.book.domain.Money;
-import com.dongnebook.domain.member.domain.Member;
-import com.dongnebook.domain.member.repository.MemberRepository;
-import com.dongnebook.domain.model.Location;
-import com.dongnebook.domain.rental.domain.Rental;
-import com.dongnebook.domain.rental.domain.RentalState;
-import com.dongnebook.domain.rental.repository.RentalRepository;
-import com.dongnebook.domain.review.domain.Review;
-import com.dongnebook.domain.review.dto.request.ReviewRequest;
-import com.dongnebook.domain.review.dto.response.ReviewResponse;
-import com.dongnebook.global.dto.request.PageRequestImpl;
-import com.dongnebook.support.DataClearExtension;
-import com.dongnebook.support.DatabaseCleaner;
-import com.github.gavlyukovskiy.boot.jdbc.decorator.DataSourceDecoratorAutoConfiguration;
+import static org.assertj.core.api.Assertions.*;
+
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -28,16 +12,30 @@ import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.context.annotation.Import;
 import org.springframework.data.domain.SliceImpl;
 
-import java.time.LocalDateTime;
-
-import static org.assertj.core.api.Assertions.assertThat;
+import com.dongnebook.config.TestConfig;
+import com.dongnebook.domain.book.adapter.out.BookCommandRepository;
+import com.dongnebook.domain.book.domain.Book;
+import com.dongnebook.domain.book.domain.BookProduct;
+import com.dongnebook.domain.book.domain.Money;
+import com.dongnebook.domain.member.domain.Member;
+import com.dongnebook.domain.member.repository.MemberRepository;
+import com.dongnebook.domain.model.Location;
+import com.dongnebook.domain.rental.domain.Rental;
+import com.dongnebook.domain.rental.repository.RentalRepository;
+import com.dongnebook.domain.review.domain.Review;
+import com.dongnebook.domain.review.dto.request.ReviewRequest;
+import com.dongnebook.domain.review.dto.response.ReviewResponse;
+import com.dongnebook.global.dto.request.PageRequestImpl;
+import com.dongnebook.support.DataClearExtension;
+import com.dongnebook.support.DatabaseCleaner;
+import com.github.gavlyukovskiy.boot.jdbc.decorator.DataSourceDecoratorAutoConfiguration;
 
 @DataJpaTest(showSql = false)
 @ImportAutoConfiguration(DataSourceDecoratorAutoConfiguration.class)
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
 @Import({TestConfig.class, DatabaseCleaner.class})
 @ExtendWith(DataClearExtension.class)
-public class ReviewQueryRepositoryTest {
+class ReviewQueryRepositoryTest {
     @Autowired
     private ReviewQueryRepository reviewQueryRepository;
     @Autowired
@@ -110,7 +108,7 @@ public class ReviewQueryRepositoryTest {
     }
 
     @Test
-    public void findAllByMerchantIdOrderByIdDescTest1(){
+    void findAllByMerchantIdOrderByIdDescTest1(){
         // given
         Long merchantId = 1L;
         PageRequestImpl pageRequest = new PageRequestImpl(2L);
@@ -119,11 +117,11 @@ public class ReviewQueryRepositoryTest {
         SliceImpl<ReviewResponse> reviewResponseSlice = reviewQueryRepository.findAllByMerchantIdOrderByIdDesc(merchantId, pageRequest);
 
         // then
-        assertThat(reviewResponseSlice.hasNext()).isEqualTo(false);
+        assertThat(reviewResponseSlice.hasNext()).isFalse();
     }
 
     @Test
-    public void findAllByMerchantIdOrderByIdDescTest2(){
+    void findAllByMerchantIdOrderByIdDescTest2(){
         // given
         Long merchantId = 1L;
         PageRequestImpl pageRequest = new PageRequestImpl(null);
@@ -132,6 +130,6 @@ public class ReviewQueryRepositoryTest {
         SliceImpl<ReviewResponse> reviewResponseSlice = reviewQueryRepository.findAllByMerchantIdOrderByIdDesc(merchantId, pageRequest);
 
         // then
-        assertThat(reviewResponseSlice.hasNext()).isEqualTo(true);
+        assertThat(reviewResponseSlice.hasNext()).isTrue();
     }
 }

@@ -1,5 +1,21 @@
 package com.dongnebook.domain.rental.application;
 
+import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.BDDMockito.*;
+
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.util.List;
+import java.util.Optional;
+
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.Mockito;
+import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.data.domain.SliceImpl;
+
 import com.dongnebook.domain.alarm.application.AlarmService;
 import com.dongnebook.domain.book.application.BookQueryService;
 import com.dongnebook.domain.book.application.port.in.response.BookInfoResponse;
@@ -25,27 +41,9 @@ import com.dongnebook.domain.reservation.repository.ReservationQueryRepository;
 import com.dongnebook.domain.reservation.repository.ReservationRepository;
 import com.dongnebook.global.dto.request.PageRequestImpl;
 import com.dongnebook.global.error.exception.CanNotChangeStateException;
-import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
-import org.mockito.Mockito;
-import org.mockito.junit.jupiter.MockitoExtension;
-import org.springframework.data.domain.SliceImpl;
-
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.util.List;
-import java.util.Optional;
-
-import static org.mockito.BDDMockito.given;
-import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
-import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.mockito.Mockito.doNothing;
-import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
-public class RentalServiceTest2 {
+class RentalService2Test {
     @Mock
     private RentalRepository rentalRepository;
     @Mock
@@ -64,7 +62,7 @@ public class RentalServiceTest2 {
     private RentalService rentalService;
 
     @Test
-    public void getMemberByIdTest() throws Exception {
+    void getMemberByIdTest(){
         // given
         Long bookId = 1L;
         Long customerId = 1L;
@@ -77,7 +75,7 @@ public class RentalServiceTest2 {
     }
 
     @Test
-    public void blockRentMyBookTest() throws Exception {
+    void blockRentMyBookTest(){
         // given
         Long bookId = 1L;
         Long customerId = 1L;
@@ -94,7 +92,7 @@ public class RentalServiceTest2 {
     }
 
     @Test
-    public void createRentalTest() throws Exception {
+    void createRentalTest() throws Exception {
         // given
         Long bookId = 1L;
         Long customerId = 1L;
@@ -114,7 +112,7 @@ public class RentalServiceTest2 {
     }
 
     @Test
-    public void getRentalTest() throws Exception {
+    void getRentalTest() throws Exception {
         // given
         Long rentalId = 1L;
         Long customerId = 1L;
@@ -127,7 +125,7 @@ public class RentalServiceTest2 {
     }
 
     @Test
-    public void CanNotChangeRentalStateExceptionTest() throws Exception {
+    void CanNotChangeRentalStateExceptionTest() throws Exception {
         // given
         Long rentalId = 1L;
         Long customerId = 2L;
@@ -147,7 +145,7 @@ public class RentalServiceTest2 {
     }
 
     @Test
-    public void CanNotChangeBookStateException() throws Exception {
+    void CanNotChangeBookStateException() throws Exception {
         // given
         Long rentalId = 1L;
         Long customerId = 2L;
@@ -167,7 +165,7 @@ public class RentalServiceTest2 {
     }
 
     @Test
-    public void cancelRentalByCustomerTest() throws Exception {
+    void cancelRentalByCustomerTest() throws Exception {
         // given
         Long rentalId = 1L;
         Long customerId = 2L;
@@ -188,7 +186,7 @@ public class RentalServiceTest2 {
     }
 
     @Test
-    public void CanNotChangeStateExceptionTest() throws Exception {
+    void CanNotChangeStateExceptionTest() throws Exception {
         //given
         Long rentalId = 1L;
         Long merchantId = 1L;
@@ -210,7 +208,7 @@ public class RentalServiceTest2 {
     }
 
     @Test
-    public void cancelRentalByMerchantTest() throws Exception {
+    void cancelRentalByMerchantTest() throws Exception {
         //given
         Long rentalId = 1L;
         Long merchantId = 1L;
@@ -231,7 +229,7 @@ public class RentalServiceTest2 {
     }
 
     @Test
-    public void receiveBookTest() throws Exception {
+    void receiveBookTest() throws Exception {
         // given
         Long rentalId = 1L;
         Long customerId = 1L;
@@ -252,7 +250,7 @@ public class RentalServiceTest2 {
     }
 
     @Test
-    public void returnRentalTest1() throws Exception {
+    void returnRentalTest1() throws Exception {
         // given
         Long rentalId = 1L;
         Long merchantId = 1L;
@@ -276,7 +274,7 @@ public class RentalServiceTest2 {
     }
 
     @Test
-    public void returnRentalTest2() throws Exception {
+   void returnRentalTest2() throws Exception {
         // given
         Long rentalId = 1L;
         Long merchantId = 1L;
@@ -306,7 +304,7 @@ public class RentalServiceTest2 {
     }
 
     @Test
-    public void getRentalsByMerchantTest() throws Exception{
+    void getRentalsByMerchantTest() throws Exception{
         // given
         Long merchantId = 1L;
         RentalSearchCondition rentalState = new RentalSearchCondition((RentalState.TRADING).toString());
@@ -351,7 +349,7 @@ public class RentalServiceTest2 {
     }
 
     @Test
-    public void getRentalsByCustomerTest() throws Exception{
+    void getRentalsByCustomerTest() throws Exception{
         // given
         Long customerId = 2L;
         RentalSearchCondition rentalState = new RentalSearchCondition((RentalState.TRADING).toString());
@@ -396,7 +394,7 @@ public class RentalServiceTest2 {
     }
 
     @Test
-    public void oneDayBeforeReturnTest() throws Exception{
+    void oneDayBeforeReturnTest() throws Exception{
         // given
         LocalDateTime localDateTime = LocalDateTime.now();
         Long merchantId = 1L;

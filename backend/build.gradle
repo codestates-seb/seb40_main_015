@@ -43,6 +43,7 @@ dependencies {
     implementation "com.h2database:h2"
     testCompileOnly 'org.projectlombok:lombok:1.18.12' // 테스트 의존성 추가
     testAnnotationProcessor 'org.projectlombok:lombok:1.18.12' // 테스트 의존성 추가
+    testImplementation 'org.awaitility:awaitility:4.1.0'
 // build.gradle
     implementation 'com.github.gavlyukovskiy:p6spy-spring-boot-starter:1.7.1'
     implementation 'com.google.code.gson:gson'
@@ -130,6 +131,12 @@ jacocoTestCoverageVerification {
 jacoco {
     toolVersion = "0.8.8"
     reportsDirectory = layout.buildDirectory.dir('customJacocoReportDir')
+}
+
+sonarqube {
+    properties {
+        property "sonar.exclusions", "**/test/**"
+    }
 }
 
 

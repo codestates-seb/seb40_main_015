@@ -1,13 +1,14 @@
 package com.dongnebook.domain.rental.ui;
 
+import static org.mockito.ArgumentMatchers.*;
+import static org.mockito.BDDMockito.*;
+import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.*;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
-import com.dongnebook.domain.book.application.port.in.response.BookInfoResponse;
-import com.dongnebook.domain.book.domain.BookState;
-import com.dongnebook.domain.model.Location;
-import com.dongnebook.domain.rental.application.RentalService;
-import com.dongnebook.domain.rental.domain.RentalState;
-import com.dongnebook.domain.rental.dto.response.RentalBookResponse;
-import com.dongnebook.domain.rental.dto.response.RentalInfoResponse;
+import java.time.LocalDateTime;
+import java.util.List;
+
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
@@ -19,21 +20,17 @@ import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
 
-import java.time.LocalDateTime;
-import java.util.List;
-
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.BDDMockito.given;
-import static org.mockito.Mockito.doNothing;
-import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.patch;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
+import com.dongnebook.domain.book.application.port.in.response.BookInfoResponse;
+import com.dongnebook.domain.book.domain.BookState;
+import com.dongnebook.domain.model.Location;
+import com.dongnebook.domain.rental.application.RentalService;
+import com.dongnebook.domain.rental.domain.RentalState;
+import com.dongnebook.domain.rental.dto.response.RentalBookResponse;
+import com.dongnebook.domain.rental.dto.response.RentalInfoResponse;
 
 @WebMvcTest(RentalController.class)
 @MockBean(JpaMetamodelMappingContext.class)
-public class RentalControllerTest {
+class RentalControllerTest {
     @Autowired
     private MockMvc mockMvc;
     @MockBean
@@ -43,7 +40,7 @@ public class RentalControllerTest {
 
     @Test
     @WithMockUser
-    public void postRentalTest() throws Exception {
+   void postRentalTest() throws Exception {
         // given
         long bookId = 1L;
         doNothing().when(rentalService).createRental(any(), any());
@@ -63,7 +60,7 @@ public class RentalControllerTest {
 
     @Test
     @WithMockUser
-    public void cancelRentalByCustomerTest() throws Exception {
+   void cancelRentalByCustomerTest() throws Exception {
         // given
         Long rentalId = 1L;
         doNothing().when(rentalService).cancelRentalByCustomer(any(), any());
@@ -83,7 +80,7 @@ public class RentalControllerTest {
 
     @Test
     @WithMockUser
-    public void cancelRentalByMerchantTest() throws Exception {
+   void cancelRentalByMerchantTest() throws Exception {
         // given
         Long rentalId = 1L;
         doNothing().when(rentalService).cancelRentalByMerchant(any(), any());
@@ -103,7 +100,7 @@ public class RentalControllerTest {
 
     @Test
     @WithMockUser
-    public void receiveBookTest() throws Exception {
+    void receiveBookTest() throws Exception {
         // given
         Long rentalId = 1L;
         doNothing().when(rentalService).receiveBook(any(), any());
@@ -123,7 +120,7 @@ public class RentalControllerTest {
 
     @Test
     @WithMockUser
-    public void returnRentalTest() throws Exception {
+    void returnRentalTest() throws Exception {
         // given
         Long rentalId = 1L;
         doNothing().when(rentalService).returnRental(any(), any());
@@ -143,7 +140,7 @@ public class RentalControllerTest {
 
     @Test
     @WithMockUser
-    public void getRentalsByMerchantTest() throws Exception {
+    void getRentalsByMerchantTest() throws Exception {
         // given
         LocalDateTime rentalStartedAt = LocalDateTime.now();
         LocalDateTime rentalDeadline = rentalStartedAt.plusDays(9);
@@ -201,7 +198,7 @@ public class RentalControllerTest {
 
     @Test
     @WithMockUser
-    public void getRentalsByCustomerTest() throws Exception {
+    void getRentalsByCustomerTest() throws Exception {
         // given
         LocalDateTime rentalStartedAt = LocalDateTime.now();
         LocalDateTime rentalDeadline = rentalStartedAt.plusDays(9);

@@ -1,5 +1,18 @@
 package com.dongnebook.domain.dibs.repository;
 
+import static org.hibernate.validator.internal.util.Contracts.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.*;
+
+import java.util.Optional;
+
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
+import org.springframework.context.annotation.Import;
+
 import com.dongnebook.domain.book.adapter.out.BookCommandRepository;
 import com.dongnebook.domain.book.domain.Book;
 import com.dongnebook.domain.book.domain.BookProduct;
@@ -10,22 +23,11 @@ import com.dongnebook.domain.member.repository.MemberRepository;
 import com.dongnebook.domain.model.Location;
 import com.dongnebook.support.DataClearExtension;
 import com.dongnebook.support.DatabaseCleaner;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
-import org.springframework.context.annotation.Import;
-
-import java.util.Optional;
-
-import static org.hibernate.validator.internal.util.Contracts.assertNotNull;
-import static org.junit.jupiter.api.Assertions.*;
 
 @DataJpaTest(showSql = false)
 @Import(DatabaseCleaner.class)
 @ExtendWith(DataClearExtension.class)
-public class DibsRepositoryTest {
+class DibsRepositoryTest {
     @Autowired
     private DibsRepository dibsRepository;
     @Autowired
@@ -71,7 +73,7 @@ public class DibsRepositoryTest {
     }
 
     @Test
-    public void saveDibsTest() {
+    void saveDibsTest() {
         // given
 
         // when
@@ -85,7 +87,7 @@ public class DibsRepositoryTest {
     }
 
     @Test
-    public void findByBookAndMemberOrderByIdDesc() {
+    void findByBookAndMemberOrderByIdDesc() {
         // given
         Dibs savedDibs = dibsRepository.save(dibs);
 
@@ -102,7 +104,7 @@ public class DibsRepositoryTest {
     }
 
     @Test
-    public void deleteDibsTest() {
+    void deleteDibsTest() {
         // given
         Dibs savedDibs = dibsRepository.save(dibs);
 

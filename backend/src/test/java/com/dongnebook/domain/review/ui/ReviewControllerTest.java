@@ -1,12 +1,14 @@
 package com.dongnebook.domain.review.ui;
 
-import com.dongnebook.domain.review.application.ReviewService;
-import com.dongnebook.domain.review.dto.request.ReviewRequest;
-import com.dongnebook.domain.review.dto.response.ReviewResponse;
-import com.dongnebook.global.dto.request.PageRequestImpl;
-import com.google.gson.Gson;
+import static org.mockito.ArgumentMatchers.*;
+import static org.mockito.Mockito.*;
+import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.*;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
+
+import java.util.List;
+
 import org.junit.jupiter.api.Test;
-import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
@@ -17,19 +19,14 @@ import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
 
-import java.util.List;
-
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.doNothing;
-import static org.mockito.Mockito.when;
-import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import com.dongnebook.domain.review.application.ReviewService;
+import com.dongnebook.domain.review.dto.request.ReviewRequest;
+import com.dongnebook.domain.review.dto.response.ReviewResponse;
+import com.google.gson.Gson;
 
 @WebMvcTest(ReviewController.class)
 @MockBean(JpaMetamodelMappingContext.class)
-public class ReviewControllerTest {
+class ReviewControllerTest {
     @Autowired
     private MockMvc mockMvc;
     @MockBean
@@ -41,7 +38,7 @@ public class ReviewControllerTest {
 
     @Test
     @WithMockUser
-    public void postReviewTest() throws Exception {
+    void postReviewTest() throws Exception {
         // given
         Long rentalId = 1L;
         ReviewRequest reviewRequest = ReviewRequest.builder()
@@ -69,14 +66,14 @@ public class ReviewControllerTest {
 
     @Test
     @WithMockUser
-    public void getReviewsTest() throws Exception {
+    void getReviewsTest() throws Exception {
         // given
         Long merchantId = 2L;
         ReviewResponse reviewResponse =
                 new ReviewResponse(
                         1L, merchantId, "tester", "aa@aa.com", "good",
 //                        5L, "JAVA의 정석", "aa@aa.com", 1L, 1L
-                        5L, "aa@aa.com", 1L, 1L
+                        5L, "JAVA의 정석", "aa@aa.com", 1L, 1L
                 );
         SliceImpl<ReviewResponse> reviewResponseSlice =
                 new SliceImpl<>(List.of(reviewResponse));

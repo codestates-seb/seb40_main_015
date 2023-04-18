@@ -1,5 +1,20 @@
 package com.dongnebook.domain.reservation.repository;
 
+import static org.assertj.core.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.*;
+
+import java.time.LocalDateTime;
+import java.util.List;
+
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
+import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
+import org.springframework.context.annotation.Import;
+import org.springframework.data.domain.SliceImpl;
+
 import com.dongnebook.config.TestConfig;
 import com.dongnebook.domain.book.adapter.out.BookCommandRepository;
 import com.dongnebook.domain.book.domain.Book;
@@ -16,26 +31,12 @@ import com.dongnebook.domain.reservation.dto.response.ReservationInfoResponse;
 import com.dongnebook.global.dto.request.PageRequestImpl;
 import com.dongnebook.support.DataClearExtension;
 import com.dongnebook.support.DatabaseCleaner;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
-import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
-import org.springframework.context.annotation.Import;
-import org.springframework.data.domain.SliceImpl;
-
-import java.time.LocalDateTime;
-import java.util.List;
-
-import static org.assertj.core.api.Assertions.*;
-import static org.junit.jupiter.api.Assertions.*;
 
 @DataJpaTest(showSql = false)
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
 @Import({TestConfig.class, DatabaseCleaner.class})
 @ExtendWith(DataClearExtension.class)
-public class ReservationQueryRepositoryTest {
+class ReservationQueryRepositoryTest {
     @Autowired
     private ReservationQueryRepository reservationQueryRepository;
     @Autowired
@@ -236,7 +237,7 @@ public class ReservationQueryRepositoryTest {
     }
 
     @Test
-    public void getReservationByRentalIdTest() {
+    void getReservationByRentalIdTest() {
         // given
         Long rentalId = 1L;
 
@@ -248,7 +249,7 @@ public class ReservationQueryRepositoryTest {
     }
 
     @Test
-    public void getReservationByIdTest() {
+   void getReservationByIdTest() {
         // given
         Long reservationId = 1L;
 
@@ -261,7 +262,7 @@ public class ReservationQueryRepositoryTest {
 
 
     @Test
-    public void ltReservationIdFalseTest() {
+    void ltReservationIdFalseTest() {
         // given
         Long memberId = 3L;
         PageRequestImpl pageRequest = new PageRequestImpl(1L);
@@ -270,11 +271,11 @@ public class ReservationQueryRepositoryTest {
         SliceImpl<ReservationInfoResponse> reservationInfoResponseSlice = reservationQueryRepository.findAllByMemberIdOrderByIdDesc(memberId, pageRequest);
 
         // then
-        assertThat(reservationInfoResponseSlice.hasNext()).isEqualTo(false);
+        assertThat(reservationInfoResponseSlice.hasNext()).isFalse();
     }
 
     @Test
-    public void ltReservationIdTrueTest() {
+    void ltReservationIdTrueTest() {
         // given
         Long memberId = 3L;
         PageRequestImpl pageRequest = new PageRequestImpl(null);
@@ -283,7 +284,7 @@ public class ReservationQueryRepositoryTest {
         SliceImpl<ReservationInfoResponse> reservationInfoResponseSlice = reservationQueryRepository.findAllByMemberIdOrderByIdDesc(memberId, pageRequest);
 
         // then
-        assertThat(reservationInfoResponseSlice.hasNext()).isEqualTo(true);
+        assertThat(reservationInfoResponseSlice.hasNext()).isTrue();
     }
 
 }

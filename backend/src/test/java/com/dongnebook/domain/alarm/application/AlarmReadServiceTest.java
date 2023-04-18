@@ -1,26 +1,26 @@
 package com.dongnebook.domain.alarm.application;
 
-import com.dongnebook.domain.alarm.repository.AlarmQueryRepository;
+import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.ArgumentMatchers.*;
+import static org.mockito.Mockito.*;
+
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.times;
-import static org.mockito.Mockito.verify;
+import com.dongnebook.domain.alarm.repository.AlarmQueryRepository;
 
 @ExtendWith(MockitoExtension.class)
-public class AlarmReadServiceTest {
+class AlarmReadServiceTest {
     @Mock
     private AlarmQueryRepository alarmQueryRepository;
     @InjectMocks
     private AlarmReadService alarmReadService;
 
     @Test
-    public void AlarmReadAllTest() throws Exception {
+    void AlarmReadAllTest() throws Exception {
         // given
         Long memberId = 1L;
 

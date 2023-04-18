@@ -1,5 +1,17 @@
 package com.dongnebook.domain.rental.repository;
 
+import static org.junit.jupiter.api.Assertions.*;
+
+import java.time.LocalDateTime;
+import java.util.Optional;
+
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
+import org.springframework.context.annotation.Import;
+
 import com.dongnebook.domain.book.adapter.out.BookCommandRepository;
 import com.dongnebook.domain.book.domain.Book;
 import com.dongnebook.domain.book.domain.BookProduct;
@@ -11,22 +23,11 @@ import com.dongnebook.domain.rental.domain.Rental;
 import com.dongnebook.domain.rental.domain.RentalState;
 import com.dongnebook.support.DataClearExtension;
 import com.dongnebook.support.DatabaseCleaner;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
-import org.springframework.context.annotation.Import;
-
-import java.time.LocalDateTime;
-import java.util.Optional;
-
-import static org.junit.jupiter.api.Assertions.*;
 
 @DataJpaTest(showSql = false)
 @Import(DatabaseCleaner.class)
 @ExtendWith(DataClearExtension.class)
-public class RentalRepositoryTest {
+ class RentalRepositoryTest {
     @Autowired
     private RentalRepository rentalRepository;
     @Autowired
@@ -76,7 +77,7 @@ public class RentalRepositoryTest {
     }
 
     @Test
-    public void saveRentalTest() {
+    void saveRentalTest() {
         // given
 
         // when
@@ -92,7 +93,7 @@ public class RentalRepositoryTest {
     }
 
     @Test
-    public void rentalFindByIdTest() {
+    void rentalFindByIdTest() {
         // given
         Rental savedRental = rentalRepository.save(rental);
 

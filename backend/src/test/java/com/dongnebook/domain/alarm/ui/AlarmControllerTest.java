@@ -1,9 +1,13 @@
 package com.dongnebook.domain.alarm.ui;
 
-import com.dongnebook.domain.alarm.application.AlarmReadService;
-import com.dongnebook.domain.alarm.application.AlarmService;
-import com.dongnebook.domain.alarm.dto.AlarmResponse;
-import com.dongnebook.global.enums.AlarmType;
+import static org.mockito.ArgumentMatchers.*;
+import static org.mockito.BDDMockito.*;
+import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.*;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
+
+import java.util.List;
+
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
@@ -15,18 +19,13 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.web.servlet.mvc.method.annotation.SseEmitter;
 
-import java.util.List;
-
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.BDDMockito.given;
-import static org.mockito.Mockito.*;
-import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
+import com.dongnebook.domain.alarm.application.AlarmService;
+import com.dongnebook.domain.alarm.dto.AlarmResponse;
+import com.dongnebook.global.enums.AlarmType;
 
 @WebMvcTest(AlarmController.class)
 @MockBean(JpaMetamodelMappingContext.class)
-public class AlarmControllerTest {
+class AlarmControllerTest {
     @Autowired
     private MockMvc mockMvc;
     @MockBean
@@ -36,7 +35,7 @@ public class AlarmControllerTest {
 
     @Test
     @WithMockUser
-    public void getAlarmTest() throws Exception {
+    void getAlarmTest() throws Exception {
         // given
         AlarmResponse alarmResponse = new AlarmResponse(
                 1L, AlarmType.RENTAL, 1L, "JAVA의 정석", true
@@ -62,7 +61,7 @@ public class AlarmControllerTest {
 
     @Test
     @WithMockUser
-    public void deleteAlarmTest() throws Exception {
+    void deleteAlarmTest() throws Exception {
         // given
         doNothing().when(alarmService).deleteAllById(any());
 
@@ -79,7 +78,7 @@ public class AlarmControllerTest {
 
     @Test
     @WithMockUser
-    public void subscribeTest() throws Exception {
+    void subscribeTest() throws Exception {
         // given
         long memberId = 1L;
         SseEmitter sseEmitter = new SseEmitter(30L);
@@ -100,7 +99,7 @@ public class AlarmControllerTest {
 
     @Test
     @WithMockUser
-    public void deleteSpecificAlarmTest() throws Exception {
+    void deleteSpecificAlarmTest() throws Exception {
         // given
         long alarmId = 1L;
         doNothing().when(alarmService).deleteAlarmById(any(), any());

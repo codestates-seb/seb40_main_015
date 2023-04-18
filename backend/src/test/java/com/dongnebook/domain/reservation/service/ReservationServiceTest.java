@@ -1,5 +1,19 @@
 package com.dongnebook.domain.reservation.service;
 
+import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.Mockito.*;
+
+import java.time.LocalDateTime;
+import java.util.List;
+import java.util.Optional;
+
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.Mockito;
+import org.mockito.junit.jupiter.MockitoExtension;
+
 import com.dongnebook.domain.book.application.BookNotFoundException;
 import com.dongnebook.domain.book.application.port.out.BookRepositoryPort;
 import com.dongnebook.domain.book.domain.Book;
@@ -21,24 +35,9 @@ import com.dongnebook.domain.reservation.exception.ReservationNotFoundException;
 import com.dongnebook.domain.reservation.repository.ReservationQueryRepository;
 import com.dongnebook.domain.reservation.repository.ReservationRepository;
 import com.dongnebook.global.dto.request.PageRequestImpl;
-import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
-import org.mockito.Mockito;
-import org.mockito.junit.jupiter.MockitoExtension;
-
-import java.time.LocalDateTime;
-import java.util.List;
-import java.util.Optional;
-
-import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
-import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.doNothing;
-import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
-public class ReservationServiceTest {
+class ReservationServiceTest {
     @Mock
     private ReservationRepository reservationRepository;
     @Mock
@@ -53,7 +52,7 @@ public class ReservationServiceTest {
     private ReservationService reservationService;
 
     @Test
-    public void getBookByIdTest() {
+    void getBookByIdTest() {
         // given
         Long bookId = 1L;
         Long memberId = 1L;
@@ -66,7 +65,7 @@ public class ReservationServiceTest {
     }
 
     @Test
-    public void checkBookStateTest() {
+    void checkBookStateTest() {
         // given
         Long bookId = 1L;
         Long memberId = 1L;
@@ -81,7 +80,7 @@ public class ReservationServiceTest {
     }
 
     @Test
-    public void checkRentalStateTest() {
+    void checkRentalStateTest() {
         // given
         Long bookId = 1L;
         Long merchantId = 1L;
@@ -104,7 +103,7 @@ public class ReservationServiceTest {
     }
 
     @Test
-    public void checkReservationPersonTest1() {
+    void checkReservationPersonTest1() {
         // given
         Long bookId = 1L;
         Long merchantId = 1L;
@@ -128,7 +127,7 @@ public class ReservationServiceTest {
     }
 
     @Test
-    public void checkReservationPersonTest2() {
+    void checkReservationPersonTest2() {
         // given
         Long bookId = 1L;
         Long merchantId = 1L;
@@ -152,7 +151,7 @@ public class ReservationServiceTest {
     }
 
     @Test
-    public void createReservationTest() {
+    void createReservationTest() {
         // given
         Long bookId = 1L;
         Long merchantId = 1L;
@@ -176,7 +175,7 @@ public class ReservationServiceTest {
     }
 
     @Test
-    public void checkReservationAvailabilityTrueTest(){
+    void checkReservationAvailabilityTrueTest(){
         // given
         Long bookId = 1L;
         Long memberId = 3L;
@@ -202,7 +201,7 @@ public class ReservationServiceTest {
     }
 
     @Test
-    public void checkReservationAvailabilityFalseTest(){
+    void checkReservationAvailabilityFalseTest(){
         // given
         Long bookId = 1L;
         Long memberId = 2L;
@@ -224,11 +223,11 @@ public class ReservationServiceTest {
         Boolean returnValue = reservationService.checkReservationAvailability(bookId, memberId);
 
         // then
-        assertEquals(returnValue, false);
+        assertEquals(false, returnValue);
     }
 
     @Test
-    public void readReservationsTest() {
+    void readReservationsTest() {
         // given
         Long memberId = 1L;
         PageRequestImpl pageRequest = new PageRequestImpl(1L);
@@ -238,7 +237,7 @@ public class ReservationServiceTest {
     }
 
     @Test
-    public void getReservationTest() {
+    void getReservationTest() {
         // given
         Long reservationId = 1L;
         Long memberId = 1L;
@@ -251,7 +250,7 @@ public class ReservationServiceTest {
     }
 
     @Test
-    public void checkCancelReservationPersonTest() {
+    void checkCancelReservationPersonTest() {
         // given
         Long reservationId = 1L;
         Long memberId = 3L;
@@ -265,7 +264,6 @@ public class ReservationServiceTest {
         Member customer = new Member(customerId, "test2", "tester2", new Location(37.5340, 126.7064), "anywhere", "abc2@abc.com");
         Rental rental = new Rental(LocalDateTime.now(), RentalState.BEING_RENTED, merchantId, book, customer);
 
-        Member otherCustomer = new Member(memberId, "test3", "tester3", new Location(37.5340, 126.7064), "anywhere", "abc3@abc.com");
         Reservation reservation = new Reservation(reservationId, LocalDateTime.now().plusDays(1), LocalDateTime.now().plusDays(10), rental, customer, book);
         when(reservationQueryRepository.getReservationById(Mockito.anyLong())).thenReturn(reservation);
 
@@ -274,7 +272,7 @@ public class ReservationServiceTest {
     }
 
     @Test
-    public void cancelReservationTest() {
+    void cancelReservationTest() {
         // given
         Long reservationId = 1L;
         Long memberId = 3L;
