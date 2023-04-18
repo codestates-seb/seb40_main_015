@@ -52,11 +52,16 @@ public class ReservationService {
         reservationRepository.save(reservation);
     }
 
-    public void checkReservationAvailability(Long bookId, Long memberId){
+    public Boolean checkReservationAvailability(Long bookId, Long memberId){
         Book book = getBookById(bookId);
         Rental rental = getRentalByBookId(bookId);
         Member customer = memberService.getById(memberId);
-        checkReservationPerson(memberId, book, rental, customer);
+        try {
+            checkReservationPerson(memberId, book, rental, customer);
+            return true;
+        } catch (CanNotReservationPersonException e) {
+            return false;
+        }
     }
 
     public SliceImpl<ReservationInfoResponse> readReservations(Long memberId, PageRequestImpl pageRequestImpl){

@@ -25,9 +25,9 @@ public class ReservationsController {
 
 	// 해당 유저 도서 예약가능유무 확인 API
 	@GetMapping("/reservation/check/{bookId}")
-	public ResponseEntity<Void> getReservationAvailability(@PathVariable Long bookId, @Login Long memberId) {
-		reservationService.checkReservationAvailability(bookId, memberId);
-		return new ResponseEntity<>(HttpStatus.OK);
+	public ResponseEntity<Boolean> getReservationAvailability(@PathVariable Long bookId, @Login Long memberId) {
+		Boolean result = reservationService.checkReservationAvailability(bookId, memberId);
+		return new ResponseEntity<>(result, HttpStatus.OK);
 	}
 
 	@GetMapping("/reservation")

@@ -25,6 +25,7 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.doNothing;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
+import static org.springframework.test.web.client.match.MockRestRequestMatchers.content;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -64,19 +65,22 @@ public class ReservationControllerTest {
     public void getReservationAvailabilityTest() throws Exception {
         // given
         long bookId = 1L;
-        doNothing().when(reservationService).checkReservationAvailability(any(), any());
+        Boolean result = true;
+        given(reservationService.checkReservationAvailability(any(), any())).willReturn(result);
 
         // when
         ResultActions actions =
                 mockMvc.perform(
                         get("/reservation/check/" + bookId)
                                 .param("Authorization", accessToken)
+                                .accept(MediaType.ALL)
                                 .with(csrf())
                 );
 
         // then
         actions
-                .andExpect(status().isOk());
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$").value(result));
     }
 
     @Test
