@@ -48,7 +48,6 @@ const BookDetail = ({ book, merchant, refetchBookDetail }: BookDetailProps) => {
 		}
 		if (merchant && book) {
 			axiosCreateRoom(merchant?.merchantId, id, book?.bookId).then(res => {
-				// console.log(res);
 				navigate(`/chats/${res}`);
 			});
 		}
@@ -132,15 +131,12 @@ const BookDetail = ({ book, merchant, refetchBookDetail }: BookDetailProps) => {
 						</MerchantName>
 					</Link>
 					<Chat>
-						{isLogin && merchant?.merchantId !== id ? (
-							<ChatButton isLogin={isLogin} onClick={handleChatClick}>
-								채팅
-							</ChatButton>
-						) : (
-							<ChatButton isLogin={isLogin} onClick={handleChatClick}>
-								채팅
-							</ChatButton>
-						)}
+						<ChatButton
+							isLogin={isLogin}
+							fontSize={'small'}
+							onClick={handleChatClick}>
+							채팅
+						</ChatButton>
 					</Chat>
 				</MerchantInfo>
 			</BookInfo>
@@ -149,7 +145,6 @@ const BookDetail = ({ book, merchant, refetchBookDetail }: BookDetailProps) => {
 				<legend>대여 정보</legend>
 				<BookRentalInfo>
 					<label>대여료: {book?.rentalFee?.toLocaleString()}원</label>
-					{/* <Partition>|</Partition> */}
 					<label>대여기간: 10일</label>
 				</BookRentalInfo>
 			</BookInfo>
@@ -233,15 +228,13 @@ interface ChatButtonProps {
 	isLogin: boolean;
 }
 
-const ChatButton = styled.button<ChatButtonProps>`
+const ChatButton = styled(Button)<ChatButtonProps>`
 	background-color: ${props => (props.isLogin ? '#ffc700' : '#a7a7a7')};
 	color: black;
-	border: none;
 	padding: 0.5rem 1rem;
-	border-radius: 5px;
 	cursor: pointer;
 	:hover {
-		background-color: ${props => (props.isLogin ? '#e8b601' : '#8c8c8c')};
+		background-color: ${props => (props.isLogin ? '#e8b601' : '#a7a7a7')};
 	}
 `;
 
