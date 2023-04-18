@@ -21,6 +21,10 @@ const notificationSlice = createSlice({
 	initialState,
 	reducers: {
 		enqueueNotification: (state, action: PayloadAction<payloadType>) => {
+			const duplicatedMessage = state.messages.filter(
+				message => message.message === action.payload.message,
+			);
+			if (duplicatedMessage.length) return;
 			state.messages = [...state.messages, action.payload];
 		},
 		dequeueNotification: state => {
