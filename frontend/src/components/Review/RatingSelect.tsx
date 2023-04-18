@@ -12,17 +12,16 @@ interface IProps {
 const RatingSelect = ({ hovered, setHovered, clicked, setClicked }: IProps) => {
 	return (
 		<Container>
-			{[...Array(5)].map((star, i) => {
+			{[...Array(5)].map((_, i) => {
 				const ratingValue = i + 1;
 				return (
-					<Label key={i}>
-						<StyledStar
-							onMouseEnter={() => setHovered(ratingValue)}
-							onMouseLeave={() => setHovered(null)}
-							onClick={() => setClicked(ratingValue)}
-							view={ratingValue <= (hovered || clicked) ? 1 : 0}
-						/>
-					</Label>
+					<StyledStar
+						key={i}
+						onMouseEnter={() => setHovered(ratingValue)}
+						onMouseLeave={() => setHovered(null)}
+						onClick={() => setClicked(ratingValue)}
+						view={ratingValue <= (hovered || clicked) ? 1 : 0}
+					/>
 				);
 			})}
 		</Container>
@@ -41,14 +40,11 @@ interface StarProps {
 const StyledStar = styled(HiStar)<StarProps>`
 	width: 1.5rem;
 	height: 1.5rem;
+	padding-right: 0.1rem;
 	color: ${props => (props.view ? '#ff9700' : '#cccccc')};
 	&:hover {
 		color: #ff9700;
 	}
-`;
-
-const Label = styled.label`
-	margin-right: 0.1rem;
 `;
 
 export default RatingSelect;

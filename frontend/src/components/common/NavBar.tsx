@@ -89,14 +89,14 @@ const NavBar = () => {
 			{menus.map(menu => {
 				const { id, icon, text, selected, path } = menu;
 				return (
-					<Link
+					<StyledLink
 						to={Unrestricted(id) || isLogin ? path : location.pathname}
 						key={id}>
 						<Box selected={selected} onClick={() => handleChangeMenu(id)}>
 							{icon}
 							{text}
 						</Box>
-					</Link>
+					</StyledLink>
 				);
 			})}
 		</Container>
@@ -108,7 +108,6 @@ export default NavBar;
 const Container = styled.div`
 	position: fixed;
 	width: 100%;
-	/* max-width: 425px; */
 	display: flex;
 	justify-content: space-around;
 	align-items: center;
@@ -118,11 +117,15 @@ const Container = styled.div`
 	border-top: 1px solid ${props => props.theme.colors.headerBorder};
 	background-color: #f6f5ef;
 	z-index: 999;
+
 	@media (min-width: 800px) {
 		transform: translateY(100%);
-		/* display: none; */
 	}
 	transition: all 0.6s;
+`;
+
+const StyledLink = styled(Link)`
+	text-decoration: none;
 `;
 
 interface BoxProps {

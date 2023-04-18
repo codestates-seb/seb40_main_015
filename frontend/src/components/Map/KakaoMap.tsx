@@ -68,23 +68,6 @@ const KakaoMap = (props: KakaoMapProps) => {
 	const [hoverList, setHoverLists] = useState({ latitude: 0, longitude: 0 });
 	const dispatch = useDispatch();
 
-	// 	// centerCoord 변경될때마다 주변상인 정보 api 호출하기
-	useEffect(() => {
-		if (centerCoord.lat && centerCoord.lon) {
-			if (!searchInput) {
-				merchantCurrentRefetch();
-				if (merchantLists?.length) {
-					merchantListRefetch();
-				}
-			} else {
-				bookCurrentRefetch();
-				if (bookLists?.length) {
-					bookListRefetch();
-				}
-			}
-		}
-	}, [centerCoord, zoomLevel, size]);
-
 	// 	// current 변경될때마다 주변상인 정보 api 호출하기
 	useEffect(() => {
 		if (current.lat && current.lon) {

@@ -13,9 +13,8 @@ import useBookList from 'api/hooks/map/useBookList';
 import useBookSector from 'api/hooks/map/useBookSector';
 
 const BooksSearchPage = () => {
-	const [current, setCurrent, handleCurrentLocationMove, loading] =
-		useGeoLocation();
-	const [centerCoord, setCenterCoord] = useGeoLocation('center');
+	const [current, handleCurrentLocationMove, loading] = useGeoLocation();
+	const [centerCoord] = useGeoLocation('center');
 	const [searchInput, setSearchInput] = useState('');
 	const [selectOverlay, setSelectOverlay] = useState<SelectOverlay | null>(
 		null,

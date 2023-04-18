@@ -8,7 +8,6 @@ export { default as Modal } from 'components/common/Modal';
 export { default as MyList } from 'components/common/MyList';
 export { default as NavBar } from 'components/common/NavBar';
 export { default as NotificationCenter } from 'components/common/NotificationCenter';
-export { default as Oauth } from 'components/common/Oauth';
 export { default as ScrollBottomButton } from 'components/common/ScrollBottomButton';
 export { default as ScrollToTop } from 'components/common/ScrollToTop';
 export { default as Star } from 'components/common/Star';

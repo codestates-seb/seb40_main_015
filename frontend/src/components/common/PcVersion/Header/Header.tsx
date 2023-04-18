@@ -45,19 +45,19 @@ const Header = () => {
 				{menus.map(menu => {
 					const { id, text, selected, link } = menu;
 					return (
-						<Link to={link} key={id}>
+						<StyledLink to={link} key={id}>
 							<Box selected={selected}>
 								<StyledP>{text}</StyledP>
 							</Box>
-						</Link>
+						</StyledLink>
 					);
 				})}
 			</Left>
-			<Link to={isLogin ? '/profile' : '/login'}>
+			<StyledLink to={isLogin ? '/profile' : '/login'}>
 				<Box selected={pathname === '/profile' || pathname === '/login'}>
 					<StyledP>{isLogin ? '마이페이지' : '로그인'}</StyledP>
 				</Box>
-			</Link>
+			</StyledLink>
 		</Container>
 	);
 };
@@ -95,6 +95,10 @@ const Box = styled.div<BoxProps>`
 	@media screen and (max-width: 1000px) {
 		margin: 0 2.5rem;
 	}
+`;
+
+const StyledLink = styled(Link)`
+	text-decoration: none;
 `;
 
 const StyledP = styled.p`

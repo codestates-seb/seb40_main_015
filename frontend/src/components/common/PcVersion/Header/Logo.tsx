@@ -4,14 +4,19 @@ import logo from '../../../../assets/image/logo4.png';
 
 const Logo = () => {
 	return (
-		<Link to="/">
+		<StyledLink to="/">
 			<StyledLogo>
 				<StyledImg src={logo} />
 				<StyledDiv>동네북</StyledDiv>
 			</StyledLogo>
-		</Link>
+		</StyledLink>
 	);
 };
+
+const StyledLink = styled(Link)`
+	text-decoration: none;
+	color: ${({ theme }) => theme.colors.black};
+`;
 
 const StyledLogo = styled.div`
 	height: 70px;
