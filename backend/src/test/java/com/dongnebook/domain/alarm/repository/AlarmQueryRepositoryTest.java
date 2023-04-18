@@ -1,5 +1,19 @@
 package com.dongnebook.domain.alarm.repository;
 
+import static org.assertj.core.api.Assertions.*;
+
+import java.util.List;
+import java.util.Optional;
+
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.ImportAutoConfiguration;
+import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
+import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
+import org.springframework.context.annotation.Import;
+
 import com.dongnebook.config.TestConfig;
 import com.dongnebook.domain.alarm.domain.Alarm;
 import com.dongnebook.domain.alarm.dto.AlarmResponse;
@@ -14,26 +28,13 @@ import com.dongnebook.global.enums.AlarmType;
 import com.dongnebook.support.DataClearExtension;
 import com.dongnebook.support.DatabaseCleaner;
 import com.github.gavlyukovskiy.boot.jdbc.decorator.DataSourceDecoratorAutoConfiguration;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.autoconfigure.ImportAutoConfiguration;
-import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
-import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
-import org.springframework.context.annotation.Import;
-
-import java.util.List;
-import java.util.Optional;
-
-import static org.assertj.core.api.Assertions.assertThat;
 
 @DataJpaTest(showSql = false)
 @ImportAutoConfiguration(DataSourceDecoratorAutoConfiguration.class)
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
 @Import({TestConfig.class, DatabaseCleaner.class})
 @ExtendWith(DataClearExtension.class)
-public class AlarmQueryRepositoryTest {
+class AlarmQueryRepositoryTest {
     @Autowired
     AlarmQueryRepository alarmQueryRepository;
     @Autowired
@@ -88,7 +89,7 @@ public class AlarmQueryRepositoryTest {
     }
 
     @Test
-    public void getMyAlarmTest() {
+    void getMyAlarmTest() {
         // given
 
         // when
@@ -101,7 +102,7 @@ public class AlarmQueryRepositoryTest {
     }
 
     @Test
-    public void findByAlarmWithMemberIdTest(){
+    void findByAlarmWithMemberIdTest(){
         // given
 
         // when
@@ -112,7 +113,7 @@ public class AlarmQueryRepositoryTest {
     }
 
     @Test
-    public void readAlarmTest() {
+    void readAlarmTest() {
         // given
 
         // when
@@ -120,11 +121,11 @@ public class AlarmQueryRepositoryTest {
         List<AlarmResponse> alarmResponseList = alarmQueryRepository.getMyAlarm(savedMember.getId());
 
         // then
-        assertThat(alarmResponseList.get(0).getIsRead()).isEqualTo(true);
+        assertThat(alarmResponseList.get(0).getIsRead()).isTrue();
     }
 
     @Test
-    public void deleteAllByMemberIdTest() {
+    void deleteAllByMemberIdTest() {
         // given
 
         // when
@@ -132,7 +133,7 @@ public class AlarmQueryRepositoryTest {
 
         // then
         List<AlarmResponse> alarmResponseList = alarmQueryRepository.getMyAlarm(savedMember.getId());
-        assertThat(alarmResponseList.size()).isEqualTo(0);
+        assertThat(alarmResponseList).isEmpty();
     }
 
 }

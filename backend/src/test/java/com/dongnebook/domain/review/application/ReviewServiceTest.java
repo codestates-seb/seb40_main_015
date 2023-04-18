@@ -1,5 +1,18 @@
 package com.dongnebook.domain.review.application;
 
+import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.BDDMockito.*;
+
+import java.time.LocalDateTime;
+import java.util.Optional;
+
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.Mockito;
+import org.mockito.junit.jupiter.MockitoExtension;
+
 import com.dongnebook.domain.book.domain.Book;
 import com.dongnebook.domain.book.domain.BookProduct;
 import com.dongnebook.domain.book.domain.Money;
@@ -14,22 +27,9 @@ import com.dongnebook.domain.review.exception.BookRentalNotMatchException;
 import com.dongnebook.domain.review.repository.ReviewQueryRepository;
 import com.dongnebook.domain.review.repository.ReviewRepository;
 import com.dongnebook.global.dto.request.PageRequestImpl;
-import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
-import org.mockito.Mockito;
-import org.mockito.junit.jupiter.MockitoExtension;
-
-import java.time.LocalDateTime;
-import java.util.Optional;
-
-import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
-import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.mockito.BDDMockito.given;
 
 @ExtendWith(MockitoExtension.class)
-public class ReviewServiceTest {
+class ReviewServiceTest {
     @Mock
     private ReviewRepository reviewRepository;
     @Mock
@@ -40,7 +40,7 @@ public class ReviewServiceTest {
     private ReviewService reviewService;
 
     @Test
-    public void RentalNotFoundExceptionTest() {
+    void RentalNotFoundExceptionTest() {
         // given
         Long rentalId = 1L;
         ReviewRequest reviewRequest = ReviewRequest.builder()
@@ -58,7 +58,7 @@ public class ReviewServiceTest {
     }
 
     @Test
-    public void checkBookRentalMatchTest() {
+    void checkBookRentalMatchTest() {
         // given
         Long rentalId = 1L;
         ReviewRequest reviewRequest = ReviewRequest.builder()
@@ -83,7 +83,7 @@ public class ReviewServiceTest {
     }
 
     @Test
-    public void checkRentalPersonTest() {
+    void checkRentalPersonTest() {
         // given
         Long rentalId = 1L;
         Long bookId = 1L;
@@ -109,7 +109,7 @@ public class ReviewServiceTest {
     }
 
     @Test
-    public void createReviewTest() {
+    void createReviewTest() {
         // given
         Long rentalId = 1L;
         Long bookId = 1L;
@@ -136,7 +136,7 @@ public class ReviewServiceTest {
     }
 
     @Test
-    public void readReviewsTest() {
+    void readReviewsTest() {
         // given
         Long merchantId = 1L;
         PageRequestImpl pageRequest = new PageRequestImpl(1L);

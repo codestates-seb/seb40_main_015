@@ -14,7 +14,7 @@ import org.springframework.http.HttpEntity;
 import com.dongnebook.domain.book.application.port.in.response.ApiBookInfoResponse;
 import com.dongnebook.global.infra.GsonBookInfoParser;
 
-class GsonBookInfoParserTest {
+class GBookInfoParserTest {
 
 	private GsonBookInfoParser parser;
 

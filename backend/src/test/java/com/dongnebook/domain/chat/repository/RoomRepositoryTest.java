@@ -33,7 +33,7 @@ import com.github.gavlyukovskiy.boot.jdbc.decorator.DataSourceDecoratorAutoConfi
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
 @Import({TestConfig.class, DatabaseCleaner.class})
 @ExtendWith(DataClearExtension.class)
-public class RoomRepositoryTest {
+class RoomRepositoryTest {
 	@Autowired
 	ChatRepository chatRepository;
 	@Autowired
@@ -45,9 +45,6 @@ public class RoomRepositoryTest {
 
 	private Member memberA;
 	private Member memberB;
-	private Book bookA;
-	private ChatRoom chatRoom;
-	private ChatMessage message;
 
 	@BeforeEach
 	void setUp(){
@@ -55,11 +52,11 @@ public class RoomRepositoryTest {
 		memberRepository.save(memberA);
 		memberB = MemberStub.MEMBER2.of();
 		memberRepository.save(memberB);
-		bookA = BookStub.BOOK1.of();
+		Book bookA = BookStub.BOOK1.of();
 		bookCommandRepository.save(bookA);
-		chatRoom = new ChatRoom(memberA, memberB, bookA);
+		ChatRoom chatRoom = new ChatRoom(memberA, memberB, bookA);
 		roomRepository.save(chatRoom);
-		message = ChatMessage.builder()
+		ChatMessage message = ChatMessage.builder()
 			.content("테스트")
 			.sender(memberB)
 			.room(chatRoom)
@@ -75,7 +72,6 @@ public class RoomRepositoryTest {
 		List<ChatRoom> chatRooms = roomRepository.findByMerchantIdOrCustomerId(memberA.getId(),
 			memberB.getId());
 		assertThat(chatRooms).size().isEqualTo(1);
-
 
 	}
 

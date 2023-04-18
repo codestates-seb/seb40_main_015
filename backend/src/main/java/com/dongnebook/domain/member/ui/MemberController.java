@@ -23,9 +23,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.dongnebook.domain.book.application.port.in.request.PageRequest;
-import com.dongnebook.domain.book.application.port.in.response.BookSimpleResponse;
 import com.dongnebook.domain.book.application.BookQueryService;
+import com.dongnebook.domain.book.application.port.in.response.BookSimpleResponse;
 import com.dongnebook.domain.member.application.MemberService;
 import com.dongnebook.domain.member.dto.request.MemberEditRequest;
 import com.dongnebook.domain.member.dto.request.MemberRegisterRequest;
@@ -116,7 +115,7 @@ public class MemberController {
 	}
 
 	@GetMapping("/member/{id}/books")
-	public SliceImpl<BookSimpleResponse> getMemberBooks(@PathVariable Long id, PageRequest pageRequestImpl) {
+	public SliceImpl<BookSimpleResponse> getMemberBooks(@PathVariable Long id, PageRequestImpl pageRequestImpl) {
 		return bookQueryService.getListByMember(id, pageRequestImpl);
 	}
 

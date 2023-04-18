@@ -1,5 +1,19 @@
 package com.dongnebook.domain.book.repository;
 
+import static org.junit.jupiter.api.Assertions.*;
+
+import java.util.Optional;
+
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.ImportAutoConfiguration;
+import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
+import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
+import org.springframework.context.annotation.Import;
+import org.springframework.data.domain.SliceImpl;
+
 import com.dongnebook.config.TestConfig;
 import com.dongnebook.domain.book.adapter.out.BookCommandRepository;
 import com.dongnebook.domain.book.adapter.out.BookQueryRepository;
@@ -17,19 +31,6 @@ import com.dongnebook.global.dto.request.PageRequestImpl;
 import com.dongnebook.support.DataClearExtension;
 import com.dongnebook.support.DatabaseCleaner;
 import com.github.gavlyukovskiy.boot.jdbc.decorator.DataSourceDecoratorAutoConfiguration;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.autoconfigure.ImportAutoConfiguration;
-import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
-import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
-import org.springframework.context.annotation.Import;
-import org.springframework.data.domain.SliceImpl;
-
-import java.util.Optional;
-
-import static org.junit.jupiter.api.Assertions.*;
 
 
 @DataJpaTest(showSql = false)
@@ -37,7 +38,7 @@ import static org.junit.jupiter.api.Assertions.*;
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
 @Import({TestConfig.class, DatabaseCleaner.class})
 @ExtendWith(DataClearExtension.class)
-public class BookQueryRepositoryTest {
+class BookQueryRepositoryTest {
     @Autowired
     BookQueryRepository bookQueryRepository;
     @Autowired
@@ -202,7 +203,7 @@ public class BookQueryRepositoryTest {
     }
 
     @Test
-    public void findWithMerchantByBookIdTest() {
+    void findWithMerchantByBookIdTest() {
         // given
 
         // when
@@ -213,7 +214,7 @@ public class BookQueryRepositoryTest {
     }
 
     @Test
-    public void findBookDetailTest() {
+    void findBookDetailTest() {
         // given
 
         // when
@@ -224,7 +225,7 @@ public class BookQueryRepositoryTest {
     }
 
     @Test
-    public void getAllDibsBookTest1() {
+    void getAllDibsBookTest1() {
         // given
         PageRequestImpl pageRequest = new PageRequestImpl(0L);
 
@@ -236,7 +237,7 @@ public class BookQueryRepositoryTest {
     }
 
     @Test
-    public void getAllDibsBookTest2() {
+    void getAllDibsBookTest2() {
         // given
         PageRequestImpl pageRequest = new PageRequestImpl(null);
 
@@ -248,7 +249,7 @@ public class BookQueryRepositoryTest {
     }
 
     @Test
-    public void getListByMemberTest1() {
+    void getListByMemberTest1() {
         // given
         PageRequestImpl pageRequest = new PageRequestImpl(savedBook8.getId());
 
@@ -260,7 +261,7 @@ public class BookQueryRepositoryTest {
     }
 
     @Test
-    public void getListByMemberTest2() {
+    void getListByMemberTest2() {
         // given
         PageRequestImpl pageRequest = new PageRequestImpl(null);
 

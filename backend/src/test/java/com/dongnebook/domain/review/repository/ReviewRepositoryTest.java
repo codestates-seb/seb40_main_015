@@ -1,5 +1,13 @@
 package com.dongnebook.domain.review.repository;
 
+import static org.junit.jupiter.api.Assertions.*;
+
+import java.time.LocalDateTime;
+
+import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
+
 import com.dongnebook.domain.book.adapter.out.BookCommandRepository;
 import com.dongnebook.domain.book.domain.Book;
 import com.dongnebook.domain.book.domain.BookProduct;
@@ -12,17 +20,9 @@ import com.dongnebook.domain.rental.domain.RentalState;
 import com.dongnebook.domain.rental.repository.RentalRepository;
 import com.dongnebook.domain.review.domain.Review;
 import com.dongnebook.domain.review.dto.request.ReviewRequest;
-import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
-
-import java.time.LocalDateTime;
-
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 @DataJpaTest(showSql = false)
-public class ReviewRepositoryTest {
+class ReviewRepositoryTest {
     @Autowired
     private ReviewRepository reviewRepository;
     @Autowired
@@ -33,7 +33,7 @@ public class ReviewRepositoryTest {
     private RentalRepository rentalRepository;
 
     @Test
-    public void saveReviewTest() {
+    void saveReviewTest() {
         // given
         Member member1 = Member.builder()
                 .userId("test")

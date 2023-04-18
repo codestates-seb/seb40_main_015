@@ -1,5 +1,19 @@
 package com.dongnebook.domain.dibs.application;
 
+import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.ArgumentMatchers.*;
+import static org.mockito.BDDMockito.*;
+
+import java.util.List;
+import java.util.Optional;
+
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.data.domain.SliceImpl;
+
 import com.dongnebook.domain.book.application.BookQueryService;
 import com.dongnebook.domain.book.application.port.in.response.BookSimpleResponse;
 import com.dongnebook.domain.book.application.port.out.BookRepositoryPort;
@@ -14,23 +28,9 @@ import com.dongnebook.domain.member.application.MemberService;
 import com.dongnebook.domain.member.domain.Member;
 import com.dongnebook.domain.model.Location;
 import com.dongnebook.global.dto.request.PageRequestImpl;
-import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
-import org.mockito.junit.jupiter.MockitoExtension;
-import org.springframework.data.domain.SliceImpl;
-
-import java.util.List;
-import java.util.Optional;
-
-import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.BDDMockito.given;
 
 @ExtendWith(MockitoExtension.class)
-public class DibsServiceTest {
+class DibsServiceTest {
     @Mock
     private DibsRepository dibsRepository;
     @Mock
@@ -43,7 +43,7 @@ public class DibsServiceTest {
     private DibsService dibsService;
 
     @Test
-    public void checkAlreadyDibsSaveTest() throws Exception {
+    void checkAlreadyDibsSaveTest() throws Exception {
         // given
         Long bookId = 1L;
         Long memberId = 3L;
@@ -64,7 +64,7 @@ public class DibsServiceTest {
     }
 
     @Test
-    public void checkAlreadyDibsDeleteTest() throws Exception {
+    void checkAlreadyDibsDeleteTest() throws Exception {
         // given
         Long bookId = 1L;
         Long memberId = 3L;
@@ -86,7 +86,7 @@ public class DibsServiceTest {
     }
 
     @Test
-    public void findAllTest() throws Exception {
+    void findAllTest() throws Exception {
         // given
         PageRequestImpl pageRequest = new PageRequestImpl(1L);
         Long memberId = 1L;

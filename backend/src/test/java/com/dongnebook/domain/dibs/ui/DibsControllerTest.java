@@ -1,10 +1,13 @@
 package com.dongnebook.domain.dibs.ui;
 
-import com.dongnebook.domain.book.application.port.in.response.BookSimpleResponse;
-import com.dongnebook.domain.book.domain.BookState;
-import com.dongnebook.domain.book.domain.Money;
-import com.dongnebook.domain.dibs.service.DibsService;
-import com.dongnebook.domain.model.Location;
+import static org.mockito.ArgumentMatchers.*;
+import static org.mockito.BDDMockito.*;
+import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.*;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
+
+import java.util.List;
+
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
@@ -16,19 +19,15 @@ import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
 
-import java.util.List;
-
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.BDDMockito.given;
-import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
+import com.dongnebook.domain.book.application.port.in.response.BookSimpleResponse;
+import com.dongnebook.domain.book.domain.BookState;
+import com.dongnebook.domain.book.domain.Money;
+import com.dongnebook.domain.dibs.service.DibsService;
+import com.dongnebook.domain.model.Location;
 
 @WebMvcTest(DibsController.class)
 @MockBean(JpaMetamodelMappingContext.class)
-public class DibsControllerTest {
+class DibsControllerTest {
     @Autowired
     private MockMvc mockMvc;
     @MockBean
@@ -38,7 +37,7 @@ public class DibsControllerTest {
 
     @Test
     @WithMockUser
-    public void dibsFindAllTest() throws Exception {
+    void dibsFindAllTest() throws Exception {
         // given
         Long id = 1L;
 
@@ -56,7 +55,7 @@ public class DibsControllerTest {
 
     @Test
     @WithMockUser
-    public void findAllMyDibsTest() throws Exception {
+    void findAllMyDibsTest() throws Exception {
         // given
         BookSimpleResponse bookSimpleResponse1 = new BookSimpleResponse(
                 1L, "자바의 정석1", BookState.RENTABLE, "aa1@aaa.com", Money.of(1000),

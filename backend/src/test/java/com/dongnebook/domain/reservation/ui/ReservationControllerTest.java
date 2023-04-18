@@ -1,12 +1,14 @@
 package com.dongnebook.domain.reservation.ui;
 
-import com.dongnebook.domain.book.application.port.in.response.BookSimpleResponse;
-import com.dongnebook.domain.book.domain.BookState;
-import com.dongnebook.domain.book.domain.Money;
-import com.dongnebook.domain.model.Location;
-import com.dongnebook.domain.reservation.application.ReservationService;
-import com.dongnebook.domain.reservation.dto.response.ReservationInfoResponse;
-import com.dongnebook.domain.reservation.dto.response.ReservationResponse;
+import static org.mockito.ArgumentMatchers.*;
+import static org.mockito.BDDMockito.*;
+import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.*;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
+
+import java.time.LocalDateTime;
+import java.util.List;
+
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
@@ -18,21 +20,17 @@ import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
 
-import java.time.LocalDateTime;
-import java.util.List;
-
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.BDDMockito.given;
-import static org.mockito.Mockito.doNothing;
-import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
-import static org.springframework.test.web.client.match.MockRestRequestMatchers.content;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import com.dongnebook.domain.book.application.port.in.response.BookSimpleResponse;
+import com.dongnebook.domain.book.domain.BookState;
+import com.dongnebook.domain.book.domain.Money;
+import com.dongnebook.domain.model.Location;
+import com.dongnebook.domain.reservation.application.ReservationService;
+import com.dongnebook.domain.reservation.dto.response.ReservationInfoResponse;
+import com.dongnebook.domain.reservation.dto.response.ReservationResponse;
 
 @WebMvcTest(ReservationsController.class)
 @MockBean(JpaMetamodelMappingContext.class)
-public class ReservationControllerTest {
+class ReservationControllerTest {
     @Autowired
     private MockMvc mockMvc;
     @MockBean
@@ -42,7 +40,7 @@ public class ReservationControllerTest {
 
     @Test
     @WithMockUser
-    public void postReservationTest() throws Exception {
+    void postReservationTest() throws Exception {
         // given
         long bookId = 1L;
         doNothing().when(reservationService).createReservation(any(), any());
@@ -62,7 +60,7 @@ public class ReservationControllerTest {
 
     @Test
     @WithMockUser
-    public void getReservationAvailabilityTest() throws Exception {
+    void getReservationAvailabilityTest() throws Exception {
         // given
         long bookId = 1L;
         Boolean result = true;
@@ -85,7 +83,7 @@ public class ReservationControllerTest {
 
     @Test
     @WithMockUser
-    public void getReservationsTest() throws Exception {
+    void getReservationsTest() throws Exception {
         // given
         ReservationInfoResponse reservationInfoResponse = new ReservationInfoResponse(
             new ReservationResponse(1L, LocalDateTime.now()),
@@ -118,9 +116,9 @@ public class ReservationControllerTest {
 
     @Test
     @WithMockUser
-    public void deleteReservationTest() throws Exception {
+    void deleteReservationTest() throws Exception {
         // given
-        Long reservationId = 1L;
+        long reservationId = 1L;
 
         doNothing().when(reservationService).cancelReservation(any(), any());
 

@@ -4,12 +4,12 @@ import javax.annotation.PostConstruct;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
-import com.dongnebook.domain.alarm.repository.AlarmQueryRepository;
 import org.springframework.boot.test.context.TestConfiguration;
 import org.springframework.context.annotation.Bean;
 import org.springframework.core.task.TaskExecutor;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 
+import com.dongnebook.domain.alarm.repository.AlarmQueryRepository;
 import com.dongnebook.domain.book.adapter.out.BookQueryRepository;
 import com.dongnebook.domain.chat.repository.ChatRepository;
 import com.dongnebook.domain.member.repository.MemberQueryRepository;
@@ -57,10 +57,12 @@ public class TestConfig {
 	public ReservationQueryRepository reservationQueryRepository() {
 		return new ReservationQueryRepository(jpaQueryFactory());
 	}
+
 	@Bean
 	public ReviewQueryRepository reviewQueryRepository() {
 		return new ReviewQueryRepository(jpaQueryFactory());
 	}
+
 	@Bean
 	public AlarmQueryRepository alarmQueryRepository() {
 		return new AlarmQueryRepository(jpaQueryFactory(), entityManager);
