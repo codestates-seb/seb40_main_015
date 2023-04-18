@@ -78,6 +78,9 @@ export const useBooksAPI = () => {
 	const postBookBooking = async (bookId: string | undefined) =>
 		await api.post(`/reservation/${bookId}`);
 
+	// check booking
+	const getCheckBookBooking = async (bookId: number | string | undefined) =>
+		await axiosInstance.get(`/reservation/check/${bookId}`);
 	return {
 		getAllBooksList,
 		getBookDetail,
@@ -86,5 +89,6 @@ export const useBooksAPI = () => {
 		deleteBook,
 		postBookRental,
 		postBookBooking,
+		getCheckBookBooking,
 	};
 };
