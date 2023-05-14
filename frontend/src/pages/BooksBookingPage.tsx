@@ -1,6 +1,6 @@
 import styled from 'styled-components';
-import { useLocation, useParams } from 'react-router-dom';
-import { useState } from 'react';
+import { useLocation, useNavigate, useParams } from 'react-router-dom';
+import { useEffect, useState } from 'react';
 
 // components
 import {
@@ -17,6 +17,9 @@ import {
 
 import { calcCalendarDate } from 'utils/calcCalendarDate';
 import { usePostBookBooking } from 'api/hooks/books/usePostBookBooking';
+import { useGetCheckBooking } from 'api/hooks/books/useCheckBooking';
+import notify from 'utils/notify';
+import { useDispatch } from 'react-redux';
 
 interface LinkProps {
 	state: {
@@ -33,10 +36,20 @@ const BooksBookingPage = () => {
 
 	const { state } = useLocation() as LinkProps;
 	const { bookId } = useParams();
+	const navigate = useNavigate();
+	const dispatch = useDispatch();
 
 	const { month, day, rentalPeriod } = calcCalendarDate(state.rentalEnd);
 
 	const { mutateBookBooking } = usePostBookBooking(bookId);
+	const { checkBooking } = useGetCheckBooking(bookId);
+
+	useEffect(() => {
+		if (!checkBooking) {
+			notify(dispatch, '해당 도서의 대여자는 예약할 수 없습니다.');
+			navigate(`/books/${bookId}`);
+		}
+	}, []);
 
 	// 예약 요청
 	const handleRentalButton = () => {

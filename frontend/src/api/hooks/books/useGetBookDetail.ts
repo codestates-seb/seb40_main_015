@@ -37,7 +37,6 @@ export const useGetBookDetail = (
 	} = useQuery({
 		queryKey: [bookId, 'bookDetail'],
 		queryFn: () => getBookDetail(bookId, isLogin),
-		initialData: initialState,
 	});
 
 	return { bookDetailData, isLoading, refetchBookDetail };

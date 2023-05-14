@@ -4,7 +4,6 @@ import { useNavigate } from 'react-router-dom';
 
 import Animation from '../Loading/Animation';
 import Button from '../common/Button';
-import ButtonStatus from '../Merchant/ButtonStatus';
 
 import { useGetReservList } from '../../api/hooks/member/useGetReservList';
 import { useDeleteReserv } from '../../api/hooks/books/useDeleteReserv';
@@ -17,18 +16,6 @@ const ReservationBookList = () => {
 	const handleBookDetailPageMove = (id: number) => {
 		navigate(`/books/${id}`);
 	};
-
-	// const handleClickIcon = (
-	// 	e: React.MouseEvent<HTMLDivElement, MouseEvent>,
-	// 	bookId: number,
-	// ) => {
-	// 	e.stopPropagation();
-	// 	if (window.confirm('정말 취소하시겠습니까?')) {
-	// 		mutate(bookId);
-	// 	} else {
-	// 		return;
-	// 	}
-	// };
 
 	const { deleteMutate } = useDeleteReserv(cancelId);
 
@@ -61,7 +48,7 @@ const ReservationBookList = () => {
 		const isTrue = window.confirm(`'${title}' 도서의 예약을 취소하시겠습니까?`);
 		if (!isTrue) return;
 		setCancelId(reservationId);
-		// deleteMutate();
+		deleteMutate();
 	};
 
 	useEffect(() => {
@@ -127,16 +114,11 @@ const ReservationBookList = () => {
 			<ScrollEnd
 				ref={infiniteScrollTarget}
 				className={`${hasNextPage ? '' : 'hidden'}`}>
-				{/* className={`${isFetchingNextPage ? '' : 'hidden'}`}> */}
 				{isFetchingNextPage ? <p>Loading more books ...</p> : ''}
 			</ScrollEnd>
 		</>
 	);
 };
-
-const Box = styled.div`
-	/* padding: 0 1rem; */
-`;
 
 const Container = styled.div`
 	width: 90%;
@@ -169,8 +151,6 @@ const InfoWrapped = styled.div`
 	justify-content: space-between;
 	align-items: center;
 	p {
-		/* font-size: ${props => props.theme.fontSizes.paragraph};
-		margin-left: 1rem; */
 		font-size: 13px;
 		margin-left: 1rem;
 		display: flex;
@@ -178,7 +158,6 @@ const InfoWrapped = styled.div`
 		padding-top: 10px;
 	}
 	.bookname {
-		/* font-size: ${props => props.theme.fontSizes.subtitle}; */
 		font-size: 16px;
 		font-weight: 600;
 		padding-top: 0px;
@@ -193,7 +172,6 @@ const EmptyBox = styled.div`
 	align-items: center;
 	p {
 		font-size: ${props => props.theme.fontSizes.subtitle};
-		/* font-size: 16px; */
 		font-weight: 600;
 	}
 `;
