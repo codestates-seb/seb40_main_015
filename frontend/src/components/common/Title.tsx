@@ -24,7 +24,6 @@ const Title = ({
 			) : (
 				<IoArrowBack onClick={() => navigate(-1)} className="icon" />
 			)}
-			<span>{text}</span>
 		</Text>
 	);
 };
